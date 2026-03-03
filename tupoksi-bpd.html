@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tugas dan Fungsi BPD</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            box-sizing: border-box;
+        }
+        .section-card {
+            transition: all 0.3s ease;
+        }
+        .section-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        .accordion-content.active {
+            max-height: 1000px;
+        }
+        .accordion-button {
+            transition: transform 0.3s ease;
+        }
+        .accordion-button.active {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-full font-sans">
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <div class="inline-flex items-center justify-center w-20 h-20 bg-blue-600 rounded-full mb-6">
+                <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+            </div>
+            <h1 class="text-4xl font-bold text-gray-800 mb-4">Tugas dan Fungsi BPD</h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+                Badan Permusyawaratan Desa (BPD) adalah lembaga yang melaksanakan fungsi pemerintahan yang anggotanya merupakan wakil dari penduduk desa berdasarkan keterwakilan wilayah dan ditetapkan secara demokratis.
+            </p>
+        </div>
+
+        <!-- Dasar Hukum -->
+        <div class="section-card bg-white rounded-xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-blue-800 mb-6 flex items-center">
+                <svg class="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
+                    <path fill-rule="evenodd" d="M4 5a2 2 0 012-2v1a1 1 0 001 1h6a1 1 0 001-1V3a2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/>
+                </svg>
+                Dasar Hukum
+            </h2>
+            <div class="space-y-4 text-gray-700">
+                <div class="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-500">
+                    <p class="font-semibold">UU Nomor 6 Tahun 2014 tentang Desa</p>
+                </div>
+                <div class="bg-green-50 p-4 rounded-lg border-l-4 border-green-500">
+                    <p class="font-semibold">Peraturan Pemerintah RI Nomor 43 Tahun 2014</p>
+                    <p class="text-sm mt-1">Sebagaimana telah diubah dengan PP RI Nomor 47 Tahun 2015</p>
+                </div>
+                <div class="bg-purple-50 p-4 rounded-lg border-l-4 border-purple-500">
+                    <p class="font-semibold">Permendagri Nomor 110 Tahun 2016</p>
+                    <p class="text-sm mt-1">Tentang Badan Permusyawaratan Desa</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fungsi BPD -->
+        <div class="section-card bg-white rounded-xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-green-800 mb-6 flex items-center">
+                <svg class="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/>
+                </svg>
+                Fungsi BPD (Pasal 31)
+            </h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-gradient-to-br from-green-100 to-green-200 p-6 rounded-lg">
+                    <div class="text-green-600 mb-3">
+                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
+                            <path fill-rule="evenodd" d="M4 5a2 2 0 012-2v1a1 1 0 001 1h6a1 1 0 001-1V3a2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2V5z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-bold text-gray-800 mb-2">Pembahasan Peraturan</h3>
+                    <p class="text-gray-700 text-sm">Membahas dan menyepakati rancangan peraturan desa bersama kepala desa</p>
+                </div>
+                <div class="bg-gradient-to-br from-blue-100 to-blue-200 p-6 rounded-lg">
+                    <div class="text-blue-600 mb-3">
+                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-bold text-gray-800 mb-2">Aspirasi Masyarakat</h3>
+                    <p class="text-gray-700 text-sm">Menampung dan menyalurkan aspirasi masyarakat desa</p>
+                </div>
+                <div class="bg-gradient-to-br from-purple-100 to-purple-200 p-6 rounded-lg">
+                    <div class="text-purple-600 mb-3">
+                        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+                            <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-bold text-gray-800 mb-2">Pengawasan</h3>
+                    <p class="text-gray-700 text-sm">Melakukan pengawasan kinerja kepala desa</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tugas BPD -->
+        <div class="section-card bg-white rounded-xl shadow-lg p-8 mb-8">
+            <h2 class="text-2xl font-bold text-orange-800 mb-6 flex items-center">
+                <svg class="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
+                </svg>
+                Tugas BPD (Pasal 32)
+            </h2>
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="space-y-3">
+                    <div class="flex items-start space-x-3 p-3 bg-orange-50 rounded-lg">
+                        <div class="w-6 h-6 bg-orange-500 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">1</div>
+                        <p class="text-gray-700">Menggali aspirasi masyarakat</p>
+                    </div>
+                    <div class="flex items-start space-x-3 p-3 bg-orange-50 rounded-lg">
+                        <div class="w-6 h-6 bg-orange-500 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">2</div>
+                        <p class="text-gray-700">Menampung aspirasi masyarakat</p>
+                    </div>
+                    <div class="flex items-start space-x-3 p-3 bg-orange-50 rounded-lg">
+                        <div class="w-6 h-6 bg-orange-500 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">3</div>
+                        <p class="text-gray-700">Mengelola aspirasi masyarakat</p>
+                    </div>
+                    <div class="flex items-start space-x-3 p-3 bg-orange-50 rounded-lg">
+                        <div class="w-6 h-6 bg-orange-500 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">4</div>
+                        <p class="text-gray-700">Menyalurkan aspirasi masyarakat</p>
+                    </div>
+                    <div class="flex items-start space-x-3 p-3 bg-orange-50 rounded-lg">
+                        <div class="w-6 h-6 bg-orange-500 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">5</div>
+                        <p class="text-gray-700">Menyelenggarakan musyawarah BPD</p>
+                    </div>
+                    <div class="flex items-start space-x-3 p-3 bg-orange-50 rounded-lg">
+                        <div class="w-6 h-6 bg-orange-500 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">6</div>
+                        <p class="text-gray-700">Menyelenggarakan musyawarah desa</p>
+                    </div>
+                    <div class="flex items-start space-x-3 p-3 bg-orange-50 rounded-lg">
+                        <div class="w-6 h-6 bg-orange-500 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">7</div>
+                        <p class="text-gray-700">Membentuk panitia pemilihan Kepala Desa</p>
+                    </div>
+                </div>
+                <div class="space-y-3">
+                    <div class="flex items-start space-x-3 p-3 bg-orange-50 rounded-lg">
+                        <div class="w-6 h-6 bg-orange-500 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">8</div>
+                        <p class="text-gray-700">Menyelenggarakan musyawarah desa khusus untuk pemilihan Kepala Desa antarwaktu</p>
+                    </div>
+                    <div class="flex items-start space-x-3 p-3 bg-orange-50 rounded-lg">
+                        <div class="w-6 h-6 bg-orange-500 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">9</div>
+                        <p class="text-gray-700">Membahas dan menyepakati Rancangan Peraturan Desa bersama Kepala Desa</p>
+                    </div>
+                    <div class="flex items-start space-x-3 p-3 bg-orange-50 rounded-lg">
+                        <div class="w-6 h-6 bg-orange-500 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">10</div>
+                        <p class="text-gray-700">Melaksanakan pengawasan terhadap kinerja Kepala Desa</p>
+                    </div>
+                    <div class="flex items-start space-x-3 p-3 bg-orange-50 rounded-lg">
+                        <div class="w-6 h-6 bg-orange-500 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">11</div>
+                        <p class="text-gray-700">Melakukan evaluasi laporan keterangan penyelenggaraan Pemerintahan Desa</p>
+                    </div>
+                    <div class="flex items-start space-x-3 p-3 bg-orange-50 rounded-lg">
+                        <div class="w-6 h-6 bg-orange-500 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">12</div>
+                        <p class="text-gray-700">Menciptakan hubungan kerja yang harmonis dengan Pemerintah Desa dan lembaga desa lainnya</p>
+                    </div>
+                    <div class="flex items-start space-x-3 p-3 bg-orange-50 rounded-lg">
+                        <div class="w-6 h-6 bg-orange-500 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">13</div>
+                        <p class="text-gray-700">Melaksanakan tugas lain yang diatur menurut ketentuan peraturan perundang-undangan</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Accordion Sections -->
+        <div class="space-y-4">
+            <!-- Hak Anggota BPD -->
+            <div class="section-card bg-white rounded-xl shadow-lg overflow-hidden">
+                <button class="w-full p-6 text-left flex items-center justify-between bg-gradient-to-r from-teal-500 to-teal-600 text-white hover:from-teal-600 hover:to-teal-700 transition-all duration-300" onclick="toggleAccordion('hak')">
+                    <h2 class="text-xl font-bold flex items-center">
+                        <svg class="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                        </svg>
+                        Hak Anggota BPD (Pasal 55)
+                    </h2>
+                    <svg class="w-6 h-6 accordion-button" id="hak-button" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                    </svg>
+                </button>
+                <div class="accordion-content" id="hak-content">
+                    <div class="p-6 space-y-3">
+                        <div class="flex items-start space-x-3 p-3 bg-teal-50 rounded-lg">
+                            <div class="w-6 h-6 bg-teal-500 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">1</div>
+                            <p class="text-gray-700">Mengajukan usul Rancangan Peraturan Desa</p>
+                        </div>
+                        <div class="flex items-start space-x-3 p-3 bg-teal-50 rounded-lg">
+                            <div class="w-6 h-6 bg-teal-500 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">2</div>
+                            <p class="text-gray-700">Mengajukan pertanyaan</p>
+                        </div>
+                        <div class="flex items-start space-x-3 p-3 bg-teal-50 rounded-lg">
+                            <div class="w-6 h-6 bg-teal-500 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">3</div>
+                            <p class="text-gray-700">Menyampaikan usul dan/atau pendapat</p>
+                        </div>
+                        <div class="flex items-start space-x-3 p-3 bg-teal-50 rounded-lg">
+                            <div class="w-6 h-6 bg-teal-500 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">4</div>
+                            <p class="text-gray-700">Memilih dan dipilih</p>
+                        </div>
+                        <div class="flex items-start space-x-3 p-3 bg-teal-50 rounded-lg">
+                            <div class="w-6 h-6 bg-teal-500 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">5</div>
+                            <p class="text-gray-700">Mendapat tunjangan dari Anggaran Pendapatan dan Belanja Desa</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kewajiban Anggota BPD -->
+            <div class="section-card bg-white rounded-xl shadow-lg overflow-hidden">
+                <button class="w-full p-6 text-left flex items-center justify-between bg-gradient-to-r from-red-500 to-red-600 text-white hover:from-red-600 hover:to-red-700 transition-all duration-300" onclick="toggleAccordion('kewajiban')">
+                    <h2 class="text-xl font-bold flex items-center">
+                        <svg class="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                        </svg>
+                        Kewajiban Anggota BPD (Pasal 60)
+                    </h2>
+                    <svg class="w-6 h-6 accordion-button" id="kewajiban-button" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                    </svg>
+                </button>
+                <div class="accordion-content" id="kewajiban-content">
+                    <div class="p-6 space-y-3">
+                        <div class="flex items-start space-x-3 p-3 bg-red-50 rounded-lg">
+                            <div class="w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">1</div>
+                            <p class="text-gray-700">Memegang teguh dan mengamalkan Pancasila, melaksanakan UUD RI Tahun 1945, serta mempertahankan dan memelihara keutuhan NKRI</p>
+                        </div>
+                        <div class="flex items-start space-x-3 p-3 bg-red-50 rounded-lg">
+                            <div class="w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">2</div>
+                            <p class="text-gray-700">Melaksanakan kehidupan demokrasi yang berkeadilan gender dalam penyelenggaraan Pemerintahan Desa</p>
+                        </div>
+                        <div class="flex items-start space-x-3 p-3 bg-red-50 rounded-lg">
+                            <div class="w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">3</div>
+                            <p class="text-gray-700">Mendahulukan kepentingan umum di atas kepentingan pribadi, kelompok, dan/atau golongan</p>
+                        </div>
+                        <div class="flex items-start space-x-3 p-3 bg-red-50 rounded-lg">
+                            <div class="w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">4</div>
+                            <p class="text-gray-700">Menghormati nilai sosial budaya dan adat istiadat masyarakat desa</p>
+                        </div>
+                        <div class="flex items-start space-x-3 p-3 bg-red-50 rounded-lg">
+                            <div class="w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">5</div>
+                            <p class="text-gray-700">Menjaga norma dan etika dalam hubungan kerja dengan lembaga kemasyarakatan desa</p>
+                        </div>
+                        <div class="flex items-start space-x-3 p-3 bg-red-50 rounded-lg">
+                            <div class="w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">6</div>
+                            <p class="text-gray-700">Mengawal aspirasi masyarakat, menjaga kewibawaan dan kestabilan penyelenggaraan Pemerintahan Desa serta memelopori penyelenggaraan Pemerintahan Desa berdasarkan tata kelola pemerintahan yang baik</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wewenang BPD -->
+            <div class="section-card bg-white rounded-xl shadow-lg overflow-hidden">
+                <button class="w-full p-6 text-left flex items-center justify-between bg-gradient-to-r from-indigo-500 to-indigo-600 text-white hover:from-indigo-600 hover:to-indigo-700 transition-all duration-300" onclick="toggleAccordion('wewenang')">
+                    <h2 class="text-xl font-bold flex items-center">
+                        <svg class="w-6 h-6 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M3 6a3 3 0 013-3h10a1 1 0 01.8 1.6L14.25 8l2.55 3.4A1 1 0 0116 13H6a1 1 0 00-1 1v3a1 1 0 11-2 0V6z" clip-rule="evenodd"/>
+                        </svg>
+                        Wewenang BPD (Pasal 63)
+                    </h2>
+                    <svg class="w-6 h-6 accordion-button" id="wewenang-button" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                    </svg>
+                </button>
+                <div class="accordion-content" id="wewenang-content">
+                    <div class="p-6 space-y-3">
+                        <div class="flex items-start space-x-3 p-3 bg-indigo-50 rounded-lg">
+                            <div class="w-6 h-6 bg-indigo-500 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">1</div>
+                            <p class="text-gray-700">Mengadakan pertemuan dengan masyarakat untuk mendapatkan aspirasi</p>
+                        </div>
+                        <div class="flex items-start space-x-3 p-3 bg-indigo-50 rounded-lg">
+                            <div class="w-6 h-6 bg-indigo-500 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">2</div>
+                            <p class="text-gray-700">Menyampaikan aspirasi masyarakat kepada Pemerintah Desa secara lisan dan tertulis</p>
+                        </div>
+                        <div class="flex items-start space-x-3 p-3 bg-indigo-50 rounded-lg">
+                            <div class="w-6 h-6 bg-indigo-500 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">3</div>
+                            <p class="text-gray-700">Mengajukan rancangan Peraturan Desa yang menjadi kewenangannya</p>
+                        </div>
+                        <div class="flex items-start space-x-3 p-3 bg-indigo-50 rounded-lg">
+                            <div class="w-6 h-6 bg-indigo-500 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">4</div>
+                            <p class="text-gray-700">Melaksanakan monitoring dan evaluasi kinerja Kepala Desa</p>
+                        </div>
+                        <div class="flex items-start space-x-3 p-3 bg-indigo-50 rounded-lg">
+                            <div class="w-6 h-6 bg-indigo-500 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">5</div>
+                            <p class="text-gray-700">Meminta keterangan tentang penyelenggaraan Pemerintahan Desa kepada Pemerintah Desa</p>
+                        </div>
+                        <div class="flex items-start space-x-3 p-3 bg-indigo-50 rounded-lg">
+                            <div class="w-6 h-6 bg-indigo-500 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">6</div>
+                            <p class="text-gray-700">Menyatakan pendapat atas penyelenggaraan Pemerintahan Desa, pelaksanaan pembangunan Desa, pembinaan kemasyarakatan Desa, dan pemberdayaan masyarakat Desa</p>
+                        </div>
+                        <div class="flex items-start space-x-3 p-3 bg-indigo-50 rounded-lg">
+                            <div class="w-6 h-6 bg-indigo-500 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">7</div>
+                            <p class="text-gray-700">Mengawal aspirasi masyarakat, menjaga kewibawaan dan kestabilan penyelenggaraan Pemerintahan Desa serta mempelopori penyelenggaraan Pemerintahan Desa berdasarkan tata kelola pemerintahan yang baik</p>
+                        </div>
+                        <div class="flex items-start space-x-3 p-3 bg-indigo-50 rounded-lg">
+                            <div class="w-6 h-6 bg-indigo-500 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">8</div>
+                            <p class="text-gray-700">Menyusun peraturan tata tertib BPD</p>
+                        </div>
+                        <div class="flex items-start space-x-3 p-3 bg-indigo-50 rounded-lg">
+                            <div class="w-6 h-6 bg-indigo-500 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">9</div>
+                            <p class="text-gray-700">Menyampaikan laporan hasil pengawasan yang bersifat insidentil kepada Bupati/Wali kota melalui Camat</p>
+                        </div>
+                        <div class="flex items-start space-x-3 p-3 bg-indigo-50 rounded-lg">
+                            <div class="w-6 h-6 bg-indigo-500 text-white rounded-full flex items-center justify-center text-sm font-bold mt-0.5">10</div>
+                            <p class="text-gray-700">Menyusun dan menyampaikan usulan rencana biaya operasional BPD secara tertulis kepada Kepala Desa untuk dialokasikan dalam Rancangan Anggaran dan Pendapatan Belanja Desa</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center mt-12 p-6 bg-white rounded-xl shadow-lg">
+            <p class="text-gray-600">
+                <strong>Sumber:</strong> Peraturan Menteri Dalam Negeri Nomor 110 Tahun 2016 Tentang Badan Permusyawaratan Desa
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function toggleAccordion(section) {
+            const content = document.getElementById(section + '-content');
+            const button = document.getElementById(section + '-button');
+            
+            content.classList.toggle('active');
+            button.classList.toggle('active');
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98b99cd811ff5fd8',t:'MTc1OTk2ODE4My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

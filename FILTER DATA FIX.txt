@@ -1,0 +1,981 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Filter Data P3KE Terintegrasi</title>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1763356194/Lambang_Kabupaten_Donggala_1_cvywgs.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    * {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+    }
+    .gradient-bg {
+      background: linear-gradient(135deg, #0c4a6e 0%, #075985 50%, #0369a1 100%);
+    }
+    .data-row:hover {
+      transform: translateX(4px);
+      box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15);
+    }
+    .filter-chip {
+      transition: all 0.2s ease;
+    }
+    .filter-chip:hover {
+      transform: translateY(-2px);
+    }
+    .stat-card {
+      transition: all 0.3s ease;
+    }
+    .stat-card:hover {
+      transform: translateY(-4px);
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade {
+      animation: fadeIn 0.3s ease forwards;
+    }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-slide-down {
+      animation: slideDown 0.4s ease forwards;
+    }
+    .spinner {
+      border: 3px solid rgba(15, 23, 42, 0.1);
+      border-top-color: #0369a1;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .scrollbar-thin::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .scrollbar-thin::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 3px;
+    }
+    .scrollbar-thin::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 3px;
+    }
+    .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+    .success-toast {
+      animation: slideIn 0.3s ease forwards;
+    }
+    @keyframes slideIn {
+      from { transform: translateX(400px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    .login-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100%;
+    }
+    .shake {
+      animation: shake 0.5s;
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-10px); }
+      75% { transform: translateX(10px); }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full gradient-bg"><!-- Login Screen -->
+  <div id="login-screen" class="login-container p-4">
+   <div class="glass-card rounded-3xl p-8 md:p-12 max-w-md w-full shadow-2xl animate-slide-down">
+    <div class="text-center mb-8"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1763356194/Lambang_Kabupaten_Donggala_1_cvywgs.png" alt="Logo" class="h-20 w-20 mx-auto mb-6 object-contain" loading="lazy" onerror="console.error('Logo failed to load:', this.src); this.style.display='none';">
+     <h1 class="text-3xl font-bold text-sky-900 mb-2">🔐 P3KE System</h1>
+     <p class="text-sky-600">Filter Data P3KE Terintegrasi</p>
+    </div>
+    <form id="login-form" class="space-y-4">
+     <div><label class="block text-sm font-semibold text-sky-800 mb-2" for="login-password">Password</label>
+      <div class="relative"><input type="password" id="login-password" placeholder="Masukkan password" class="w-full px-4 py-3 pl-12 border-2 border-sky-200 rounded-xl focus:border-sky-500 focus:ring-2 focus:ring-sky-200 outline-none transition-all text-sky-900">
+       <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-sky-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+       </svg>
+      </div>
+      <div id="login-error" class="mt-2 text-red-600 text-sm font-medium hidden flex items-center gap-2">
+       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4v2m0-6a4 4 0 110 8 4 4 0 010-8z" />
+       </svg><span id="error-text">Password salah, coba lagi!</span>
+      </div>
+     </div><button type="submit" class="w-full px-6 py-3 bg-sky-600 hover:bg-sky-700 text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-xl mt-6 flex items-center justify-center gap-2">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+      </svg> Login </button>
+    </form>
+    <p class="text-center text-sky-600 text-xs mt-6">© 2024 Syam Digital - P3KE System</p>
+   </div>
+  </div><!-- Main Application (Hidden until login) -->
+  <div id="app" class="h-full overflow-auto scrollbar-thin hidden">
+   <div class="min-h-full p-4 md:p-6 lg:p-8"><!-- Loading Indicator -->
+    <div id="loading-overlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden z-50 flex items-center justify-center">
+     <div class="glass-card rounded-2xl p-8 text-center">
+      <div class="spinner mx-auto mb-4"></div>
+      <p class="text-sky-900 font-semibold">Memuat data dari Google Sheets...</p>
+      <p class="text-sky-600 text-sm mt-2">Mohon tunggu, ini hanya dilakukan sekali</p>
+     </div>
+    </div><!-- Header -->
+    <header class="glass-card rounded-2xl p-6 mb-6 shadow-lg">
+     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div class="flex items-center gap-4"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1763356194/Lambang_Kabupaten_Donggala_1_cvywgs.png" alt="Logo Kabupaten" class="h-16 w-16 object-contain" loading="lazy" onerror="console.error('Logo failed to load:', this.src); this.style.display='none';">
+       <div>
+        <h1 id="app-title" class="text-2xl md:text-3xl font-bold text-sky-900">📊 Filter Data P3KE Terintegrasi</h1>
+        <p id="app-subtitle" class="text-sky-700 mt-1">Sistem Pencarian &amp; Filter Real-time dari Google Sheets</p>
+        <p class="text-sky-600 text-sm mt-1">💡 P3KE (Program Percepatan Penurunan Kemiskinan Ekstrem)</p>
+       </div>
+      </div>
+      <div class="flex items-center gap-3 flex-wrap"><span id="data-status" class="px-4 py-2 bg-sky-100 text-sky-800 rounded-full text-sm font-medium"> 🔄 Menyiapkan... </span>
+      </div>
+     </div>
+    </header><!-- Stats Cards -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+     <div class="stat-card glass-card rounded-xl p-4 shadow-md">
+      <div class="text-3xl mb-2">
+       👨‍👩‍👧‍👦
+      </div>
+      <div id="stat-total" class="text-2xl font-bold text-sky-900">
+       0
+      </div>
+      <div class="text-sm text-sky-600">
+       Total Data
+      </div>
+     </div>
+     <div class="stat-card glass-card rounded-xl p-4 shadow-md">
+      <div class="text-3xl mb-2">
+       🔍
+      </div>
+      <div id="stat-filtered" class="text-2xl font-bold text-emerald-600">
+       0
+      </div>
+      <div class="text-sm text-sky-600">
+       Hasil Filter
+      </div>
+     </div>
+     <div class="stat-card glass-card rounded-xl p-4 shadow-md">
+      <div class="text-3xl mb-2">
+       🏘️
+      </div>
+      <div id="stat-desa" class="text-2xl font-bold text-amber-600">
+       0
+      </div>
+      <div class="text-sm text-sky-600">
+       Jumlah Desa
+      </div>
+     </div>
+     <div class="stat-card glass-card rounded-xl p-4 shadow-md">
+      <div class="text-3xl mb-2">
+       📍
+      </div>
+      <div id="stat-kecamatan" class="text-2xl font-bold text-purple-600">
+       0
+      </div>
+      <div class="text-sm text-sky-600">
+       Jumlah Kecamatan
+      </div>
+     </div>
+    </div><!-- Search & Filter Section -->
+    <div class="glass-card rounded-2xl p-6 mb-6 shadow-lg">
+     <h2 class="text-lg font-semibold text-sky-900 mb-4 flex items-center gap-2">🔍 Pencarian &amp; Filter</h2><!-- Main Search -->
+     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+      <div class="md:col-span-2"><label class="block text-sm font-medium text-sky-800 mb-2" for="search-id">Cari ID Keluarga P3KE</label>
+       <div class="relative"><input type="text" id="search-id" placeholder="Masukkan ID Keluarga" class="w-full px-4 py-3 pl-12 border-2 border-sky-200 rounded-xl focus:border-sky-500 focus:ring-2 focus:ring-sky-200 outline-none transition-all text-sky-900">
+        <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-sky-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+       </div>
+      </div>
+      <div><label class="block text-sm font-medium text-sky-800 mb-2" for="search-name">Cari Nama</label> <input type="text" id="search-name" placeholder="Nama" class="w-full px-4 py-3 border-2 border-sky-200 rounded-xl focus:border-sky-500 focus:ring-2 focus:ring-sky-200 outline-none transition-all text-sky-900">
+      </div>
+     </div><!-- Filter Dropdowns -->
+     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-4">
+      <div><label class="block text-sm font-medium text-sky-800 mb-2" for="filter-kecamatan">Kecamatan</label> <select id="filter-kecamatan" class="w-full px-4 py-3 border-2 border-sky-200 rounded-xl focus:border-sky-500 outline-none bg-white text-sky-900 text-sm"> <option value="">Semua</option> </select>
+      </div>
+      <div><label class="block text-sm font-medium text-sky-800 mb-2" for="filter-desa">Desa</label> <select id="filter-desa" class="w-full px-4 py-3 border-2 border-sky-200 rounded-xl focus:border-sky-500 outline-none bg-white text-sky-900 text-sm"> <option value="">Semua</option> </select>
+      </div>
+      <div><label class="block text-sm font-medium text-sky-800 mb-2" for="filter-desil">Desil</label> <select id="filter-desil" class="w-full px-4 py-3 border-2 border-sky-200 rounded-xl focus:border-sky-500 outline-none bg-white text-sky-900 text-sm"> <option value="">Semua</option> </select>
+      </div>
+      <div><label class="block text-sm font-medium text-sky-800 mb-2" for="filter-status">Status Bantuan</label> <select id="filter-status" class="w-full px-4 py-3 border-2 border-sky-200 rounded-xl focus:border-sky-500 outline-none bg-white text-sky-900 text-sm"> <option value="">Semua</option> <option value="BPNT">BPNT</option> <option value="BPUM">BPUM</option> <option value="BST">BST</option> <option value="PKH">PKH</option> <option value="SEMBAKO">SEMBAKO</option> </select>
+      </div>
+      <div><label class="block text-sm font-medium text-sky-800 mb-2" for="filter-jk">Jenis Kelamin</label> <select id="filter-jk" class="w-full px-4 py-3 border-2 border-sky-200 rounded-xl focus:border-sky-500 outline-none bg-white text-sky-900 text-sm"> <option value="">Semua</option> <option value="Laki-laki">Laki-laki</option> <option value="Perempuan">Perempuan</option> </select>
+      </div>
+     </div><!-- Action Buttons -->
+     <div class="flex flex-wrap gap-3"><button id="btn-search" class="px-6 py-3 bg-sky-600 hover:bg-sky-700 text-white font-semibold rounded-xl transition-all flex items-center gap-2 shadow-md hover:shadow-lg">
+       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+       </svg> Cari Data </button> <button id="btn-reset" class="px-6 py-3 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold rounded-xl transition-all flex items-center gap-2">
+       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+       </svg> Reset </button> <button id="btn-export-csv" class="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-xl transition-all flex items-center gap-2 shadow-md hover:shadow-lg">
+       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+       </svg> Export CSV </button> <button id="btn-export-excel" class="px-6 py-3 bg-teal-600 hover:bg-teal-700 text-white font-semibold rounded-xl transition-all flex items-center gap-2 shadow-md hover:shadow-lg">
+       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+       </svg> Export Excel </button> <a href="https://docs.google.com/spreadsheets/d/18pGcoEO3j72j3d8hU-ZvYf9G4uZYpealW2ywAbtPAB0/edit?usp=sharing" target="_blank" rel="noopener noreferrer" class="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl transition-all flex items-center gap-2 shadow-md hover:shadow-lg">
+       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+       </svg> Buka Google Sheets </a>
+     </div>
+    </div><!-- Results Table -->
+    <div class="glass-card rounded-2xl shadow-lg overflow-hidden">
+     <div class="p-4 bg-sky-50 border-b border-sky-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <h2 class="text-lg font-semibold text-sky-900 flex items-center gap-2">📋 Hasil Pencarian <span id="result-count" class="px-3 py-1 bg-sky-600 text-white text-sm rounded-full">0 data</span></h2>
+      <div class="flex items-center gap-2"><label class="text-sm text-sky-700" for="per-page">Tampilkan:</label> <select id="per-page" class="px-3 py-2 border border-sky-200 rounded-lg bg-white text-sky-900 text-sm"> <option value="10">10</option> <option value="25">25</option> <option value="50">50</option> <option value="100">100</option> </select>
+      </div>
+     </div>
+     <div class="overflow-x-auto scrollbar-thin">
+      <table class="w-full text-sm">
+       <thead>
+        <tr class="bg-sky-900 text-white">
+         <th class="px-3 py-3 text-left font-semibold whitespace-nowrap">No</th>
+         <th class="px-3 py-3 text-left font-semibold whitespace-nowrap cursor-pointer hover:bg-sky-800" data-sort="ID Keluarga P3KE">ID Keluarga ↕</th>
+         <th class="px-3 py-3 text-left font-semibold whitespace-nowrap cursor-pointer hover:bg-sky-800" data-sort="Nama">Nama ↕</th>
+         <th class="px-3 py-3 text-left font-semibold whitespace-nowrap">NIK</th>
+         <th class="px-3 py-3 text-left font-semibold whitespace-nowrap cursor-pointer hover:bg-sky-800" data-sort="Kecamatan">Kecamatan ↕</th>
+         <th class="px-3 py-3 text-left font-semibold whitespace-nowrap cursor-pointer hover:bg-sky-800" data-sort="Desa/Kelurahan">Desa ↕</th>
+         <th class="px-3 py-3 text-left font-semibold whitespace-nowrap">Desil</th>
+         <th class="px-3 py-3 text-left font-semibold whitespace-nowrap">JK</th>
+         <th class="px-3 py-3 text-left font-semibold whitespace-nowrap">Status Bantuan</th>
+         <th class="px-3 py-3 text-center font-semibold whitespace-nowrap">Aksi</th>
+        </tr>
+       </thead>
+       <tbody id="data-table" class="divide-y divide-sky-100"><!-- Data rows will be inserted here -->
+       </tbody>
+      </table>
+     </div><!-- Empty State -->
+     <div id="empty-state" class="hidden p-12 text-center">
+      <div class="text-6xl mb-4">
+       🔍
+      </div>
+      <h3 class="text-xl font-semibold text-sky-900 mb-2">Tidak Ada Data Ditemukan</h3>
+      <p class="text-sky-600">Coba ubah filter atau kata kunci pencarian Anda</p>
+     </div><!-- Pagination -->
+     <div class="p-4 bg-sky-50 border-t border-sky-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="text-sm text-sky-700">
+       Menampilkan <span id="showing-from">0</span> - <span id="showing-to">0</span> dari <span id="total-records">0</span> data
+      </div>
+      <div class="flex items-center gap-2 flex-wrap justify-center"><button id="btn-first" class="px-3 py-2 bg-white border border-sky-200 rounded-lg hover:bg-sky-50 text-sky-700 disabled:opacity-50 disabled:cursor-not-allowed text-sm">⏮</button> <button id="btn-prev" class="px-3 py-2 bg-white border border-sky-200 rounded-lg hover:bg-sky-50 text-sky-700 disabled:opacity-50 disabled:cursor-not-allowed text-sm">←</button> <span class="px-4 py-2 bg-sky-600 text-white rounded-lg font-medium text-sm"><span id="current-page">1</span>/<span id="total-pages">1</span></span> <button id="btn-next" class="px-3 py-2 bg-white border border-sky-200 rounded-lg hover:bg-sky-50 text-sky-700 disabled:opacity-50 disabled:cursor-not-allowed text-sm">→</button> <button id="btn-last" class="px-3 py-2 bg-white border border-sky-200 rounded-lg hover:bg-sky-50 text-sky-700 disabled:opacity-50 disabled:cursor-not-allowed text-sm">⏭</button>
+      </div>
+     </div>
+    </div><!-- Detail Modal -->
+    <div id="detail-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+     <div class="glass-card rounded-2xl max-w-3xl w-full max-h-[90%] overflow-auto shadow-2xl animate-fade">
+      <div class="p-6 bg-sky-900 text-white rounded-t-2xl sticky top-0">
+       <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+         <div class="flex flex-col items-center"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1765500559/Syam_Digital_nvguw4.png" alt="Syam Digital Admin" class="w-12 h-12 rounded-full object-cover border-2 border-white" loading="lazy" onerror="console.error('Admin photo failed to load:', this.src); this.style.display='none';">
+          <p class="text-xs font-semibold mt-1">Syam Digital</p>
+         </div>
+         <h3 class="text-xl font-bold flex items-center gap-2">👤 Detail Data</h3>
+        </div><button id="close-modal" class="p-2 hover:bg-sky-800 rounded-lg transition-colors">
+         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+         </svg></button>
+       </div>
+      </div>
+      <div id="modal-content" class="p-6 overflow-auto max-h-[calc(90vh-120px)]"><!-- Detail content will be inserted here -->
+      </div>
+     </div>
+    </div><!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-4 right-4 success-toast hidden p-4 bg-emerald-500 text-white rounded-xl shadow-lg max-w-sm">
+     <div class="flex items-center gap-2">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+      </svg><span id="toast-message">Data berhasil diekspor</span>
+     </div>
+    </div><!-- Footer -->
+    <footer class="mt-6 text-center text-sky-100 text-sm">
+     <p>© 2024 Filter Data P3KE - Sumber: Google Sheets Real-time</p>
+    </footer>
+   </div>
+  </div>
+  <script>
+    // Login Handler
+    const CORRECT_PASSWORD = '7203192010#';
+    
+    document.getElementById('login-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const password = document.getElementById('login-password').value;
+      const errorDiv = document.getElementById('login-error');
+      const loginScreen = document.getElementById('login-screen');
+      const appScreen = document.getElementById('app');
+      
+      if (password === CORRECT_PASSWORD) {
+        // Login successful
+        loginScreen.classList.add('hidden');
+        appScreen.classList.remove('hidden');
+        fetchGoogleSheetsData();
+      } else {
+        // Login failed
+        errorDiv.classList.remove('hidden');
+        document.getElementById('login-password').classList.add('shake');
+        setTimeout(() => {
+          document.getElementById('login-password').classList.remove('shake');
+        }, 500);
+        document.getElementById('login-password').value = '';
+        document.getElementById('login-password').focus();
+      }
+    });
+
+    // Hide error when user starts typing
+    document.getElementById('login-password').addEventListener('input', function() {
+      document.getElementById('login-error').classList.add('hidden');
+    });
+
+    // State Management
+    let allData = [];
+    let filteredData = [];
+    let currentPage = 1;
+    let perPage = 10;
+    let sortColumn = null;
+    let sortDirection = 'asc';
+
+    // Default config
+    const defaultConfig = {
+      app_title: "📊 Filter Data P3KE Terintegrasi",
+      subtitle_text: "Sistem Pencarian & Filter Real-time dari Google Sheets"
+    };
+
+    // Initialize Element SDK
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange: async (config) => {
+          document.getElementById('app-title').textContent = config.app_title || defaultConfig.app_title;
+          document.getElementById('app-subtitle').textContent = config.subtitle_text || defaultConfig.subtitle_text;
+        },
+        mapToCapabilities: (config) => ({
+          recolorables: [],
+          borderables: [],
+          fontEditable: undefined,
+          fontSizeable: undefined
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ["app_title", config.app_title || defaultConfig.app_title],
+          ["subtitle_text", config.subtitle_text || defaultConfig.subtitle_text]
+        ])
+      });
+    }
+
+    // Fetch data from Google Sheets CSV Export
+    async function fetchGoogleSheetsData() {
+      const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRRQy6LGY1MMNQNINfsA9--x3StH0Rp5oTzM520pjbZuCstJzADBH3RxidcEaKXuYBgwJ9s0fbY_XZG/pub?gid=125225049&single=true&output=csv';
+      
+      try {
+        document.getElementById('loading-overlay').classList.remove('hidden');
+        
+        const response = await fetch(csvUrl);
+        const csv = await response.text();
+        
+        // Parse CSV
+        const lines = csv.split('\n');
+        if (lines.length < 2) {
+          throw new Error('Data tidak ditemukan');
+        }
+
+        const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, ''));
+
+        const data = [];
+        for (let i = 1; i < lines.length; i++) {
+          const line = lines[i].trim();
+          if (!line) continue;
+
+          const cells = [];
+          let current = '';
+          let inQuotes = false;
+          
+          for (let j = 0; j < line.length; j++) {
+            const char = line[j];
+            const nextChar = line[j + 1];
+            
+            if (char === '"') {
+              if (inQuotes && nextChar === '"') {
+                current += '"';
+                j++;
+              } else {
+                inQuotes = !inQuotes;
+              }
+            } else if (char === ',' && !inQuotes) {
+              cells.push(current.trim());
+              current = '';
+            } else {
+              current += char;
+            }
+          }
+          cells.push(current.trim());
+
+          const rowData = {};
+          headers.forEach((header, index) => {
+            rowData[header] = (cells[index] || '').replace(/"/g, '').trim();
+          });
+          
+          if (rowData['ID Keluarga P3KE']) {
+            data.push(rowData);
+          }
+        }
+
+        if (data.length === 0) {
+          throw new Error('Tidak ada data yang valid ditemukan');
+        }
+
+        allData = data;
+        filteredData = [...allData];
+        
+        init();
+        document.getElementById('data-status').innerHTML = `✅ ${data.length} Data Siap`;
+        document.getElementById('data-status').classList.remove('bg-sky-100', 'text-sky-800');
+        document.getElementById('data-status').classList.add('bg-emerald-100', 'text-emerald-800');
+        
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        document.getElementById('data-status').innerHTML = '❌ Gagal Memuat Data';
+        document.getElementById('data-status').classList.remove('bg-sky-100', 'text-sky-800');
+        document.getElementById('data-status').classList.add('bg-red-100', 'text-red-800');
+        showToast('Gagal memuat data: ' + error.message, 'error');
+      } finally {
+        document.getElementById('loading-overlay').classList.add('hidden');
+      }
+    }
+
+    // Initialize Application
+    function init() {
+      populateFilters();
+      updateStats();
+      renderTable();
+      bindEvents();
+    }
+
+    // Populate filter dropdowns
+    function populateFilters() {
+      const kecamatanSet = new Set(allData.map(d => d['Kecamatan']).filter(Boolean));
+      const desaSet = new Set(allData.map(d => d['Desa/Kelurahan']).filter(Boolean));
+      const desilSet = new Set(allData.map(d => d['Desil Kesejahteraan']).filter(Boolean));
+
+      const kecamatanSelect = document.getElementById('filter-kecamatan');
+      Array.from(kecamatanSet).sort().forEach(kec => {
+        const option = document.createElement('option');
+        option.value = kec;
+        option.textContent = kec;
+        kecamatanSelect.appendChild(option);
+      });
+
+      const desaSelect = document.getElementById('filter-desa');
+      Array.from(desaSet).sort().forEach(desa => {
+        const option = document.createElement('option');
+        option.value = desa;
+        option.textContent = desa;
+        desaSelect.appendChild(option);
+      });
+
+      const desilSelect = document.getElementById('filter-desil');
+      Array.from(desilSet).sort().forEach(desil => {
+        const option = document.createElement('option');
+        option.value = desil;
+        option.textContent = 'Desil ' + desil;
+        desilSelect.appendChild(option);
+      });
+    }
+
+    // Update statistics
+    function updateStats() {
+      document.getElementById('stat-total').textContent = allData.length;
+      document.getElementById('stat-filtered').textContent = filteredData.length;
+      document.getElementById('stat-desa').textContent = new Set(allData.map(d => d['Desa/Kelurahan']).filter(Boolean)).size;
+      document.getElementById('stat-kecamatan').textContent = new Set(allData.map(d => d['Kecamatan']).filter(Boolean)).size;
+    }
+
+    // Apply filters
+    function applyFilters() {
+      const searchId = document.getElementById('search-id').value.toLowerCase();
+      const searchName = document.getElementById('search-name').value.toLowerCase();
+      const filterKecamatan = document.getElementById('filter-kecamatan').value;
+      const filterDesa = document.getElementById('filter-desa').value;
+      const filterDesil = document.getElementById('filter-desil').value;
+      const filterStatus = document.getElementById('filter-status').value;
+      const filterJK = document.getElementById('filter-jk').value;
+
+      filteredData = allData.filter(item => {
+        const matchId = !searchId || (item['ID Keluarga P3KE'] || '').toLowerCase().includes(searchId);
+        const matchName = !searchName || (item['Nama'] || '').toLowerCase().includes(searchName);
+        const matchKecamatan = !filterKecamatan || item['Kecamatan'] === filterKecamatan;
+        const matchDesa = !filterDesa || item['Desa/Kelurahan'] === filterDesa;
+        const matchDesil = !filterDesil || item['Desil Kesejahteraan'] === filterDesil;
+        const matchStatus = !filterStatus || (item[`Penerima ${filterStatus}`] || '').toLowerCase() === 'ya';
+        const matchJK = !filterJK || item['Jenis Kelamin'] === filterJK;
+
+        return matchId && matchName && matchKecamatan && matchDesa && matchDesil && matchStatus && matchJK;
+      });
+
+      if (sortColumn) {
+        filteredData.sort((a, b) => {
+          let valA = a[sortColumn] || '';
+          let valB = b[sortColumn] || '';
+          if (typeof valA === 'string') valA = valA.toLowerCase();
+          if (typeof valB === 'string') valB = valB.toLowerCase();
+          if (valA < valB) return sortDirection === 'asc' ? -1 : 1;
+          if (valA > valB) return sortDirection === 'asc' ? 1 : -1;
+          return 0;
+        });
+      }
+
+      currentPage = 1;
+      updateStats();
+      renderTable();
+    }
+
+    // Render table
+    function renderTable() {
+      const tbody = document.getElementById('data-table');
+      const emptyState = document.getElementById('empty-state');
+      
+      const start = (currentPage - 1) * perPage;
+      const end = start + perPage;
+      const pageData = filteredData.slice(start, end);
+      const totalPages = Math.ceil(filteredData.length / perPage) || 1;
+
+      document.getElementById('result-count').textContent = `${filteredData.length} data`;
+      document.getElementById('showing-from').textContent = filteredData.length > 0 ? start + 1 : 0;
+      document.getElementById('showing-to').textContent = Math.min(end, filteredData.length);
+      document.getElementById('total-records').textContent = filteredData.length;
+      document.getElementById('current-page').textContent = currentPage;
+      document.getElementById('total-pages').textContent = totalPages;
+
+      document.getElementById('btn-first').disabled = currentPage === 1;
+      document.getElementById('btn-prev').disabled = currentPage === 1;
+      document.getElementById('btn-next').disabled = currentPage === totalPages;
+      document.getElementById('btn-last').disabled = currentPage === totalPages;
+
+      if (pageData.length === 0) {
+        tbody.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+      tbody.innerHTML = pageData.map((item, index) => {
+        const status = getStatusBantuan(item);
+        return `
+          <tr class="data-row hover:bg-sky-50 transition-all cursor-pointer" data-id="${item['ID Keluarga P3KE']}">
+            <td class="px-3 py-3 text-slate-600">${start + index + 1}</td>
+            <td class="px-3 py-3 font-mono font-medium text-sky-800">${item['ID Keluarga P3KE']}</td>
+            <td class="px-3 py-3 font-medium text-slate-800">${item['Nama']}</td>
+            <td class="px-3 py-3 font-mono text-slate-600">${item['NIK']}</td>
+            <td class="px-3 py-3 text-slate-700">${item['Kecamatan']}</td>
+            <td class="px-3 py-3 text-slate-700">${item['Desa/Kelurahan']}</td>
+            <td class="px-3 py-3">
+              <span class="px-2 py-1 text-xs font-semibold rounded-full ${getDesilClass(item['Desil Kesejahteraan'])}">
+                D${item['Desil Kesejahteraan']}
+              </span>
+            </td>
+            <td class="px-3 py-3 text-slate-700">${item['Jenis Kelamin'] === 'Laki-laki' ? '♂️' : '♀️'}</td>
+            <td class="px-3 py-3">
+              <div class="flex flex-wrap gap-1">
+                ${status.map(s => `<span class="px-1.5 py-0.5 text-xs font-medium rounded ${getStatusClass(s)}">${s}</span>`).join('')}
+              </div>
+            </td>
+            <td class="px-3 py-3 text-center">
+              <button class="btn-detail px-3 py-1.5 bg-sky-600 hover:bg-sky-700 text-white text-xs rounded-lg transition-colors" data-id="${item['ID Keluarga P3KE']}">
+                Detail
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      document.querySelectorAll('.btn-detail').forEach(btn => {
+        btn.onclick = (e) => {
+          e.stopPropagation();
+          showDetail(btn.dataset.id);
+        };
+      });
+
+      document.querySelectorAll('.data-row').forEach(row => {
+        row.onclick = () => showDetail(row.dataset.id);
+      });
+    }
+
+    // Get status bantuan
+    function getStatusBantuan(item) {
+      const statuses = [];
+      const statusKeys = ['Penerima BPNT', 'Penerima BPUM', 'Penerima BST', 'Penerima PKH', 'Penerima SEMBAKO'];
+      statusKeys.forEach(key => {
+        if ((item[key] || '').toLowerCase() === 'ya') {
+          statuses.push(key.replace('Penerima ', ''));
+        }
+      });
+      return statuses.length > 0 ? statuses : ['Tidak Ada'];
+    }
+
+    // Get desil class
+    function getDesilClass(desil) {
+      const classes = {
+        '1': 'bg-red-100 text-red-800',
+        '2': 'bg-orange-100 text-orange-800',
+        '3': 'bg-yellow-100 text-yellow-800',
+        '4': 'bg-green-100 text-green-800'
+      };
+      return classes[desil] || 'bg-slate-100 text-slate-800';
+    }
+
+    // Get status class
+    function getStatusClass(status) {
+      const classes = {
+        'BPNT': 'bg-blue-100 text-blue-800',
+        'BPUM': 'bg-purple-100 text-purple-800',
+        'BST': 'bg-teal-100 text-teal-800',
+        'PKH': 'bg-pink-100 text-pink-800',
+        'SEMBAKO': 'bg-amber-100 text-amber-800',
+        'Tidak Ada': 'bg-slate-100 text-slate-800'
+      };
+      return classes[status] || 'bg-slate-100 text-slate-800';
+    }
+
+    // Show detail modal
+    function showDetail(id) {
+      const item = allData.find(d => d['ID Keluarga P3KE'] === id);
+      if (!item) return;
+
+      const status = getStatusBantuan(item);
+      const modal = document.getElementById('detail-modal');
+      const content = document.getElementById('modal-content');
+
+      content.innerHTML = `
+        <div class="space-y-4">
+          <div class="pb-4 border-b border-sky-100">
+            <h4 class="text-xl font-bold text-sky-900 mb-1">${item['Nama']}</h4>
+            <p class="text-sky-600 text-sm">${item['Hubungan dengan Kepala Keluarga'] || 'Kepala Keluarga'}</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="p-4 bg-sky-50 rounded-xl">
+              <p class="text-xs text-sky-600 uppercase font-semibold mb-2 flex items-center justify-between">
+                <span>ID Keluarga P3KE</span>
+                <button class="copy-btn" data-copy="${item['ID Keluarga P3KE']}" title="Salin ID" class="px-2 py-1 text-xs bg-sky-600 hover:bg-sky-700 text-white rounded transition-colors">
+                  <svg class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                  </svg>
+                </button>
+              </p>
+              <p class="text-lg font-mono font-bold text-sky-900">${item['ID Keluarga P3KE']}</p>
+            </div>
+            <div class="p-4 bg-sky-50 rounded-xl">
+              <p class="text-xs text-sky-600 uppercase font-semibold mb-2 flex items-center justify-between">
+                <span>NIK</span>
+                <button class="copy-btn" data-copy="${item['NIK']}" title="Salin NIK" class="px-2 py-1 text-xs bg-sky-600 hover:bg-sky-700 text-white rounded transition-colors">
+                  <svg class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                  </svg>
+                </button>
+              </p>
+              <p class="text-lg font-mono font-bold text-sky-900">${item['NIK']}</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div>
+              <p class="text-xs text-sky-600 uppercase font-semibold mb-1">Kecamatan</p>
+              <p class="text-sm font-medium text-slate-800">${item['Kecamatan']}</p>
+            </div>
+            <div>
+              <p class="text-xs text-sky-600 uppercase font-semibold mb-1">Desa</p>
+              <p class="text-sm font-medium text-slate-800">${item['Desa/Kelurahan']}</p>
+            </div>
+            <div>
+              <p class="text-xs text-sky-600 uppercase font-semibold mb-1">Desil</p>
+              <p class="text-sm font-medium text-slate-800">Desil ${item['Desil Kesejahteraan']}</p>
+            </div>
+            <div>
+              <p class="text-xs text-sky-600 uppercase font-semibold mb-1">Jenis Kelamin</p>
+              <p class="text-sm font-medium text-slate-800">${item['Jenis Kelamin']}</p>
+            </div>
+          </div>
+
+          <div>
+            <p class="text-xs text-sky-600 uppercase font-semibold mb-1">Alamat Lengkap</p>
+            <p class="text-sm text-slate-800">${item['Alamat']}</p>
+          </div>
+
+          <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+            <div>
+              <p class="text-xs text-sky-600 uppercase font-semibold mb-2">Tanggal Lahir</p>
+              <p class="text-sm font-medium text-slate-800">${item['Tanggal Lahir'] || '-'}</p>
+            </div>
+            <div>
+              <p class="text-xs text-sky-600 uppercase font-semibold mb-2">Status Kawin</p>
+              <p class="text-sm font-medium text-slate-800">${item['Status Kawin'] || '-'}</p>
+            </div>
+            <div>
+              <p class="text-xs text-sky-600 uppercase font-semibold mb-2">Pekerjaan</p>
+              <p class="text-sm font-medium text-slate-800">${item['Pekerjaan'] || '-'}</p>
+            </div>
+          </div>
+
+          <div class="p-4 bg-emerald-50 rounded-xl">
+            <p class="text-xs text-emerald-600 uppercase font-semibold mb-2">Status Penerima Bantuan</p>
+            <div class="flex flex-wrap gap-2">
+              ${status.map(s => `<span class="px-3 py-1.5 text-sm font-medium rounded-full ${getStatusClass(s)}">${s}</span>`).join('')}
+            </div>
+          </div>
+
+          <div class="pt-4 border-t border-sky-100 flex justify-between gap-3">
+            <button id="btn-share-whatsapp" class="px-6 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-xl transition-colors flex items-center gap-2">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a9.87 9.87 0 00-4.255.949c-1.286.564-2.426 1.372-3.322 2.269-1.898 1.897-2.946 4.411-2.946 7.085 0 2.671 1.048 5.186 2.946 7.085 1.897 1.897 4.412 2.946 7.085 2.946 2.671 0 5.186-1.049 7.085-2.946 1.897-1.898 2.946-4.414 2.946-7.085 0-2.674-1.049-5.188-2.946-7.086-1.898-1.897-4.414-2.946-7.085-2.946zm10.926 17.457h-.004a11.581 11.581 0 01-1.629.102c-3.181 0-6.367-1.169-8.86-3.662C5.92 18.82 4.751 15.634 4.751 12.453s1.169-6.368 3.662-8.86 5.678-3.662 8.86-3.662 6.368 1.169 8.86 3.662c2.493 2.492 3.662 5.678 3.662 8.86s-1.169 6.368-3.662 8.86c-1.197 1.197-2.599 2.148-4.153 2.777"/>
+              </svg>
+              Bagikan WhatsApp
+            </button>
+            <button id="btn-close-detail" class="px-6 py-2 bg-sky-600 hover:bg-sky-700 text-white font-semibold rounded-xl transition-colors">
+              Tutup
+            </button>
+          </div>
+        </div>
+      `;
+
+      modal.classList.remove('hidden');
+      document.getElementById('btn-close-detail').onclick = () => modal.classList.add('hidden');
+
+      document.getElementById('btn-share-whatsapp').onclick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const phoneNumber = item['No HP'] || item['Nomor HP'] || item['Telepon'] || '';
+        const message = `*Data Penerima P3KE*\n\n` +
+          `Nama: ${item['Nama']}\n` +
+          `ID Keluarga: ${item['ID Keluarga P3KE']}\n` +
+          `NIK: ${item['NIK']}\n` +
+          `Kecamatan: ${item['Kecamatan']}\n` +
+          `Desa/Kelurahan: ${item['Desa/Kelurahan']}\n` +
+          `Desil: ${item['Desil Kesejahteraan']}\n` +
+          `Jenis Kelamin: ${item['Jenis Kelamin']}\n` +
+          `Alamat: ${item['Alamat']}\n` +
+          `Status Bantuan: ${getStatusBantuan(item).join(', ')}\n\n` +
+          `Info Selengkapnya Kunjungi:\nhttps://syam.digital/p3ke\n\n` +
+          `Dikirim dari: Filter Data P3KE Terintegrasi`;
+        
+        const encodedMessage = encodeURIComponent(message);
+        const whatsappUrl = `https://wa.me/?text=${encodedMessage}`;
+        
+        window.open(whatsappUrl, '_blank');
+        showToast('✅ Membuka WhatsApp...', 'success');
+      };
+
+      document.querySelectorAll('.copy-btn').forEach(btn => {
+        btn.onclick = (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const textToCopy = btn.dataset.copy;
+          navigator.clipboard.writeText(textToCopy).then(() => {
+            showToast(`✅ Teks berhasil disalin: ${textToCopy}`, 'success');
+            btn.innerHTML = '<svg class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>';
+            setTimeout(() => {
+              btn.innerHTML = '<svg class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>';
+            }, 2000);
+          }).catch(() => {
+            showToast('❌ Gagal menyalin teks', 'error');
+          });
+        };
+      });
+    }
+
+    // Export to CSV
+    function exportCSV() {
+      const headers = ['ID Keluarga P3KE', 'Nama', 'NIK', 'Jenis Kelamin', 'Kecamatan', 'Desa/Kelurahan', 'Desil', 'Alamat', 'Tanggal Lahir', 'Status Kawin', 'Pekerjaan', 'Pendidikan', 'BPNT', 'BPUM', 'BST', 'PKH', 'SEMBAKO'];
+      
+      const rows = filteredData.map(item => [
+        item['ID Keluarga P3KE'],
+        item['Nama'],
+        item['NIK'],
+        item['Jenis Kelamin'],
+        item['Kecamatan'],
+        item['Desa/Kelurahan'],
+        item['Desil Kesejahteraan'],
+        item['Alamat'],
+        item['Tanggal Lahir'],
+        item['Status Kawin'],
+        item['Pekerjaan'],
+        item['Pendidikan'],
+        item['Penerima BPNT'] || '-',
+        item['Penerima BPUM'] || '-',
+        item['Penerima BST'] || '-',
+        item['Penerima PKH'] || '-',
+        item['Penerima SEMBAKO'] || '-'
+      ]);
+
+      const csvContent = [headers, ...rows]
+        .map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(','))
+        .join('\n');
+
+      const blob = new Blob(['\ufeff' + csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `Data_P3KE_${new Date().toISOString().split('T')[0]}.csv`;
+      link.click();
+      URL.revokeObjectURL(url);
+      
+      showToast(`${filteredData.length} data berhasil diekspor ke CSV`, 'success');
+    }
+
+    // Export to Excel
+    function exportExcel() {
+      const headers = ['ID Keluarga P3KE', 'Nama', 'NIK', 'Jenis Kelamin', 'Kecamatan', 'Desa/Kelurahan', 'Desil', 'Alamat', 'Tanggal Lahir', 'Status Kawin', 'Pekerjaan', 'Pendidikan', 'BPNT', 'BPUM', 'BST', 'PKH', 'SEMBAKO'];
+      
+      const rows = filteredData.map(item => [
+        item['ID Keluarga P3KE'],
+        item['Nama'],
+        item['NIK'],
+        item['Jenis Kelamin'],
+        item['Kecamatan'],
+        item['Desa/Kelurahan'],
+        item['Desil Kesejahteraan'],
+        item['Alamat'],
+        item['Tanggal Lahir'],
+        item['Status Kawin'],
+        item['Pekerjaan'],
+        item['Pendidikan'],
+        item['Penerima BPNT'] || '-',
+        item['Penerima BPUM'] || '-',
+        item['Penerima BST'] || '-',
+        item['Penerima PKH'] || '-',
+        item['Penerima SEMBAKO'] || '-'
+      ]);
+
+      const ws = XLSX.utils.aoa_to_sheet([headers, ...rows]);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Data P3KE');
+
+      const headerStyle = {
+        fill: { fgColor: { rgb: 'FF0C4A6E' } },
+        font: { color: { rgb: 'FFFFFFFF' }, bold: true },
+        alignment: { horizontal: 'center', vertical: 'center' }
+      };
+
+      for (let i = 0; i < headers.length; i++) {
+        const cellAddress = XLSX.utils.encode_cell({ r: 0, c: i });
+        ws[cellAddress].fill = headerStyle.fill;
+        ws[cellAddress].font = headerStyle.font;
+        ws[cellAddress].alignment = headerStyle.alignment;
+      }
+
+      const colWidths = [18, 20, 15, 15, 15, 18, 10, 25, 15, 15, 15, 12, 8, 8, 8, 8, 10];
+      ws['!cols'] = colWidths.map(width => ({ wch: width }));
+
+      const filename = `Data_P3KE_${new Date().toISOString().split('T')[0]}.xlsx`;
+      XLSX.writeFile(wb, filename);
+      
+      showToast(`${filteredData.length} data berhasil diekspor ke Excel`, 'success');
+    }
+
+    // Show toast
+    function showToast(message, type = 'success') {
+      const toast = document.getElementById('toast');
+      const toastMessage = document.getElementById('toast-message');
+      toastMessage.textContent = message;
+      toast.classList.remove('hidden');
+      
+      setTimeout(() => {
+        toast.classList.add('hidden');
+      }, 3000);
+    }
+
+    // Bind events
+    function bindEvents() {
+      document.getElementById('btn-search').onclick = applyFilters;
+      document.getElementById('btn-reset').onclick = () => {
+        document.getElementById('search-id').value = '';
+        document.getElementById('search-name').value = '';
+        document.getElementById('filter-kecamatan').value = '';
+        document.getElementById('filter-desa').value = '';
+        document.getElementById('filter-desil').value = '';
+        document.getElementById('filter-status').value = '';
+        document.getElementById('filter-jk').value = '';
+        sortColumn = null;
+        sortDirection = 'asc';
+        filteredData = [...allData];
+        currentPage = 1;
+        updateStats();
+        renderTable();
+      };
+      document.getElementById('btn-export-csv').onclick = exportCSV;
+      document.getElementById('btn-export-excel').onclick = exportExcel;
+
+      document.getElementById('per-page').onchange = (e) => {
+        perPage = parseInt(e.target.value);
+        currentPage = 1;
+        renderTable();
+      };
+
+      document.getElementById('btn-first').onclick = () => { currentPage = 1; renderTable(); };
+      document.getElementById('btn-prev').onclick = () => { if (currentPage > 1) { currentPage--; renderTable(); } };
+      document.getElementById('btn-next').onclick = () => { 
+        const totalPages = Math.ceil(filteredData.length / perPage);
+        if (currentPage < totalPages) { currentPage++; renderTable(); } 
+      };
+      document.getElementById('btn-last').onclick = () => { 
+        currentPage = Math.ceil(filteredData.length / perPage) || 1; 
+        renderTable(); 
+      };
+
+      document.getElementById('close-modal').onclick = () => {
+        document.getElementById('detail-modal').classList.add('hidden');
+      };
+      document.getElementById('detail-modal').onclick = (e) => {
+        if (e.target.id === 'detail-modal') {
+          document.getElementById('detail-modal').classList.add('hidden');
+        }
+      };
+
+      document.querySelectorAll('[data-sort]').forEach(th => {
+        th.onclick = () => {
+          const col = th.dataset.sort;
+          if (sortColumn === col) {
+            sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+          } else {
+            sortColumn = col;
+            sortDirection = 'asc';
+          }
+          applyFilters();
+        };
+      });
+
+      document.getElementById('search-id').onkeyup = (e) => { if (e.key === 'Enter') applyFilters(); };
+      document.getElementById('search-name').onkeyup = (e) => { if (e.key === 'Enter') applyFilters(); };
+
+      document.getElementById('filter-kecamatan').onchange = (e) => {
+        const selectedKec = e.target.value;
+        const desaSelect = document.getElementById('filter-desa');
+        const currentDesa = desaSelect.value;
+        
+        desaSelect.innerHTML = '<option value="">Semua Desa</option>';
+        
+        const desaList = selectedKec 
+          ? [...new Set(allData.filter(d => d['Kecamatan'] === selectedKec).map(d => d['Desa/Kelurahan']).filter(Boolean))]
+          : [...new Set(allData.map(d => d['Desa/Kelurahan']).filter(Boolean))];
+        
+        desaList.sort().forEach(desa => {
+          const option = document.createElement('option');
+          option.value = desa;
+          option.textContent = desa;
+          if (desa === currentDesa) option.selected = true;
+          desaSelect.appendChild(option);
+        });
+      };
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c96d719b65cef6c',t:'MTc3MDM0MDk4Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

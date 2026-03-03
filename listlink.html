@@ -1,0 +1,2430 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Link syamdigital</title>
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1757245484/SYAMDIGITAL-LOGO-2025_mmpllg.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-bg { 
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 25%, #0f3460 50%, #533483 75%, #e94560 100%);
+            background-attachment: fixed;
+        }
+        .glass-effect { backdrop-filter: blur(10px); background: rgba(255, 255, 255, 0.15); }
+        .hover-lift { transition: transform 0.2s ease; }
+        .hover-lift:hover { transform: translateY(-2px); }
+        .animate-fade-in { animation: fadeIn 0.5s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .category-badge { background: linear-gradient(45deg, #ff6b6b, #feca57); }
+        .priority-high { border-left: 4px solid #ff4757; }
+        .priority-medium { border-left: 4px solid #ffa502; }
+        .priority-low { border-left: 4px solid #2ed573; }
+        
+        /* Enhanced text readability for all pages */
+        .text-white { color: #ffffff !important; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
+        .text-white\/80 { color: #f1f5f9 !important; text-shadow: 0 1px 3px rgba(0,0,0,0.7); }
+        .text-white\/70 { color: #e2e8f0 !important; text-shadow: 0 1px 3px rgba(0,0,0,0.6); }
+        .text-white\/60 { color: #cbd5e0 !important; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }
+        .text-white\/50 { color: #a0aec0 !important; text-shadow: 0 1px 2px rgba(0,0,0,0.4); }
+        
+        /* Enhanced backgrounds for all pages */
+        .bg-white\/10 { 
+            background: rgba(255, 255, 255, 0.15) !important; 
+            border: 1px solid rgba(255, 255, 255, 0.25) !important;
+            backdrop-filter: blur(15px);
+        }
+        .bg-white\/15 { 
+            background: rgba(255, 255, 255, 0.2) !important; 
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        }
+        
+        /* Enhanced cards for all pages */
+        .bg-white\/10.backdrop-blur-xl {
+            background: rgba(255, 255, 255, 0.12) !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
+        }
+        
+        /* Enhanced buttons */
+        button {
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+        }
+        
+        /* Enhanced inputs */
+        input, select, textarea {
+            background: rgba(255, 255, 255, 0.18) !important;
+            border: 1px solid rgba(255, 255, 255, 0.35) !important;
+            color: #ffffff !important;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+        input::placeholder, textarea::placeholder {
+            color: rgba(255, 255, 255, 0.8) !important;
+        }
+        
+        /* Fullscreen styles */
+        .fullscreen-mode { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100vw; 
+            height: 100vh; 
+            z-index: 9999;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 25%, #0f3460 50%, #533483 75%, #e94560 100%);
+            background-attachment: fixed;
+        }
+        .fullscreen-content { 
+            height: 100vh; 
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+        }
+        
+        /* Enhanced fullscreen text visibility */
+        .fullscreen-mode .text-white { color: #ffffff !important; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
+        .fullscreen-mode .text-white\/80 { color: #f1f5f9 !important; text-shadow: 0 1px 3px rgba(0,0,0,0.7); }
+        .fullscreen-mode .text-white\/70 { color: #e2e8f0 !important; text-shadow: 0 1px 3px rgba(0,0,0,0.6); }
+        .fullscreen-mode .text-white\/60 { color: #cbd5e0 !important; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }
+        .fullscreen-mode .text-white\/50 { color: #a0aec0 !important; text-shadow: 0 1px 2px rgba(0,0,0,0.4); }
+        
+        /* Enhanced fullscreen backgrounds */
+        .fullscreen-mode .bg-white\/10 { 
+            background: rgba(255, 255, 255, 0.15) !important; 
+            border: 1px solid rgba(255, 255, 255, 0.25) !important;
+            backdrop-filter: blur(15px);
+        }
+        .fullscreen-mode .bg-white\/15 { 
+            background: rgba(255, 255, 255, 0.2) !important; 
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        }
+        
+        /* Fullscreen enhanced cards */
+        .fullscreen-mode .bg-white\/10.backdrop-blur-xl {
+            background: rgba(255, 255, 255, 0.12) !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
+        }
+        
+        /* Fullscreen button enhancements */
+        .fullscreen-mode button {
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+        }
+        
+        /* Fullscreen input enhancements */
+        .fullscreen-mode input, .fullscreen-mode select, .fullscreen-mode textarea {
+            background: rgba(255, 255, 255, 0.18) !important;
+            border: 1px solid rgba(255, 255, 255, 0.35) !important;
+            color: #ffffff !important;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+        .fullscreen-mode input::placeholder, .fullscreen-mode textarea::placeholder {
+            color: rgba(255, 255, 255, 0.8) !important;
+        }
+        
+        /* Fullscreen animation */
+        .fullscreen-mode {
+            animation: fullscreenFadeIn 0.5s ease-out;
+        }
+        @keyframes fullscreenFadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        /* Better contrast for inputs */
+        .enhanced-input { 
+            background: rgba(255, 255, 255, 0.2) !important; 
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            color: #ffffff !important;
+        }
+        .enhanced-input::placeholder { color: rgba(255, 255, 255, 0.7) !important; }
+        .enhanced-input:focus { 
+            background: rgba(255, 255, 255, 0.25) !important; 
+            border-color: rgba(255, 255, 255, 0.5) !important; 
+        }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen">
+    <!-- Background Overlay -->
+    <div class="fixed inset-0 bg-black/30 backdrop-blur-sm pointer-events-none"></div>
+    <!-- Header -->
+    <header class="bg-white/10 backdrop-blur-xl border-b border-white/20 shadow-lg relative z-10">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Left Section -->
+                <div class="flex items-center space-x-8">
+                    <!-- Logo & Title -->
+                    <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1757245484/SYAMDIGITAL-LOGO-2025_mmpllg.png" width="20%">
+                        <div>
+                            <h1 class="text-2xl font-bold text-white">LinkVault Pro</h1>
+                            <div class="flex items-center space-x-2">
+                                <span class="bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-3 py-1 rounded-full text-xs font-bold">Syam Digital</span>
+                                <span class="text-white/60 text-xs">v2.0</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Admin Profile -->
+                    <div class="flex items-center space-x-3 bg-white/10 rounded-xl px-4 py-3 border border-white/20">
+                        <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1751214851/SYAM-DIGITAL_qp3cfw.png" 
+                             alt="Syam Digital" 
+                             class="w-10 h-10 rounded-full object-cover border-2 border-white/40 shadow-md"
+                             onerror="this.src=''; this.alt='Admin'; this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full items-center justify-center text-white text-sm font-bold shadow-md" style="display: none;">
+                            SD
+                        </div>
+                        <div>
+                            <div class="text-white font-semibold text-sm">Syam Digital</div>
+                            <div class="text-white/70 text-xs">Administrator</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right Section -->
+                <div class="flex items-center space-x-6">
+                    <!-- Stats -->
+                    <div class="flex items-center space-x-6 text-sm">
+                        <div class="flex items-center space-x-2 bg-white/10 rounded-lg px-3 py-2">
+                            <i class="fas fa-database text-blue-400"></i>
+                            <span class="text-white font-medium"><span id="linkCount">0</span> Links</span>
+                        </div>
+                        <div id="saveStatus" class="flex items-center space-x-2 bg-green-500/20 rounded-lg px-3 py-2">
+                            <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                            <span class="text-green-300 text-xs font-medium">Auto-save</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="flex items-center space-x-2">
+                        <button onclick="toggleFullscreen()" id="fullscreenBtn" class="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg transition-all duration-200 border border-white/20 hover:border-white/40" title="Masuk Mode Fullscreen">
+                            <i class="fas fa-expand mr-2"></i>
+                            <span class="hidden md:inline">Fullscreen</span>
+                        </button>
+                        <button onclick="importLinks()" class="bg-blue-500/20 hover:bg-blue-500/30 text-blue-300 hover:text-blue-200 px-4 py-2 rounded-lg transition-all duration-200 border border-blue-500/30">
+                            <i class="fas fa-upload mr-2"></i>
+                            <span class="hidden md:inline">Import</span>
+                        </button>
+                        <button onclick="exportLinks()" class="bg-green-500/20 hover:bg-green-500/30 text-green-300 hover:text-green-200 px-4 py-2 rounded-lg transition-all duration-200 border border-green-500/30">
+                            <i class="fas fa-download mr-2"></i>
+                            <span class="hidden md:inline">Export</span>
+                        </button>
+                    </div>
+                    <input type="file" id="importFile" accept=".json" style="display: none;" onchange="handleImportFile(event)">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="max-w-7xl mx-auto p-6 relative z-10">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            <!-- Sidebar -->
+            <div class="lg:col-span-1 space-y-6">
+                <!-- Add New Link Form -->
+                <div class="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20 shadow-xl">
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-8 h-8 bg-gradient-to-r from-green-500 to-blue-500 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-plus text-white text-sm"></i>
+                        </div>
+                        <h2 class="text-white font-bold text-lg">Tambah Link Baru</h2>
+                    </div>
+                    
+                    <form id="linkForm" class="space-y-4">
+                        <div class="space-y-2">
+                            <label class="text-white/80 text-sm font-medium">Judul Link</label>
+                            <input type="text" id="linkTitle" placeholder="Masukkan judul link..." 
+                                   class="w-full bg-white/15 border border-white/30 rounded-xl px-4 py-3 text-white placeholder-white/60 focus:outline-none focus:border-blue-400 focus:bg-white/20 transition-all duration-200">
+                        </div>
+                        
+                        <div class="space-y-2">
+                            <label class="text-white/80 text-sm font-medium">URL</label>
+                            <input type="url" id="linkUrl" placeholder="https://example.com" 
+                                   class="w-full bg-white/15 border border-white/30 rounded-xl px-4 py-3 text-white placeholder-white/60 focus:outline-none focus:border-blue-400 focus:bg-white/20 transition-all duration-200">
+                        </div>
+                        
+                        <div class="space-y-2">
+                            <label class="text-white/80 text-sm font-medium">Deskripsi</label>
+                            <textarea id="linkDescription" placeholder="Deskripsi singkat (opsional)..." 
+                                      class="w-full bg-white/15 border border-white/30 rounded-xl px-4 py-3 text-white placeholder-white/60 focus:outline-none focus:border-blue-400 focus:bg-white/20 transition-all duration-200 h-20 resize-none"></textarea>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="space-y-2">
+                                <label class="text-white/80 text-sm font-medium">Kategori</label>
+                                <select id="linkCategory" class="w-full bg-white/15 border border-white/30 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-400 focus:bg-white/20 transition-all duration-200">
+                                    <option value="umum">📁 Umum</option>
+                                    <option value="kerja">💼 Kerja</option>
+                                    <option value="belajar">📚 Belajar</option>
+                                    <option value="hiburan">🎮 Hiburan</option>
+                                    <option value="belanja">🛒 Belanja</option>
+                                    <option value="sosial">📱 Sosial Media</option>
+                                </select>
+                            </div>
+                            
+                            <div class="space-y-2">
+                                <label class="text-white/80 text-sm font-medium">Prioritas</label>
+                                <select id="linkPriority" class="w-full bg-white/15 border border-white/30 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-400 focus:bg-white/20 transition-all duration-200">
+                                    <option value="low">🟢 Rendah</option>
+                                    <option value="medium">🟡 Sedang</option>
+                                    <option value="high">🔴 Tinggi</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-3 bg-white/10 rounded-xl p-3">
+                            <input type="checkbox" id="linkFavorite" class="w-4 h-4 text-yellow-500 bg-white/20 border-white/30 rounded focus:ring-yellow-500">
+                            <label for="linkFavorite" class="text-white/90 text-sm font-medium flex items-center">
+                                <i class="fas fa-star text-yellow-400 mr-2"></i>
+                                Tandai sebagai favorit
+                            </label>
+                        </div>
+                        
+                        <button type="button" onclick="showConfirmModal()" class="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-bold py-4 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                            <i class="fas fa-plus mr-2"></i>Tambah Link
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Filter & Search -->
+                <div class="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20 shadow-xl">
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-search text-white text-sm"></i>
+                        </div>
+                        <h3 class="text-white font-bold text-lg">Filter & Pencarian</h3>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="space-y-2">
+                            <label class="text-white/80 text-sm font-medium">Cari Link</label>
+                            <div class="relative">
+                                <input type="text" id="searchInput" placeholder="Ketik untuk mencari..." 
+                                       class="w-full bg-white/15 border border-white/30 rounded-xl px-4 py-3 pl-10 text-white placeholder-white/60 focus:outline-none focus:border-purple-400 focus:bg-white/20 transition-all duration-200">
+                                <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-white/50"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-2">
+                            <label class="text-white/80 text-sm font-medium">Kategori</label>
+                            <select id="filterCategory" class="w-full bg-white/15 border border-white/30 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-400 focus:bg-white/20 transition-all duration-200">
+                                <option value="">🔍 Semua Kategori</option>
+                                <option value="umum">📁 Umum</option>
+                                <option value="kerja">💼 Kerja</option>
+                                <option value="belajar">📚 Belajar</option>
+                                <option value="hiburan">🎮 Hiburan</option>
+                                <option value="belanja">🛒 Belanja</option>
+                                <option value="sosial">📱 Sosial Media</option>
+                            </select>
+                        </div>
+                        
+                        <div class="space-y-2">
+                            <label class="text-white/80 text-sm font-medium">Prioritas</label>
+                            <select id="filterPriority" class="w-full bg-white/15 border border-white/30 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-400 focus:bg-white/20 transition-all duration-200">
+                                <option value="">🎯 Semua Prioritas</option>
+                                <option value="high">🔴 Tinggi</option>
+                                <option value="medium">🟡 Sedang</option>
+                                <option value="low">🟢 Rendah</option>
+                            </select>
+                        </div>
+                        
+                        <div class="flex items-center space-x-3 bg-white/10 rounded-xl p-3">
+                            <input type="checkbox" id="filterFavorites" class="w-4 h-4 text-yellow-500 bg-white/20 border-white/30 rounded focus:ring-yellow-500">
+                            <label for="filterFavorites" class="text-white/90 text-sm font-medium flex items-center">
+                                <i class="fas fa-star text-yellow-400 mr-2"></i>
+                                Hanya Favorit
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="lg:col-span-3">
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                    <div class="bg-gradient-to-br from-blue-500/20 to-blue-600/30 backdrop-blur-xl rounded-2xl p-6 border border-blue-500/30 shadow-xl">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <div class="text-3xl font-bold text-white" id="totalLinks">0</div>
+                                <div class="text-blue-200 text-sm font-medium">Total Links</div>
+                            </div>
+                            <div class="w-12 h-12 bg-blue-500/30 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-link text-blue-300 text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-yellow-500/20 to-orange-600/30 backdrop-blur-xl rounded-2xl p-6 border border-yellow-500/30 shadow-xl">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <div class="text-3xl font-bold text-white" id="favoriteLinks">0</div>
+                                <div class="text-yellow-200 text-sm font-medium">Favorit</div>
+                            </div>
+                            <div class="w-12 h-12 bg-yellow-500/30 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-star text-yellow-300 text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-green-500/20 to-emerald-600/30 backdrop-blur-xl rounded-2xl p-6 border border-green-500/30 shadow-xl">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <div class="text-3xl font-bold text-white" id="categoriesCount">0</div>
+                                <div class="text-green-200 text-sm font-medium">Kategori</div>
+                            </div>
+                            <div class="w-12 h-12 bg-green-500/30 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-folder text-green-300 text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-purple-500/20 to-pink-600/30 backdrop-blur-xl rounded-2xl p-6 border border-purple-500/30 shadow-xl">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <div class="text-3xl font-bold text-white" id="clicksCount">0</div>
+                                <div class="text-purple-200 text-sm font-medium">Total Klik</div>
+                            </div>
+                            <div class="w-12 h-12 bg-purple-500/30 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-mouse-pointer text-purple-300 text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sort Options -->
+                <div class="bg-white/10 backdrop-blur-xl rounded-2xl p-5 border border-white/20 shadow-xl mb-6">
+                    <div class="flex flex-wrap items-center justify-between gap-4">
+                        <div class="flex items-center space-x-4">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-8 h-8 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-sort text-white text-sm"></i>
+                                </div>
+                                <span class="text-white font-medium">Urutkan:</span>
+                            </div>
+                            <select id="sortBy" class="bg-white/15 border border-white/30 rounded-xl px-4 py-2 text-white focus:outline-none focus:border-indigo-400 focus:bg-white/20 transition-all duration-200">
+                                <option value="newest">📅 Terbaru</option>
+                                <option value="oldest">📅 Terlama</option>
+                                <option value="title">🔤 Judul A-Z</option>
+                                <option value="clicks">👆 Paling Banyak Diklik</option>
+                                <option value="priority">⚡ Prioritas</option>
+                            </select>
+                        </div>
+                        
+                        <div class="flex items-center space-x-3">
+                            <span class="text-white/80 text-sm font-medium">Tampilan:</span>
+                            <div class="flex items-center bg-white/10 rounded-xl p-1 border border-white/20">
+                                <button onclick="toggleView('grid')" id="gridView" class="px-3 py-2 rounded-lg transition-all duration-200 flex items-center space-x-2">
+                                    <i class="fas fa-th-large"></i>
+                                    <span class="text-sm font-medium hidden sm:inline">Grid</span>
+                                </button>
+                                <button onclick="toggleView('list')" id="listView" class="px-3 py-2 rounded-lg transition-all duration-200 flex items-center space-x-2">
+                                    <i class="fas fa-list"></i>
+                                    <span class="text-sm font-medium hidden sm:inline">List</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Links Container -->
+                <div id="linksContainer" class="space-y-4">
+                    <!-- Links will be dynamically added here -->
+                </div>
+
+                <!-- Empty State -->
+                <div id="emptyState" class="bg-white/10 backdrop-blur-xl rounded-2xl p-16 border border-white/20 shadow-xl text-center">
+                    <div class="w-24 h-24 bg-gradient-to-br from-blue-500/20 to-purple-600/30 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-link text-4xl text-white/60"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-3">Belum Ada Link Tersimpan</h3>
+                    <p class="text-white/70 text-lg mb-8 max-w-md mx-auto">Mulai dengan menambahkan link pertama Anda menggunakan form di sebelah kiri untuk membangun koleksi link yang terorganisir.</p>
+                    <div class="flex items-center justify-center space-x-4 text-white/50">
+                        <div class="flex items-center space-x-2">
+                            <i class="fas fa-plus-circle"></i>
+                            <span class="text-sm">Tambah Link</span>
+                        </div>
+                        <div class="w-1 h-1 bg-white/30 rounded-full"></div>
+                        <div class="flex items-center space-x-2">
+                            <i class="fas fa-search"></i>
+                            <span class="text-sm">Filter & Cari</span>
+                        </div>
+                        <div class="w-1 h-1 bg-white/30 rounded-full"></div>
+                        <div class="flex items-center space-x-2">
+                            <i class="fas fa-star"></i>
+                            <span class="text-sm">Favorit</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirmModal" class="fixed inset-0 bg-black/70 backdrop-blur-lg hidden items-center justify-center z-50 p-4">
+        <div class="bg-white/15 backdrop-blur-xl rounded-3xl border border-white/30 w-full max-w-md shadow-2xl transform transition-all duration-500 scale-95 opacity-0" id="confirmModalContent" style="background: rgba(255, 255, 255, 0.15) !important; border: 1px solid rgba(255, 255, 255, 0.3) !important; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6) !important;">
+            <!-- Modal Header with Animation -->
+            <div class="text-center p-8">
+                <div class="w-20 h-20 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse shadow-2xl">
+                    <i class="fas fa-plus text-white text-3xl"></i>
+                </div>
+                <h3 class="text-3xl font-bold text-white mb-3 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+                    Tambah Link Baru?
+                </h3>
+                <p class="text-white/80 text-lg leading-relaxed mb-8">
+                    Apakah Anda yakin ingin menambahkan link baru dengan informasi yang telah diisi?
+                </p>
+                
+                <!-- Preview Info -->
+                <div class="bg-white/10 rounded-2xl p-4 mb-8 border border-white/20" id="confirmPreview">
+                    <div class="text-white/60 text-sm">
+                        <i class="fas fa-info-circle mr-2"></i>
+                        Preview akan muncul di sini
+                    </div>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="flex space-x-4">
+                    <button onclick="confirmAddLink()" class="flex-1 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold py-4 px-6 rounded-2xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center space-x-3">
+                        <i class="fas fa-check text-xl"></i>
+                        <span class="text-lg">Ya, Tambahkan!</span>
+                    </button>
+                    <button onclick="closeConfirmModal()" class="flex-1 bg-white/15 hover:bg-white/25 text-white font-bold py-4 px-6 rounded-2xl transition-all duration-300 border border-white/30 hover:border-white/50 flex items-center justify-center space-x-3">
+                        <i class="fas fa-times text-xl"></i>
+                        <span class="text-lg">Batal</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Link Modal -->
+    <div id="addModal" class="fixed inset-0 bg-black/60 backdrop-blur-md hidden items-center justify-center z-50 p-4">
+        <div class="bg-white/12 backdrop-blur-xl rounded-2xl border border-white/30 w-full max-w-2xl shadow-2xl transform transition-all duration-300 scale-95 opacity-0" id="addModalContent" style="background: rgba(255, 255, 255, 0.12) !important; border: 1px solid rgba(255, 255, 255, 0.3) !important; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;">
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between p-6 border-b border-white/20">
+                <div class="flex items-center space-x-4">
+                    <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-blue-500 rounded-xl flex items-center justify-center shadow-lg">
+                        <i class="fas fa-plus text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-white">Tambah Link Baru</h3>
+                        <p class="text-white/70 text-sm">Simpan link favorit Anda dengan mudah</p>
+                    </div>
+                </div>
+                <button onclick="closeAddModal()" class="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-xl flex items-center justify-center transition-all duration-200 group">
+                    <i class="fas fa-times text-white/70 group-hover:text-white"></i>
+                </button>
+            </div>
+            
+            <!-- Modal Body -->
+            <form id="addLinkForm" class="p-6 space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Left Column -->
+                    <div class="space-y-5">
+                        <div class="space-y-2">
+                            <label class="text-white/90 text-sm font-semibold flex items-center space-x-2">
+                                <i class="fas fa-heading text-blue-400"></i>
+                                <span>Judul Link</span>
+                                <span class="text-red-400">*</span>
+                            </label>
+                            <input type="text" id="modalLinkTitle" placeholder="Masukkan judul yang menarik..." 
+                                   class="w-full bg-white/15 border border-white/30 rounded-xl px-4 py-3 text-white placeholder-white/60 focus:outline-none focus:border-blue-400 focus:bg-white/20 focus:ring-2 focus:ring-blue-400/30 transition-all duration-200">
+                        </div>
+                        
+                        <div class="space-y-2">
+                            <label class="text-white/90 text-sm font-semibold flex items-center space-x-2">
+                                <i class="fas fa-link text-purple-400"></i>
+                                <span>URL</span>
+                                <span class="text-red-400">*</span>
+                            </label>
+                            <input type="url" id="modalLinkUrl" placeholder="https://example.com" 
+                                   class="w-full bg-white/15 border border-white/30 rounded-xl px-4 py-3 text-white placeholder-white/60 focus:outline-none focus:border-purple-400 focus:bg-white/20 focus:ring-2 focus:ring-purple-400/30 transition-all duration-200">
+                        </div>
+                        
+                        <div class="space-y-2">
+                            <label class="text-white/90 text-sm font-semibold flex items-center space-x-2">
+                                <i class="fas fa-align-left text-green-400"></i>
+                                <span>Deskripsi</span>
+                            </label>
+                            <textarea id="modalLinkDescription" placeholder="Tambahkan deskripsi singkat (opsional)..." 
+                                      class="w-full bg-white/15 border border-white/30 rounded-xl px-4 py-3 text-white placeholder-white/60 focus:outline-none focus:border-green-400 focus:bg-white/20 focus:ring-2 focus:ring-green-400/30 transition-all duration-200 h-24 resize-none"></textarea>
+                        </div>
+                    </div>
+                    
+                    <!-- Right Column -->
+                    <div class="space-y-5">
+                        <div class="space-y-2">
+                            <label class="text-white/90 text-sm font-semibold flex items-center space-x-2">
+                                <i class="fas fa-folder text-yellow-400"></i>
+                                <span>Kategori</span>
+                            </label>
+                            <select id="modalLinkCategory" class="w-full bg-white/15 border border-white/30 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-yellow-400 focus:bg-white/20 focus:ring-2 focus:ring-yellow-400/30 transition-all duration-200">
+                                <option value="umum">📁 Umum</option>
+                                <option value="kerja">💼 Kerja</option>
+                                <option value="belajar">📚 Belajar</option>
+                                <option value="hiburan">🎮 Hiburan</option>
+                                <option value="belanja">🛒 Belanja</option>
+                                <option value="sosial">📱 Sosial Media</option>
+                            </select>
+                        </div>
+                        
+                        <div class="space-y-2">
+                            <label class="text-white/90 text-sm font-semibold flex items-center space-x-2">
+                                <i class="fas fa-exclamation-triangle text-orange-400"></i>
+                                <span>Prioritas</span>
+                            </label>
+                            <select id="modalLinkPriority" class="w-full bg-white/15 border border-white/30 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-orange-400 focus:bg-white/20 focus:ring-2 focus:ring-orange-400/30 transition-all duration-200">
+                                <option value="low">🟢 Rendah</option>
+                                <option value="medium">🟡 Sedang</option>
+                                <option value="high">🔴 Tinggi</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Special Options -->
+                        <div class="space-y-4">
+                            <div class="bg-gradient-to-r from-yellow-500/20 to-orange-500/20 rounded-xl p-4 border border-yellow-500/30">
+                                <div class="flex items-center space-x-3">
+                                    <input type="checkbox" id="modalLinkFavorite" class="w-5 h-5 text-yellow-500 bg-white/20 border-white/30 rounded focus:ring-yellow-500 focus:ring-2">
+                                    <label for="modalLinkFavorite" class="text-white font-semibold flex items-center space-x-2">
+                                        <i class="fas fa-star text-yellow-400 text-lg"></i>
+                                        <span>Tandai sebagai Favorit</span>
+                                    </label>
+                                </div>
+                                <p class="text-yellow-200/80 text-xs mt-2 ml-8">Link favorit akan ditampilkan di bagian atas</p>
+                            </div>
+                            
+                            <div class="bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-xl p-4 border border-blue-500/30">
+                                <div class="flex items-center space-x-3">
+                                    <input type="checkbox" id="modalOpenInNewTab" class="w-5 h-5 text-blue-500 bg-white/20 border-white/30 rounded focus:ring-blue-500 focus:ring-2" checked>
+                                    <label for="modalOpenInNewTab" class="text-white font-semibold flex items-center space-x-2">
+                                        <i class="fas fa-external-link-alt text-blue-400 text-lg"></i>
+                                        <span>Buka di Tab Baru</span>
+                                    </label>
+                                </div>
+                                <p class="text-blue-200/80 text-xs mt-2 ml-8">Link akan dibuka di tab baru saat diklik</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Preview Section -->
+                <div class="bg-white/10 rounded-xl p-4 border border-white/20">
+                    <div class="flex items-center space-x-3 mb-3">
+                        <i class="fas fa-eye text-indigo-400"></i>
+                        <span class="text-white font-semibold">Preview Link</span>
+                    </div>
+                    <div id="linkPreview" class="bg-white/5 rounded-lg p-4 border border-white/10">
+                        <div class="text-white/60 text-sm text-center py-4">
+                            <i class="fas fa-link text-2xl mb-2 block"></i>
+                            Preview akan muncul saat Anda mengisi form
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Modal Footer -->
+                <div class="flex space-x-4 pt-4">
+                    <button type="submit" class="flex-1 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold py-4 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center space-x-3">
+                        <i class="fas fa-plus text-lg"></i>
+                        <span class="text-lg">Tambah Link</span>
+                    </button>
+                    <button type="button" onclick="closeAddModal()" class="flex-1 bg-white/15 hover:bg-white/25 text-white font-bold py-4 rounded-xl transition-all duration-200 border border-white/30 hover:border-white/50 flex items-center justify-center space-x-3">
+                        <i class="fas fa-times text-lg"></i>
+                        <span class="text-lg">Batal</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div id="editModal" class="fixed inset-0 bg-black/60 backdrop-blur-md hidden items-center justify-center z-50 p-4">
+        <div class="bg-white/12 backdrop-blur-xl rounded-2xl border border-white/30 w-full max-w-lg shadow-2xl" style="background: rgba(255, 255, 255, 0.12) !important; border: 1px solid rgba(255, 255, 255, 0.3) !important; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;">
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between p-6 border-b border-white/20">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-edit text-white text-sm"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white">Edit Link</h3>
+                </div>
+                <button onclick="closeEditModal()" class="w-8 h-8 bg-white/10 hover:bg-white/20 rounded-lg flex items-center justify-center transition-colors">
+                    <i class="fas fa-times text-white/70"></i>
+                </button>
+            </div>
+            
+            <!-- Modal Body -->
+            <form id="editForm" class="p-6 space-y-5">
+                <input type="hidden" id="editId">
+                
+                <div class="space-y-2">
+                    <label class="text-white/80 text-sm font-medium">Judul Link</label>
+                    <input type="text" id="editTitle" placeholder="Masukkan judul link..." 
+                           class="w-full bg-white/15 border border-white/30 rounded-xl px-4 py-3 text-white placeholder-white/60 focus:outline-none focus:border-blue-400 focus:bg-white/20 transition-all duration-200">
+                </div>
+                
+                <div class="space-y-2">
+                    <label class="text-white/80 text-sm font-medium">URL</label>
+                    <input type="url" id="editUrl" placeholder="https://example.com" 
+                           class="w-full bg-white/15 border border-white/30 rounded-xl px-4 py-3 text-white placeholder-white/60 focus:outline-none focus:border-blue-400 focus:bg-white/20 transition-all duration-200">
+                </div>
+                
+                <div class="space-y-2">
+                    <label class="text-white/80 text-sm font-medium">Deskripsi</label>
+                    <textarea id="editDescription" placeholder="Deskripsi singkat (opsional)..." 
+                              class="w-full bg-white/15 border border-white/30 rounded-xl px-4 py-3 text-white placeholder-white/60 focus:outline-none focus:border-blue-400 focus:bg-white/20 transition-all duration-200 h-20 resize-none"></textarea>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-2">
+                        <label class="text-white/80 text-sm font-medium">Kategori</label>
+                        <select id="editCategory" class="w-full bg-white/15 border border-white/30 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-400 focus:bg-white/20 transition-all duration-200">
+                            <option value="umum">📁 Umum</option>
+                            <option value="kerja">💼 Kerja</option>
+                            <option value="belajar">📚 Belajar</option>
+                            <option value="hiburan">🎮 Hiburan</option>
+                            <option value="belanja">🛒 Belanja</option>
+                            <option value="sosial">📱 Sosial Media</option>
+                        </select>
+                    </div>
+                    
+                    <div class="space-y-2">
+                        <label class="text-white/80 text-sm font-medium">Prioritas</label>
+                        <select id="editPriority" class="w-full bg-white/15 border border-white/30 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-blue-400 focus:bg-white/20 transition-all duration-200">
+                            <option value="low">🟢 Rendah</option>
+                            <option value="medium">🟡 Sedang</option>
+                            <option value="high">🔴 Tinggi</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="flex items-center space-x-3 bg-white/10 rounded-xl p-3">
+                    <input type="checkbox" id="editFavorite" class="w-4 h-4 text-yellow-500 bg-white/20 border-white/30 rounded focus:ring-yellow-500">
+                    <label for="editFavorite" class="text-white/90 text-sm font-medium flex items-center">
+                        <i class="fas fa-star text-yellow-400 mr-2"></i>
+                        Tandai sebagai favorit
+                    </label>
+                </div>
+                
+                <!-- Modal Footer -->
+                <div class="flex space-x-3 pt-4">
+                    <button type="submit" class="flex-1 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold py-3 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg">
+                        <i class="fas fa-save mr-2"></i>Simpan Perubahan
+                    </button>
+                    <button type="button" onclick="closeEditModal()" class="flex-1 bg-white/15 hover:bg-white/25 text-white font-bold py-3 rounded-xl transition-all duration-200 border border-white/30">
+                        <i class="fas fa-times mr-2"></i>Batal
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let links = [];
+        let currentView = 'grid';
+        let editingId = null;
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('🚀 Memulai LinkVault Pro...');
+            await loadAllData();
+            renderLinks();
+            updateStats();
+            setupEventListeners();
+            setupAutoSave();
+            showDataStatus();
+            initializeViewToggle();
+            console.log('✅ LinkVault Pro siap digunakan!');
+        });
+
+        function initializeViewToggle() {
+            // Set default view to grid
+            currentView = 'grid';
+            document.getElementById('gridView').className = 'px-3 py-2 rounded-lg transition-all duration-200 flex items-center space-x-2 bg-white/20 text-white';
+            document.getElementById('listView').className = 'px-3 py-2 rounded-lg transition-all duration-200 flex items-center space-x-2 text-white/70 hover:text-white hover:bg-white/10';
+        }
+
+        async function loadAllData() {
+            try {
+                updateSaveStatus('saving');
+                
+                // Priority 1: Load from localStorage
+                const localData = localStorage.getItem('linkVaultPro');
+                if (localData) {
+                    const parsedData = JSON.parse(localData);
+                    if (Array.isArray(parsedData) && parsedData.length > 0) {
+                        links = parsedData;
+                        console.log('✅ Data dimuat dari localStorage:', links.length, 'links');
+                    }
+                }
+
+                // Priority 2: Try IndexedDB if localStorage is empty or corrupted
+                if (links.length === 0) {
+                    const indexedData = await loadFromIndexedDB();
+                    if (indexedData && indexedData.length > 0) {
+                        links = indexedData;
+                        console.log('✅ Data dimuat dari IndexedDB:', links.length, 'links');
+                        // Sync back to localStorage
+                        localStorage.setItem('linkVaultPro', JSON.stringify(links));
+                    }
+                }
+
+                // Priority 3: Try daily backup files
+                if (links.length === 0) {
+                    for (let i = 0; i < 7; i++) {
+                        const day = new Date().getDate() - i;
+                        const backupKey = 'linkVaultPro_backup_' + (day > 0 ? day : day + 31);
+                        const backupData = localStorage.getItem(backupKey);
+                        
+                        if (backupData) {
+                            try {
+                                const parsedBackup = JSON.parse(backupData);
+                                if (Array.isArray(parsedBackup) && parsedBackup.length > 0) {
+                                    links = parsedBackup;
+                                    console.log('✅ Data dipulihkan dari backup hari ke-' + i + ':', links.length, 'links');
+                                    localStorage.setItem('linkVaultPro', JSON.stringify(links));
+                                    showNotification('Data berhasil dipulihkan dari backup!', 'success');
+                                    break;
+                                }
+                            } catch (e) {
+                                continue;
+                            }
+                        }
+                    }
+                }
+
+                // Priority 4: Try sessionStorage backup
+                if (links.length === 0) {
+                    const sessionData = sessionStorage.getItem('linkVaultPro_backup');
+                    if (sessionData) {
+                        const parsedSession = JSON.parse(sessionData);
+                        if (Array.isArray(parsedSession) && parsedSession.length > 0) {
+                            links = parsedSession;
+                            console.log('✅ Data dimuat dari session backup:', links.length, 'links');
+                            // Sync to main storage
+                            saveLinks();
+                        }
+                    }
+                }
+
+                // Priority 5: Try emergency backup
+                if (links.length === 0) {
+                    const emergencyData = sessionStorage.getItem('linkVaultPro_emergency');
+                    if (emergencyData) {
+                        const parsedEmergency = JSON.parse(emergencyData);
+                        if (Array.isArray(parsedEmergency) && parsedEmergency.length > 0) {
+                            links = parsedEmergency;
+                            console.log('✅ Data dimuat dari backup darurat:', links.length, 'links');
+                            saveLinks();
+                            showNotification('Data dipulihkan dari backup darurat!', 'warning');
+                        }
+                    }
+                }
+
+                // Validate data integrity
+                const originalLength = links.length;
+                links = links.filter(link => 
+                    link && 
+                    link.id && 
+                    link.title && 
+                    link.url && 
+                    typeof link.title === 'string' && 
+                    typeof link.url === 'string'
+                );
+                
+                if (originalLength !== links.length) {
+                    console.log('⚠️ Membersihkan', originalLength - links.length, 'link yang rusak');
+                    saveLinks(); // Save cleaned data
+                }
+
+                // Ensure all links have required properties
+                links = links.map(link => ({
+                    id: link.id || Date.now() + Math.random(),
+                    title: link.title || 'Untitled',
+                    url: link.url || 'https://example.com',
+                    description: link.description || '',
+                    category: link.category || 'umum',
+                    priority: link.priority || 'medium',
+                    favorite: link.favorite || false,
+                    clicks: link.clicks || 0,
+                    createdAt: link.createdAt || new Date().toISOString()
+                }));
+
+                if (links.length > 0) {
+                    updateSaveStatus('verified');
+                    console.log('✅ Total', links.length, 'link berhasil dimuat dan diverifikasi');
+                } else {
+                    updateSaveStatus('error');
+                    console.log('⚠️ Tidak ada data yang ditemukan, memulai dengan data kosong');
+                }
+                
+            } catch (error) {
+                console.error('❌ Error loading data:', error);
+                updateSaveStatus('error');
+                links = [];
+                showNotification('Error memuat data, memulai dengan data kosong', 'error');
+            }
+        }
+
+        function setupAutoSave() {
+            // Auto-save setiap 10 detik (lebih sering)
+            setInterval(() => {
+                if (links.length > 0) {
+                    updateSaveStatus('saving');
+                    saveLinks();
+                }
+            }, 10000);
+
+            // Auto-save setiap 2 detik jika ada perubahan
+            let lastSaveTime = 0;
+            let hasChanges = false;
+            
+            setInterval(() => {
+                if (hasChanges && (Date.now() - lastSaveTime) > 2000) {
+                    updateSaveStatus('saving');
+                    saveLinks();
+                    hasChanges = false;
+                    lastSaveTime = Date.now();
+                }
+            }, 2000);
+
+            // Mark changes when data is modified
+            window.markDataChanged = function() {
+                hasChanges = true;
+            };
+
+            // Save saat browser akan ditutup (multiple events)
+            window.addEventListener('beforeunload', function(e) {
+                updateSaveStatus('saving');
+                saveLinks();
+                
+                // Force save with delay
+                setTimeout(() => {
+                    localStorage.setItem('linkVaultPro_emergency_exit', JSON.stringify(links));
+                }, 0);
+            });
+
+            window.addEventListener('unload', function() {
+                saveLinks();
+                localStorage.setItem('linkVaultPro_emergency_exit', JSON.stringify(links));
+            });
+
+            // Save saat tab kehilangan focus
+            window.addEventListener('blur', function() {
+                if (links.length > 0) {
+                    updateSaveStatus('saving');
+                    saveLinks();
+                }
+            });
+
+            // Save saat visibility berubah (tab switch)
+            document.addEventListener('visibilitychange', function() {
+                if (document.visibilityState === 'hidden' && links.length > 0) {
+                    updateSaveStatus('saving');
+                    saveLinks();
+                }
+            });
+
+            // Save saat window resize (mobile orientation change)
+            window.addEventListener('resize', function() {
+                if (links.length > 0) {
+                    setTimeout(() => {
+                        saveLinks();
+                    }, 1000);
+                }
+            });
+
+            // Save saat ada aktivitas user (click, scroll)
+            let userActivityTimer;
+            function onUserActivity() {
+                clearTimeout(userActivityTimer);
+                userActivityTimer = setTimeout(() => {
+                    if (links.length > 0) {
+                        saveLinks();
+                    }
+                }, 5000);
+            }
+
+            document.addEventListener('click', onUserActivity);
+            document.addEventListener('scroll', onUserActivity);
+            document.addEventListener('keydown', onUserActivity);
+
+            console.log('🔄 Auto-save system initialized with multiple triggers');
+        }
+
+        function showDataStatus() {
+            const lastSave = localStorage.getItem('linkVaultPro_lastSave');
+            if (lastSave) {
+                const saveDate = new Date(lastSave);
+                console.log('Terakhir disimpan:', saveDate.toLocaleString('id-ID'));
+            }
+        }
+
+        function setupEventListeners() {
+            // Form submission
+            document.getElementById('linkForm').addEventListener('submit', addLink);
+            document.getElementById('addLinkForm').addEventListener('submit', addLinkFromModal);
+            document.getElementById('editForm').addEventListener('submit', updateLink);
+            
+            // Search and filters
+            document.getElementById('searchInput').addEventListener('input', filterLinks);
+            document.getElementById('filterCategory').addEventListener('change', filterLinks);
+            document.getElementById('filterPriority').addEventListener('change', filterLinks);
+            document.getElementById('filterFavorites').addEventListener('change', filterLinks);
+            document.getElementById('sortBy').addEventListener('change', sortLinks);
+            
+            // Modal preview updates
+            document.getElementById('modalLinkTitle').addEventListener('input', updateLinkPreview);
+            document.getElementById('modalLinkUrl').addEventListener('input', updateLinkPreview);
+            document.getElementById('modalLinkDescription').addEventListener('input', updateLinkPreview);
+            document.getElementById('modalLinkCategory').addEventListener('change', updateLinkPreview);
+            document.getElementById('modalLinkPriority').addEventListener('change', updateLinkPreview);
+            document.getElementById('modalLinkFavorite').addEventListener('change', updateLinkPreview);
+        }
+
+        function addLink(e) {
+            e.preventDefault();
+            
+            const title = document.getElementById('linkTitle').value.trim();
+            const url = document.getElementById('linkUrl').value.trim();
+            const description = document.getElementById('linkDescription').value.trim();
+            const category = document.getElementById('linkCategory').value;
+            const priority = document.getElementById('linkPriority').value;
+            const favorite = document.getElementById('linkFavorite').checked;
+
+            if (!title || !url) {
+                showNotification('Judul dan URL wajib diisi!', 'error');
+                return;
+            }
+
+            // Validate URL format
+            try {
+                new URL(url);
+            } catch (e) {
+                showNotification('Format URL tidak valid!', 'error');
+                return;
+            }
+
+            const newLink = {
+                id: Date.now() + Math.random(),
+                title,
+                url,
+                description,
+                category,
+                priority,
+                favorite,
+                clicks: 0,
+                createdAt: new Date().toISOString()
+            };
+
+            links.unshift(newLink);
+            
+            // Mark data as changed and save immediately
+            if (window.markDataChanged) window.markDataChanged();
+            updateSaveStatus('saving');
+            saveLinks();
+            
+            renderLinks();
+            updateStats();
+            
+            // Reset form
+            document.getElementById('linkForm').reset();
+            
+            // Show success animation
+            showSuccessNotification('🎉 Link berhasil ditambahkan dan disimpan!');
+            console.log('✅ Link baru ditambahkan:', title);
+        }
+
+        function deleteLink(id) {
+            const link = links.find(l => l.id == id);
+            if (!link) {
+                showNotification('Link tidak ditemukan!', 'error');
+                return;
+            }
+
+            const confirmMessage = `Yakin ingin menghapus link ini?\n\n"${link.title}"\n${link.url}`;
+            
+            if (confirm(confirmMessage)) {
+                const originalLength = links.length;
+                links = links.filter(link => link.id != id);
+                
+                if (links.length < originalLength) {
+                    // Mark data as changed and save immediately
+                    if (window.markDataChanged) window.markDataChanged();
+                    updateSaveStatus('saving');
+                    saveLinks();
+                    
+                    renderLinks();
+                    updateStats();
+                    showSuccessNotification('🗑️ Link berhasil dihapus dan disimpan!');
+                    console.log('🗑️ Link dihapus:', link.title);
+                } else {
+                    showNotification('Gagal menghapus link!', 'error');
+                }
+            }
+        }
+
+        function editLink(id) {
+            const link = links.find(l => l.id == id);
+            if (!link) {
+                showNotification('Link tidak ditemukan!', 'error');
+                return;
+            }
+
+            editingId = id;
+            document.getElementById('editId').value = id;
+            document.getElementById('editTitle').value = link.title || '';
+            document.getElementById('editUrl').value = link.url || '';
+            document.getElementById('editDescription').value = link.description || '';
+            document.getElementById('editCategory').value = link.category || 'umum';
+            document.getElementById('editPriority').value = link.priority || 'medium';
+            document.getElementById('editFavorite').checked = link.favorite || false;
+
+            const modal = document.getElementById('editModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            // Focus on title field
+            setTimeout(() => {
+                document.getElementById('editTitle').focus();
+                document.getElementById('editTitle').select();
+            }, 300);
+            
+            console.log('📝 Mengedit link:', link.title);
+        }
+
+        function updateLink(e) {
+            e.preventDefault();
+            
+            const id = parseFloat(document.getElementById('editId').value);
+            const linkIndex = links.findIndex(l => l.id == id);
+            
+            if (linkIndex === -1) {
+                showNotification('Link tidak ditemukan!', 'error');
+                return;
+            }
+
+            const title = document.getElementById('editTitle').value.trim();
+            const url = document.getElementById('editUrl').value.trim();
+
+            if (!title || !url) {
+                showNotification('Judul dan URL wajib diisi!', 'error');
+                return;
+            }
+
+            // Validate URL format
+            try {
+                new URL(url);
+            } catch (e) {
+                showNotification('Format URL tidak valid!', 'error');
+                return;
+            }
+
+            links[linkIndex] = {
+                ...links[linkIndex],
+                title,
+                url,
+                description: document.getElementById('editDescription').value.trim(),
+                category: document.getElementById('editCategory').value,
+                priority: document.getElementById('editPriority').value,
+                favorite: document.getElementById('editFavorite').checked,
+                updatedAt: new Date().toISOString()
+            };
+
+            // Mark data as changed and save immediately
+            if (window.markDataChanged) window.markDataChanged();
+            updateSaveStatus('saving');
+            saveLinks();
+            
+            renderLinks();
+            updateStats();
+            closeEditModal();
+            showSuccessNotification('✅ Link berhasil diperbarui dan disimpan!');
+            console.log('✅ Link diperbarui:', title);
+        }
+
+        function closeEditModal() {
+            document.getElementById('editModal').classList.add('hidden');
+            document.getElementById('editModal').classList.remove('flex');
+            editingId = null;
+        }
+
+        function toggleFavorite(id) {
+            const link = links.find(l => l.id == id);
+            if (!link) {
+                showNotification('Link tidak ditemukan!', 'error');
+                return;
+            }
+
+            const wasFavorite = link.favorite;
+            link.favorite = !link.favorite;
+            
+            // Mark data as changed and save immediately
+            if (window.markDataChanged) window.markDataChanged();
+            updateSaveStatus('saving');
+            saveLinks();
+            
+            renderLinks();
+            updateStats();
+            
+            const message = link.favorite ? 
+                `⭐ "${link.title}" ditambahkan ke favorit!` : 
+                `💫 "${link.title}" dihapus dari favorit!`;
+            
+            showNotification(message, 'success');
+            console.log(link.favorite ? '⭐ Favorit ditambahkan:' : '💫 Favorit dihapus:', link.title);
+        }
+
+        function openLink(id) {
+            const link = links.find(l => l.id == id);
+            if (!link) {
+                showNotification('Link tidak ditemukan!', 'error');
+                return;
+            }
+
+            // Increment click counter
+            link.clicks = (link.clicks || 0) + 1;
+            link.lastClicked = new Date().toISOString();
+            
+            // Mark data as changed and save immediately
+            if (window.markDataChanged) window.markDataChanged();
+            updateSaveStatus('saving');
+            saveLinks();
+            
+            updateStats();
+            
+            // Validate URL before opening
+            try {
+                const url = new URL(link.url);
+                window.open(link.url, '_blank', 'noopener,noreferrer');
+                console.log('🔗 Link dibuka:', link.title, '- Klik ke-' + link.clicks);
+                
+                // Show brief notification
+                showNotification(`🔗 Membuka "${link.title}"`, 'success');
+            } catch (e) {
+                showNotification('URL tidak valid: ' + link.url, 'error');
+                console.error('❌ URL tidak valid:', link.url);
+            }
+        }
+
+        function renderLinks() {
+            const container = document.getElementById('linksContainer');
+            const emptyState = document.getElementById('emptyState');
+            
+            if (links.length === 0) {
+                container.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+            
+            const filteredLinks = getFilteredLinks();
+            
+            if (currentView === 'grid') {
+                container.className = 'grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4';
+                container.innerHTML = filteredLinks.map(link => createLinkCardGrid(link)).join('');
+            } else {
+                container.className = 'space-y-3';
+                container.innerHTML = filteredLinks.map(link => createLinkCardList(link)).join('');
+            }
+        }
+
+        function createLinkCardGrid(link) {
+            const priorityClass = `priority-${link.priority}`;
+            const categoryInfo = {
+                umum: { color: 'from-gray-500 to-gray-600', icon: '📁', name: 'Umum' },
+                kerja: { color: 'from-blue-500 to-blue-600', icon: '💼', name: 'Kerja' },
+                belajar: { color: 'from-green-500 to-green-600', icon: '📚', name: 'Belajar' },
+                hiburan: { color: 'from-purple-500 to-purple-600', icon: '🎮', name: 'Hiburan' },
+                belanja: { color: 'from-yellow-500 to-orange-500', icon: '🛒', name: 'Belanja' },
+                sosial: { color: 'from-pink-500 to-rose-500', icon: '📱', name: 'Sosial' }
+            };
+
+            const category = categoryInfo[link.category] || categoryInfo.umum;
+            const priorityColors = {
+                high: 'border-red-500/50 bg-red-500/10',
+                medium: 'border-yellow-500/50 bg-yellow-500/10',
+                low: 'border-green-500/50 bg-green-500/10'
+            };
+
+            return `
+                <div class="bg-white/10 backdrop-blur-xl rounded-2xl p-6 border border-white/20 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 animate-fade-in ${priorityClass}">
+                    <!-- Header -->
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="flex items-center space-x-3">
+                            <div class="bg-gradient-to-r ${category.color} text-white text-xs px-3 py-1 rounded-full font-medium flex items-center space-x-1">
+                                <span>${category.icon}</span>
+                                <span>${category.name}</span>
+                            </div>
+                            ${link.favorite ? '<div class="w-6 h-6 bg-yellow-500/20 rounded-full flex items-center justify-center"><i class="fas fa-star text-yellow-400 text-xs"></i></div>' : ''}
+                        </div>
+                        <div class="flex items-center space-x-1">
+                            <button onclick="toggleFavorite(${link.id})" class="w-8 h-8 bg-white/10 hover:bg-yellow-500/20 rounded-lg flex items-center justify-center transition-all duration-200 group">
+                                <i class="fas fa-star text-white/60 group-hover:text-yellow-400 text-sm"></i>
+                            </button>
+                            <button onclick="editLink(${link.id})" class="w-8 h-8 bg-white/10 hover:bg-blue-500/20 rounded-lg flex items-center justify-center transition-all duration-200 group">
+                                <i class="fas fa-edit text-white/60 group-hover:text-blue-400 text-sm"></i>
+                            </button>
+                            <button onclick="deleteLink(${link.id})" class="w-8 h-8 bg-white/10 hover:bg-red-500/20 rounded-lg flex items-center justify-center transition-all duration-200 group">
+                                <i class="fas fa-trash text-white/60 group-hover:text-red-400 text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Content -->
+                    <div class="mb-6">
+                        <h3 class="text-white font-bold text-lg mb-2 line-clamp-2 leading-tight">${link.title}</h3>
+                        ${link.description ? `<p class="text-white/70 text-sm mb-3 line-clamp-2 leading-relaxed">${link.description}</p>` : ''}
+                        <div class="text-white/50 text-xs truncate bg-white/5 rounded-lg px-3 py-2 font-mono">${link.url}</div>
+                    </div>
+                    
+                    <!-- Stats -->
+                    <div class="flex items-center justify-between mb-6 text-xs">
+                        <div class="flex items-center space-x-4">
+                            <div class="flex items-center space-x-1 text-white/60">
+                                <i class="fas fa-mouse-pointer"></i>
+                                <span class="font-medium">${link.clicks}</span>
+                            </div>
+                            <div class="flex items-center space-x-1 text-white/60">
+                                <i class="fas fa-calendar"></i>
+                                <span>${new Date(link.createdAt).toLocaleDateString('id-ID')}</span>
+                            </div>
+                        </div>
+                        <div class="px-2 py-1 rounded-full text-xs font-medium ${priorityColors[link.priority]}">
+                            ${link.priority === 'high' ? '🔴 Tinggi' : link.priority === 'medium' ? '🟡 Sedang' : '🟢 Rendah'}
+                        </div>
+                    </div>
+                    
+                    <!-- Action Button -->
+                    <button onclick="openLink(${link.id})" class="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-bold py-3 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center space-x-2">
+                        <i class="fas fa-external-link-alt"></i>
+                        <span>Buka Link</span>
+                    </button>
+                </div>
+            `;
+        }
+
+        function createLinkCardList(link) {
+            const priorityClass = `priority-${link.priority}`;
+            const categoryInfo = {
+                umum: { color: 'from-gray-500 to-gray-600', icon: '📁', name: 'Umum' },
+                kerja: { color: 'from-blue-500 to-blue-600', icon: '💼', name: 'Kerja' },
+                belajar: { color: 'from-green-500 to-green-600', icon: '📚', name: 'Belajar' },
+                hiburan: { color: 'from-purple-500 to-purple-600', icon: '🎮', name: 'Hiburan' },
+                belanja: { color: 'from-yellow-500 to-orange-500', icon: '🛒', name: 'Belanja' },
+                sosial: { color: 'from-pink-500 to-rose-500', icon: '📱', name: 'Sosial' }
+            };
+
+            const category = categoryInfo[link.category] || categoryInfo.umum;
+            const priorityColors = {
+                high: 'border-red-500/50 bg-red-500/10',
+                medium: 'border-yellow-500/50 bg-yellow-500/10',
+                low: 'border-green-500/50 bg-green-500/10'
+            };
+
+            return `
+                <div class="bg-white/10 backdrop-blur-xl rounded-2xl p-5 border border-white/20 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] animate-fade-in ${priorityClass}">
+                    <div class="flex items-center justify-between">
+                        <!-- Left Section -->
+                        <div class="flex items-center space-x-4 flex-1 min-w-0">
+                            <!-- Category & Favorite -->
+                            <div class="flex items-center space-x-3 flex-shrink-0">
+                                <div class="bg-gradient-to-r ${category.color} text-white text-xs px-3 py-1 rounded-full font-medium flex items-center space-x-1">
+                                    <span>${category.icon}</span>
+                                    <span class="hidden sm:inline">${category.name}</span>
+                                </div>
+                                ${link.favorite ? '<div class="w-6 h-6 bg-yellow-500/20 rounded-full flex items-center justify-center"><i class="fas fa-star text-yellow-400 text-xs"></i></div>' : ''}
+                                <div class="px-2 py-1 rounded-full text-xs font-medium ${priorityColors[link.priority]}">
+                                    ${link.priority === 'high' ? '🔴' : link.priority === 'medium' ? '🟡' : '🟢'}
+                                </div>
+                            </div>
+                            
+                            <!-- Content -->
+                            <div class="flex-1 min-w-0">
+                                <h3 class="text-white font-bold text-lg mb-1 truncate">${link.title}</h3>
+                                <div class="text-white/60 text-sm mb-1 truncate font-mono bg-white/5 rounded px-2 py-1">${link.url}</div>
+                                ${link.description ? `<p class="text-white/50 text-xs truncate">${link.description}</p>` : ''}
+                            </div>
+                            
+                            <!-- Stats -->
+                            <div class="text-xs text-white/60 text-right flex-shrink-0 hidden md:block">
+                                <div class="flex items-center space-x-1 mb-1">
+                                    <i class="fas fa-mouse-pointer"></i>
+                                    <span class="font-medium">${link.clicks} klik</span>
+                                </div>
+                                <div class="flex items-center space-x-1">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>${new Date(link.createdAt).toLocaleDateString('id-ID')}</span>
+                                </div>
+                            </div>
+                        </div>
+                 
+                        
+                        <!-- Action Buttons -->
+                        <div class="flex items-center space-x-2 ml-4 flex-shrink-0">
+                            <button onclick="openLink(${link.id})" class="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-4 py-2 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg flex items-center space-x-2">
+                                <i class="fas fa-external-link-alt"></i>
+                                <span class="hidden sm:inline font-medium">Buka</span>
+                            </button>
+                            <button onclick="toggleFavorite(${link.id})" class="w-10 h-10 bg-white/10 hover:bg-yellow-500/20 rounded-xl flex items-center justify-center transition-all duration-200 group">
+                                <i class="fas fa-star text-white/60 group-hover:text-yellow-400"></i>
+                            </button>
+                            <button onclick="editLink(${link.id})" class="w-10 h-10 bg-white/10 hover:bg-blue-500/20 rounded-xl flex items-center justify-center transition-all duration-200 group">
+                                <i class="fas fa-edit text-white/60 group-hover:text-blue-400"></i>
+                            </button>
+                            <button onclick="deleteLink(${link.id})" class="w-10 h-10 bg-white/10 hover:bg-red-500/20 rounded-xl flex items-center justify-center transition-all duration-200 group">
+                                <i class="fas fa-trash text-white/60 group-hover:text-red-400"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function getFilteredLinks() {
+            let filtered = [...links];
+            
+            // Search filter
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                const searchTerm = searchInput.value.toLowerCase().trim();
+                if (searchTerm) {
+                    filtered = filtered.filter(link => 
+                        (link.title && link.title.toLowerCase().includes(searchTerm)) ||
+                        (link.description && link.description.toLowerCase().includes(searchTerm)) ||
+                        (link.url && link.url.toLowerCase().includes(searchTerm))
+                    );
+                }
+            }
+            
+            // Category filter
+            const categoryFilter = document.getElementById('filterCategory');
+            if (categoryFilter && categoryFilter.value) {
+                filtered = filtered.filter(link => link.category === categoryFilter.value);
+            }
+            
+            // Priority filter
+            const priorityFilter = document.getElementById('filterPriority');
+            if (priorityFilter && priorityFilter.value) {
+                filtered = filtered.filter(link => link.priority === priorityFilter.value);
+            }
+            
+            // Favorites filter
+            const favoritesFilter = document.getElementById('filterFavorites');
+            if (favoritesFilter && favoritesFilter.checked) {
+                filtered = filtered.filter(link => link.favorite === true);
+            }
+            
+            console.log(`🔍 Filter applied: ${filtered.length}/${links.length} links shown`);
+            return filtered;
+        }
+
+        function filterLinks() {
+            renderLinks();
+        }
+
+        function sortLinks() {
+            const sortByElement = document.getElementById('sortBy');
+            if (!sortByElement) return;
+            
+            const sortBy = sortByElement.value;
+            console.log('📊 Mengurutkan berdasarkan:', sortBy);
+            
+            switch (sortBy) {
+                case 'newest':
+                    links.sort((a, b) => {
+                        const dateA = new Date(a.createdAt || 0);
+                        const dateB = new Date(b.createdAt || 0);
+                        return dateB - dateA;
+                    });
+                    break;
+                case 'oldest':
+                    links.sort((a, b) => {
+                        const dateA = new Date(a.createdAt || 0);
+                        const dateB = new Date(b.createdAt || 0);
+                        return dateA - dateB;
+                    });
+                    break;
+                case 'title':
+                    links.sort((a, b) => {
+                        const titleA = (a.title || '').toLowerCase();
+                        const titleB = (b.title || '').toLowerCase();
+                        return titleA.localeCompare(titleB);
+                    });
+                    break;
+                case 'clicks':
+                    links.sort((a, b) => (b.clicks || 0) - (a.clicks || 0));
+                    break;
+                case 'priority':
+                    const priorityOrder = { high: 3, medium: 2, low: 1 };
+                    links.sort((a, b) => {
+                        const priorityA = priorityOrder[a.priority] || 2;
+                        const priorityB = priorityOrder[b.priority] || 2;
+                        return priorityB - priorityA;
+                    });
+                    break;
+                default:
+                    console.log('⚠️ Unknown sort option:', sortBy);
+            }
+            
+            // Mark data as changed and save
+            if (window.markDataChanged) window.markDataChanged();
+            saveLinks();
+            renderLinks();
+            console.log('✅ Links berhasil diurutkan');
+        }
+
+        function toggleView(view) {
+            currentView = view;
+            
+            // Update button states
+            document.getElementById('gridView').className = view === 'grid' 
+                ? 'px-3 py-2 rounded-lg transition-all duration-200 flex items-center space-x-2 bg-white/20 text-white'
+                : 'px-3 py-2 rounded-lg transition-all duration-200 flex items-center space-x-2 text-white/70 hover:text-white hover:bg-white/10';
+            
+            document.getElementById('listView').className = view === 'list'
+                ? 'px-3 py-2 rounded-lg transition-all duration-200 flex items-center space-x-2 bg-white/20 text-white'
+                : 'px-3 py-2 rounded-lg transition-all duration-200 flex items-center space-x-2 text-white/70 hover:text-white hover:bg-white/10';
+            
+            renderLinks();
+        }
+
+        function updateStats() {
+            const totalLinks = links.length;
+            const favoriteLinks = links.filter(link => link.favorite).length;
+            const categories = new Set(links.map(link => link.category)).size;
+            const totalClicks = links.reduce((sum, link) => sum + link.clicks, 0);
+            
+            document.getElementById('linkCount').textContent = totalLinks;
+            document.getElementById('totalLinks').textContent = totalLinks;
+            document.getElementById('favoriteLinks').textContent = favoriteLinks;
+            document.getElementById('categoriesCount').textContent = categories;
+            document.getElementById('clicksCount').textContent = totalClicks;
+        }
+
+        function exportLinks() {
+            if (links.length === 0) {
+                showNotification('Tidak ada link untuk diekspor!', 'error');
+                return;
+            }
+
+            try {
+                const backupData = {
+                    version: '2.0',
+                    exportDate: new Date().toISOString(),
+                    totalLinks: links.length,
+                    appName: 'LinkVault Pro',
+                    exportedBy: 'Syam Digital',
+                    data: links
+                };
+                
+                const dataStr = JSON.stringify(backupData, null, 2);
+                const dataBlob = new Blob([dataStr], {type: 'application/json'});
+                const url = URL.createObjectURL(dataBlob);
+                const downloadLink = document.createElement('a');
+                
+                downloadLink.href = url;
+                downloadLink.download = `linkvault-backup-${new Date().toISOString().split('T')[0]}.json`;
+                downloadLink.style.display = 'none';
+                
+                document.body.appendChild(downloadLink);
+                downloadLink.click();
+                document.body.removeChild(downloadLink);
+                
+                URL.revokeObjectURL(url);
+                
+                showSuccessNotification(`📥 ${links.length} link berhasil diekspor!`);
+                console.log('📥 Export berhasil:', links.length, 'links');
+                
+            } catch (error) {
+                console.error('❌ Export error:', error);
+                showNotification('Gagal mengekspor data!', 'error');
+            }
+        }
+
+        function importLinks() {
+            document.getElementById('importFile').click();
+        }
+
+        function handleImportFile(event) {
+            const file = event.target.files[0];
+            if (!file) {
+                console.log('❌ Tidak ada file yang dipilih');
+                return;
+            }
+
+            if (!file.name.endsWith('.json')) {
+                showNotification('Hanya file JSON yang didukung!', 'error');
+                event.target.value = '';
+                return;
+            }
+
+            console.log('📤 Memproses import file:', file.name);
+            showNotification('Memproses file import...', 'success');
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importedData = JSON.parse(e.target.result);
+                    
+                    // Handle different import formats
+                    let importedLinks = [];
+                    
+                    if (importedData.data && Array.isArray(importedData.data)) {
+                        // LinkVault Pro format
+                        importedLinks = importedData.data;
+                        console.log('📋 Format LinkVault Pro terdeteksi');
+                    } else if (Array.isArray(importedData)) {
+                        // Simple array format
+                        importedLinks = importedData;
+                        console.log('📋 Format array sederhana terdeteksi');
+                    } else {
+                        throw new Error('Format file tidak didukung. Gunakan file JSON yang valid.');
+                    }
+
+                    // Validate imported links
+                    const validLinks = importedLinks.filter(link => 
+                        link && 
+                        link.title && 
+                        link.url && 
+                        typeof link.title === 'string' && 
+                        typeof link.url === 'string'
+                    );
+
+                    if (validLinks.length === 0) {
+                        throw new Error('Tidak ada link valid ditemukan dalam file');
+                    }
+
+                    console.log(`✅ ${validLinks.length}/${importedLinks.length} link valid ditemukan`);
+
+                    // Ask user for import method
+                    const importMethod = confirm(
+                        `Ditemukan ${validLinks.length} link valid dari ${importedLinks.length} total.\n\n` +
+                        'Klik OK untuk MENGGABUNGKAN dengan data yang ada (' + links.length + ' link)\n' +
+                        'Klik Cancel untuk MENGGANTI semua data yang ada'
+                    );
+
+                    if (importMethod) {
+                        // Merge mode - add new links with new IDs
+                        const newLinks = validLinks.map(link => ({
+                            ...link,
+                            id: Date.now() + Math.random(),
+                            createdAt: link.createdAt || new Date().toISOString(),
+                            clicks: link.clicks || 0,
+                            favorite: link.favorite || false,
+                            category: link.category || 'umum',
+                            priority: link.priority || 'medium',
+                            importedAt: new Date().toISOString()
+                        }));
+                        
+                        links = [...newLinks, ...links];
+                        showSuccessNotification(`📤 ${validLinks.length} link berhasil ditambahkan! Total: ${links.length} link`);
+                        console.log('📤 Import merge berhasil:', validLinks.length, 'link ditambahkan');
+                    } else {
+                        // Replace mode - replace all data
+                        links = validLinks.map(link => ({
+                            ...link,
+                            id: link.id || Date.now() + Math.random(),
+                            createdAt: link.createdAt || new Date().toISOString(),
+                            clicks: link.clicks || 0,
+                            favorite: link.favorite || false,
+                            category: link.category || 'umum',
+                            priority: link.priority || 'medium',
+                            importedAt: new Date().toISOString()
+                        }));
+                        showSuccessNotification(`🔄 Data berhasil diganti dengan ${validLinks.length} link!`);
+                        console.log('🔄 Import replace berhasil:', validLinks.length, 'link');
+                    }
+
+                    // Mark data as changed and save immediately
+                    if (window.markDataChanged) window.markDataChanged();
+                    updateSaveStatus('saving');
+                    saveLinks();
+                    
+                    renderLinks();
+                    updateStats();
+
+                } catch (error) {
+                    console.error('❌ Import error:', error);
+                    showNotification('Error mengimpor file: ' + error.message, 'error');
+                }
+            };
+
+            reader.onerror = function() {
+                console.error('❌ File reader error');
+                showNotification('Gagal membaca file!', 'error');
+            };
+
+            reader.readAsText(file);
+            // Reset file input
+            event.target.value = '';
+        }
+
+        function recoverData() {
+            // Try to recover from all available sources
+            const recoveryOptions = [];
+            
+            // Check localStorage backup
+            const localBackup = localStorage.getItem('linkVaultPro_backup');
+            if (localBackup) {
+                try {
+                    const data = JSON.parse(localBackup);
+                    if (data.length > 0) {
+                        recoveryOptions.push({
+                            source: 'localStorage backup',
+                            count: data.length,
+                            data: data
+                        });
+                    }
+                } catch (e) {}
+            }
+
+            // Check sessionStorage
+            const sessionBackup = sessionStorage.getItem('linkVaultPro_backup');
+            if (sessionBackup) {
+                try {
+                    const data = JSON.parse(sessionBackup);
+                    if (data.length > 0) {
+                        recoveryOptions.push({
+                            source: 'session backup',
+                            count: data.length,
+                            data: data
+                        });
+                    }
+                } catch (e) {}
+            }
+
+            if (recoveryOptions.length > 0) {
+                const bestOption = recoveryOptions.reduce((best, current) => 
+                    current.count > best.count ? current : best
+                );
+                
+                if (confirm(`Ditemukan backup dengan ${bestOption.count} link dari ${bestOption.source}. Pulihkan data?`)) {
+                    links = bestOption.data;
+                    saveLinks();
+                    renderLinks();
+                    updateStats();
+                    showNotification(`Data berhasil dipulihkan dari ${bestOption.source}!`, 'success');
+                }
+            } else {
+                showNotification('Tidak ada backup yang dapat dipulihkan', 'error');
+            }
+        }
+
+        function saveLinks() {
+            try {
+                // Primary save to localStorage
+                localStorage.setItem('linkVaultPro', JSON.stringify(links));
+                
+                // Immediate backup to sessionStorage
+                sessionStorage.setItem('linkVaultPro_backup', JSON.stringify(links));
+                
+                // Save to IndexedDB for permanent storage
+                saveToIndexedDB();
+                
+                // Create multiple backup copies with timestamps
+                const timestamp = new Date().toISOString();
+                localStorage.setItem('linkVaultPro_lastSave', timestamp);
+                localStorage.setItem('linkVaultPro_backup_' + new Date().getDate(), JSON.stringify(links));
+                
+                // Update save status indicator
+                updateSaveStatus('saved');
+                
+                console.log('✅ Data berhasil disimpan secara permanen:', new Date().toLocaleString('id-ID'));
+                
+                // Verify save was successful
+                setTimeout(verifySave, 100);
+                
+            } catch (error) {
+                console.error('❌ Error saving data:', error);
+                
+                // Try alternative save methods
+                try {
+                    // Fallback to sessionStorage
+                    sessionStorage.setItem('linkVaultPro_emergency', JSON.stringify(links));
+                    showNotification('Data disimpan ke backup darurat!', 'warning');
+                } catch (fallbackError) {
+                    showNotification('PERINGATAN: Gagal menyimpan data!', 'error');
+                    console.error('Fallback save failed:', fallbackError);
+                }
+            }
+        }
+
+        function verifySave() {
+            try {
+                const savedData = localStorage.getItem('linkVaultPro');
+                const parsedData = JSON.parse(savedData);
+                
+                if (parsedData && parsedData.length === links.length) {
+                    updateSaveStatus('verified');
+                    console.log('✅ Verifikasi penyimpanan berhasil - ' + links.length + ' link tersimpan');
+                } else {
+                    throw new Error('Data verification failed');
+                }
+            } catch (error) {
+                console.error('❌ Verifikasi penyimpanan gagal:', error);
+                updateSaveStatus('error');
+                
+                // Try to save again
+                setTimeout(() => {
+                    try {
+                        localStorage.setItem('linkVaultPro', JSON.stringify(links));
+                        showNotification('Mencoba menyimpan ulang...', 'warning');
+                    } catch (retryError) {
+                        showNotification('PERINGATAN: Data mungkin tidak tersimpan!', 'error');
+                    }
+                }, 1000);
+            }
+        }
+
+        function updateSaveStatus(status) {
+            const saveStatusElement = document.getElementById('saveStatus');
+            
+            switch (status) {
+                case 'saving':
+                    saveStatusElement.innerHTML = `
+                        <div class="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
+                        <span class="text-yellow-300 text-xs font-medium">Menyimpan...</span>
+                    `;
+                    saveStatusElement.className = 'flex items-center space-x-2 bg-yellow-500/20 rounded-lg px-3 py-2';
+                    break;
+                case 'saved':
+                    saveStatusElement.innerHTML = `
+                        <div class="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
+                        <span class="text-blue-300 text-xs font-medium">Tersimpan</span>
+                    `;
+                    saveStatusElement.className = 'flex items-center space-x-2 bg-blue-500/20 rounded-lg px-3 py-2';
+                    break;
+                case 'verified':
+                    saveStatusElement.innerHTML = `
+                        <div class="w-2 h-2 bg-green-400 rounded-full"></div>
+                        <span class="text-green-300 text-xs font-medium">✓ Aman</span>
+                    `;
+                    saveStatusElement.className = 'flex items-center space-x-2 bg-green-500/20 rounded-lg px-3 py-2';
+                    break;
+                case 'error':
+                    saveStatusElement.innerHTML = `
+                        <div class="w-2 h-2 bg-red-400 rounded-full animate-pulse"></div>
+                        <span class="text-red-300 text-xs font-medium">Error!</span>
+                    `;
+                    saveStatusElement.className = 'flex items-center space-x-2 bg-red-500/20 rounded-lg px-3 py-2';
+                    break;
+            }
+        }
+
+        function autoBackup() {
+            try {
+                // Backup 1: SessionStorage (untuk session ini)
+                sessionStorage.setItem('linkVaultPro_backup', JSON.stringify(links));
+                
+                // Backup 2: IndexedDB (lebih permanen)
+                saveToIndexedDB();
+                
+                // Backup 3: Multiple localStorage copies with rotation
+                const today = new Date().getDate();
+                const yesterday = today === 1 ? 31 : today - 1;
+                localStorage.setItem('linkVaultPro_backup_' + today, JSON.stringify(links));
+                localStorage.setItem('linkVaultPro_backup_' + yesterday, JSON.stringify(links));
+                
+                // Backup 4: Download backup file otomatis setiap 10 link baru
+                if (links.length > 0 && links.length % 10 === 0) {
+                    const lastAutoBackup = localStorage.getItem('linkVaultPro_lastAutoBackup');
+                    const now = new Date().getTime();
+                    
+                    if (!lastAutoBackup || (now - parseInt(lastAutoBackup)) > 24 * 60 * 60 * 1000) {
+                        setTimeout(() => {
+                            createAutoBackupFile();
+                            localStorage.setItem('linkVaultPro_lastAutoBackup', now.toString());
+                        }, 2000);
+                    }
+                }
+                
+                console.log('🔄 Backup otomatis berhasil dibuat');
+            } catch (error) {
+                console.error('❌ Error creating backup:', error);
+            }
+        }
+
+        function saveToIndexedDB() {
+            if (!window.indexedDB) return;
+            
+            const request = indexedDB.open('LinkVaultPro', 1);
+            
+            request.onerror = function() {
+                console.log('IndexedDB error');
+            };
+            
+            request.onsuccess = function(event) {
+                const db = event.target.result;
+                const transaction = db.transaction(['links'], 'readwrite');
+                const store = transaction.objectStore('links');
+                
+                store.clear();
+                store.add({
+                    id: 'main',
+                    data: links,
+                    timestamp: new Date().toISOString()
+                });
+            };
+            
+            request.onupgradeneeded = function(event) {
+                const db = event.target.result;
+                const store = db.createObjectStore('links', { keyPath: 'id' });
+            };
+        }
+
+        function loadFromIndexedDB() {
+            return new Promise((resolve) => {
+                if (!window.indexedDB) {
+                    resolve(null);
+                    return;
+                }
+                
+                const request = indexedDB.open('LinkVaultPro', 1);
+                
+                request.onerror = function() {
+                    resolve(null);
+                };
+                
+                request.onsuccess = function(event) {
+                    const db = event.target.result;
+                    const transaction = db.transaction(['links'], 'readonly');
+                    const store = transaction.objectStore('links');
+                    const getRequest = store.get('main');
+                    
+                    getRequest.onsuccess = function() {
+                        if (getRequest.result) {
+                            resolve(getRequest.result.data);
+                        } else {
+                            resolve(null);
+                        }
+                    };
+                    
+                    getRequest.onerror = function() {
+                        resolve(null);
+                    };
+                };
+                
+                request.onupgradeneeded = function(event) {
+                    const db = event.target.result;
+                    const store = db.createObjectStore('links', { keyPath: 'id' });
+                    resolve(null);
+                };
+            });
+        }
+
+        function createAutoBackupFile() {
+            const backupData = {
+                version: '1.0',
+                exportDate: new Date().toISOString(),
+                totalLinks: links.length,
+                data: links
+            };
+            
+            const dataStr = JSON.stringify(backupData, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `linkvault-auto-backup-${new Date().toISOString().split('T')[0]}.json`;
+            link.style.display = 'none';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            
+            showNotification('Backup otomatis berhasil dibuat!', 'success');
+        }
+
+        function showNotification(message, type = 'info') {
+            // Remove existing notifications
+            const existingNotifications = document.querySelectorAll('.notification-toast');
+            existingNotifications.forEach(n => n.remove());
+
+            const notification = document.createElement('div');
+            notification.className = `notification-toast fixed top-4 right-4 z-50 px-6 py-4 rounded-2xl text-white font-bold animate-fade-in shadow-2xl border max-w-sm`;
+            
+            let bgClass, borderClass, icon;
+            switch (type) {
+                case 'success':
+                    bgClass = 'bg-gradient-to-r from-green-500 to-emerald-600';
+                    borderClass = 'border-green-400/30';
+                    icon = '✅';
+                    break;
+                case 'error':
+                    bgClass = 'bg-gradient-to-r from-red-500 to-rose-600';
+                    borderClass = 'border-red-400/30';
+                    icon = '❌';
+                    break;
+                case 'warning':
+                    bgClass = 'bg-gradient-to-r from-yellow-500 to-orange-600';
+                    borderClass = 'border-yellow-400/30';
+                    icon = '⚠️';
+                    break;
+                default:
+                    bgClass = 'bg-gradient-to-r from-blue-500 to-indigo-600';
+                    borderClass = 'border-blue-400/30';
+                    icon = 'ℹ️';
+            }
+            
+            notification.className += ` ${bgClass} ${borderClass}`;
+            notification.innerHTML = `
+                <div class="flex items-center space-x-3">
+                    <span class="text-xl">${icon}</span>
+                    <span class="text-sm leading-tight">${message}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Auto-remove after delay
+            const duration = type === 'error' ? 5000 : 3000;
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.style.transform = 'translateX(100%)';
+                    notification.style.opacity = '0';
+                    setTimeout(() => {
+                        if (notification.parentNode) {
+                            notification.remove();
+                        }
+                    }, 300);
+                }
+            }, duration);
+            
+            // Click to dismiss
+            notification.addEventListener('click', () => {
+                notification.style.transform = 'translateX(100%)';
+                notification.style.opacity = '0';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.remove();
+                    }
+                }, 300);
+            });
+        }
+
+        function showSuccessNotification(message) {
+            showNotification(message, 'success');
+        }
+
+        function toggleFullscreen() {
+            const body = document.body;
+            const btn = document.getElementById('fullscreenBtn');
+            
+            if (body.classList.contains('fullscreen-mode')) {
+                // Exit fullscreen
+                body.classList.remove('fullscreen-mode');
+                body.classList.remove('fullscreen-content');
+                btn.innerHTML = '<i class="fas fa-expand mr-2"></i><span class="hidden md:inline">Fullscreen</span>';
+                btn.title = 'Masuk Mode Fullscreen';
+                
+                // Restore scroll position
+                const scrollPos = sessionStorage.getItem('scrollPosition');
+                if (scrollPos) {
+                    window.scrollTo(0, parseInt(scrollPos));
+                    sessionStorage.removeItem('scrollPosition');
+                }
+                
+                showNotification('Mode fullscreen dinonaktifkan', 'success');
+            } else {
+                // Save current scroll position
+                sessionStorage.setItem('scrollPosition', window.pageYOffset.toString());
+                
+                // Enter fullscreen
+                body.classList.add('fullscreen-mode');
+                body.classList.add('fullscreen-content');
+                btn.innerHTML = '<i class="fas fa-compress mr-2"></i><span class="hidden md:inline">Exit Fullscreen</span>';
+                btn.title = 'Keluar dari Mode Fullscreen';
+                
+                // Try to enter browser fullscreen if supported
+                if (document.documentElement.requestFullscreen) {
+                    document.documentElement.requestFullscreen().catch(() => {
+                        // Fallback to custom fullscreen if browser fullscreen fails
+                    });
+                }
+                
+                showNotification('Mode fullscreen diaktifkan! Tekan ESC untuk keluar', 'success');
+                
+                // Auto-hide notification in fullscreen
+                setTimeout(() => {
+                    const notifications = document.querySelectorAll('.fixed.top-4.right-4');
+                    notifications.forEach(n => n.remove());
+                }, 2000);
+            }
+        }
+
+        // Handle browser fullscreen changes
+        document.addEventListener('fullscreenchange', function() {
+            const body = document.body;
+            const btn = document.getElementById('fullscreenBtn');
+            
+            if (!document.fullscreenElement && body.classList.contains('fullscreen-mode')) {
+                // Browser exited fullscreen but we're still in custom fullscreen
+                body.classList.remove('fullscreen-mode');
+                body.classList.remove('fullscreen-content');
+                btn.innerHTML = '<i class="fas fa-expand mr-2"></i><span class="hidden md:inline">Fullscreen</span>';
+                btn.title = 'Masuk Mode Fullscreen';
+                
+                // Restore scroll position
+                const scrollPos = sessionStorage.getItem('scrollPosition');
+                if (scrollPos) {
+                    window.scrollTo(0, parseInt(scrollPos));
+                    sessionStorage.removeItem('scrollPosition');
+                }
+            }
+        });
+
+
+
+        // Confirmation Modal functions
+        function showConfirmModal() {
+            const title = document.getElementById('linkTitle').value.trim();
+            const url = document.getElementById('linkUrl').value.trim();
+            const description = document.getElementById('linkDescription').value.trim();
+            const category = document.getElementById('linkCategory').value;
+            const priority = document.getElementById('linkPriority').value;
+            const favorite = document.getElementById('linkFavorite').checked;
+
+            if (!title || !url) {
+                showNotification('Mohon isi Judul dan URL terlebih dahulu!', 'error');
+                return;
+            }
+
+            // Update preview in confirmation modal
+            updateConfirmPreview(title, url, description, category, priority, favorite);
+            
+            const modal = document.getElementById('confirmModal');
+            const modalContent = document.getElementById('confirmModalContent');
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            // Animate modal appearance with bounce effect
+            setTimeout(() => {
+                modalContent.classList.remove('scale-95', 'opacity-0');
+                modalContent.classList.add('scale-100', 'opacity-100');
+                modalContent.style.transform = 'scale(1.05)';
+                
+                setTimeout(() => {
+                    modalContent.style.transform = 'scale(1)';
+                }, 150);
+            }, 10);
+        }
+
+        function closeConfirmModal() {
+            const modal = document.getElementById('confirmModal');
+            const modalContent = document.getElementById('confirmModalContent');
+            
+            // Animate modal disappearance
+            modalContent.classList.remove('scale-100', 'opacity-100');
+            modalContent.classList.add('scale-95', 'opacity-0');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
+        }
+
+        function updateConfirmPreview(title, url, description, category, priority, favorite) {
+            const categoryInfo = {
+                umum: { color: 'from-gray-500 to-gray-600', icon: '📁', name: 'Umum' },
+                kerja: { color: 'from-blue-500 to-blue-600', icon: '💼', name: 'Kerja' },
+                belajar: { color: 'from-green-500 to-green-600', icon: '📚', name: 'Belajar' },
+                hiburan: { color: 'from-purple-500 to-purple-600', icon: '🎮', name: 'Hiburan' },
+                belanja: { color: 'from-yellow-500 to-orange-500', icon: '🛒', name: 'Belanja' },
+                sosial: { color: 'from-pink-500 to-rose-500', icon: '📱', name: 'Sosial' }
+            };
+
+            const categoryData = categoryInfo[category] || categoryInfo.umum;
+            const priorityEmoji = priority === 'high' ? '🔴' : priority === 'medium' ? '🟡' : '🟢';
+            
+            const previewContainer = document.getElementById('confirmPreview');
+            previewContainer.innerHTML = `
+                <div class="text-left">
+                    <div class="flex items-center space-x-3 mb-3">
+                        <div class="bg-gradient-to-r ${categoryData.color} text-white text-xs px-3 py-1 rounded-full font-medium flex items-center space-x-1">
+                            <span>${categoryData.icon}</span>
+                            <span>${categoryData.name}</span>
+                        </div>
+                        <span class="text-lg">${priorityEmoji}</span>
+                        ${favorite ? '<i class="fas fa-star text-yellow-400"></i>' : ''}
+                    </div>
+                    <h4 class="text-white font-bold text-lg mb-2">${title}</h4>
+                    <p class="text-white/70 text-sm mb-2 font-mono bg-white/10 rounded px-2 py-1">${url}</p>
+                    ${description ? `<p class="text-white/60 text-sm italic">"${description}"</p>` : ''}
+                </div>
+            `;
+        }
+
+        function confirmAddLink() {
+            const title = document.getElementById('linkTitle').value.trim();
+            const url = document.getElementById('linkUrl').value.trim();
+            const description = document.getElementById('linkDescription').value.trim();
+            const category = document.getElementById('linkCategory').value;
+            const priority = document.getElementById('linkPriority').value;
+            const favorite = document.getElementById('linkFavorite').checked;
+
+            const newLink = {
+                id: Date.now(),
+                title,
+                url,
+                description,
+                category,
+                priority,
+                favorite,
+                clicks: 0,
+                createdAt: new Date().toISOString()
+            };
+
+            links.unshift(newLink);
+            
+            // Mark data as changed and save immediately
+            if (window.markDataChanged) window.markDataChanged();
+            updateSaveStatus('saving');
+            saveLinks();
+            
+            renderLinks();
+            updateStats();
+            closeConfirmModal();
+            
+            // Reset form
+            document.getElementById('linkForm').reset();
+            
+            // Show success animation with confetti effect
+            showSuccessNotification('🎉 Link berhasil ditambahkan dan disimpan!');
+        }
+
+        function showSuccessNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'fixed top-4 right-4 z-50 px-6 py-4 rounded-2xl text-white font-bold animate-fade-in bg-gradient-to-r from-green-500 to-emerald-600 shadow-2xl border border-green-400/30';
+            notification.innerHTML = `
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center animate-pulse">
+                        <i class="fas fa-check text-lg"></i>
+                    </div>
+                    <span class="text-lg">${message}</span>
+                </div>
+            `;
+            document.body.appendChild(notification);
+            
+            // Add floating animation
+            setTimeout(() => {
+                notification.style.transform = 'translateY(-10px)';
+            }, 100);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateY(-20px)';
+                notification.style.opacity = '0';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Modal functions
+        function openAddModal() {
+            const modal = document.getElementById('addModal');
+            const modalContent = document.getElementById('addModalContent');
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            // Animate modal appearance
+            setTimeout(() => {
+                modalContent.classList.remove('scale-95', 'opacity-0');
+                modalContent.classList.add('scale-100', 'opacity-100');
+            }, 10);
+            
+            // Focus on first input
+            setTimeout(() => {
+                document.getElementById('modalLinkTitle').focus();
+            }, 300);
+            
+            // Reset form
+            document.getElementById('addLinkForm').reset();
+            updateLinkPreview();
+        }
+
+        function closeAddModal() {
+            const modal = document.getElementById('addModal');
+            const modalContent = document.getElementById('addModalContent');
+            
+            // Animate modal disappearance
+            modalContent.classList.remove('scale-100', 'opacity-100');
+            modalContent.classList.add('scale-95', 'opacity-0');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
+        }
+
+        function addLinkFromModal(e) {
+            e.preventDefault();
+            
+            const title = document.getElementById('modalLinkTitle').value.trim();
+            const url = document.getElementById('modalLinkUrl').value.trim();
+            const description = document.getElementById('modalLinkDescription').value.trim();
+            const category = document.getElementById('modalLinkCategory').value;
+            const priority = document.getElementById('modalLinkPriority').value;
+            const favorite = document.getElementById('modalLinkFavorite').checked;
+
+            if (!title || !url) {
+                // Highlight required fields
+                if (!title) {
+                    document.getElementById('modalLinkTitle').classList.add('border-red-500', 'ring-2', 'ring-red-500/30');
+                    setTimeout(() => {
+                        document.getElementById('modalLinkTitle').classList.remove('border-red-500', 'ring-2', 'ring-red-500/30');
+                    }, 3000);
+                }
+                if (!url) {
+                    document.getElementById('modalLinkUrl').classList.add('border-red-500', 'ring-2', 'ring-red-500/30');
+                    setTimeout(() => {
+                        document.getElementById('modalLinkUrl').classList.remove('border-red-500', 'ring-2', 'ring-red-500/30');
+                    }, 3000);
+                }
+                showNotification('Judul dan URL wajib diisi!', 'error');
+                return;
+            }
+
+            const newLink = {
+                id: Date.now(),
+                title,
+                url,
+                description,
+                category,
+                priority,
+                favorite,
+                clicks: 0,
+                createdAt: new Date().toISOString()
+            };
+
+            links.unshift(newLink);
+            saveLinks();
+            renderLinks();
+            updateStats();
+            closeAddModal();
+            
+            // Show success animation
+            showNotification('Link berhasil ditambahkan!', 'success');
+        }
+
+        function updateLinkPreview() {
+            const title = document.getElementById('modalLinkTitle').value.trim();
+            const url = document.getElementById('modalLinkUrl').value.trim();
+            const description = document.getElementById('modalLinkDescription').value.trim();
+            const category = document.getElementById('modalLinkCategory').value;
+            const priority = document.getElementById('modalLinkPriority').value;
+            const favorite = document.getElementById('modalLinkFavorite').checked;
+            
+            const categoryInfo = {
+                umum: { color: 'from-gray-500 to-gray-600', icon: '📁', name: 'Umum' },
+                kerja: { color: 'from-blue-500 to-blue-600', icon: '💼', name: 'Kerja' },
+                belajar: { color: 'from-green-500 to-green-600', icon: '📚', name: 'Belajar' },
+                hiburan: { color: 'from-purple-500 to-purple-600', icon: '🎮', name: 'Hiburan' },
+                belanja: { color: 'from-yellow-500 to-orange-500', icon: '🛒', name: 'Belanja' },
+                sosial: { color: 'from-pink-500 to-rose-500', icon: '📱', name: 'Sosial' }
+            };
+
+            const categoryData = categoryInfo[category] || categoryInfo.umum;
+            const priorityColors = {
+                high: 'border-red-500/50 bg-red-500/10 text-red-300',
+                medium: 'border-yellow-500/50 bg-yellow-500/10 text-yellow-300',
+                low: 'border-green-500/50 bg-green-500/10 text-green-300'
+            };
+
+            const previewContainer = document.getElementById('linkPreview');
+            
+            if (!title && !url) {
+                previewContainer.innerHTML = `
+                    <div class="text-white/60 text-sm text-center py-4">
+                        <i class="fas fa-link text-2xl mb-2 block"></i>
+                        Preview akan muncul saat Anda mengisi form
+                    </div>
+                `;
+                return;
+            }
+
+            previewContainer.innerHTML = `
+                <div class="bg-white/10 backdrop-blur-xl rounded-xl p-4 border border-white/20">
+                    <!-- Header -->
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="flex items-center space-x-3">
+                            <div class="bg-gradient-to-r ${categoryData.color} text-white text-xs px-3 py-1 rounded-full font-medium flex items-center space-x-1">
+                                <span>${categoryData.icon}</span>
+                                <span>${categoryData.name}</span>
+                            </div>
+                            ${favorite ? '<div class="w-6 h-6 bg-yellow-500/20 rounded-full flex items-center justify-center"><i class="fas fa-star text-yellow-400 text-xs"></i></div>' : ''}
+                        </div>
+                        <div class="px-2 py-1 rounded-full text-xs font-medium ${priorityColors[priority]}">
+                            ${priority === 'high' ? '🔴 Tinggi' : priority === 'medium' ? '🟡 Sedang' : '🟢 Rendah'}
+                        </div>
+                    </div>
+                    
+                    <!-- Content -->
+                    <div class="mb-4">
+                        <h3 class="text-white font-bold text-lg mb-2 leading-tight">${title || 'Judul Link'}</h3>
+                        ${description ? `<p class="text-white/70 text-sm mb-3 leading-relaxed">${description}</p>` : ''}
+                        <div class="text-white/50 text-xs truncate bg-white/5 rounded-lg px-3 py-2 font-mono">${url || 'https://example.com'}</div>
+                    </div>
+                    
+                    <!-- Preview Button -->
+                    <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white font-bold py-2 px-4 rounded-lg text-center text-sm">
+                        <i class="fas fa-external-link-alt mr-2"></i>Buka Link
+                    </div>
+                </div>
+            `;
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('confirmModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeConfirmModal();
+            }
+        });
+
+        document.getElementById('addModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeAddModal();
+            }
+        });
+
+        document.getElementById('editModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeEditModal();
+            }
+        });
+
+        // ESC key to close modals
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                if (!document.getElementById('confirmModal').classList.contains('hidden')) {
+                    closeConfirmModal();
+                }
+                if (!document.getElementById('addModal').classList.contains('hidden')) {
+                    closeAddModal();
+                }
+                if (!document.getElementById('editModal').classList.contains('hidden')) {
+                    closeEditModal();
+                }
+                if (document.body.classList.contains('fullscreen-mode')) {
+                    toggleFullscreen();
+                }
+            }
+        });
+    </script>
+<!-- Cool Homepage Button -->
+                <div class="mt-12 text-center">
+                    <a href="https://syam.digital/" class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white                        font-bold rounded-full hover:from-indigo-700 hover:via-purple-700 hover:to-pink-700 transition-all duration-500 transform hover:scale-110                        hover:rotate-1 shadow-2xl hover:shadow-purple-500/25 group relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 transform -skew-x-12 -translate-x-full group-                         hover:translate-x-full transition-transform duration-1000"></div>
+                        <svg class="w-6 h-6 mr-3 transform group-hover:-translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0                           24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                        <span class="relative z-10 text-lg tracking-wide">Kembali Ke Beranda</span>
+                        <div class="ml-3 w-2 h-2 bg-white rounded-full animate-pulse"></div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'972b6b62a43a37f4',t:'MTc1NTc5MjgyNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

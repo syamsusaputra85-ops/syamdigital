@@ -1,0 +1,1219 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catatan Material Masjid</title>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1766404576/masjid-removebg-preview_sfk21b.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .slide-in {
+      animation: slideIn 0.3s ease-out;
+    }
+    
+    .toast {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 16px 24px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      z-index: 1000;
+      animation: slideIn 0.3s ease-out;
+    }
+    
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      animation: fadeIn 0.2s ease-out;
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+    
+    .modal-content {
+      animation: slideIn 0.3s ease-out;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full">
+  <div id="app" class="h-full w-full overflow-auto"></div>
+  <script>
+    const defaultConfig = {
+      background_color: "#f0f9ff",
+      card_color: "#ffffff",
+      text_color: "#1e293b",
+      primary_button_color: "#0ea5e9",
+      secondary_button_color: "#64748b",
+      app_title: "Catatan Material",
+      project_name: "Pembangunan Masjid Al-Ikhlas",
+      font_family: "Inter",
+      font_size: 16
+    };
+
+    let materials = [];
+    let editingId = null;
+    let editingType = null; // 'masuk' atau 'keluar'
+    let activeTab = 'masuk';
+
+    // Load data dari localStorage
+    function loadData() {
+      const stored = localStorage.getItem('materials_data');
+      if (stored) {
+        try {
+          materials = JSON.parse(stored);
+        } catch (e) {
+          materials = [];
+        }
+      }
+    }
+
+    // Save data ke localStorage
+    function saveData() {
+      localStorage.setItem('materials_data', JSON.stringify(materials));
+    }
+
+    // Generate unique ID
+    function generateId() {
+      return 'mat_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    }
+
+    function showToast(message, type = 'success') {
+      const toast = document.createElement('div');
+      toast.className = `toast ${type === 'success' ? 'bg-green-500' : 'bg-red-500'} text-white`;
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.remove();
+      }, 3000);
+    }
+
+    function switchTab(tabName) {
+      activeTab = tabName;
+      
+      // Update tampilan tab
+      const tabMasuk = document.getElementById('tab-masuk');
+      const tabKeluar = document.getElementById('tab-keluar');
+      const formMasuk = document.getElementById('form-masuk');
+      const formKeluar = document.getElementById('form-keluar');
+      
+      const primaryColor = defaultConfig.primary_button_color;
+      const textColor = defaultConfig.text_color;
+      
+      if (tabName === 'masuk') {
+        tabMasuk.style.color = primaryColor;
+        tabMasuk.style.borderColor = primaryColor;
+        tabMasuk.style.opacity = '1';
+        
+        tabKeluar.style.color = textColor;
+        tabKeluar.style.borderColor = 'transparent';
+        tabKeluar.style.opacity = '0.6';
+        
+        formMasuk.style.display = 'block';
+        formKeluar.style.display = 'none';
+      } else {
+        tabKeluar.style.color = '#ef4444';
+        tabKeluar.style.borderColor = '#ef4444';
+        tabKeluar.style.opacity = '1';
+        
+        tabMasuk.style.color = textColor;
+        tabMasuk.style.borderColor = 'transparent';
+        tabMasuk.style.opacity = '0.6';
+        
+        formKeluar.style.display = 'block';
+        formMasuk.style.display = 'none';
+      }
+    }
+
+    function handleSubmitMasuk(event) {
+      event.preventDefault();
+      
+      const formData = new FormData(event.target);
+      const data = {
+        uraian: formData.get('uraian'),
+        supplier: formData.get('supplier'),
+        jumlah_masuk: parseFloat(formData.get('jumlah_masuk')) || 0,
+        satuan: formData.get('satuan'),
+        tanggal_masuk: formData.get('tanggal_masuk'),
+        jumlah_keluar: 0,
+        tanggal_keluar: '',
+        keterangan: formData.get('keterangan')
+      };
+
+      const submitBtn = event.target.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Menyimpan...';
+
+      if (editingId && editingType === 'masuk') {
+        const index = materials.findIndex(m => m.id === editingId);
+        if (index !== -1) {
+          materials[index] = { ...materials[index], ...data };
+          showToast('Data berhasil diperbarui!');
+          editingId = null;
+          editingType = null;
+        }
+      } else {
+        if (materials.length >= 999) {
+          showToast('Batas maksimal 999 data tercapai. Hapus data lama terlebih dahulu.', 'error');
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Simpan Barang Masuk';
+          return;
+        }
+        
+        materials.push({
+          id: generateId(),
+          ...data
+        });
+        showToast('Barang masuk berhasil ditambahkan!');
+        event.target.reset();
+      }
+
+      saveData();
+      renderApp();
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Simpan Barang Masuk';
+    }
+
+    function handleSubmitKeluar(event) {
+      event.preventDefault();
+      
+      const formData = new FormData(event.target);
+      const data = {
+        uraian: formData.get('uraian'),
+        supplier: formData.get('supplier'),
+        jumlah_masuk: 0,
+        satuan: formData.get('satuan'),
+        tanggal_masuk: '',
+        jumlah_keluar: parseFloat(formData.get('jumlah_keluar')) || 0,
+        tanggal_keluar: formData.get('tanggal_keluar'),
+        keterangan: formData.get('keterangan')
+      };
+
+      const submitBtn = event.target.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Menyimpan...';
+
+      if (editingId && editingType === 'keluar') {
+        const index = materials.findIndex(m => m.id === editingId);
+        if (index !== -1) {
+          materials[index] = { ...materials[index], ...data };
+          showToast('Data berhasil diperbarui!');
+          editingId = null;
+          editingType = null;
+        }
+      } else {
+        if (materials.length >= 999) {
+          showToast('Batas maksimal 999 data tercapai. Hapus data lama terlebih dahulu.', 'error');
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Simpan Barang Keluar';
+          return;
+        }
+        
+        materials.push({
+          id: generateId(),
+          ...data
+        });
+        showToast('Barang keluar berhasil ditambahkan!');
+        event.target.reset();
+      }
+
+      saveData();
+      renderApp();
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Simpan Barang Keluar';
+    }
+
+    function editMaterial(id) {
+      const material = materials.find(m => m.id === id);
+      if (!material) return;
+
+      editingId = id;
+      
+      // Tentukan type berdasarkan data yang ada
+      if (material.jumlah_masuk > 0 && material.jumlah_keluar === 0) {
+        editingType = 'masuk';
+        switchTab('masuk');
+        
+        document.getElementById('uraian-masuk').value = material.uraian;
+        document.getElementById('supplier-masuk').value = material.supplier;
+        document.getElementById('jumlah-masuk').value = material.jumlah_masuk;
+        document.getElementById('satuan-masuk').value = material.satuan;
+        document.getElementById('tanggal-masuk').value = material.tanggal_masuk;
+        document.getElementById('keterangan-masuk').value = material.keterangan;
+        
+        document.getElementById('form-title-masuk').textContent = 'Edit Barang Masuk';
+      } else if (material.jumlah_keluar > 0 && material.jumlah_masuk === 0) {
+        editingType = 'keluar';
+        switchTab('keluar');
+        
+        document.getElementById('uraian-keluar').value = material.uraian;
+        document.getElementById('supplier-keluar').value = material.supplier;
+        document.getElementById('jumlah-keluar').value = material.jumlah_keluar;
+        document.getElementById('satuan-keluar').value = material.satuan;
+        document.getElementById('tanggal-keluar').value = material.tanggal_keluar;
+        document.getElementById('keterangan-keluar').value = material.keterangan;
+        
+        document.getElementById('form-title-keluar').textContent = 'Edit Barang Keluar';
+      }
+      
+      document.getElementById('form-section').scrollIntoView({ behavior: 'smooth' });
+      renderApp();
+    }
+
+    function cancelEdit() {
+      editingId = null;
+      editingType = null;
+      
+      document.getElementById('material-form-masuk').reset();
+      document.getElementById('material-form-keluar').reset();
+      document.getElementById('form-title-masuk').textContent = 'Tambah Barang Masuk';
+      document.getElementById('form-title-keluar').textContent = 'Tambah Barang Keluar';
+      
+      renderApp();
+    }
+
+    function deleteMaterial(id) {
+      const deleteBtn = document.querySelector(`button[data-delete="${id}"]`);
+      if (!deleteBtn) return;
+      
+      const originalText = 'Hapus';
+      const currentText = deleteBtn.textContent.trim();
+      
+      // Jika belum konfirmasi, tampilkan konfirmasi
+      if (currentText === originalText) {
+        deleteBtn.textContent = 'Yakin Hapus?';
+        deleteBtn.style.backgroundColor = '#991b1b';
+        
+        setTimeout(() => {
+          if (deleteBtn && deleteBtn.textContent === 'Yakin Hapus?') {
+            deleteBtn.textContent = originalText;
+            deleteBtn.style.backgroundColor = '#ef4444';
+          }
+        }, 3000);
+        return;
+      }
+
+      // Jika sudah konfirmasi, hapus data
+      deleteBtn.disabled = true;
+      deleteBtn.textContent = 'Menghapus...';
+
+      const index = materials.findIndex(m => m.id === id);
+      if (index !== -1) {
+        materials.splice(index, 1);
+        saveData();
+        showToast('Data berhasil dihapus!');
+        if (editingId === id) {
+          cancelEdit();
+        }
+        renderApp();
+      }
+    }
+
+    function calculateSisa(jumlahMasuk, jumlahKeluar) {
+      return jumlahMasuk - jumlahKeluar;
+    }
+
+    // Hitung total masuk, keluar, dan sisa untuk bahan yang sama
+    function calculateMaterialTotals(uraian) {
+      const sameMaterials = materials.filter(m => m.uraian.toLowerCase() === uraian.toLowerCase());
+      
+      if (sameMaterials.length === 0) {
+        return { totalMasuk: 0, totalKeluar: 0, totalSisa: 0, count: 0, satuan: '' };
+      }
+
+      const totalMasuk = sameMaterials.reduce((sum, m) => sum + m.jumlah_masuk, 0);
+      const totalKeluar = sameMaterials.reduce((sum, m) => sum + m.jumlah_keluar, 0);
+      const totalSisa = totalMasuk - totalKeluar;
+      
+      return {
+        totalMasuk,
+        totalKeluar,
+        totalSisa,
+        count: sameMaterials.length,
+        satuan: sameMaterials[0].satuan
+      };
+    }
+
+    // Dapatkan daftar bahan unik
+    function getUniqueMaterials() {
+      const uniqueMap = new Map();
+      
+      materials.forEach(material => {
+        const key = material.uraian.toLowerCase();
+        if (!uniqueMap.has(key)) {
+          uniqueMap.set(key, {
+            uraian: material.uraian,
+            satuan: material.satuan
+          });
+        }
+      });
+      
+      return Array.from(uniqueMap.values());
+    }
+
+    function showMaterialDetail(id) {
+      const material = materials.find(m => m.id === id);
+      if (!material) return;
+
+      const customFont = defaultConfig.font_family;
+      const baseFontSize = defaultConfig.font_size;
+      const cardColor = defaultConfig.card_color;
+      const textColor = defaultConfig.text_color;
+      const primaryColor = defaultConfig.primary_button_color;
+      const secondaryColor = defaultConfig.secondary_button_color;
+      const sisa = calculateSisa(material.jumlah_masuk, material.jumlah_keluar);
+      
+      // Hitung total untuk bahan yang sama
+      const totals = calculateMaterialTotals(material.uraian);
+
+      const modalHTML = `
+        <div class="modal-backdrop" onclick="closeModal(event)">
+          <div class="modal-content w-full max-w-2xl rounded-lg shadow-2xl p-6" 
+               style="background-color: ${cardColor}; font-family: ${customFont}, sans-serif;"
+               onclick="event.stopPropagation()">
+            <div class="flex justify-between items-start mb-6">
+              <h3 style="font-size: ${baseFontSize * 1.5}px; font-weight: 700; color: ${textColor};">
+                Detail Material
+              </h3>
+              <button onclick="closeModal()" 
+                      class="text-2xl leading-none transition-colors hover:opacity-70"
+                      style="color: ${textColor};">
+                ×
+              </button>
+            </div>
+
+            <div class="space-y-4">
+              ${totals.count > 1 ? `
+              <div class="p-4 rounded-lg" style="background-color: rgba(14, 165, 233, 0.1); border: 2px solid ${primaryColor};">
+                <p style="font-size: ${baseFontSize * 0.9}px; color: ${primaryColor}; font-weight: 600; margin-bottom: 8px;">
+                  📊 TOTAL AKUMULASI "${material.uraian}" (${totals.count} transaksi)
+                </p>
+                <div class="grid grid-cols-3 gap-4 mt-3">
+                  <div class="text-center">
+                    <p style="font-size: ${baseFontSize * 0.75}px; color: ${textColor}; opacity: 0.7; margin-bottom: 4px;">Total Masuk</p>
+                    <p style="font-size: ${baseFontSize * 1.4}px; font-weight: 700; color: ${primaryColor};">
+                      ${totals.totalMasuk}
+                    </p>
+                  </div>
+                  <div class="text-center">
+                    <p style="font-size: ${baseFontSize * 0.75}px; color: ${textColor}; opacity: 0.7; margin-bottom: 4px;">Total Keluar</p>
+                    <p style="font-size: ${baseFontSize * 1.4}px; font-weight: 700; color: #ef4444;">
+                      ${totals.totalKeluar}
+                    </p>
+                  </div>
+                  <div class="text-center">
+                    <p style="font-size: ${baseFontSize * 0.75}px; color: ${textColor}; opacity: 0.7; margin-bottom: 4px;">Sisa Akhir</p>
+                    <p style="font-size: ${baseFontSize * 1.4}px; font-weight: 700; color: ${totals.totalSisa < 0 ? '#ef4444' : '#22c55e'};">
+                      ${totals.totalSisa} ${totals.satuan}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              ` : ''}
+
+              <div class="p-3 rounded" style="background-color: rgba(0,0,0,0.03); border-left: 3px solid ${secondaryColor};">
+                <p style="font-size: ${baseFontSize * 0.85}px; color: ${textColor}; opacity: 0.8;">
+                  ${totals.count > 1 ? 'Detail transaksi ini:' : 'Detail transaksi:'}
+                </p>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="p-4 rounded-lg" style="background-color: rgba(0,0,0,0.05);">
+                  <p style="font-size: ${baseFontSize * 0.8}px; color: ${textColor}; opacity: 0.7; margin-bottom: 4px;">
+                    Uraian
+                  </p>
+                  <p style="font-size: ${baseFontSize * 1.1}px; font-weight: 600; color: ${textColor};">
+                    ${material.uraian}
+                  </p>
+                </div>
+
+                <div class="p-4 rounded-lg" style="background-color: rgba(0,0,0,0.05);">
+                  <p style="font-size: ${baseFontSize * 0.8}px; color: ${textColor}; opacity: 0.7; margin-bottom: 4px;">
+                    ${material.jumlah_masuk > 0 ? 'Supplier' : 'Tujuan / Penerima'}
+                  </p>
+                  <p style="font-size: ${baseFontSize * 1.1}px; font-weight: 600; color: ${textColor};">
+                    ${material.supplier}
+                  </p>
+                </div>
+              </div>
+
+              ${material.jumlah_masuk > 0 ? `
+              <div class="border-t pt-4" style="border-color: ${secondaryColor};">
+                <h4 style="font-size: ${baseFontSize * 1.2}px; font-weight: 600; color: ${primaryColor}; margin-bottom: 12px;">
+                  📥 Data Masuk
+                </h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <p style="font-size: ${baseFontSize * 0.85}px; color: ${textColor}; opacity: 0.7; margin-bottom: 4px;">
+                      Jumlah Masuk
+                    </p>
+                    <p style="font-size: ${baseFontSize * 1.3}px; font-weight: 700; color: ${primaryColor};">
+                      ${material.jumlah_masuk} ${material.satuan}
+                    </p>
+                  </div>
+                  <div>
+                    <p style="font-size: ${baseFontSize * 0.85}px; color: ${textColor}; opacity: 0.7; margin-bottom: 4px;">
+                      Tanggal Masuk
+                    </p>
+                    <p style="font-size: ${baseFontSize * 1.05}px; font-weight: 600; color: ${textColor};">
+                      ${new Date(material.tanggal_masuk).toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              ` : ''}
+
+              ${material.jumlah_keluar > 0 ? `
+              <div class="border-t pt-4" style="border-color: ${secondaryColor};">
+                <h4 style="font-size: ${baseFontSize * 1.2}px; font-weight: 600; color: #ef4444; margin-bottom: 12px;">
+                  📤 Data Keluar
+                </h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <p style="font-size: ${baseFontSize * 0.85}px; color: ${textColor}; opacity: 0.7; margin-bottom: 4px;">
+                      Jumlah Keluar
+                    </p>
+                    <p style="font-size: ${baseFontSize * 1.3}px; font-weight: 700; color: #ef4444;">
+                      ${material.jumlah_keluar} ${material.satuan}
+                    </p>
+                  </div>
+                  <div>
+                    <p style="font-size: ${baseFontSize * 0.85}px; color: ${textColor}; opacity: 0.7; margin-bottom: 4px;">
+                      Tanggal Keluar
+                    </p>
+                    <p style="font-size: ${baseFontSize * 1.05}px; font-weight: 600; color: ${textColor};">
+                      ${new Date(material.tanggal_keluar).toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              ` : ''}
+
+              <div class="border-t pt-4" style="border-color: ${secondaryColor};">
+                <div class="p-4 rounded-lg" style="background-color: ${sisa < 0 ? 'rgba(239, 68, 68, 0.1)' : 'rgba(34, 197, 94, 0.1)'};">
+                  <p style="font-size: ${baseFontSize * 0.85}px; color: ${textColor}; opacity: 0.7; margin-bottom: 4px;">
+                    Sisa Transaksi Ini
+                  </p>
+                  <p style="font-size: ${baseFontSize * 1.8}px; font-weight: 700; color: ${sisa < 0 ? '#ef4444' : '#22c55e'};">
+                    ${sisa} ${material.satuan}
+                  </p>
+                  ${sisa < 0 ? `<p style="font-size: ${baseFontSize * 0.8}px; color: #ef4444; margin-top: 4px;">⚠️ Stok minus! Perlu pengecekan</p>` : ''}
+                </div>
+              </div>
+
+              ${material.keterangan ? `
+              <div class="border-t pt-4" style="border-color: ${secondaryColor};">
+                <p style="font-size: ${baseFontSize * 0.85}px; color: ${textColor}; opacity: 0.7; margin-bottom: 8px;">
+                  Keterangan
+                </p>
+                <p style="font-size: ${baseFontSize}px; color: ${textColor}; line-height: 1.6;">
+                  ${material.keterangan}
+                </p>
+              </div>
+              ` : ''}
+
+              <div class="flex gap-3 pt-4">
+                <button onclick="closeModal(); editMaterial('${material.id}')" 
+                        class="flex-1 px-6 py-3 rounded-lg font-semibold transition-all duration-200 hover:shadow-lg"
+                        style="font-size: ${baseFontSize * 0.95}px; background-color: ${secondaryColor}; color: white;">
+                  ✏️ Edit Data
+                </button>
+                <button onclick="closeModal()" 
+                        class="flex-1 px-6 py-3 rounded-lg font-semibold transition-all duration-200 hover:shadow-lg"
+                        style="font-size: ${baseFontSize * 0.95}px; background-color: ${primaryColor}; color: white;">
+                  Tutup
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      const modalContainer = document.createElement('div');
+      modalContainer.id = 'material-modal';
+      modalContainer.innerHTML = modalHTML;
+      document.body.appendChild(modalContainer);
+    }
+
+    function closeModal(event) {
+      if (event && event.target !== event.currentTarget) return;
+      const modal = document.getElementById('material-modal');
+      if (modal) {
+        modal.remove();
+      }
+    }
+
+    function generateReportHTML() {
+      const customFont = defaultConfig.font_family;
+      
+      // Generate ringkasan per material
+      const uniqueMaterials = getUniqueMaterials();
+      let summaryRows = '';
+      
+      uniqueMaterials.forEach((material, index) => {
+        const totals = calculateMaterialTotals(material.uraian);
+        const rowColor = index % 2 === 0 ? '#f9f9f9' : '#ffffff';
+        
+        summaryRows += `
+          <tr style="background-color: ${rowColor};">
+            <td style="border: 1px solid #ddd; padding: 10px;">${index + 1}</td>
+            <td style="border: 1px solid #ddd; padding: 10px; font-weight: bold;">${material.uraian}</td>
+            <td style="border: 1px solid #ddd; padding: 10px; text-align: center;">${totals.count}</td>
+            <td style="border: 1px solid #ddd; padding: 10px; text-align: right; color: #0ea5e9; font-weight: 600;">${totals.totalMasuk} ${material.satuan}</td>
+            <td style="border: 1px solid #ddd; padding: 10px; text-align: right; color: #ef4444; font-weight: 600;">${totals.totalKeluar} ${material.satuan}</td>
+            <td style="border: 1px solid #ddd; padding: 10px; text-align: right; font-weight: bold; font-size: 16px; color: ${totals.totalSisa < 0 ? '#ef4444' : '#22c55e'};">${totals.totalSisa} ${material.satuan}</td>
+          </tr>
+        `;
+      });
+      
+      // Generate detail transaksi
+      let tableRows = '';
+      materials.forEach((material, index) => {
+        const sisa = calculateSisa(material.jumlah_masuk, material.jumlah_keluar);
+        tableRows += `
+          <tr>
+            <td style="border: 1px solid #ddd; padding: 8px;">${index + 1}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">${material.uraian}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">${material.supplier}</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">${material.jumlah_masuk > 0 ? material.jumlah_masuk + ' ' + material.satuan : '-'}</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">${material.tanggal_masuk ? new Date(material.tanggal_masuk).toLocaleDateString('id-ID') : '-'}</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">${material.jumlah_keluar > 0 ? material.jumlah_keluar + ' ' + material.satuan : '-'}</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">${material.tanggal_keluar ? new Date(material.tanggal_keluar).toLocaleDateString('id-ID') : '-'}</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: right; font-weight: bold; color: ${sisa < 0 ? '#ef4444' : '#000'};">${sisa} ${material.satuan}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">${material.keterangan || '-'}</td>
+          </tr>
+        `;
+      });
+
+      return `
+        <!DOCTYPE html>
+        <html lang="id">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Laporan ${defaultConfig.app_title}</title>
+          <style>
+            body {
+              font-family: ${customFont}, Arial, sans-serif;
+              margin: 20px;
+              color: #333;
+            }
+            .header {
+              text-align: center;
+              margin-bottom: 30px;
+            }
+            h1 {
+              margin: 0 0 10px 0;
+              font-size: 24px;
+            }
+            .project-name {
+              font-size: 18px;
+              color: #666;
+            }
+            .report-date {
+              text-align: right;
+              margin-bottom: 20px;
+              font-size: 14px;
+              color: #666;
+            }
+            table {
+              width: 100%;
+              border-collapse: collapse;
+              margin-top: 20px;
+            }
+            th {
+              background-color: #0ea5e9;
+              color: white;
+              padding: 10px;
+              text-align: left;
+              border: 1px solid #ddd;
+            }
+            td {
+              border: 1px solid #ddd;
+              padding: 8px;
+            }
+            tr:nth-child(even) {
+              background-color: #f9f9f9;
+            }
+            @media print {
+              body { margin: 0; }
+            }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <h1>${defaultConfig.app_title}</h1>
+            <p class="project-name">${defaultConfig.project_name}</p>
+          </div>
+          <div class="report-date">
+            Tanggal Cetak: ${new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+          </div>
+          
+          <h2 style="margin-top: 30px; margin-bottom: 15px; color: #0ea5e9; font-size: 20px;">📊 RINGKASAN AKUMULASI PER MATERIAL</h2>
+          <table style="margin-bottom: 40px;">
+            <thead>
+              <tr>
+                <th style="width: 40px;">No</th>
+                <th>Nama Material</th>
+                <th style="width: 100px;">Jumlah Transaksi</th>
+                <th style="width: 120px;">Total Masuk</th>
+                <th style="width: 120px;">Total Keluar</th>
+                <th style="width: 120px;">Sisa Akhir</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${summaryRows}
+            </tbody>
+          </table>
+
+          <h2 style="margin-top: 40px; margin-bottom: 15px; color: #64748b; font-size: 20px;">📋 DETAIL TRANSAKSI</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Uraian</th>
+                <th>Supplier / Tujuan</th>
+                <th>Jumlah Masuk</th>
+                <th>Tanggal Masuk</th>
+                <th>Jumlah Keluar</th>
+                <th>Tanggal Keluar</th>
+                <th>Sisa</th>
+                <th>Keterangan</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${tableRows}
+            </tbody>
+          </table>
+
+          <div style="margin-top: 50px; padding-top: 20px; border-top: 2px solid #ddd; text-align: center;">
+            <p style="font-size: 14px; color: #666; font-style: italic;">
+              Laporan dibuat oleh Bendahara Panitia Pembangunan Masjid Al-Ikhlas
+            </p>
+          </div>
+        </body>
+        </html>
+      `;
+    }
+
+    function downloadHTML() {
+      const html = generateReportHTML();
+      const blob = new Blob([html], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Laporan_Material_${new Date().toISOString().split('T')[0]}.html`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast('File HTML berhasil diunduh!');
+    }
+
+    function downloadPDF() {
+      const html = generateReportHTML();
+      const printWindow = window.open('', '_blank');
+      printWindow.document.write(html);
+      printWindow.document.close();
+      
+      printWindow.onload = function() {
+        setTimeout(() => {
+          printWindow.print();
+        }, 250);
+      };
+      
+      showToast('Silakan gunakan Print > Save as PDF');
+    }
+
+    function shareToWhatsApp() {
+      // Generate ringkasan laporan untuk WhatsApp
+      let message = `*${defaultConfig.app_title}*\n`;
+      message += `${defaultConfig.project_name}\n`;
+      message += `Tanggal: ${new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}\n\n`;
+      message += `📊 *RINGKASAN MATERIAL*\n`;
+      message += `━━━━━━━━━━━━━━━━━━━━\n\n`;
+
+      // Hitung total per bahan unik
+      const uniqueMaterials = getUniqueMaterials();
+      
+      uniqueMaterials.forEach((material, index) => {
+        const totals = calculateMaterialTotals(material.uraian);
+        message += `${index + 1}. *${material.uraian}*\n`;
+        message += `   📥 Masuk: ${totals.totalMasuk} ${material.satuan}\n`;
+        message += `   📤 Keluar: ${totals.totalKeluar} ${material.satuan}\n`;
+        message += `   📦 Sisa: ${totals.totalSisa} ${material.satuan}`;
+        
+        if (totals.totalSisa < 0) {
+          message += ` ⚠️`;
+        }
+        
+        message += `\n\n`;
+      });
+
+      message += `━━━━━━━━━━━━━━━━━━━━\n`;
+      message += `Total Jenis Material: ${uniqueMaterials.length}\n`;
+      message += `Total Transaksi: ${materials.length}\n\n`;
+      message += `_Laporan dibuat oleh Bendahara Panitia Pembangunan_`;
+
+      // Encode untuk WhatsApp
+      const encodedMessage = encodeURIComponent(message);
+      const whatsappURL = `https://wa.me/?text=${encodedMessage}`;
+      
+      // Buka WhatsApp di tab baru
+      window.open(whatsappURL, '_blank', 'noopener,noreferrer');
+      
+      showToast('Membuka WhatsApp...');
+    }
+
+    function renderApp() {
+      const customFont = defaultConfig.font_family;
+      const baseFontSize = defaultConfig.font_size;
+      const bgColor = defaultConfig.background_color;
+      const cardColor = defaultConfig.card_color;
+      const textColor = defaultConfig.text_color;
+      const primaryColor = defaultConfig.primary_button_color;
+      const secondaryColor = defaultConfig.secondary_button_color;
+
+      const app = document.getElementById('app');
+      app.style.backgroundColor = bgColor;
+      app.style.color = textColor;
+      app.style.fontFamily = `${customFont}, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif`;
+      app.style.fontSize = `${baseFontSize}px`;
+
+      app.innerHTML = `
+        <div class="w-full min-h-full p-3 md:p-6" style="background-color: ${bgColor};">
+          <div class="max-w-7xl mx-auto">
+            <!-- Header -->
+            <header class="mb-6 md:mb-8 text-center">
+              <div class="flex justify-center mb-4">
+                <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1766404576/masjid-removebg-preview_sfk21b.png" 
+                     alt="Logo Masjid" 
+                     style="width: 80px; height: 80px; object-fit: contain;"
+                     onerror="this.style.display='none';">
+              </div>
+              <h1 class="mb-2" style="font-size: ${baseFontSize * 1.75}px; font-weight: 700; color: ${textColor}; font-family: ${customFont}, sans-serif;">
+                ${defaultConfig.app_title}
+              </h1>
+              <p style="font-size: ${baseFontSize * 1.1}px; color: ${textColor}; opacity: 0.8; font-family: ${customFont}, sans-serif;">
+                ${defaultConfig.project_name}
+              </p>
+            </header>
+
+            <!-- Form Section with Tabs -->
+            <section id="form-section" class="mb-6 md:mb-8 p-4 md:p-6 rounded-lg shadow-lg slide-in" style="background-color: ${cardColor};">
+              <!-- Tab Navigation -->
+              <div class="flex gap-2 mb-6 border-b" style="border-color: ${secondaryColor};">
+                <button id="tab-masuk" onclick="switchTab('masuk')" 
+                  class="px-4 md:px-6 py-3 font-semibold transition-all duration-200 border-b-2"
+                  style="font-size: ${baseFontSize * 0.95}px; color: ${primaryColor}; border-color: ${primaryColor}; font-family: ${customFont}, sans-serif;">
+                  📥 Barang Masuk
+                </button>
+                <button id="tab-keluar" onclick="switchTab('keluar')" 
+                  class="px-4 md:px-6 py-3 font-semibold transition-all duration-200 border-b-2 border-transparent"
+                  style="font-size: ${baseFontSize * 0.95}px; color: ${textColor}; opacity: 0.6; font-family: ${customFont}, sans-serif;">
+                  📤 Barang Keluar
+                </button>
+              </div>
+
+              <!-- Form Barang Masuk -->
+              <div id="form-masuk" class="form-container">
+                <h2 id="form-title-masuk" class="mb-4 md:mb-6" style="font-size: ${baseFontSize * 1.5}px; font-weight: 600; color: ${textColor}; font-family: ${customFont}, sans-serif;">
+                  ${editingId && editingType === 'masuk' ? 'Edit Barang Masuk' : 'Tambah Barang Masuk'}
+                </h2>
+                <form id="material-form-masuk" class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+                  <div>
+                    <label for="uraian-masuk" class="block mb-1 md:mb-2" style="font-size: ${baseFontSize * 0.9}px; font-weight: 500; color: ${textColor}; font-family: ${customFont}, sans-serif;">
+                      Uraian
+                    </label>
+                    <input list="uraian-list" type="text" id="uraian-masuk" name="uraian" required 
+                      class="w-full px-3 py-2 md:px-4 md:py-2 rounded-lg border-2 focus:outline-none focus:ring-2"
+                      style="font-size: ${baseFontSize * 0.95}px; background-color: ${bgColor}; color: ${textColor}; border-color: ${secondaryColor}; font-family: ${customFont}, sans-serif;"
+                      placeholder="Pilih atau ketik manual">
+                    <datalist id="uraian-list">
+                      <option value="Besi beton Φ 13 mm Ulir">
+                      <option value="Besi beton Φ 12 mm SNI">
+                      <option value="Besi beton Φ 10 mm SNI">
+                      <option value="Besi beton Φ 8 mm SNI">
+                      <option value="Besi beton Φ 6 mm SNI">
+                      <option value="Kawat Bendrat">
+                      <option value="Semen Portland @ 50 kg">
+                      <option value="Batako">
+                      <option value="Seng Spandek 9 meter 0,40 (Maroon)">
+                      <option value="Kanal Taso 75 x 75">
+                      <option value="Reng kanal Taso">
+                      <option value="Baut Kanal isi 1000">
+                      <option value="Baut Seng isi 500">
+                      <option value="Holo">
+                      <option value="Scrup Holo">
+                      <option value="Pasir Pasang">
+                      <option value="Batu Kali">
+                      <option value="Pasir Beton">
+                      <option value="Batu Krikil 2 x 3">
+                      <option value="Pasir Timbunan">
+                      <option value="Paku Biasa 3&quot;">
+                      <option value="Paku Biasa 2,5&quot;">
+                      <option value="Papan Mal 2 x 15 x 4 m">
+                      <option value="Balok 5 x 7 x 4">
+                      <option value="Gypsum">
+                      <option value="Tegel granit 60 x 60">
+                      <option value="Kuku">
+                      <option value="Pipa Listrik">
+                      <option value="Kabel Eterna 2,5 (100 mtr)">
+                      <option value="Selang Flexibel">
+                      <option value="T Dos">
+                      <option value="Kabel Tis">
+                      <option value="MCB Snider">
+                      <option value="Stop Kontak">
+                      <option value="Fiting Lampu">
+                      <option value="Isolasi Listrik 'Nasional'">
+                      <option value="Box MCB">
+                      <option value="Ventilasi Kaca">
+                      <option value="Kaca Blok">
+                      <option value="Pipa PVC 2½ inch type D Power">
+                      <option value="Sock L 2½ inch">
+                      <option value="A Plus Plamir Tembok Putih">
+                      <option value="Cat No. Drop Anti Rembes @25 kg">
+                      <option value="Roster Motif">
+                      <option value="Avitex @ 25 kg">
+                      <option value="Jendela Aluminium">
+                      <option value="Pintu Aluminium">
+                      <option value="ARCO">
+                      <option value="SKop">
+                      <option value="Pacul">
+                      <option value="Molen Cor">
+                      <option value="Pipa Medium">
+                      <option value="Mesin Air Sumitzu 200 Watt">
+                      <option value="Pipa PVC 3&quot; inch type D Power">
+                      <option value="Tandon 1000 Ltr">
+                      <option value="Menara Tandon">
+                      <option value="Pipa PVC 3/4 inch type D Power">
+                      <option value="Sock L 3/4 inch">
+                      <option value="Stop Kran 3/4 inch">
+                      <option value="Ember Cor">
+                      <option value="Lem Pipa">
+                      <option value="Seltip">
+                      <option value="Tripleks 3 mm">
+                      <option value="Seng Gelombang Biasa">
+                      <option value="Tripleks 9 mm">
+                      <option value="Paku Seng">
+                      <option value="Paku Kalsiboard">
+                    </datalist>
+                  </div>
+
+                  <div>
+                    <label for="supplier-masuk" class="block mb-1 md:mb-2" style="font-size: ${baseFontSize * 0.9}px; font-weight: 500; color: ${textColor}; font-family: ${customFont}, sans-serif;">
+                      Supplier
+                    </label>
+                    <input list="supplier-list" type="text" id="supplier-masuk" name="supplier" required 
+                      class="w-full px-3 py-2 md:px-4 md:py-2 rounded-lg border-2 focus:outline-none focus:ring-2"
+                      style="font-size: ${baseFontSize * 0.95}px; background-color: ${bgColor}; color: ${textColor}; border-color: ${secondaryColor}; font-family: ${customFont}, sans-serif;"
+                      placeholder="Pilih atau ketik manual">
+                    <datalist id="supplier-list">
+                      <option value="Nagaya Bangunan">
+                    </datalist>
+                  </div>
+
+                  <div>
+                    <label for="jumlah-masuk" class="block mb-1 md:mb-2" style="font-size: ${baseFontSize * 0.9}px; font-weight: 500; color: ${textColor}; font-family: ${customFont}, sans-serif;">
+                      Jumlah Masuk
+                    </label>
+                    <input type="number" id="jumlah-masuk" name="jumlah_masuk" required step="0.01"
+                      class="w-full px-3 py-2 md:px-4 md:py-2 rounded-lg border-2 focus:outline-none focus:ring-2"
+                      style="font-size: ${baseFontSize * 0.95}px; background-color: ${bgColor}; color: ${textColor}; border-color: ${secondaryColor}; font-family: ${customFont}, sans-serif;"
+                      placeholder="0">
+                  </div>
+
+                  <div>
+                    <label for="satuan-masuk" class="block mb-1 md:mb-2" style="font-size: ${baseFontSize * 0.9}px; font-weight: 500; color: ${textColor}; font-family: ${customFont}, sans-serif;">
+                      Satuan
+                    </label>
+                    <input list="satuan-list" type="text" id="satuan-masuk" name="satuan" required 
+                      class="w-full px-3 py-2 md:px-4 md:py-2 rounded-lg border-2 focus:outline-none focus:ring-2"
+                      style="font-size: ${baseFontSize * 0.95}px; background-color: ${bgColor}; color: ${textColor}; border-color: ${secondaryColor}; font-family: ${customFont}, sans-serif;"
+                      placeholder="Pilih atau ketik manual">
+                    <datalist id="satuan-list">
+                      <option value="Btg">
+                      <option value="Zak">
+                      <option value="m³">
+                      <option value="Kg">
+                      <option value="pcs">
+                      <option value="set">
+                      <option value="bh">
+                      <option value="Lbr">
+                    </datalist>
+                  </div>
+
+                  <div>
+                    <label for="tanggal-masuk" class="block mb-1 md:mb-2" style="font-size: ${baseFontSize * 0.9}px; font-weight: 500; color: ${textColor}; font-family: ${customFont}, sans-serif;">
+                      Tanggal Masuk
+                    </label>
+                    <input type="date" id="tanggal-masuk" name="tanggal_masuk" required 
+                      class="w-full px-3 py-2 md:px-4 md:py-2 rounded-lg border-2 focus:outline-none focus:ring-2"
+                      style="font-size: ${baseFontSize * 0.95}px; background-color: ${bgColor}; color: ${textColor}; border-color: ${secondaryColor}; font-family: ${customFont}, sans-serif;">
+                  </div>
+
+                  <div class="md:col-span-2">
+                    <label for="keterangan-masuk" class="block mb-1 md:mb-2" style="font-size: ${baseFontSize * 0.9}px; font-weight: 500; color: ${textColor}; font-family: ${customFont}, sans-serif;">
+                      Keterangan
+                    </label>
+                    <textarea id="keterangan-masuk" name="keterangan" rows="3" 
+                      class="w-full px-3 py-2 md:px-4 md:py-2 rounded-lg border-2 focus:outline-none focus:ring-2"
+                      style="font-size: ${baseFontSize * 0.95}px; background-color: ${bgColor}; color: ${textColor}; border-color: ${secondaryColor}; font-family: ${customFont}, sans-serif;"
+                      placeholder="Keterangan tambahan"></textarea>
+                  </div>
+
+                  <div class="md:col-span-2 flex flex-col md:flex-row gap-3 md:gap-4">
+                    <button type="submit" 
+                      class="flex-1 px-4 py-3 md:px-6 md:py-3 rounded-lg font-semibold transition-all duration-200 hover:shadow-lg"
+                      style="font-size: ${baseFontSize * 0.95}px; background-color: ${primaryColor}; color: white; font-family: ${customFont}, sans-serif;">
+                      ${editingId && editingType === 'masuk' ? 'Perbarui Barang Masuk' : 'Simpan Barang Masuk'}
+                    </button>
+                    ${editingId && editingType === 'masuk' ? `
+                    <button type="button" onclick="cancelEdit()"
+                      class="px-4 py-3 md:px-6 md:py-3 rounded-lg font-semibold transition-all duration-200 hover:shadow-lg"
+                      style="font-size: ${baseFontSize * 0.95}px; background-color: ${secondaryColor}; color: white; font-family: ${customFont}, sans-serif;">
+                      Batal
+                    </button>
+                    ` : ''}
+                  </div>
+                </form>
+              </div>
+
+              <!-- Form Barang Keluar -->
+              <div id="form-keluar" class="form-container" style="display: none;">
+                <h2 id="form-title-keluar" class="mb-4 md:mb-6" style="font-size: ${baseFontSize * 1.5}px; font-weight: 600; color: ${textColor}; font-family: ${customFont}, sans-serif;">
+                  ${editingId && editingType === 'keluar' ? 'Edit Barang Keluar' : 'Tambah Barang Keluar'}
+                </h2>
+                <form id="material-form-keluar" class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+                  <div>
+                    <label for="uraian-keluar" class="block mb-1 md:mb-2" style="font-size: ${baseFontSize * 0.9}px; font-weight: 500; color: ${textColor}; font-family: ${customFont}, sans-serif;">
+                      Uraian
+                    </label>
+                    <input list="uraian-list" type="text" id="uraian-keluar" name="uraian" required 
+                      class="w-full px-3 py-2 md:px-4 md:py-2 rounded-lg border-2 focus:outline-none focus:ring-2"
+                      style="font-size: ${baseFontSize * 0.95}px; background-color: ${bgColor}; color: ${textColor}; border-color: ${secondaryColor}; font-family: ${customFont}, sans-serif;"
+                      placeholder="Pilih atau ketik manual">
+                  </div>
+
+                  <div>
+                    <label for="supplier-keluar" class="block mb-1 md:mb-2" style="font-size: ${baseFontSize * 0.9}px; font-weight: 500; color: ${textColor}; font-family: ${customFont}, sans-serif;">
+                      Tujuan / Penerima
+                    </label>
+                    <input type="text" id="supplier-keluar" name="supplier" required 
+                      class="w-full px-3 py-2 md:px-4 md:py-2 rounded-lg border-2 focus:outline-none focus:ring-2"
+                      style="font-size: ${baseFontSize * 0.95}px; background-color: ${bgColor}; color: ${textColor}; border-color: ${secondaryColor}; font-family: ${customFont}, sans-serif;"
+                      placeholder="Ketik tujuan atau penerima">
+                  </div>
+
+                  <div>
+                    <label for="jumlah-keluar" class="block mb-1 md:mb-2" style="font-size: ${baseFontSize * 0.9}px; font-weight: 500; color: ${textColor}; font-family: ${customFont}, sans-serif;">
+                      Jumlah Keluar
+                    </label>
+                    <input type="number" id="jumlah-keluar" name="jumlah_keluar" required step="0.01"
+                      class="w-full px-3 py-2 md:px-4 md:py-2 rounded-lg border-2 focus:outline-none focus:ring-2"
+                      style="font-size: ${baseFontSize * 0.95}px; background-color: ${bgColor}; color: ${textColor}; border-color: ${secondaryColor}; font-family: ${customFont}, sans-serif;"
+                      placeholder="0">
+                  </div>
+
+                  <div>
+                    <label for="satuan-keluar" class="block mb-1 md:mb-2" style="font-size: ${baseFontSize * 0.9}px; font-weight: 500; color: ${textColor}; font-family: ${customFont}, sans-serif;">
+                      Satuan
+                    </label>
+                    <input list="satuan-list" type="text" id="satuan-keluar" name="satuan" required 
+                      class="w-full px-3 py-2 md:px-4 md:py-2 rounded-lg border-2 focus:outline-none focus:ring-2"
+                      style="font-size: ${baseFontSize * 0.95}px; background-color: ${bgColor}; color: ${textColor}; border-color: ${secondaryColor}; font-family: ${customFont}, sans-serif;"
+                      placeholder="Pilih atau ketik manual">
+                  </div>
+
+                  <div>
+                    <label for="tanggal-keluar" class="block mb-1 md:mb-2" style="font-size: ${baseFontSize * 0.9}px; font-weight: 500; color: ${textColor}; font-family: ${customFont}, sans-serif;">
+                      Tanggal Keluar
+                    </label>
+                    <input type="date" id="tanggal-keluar" name="tanggal_keluar" required 
+                      class="w-full px-3 py-2 md:px-4 md:py-2 rounded-lg border-2 focus:outline-none focus:ring-2"
+                      style="font-size: ${baseFontSize * 0.95}px; background-color: ${bgColor}; color: ${textColor}; border-color: ${secondaryColor}; font-family: ${customFont}, sans-serif;">
+                  </div>
+
+                  <div class="md:col-span-2">
+                    <label for="keterangan-keluar" class="block mb-1 md:mb-2" style="font-size: ${baseFontSize * 0.9}px; font-weight: 500; color: ${textColor}; font-family: ${customFont}, sans-serif;">
+                      Keterangan
+                    </label>
+                    <textarea id="keterangan-keluar" name="keterangan" rows="3" 
+                      class="w-full px-3 py-2 md:px-4 md:py-2 rounded-lg border-2 focus:outline-none focus:ring-2"
+                      style="font-size: ${baseFontSize * 0.95}px; background-color: ${bgColor}; color: ${textColor}; border-color: ${secondaryColor}; font-family: ${customFont}, sans-serif;"
+                      placeholder="Keterangan tambahan"></textarea>
+                  </div>
+
+                  <div class="md:col-span-2 flex flex-col md:flex-row gap-3 md:gap-4">
+                    <button type="submit" 
+                      class="flex-1 px-4 py-3 md:px-6 md:py-3 rounded-lg font-semibold transition-all duration-200 hover:shadow-lg"
+                      style="font-size: ${baseFontSize * 0.95}px; background-color: #ef4444; color: white; font-family: ${customFont}, sans-serif;">
+                      ${editingId && editingType === 'keluar' ? 'Perbarui Barang Keluar' : 'Simpan Barang Keluar'}
+                    </button>
+                    ${editingId && editingType === 'keluar' ? `
+                    <button type="button" onclick="cancelEdit()"
+                      class="px-4 py-3 md:px-6 md:py-3 rounded-lg font-semibold transition-all duration-200 hover:shadow-lg"
+                      style="font-size: ${baseFontSize * 0.95}px; background-color: ${secondaryColor}; color: white; font-family: ${customFont}, sans-serif;">
+                      Batal
+                    </button>
+                    ` : ''}
+                  </div>
+                </form>
+              </div>
+            </section>
+
+            <!-- Data Table -->
+            <section class="p-4 md:p-6 rounded-lg shadow-lg slide-in" style="background-color: ${cardColor};">
+              <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 mb-4 md:mb-6">
+                <h2 style="font-size: ${baseFontSize * 1.5}px; font-weight: 600; color: ${textColor}; font-family: ${customFont}, sans-serif;">
+                  Data Material
+                </h2>
+                ${materials.length > 0 ? `
+                <div class="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
+                  <button onclick="shareToWhatsApp()" 
+                    class="px-4 py-2 rounded-lg font-semibold transition-all duration-200 hover:shadow-lg whitespace-nowrap"
+                    style="font-size: ${baseFontSize * 0.9}px; background-color: #25D366; color: white; font-family: ${customFont}, sans-serif;">
+                    📱 Bagikan ke WhatsApp
+                  </button>
+                  <button onclick="downloadHTML()" 
+                    class="px-4 py-2 rounded-lg font-semibold transition-all duration-200 hover:shadow-lg whitespace-nowrap"
+                    style="font-size: ${baseFontSize * 0.9}px; background-color: ${secondaryColor}; color: white; font-family: ${customFont}, sans-serif;">
+                    📄 Unduh HTML
+                  </button>
+                  <button onclick="downloadPDF()" 
+                    class="px-4 py-2 rounded-lg font-semibold transition-all duration-200 hover:shadow-lg whitespace-nowrap"
+                    style="font-size: ${baseFontSize * 0.9}px; background-color: ${primaryColor}; color: white; font-family: ${customFont}, sans-serif;">
+                    📑 Unduh PDF
+                  </button>
+                </div>
+                ` : ''}
+              </div>
+              
+              ${materials.length === 0 ? `
+                <div class="text-center py-8 md:py-12" style="color: ${textColor}; opacity: 0.6;">
+                  <p style="font-size: ${baseFontSize * 1.1}px; font-family: ${customFont}, sans-serif;">
+                    Belum ada data material. Silakan tambahkan data baru.
+                  </p>
+                </div>
+              ` : `
+                <div class="overflow-x-auto -mx-4 md:mx-0">
+                  <table class="w-full border-collapse min-w-max">
+                    <thead>
+                      <tr style="background-color: ${primaryColor}; color: white;">
+                        <th class="px-2 md:px-4 py-2 md:py-3 text-left" style="font-size: ${baseFontSize * 0.85}px; font-family: ${customFont}, sans-serif;">No</th>
+                        <th class="px-2 md:px-4 py-2 md:py-3 text-left" style="font-size: ${baseFontSize * 0.85}px; font-family: ${customFont}, sans-serif;">Uraian</th>
+                        <th class="px-2 md:px-4 py-2 md:py-3 text-left" style="font-size: ${baseFontSize * 0.85}px; font-family: ${customFont}, sans-serif;">Supplier / Tujuan</th>
+                        <th class="px-2 md:px-4 py-2 md:py-3 text-right" style="font-size: ${baseFontSize * 0.85}px; font-family: ${customFont}, sans-serif;">Jml Masuk</th>
+                        <th class="px-2 md:px-4 py-2 md:py-3 text-center" style="font-size: ${baseFontSize * 0.85}px; font-family: ${customFont}, sans-serif;">Tgl Masuk</th>
+                        <th class="px-2 md:px-4 py-2 md:py-3 text-right" style="font-size: ${baseFontSize * 0.85}px; font-family: ${customFont}, sans-serif;">Jml Keluar</th>
+                        <th class="px-2 md:px-4 py-2 md:py-3 text-center" style="font-size: ${baseFontSize * 0.85}px; font-family: ${customFont}, sans-serif;">Tgl Keluar</th>
+                        <th class="px-2 md:px-4 py-2 md:py-3 text-right" style="font-size: ${baseFontSize * 0.85}px; font-family: ${customFont}, sans-serif;">Sisa</th>
+                        <th class="px-2 md:px-4 py-2 md:py-3 text-left" style="font-size: ${baseFontSize * 0.85}px; font-family: ${customFont}, sans-serif;">Ket</th>
+                        <th class="px-2 md:px-4 py-2 md:py-3 text-center" style="font-size: ${baseFontSize * 0.85}px; font-family: ${customFont}, sans-serif;">Aksi</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      ${materials.map((material, index) => {
+                        const sisa = calculateSisa(material.jumlah_masuk, material.jumlah_keluar);
+                        return `
+                          <tr class="border-b hover:bg-opacity-50" style="border-color: ${secondaryColor};">
+                            <td class="px-2 md:px-4 py-2 md:py-3" style="font-size: ${baseFontSize * 0.8}px; color: ${textColor}; font-family: ${customFont}, sans-serif;">${index + 1}</td>
+                            <td class="px-2 md:px-4 py-2 md:py-3 min-w-[150px]" style="font-size: ${baseFontSize * 0.8}px; color: ${primaryColor}; font-family: ${customFont}, sans-serif;">
+                              <button onclick="showMaterialDetail('${material.id}')" 
+                                      class="text-left hover:underline font-semibold transition-colors"
+                                      style="color: ${primaryColor}; cursor: pointer; background: none; border: none; padding: 0;">
+                                ${material.uraian}
+                              </button>
+                            </td>
+                            <td class="px-2 md:px-4 py-2 md:py-3 min-w-[120px]" style="font-size: ${baseFontSize * 0.8}px; color: ${textColor}; font-family: ${customFont}, sans-serif;">${material.supplier}</td>
+                            <td class="px-2 md:px-4 py-2 md:py-3 text-right whitespace-nowrap" style="font-size: ${baseFontSize * 0.8}px; color: ${textColor}; font-family: ${customFont}, sans-serif;">${material.jumlah_masuk > 0 ? material.jumlah_masuk + ' ' + material.satuan : '-'}</td>
+                            <td class="px-2 md:px-4 py-2 md:py-3 text-center whitespace-nowrap" style="font-size: ${baseFontSize * 0.8}px; color: ${textColor}; font-family: ${customFont}, sans-serif;">${material.tanggal_masuk ? new Date(material.tanggal_masuk).toLocaleDateString('id-ID', {day: '2-digit', month: '2-digit', year: 'numeric'}) : '-'}</td>
+                            <td class="px-2 md:px-4 py-2 md:py-3 text-right whitespace-nowrap" style="font-size: ${baseFontSize * 0.8}px; color: ${textColor}; font-family: ${customFont}, sans-serif;">${material.jumlah_keluar > 0 ? material.jumlah_keluar + ' ' + material.satuan : '-'}</td>
+                            <td class="px-2 md:px-4 py-2 md:py-3 text-center whitespace-nowrap" style="font-size: ${baseFontSize * 0.8}px; color: ${textColor}; font-family: ${customFont}, sans-serif;">${material.tanggal_keluar ? new Date(material.tanggal_keluar).toLocaleDateString('id-ID', {day: '2-digit', month: '2-digit', year: 'numeric'}) : '-'}</td>
+                            <td class="px-2 md:px-4 py-2 md:py-3 text-right font-semibold whitespace-nowrap" style="font-size: ${baseFontSize * 0.8}px; color: ${sisa < 0 ? '#ef4444' : textColor}; font-family: ${customFont}, sans-serif;">${sisa} ${material.satuan}</td>
+                            <td class="px-2 md:px-4 py-2 md:py-3 max-w-[150px] truncate" style="font-size: ${baseFontSize * 0.8}px; color: ${textColor}; font-family: ${customFont}, sans-serif;" title="${material.keterangan || '-'}">${material.keterangan || '-'}</td>
+                            <td class="px-2 md:px-4 py-2 md:py-3">
+                              <div class="flex flex-col md:flex-row gap-1 md:gap-2 justify-center min-w-[100px]">
+                                <button onclick="editMaterial('${material.id}')" 
+                                  class="px-2 md:px-3 py-1 rounded transition-all duration-200 hover:shadow-md whitespace-nowrap"
+                                  style="font-size: ${baseFontSize * 0.75}px; background-color: ${secondaryColor}; color: white; font-family: ${customFont}, sans-serif;">
+                                  Edit
+                                </button>
+                                <button onclick="deleteMaterial('${material.id}')" data-delete="${material.id}"
+                                  class="px-2 md:px-3 py-1 rounded bg-red-500 hover:bg-red-600 text-white transition-all duration-200 hover:shadow-md whitespace-nowrap"
+                                  style="font-size: ${baseFontSize * 0.75}px; font-family: ${customFont}, sans-serif;">
+                                  Hapus
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        `;
+                      }).join('')}
+                    </tbody>
+                  </table>
+                </div>
+              `}
+            </section>
+          </div>
+        </div>
+      `;
+
+      const formMasuk = document.getElementById('material-form-masuk');
+      if (formMasuk) {
+        formMasuk.addEventListener('submit', handleSubmitMasuk);
+      }
+      
+      const formKeluar = document.getElementById('material-form-keluar');
+      if (formKeluar) {
+        formKeluar.addEventListener('submit', handleSubmitKeluar);
+      }
+      
+      // Restore active tab
+      switchTab(activeTab);
+    }
+
+    function init() {
+      loadData();
+      renderApp();
+    }
+
+    init();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b20bdc3d1c77a82',t:'MTc2NjQxODI3NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

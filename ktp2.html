@@ -1,0 +1,1476 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Galeri foto warga Desa Wani Lumbumpetigo. Dokumentasi KTP dan foto warga desa dengan sistem keamanan terproteksi.">
+  <meta name="keywords" content="desa wani lumbumpetigo, galeri foto, KTP warga, dokumentasi desa">
+  <meta name="author" content="Desa Wani Lumbumpetigo">
+  <title>Galeri Foto Warga - Desa Wani Lumbumpetigo</title>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/dpr2vc3b0/image/upload/v1767107096/logo_donggala-fix-2025_napiej.png">
+  <link rel="shortcut icon" type="image/png" href="https://res.cloudinary.com/dpr2vc3b0/image/upload/v1767107096/logo_donggala-fix-2025_napiej.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&amp;family=Nunito:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
+  <script type="text/javascript" src="https://project.dimpost.com/flexslider-carousel/jquery.js"></script>
+  <script type="text/javascript" src="https://project.dimpost.com/flexslider-carousel/jquery.flexslider-min.js"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    .font-display {
+      font-family: 'Quicksand', sans-serif;
+    }
+    .font-body {
+      font-family: 'Nunito', system-ui, sans-serif;
+    }
+    .auth-overlay {
+      backdrop-filter: blur(20px);
+      animation: fadeIn 0.3s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .slide-up {
+      animation: slideUp 0.4s ease-out;
+    }
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .photo-card {
+      /* No transitions for better scroll performance */
+    }
+    .gallery-img {
+      will-change: auto;
+      content-visibility: auto;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .gallery-img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+    
+    /* Optimasi untuk scroll */
+    .gallery-card {
+      contain: layout style paint;
+    }
+    
+    /* Lazy loading optimization */
+    img[loading="lazy"] {
+      min-height: 200px;
+      background: linear-gradient(135deg, #e0e7ff, #f0f9ff);
+    }
+    
+    /* Lightbox Styles */
+    .lightbox-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    
+    .lightbox-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .lightbox-content {
+      position: relative;
+      max-width: 90%;
+      max-height: 90%;
+      animation: zoomIn 0.4s ease-out;
+    }
+    
+    @keyframes zoomIn {
+      from {
+        transform: scale(0.5);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+    
+    .lightbox-img {
+      max-width: 100%;
+      max-height: 90vh;
+      width: auto;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+    
+    .lightbox-close {
+      position: absolute;
+      top: -50px;
+      right: 0;
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: white;
+      font-size: 32px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s ease, transform 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+    
+    .lightbox-close:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: rotate(90deg);
+    }
+    
+    .lightbox-name {
+      position: absolute;
+      bottom: -60px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    }
+    
+    .lightbox-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: white;
+      font-size: 36px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s ease, transform 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+    
+    .lightbox-nav:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-50%) scale(1.1);
+    }
+    
+    .lightbox-nav.prev {
+      left: 20px;
+    }
+    
+    .lightbox-nav.next {
+      right: 20px;
+    }
+    
+    /* Back to Top Button */
+    .back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+      opacity: 0;
+      visibility: hidden;
+      transform: scale(0.8);
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+    
+    .back-to-top.show {
+      opacity: 1;
+      visibility: visible;
+      transform: scale(1);
+    }
+    
+    .back-to-top:hover {
+      transform: scale(1.1) translateY(-3px);
+      box-shadow: 0 6px 30px rgba(102, 126, 234, 0.6);
+    }
+    
+    .back-to-top:active {
+      transform: scale(0.95);
+    }
+    
+    @media (max-width: 768px) {
+      .back-to-top {
+        bottom: 20px;
+        right: 20px;
+        width: 50px;
+        height: 50px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .lightbox-close {
+        top: 10px;
+        right: 10px;
+        width: 40px;
+        height: 40px;
+        font-size: 24px;
+      }
+      
+      .lightbox-name {
+        bottom: 10px;
+        font-size: 18px;
+      }
+      
+      .lightbox-nav {
+        width: 50px;
+        height: 50px;
+        font-size: 28px;
+      }
+      
+      .lightbox-nav.prev {
+        left: 10px;
+      }
+      
+      .lightbox-nav.next {
+        right: 10px;
+      }
+    }
+    
+    /* FlexSlider CSS */
+    .flex-container a:active,
+    .flexslider a:active,
+    .flex-container a:focus,
+    .flexslider a:focus{
+      outline:none;
+    }
+    .slides,
+    .flex-control-nav,
+    .flex-direction-nav{
+      margin:0;
+      padding:0;
+      list-style:none;
+    }
+    .flexslider{
+      margin:0 0 60px;
+      background:#fff;
+      border:4px solid #fff;
+      position:relative;
+      -webkit-border-radius:4px;
+      -moz-border-radius:4px;
+      border-radius:4px;
+      -webkit-box-shadow:0 1px 4px rgba(0,0,0,.2);
+      -moz-box-shadow:0 1px 4px rgba(0,0,0,.2);
+      box-shadow:0 1px 4px rgba(0,0,0,.2);
+      zoom:1;
+    }
+    .flex-viewport{
+      max-height:2000px;
+      -webkit-transition:all 1s ease;
+      -moz-transition:all 1s ease;
+      -o-transition:all 1s ease;
+      transition:all 1s ease;
+    }
+    .loading .flex-viewport{
+      max-height:300px;
+    }
+    .flexslider .slides{
+      zoom:1;
+    }
+    .flexslider .slides > li{
+      display:none;
+      -webkit-backface-visibility:hidden;
+      -moz-backface-visibility:hidden;
+      -ms-backface-visibility:hidden;
+      -o-backface-visibility:hidden;
+      backface-visibility:hidden;
+    }
+    .flexslider .slides img{
+      width:100%;
+      display:block;
+    }
+    .flex-pauseplay span{
+      text-transform:capitalize;
+    }
+    .flexslider a.intro {
+      bottom:0;
+      color:rgba(0, 0, 0, 0.1);
+      font-size:14px;
+      position:absolute;
+      right:0;
+      text-decoration:none;
+      z-index:99999;
+    }
+    .slides:after{
+      content:".";
+      display:block;
+      clear:both;
+      visibility:hidden;
+      line-height:0;
+      height:0;
+    }
+    html[xmlns] .slides{
+      display:block;
+    }
+    * html .slides{
+      height:1%;
+    }
+    .no-js .slides > li:first-child{
+      display:block;
+    }
+    .carousel li{
+      margin-right:5px;
+    }
+    .flexslider li {
+      border: 0 none !important;
+      padding: 0 !important;
+      text-indent: 0 !important;
+    }
+    .flex-direction-nav a{
+      width:30px;
+      height:30px;
+      margin:-20px 0 0;
+      display:block;
+      background:url(https://project.dimpost.com/flexslider-carousel/images/bg_direction_nav.png) no-repeat 0 0;
+      position:absolute;
+      top:50%;
+      cursor:pointer;
+      text-indent:-9999px;
+      opacity:0;
+      -webkit-transition:all .3s ease;
+      -moz-transition:all .3s ease;
+      -o-transition:all .3s ease;
+      transition:all .3s ease;
+    }
+    .flex-direction-nav .flex-next{
+      background-position:100% 0;
+      right:-36px;
+    }
+    .flex-direction-nav .flex-prev{
+      left:-36px;
+    }
+    .flexslider:hover .flex-next{
+      opacity:0.8;
+      right:5px;
+    }
+    .flexslider:hover .flex-prev{
+      opacity:0.8;
+      left:5px;
+    }
+    .flexslider:hover .flex-next:hover, .flexslider:hover .flex-prev:hover{
+      opacity:1;
+    }
+    .flex-direction-nav .disabled{
+      opacity:.3!important;
+      filter:alpha(opacity=30);
+      cursor:default;
+    }
+    .flex-control-nav{
+      width:100%;
+      position:absolute;
+      bottom:-40px;
+      text-align:center;
+    }
+    .flex-control-nav li{
+      margin:0 6px;
+      display:inline-block;
+      zoom:1;
+      *display:inline;
+    }
+    .flex-control-paging li a{
+      width:11px;
+      height:11px;
+      display:block;
+      background:#666;
+      background:rgba(0,0,0,0.5);
+      cursor:pointer;
+      text-indent:-9999px;
+      -webkit-border-radius:20px;
+      -moz-border-radius:20px;
+      border-radius:20px;
+      -webkit-box-shadow:inset 0 0 3px rgba(0,0,0,0.3);
+      -moz-box-shadow:inset 0 0 3px rgba(0,0,0,0.3);
+      box-shadow:inset 0 0 3px rgba(0,0,0,0.3);
+    }
+    .flex-control-paging li a:hover{
+      background:#333;
+      background:rgba(0,0,0,0.7);
+    }
+    .flex-control-paging li a.flex-active{
+      background:#000;
+      background:rgba(0,0,0,0.9);
+      cursor:default;
+    }
+    .flex-control-thumbs{
+      margin:5px 0 0;
+      position:static;
+      overflow:hidden;
+    }
+    .flex-control-thumbs li{
+      width:25%;
+      float:left;
+      margin:0;
+    }
+    .flex-control-thumbs img{
+      width:100%;
+      display:block;
+      opacity:.7;
+      cursor:pointer;
+    }
+    .flex-control-thumbs img:hover{
+      opacity:1;
+    }
+    .flex-control-thumbs .active{
+      opacity:1;
+      cursor:default;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full font-body">
+  <div id="app-wrapper" class="h-full w-full overflow-auto" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);"><!-- Back to Top Button --> <button id="back-to-top" class="back-to-top" aria-label="Kembali ke atas">
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+    </svg></button> <!-- Lightbox Overlay -->
+   <div id="lightbox" class="lightbox-overlay">
+    <div class="lightbox-content"><button id="lightbox-close" class="lightbox-close" aria-label="Tutup">×</button> <button id="lightbox-prev" class="lightbox-nav prev" aria-label="Sebelumnya">‹</button> <button id="lightbox-next" class="lightbox-nav next" aria-label="Selanjutnya">›</button> <img id="lightbox-img" class="lightbox-img" src="" alt="Foto zoom">
+     <div id="lightbox-name" class="lightbox-name"></div>
+    </div>
+   </div><!-- Password Protection Overlay -->
+   <div id="auth-modal" class="auth-overlay fixed inset-0 flex items-center justify-center z-50" style="background: rgba(26, 26, 46, 0.95); display: none;">
+    <div class="slide-up bg-white rounded-3xl shadow-2xl p-8 md:p-10 max-w-md w-full mx-4"><!-- Lock Icon -->
+     <div class="flex justify-center mb-6">
+      <div class="w-20 h-20 rounded-full flex items-center justify-center" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+       <svg class="w-10 h-10 text-white" fill="currentColor" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+       </svg>
+      </div>
+     </div><!-- Title -->
+     <h2 class="font-display text-2xl md:text-3xl font-bold text-center mb-2" style="color: #1a1a2e;">🔒 Konten Terproteksi</h2>
+     <p class="text-center text-gray-600 mb-6">Masukkan sandi untuk mengakses galeri foto</p><!-- Password Form -->
+     <form id="password-form" class="space-y-4">
+      <div><label for="password-input" class="block text-sm font-semibold mb-2" style="color: #1a1a2e;">Sandi Akses</label>
+       <div class="relative"><input type="password" id="password-input" placeholder="Masukkan sandi Anda" class="w-full px-4 py-3 pr-12 rounded-xl border-2 border-gray-200 focus:border-purple-500 focus:outline-none transition-colors" style="font-family: 'Nunito', system-ui;" required> <button type="button" id="toggle-password" class="absolute right-3 top-1/2 -translate-y-1/2 p-2 text-gray-500 hover:text-purple-600 transition-colors" aria-label="Toggle password visibility">
+         <svg id="eye-open" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+         </svg>
+         <svg id="eye-closed" class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+         </svg></button>
+       </div>
+      </div><!-- Error Message -->
+      <div id="error-message" class="hidden px-4 py-3 rounded-xl" style="background: #fee2e2; color: #dc2626;">
+       <div class="flex items-center gap-2">
+        <svg class="w-5 h-5 flex-shrink-0" fill="currentColor" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+        </svg><span class="font-medium">Sandi salah! Silakan coba lagi.</span>
+       </div>
+      </div><!-- Submit Button --> <button type="submit" class="w-full py-3 rounded-xl text-white font-bold text-lg transition-all hover:shadow-xl" style="background: linear-gradient(135deg, #667eea, #764ba2);"> 🔓 Buka Galeri </button>
+     </form><!-- Info -->
+     <p class="text-center text-sm text-gray-500 mt-6">Hubungi admin desa untuk mendapatkan akses</p>
+    </div>
+   </div><!-- Main Content -->
+   <main id="main-content" class="w-full min-h-full"><!-- Hero Header -->
+    <header class="relative overflow-hidden" style="background: linear-gradient(135deg, #1a202c 0%, #2d3748 50%, #4a5568 100%);">
+     <div class="absolute inset-0 opacity-10">
+      <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><defs>
+        <pattern id="hero-pattern" x="0" y="0" width="60" height="60" patternunits="userSpaceOnUse">
+         <circle cx="30" cy="30" r="25" fill="none" stroke="white" stroke-width="1.5" />
+         <circle cx="30" cy="30" r="15" fill="none" stroke="white" stroke-width="1" />
+        </pattern>
+       </defs> <rect width="100%" height="100%" fill="url(#hero-pattern)" />
+      </svg>
+     </div>
+     <div class="relative max-w-6xl mx-auto px-6 py-16 md:py-20 text-center"><!-- Village Logo -->
+      <div class="flex justify-center mb-6">
+       <div class="w-24 h-24 rounded-full flex items-center justify-center shadow-2xl bg-white p-2"><img src="https://res.cloudinary.com/dpr2vc3b0/image/upload/v1767107096/logo_donggala-fix-2025_napiej.png" alt="Logo Kabupaten Donggala" class="w-full h-full object-contain" loading="eager" onerror="console.error('Logo failed to load:', this.src); this.style.display='none'; this.parentElement.innerHTML='<svg class=\'w-12 h-12 text-purple-600\' fill=\'currentColor\' viewBox=\'0 0 20 20\'><path d=\'M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z\'/></svg>';">
+       </div>
+      </div><!-- Title -->
+      <h1 id="gallery-title" class="font-display text-3xl md:text-5xl font-bold text-white mb-4 leading-tight">Galeri Foto Warga Desa</h1><!-- Subtitle -->
+      <p id="gallery-subtitle" class="text-lg md:text-xl text-gray-300 mb-6">Desa Wani Lumbumpetigo</p><!-- Badge -->
+      <div class="inline-flex items-center gap-2 px-5 py-2 rounded-full" style="background: rgba(102, 126, 234, 0.2); backdrop-filter: blur(10px);">
+       <svg class="w-5 h-5 text-white" fill="currentColor" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" />
+       </svg><span class="text-white font-semibold">Dokumentasi Resmi</span>
+      </div>
+     </div>
+    </header><!-- Audio Player Section -->
+    <section class="bg-white shadow-lg">
+     <div class="max-w-6xl mx-auto px-6 py-6">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4 p-4 rounded-2xl" style="background: linear-gradient(135deg, #f0f9ff, #e0e7ff);">
+       <div class="flex items-center gap-3">
+        <div class="w-12 h-12 rounded-full flex items-center justify-center" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+         <svg class="w-6 h-6 text-white" fill="currentColor" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071 1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243 1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828 1 1 0 010-1.415z" clip-rule="evenodd" />
+         </svg>
+        </div>
+        <div>
+         <h3 class="font-display font-bold" style="color: #1a1a2e;">Audio Desa</h3>
+         <p class="text-sm text-gray-600">Putar audio sambutan</p>
+        </div>
+       </div>
+       <div class="w-full md:w-auto"><iframe src="https://drive.google.com/file/d/1XuAPJAOToz_9YQa9fnbZu8PCWG3tLKml/preview" width="300" height="60" allow="autoplay" class="rounded-xl shadow-md" style="border: 2px solid #e0e7ff;" title="Audio sambutan Desa Wani Lumbumpetigo"></iframe>
+       </div>
+      </div>
+     </div>
+    </section><!-- Data KTP Section dengan FlexSlider Carousel -->
+    <section class="bg-white shadow-lg mt-8">
+     <div class="max-w-6xl mx-auto px-6 py-8">
+      <div class="flex flex-col items-center gap-6"><!-- Header -->
+       <div class="text-center">
+        <div class="inline-flex items-center gap-3 mb-4">
+         <div class="w-12 h-12 rounded-full flex items-center justify-center" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+          <svg class="w-6 h-6 text-white" fill="currentColor" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd" />
+          </svg>
+         </div>
+         <h3 id="ktp-section-title" class="font-display text-2xl md:text-3xl font-bold" style="color: #1a1a2e;">📋 Data KTP Warga Desa</h3>
+        </div>
+        <p class="text-gray-600 mb-6">Dokumentasi Kartu Tanda Penduduk resmi warga desa</p>
+       </div><!-- FlexSlider Carousel KTP -->
+       <div class="w-full max-w-5xl">
+        <div class="flexslider">
+         <ul class="slides">
+          <li><img src="https://res.cloudinary.com/dpr2vc3b0/image/upload/v1751082189/SYAMSUDDIN_pmxahs.png" alt="KTP Syamsuddin" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dpr2vc3b0/image/upload/v1751080469/INDAR-FIX_njkmmj.jpg" alt="KTP Indar" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716429267/NISMAWATI_hrhqwv.jpg" alt="KTP Nismawati" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716429267/IWAN_h80kmt.jpg" alt="KTP Iwan" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716429267/ERFINA_oz97lb.jpg" alt="KTP Erfina" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601716/DJALIA_HASAN_rep0jr.jpg" alt="KTP Djalia Hasan" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601715/DEWI_YULIANA_KALIGIS_wmmj8l.jpg" alt="KTP Dewi Yuliana Kaligis" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601715/DESY_MARDIANI_kpyabi.jpg" alt="KTP Desy Mardiani" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601715/DARNA.R_mbswe0.jpg" alt="KTP Darna R" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601715/AZIZA_bkhs3e.jpg" alt="KTP Aziza" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601714/ABD.HAMID_R_ieujno.jpg" alt="KTP Abd. Hamid R" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601714/ARDIN_zkuozp.jpg" alt="KTP Ardin" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601714/AFDIAN_ABDIHI_pknmnd.jpg" alt="KTP Afdian Abdihi" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601710/WAHYUNI_x1wm7t.jpg" alt="KTP Wahyuni" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601710/USMAN_YOSU_eej1bl.jpg" alt="KTP Usman Yosu" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601710/WAHIDAH_nnnwur.jpg" alt="KTP Wahidah" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601710/WAHDA_bh5vi6.jpg" alt="KTP Wahda" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601710/SUNARTIN_tguu7k.jpg" alt="KTP Sunartin" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601710/SUHARNI_z1jzjo.jpg" alt="KTP Suharni" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601709/SARPAN.N_d6aq6c.jpg" alt="KTP Sarpan N" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601709/RUSNI_oeqhss.jpg" alt="KTP Rusni" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601709/RAHMAYANTI_ituirw.jpg" alt="KTP Rahmayanti" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601709/RAHMAWATI.R_gjmb8j.jpg" alt="KTP Rahmawati R" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601709/MAISA_cpdxbq.jpg" alt="KTP Maisa" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601709/KURNAIN_m9azov.jpg" alt="KTP Kurnain" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601708/KAMLAN_vtphla.jpg" alt="KTP Kamlan" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601708/NURLIN_rxkyvl.jpg" alt="KTP Nurlin" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601708/ISWADI_tkytm9.jpg" alt="KTP Iswadi" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601708/NUR_AISYAH_fi7qli.jpg" alt="KTP Nur Aisyah" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601707/IMRAN.A_kkng9x.jpg" alt="KTP Imran A" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601707/INTAN_nmzi0l.jpg" alt="KTP Intan" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601706/MIHDAR_ws1g8e.jpg" alt="KTP Mihdar" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601706/MELDA_n9ixlx.jpg" alt="KTP Melda" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601706/HARMIN._L_o692wm.jpg" alt="KTP Harmin L" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601706/HENTE_b1evma.jpg" alt="KTP Hente" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601706/HUMAIDA_u3dqep.jpg" alt="KTP Humaida" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601705/MAWAR_HS_cu9htw.jpg" alt="KTP Mawar HS" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601705/MARSABAN_AMIR_wt6unv.jpg" alt="KTP Marsaban Amir" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601705/MASNI_qdyvsj.jpg" alt="KTP Masni" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601705/HASANUDIN_dbjvan.jpg" alt="KTP Hasanudin" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601705/MARTINI_qljllh.jpg" alt="KTP Martini" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601705/HALIPA_nrpo5w.jpg" alt="KTP Halipa" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601704/GUNAWAN_APRIL_iwhr6w.jpg" alt="KTP Gunawan April" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601704/ENDANG_ynlrgm.jpg" alt="KTP Endang" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601704/MARDIA_yyl8ku.jpg" alt="KTP Mardia" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601704/GINA_PUSPITA_todb8t.jpg" alt="KTP Gina Puspita" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601704/ERNA_YANTI_ciz1ls.jpg" alt="KTP Erna Yanti" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601707/NADIA_ala8om.jpg" alt="KTP Nadia" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601707/ILYAS_jl5ywu.jpg" alt="KTP Ilyas" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601707/MUHTAR_q6jbix.jpg" alt="KTP Muhtar" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1717661361/NURULIA_inxexk.jpg" alt="KTP Nurulia" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dpr2vc3b0/image/upload/v1751080470/SANDRA_myuvcn.jpg" alt="KTP Sandra" loading="lazy"></li>
+          <li><img src="https://res.cloudinary.com/dpr2vc3b0/image/upload/v1751080469/AMIR_RAMANG-FIX_h5kvkf.jpg" alt="KTP Amir Ramang" loading="lazy"></li>
+         </ul>
+        </div>
+       </div><!-- Info Badge -->
+       <div class="flex flex-wrap items-center justify-center gap-4 mt-4">
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-200">
+         <svg class="w-5 h-5 text-blue-600" fill="currentColor" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+         </svg><span class="text-blue-700 font-medium text-sm">53 KTP Warga Tersimpan</span>
+        </div>
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-50 border border-green-200">
+         <svg class="w-5 h-5 text-green-600" fill="currentColor" viewbox="0 0 20 20"><path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+         </svg><span class="text-green-700 font-medium text-sm">Data Terverifikasi</span>
+        </div>
+       </div><!-- Open in New Tab Button --> <a href="https://syam.digital/ktp" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-semibold transition-all hover:shadow-xl" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+        </svg> Buka Data KTP Lengkap </a>
+      </div>
+     </div>
+    </section><!-- Gallery Section -->
+    <section class="max-w-7xl mx-auto px-6 py-12 md:py-16"><!-- Search Box -->
+     <div class="mb-10 max-w-2xl mx-auto">
+      <div class="relative"><input type="text" id="search-input" placeholder="🔍 Cari nama warga..." class="w-full px-6 py-4 pr-12 rounded-2xl border-2 border-purple-300 focus:border-purple-500 focus:outline-none text-lg shadow-lg" style="font-family: 'Nunito', system-ui;">
+       <div class="absolute right-4 top-1/2 -translate-y-1/2">
+        <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+       </div>
+      </div>
+      <p id="search-results-count" class="text-center text-gray-600 mt-3 text-sm"></p>
+     </div><!-- Warga Desa Section -->
+     <div>
+      <div class="flex items-center gap-4 mb-8">
+       <div class="flex-grow h-1 rounded-full" style="background: linear-gradient(90deg, #4facfe, #00f2fe);"></div>
+       <h2 class="font-display text-2xl md:text-3xl font-bold text-white">👥 Warga Desa</h2>
+       <div class="flex-grow h-1 rounded-full" style="background: linear-gradient(90deg, #00f2fe, #4facfe);"></div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"><!-- Warga 1: Syamsuddin -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="syamsuddin">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dpr2vc3b0/image/upload/v1751082189/SYAMSUDDIN_pmxahs.png" alt="Syamsuddin - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">1</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Syamsuddin</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 2: Indar -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="indar">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dpr2vc3b0/image/upload/v1751080469/INDAR-FIX_njkmmj.jpg" alt="Indar - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">2</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Indar</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 3: Nismawati -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="nismawati">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716429267/NISMAWATI_hrhqwv.jpg" alt="Nismawati - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">3</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Nismawati</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 4: Amir Ramang -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="amir ramang">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dpr2vc3b0/image/upload/v1751080469/AMIR_RAMANG-FIX_h5kvkf.jpg" alt="Amir Ramang - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">4</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Amir Ramang</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 5: Sandra -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="sandra">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dpr2vc3b0/image/upload/v1751080470/SANDRA_myuvcn.jpg" alt="Sandra - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">5</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Sandra</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 6: Iwan -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="iwan">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716429267/IWAN_h80kmt.jpg" alt="Iwan - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">6</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Iwan</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 7: Erfina -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="erfina">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716429267/ERFINA_oz97lb.jpg" alt="Erfina - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">7</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Erfina</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 8: Djalia Hasan -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="djalia hasan">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601716/DJALIA_HASAN_rep0jr.jpg" alt="Djalia Hasan - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">8</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Djalia Hasan</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 9: Dewi Yuliana Kaligis -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="dewi yuliana kaligis">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601715/DEWI_YULIANA_KALIGIS_wmmj8l.jpg" alt="Dewi Yuliana Kaligis - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">9</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Dewi Yuliana Kaligis</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 10: Desy Mardiani -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="desy mardiani">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601715/DESY_MARDIANI_kpyabi.jpg" alt="Desy Mardiani - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">10</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Desy Mardiani</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 11: Darna R -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="darna r">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601715/DARNA.R_mbswe0.jpg" alt="Darna R - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">11</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Darna R</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 12: Aziza -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="aziza">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601715/AZIZA_bkhs3e.jpg" alt="Aziza - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">12</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Aziza</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 13: Abd. Hamid R -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="abd hamid r">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601714/ABD.HAMID_R_ieujno.jpg" alt="Abd. Hamid R - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">13</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Abd. Hamid R</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 14: Ardin -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="ardin">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601714/ARDIN_zkuozp.jpg" alt="Ardin - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">14</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Ardin</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 15: Afdian Abdihi -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="afdian abdihi">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601714/AFDIAN_ABDIHI_pknmnd.jpg" alt="Afdian Abdihi - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">15</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Afdian Abdihi</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 16: Wahyuni -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="wahyuni">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601710/WAHYUNI_x1wm7t.jpg" alt="Wahyuni - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">16</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Wahyuni</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 17: Usman Yosu -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="usman yosu">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601710/USMAN_YOSU_eej1bl.jpg" alt="Usman Yosu - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">17</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Usman Yosu</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 18: Wahidah -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="wahidah">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601710/WAHIDAH_nnnwur.jpg" alt="Wahidah - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">18</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Wahidah</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 19: Wahda -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="wahda">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601710/WAHDA_bh5vi6.jpg" alt="Wahda - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">19</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Wahda</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 20: Sunartin -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="sunartin">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601710/SUNARTIN_tguu7k.jpg" alt="Sunartin - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">20</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Sunartin</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 21: Suharni -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="suharni">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601710/SUHARNI_z1jzjo.jpg" alt="Suharni - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">21</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Suharni</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 22: Sarpan N -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="sarpan n">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601709/SARPAN.N_d6aq6c.jpg" alt="Sarpan N - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">22</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Sarpan N</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 23: Rusni -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="rusni">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601709/RUSNI_oeqhss.jpg" alt="Rusni - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">23</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Rusni</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 24: Rahmayanti -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="rahmayanti">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601709/RAHMAYANTI_ituirw.jpg" alt="Rahmayanti - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">24</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Rahmayanti</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 25: Rahmawati R -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="rahmawati r">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601709/RAHMAWATI.R_gjmb8j.jpg" alt="Rahmawati R - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">25</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Rahmawati R</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 26: Maisa -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="maisa">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601709/MAISA_cpdxbq.jpg" alt="Maisa - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">26</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Maisa</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 27: Kurnain -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="kurnain">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601709/KURNAIN_m9azov.jpg" alt="Kurnain - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">27</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Kurnain</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 28: Kamlan -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="kamlan">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601708/KAMLAN_vtphla.jpg" alt="Kamlan - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">28</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Kamlan</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 29: Nurlin -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="nurlin">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601708/NURLIN_rxkyvl.jpg" alt="Nurlin - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">29</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Nurlin</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 30: Iswadi -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="iswadi">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601708/ISWADI_tkytm9.jpg" alt="Iswadi - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">30</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Iswadi</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 31: Nur Aisyah -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="nur aisyah">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601708/NUR_AISYAH_fi7qli.jpg" alt="Nur Aisyah - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">31</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Nur Aisyah</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 32: Imran A -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="imran a">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601707/IMRAN.A_kkng9x.jpg" alt="Imran A - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">32</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Imran A</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 33: Intan -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="intan">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601707/INTAN_nmzi0l.jpg" alt="Intan - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">33</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Intan</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 34: Mihdar -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="mihdar">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601706/MIHDAR_ws1g8e.jpg" alt="Mihdar - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">34</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Mihdar</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 35: Melda -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="melda">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601706/MELDA_n9ixlx.jpg" alt="Melda - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">35</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Melda</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 36: Harmin L -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="harmin l">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601706/HARMIN._L_o692wm.jpg" alt="Harmin L - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">36</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Harmin L</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 37: Hente -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="hente">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601706/HENTE_b1evma.jpg" alt="Hente - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">37</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Hente</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 38: Humaida -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="humaida">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601706/HUMAIDA_u3dqep.jpg" alt="Humaida - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">38</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Humaida</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 39: Mawar HS -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="mawar hs">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601705/MAWAR_HS_cu9htw.jpg" alt="Mawar HS - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">39</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Mawar HS</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 40: Marsaban Amir -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="marsaban amir">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601705/MARSABAN_AMIR_wt6unv.jpg" alt="Marsaban Amir - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">40</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Marsaban Amir</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 41: Masni -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="masni">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601705/MASNI_qdyvsj.jpg" alt="Masni - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">41</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Masni</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 42: Hasanudin -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="hasanudin">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601705/HASANUDIN_dbjvan.jpg" alt="Hasanudin - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">42</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Hasanudin</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 43: Martini -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="martini">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601705/MARTINI_qljllh.jpg" alt="Martini - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">43</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Martini</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 44: Halipa -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="halipa">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601705/HALIPA_nrpo5w.jpg" alt="Halipa - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">44</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Halipa</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 45: Gunawan April -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="gunawan april">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601704/GUNAWAN_APRIL_iwhr6w.jpg" alt="Gunawan April - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">45</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Gunawan April</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 46: Endang -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="endang">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601704/ENDANG_ynlrgm.jpg" alt="Endang - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">46</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Endang</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 47: Mardia -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="mardia">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601704/MARDIA_yyl8ku.jpg" alt="Mardia - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">47</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Mardia</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 48: Gina Puspita -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="gina puspita">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601704/GINA_PUSPITA_todb8t.jpg" alt="Gina Puspita - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">48</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Gina Puspita</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 49: Erna Yanti -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="erna yanti">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601704/ERNA_YANTI_ciz1ls.jpg" alt="Erna Yanti - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">49</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Erna Yanti</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 50: Nadia -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="nadia">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601707/NADIA_ala8om.jpg" alt="Nadia - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">50</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Nadia</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 51: Ilyas -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="ilyas">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601707/ILYAS_jl5ywu.jpg" alt="Ilyas - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">51</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Ilyas</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 52: Muhtar -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="muhtar">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716601707/MUHTAR_q6jbix.jpg" alt="Muhtar - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">52</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Muhtar</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article><!-- Warga 53: Nurulia -->
+       <article class="gallery-card bg-white rounded-2xl shadow-xl overflow-hidden" data-name="nurulia">
+        <figure class="relative overflow-hidden aspect-[4/3]"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1717661361/NURULIA_inxexk.jpg" alt="Nurulia - Warga Desa" class="gallery-img w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #4facfe, #00f2fe)'; this.alt='Gambar tidak tersedia';">
+         <div class="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center" style="background: rgba(79, 172, 254, 0.9); backdrop-filter: blur(10px);"><span class="text-white font-bold">53</span>
+         </div>
+        </figure>
+        <div class="p-5">
+         <h3 class="font-display text-xl font-bold mb-2" style="color: #1a1a2e;">Nurulia</h3>
+         <p class="text-gray-600 text-sm">Warga Desa</p>
+        </div>
+       </article>
+      </div>
+     </div>
+    </section><!-- Footer -->
+    <footer class="bg-white shadow-2xl mt-12">
+     <div class="max-w-7xl mx-auto px-6 py-8 text-center">
+      <div class="inline-flex items-center justify-center w-16 h-16 rounded-full mb-4" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+       <svg class="w-8 h-8 text-white" fill="currentColor" viewbox="0 0 20 20"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
+       </svg>
+      </div>
+      <p id="footer-text" class="text-gray-700 font-medium text-lg mb-2">Galeri Foto Warga Desa Wani Lumbumpetigo</p>
+      <p class="text-gray-500 text-sm">© 2023 Desa Wani Lumbumpetigo. Semua hak dilindungi.</p>
+     </div>
+    </footer>
+   </main>
+  </div>
+  <script>
+    // Authentication System
+    const CORRECT_PASSWORD = "wani2023";
+    const AUTH_KEY = "wani_auth_v1";
+    
+    function checkAuth() {
+      return localStorage.getItem(AUTH_KEY) === "verified";
+    }
+    
+    function saveAuth() {
+      localStorage.setItem(AUTH_KEY, "verified");
+    }
+    
+    function showContent() {
+      document.getElementById('auth-modal').style.display = 'none';
+      document.getElementById('main-content').style.display = 'block';
+    }
+    
+    function showLogin() {
+      document.getElementById('auth-modal').style.display = 'flex';
+      document.getElementById('main-content').style.display = 'none';
+    }
+    
+    // Initialize
+    if (checkAuth()) {
+      showContent();
+    } else {
+      showLogin();
+    }
+    
+    // Login Form
+    const loginForm = document.getElementById('password-form');
+    const passwordInput = document.getElementById('password-input');
+    const errorMessage = document.getElementById('error-message');
+    const toggleBtn = document.getElementById('toggle-password');
+    const eyeOpen = document.getElementById('eye-open');
+    const eyeClosed = document.getElementById('eye-closed');
+    
+    // Toggle password
+    toggleBtn.onclick = function() {
+      const type = passwordInput.getAttribute('type');
+      if (type === 'password') {
+        passwordInput.setAttribute('type', 'text');
+        eyeOpen.classList.remove('hidden');
+        eyeClosed.classList.add('hidden');
+      } else {
+        passwordInput.setAttribute('type', 'password');
+        eyeOpen.classList.add('hidden');
+        eyeClosed.classList.remove('hidden');
+      }
+    };
+    
+    // Submit form
+    loginForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      if (passwordInput.value === CORRECT_PASSWORD) {
+        saveAuth();
+        showContent();
+        passwordInput.value = '';
+      } else {
+        errorMessage.classList.remove('hidden');
+        passwordInput.value = '';
+        passwordInput.focus();
+        
+        setTimeout(() => {
+          errorMessage.classList.add('hidden');
+        }, 3000);
+      }
+    });
+
+    // Search Functionality
+    const searchInput = document.getElementById('search-input');
+    const searchResultsCount = document.getElementById('search-results-count');
+    const allCards = document.querySelectorAll('.gallery-card');
+    
+    function performSearch() {
+      const searchTerm = searchInput.value.toLowerCase().trim();
+      let visibleCount = 0;
+      
+      allCards.forEach(card => {
+        const nameElement = card.querySelector('h3');
+        const name = nameElement.textContent.toLowerCase();
+        
+        if (searchTerm === '' || name.includes(searchTerm)) {
+          card.style.display = '';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      
+      if (searchTerm === '') {
+        searchResultsCount.textContent = `Menampilkan semua ${allCards.length} warga`;
+      } else {
+        if (visibleCount === 0) {
+          searchResultsCount.textContent = '❌ Tidak ada hasil yang ditemukan';
+          searchResultsCount.style.color = '#dc2626';
+        } else {
+          searchResultsCount.textContent = `✅ Ditemukan ${visibleCount} warga`;
+          searchResultsCount.style.color = '#059669';
+        }
+      }
+    }
+    
+    searchInput.addEventListener('input', performSearch);
+    searchResultsCount.textContent = `Menampilkan semua ${allCards.length} warga`;
+    
+    // Lightbox Functionality
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxName = document.getElementById('lightbox-name');
+    const lightboxClose = document.getElementById('lightbox-close');
+    const lightboxPrev = document.getElementById('lightbox-prev');
+    const lightboxNext = document.getElementById('lightbox-next');
+    
+    let currentImageIndex = 0;
+    let allImages = [];
+    
+    function collectImages() {
+      allImages = [];
+      const visibleCards = Array.from(allCards).filter(card => card.style.display !== 'none');
+      
+      visibleCards.forEach((card, index) => {
+        const img = card.querySelector('.gallery-img');
+        const name = card.querySelector('h3').textContent;
+        allImages.push({
+          src: img.src,
+          alt: img.alt,
+          name: name
+        });
+      });
+    }
+    
+    function openLightbox(index) {
+      collectImages();
+      currentImageIndex = index;
+      showImage(currentImageIndex);
+      lightbox.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    
+    function closeLightbox() {
+      lightbox.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    
+    function showImage(index) {
+      if (allImages.length === 0) return;
+      
+      if (index < 0) {
+        currentImageIndex = allImages.length - 1;
+      } else if (index >= allImages.length) {
+        currentImageIndex = 0;
+      } else {
+        currentImageIndex = index;
+      }
+      
+      const imageData = allImages[currentImageIndex];
+      lightboxImg.src = imageData.src;
+      lightboxImg.alt = imageData.alt;
+      lightboxName.textContent = imageData.name;
+    }
+    
+    function showPrevImage() {
+      showImage(currentImageIndex - 1);
+    }
+    
+    function showNextImage() {
+      showImage(currentImageIndex + 1);
+    }
+    
+    allCards.forEach((card, index) => {
+      const img = card.querySelector('.gallery-img');
+      img.addEventListener('click', function() {
+        const visibleCards = Array.from(allCards).filter(c => c.style.display !== 'none');
+        const visibleIndex = visibleCards.indexOf(card);
+        openLightbox(visibleIndex);
+      });
+    });
+    
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightboxPrev.addEventListener('click', showPrevImage);
+    lightboxNext.addEventListener('click', showNextImage);
+    
+    lightbox.addEventListener('click', function(e) {
+      if (e.target === lightbox) {
+        closeLightbox();
+      }
+    });
+    
+    document.addEventListener('keydown', function(e) {
+      if (!lightbox.classList.contains('active')) return;
+      
+      if (e.key === 'Escape') {
+        closeLightbox();
+      } else if (e.key === 'ArrowLeft') {
+        showPrevImage();
+      } else if (e.key === 'ArrowRight') {
+        showNextImage();
+      }
+    });
+    
+    // Initialize FlexSlider for KTP Carousel
+    $(document).ready(function(){   
+      $(window).on('load', function() {
+        $('.flexslider').flexslider({
+          animation: "slide",
+          animationLoop: false,
+          itemWidth: 210,
+          itemMargin: 0,
+          minItems: 1,
+          maxItems: 4
+        });
+      });
+    });
+
+    // Back to Top Button
+    const backToTopBtn = document.getElementById('back-to-top');
+    const appWrapper = document.getElementById('app-wrapper');
+    
+    appWrapper.addEventListener('scroll', function() {
+      if (appWrapper.scrollTop > 300) {
+        backToTopBtn.classList.add('show');
+      } else {
+        backToTopBtn.classList.remove('show');
+      }
+    });
+    
+    backToTopBtn.addEventListener('click', function() {
+      appWrapper.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+
+    // Element SDK Config
+    const defaultConfig = {
+      gallery_title: "Galeri Foto Warga Desa",
+      gallery_subtitle: "Desa Wani Lumbumpetigo",
+      ktp_section_title: "📋 Data KTP Warga Desa"
+    };
+
+    let config = { ...defaultConfig };
+
+    async function onConfigChange(cfg) {
+      config = { ...defaultConfig, ...cfg };
+      
+      const titleEl = document.getElementById('gallery-title');
+      if (titleEl) titleEl.textContent = config.gallery_title || defaultConfig.gallery_title;
+      
+      const subtitleEl = document.getElementById('gallery-subtitle');
+      if (subtitleEl) subtitleEl.textContent = config.gallery_subtitle || defaultConfig.gallery_subtitle;
+      
+      const ktpTitleEl = document.getElementById('ktp-section-title');
+      if (ktpTitleEl) ktpTitleEl.textContent = config.ktp_section_title || defaultConfig.ktp_section_title;
+    }
+
+    function mapToCapabilities(cfg) {
+      return {
+        recolorables: [],
+        borderables: [],
+        fontEditable: undefined,
+        fontSizeable: undefined
+      };
+    }
+
+    function mapToEditPanelValues(cfg) {
+      return new Map([
+        ["gallery_title", cfg.gallery_title || defaultConfig.gallery_title],
+        ["gallery_subtitle", cfg.gallery_subtitle || defaultConfig.gallery_subtitle],
+        ["ktp_section_title", cfg.ktp_section_title || defaultConfig.ktp_section_title]
+      ]);
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    } else {
+      onConfigChange(defaultConfig);
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c63ac1aa59e6040',t:'MTc2OTgwNDQ1Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

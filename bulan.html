@@ -1,0 +1,616 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pencarian Data</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .search-input:focus {
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+    }
+    .data-row {
+      animation: fadeIn 0.3s ease-out forwards;
+      opacity: 0;
+    }
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+    .data-row:nth-child(1) { animation-delay: 0.05s; }
+    .data-row:nth-child(2) { animation-delay: 0.1s; }
+    .data-row:nth-child(3) { animation-delay: 0.15s; }
+    .data-row:nth-child(4) { animation-delay: 0.2s; }
+    .data-row:nth-child(5) { animation-delay: 0.25s; }
+    .data-row:nth-child(6) { animation-delay: 0.3s; }
+    .data-row:nth-child(7) { animation-delay: 0.35s; }
+    .data-row:nth-child(8) { animation-delay: 0.4s; }
+    .data-row:nth-child(9) { animation-delay: 0.45s; }
+    .data-row:nth-child(10) { animation-delay: 0.5s; }
+    .loader {
+      border: 3px solid #e5e7eb;
+      border-top: 3px solid #6366f1;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .highlight {
+      background: linear-gradient(120deg, #fef08a 0%, #fde047 100%);
+      padding: 0 2px;
+      border-radius: 2px;
+    }
+    .animate-modal {
+      animation: modalSlideIn 0.3s ease-out;
+    }
+    @keyframes modalSlideIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9) translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+    .animate-toast {
+      animation: toastSlideIn 0.3s ease-out;
+    }
+    @keyframes toastSlideIn {
+      from {
+        opacity: 0;
+        transform: translateX(100px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    .clickable-cell {
+      cursor: pointer;
+      position: relative;
+    }
+    .clickable-cell:hover {
+      text-decoration: underline;
+      color: #a5b4fc;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full bg-gradient-to-br from-gray-900 via-black to-gray-800">
+  <div id="app-wrapper" class="h-full w-full overflow-auto">
+   <div class="min-h-full w-full max-w-6xl mx-auto px-4 py-8"><!-- Header -->
+    <header class="text-center mb-8">
+     <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl mb-4 shadow-lg">
+      <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+      </svg>
+     </div>
+     <h1 id="app-title" class="text-3xl font-bold text-white mb-2">Pencarian Data</h1>
+     <p class="text-gray-300">Cari dan temukan data dengan cepat</p>
+    </header><!-- Search Box -->
+    <div class="max-w-2xl mx-auto mb-8">
+     <div class="relative">
+      <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+      </svg><input type="text" id="search-input" class="search-input w-full pl-12 pr-4 py-4 text-lg bg-gray-800 text-white border-2 border-gray-600 rounded-2xl focus:border-indigo-500 focus:outline-none transition-all duration-200 placeholder-gray-400" placeholder="Ketik kata kunci untuk mencari..."> <button id="clear-btn" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 hidden">
+       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+       </svg></button>
+     </div>
+    </div><!-- Stats -->
+    <div id="stats" class="max-w-2xl mx-auto mb-6 flex items-center justify-between text-sm text-gray-300 hidden"><span id="result-count"></span> <span id="search-time"></span>
+    </div><!-- Loading State -->
+    <div id="loading" class="flex flex-col items-center justify-center py-16">
+     <div class="loader mb-4"></div>
+     <p class="text-gray-300">Memuat data...</p>
+    </div><!-- Error State -->
+    <div id="error" class="hidden text-center py-16">
+     <div class="inline-flex items-center justify-center w-16 h-16 bg-red-100 rounded-full mb-4">
+      <svg class="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+      </svg>
+     </div>
+     <h3 class="text-lg font-semibold text-white mb-2">Gagal Memuat Data</h3>
+     <p class="text-gray-300 mb-4">Terjadi kesalahan saat mengambil data</p><button id="retry-btn" class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"> Coba Lagi </button>
+    </div><!-- Empty State -->
+    <div id="empty" class="hidden text-center py-16">
+     <div class="inline-flex items-center justify-center w-16 h-16 bg-gray-100 rounded-full mb-4">
+      <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+     </div>
+     <h3 class="text-lg font-semibold text-white mb-2">Tidak Ada Hasil</h3>
+     <p id="empty-message" class="text-gray-300">Coba gunakan kata kunci lain</p>
+    </div><!-- Results Table -->
+    <div id="results-container" class="hidden bg-gray-800 rounded-2xl shadow-xl border border-gray-700 overflow-hidden">
+     <div class="overflow-x-auto">
+      <table class="w-full">
+       <thead id="table-head" class="bg-gradient-to-r from-indigo-500 to-purple-600 text-white">
+       </thead>
+       <tbody id="table-body" class="divide-y divide-gray-700">
+       </tbody>
+      </table>
+     </div>
+    </div><!-- Pagination -->
+    <div id="pagination" class="hidden max-w-2xl mx-auto mt-6 flex items-center justify-center gap-2">
+    </div><!-- Modal -->
+    <div id="modal" class="hidden fixed inset-0 z-50 flex items-center justify-center px-4">
+     <div id="modal-backdrop" class="absolute inset-0 bg-black bg-opacity-50 transition-opacity"></div>
+     <div class="relative bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90%] overflow-hidden animate-modal"><!-- Modal Header -->
+      <div class="bg-gradient-to-r from-indigo-500 to-purple-600 px-6 py-4 flex items-center justify-between">
+       <h3 class="text-xl font-bold text-white">Detail Data</h3><button id="modal-close" class="text-white hover:bg-white hover:bg-opacity-20 rounded-lg p-2 transition-colors">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg></button>
+      </div><!-- Modal Body -->
+      <div id="modal-body" class="px-6 py-6 overflow-y-auto max-h-[60vh]"><!-- Content will be inserted here -->
+      </div><!-- Modal Footer -->
+      <div class="bg-gray-50 px-6 py-4 flex justify-end gap-3"><button id="modal-close-btn" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"> Tutup </button>
+      </div>
+     </div>
+    </div><!-- Toast Notification -->
+    <div id="toast" class="hidden fixed bottom-8 right-8 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 z-50 animate-toast">
+     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+     </svg><span id="toast-message">Teks berhasil disalin!</span>
+    </div>
+   </div>
+  </div>
+  <script>
+    const SPREADSHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSLzVx8i5cYJwgvnVdvaFP_oG1DkrbNu_DEu0woE4Z_q6kTIPTYXf4ive6wo_t8ZpJt9bCvnLNn-Fyw/pubhtml?gid=0&single=true';
+    
+    let allData = [];
+    let headers = [];
+    let filteredData = [];
+    let currentPage = 1;
+    const itemsPerPage = 999999;
+
+    const defaultConfig = {
+      app_title: 'Pencarian Data',
+      search_placeholder: 'Ketik kata kunci untuk mencari...',
+      primary_color: '#6366f1',
+      secondary_color: '#1f2937',
+      text_color: '#ffffff',
+      accent_color: '#8b5cf6',
+      border_color: '#4b5563'
+    };
+
+    let config = { ...defaultConfig };
+
+    // Initialize Element SDK
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange: async (newConfig) => {
+          config = { ...defaultConfig, ...newConfig };
+          applyConfig();
+        },
+        mapToCapabilities: (cfg) => ({
+          recolorables: [
+            {
+              get: () => cfg.primary_color || defaultConfig.primary_color,
+              set: (v) => { cfg.primary_color = v; window.elementSdk.setConfig({ primary_color: v }); }
+            },
+            {
+              get: () => cfg.secondary_color || defaultConfig.secondary_color,
+              set: (v) => { cfg.secondary_color = v; window.elementSdk.setConfig({ secondary_color: v }); }
+            },
+            {
+              get: () => cfg.text_color || defaultConfig.text_color,
+              set: (v) => { cfg.text_color = v; window.elementSdk.setConfig({ text_color: v }); }
+            },
+            {
+              get: () => cfg.accent_color || defaultConfig.accent_color,
+              set: (v) => { cfg.accent_color = v; window.elementSdk.setConfig({ accent_color: v }); }
+            },
+            {
+              get: () => cfg.border_color || defaultConfig.border_color,
+              set: (v) => { cfg.border_color = v; window.elementSdk.setConfig({ border_color: v }); }
+            }
+          ],
+          borderables: [],
+          fontEditable: undefined,
+          fontSizeable: undefined
+        }),
+        mapToEditPanelValues: (cfg) => new Map([
+          ['app_title', cfg.app_title || defaultConfig.app_title],
+          ['search_placeholder', cfg.search_placeholder || defaultConfig.search_placeholder]
+        ])
+      });
+    }
+
+    function applyConfig() {
+      const title = document.getElementById('app-title');
+      const searchInput = document.getElementById('search-input');
+      const tableHead = document.getElementById('table-head');
+      const resultsContainer = document.getElementById('results-container');
+
+      if (title) title.textContent = config.app_title || defaultConfig.app_title;
+      if (searchInput) searchInput.placeholder = config.search_placeholder || defaultConfig.search_placeholder;
+      
+      // Apply colors
+      const primaryColor = config.primary_color || defaultConfig.primary_color;
+      const secondaryColor = config.secondary_color || defaultConfig.secondary_color;
+      const textColor = config.text_color || defaultConfig.text_color;
+      const accentColor = config.accent_color || defaultConfig.accent_color;
+      const borderColor = config.border_color || defaultConfig.border_color;
+
+      if (title) title.style.color = textColor;
+      if (tableHead) tableHead.style.background = `linear-gradient(to right, ${primaryColor}, ${accentColor})`;
+      if (resultsContainer) {
+        resultsContainer.style.backgroundColor = secondaryColor;
+        resultsContainer.style.borderColor = borderColor;
+      }
+      if (searchInput) {
+        searchInput.style.borderColor = borderColor;
+      }
+    }
+
+    async function fetchData() {
+      showLoading();
+      try {
+        // Convert pubhtml URL to CSV export URL
+        const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSLzVx8i5cYJwgvnVdvaFP_oG1DkrbNu_DEu0woE4Z_q6kTIPTYXf4ive6wo_t8ZpJt9bCvnLNn-Fyw/pub?gid=0&single=true&output=csv';
+        
+        const response = await fetch(csvUrl);
+        const csvText = await response.text();
+        parseCSV(csvText);
+        hideLoading();
+        renderTable();
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        showError();
+      }
+    }
+
+    function parseCSV(csv) {
+      const lines = csv.split('\n').filter(line => line.trim() !== '');
+      
+      if (lines.length === 0) {
+        showError();
+        return;
+      }
+
+      allData = [];
+      headers = [];
+
+      lines.forEach((line, index) => {
+        // Simple CSV parser - handles quoted fields
+        const cells = [];
+        let currentCell = '';
+        let insideQuotes = false;
+        
+        for (let i = 0; i < line.length; i++) {
+          const char = line[i];
+          
+          if (char === '"') {
+            insideQuotes = !insideQuotes;
+          } else if (char === ',' && !insideQuotes) {
+            cells.push(currentCell.trim());
+            currentCell = '';
+          } else {
+            currentCell += char;
+          }
+        }
+        cells.push(currentCell.trim());
+
+        if (index === 0) {
+          headers = cells;
+        } else {
+          if (cells.some(cell => cell !== '')) {
+            allData.push(cells);
+          }
+        }
+      });
+
+      filteredData = [...allData];
+      console.log('Data loaded:', allData.length, 'rows');
+    }
+
+    function showLoading() {
+      document.getElementById('loading').classList.remove('hidden');
+      document.getElementById('error').classList.add('hidden');
+      document.getElementById('empty').classList.add('hidden');
+      document.getElementById('results-container').classList.add('hidden');
+      document.getElementById('stats').classList.add('hidden');
+      document.getElementById('pagination').classList.add('hidden');
+    }
+
+    function hideLoading() {
+      document.getElementById('loading').classList.add('hidden');
+    }
+
+    function showError() {
+      document.getElementById('loading').classList.add('hidden');
+      document.getElementById('error').classList.remove('hidden');
+      document.getElementById('results-container').classList.add('hidden');
+    }
+
+    function showEmpty(query) {
+      document.getElementById('empty').classList.remove('hidden');
+      document.getElementById('results-container').classList.add('hidden');
+      document.getElementById('empty-message').textContent = query 
+        ? `Tidak ditemukan hasil untuk "${query}"` 
+        : 'Tidak ada data untuk ditampilkan';
+    }
+
+    function highlightText(text, query) {
+      if (!query) return text;
+      const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+      return text.replace(regex, '<span class="highlight">$1</span>');
+    }
+
+    function renderTable() {
+      const startTime = performance.now();
+      const query = document.getElementById('search-input').value.toLowerCase().trim();
+      
+      if (query) {
+        filteredData = allData.filter(row => 
+          row.some(cell => cell.toLowerCase().includes(query))
+        );
+      } else {
+        filteredData = [...allData];
+      }
+
+      const endTime = performance.now();
+      const searchTime = ((endTime - startTime) / 1000).toFixed(3);
+
+      if (filteredData.length === 0) {
+        showEmpty(query);
+        document.getElementById('stats').classList.add('hidden');
+        document.getElementById('pagination').classList.add('hidden');
+        return;
+      }
+
+      document.getElementById('empty').classList.add('hidden');
+      document.getElementById('results-container').classList.remove('hidden');
+      document.getElementById('stats').classList.remove('hidden');
+
+      // Update stats
+      document.getElementById('result-count').textContent = `${filteredData.length} hasil ditemukan`;
+      document.getElementById('search-time').textContent = `${searchTime} detik`;
+
+      // Render table header
+      const thead = document.getElementById('table-head');
+      thead.innerHTML = `
+        <tr>
+          ${headers.map(h => `<th class="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider">${h}</th>`).join('')}
+        </tr>
+      `;
+
+      // Pagination
+      const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+      currentPage = Math.min(currentPage, totalPages);
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+      const pageData = filteredData.slice(startIndex, endIndex);
+
+      // Render table body
+      const tbody = document.getElementById('table-body');
+      tbody.innerHTML = '';
+      
+      pageData.forEach((row, idx) => {
+        const tr = document.createElement('tr');
+        tr.className = 'data-row hover:bg-gray-700 transition-colors';
+        
+        row.forEach((cell, cellIdx) => {
+          const td = document.createElement('td');
+          td.className = `px-6 py-4 text-xl text-white ${cellIdx === 0 ? 'clickable-cell' : ''}`;
+          td.innerHTML = highlightText(cell, query);
+          
+          if (cellIdx === 0) {
+            td.style.cursor = 'pointer';
+            td.addEventListener('click', () => openModal(row));
+          }
+          
+          tr.appendChild(td);
+        });
+        
+        tbody.appendChild(tr);
+      });
+
+      // Render pagination
+      renderPagination(totalPages);
+      applyConfig();
+    }
+
+    function renderPagination(totalPages) {
+      const pagination = document.getElementById('pagination');
+      
+      if (totalPages <= 1) {
+        pagination.classList.add('hidden');
+        return;
+      }
+
+      pagination.classList.remove('hidden');
+      let html = '';
+
+      // Previous button
+      html += `
+        <button onclick="changePage(${currentPage - 1})" 
+          class="px-3 py-2 rounded-lg ${currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-600 hover:bg-indigo-100'}"
+          ${currentPage === 1 ? 'disabled' : ''}>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+          </svg>
+        </button>
+      `;
+
+      // Page numbers
+      const maxVisible = 5;
+      let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+      let endPage = Math.min(totalPages, startPage + maxVisible - 1);
+      
+      if (endPage - startPage + 1 < maxVisible) {
+        startPage = Math.max(1, endPage - maxVisible + 1);
+      }
+
+      if (startPage > 1) {
+        html += `<button onclick="changePage(1)" class="px-3 py-2 rounded-lg text-gray-600 hover:bg-indigo-100">1</button>`;
+        if (startPage > 2) html += `<span class="px-2 text-gray-400">...</span>`;
+      }
+
+      for (let i = startPage; i <= endPage; i++) {
+        html += `
+          <button onclick="changePage(${i})" 
+            class="px-3 py-2 rounded-lg ${i === currentPage ? 'bg-indigo-600 text-white' : 'text-gray-600 hover:bg-indigo-100'}">
+            ${i}
+          </button>
+        `;
+      }
+
+      if (endPage < totalPages) {
+        if (endPage < totalPages - 1) html += `<span class="px-2 text-gray-400">...</span>`;
+        html += `<button onclick="changePage(${totalPages})" class="px-3 py-2 rounded-lg text-gray-600 hover:bg-indigo-100">${totalPages}</button>`;
+      }
+
+      // Next button
+      html += `
+        <button onclick="changePage(${currentPage + 1})" 
+          class="px-3 py-2 rounded-lg ${currentPage === totalPages ? 'text-gray-300 cursor-not-allowed' : 'text-gray-600 hover:bg-indigo-100'}"
+          ${currentPage === totalPages ? 'disabled' : ''}>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+          </svg>
+        </button>
+      `;
+
+      pagination.innerHTML = html;
+    }
+
+    function changePage(page) {
+      const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+      if (page < 1 || page > totalPages) return;
+      currentPage = page;
+      renderTable();
+      document.getElementById('results-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // Event listeners
+    document.getElementById('search-input').addEventListener('input', function(e) {
+      const clearBtn = document.getElementById('clear-btn');
+      clearBtn.classList.toggle('hidden', !e.target.value);
+      currentPage = 1;
+      renderTable();
+    });
+
+    document.getElementById('clear-btn').addEventListener('click', function() {
+      document.getElementById('search-input').value = '';
+      this.classList.add('hidden');
+      currentPage = 1;
+      renderTable();
+    });
+
+    document.getElementById('retry-btn').addEventListener('click', fetchData);
+
+    // Modal functions
+    let currentRowData = [];
+
+    function openModal(rowData) {
+      console.log('Opening modal with data:', rowData);
+      currentRowData = rowData;
+      const modalBody = document.getElementById('modal-body');
+      
+      // Only show first column (nama bulan)
+      const namaBulan = rowData[0] || '-';
+      const escapedValue = namaBulan.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+      
+      let html = `
+        <div class="flex items-center justify-between gap-4 p-4 bg-gray-50 rounded-lg">
+          <div class="flex-1">
+            <p class="text-2xl font-bold text-gray-800">${namaBulan}</p>
+          </div>
+          <button class="copy-field-btn flex-shrink-0 p-3 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
+                  data-text="${escapedValue}"
+                  data-field="${headers[0] || 'Nama Bulan'}"
+                  title="Salin ${headers[0] || 'Nama Bulan'}">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+            </svg>
+          </button>
+        </div>
+      `;
+      
+      modalBody.innerHTML = html;
+      
+      // Add event listeners to copy button
+      document.querySelectorAll('.copy-field-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const text = this.getAttribute('data-text');
+          const field = this.getAttribute('data-field');
+          copyText(text, field);
+        });
+      });
+      
+      document.getElementById('modal').classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+    
+    window.openModal = openModal;
+
+    function closeModal() {
+      document.getElementById('modal').classList.add('hidden');
+      document.body.style.overflow = 'auto';
+    }
+
+    function copyText(text, fieldName) {
+      if (!text) text = '';
+      navigator.clipboard.writeText(text).then(() => {
+        showToast(`${fieldName} berhasil disalin!`);
+      }).catch(err => {
+        console.error('Error copying text:', err);
+        showToast('Gagal menyalin teks', 'error');
+      });
+    }
+    
+    window.copyText = copyText;
+
+    function copyAllData() {
+      let allText = '';
+      headers.forEach((header, idx) => {
+        allText += `${header}: ${currentRowData[idx] || '-'}\n`;
+      });
+      
+      navigator.clipboard.writeText(allText).then(() => {
+        showToast('Semua data berhasil disalin!');
+      }).catch(err => {
+        console.error('Error copying text:', err);
+        showToast('Gagal menyalin teks', 'error');
+      });
+    }
+
+    function showToast(message, type = 'success') {
+      const toast = document.getElementById('toast');
+      const toastMessage = document.getElementById('toast-message');
+      
+      toastMessage.textContent = message;
+      toast.classList.remove('hidden');
+      
+      if (type === 'error') {
+        toast.classList.remove('bg-green-600');
+        toast.classList.add('bg-red-600');
+      } else {
+        toast.classList.remove('bg-red-600');
+        toast.classList.add('bg-green-600');
+      }
+      
+      setTimeout(() => {
+        toast.classList.add('hidden');
+      }, 3000);
+    }
+
+    // Modal event listeners
+    document.getElementById('modal-close').addEventListener('click', closeModal);
+    document.getElementById('modal-close-btn').addEventListener('click', closeModal);
+    document.getElementById('modal-backdrop').addEventListener('click', closeModal);
+
+    // Initialize
+    fetchData();
+    applyConfig();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c6d2f77e21bfcea',t:'MTc2OTkwNDIwMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

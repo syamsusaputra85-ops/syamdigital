@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Print Editor</title>
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1758242265/Syam_Digital_Logo_with_Neon_Accents_tck3pk.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .document-page {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            aspect-ratio: 210/297; /* A4 ratio */
+        }
+        
+        .toolbar-button {
+            transition: all 0.2s ease;
+        }
+        
+        .toolbar-button:hover {
+            background-color: #f3f4f6;
+        }
+        
+        .active-tool {
+            background-color: #3b82f6;
+            color: white;
+        }
+        
+        .zoom-control {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            .document-page {
+                box-shadow: none;
+                margin: 0;
+                width: 100% !important;
+                height: 100% !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 px-6 py-4 no-print">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <a href="https://syam.digital/" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:text-blue-800 font-medium transition-colors">
+                    ← Kembali ke Home
+                </a>
+                <div class="h-6 w-px bg-gray-300"></div>
+                <h1 class="text-2xl font-bold text-gray-800">Media Print Editor</h1>
+                <div class="flex items-center space-x-2 text-sm text-gray-600">
+                    <span>📄</span>
+                    <span>Dokumen Baru</span>
+                </div>
+            </div>
+            <div class="flex items-center space-x-3">
+                <button onclick="saveDocument()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                    💾 Simpan
+                </button>
+                <button onclick="printDocument()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                    🖨️ Print
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex h-screen">
+        <!-- Sidebar Tools -->
+        <aside class="w-64 bg-white border-r border-gray-200 p-4 no-print overflow-y-auto">
+            <div class="space-y-6">
+                <!-- Text Tools -->
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-700 mb-3">Alat Teks</h3>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="addText()" class="toolbar-button p-3 border border-gray-200 rounded-lg text-center hover:bg-gray-50">
+                            <div class="text-xl mb-1">📝</div>
+                            <div class="text-xs">Teks</div>
+                        </button>
+                        <button onclick="addTitle()" class="toolbar-button p-3 border border-gray-200 rounded-lg text-center hover:bg-gray-50">
+                            <div class="text-xl mb-1">📰</div>
+                            <div class="text-xs">Judul</div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Format Tools -->
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-700 mb-3">Format</h3>
+                    <div class="space-y-2">
+                        <div class="flex items-center space-x-2">
+                            <label class="text-sm text-gray-600 w-16">Font:</label>
+                            <select id="fontSelect" onchange="changeFontFamily()" class="flex-1 p-2 border border-gray-200 rounded text-sm">
+                                <option value="Inter">Inter</option>
+                                <option value="Arial">Arial</option>
+                                <option value="Times New Roman">Times</option>
+                                <option value="Helvetica">Helvetica</option>
+                            </select>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <label class="text-sm text-gray-600 w-16">Ukuran:</label>
+                            <select id="fontSizeSelect" onchange="changeFontSize()" class="flex-1 p-2 border border-gray-200 rounded text-sm">
+                                <option value="12">12px</option>
+                                <option value="14" selected>14px</option>
+                                <option value="16">16px</option>
+                                <option value="18">18px</option>
+                                <option value="24">24px</option>
+                                <option value="32">32px</option>
+                            </select>
+                        </div>
+                        <div class="flex space-x-1">
+                            <button onclick="toggleBold()" id="boldBtn" class="toolbar-button p-2 border border-gray-200 rounded font-bold">B</button>
+                            <button onclick="toggleItalic()" id="italicBtn" class="toolbar-button p-2 border border-gray-200 rounded italic">I</button>
+                            <button onclick="toggleUnderline()" id="underlineBtn" class="toolbar-button p-2 border border-gray-200 rounded underline">U</button>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-xs font-medium text-gray-600">Alignment:</label>
+                            <div class="flex space-x-1">
+                                <button onclick="alignText('left')" id="alignLeftBtn" class="toolbar-button p-2 border border-gray-200 rounded text-xs hover:bg-gray-50" title="Align Left">
+                                    ⬅️
+                                </button>
+                                <button onclick="alignText('center')" id="alignCenterBtn" class="toolbar-button p-2 border border-gray-200 rounded text-xs hover:bg-gray-50" title="Align Center">
+                                    ↔️
+                                </button>
+                                <button onclick="alignText('right')" id="alignRightBtn" class="toolbar-button p-2 border border-gray-200 rounded text-xs hover:bg-gray-50" title="Align Right">
+                                    ➡️
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Media -->
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-700 mb-3">Media</h3>
+                    <div class="grid grid-cols-1 gap-2 mb-3">
+                        <button onclick="insertPhoto()" class="toolbar-button p-3 border border-gray-200 rounded-lg text-center hover:bg-gray-50">
+                            <div class="text-xl mb-1">📷</div>
+                            <div class="text-xs">Insert Foto</div>
+                        </button>
+                        <input type="file" id="photoInput" accept="image/*" style="display: none;" onchange="handlePhotoUpload(event)">
+                    </div>
+                    
+                    <!-- Photo Resize Controls -->
+                    <div id="photoControls" class="space-y-2" style="display: none;">
+                        <h4 class="text-xs font-medium text-gray-600">Ukuran Foto:</h4>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="resizePhoto('smaller')" class="toolbar-button p-2 border border-gray-200 rounded text-xs hover:bg-gray-50">
+                                🔍- Kecil
+                            </button>
+                            <button onclick="resizePhoto('larger')" class="toolbar-button p-2 border border-gray-200 rounded text-xs hover:bg-gray-50">
+                                🔍+ Besar
+                            </button>
+                        </div>
+                        <div class="grid grid-cols-2 gap-1">
+                            <button onclick="setPhotoSize('tiny')" class="toolbar-button p-1 border border-gray-200 rounded text-xs hover:bg-gray-50">
+                                Mini
+                            </button>
+                            <button onclick="setPhotoSize('small')" class="toolbar-button p-1 border border-gray-200 rounded text-xs hover:bg-gray-50">
+                                Kecil
+                            </button>
+                            <button onclick="setPhotoSize('medium')" class="toolbar-button p-1 border border-gray-200 rounded text-xs hover:bg-gray-50">
+                                Sedang
+                            </button>
+                            <button onclick="setPhotoSize('large')" class="toolbar-button p-1 border border-gray-200 rounded text-xs hover:bg-gray-50">
+                                Besar
+                            </button>
+                            <button onclick="setPhotoSize('xlarge')" class="toolbar-button p-1 border border-gray-200 rounded text-xs hover:bg-gray-50">
+                                XL
+                            </button>
+                            <button onclick="setPhotoSize('full')" class="toolbar-button p-1 border border-gray-200 rounded text-xs hover:bg-gray-50">
+                                Penuh
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shapes -->
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-700 mb-3">Bentuk</h3>
+                    <div class="grid grid-cols-2 gap-2 mb-3">
+                        <button onclick="addRectangle()" class="toolbar-button p-3 border border-gray-200 rounded-lg text-center hover:bg-gray-50">
+                            <div class="text-xl mb-1">⬜</div>
+                            <div class="text-xs">Kotak</div>
+                        </button>
+                        <button onclick="addCircle()" class="toolbar-button p-3 border border-gray-200 rounded-lg text-center hover:bg-gray-50">
+                            <div class="text-xl mb-1">⭕</div>
+                            <div class="text-xs">Lingkaran</div>
+                        </button>
+                    </div>
+                    <button onclick="deleteSelected()" class="w-full toolbar-button p-3 border border-red-200 rounded-lg text-center hover:bg-red-50 text-red-600 mb-2">
+                        <div class="text-xl mb-1">🗑️</div>
+                        <div class="text-xs">Hapus</div>
+                    </button>
+                    <button onclick="clearDocument()" class="w-full toolbar-button p-3 border border-orange-200 rounded-lg text-center hover:bg-orange-50 text-orange-600">
+                        <div class="text-xl mb-1">🧹</div>
+                        <div class="text-xs">Kosongkan</div>
+                    </button>
+                </div>
+
+                <!-- Page Settings -->
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-700 mb-3">Halaman</h3>
+                    <div class="space-y-2">
+                        <div class="flex items-center space-x-2">
+                            <label class="text-sm text-gray-600 w-16">Ukuran:</label>
+                            <select class="flex-1 p-2 border border-gray-200 rounded text-sm">
+                                <option value="a4" selected>A4</option>
+                                <option value="letter">Letter</option>
+                                <option value="legal">Legal</option>
+                            </select>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <label class="text-sm text-gray-600 w-16">Orientasi:</label>
+                            <select class="flex-1 p-2 border border-gray-200 rounded text-sm">
+                                <option value="portrait" selected>Portrait</option>
+                                <option value="landscape">Landscape</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 flex flex-col">
+            <!-- Toolbar -->
+            <div class="bg-white border-b border-gray-200 p-4 no-print">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <div class="flex items-center space-x-2">
+                            <button onclick="undo()" class="toolbar-button p-2 border border-gray-200 rounded hover:bg-gray-50" title="Undo">
+                                ↶
+                            </button>
+                            <button onclick="redo()" class="toolbar-button p-2 border border-gray-200 rounded hover:bg-gray-50" title="Redo">
+                                ↷
+                            </button>
+                        </div>
+                        <div class="h-6 w-px bg-gray-300"></div>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-sm text-gray-600">Zoom:</span>
+                            <button onclick="zoomOut()" class="toolbar-button p-1 border border-gray-200 rounded hover:bg-gray-50">-</button>
+                            <span id="zoomLevel" class="text-sm font-medium w-12 text-center">100%</span>
+                            <button onclick="zoomIn()" class="toolbar-button p-1 border border-gray-200 rounded hover:bg-gray-50">+</button>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-sm text-gray-600">Halaman 1 dari 1</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Document Canvas -->
+            <div class="flex-1 bg-gray-100 p-8 overflow-auto">
+                <div class="flex justify-center">
+                    <div id="documentCanvas" class="document-page bg-white w-full max-w-2xl min-h-[297mm] relative cursor-text" 
+                         onclick="handleCanvasClick(event)" 
+                         ondragover="allowDrop(event)"
+                         ondrop="handleDrop(event)"
+                         style="transform: scale(1); transform-origin: top center;">
+                        
+                        <!-- Sample Content -->
+                        <div class="p-8 relative">
+                            <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center absolute cursor-text" 
+                                style="left: 50px; top: 20px; max-width: 500px;" 
+                                contenteditable="true" 
+                                onclick="selectElement(this); makeDraggable(this);">
+                                Judul Dokumen
+                            </h1>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        let currentZoom = 1;
+        let selectedElement = null;
+        let elementCounter = 0;
+
+        function selectElement(element) {
+            // Remove previous selection
+            if (selectedElement) {
+                selectedElement.style.outline = 'none';
+                removeResizeHandles();
+            }
+            
+            // Select new element
+            selectedElement = element;
+            element.style.outline = '2px solid #3b82f6';
+            element.focus();
+            
+            // Show/hide photo controls based on selected element
+            const photoControls = document.getElementById('photoControls');
+            if (element.tagName === 'IMG') {
+                photoControls.style.display = 'block';
+            } else {
+                photoControls.style.display = 'none';
+            }
+            
+            // Add resize handles for text elements
+            if (element.contentEditable === 'true') {
+                addResizeHandles(element);
+            }
+        }
+
+        function handleCanvasClick(event) {
+            if (event.target.id === 'documentCanvas') {
+                // Clicked on empty canvas area
+                if (selectedElement) {
+                    selectedElement.style.outline = 'none';
+                    selectedElement = null;
+                }
+                // Hide photo controls when nothing is selected
+                document.getElementById('photoControls').style.display = 'none';
+                // Remove resize handles
+                removeResizeHandles();
+            }
+        }
+
+        function addResizeHandles(element) {
+            // Remove existing handles first
+            removeResizeHandles();
+            
+            const handles = ['nw', 'ne', 'sw', 'se', 'n', 's', 'e', 'w'];
+            
+            handles.forEach(position => {
+                const handle = document.createElement('div');
+                handle.className = 'resize-handle resize-handle-' + position;
+                handle.style.cssText = `
+                    position: absolute;
+                    background: #3b82f6;
+                    border: 2px solid white;
+                    width: 8px;
+                    height: 8px;
+                    cursor: ${getCursor(position)};
+                    z-index: 1000;
+                `;
+                
+                // Position the handle
+                positionHandle(handle, element, position);
+                
+                // Add resize functionality
+                addResizeListener(handle, element, position);
+                
+                document.body.appendChild(handle);
+            });
+        }
+
+        function removeResizeHandles() {
+            const handles = document.querySelectorAll('.resize-handle');
+            handles.forEach(handle => handle.remove());
+        }
+
+        function getCursor(position) {
+            const cursors = {
+                'nw': 'nw-resize',
+                'ne': 'ne-resize',
+                'sw': 'sw-resize',
+                'se': 'se-resize',
+                'n': 'n-resize',
+                's': 's-resize',
+                'e': 'e-resize',
+                'w': 'w-resize'
+            };
+            return cursors[position];
+        }
+
+        function positionHandle(handle, element, position) {
+            const canvas = document.getElementById('documentCanvas');
+            const canvasRect = canvas.getBoundingClientRect();
+            const elementRect = element.getBoundingClientRect();
+            
+            // Calculate position relative to viewport, then adjust for canvas position
+            const elementLeft = elementRect.left - canvasRect.left + canvas.scrollLeft;
+            const elementTop = elementRect.top - canvasRect.top + canvas.scrollTop;
+            const elementWidth = elementRect.width;
+            const elementHeight = elementRect.height;
+            
+            // Position handles exactly at the element edges
+            switch(position) {
+                case 'nw':
+                    handle.style.left = (canvasRect.left + elementLeft - 4) + 'px';
+                    handle.style.top = (canvasRect.top + elementTop - 4) + 'px';
+                    break;
+                case 'ne':
+                    handle.style.left = (canvasRect.left + elementLeft + elementWidth - 4) + 'px';
+                    handle.style.top = (canvasRect.top + elementTop - 4) + 'px';
+                    break;
+                case 'sw':
+                    handle.style.left = (canvasRect.left + elementLeft - 4) + 'px';
+                    handle.style.top = (canvasRect.top + elementTop + elementHeight - 4) + 'px';
+                    break;
+                case 'se':
+                    handle.style.left = (canvasRect.left + elementLeft + elementWidth - 4) + 'px';
+                    handle.style.top = (canvasRect.top + elementTop + elementHeight - 4) + 'px';
+                    break;
+                case 'n':
+                    handle.style.left = (canvasRect.left + elementLeft + elementWidth/2 - 4) + 'px';
+                    handle.style.top = (canvasRect.top + elementTop - 4) + 'px';
+                    break;
+                case 's':
+                    handle.style.left = (canvasRect.left + elementLeft + elementWidth/2 - 4) + 'px';
+                    handle.style.top = (canvasRect.top + elementTop + elementHeight - 4) + 'px';
+                    break;
+                case 'e':
+                    handle.style.left = (canvasRect.left + elementLeft + elementWidth - 4) + 'px';
+                    handle.style.top = (canvasRect.top + elementTop + elementHeight/2 - 4) + 'px';
+                    break;
+                case 'w':
+                    handle.style.left = (canvasRect.left + elementLeft - 4) + 'px';
+                    handle.style.top = (canvasRect.top + elementTop + elementHeight/2 - 4) + 'px';
+                    break;
+            }
+        }
+
+        function addResizeListener(handle, element, position) {
+            let isResizing = false;
+            let startX, startY, startWidth, startHeight, startLeft, startTop;
+            
+            handle.addEventListener('mousedown', function(e) {
+                isResizing = true;
+                startX = e.clientX;
+                startY = e.clientY;
+                
+                const rect = element.getBoundingClientRect();
+                startWidth = rect.width;
+                startHeight = rect.height;
+                startLeft = parseInt(element.style.left) || 0;
+                startTop = parseInt(element.style.top) || 0;
+                
+                e.preventDefault();
+                e.stopPropagation();
+            });
+            
+            document.addEventListener('mousemove', function(e) {
+                if (!isResizing) return;
+                
+                const deltaX = e.clientX - startX;
+                const deltaY = e.clientY - startY;
+                
+                let newWidth = startWidth;
+                let newHeight = startHeight;
+                let newLeft = startLeft;
+                let newTop = startTop;
+                
+                // Calculate new dimensions based on handle position
+                switch(position) {
+                    case 'se':
+                        newWidth = Math.max(50, startWidth + deltaX);
+                        newHeight = Math.max(20, startHeight + deltaY);
+                        break;
+                    case 'sw':
+                        newWidth = Math.max(50, startWidth - deltaX);
+                        newHeight = Math.max(20, startHeight + deltaY);
+                        newLeft = startLeft + deltaX;
+                        break;
+                    case 'ne':
+                        newWidth = Math.max(50, startWidth + deltaX);
+                        newHeight = Math.max(20, startHeight - deltaY);
+                        newTop = startTop + deltaY;
+                        break;
+                    case 'nw':
+                        newWidth = Math.max(50, startWidth - deltaX);
+                        newHeight = Math.max(20, startHeight - deltaY);
+                        newLeft = startLeft + deltaX;
+                        newTop = startTop + deltaY;
+                        break;
+                    case 'e':
+                        newWidth = Math.max(50, startWidth + deltaX);
+                        break;
+                    case 'w':
+                        newWidth = Math.max(50, startWidth - deltaX);
+                        newLeft = startLeft + deltaX;
+                        break;
+                    case 's':
+                        newHeight = Math.max(20, startHeight + deltaY);
+                        break;
+                    case 'n':
+                        newHeight = Math.max(20, startHeight - deltaY);
+                        newTop = startTop + deltaY;
+                        break;
+                }
+                
+                // Apply new dimensions
+                element.style.width = newWidth + 'px';
+                element.style.height = newHeight + 'px';
+                element.style.maxWidth = newWidth + 'px';
+                element.style.left = newLeft + 'px';
+                element.style.top = newTop + 'px';
+                
+                // Update handle positions
+                updateHandlePositions(element);
+            });
+            
+            document.addEventListener('mouseup', function() {
+                if (isResizing) {
+                    isResizing = false;
+                }
+            });
+        }
+
+        function updateHandlePositions(element) {
+            const handles = document.querySelectorAll('.resize-handle');
+            handles.forEach(handle => {
+                const position = handle.className.split('resize-handle-')[1];
+                positionHandle(handle, element, position);
+            });
+        }
+
+        function addText() {
+            const canvas = document.getElementById('documentCanvas');
+            const textElement = document.createElement('p');
+            textElement.contentEditable = true;
+            textElement.className = 'text-gray-700 leading-relaxed mb-4 cursor-text absolute border border-transparent';
+            textElement.style.left = '50px';
+            textElement.style.top = '100px';
+            textElement.style.width = '300px';
+            textElement.style.height = '60px';
+            textElement.style.maxWidth = '300px';
+            textElement.style.padding = '8px';
+            textElement.style.overflow = 'hidden';
+            textElement.textContent = 'Teks baru - klik untuk mengedit';
+            textElement.onclick = (e) => {
+                e.stopPropagation();
+                selectElement(textElement);
+            };
+            
+            // Add drag functionality
+            makeDraggable(textElement);
+            
+            canvas.appendChild(textElement);
+            selectElement(textElement);
+        }
+
+        function addTitle() {
+            const canvas = document.getElementById('documentCanvas');
+            const titleElement = document.createElement('h2');
+            titleElement.contentEditable = true;
+            titleElement.className = 'text-2xl font-bold text-gray-800 mb-4 cursor-text absolute border border-transparent';
+            titleElement.style.left = '50px';
+            titleElement.style.top = '50px';
+            titleElement.style.width = '400px';
+            titleElement.style.height = '50px';
+            titleElement.style.maxWidth = '400px';
+            titleElement.style.padding = '8px';
+            titleElement.style.overflow = 'hidden';
+            titleElement.textContent = 'Judul Baru';
+            titleElement.onclick = (e) => {
+                e.stopPropagation();
+                selectElement(titleElement);
+            };
+            
+            // Add drag functionality
+            makeDraggable(titleElement);
+            
+            canvas.appendChild(titleElement);
+            selectElement(titleElement);
+        }
+
+        function makeDraggable(element) {
+            let isDragging = false;
+            let startX, startY, initialX, initialY;
+            
+            element.addEventListener('mousedown', function(e) {
+                // Only start dragging if not editing text
+                if (e.target.contentEditable === 'true' && e.target === document.activeElement) {
+                    return;
+                }
+                
+                isDragging = true;
+                startX = e.clientX;
+                startY = e.clientY;
+                initialX = parseInt(element.style.left) || 0;
+                initialY = parseInt(element.style.top) || 0;
+                
+                element.style.cursor = 'grabbing';
+                e.preventDefault();
+            });
+            
+            document.addEventListener('mousemove', function(e) {
+                if (!isDragging) return;
+                
+                const deltaX = e.clientX - startX;
+                const deltaY = e.clientY - startY;
+                
+                const newX = initialX + deltaX;
+                const newY = initialY + deltaY;
+                
+                // Keep element within canvas bounds
+                const canvas = document.getElementById('documentCanvas');
+                const canvasRect = canvas.getBoundingClientRect();
+                const elementRect = element.getBoundingClientRect();
+                
+                const maxX = canvas.offsetWidth - element.offsetWidth;
+                const maxY = canvas.offsetHeight - element.offsetHeight;
+                
+                element.style.left = Math.max(0, Math.min(newX, maxX)) + 'px';
+                element.style.top = Math.max(0, Math.min(newY, maxY)) + 'px';
+            });
+            
+            document.addEventListener('mouseup', function() {
+                if (isDragging) {
+                    isDragging = false;
+                    element.style.cursor = element.contentEditable === 'true' ? 'text' : 'move';
+                }
+            });
+        }
+
+        function addRectangle() {
+            const canvas = document.getElementById('documentCanvas');
+            const rect = document.createElement('div');
+            rect.className = 'w-32 h-20 bg-blue-200 border-2 border-blue-400 mb-4 cursor-move absolute';
+            rect.style.left = '100px';
+            rect.style.top = '150px';
+            rect.onclick = (e) => {
+                e.stopPropagation();
+                selectElement(rect);
+            };
+            
+            makeDraggable(rect);
+            canvas.appendChild(rect);
+            selectElement(rect);
+        }
+
+        function addCircle() {
+            const canvas = document.getElementById('documentCanvas');
+            const circle = document.createElement('div');
+            circle.className = 'w-20 h-20 bg-green-200 border-2 border-green-400 rounded-full mb-4 cursor-move absolute';
+            circle.style.left = '150px';
+            circle.style.top = '200px';
+            circle.onclick = (e) => {
+                e.stopPropagation();
+                selectElement(circle);
+            };
+            
+            makeDraggable(circle);
+            canvas.appendChild(circle);
+            selectElement(circle);
+        }
+
+        function changeFontFamily() {
+            if (selectedElement) {
+                const fontFamily = document.getElementById('fontSelect').value;
+                selectedElement.style.fontFamily = fontFamily;
+            }
+        }
+
+        function changeFontSize() {
+            if (selectedElement) {
+                const fontSize = document.getElementById('fontSizeSelect').value;
+                selectedElement.style.fontSize = fontSize + 'px';
+            }
+        }
+
+        function toggleBold() {
+            if (selectedElement) {
+                const isBold = selectedElement.style.fontWeight === 'bold';
+                selectedElement.style.fontWeight = isBold ? 'normal' : 'bold';
+                document.getElementById('boldBtn').classList.toggle('active-tool', !isBold);
+            }
+        }
+
+        function toggleItalic() {
+            if (selectedElement) {
+                const isItalic = selectedElement.style.fontStyle === 'italic';
+                selectedElement.style.fontStyle = isItalic ? 'normal' : 'italic';
+                document.getElementById('italicBtn').classList.toggle('active-tool', !isItalic);
+            }
+        }
+
+        function toggleUnderline() {
+            if (selectedElement) {
+                const isUnderlined = selectedElement.style.textDecoration === 'underline';
+                selectedElement.style.textDecoration = isUnderlined ? 'none' : 'underline';
+                document.getElementById('underlineBtn').classList.toggle('active-tool', !isUnderlined);
+            }
+        }
+
+        function alignText(alignment) {
+            if (selectedElement) {
+                // Remove active state from all alignment buttons
+                document.getElementById('alignLeftBtn').classList.remove('active-tool');
+                document.getElementById('alignCenterBtn').classList.remove('active-tool');
+                document.getElementById('alignRightBtn').classList.remove('active-tool');
+                
+                // Apply alignment
+                selectedElement.style.textAlign = alignment;
+                
+                // Add active state to current button
+                const buttonId = 'align' + alignment.charAt(0).toUpperCase() + alignment.slice(1) + 'Btn';
+                document.getElementById(buttonId).classList.add('active-tool');
+            } else {
+                alert('Pilih teks terlebih dahulu untuk mengatur alignment!');
+            }
+        }
+
+        function zoomIn() {
+            currentZoom = Math.min(currentZoom + 0.1, 2);
+            updateZoom();
+        }
+
+        function zoomOut() {
+            currentZoom = Math.max(currentZoom - 0.1, 0.5);
+            updateZoom();
+        }
+
+        function updateZoom() {
+            const canvas = document.getElementById('documentCanvas');
+            canvas.style.transform = `scale(${currentZoom})`;
+            document.getElementById('zoomLevel').textContent = Math.round(currentZoom * 100) + '%';
+        }
+
+        function undo() {
+            document.execCommand('undo');
+        }
+
+        function redo() {
+            document.execCommand('redo');
+        }
+
+        function saveDocument() {
+            try {
+                // Get document content
+                const canvas = document.getElementById('documentCanvas');
+                const documentData = {
+                    title: document.querySelector('h1').textContent || 'Dokumen Tanpa Judul',
+                    content: canvas.innerHTML,
+                    timestamp: new Date().toISOString(),
+                    zoom: currentZoom
+                };
+                
+                // Save to localStorage
+                const savedDocs = JSON.parse(localStorage.getItem('mediaprint_documents') || '[]');
+                const docId = 'doc_' + Date.now();
+                documentData.id = docId;
+                savedDocs.push(documentData);
+                localStorage.setItem('mediaprint_documents', JSON.stringify(savedDocs));
+                
+                // Also create downloadable HTML file
+                const htmlContent = generateFullHTML();
+                const blob = new Blob([htmlContent], { type: 'text/html' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${documentData.title.replace(/[^a-z0-9]/gi, '_')}.html`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                alert('✅ Dokumen berhasil disimpan dan diunduh sebagai file HTML!');
+            } catch (error) {
+                console.error('Error saving document:', error);
+                alert('❌ Terjadi kesalahan saat menyimpan dokumen.');
+            }
+        }
+
+        function generateFullHTML() {
+            const canvas = document.getElementById('documentCanvas');
+            const title = document.querySelector('h1').textContent || 'Dokumen';
+            
+            return '<!DOCTYPE html>' +
+'<html lang="id">' +
+'<head>' +
+'    <meta charset="UTF-8">' +
+'    <meta name="viewport" content="width=device-width, initial-scale=1.0">' +
+'    <title>' + title + '</title>' +
+'    <script src="https://cdn.tailwindcss.com"><\/script>' +
+'    <style>' +
+'        @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");' +
+'        body { font-family: "Inter", sans-serif; }' +
+'        .document-page { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); }' +
+'        @media print {' +
+'            body { margin: 0; }' +
+'            .document-page { box-shadow: none; margin: 0; width: 100% !important; height: 100% !important; }' +
+'        }' +
+'    </style>' +
+'</head>' +
+'<body class="bg-gray-50 min-h-screen p-8">' +
+'    <div class="flex justify-center">' +
+'        <div class="document-page bg-white w-full max-w-2xl min-h-[297mm] relative">' +
+            canvas.innerHTML +
+'        </div>' +
+'    </div>' +
+'    <div class="text-center mt-4 no-print">' +
+'        <button onclick="window.print()" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-medium no-print">' +
+'            🖨️ Print Dokumen' +
+'        </button>' +
+'    </div>' +
+'</body>' +
+'</html>';
+        }
+
+        function printDocument() {
+            try {
+                // Create a clean print version
+                const printWindow = window.open('', '_blank');
+                if (!printWindow) {
+                    alert('Pop-up diblokir! Silakan izinkan pop-up untuk fitur print.');
+                    return;
+                }
+                
+                const htmlContent = generateFullHTML();
+                printWindow.document.write(htmlContent);
+                printWindow.document.close();
+                
+                // Wait for content to load then print
+                printWindow.onload = function() {
+                    setTimeout(() => {
+                        printWindow.print();
+                    }, 500);
+                };
+            } catch (error) {
+                console.error('Print error:', error);
+                // Fallback to regular print
+                window.print();
+            }
+        }
+
+        function deleteSelected() {
+            if (selectedElement) {
+                // Don't allow deleting the main document container
+                if (selectedElement.id === 'documentCanvas') {
+                    alert('Tidak dapat menghapus area dokumen utama!');
+                    return;
+                }
+                
+                // Confirm deletion
+                if (confirm('Apakah Anda yakin ingin menghapus elemen yang dipilih?')) {
+                    selectedElement.remove();
+                    selectedElement = null;
+                }
+            } else {
+                alert('Pilih elemen yang ingin dihapus terlebih dahulu!');
+            }
+        }
+
+        function clearDocument() {
+            if (confirm('Apakah Anda yakin ingin mengosongkan seluruh dokumen? Semua konten akan dihapus dan tidak dapat dikembalikan.')) {
+                const canvas = document.getElementById('documentCanvas');
+                // Clear all content and reset to empty state
+                canvas.innerHTML = '';
+                
+                // Add basic padding container for new content
+                const paddingDiv = document.createElement('div');
+                paddingDiv.className = 'p-8 min-h-full';
+                canvas.appendChild(paddingDiv);
+                
+                selectedElement = null;
+                alert('✅ Dokumen berhasil dikosongkan!');
+            }
+        }
+
+        function insertPhoto() {
+            document.getElementById('photoInput').click();
+        }
+
+        function handlePhotoUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        addPhotoToCanvas(e.target.result);
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    alert('Silakan pilih file gambar yang valid (JPG, PNG, GIF, dll.)');
+                }
+            }
+        }
+
+        function addPhotoToCanvas(imageSrc) {
+            const canvas = document.getElementById('documentCanvas');
+            const imgElement = document.createElement('img');
+            
+            imgElement.src = imageSrc;
+            imgElement.className = 'max-w-xs h-auto mb-4 cursor-move border-2 border-transparent hover:border-blue-300 transition-colors';
+            imgElement.style.maxWidth = '300px';
+            imgElement.style.height = 'auto';
+            imgElement.style.position = 'absolute';
+            imgElement.style.left = '50px';
+            imgElement.style.top = '200px';
+            imgElement.draggable = true;
+            
+            imgElement.onclick = (e) => {
+                e.stopPropagation();
+                selectElement(imgElement);
+            };
+            
+            // Add drag functionality
+            imgElement.addEventListener('dragstart', function(e) {
+                const rect = imgElement.getBoundingClientRect();
+                const canvasRect = canvas.getBoundingClientRect();
+                e.dataTransfer.setData('text/plain', '');
+                e.dataTransfer.effectAllowed = 'move';
+                
+                // Store offset from mouse to element corner
+                imgElement.dragOffsetX = e.clientX - rect.left;
+                imgElement.dragOffsetY = e.clientY - rect.top;
+            });
+            
+            imgElement.addEventListener('dragend', function(e) {
+                const canvasRect = canvas.getBoundingClientRect();
+                const newX = e.clientX - canvasRect.left - imgElement.dragOffsetX;
+                const newY = e.clientY - canvasRect.top - imgElement.dragOffsetY;
+                
+                // Keep image within canvas bounds
+                const maxX = canvas.offsetWidth - imgElement.offsetWidth;
+                const maxY = canvas.offsetHeight - imgElement.offsetHeight;
+                
+                imgElement.style.left = Math.max(0, Math.min(newX, maxX)) + 'px';
+                imgElement.style.top = Math.max(0, Math.min(newY, maxY)) + 'px';
+            });
+            
+            // Add resize handles when selected
+            imgElement.onload = function() {
+                canvas.appendChild(imgElement);
+                selectElement(imgElement);
+            };
+            
+            // Handle image load errors
+            imgElement.onerror = function() {
+                alert('Gagal memuat gambar. Silakan coba lagi dengan file yang berbeda.');
+            };
+        }
+
+        function allowDrop(event) {
+            event.preventDefault();
+        }
+
+        function handleDrop(event) {
+            event.preventDefault();
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey || e.metaKey) {
+                switch(e.key) {
+                    case 's':
+                        e.preventDefault();
+                        saveDocument();
+                        break;
+                    case 'p':
+                        e.preventDefault();
+                        printDocument();
+                        break;
+                    case 'z':
+                        if (e.shiftKey) {
+                            e.preventDefault();
+                            redo();
+                        } else {
+                            e.preventDefault();
+                            undo();
+                        }
+                        break;
+                }
+            } else if (e.key === 'Delete' || e.key === 'Backspace') {
+                if (selectedElement && selectedElement.id !== 'documentCanvas') {
+                    e.preventDefault();
+                    deleteSelected();
+                }
+            }
+        });
+
+        // Photo resize functions
+        function resizePhoto(direction) {
+            if (selectedElement && selectedElement.tagName === 'IMG') {
+                const currentWidth = selectedElement.offsetWidth;
+                let newWidth;
+                
+                if (direction === 'larger') {
+                    newWidth = Math.min(currentWidth + 50, 600); // Max 600px
+                } else {
+                    newWidth = Math.max(currentWidth - 50, 100); // Min 100px
+                }
+                
+                selectedElement.style.maxWidth = newWidth + 'px';
+                selectedElement.style.width = newWidth + 'px';
+            } else {
+                alert('Pilih foto terlebih dahulu untuk mengubah ukuran!');
+            }
+        }
+        
+        function setPhotoSize(size) {
+            if (selectedElement && selectedElement.tagName === 'IMG') {
+                let width;
+                
+                switch(size) {
+                    case 'tiny':
+                        width = 100;
+                        break;
+                    case 'small':
+                        width = 180;
+                        break;
+                    case 'medium':
+                        width = 280;
+                        break;
+                    case 'large':
+                        width = 400;
+                        break;
+                    case 'xlarge':
+                        width = 520;
+                        break;
+                    case 'full':
+                        width = 650;
+                        break;
+                    default:
+                        width = 280;
+                }
+                
+                selectedElement.style.maxWidth = width + 'px';
+                selectedElement.style.width = width + 'px';
+            } else {
+                alert('Pilih foto terlebih dahulu untuk mengubah ukuran!');
+            }
+        }
+
+        // Initialize the editor when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Media Print Editor loaded successfully!');
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9872231866a37ae1',t:'MTc1OTIxODcwNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

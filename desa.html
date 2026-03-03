@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pencarian Desa Indonesia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #1e3a8a 0%, #7f1d1d 50%, #7c2d12 100%); }
+        .glass-effect { 
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .search-animation {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .loading-spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #7f1d1d;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .stats-btn.active {
+            background-color: #7f1d1d !important;
+        }
+        .stats-table {
+            font-size: 14px;
+        }
+        .progress-bar {
+            background: linear-gradient(90deg, #1e3a8a 0%, #7f1d1d 100%);
+            height: 8px;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        .modal-overlay {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+        .modal-content {
+            animation: modalSlideIn 0.3s ease-out;
+        }
+        @keyframes modalSlideIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(-50px) scale(0.9); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1); 
+            }
+        }
+        .province-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1e3a8a 0%, #7f1d1d 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        .kabupaten-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #7c2d12 0%, #7f1d1d 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        .detail-card {
+            background: linear-gradient(135deg, #1e3a8a 0%, #7f1d1d 100%);
+            border-radius: 15px;
+            padding: 20px;
+            color: white;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+        .info-badge {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            padding: 10px 15px;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen">
+    <!-- Header -->
+    <div class="container mx-auto px-4 py-8">
+        <div class="text-center mb-8">
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-4 flex items-center justify-center gap-4">
+                <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1751214851/SYAM-DIGITAL_qp3cfw.png" 
+                     alt="Logo Syam Digital" 
+                     class="w-16 h-16 md:w-20 md:h-20 object-contain"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                <span style="display: none;">🏘️</span>
+                Pencarian Desa Indonesia
+            </h1>
+            <p class="text-xl text-white opacity-90">
+                Temukan informasi lengkap desa di seluruh Indonesia
+            </p>
+        </div>
+
+        <!-- Search Section -->
+        <div class="glass-effect rounded-2xl p-6 mb-8 max-w-4xl mx-auto">
+            <div class="flex flex-col md:flex-row gap-4 mb-6">
+                <div class="flex-1">
+                    <input 
+                        type="text" 
+                        id="searchInput" 
+                        placeholder="Cari nama desa, kecamatan, kabupaten, atau provinsi..."
+                        class="w-full px-4 py-3 rounded-lg border-0 focus:ring-2 focus:ring-blue-500 text-gray-800 text-lg"
+                    >
+                </div>
+                <button 
+                    id="searchBtn"
+                    class="bg-red-900 hover:bg-red-950 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center gap-2"
+                >
+                    <span>🔍</span>
+                    <span>Cari</span>
+                </button>
+            </div>
+
+            <!-- Filter Options -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <select id="provinsiFilter" class="px-4 py-2 rounded-lg border-0 text-gray-800">
+                    <option value="">Semua Provinsi</option>
+                </select>
+                <select id="kabupatenFilter" class="px-4 py-2 rounded-lg border-0 text-gray-800">
+                    <option value="">Semua Kabupaten</option>
+                </select>
+                <select id="kecamatanFilter" class="px-4 py-2 rounded-lg border-0 text-gray-800">
+                    <option value="">Semua Kecamatan</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Statistics -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8 max-w-4xl mx-auto">
+            <div class="glass-effect rounded-xl p-4 text-center">
+                <div class="text-2xl font-bold text-white" id="totalDesa">0</div>
+                <div class="text-white opacity-80">Total Desa</div>
+            </div>
+            <div class="glass-effect rounded-xl p-4 text-center">
+                <div class="text-2xl font-bold text-white" id="totalProvinsi">0</div>
+                <div class="text-white opacity-80">Provinsi</div>
+            </div>
+            <div class="glass-effect rounded-xl p-4 text-center">
+                <div class="text-2xl font-bold text-white" id="totalKabupaten">0</div>
+                <div class="text-white opacity-80">Kabupaten</div>
+            </div>
+            <div class="glass-effect rounded-xl p-4 text-center">
+                <div class="text-2xl font-bold text-white" id="hasilPencarian">0</div>
+                <div class="text-white opacity-80">Hasil Pencarian</div>
+            </div>
+        </div>
+
+
+
+        <!-- Loading Indicator -->
+        <div id="loadingIndicator" class="text-center mb-6 hidden">
+            <div class="loading-spinner mx-auto mb-2"></div>
+            <p class="text-white">Memuat data...</p>
+        </div>
+
+        <!-- Results Section -->
+        <div class="glass-effect rounded-2xl p-6 max-w-6xl mx-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-white">Hasil Pencarian</h2>
+                <div class="flex gap-2">
+                    <button id="exportBtn" class="bg-blue-800 hover:bg-blue-900 text-white px-4 py-2 rounded-lg font-medium transition-all duration-300">
+                        📊 Export CSV
+                    </button>
+                    <button id="clearBtn" class="bg-red-900 hover:bg-red-950 text-white px-4 py-2 rounded-lg font-medium transition-all duration-300">
+                        🗑️ Clear
+                    </button>
+                </div>
+            </div>
+
+            <!-- Results Table -->
+            <div class="overflow-x-auto">
+                <table class="w-full bg-white rounded-lg overflow-hidden shadow-lg">
+                    <thead class="bg-gray-800 text-white">
+                        <tr>
+                            <th class="px-4 py-3 text-left">No</th>
+                            <th class="px-4 py-3 text-left">Provinsi</th>
+                            <th class="px-4 py-3 text-left">Kabupaten</th>
+                            <th class="px-4 py-3 text-left">Kecamatan</th>
+                            <th class="px-4 py-3 text-left">Desa/Kelurahan</th>
+                            <th class="px-4 py-3 text-left">Kode Pos</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resultsTable">
+                        <tr>
+                            <td colspan="6" class="px-4 py-8 text-center text-gray-500">
+                                Masukkan kata kunci untuk mencari data desa
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="flex justify-between items-center mt-6">
+                <div class="text-white opacity-80" id="paginationInfo">
+                    Menampilkan 0 dari 0 hasil
+                </div>
+                <div class="flex gap-2" id="paginationControls">
+                    <button id="prevBtn" class="bg-blue-800 hover:bg-blue-900 text-white px-4 py-2 rounded-lg disabled:opacity-50" disabled>
+                        ← Sebelumnya
+                    </button>
+                    <button id="nextBtn" class="bg-blue-800 hover:bg-blue-900 text-white px-4 py-2 rounded-lg disabled:opacity-50" disabled>
+                        Selanjutnya →
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detailed Statistics -->
+        <div class="glass-effect rounded-2xl p-6 mb-8 max-w-6xl mx-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-white">📊 Statistik Detail</h2>
+                <div class="flex gap-2">
+                    <button id="statsProvinsiBtn" class="bg-red-900 hover:bg-red-950 text-white px-4 py-2 rounded-lg font-medium transition-all duration-300 stats-btn active">
+                        Per Provinsi
+                    </button>
+                    <button id="statsKabupatenBtn" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg font-medium transition-all duration-300 stats-btn">
+                        Per Kabupaten
+                    </button>
+                    <button id="statsKecamatanBtn" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg font-medium transition-all duration-300 stats-btn">
+                        Per Kecamatan
+                    </button>
+                </div>
+            </div>
+
+            <!-- Statistics Content -->
+            <div id="statisticsContent" class="bg-white rounded-lg p-4 max-h-96 overflow-y-auto">
+                <div class="text-center text-gray-500 py-8">
+                    Memuat statistik...
+                </div>
+            </div>
+
+            <!-- Statistics Summary -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+                <div class="bg-white bg-opacity-20 rounded-lg p-4 text-center">
+                    <div class="text-xl font-bold text-white" id="avgDesaPerKabupaten">0</div>
+                    <div class="text-white opacity-80 text-sm">Rata-rata Desa per Kabupaten</div>
+                </div>
+                <div class="bg-white bg-opacity-20 rounded-lg p-4 text-center">
+                    <div class="text-xl font-bold text-white" id="maxDesaKabupaten">-</div>
+                    <div class="text-white opacity-80 text-sm">Kabupaten Terbanyak Desa</div>
+                </div>
+                <div class="bg-white bg-opacity-20 rounded-lg p-4 text-center">
+                    <div class="text-xl font-bold text-white" id="totalKecamatan">0</div>
+                    <div class="text-white opacity-80 text-sm">Total Kecamatan</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detail Modal -->
+    <div id="desaModal" class="fixed inset-0 z-50 hidden modal-overlay flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto modal-content">
+            <div class="p-6">
+                <!-- Header -->
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">📍 Detail Lokasi</h2>
+                    <button id="closeModal" class="text-gray-500 hover:text-gray-700 text-2xl font-bold">
+                        ✕
+                    </button>
+                </div>
+
+                <!-- Main Content -->
+                <div id="modalContent">
+                    <!-- Content will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class DesaSearchApp {
+            constructor() {
+                this.allData = [];
+                this.filteredData = [];
+                this.currentPage = 1;
+                this.itemsPerPage = 20;
+                this.isLoading = false;
+                
+                this.initializeElements();
+                this.bindEvents();
+                this.loadData();
+            }
+
+            initializeElements() {
+                this.searchInput = document.getElementById('searchInput');
+                this.searchBtn = document.getElementById('searchBtn');
+                this.provinsiFilter = document.getElementById('provinsiFilter');
+                this.kabupatenFilter = document.getElementById('kabupatenFilter');
+                this.kecamatanFilter = document.getElementById('kecamatanFilter');
+                this.resultsTable = document.getElementById('resultsTable');
+                this.loadingIndicator = document.getElementById('loadingIndicator');
+                this.exportBtn = document.getElementById('exportBtn');
+                this.clearBtn = document.getElementById('clearBtn');
+                this.prevBtn = document.getElementById('prevBtn');
+                this.nextBtn = document.getElementById('nextBtn');
+                this.paginationInfo = document.getElementById('paginationInfo');
+                
+                // Statistics elements
+                this.statsProvinsiBtn = document.getElementById('statsProvinsiBtn');
+                this.statsKabupatenBtn = document.getElementById('statsKabupatenBtn');
+                this.statsKecamatanBtn = document.getElementById('statsKecamatanBtn');
+                this.statisticsContent = document.getElementById('statisticsContent');
+                this.currentStatsView = 'provinsi';
+                
+                // Modal elements
+                this.desaModal = document.getElementById('desaModal');
+                this.modalContent = document.getElementById('modalContent');
+                this.closeModal = document.getElementById('closeModal');
+            }
+
+            bindEvents() {
+                this.searchBtn.addEventListener('click', () => this.performSearch());
+                this.searchInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') this.performSearch();
+                });
+                this.searchInput.addEventListener('input', () => this.performSearch());
+                
+                this.provinsiFilter.addEventListener('change', () => this.applyFilters());
+                this.kabupatenFilter.addEventListener('change', () => this.applyFilters());
+                this.kecamatanFilter.addEventListener('change', () => this.applyFilters());
+                
+                this.exportBtn.addEventListener('click', () => this.exportToCSV());
+                this.clearBtn.addEventListener('click', () => this.clearSearch());
+                this.prevBtn.addEventListener('click', () => this.previousPage());
+                this.nextBtn.addEventListener('click', () => this.nextPage());
+                
+                // Statistics event listeners
+                this.statsProvinsiBtn.addEventListener('click', () => this.showStatistics('provinsi'));
+                this.statsKabupatenBtn.addEventListener('click', () => this.showStatistics('kabupaten'));
+                this.statsKecamatanBtn.addEventListener('click', () => this.showStatistics('kecamatan'));
+                
+                // Modal event listeners
+                this.closeModal.addEventListener('click', () => this.hideDesaDetail());
+                this.desaModal.addEventListener('click', (e) => {
+                    if (e.target === this.desaModal) this.hideDesaDetail();
+                });
+            }
+
+            async loadData() {
+                this.showLoading(true);
+                try {
+                    // Menggunakan Google Sheets API untuk mengambil data
+                    const sheetId = '1vR3DvbL4IcSVxrQdXg1QT05bINt7PGO9D_y4Le3Zp4TTLwkFKePQtkCM-En7ACfCs4zhhX_IvSTozyR';
+                    const gid = '311785815';
+                    const url = `https://docs.google.com/spreadsheets/d/e/2PACX-${sheetId}/pub?gid=${gid}&single=true&output=csv`;
+                    
+                    const response = await fetch(url);
+                    const csvText = await response.text();
+                    
+                    this.allData = this.parseCSV(csvText);
+                    this.filteredData = [...this.allData];
+                    
+                    this.populateFilters();
+                    this.updateStatistics();
+                    this.displayResults();
+                    this.showStatistics('provinsi');
+                    
+                } catch (error) {
+                    console.error('Error loading data:', error);
+                    // Fallback dengan data sample jika gagal load dari Google Sheets
+                    this.loadSampleData();
+                }
+                this.showLoading(false);
+            }
+
+            parseCSV(csvText) {
+                const lines = csvText.split('\n');
+                const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, ''));
+                const data = [];
+                
+                for (let i = 1; i < lines.length; i++) {
+                    if (lines[i].trim()) {
+                        const values = lines[i].split(',').map(v => v.trim().replace(/"/g, ''));
+                        if (values.length >= 6) {
+                            data.push({
+                                no: values[0] || '',
+                                provinsi: values[1] || '',
+                                kabupaten: values[2] || '',
+                                kecamatan: values[3] || '',
+                                desa: values[4] || '',
+                                kodePos: values[5] || ''
+                            });
+                        }
+                    }
+                }
+                return data;
+            }
+
+            loadSampleData() {
+                // Data sample untuk demo sesuai format Google Sheets
+                this.allData = [
+                    { no: '1', provinsi: 'Jawa Barat', kabupaten: 'Bogor', kecamatan: 'Cibinong', desa: 'Sukamaju', kodePos: '16911' },
+                    { no: '2', provinsi: 'Jawa Barat', kabupaten: 'Bogor', kecamatan: 'Kemang', desa: 'Suka Damai', kodePos: '16310' },
+                    { no: '3', provinsi: 'DKI Jakarta', kabupaten: 'Jakarta Pusat', kecamatan: 'Gambir', desa: 'Merdeka', kodePos: '10110' },
+                    { no: '4', provinsi: 'DKI Jakarta', kabupaten: 'Jakarta Pusat', kecamatan: 'Menteng', desa: 'Sejahtera', kodePos: '10310' },
+                    { no: '5', provinsi: 'Jawa Barat', kabupaten: 'Bandung', kecamatan: 'Bandung Wetan', desa: 'Makmur', kodePos: '40114' },
+                    { no: '6', provinsi: 'Jawa Barat', kabupaten: 'Bandung', kecamatan: 'Coblong', desa: 'Tenteram', kodePos: '40132' },
+                    { no: '7', provinsi: 'DI Yogyakarta', kabupaten: 'Yogyakarta', kecamatan: 'Yogyakarta', desa: 'Bahagia', kodePos: '55111' },
+                    { no: '8', provinsi: 'DI Yogyakarta', kabupaten: 'Yogyakarta', kecamatan: 'Kraton', desa: 'Sentosa', kodePos: '55133' },
+                    { no: '9', provinsi: 'Jawa Timur', kabupaten: 'Surabaya', kecamatan: 'Sukolilo', desa: 'Harmoni', kodePos: '60111' },
+                    { no: '10', provinsi: 'Jawa Timur', kabupaten: 'Surabaya', kecamatan: 'Gubeng', desa: 'Damai', kodePos: '60281' }
+                ];
+                this.filteredData = [...this.allData];
+                this.populateFilters();
+                this.updateStatistics();
+                this.displayResults();
+                this.showStatistics('provinsi');
+            }
+
+            populateFilters() {
+                const provinsis = [...new Set(this.allData.map(item => item.provinsi))].sort();
+                const kabupatens = [...new Set(this.allData.map(item => item.kabupaten))].sort();
+                const kecamatans = [...new Set(this.allData.map(item => item.kecamatan))].sort();
+
+                this.populateSelect(this.provinsiFilter, provinsis);
+                this.populateSelect(this.kabupatenFilter, kabupatens);
+                this.populateSelect(this.kecamatanFilter, kecamatans);
+            }
+
+            populateSelect(selectElement, options) {
+                // Keep the first option (default)
+                const defaultOption = selectElement.children[0];
+                selectElement.innerHTML = '';
+                selectElement.appendChild(defaultOption);
+                
+                options.forEach(option => {
+                    const optionElement = document.createElement('option');
+                    optionElement.value = option;
+                    optionElement.textContent = option;
+                    selectElement.appendChild(optionElement);
+                });
+            }
+
+            performSearch() {
+                const searchTerm = this.searchInput.value.toLowerCase().trim();
+                
+                if (searchTerm === '') {
+                    this.filteredData = [...this.allData];
+                } else {
+                    this.filteredData = this.allData.filter(item => 
+                        item.desa.toLowerCase().includes(searchTerm) ||
+                        item.kecamatan.toLowerCase().includes(searchTerm) ||
+                        item.kabupaten.toLowerCase().includes(searchTerm) ||
+                        item.provinsi.toLowerCase().includes(searchTerm)
+                    );
+                }
+                
+                this.applyFilters();
+            }
+
+            applyFilters() {
+                let filtered = [...this.filteredData];
+                
+                if (this.provinsiFilter.value) {
+                    filtered = filtered.filter(item => item.provinsi === this.provinsiFilter.value);
+                }
+                
+                if (this.kabupatenFilter.value) {
+                    filtered = filtered.filter(item => item.kabupaten === this.kabupatenFilter.value);
+                }
+                
+                if (this.kecamatanFilter.value) {
+                    filtered = filtered.filter(item => item.kecamatan === this.kecamatanFilter.value);
+                }
+                
+                this.filteredData = filtered;
+                this.currentPage = 1;
+                this.displayResults();
+                this.updateSearchStatistics();
+            }
+
+            displayResults() {
+                const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+                const endIndex = startIndex + this.itemsPerPage;
+                const pageData = this.filteredData.slice(startIndex, endIndex);
+                
+                if (pageData.length === 0) {
+                    this.resultsTable.innerHTML = `
+                        <tr>
+                            <td colspan="6" class="px-4 py-8 text-center text-gray-500">
+                                Tidak ada data yang ditemukan
+                            </td>
+                        </tr>
+                    `;
+                } else {
+                    this.resultsTable.innerHTML = pageData.map((item, index) => `
+                        <tr class="border-b hover:bg-gray-50 fade-in">
+                            <td class="px-4 py-3">${startIndex + index + 1}</td>
+                            <td class="px-4 py-3">${item.provinsi}</td>
+                            <td class="px-4 py-3">${item.kabupaten}</td>
+                            <td class="px-4 py-3">${item.kecamatan}</td>
+                            <td class="px-4 py-3 font-medium">
+                                <button class="text-blue-600 hover:text-blue-800 hover:underline font-semibold transition-colors cursor-pointer" 
+                                        onclick="app.showDesaDetail('${item.desa}', '${item.kecamatan}', '${item.kabupaten}', '${item.provinsi}', '${item.kodePos}')">
+                                    ${item.desa}
+                                </button>
+                            </td>
+                            <td class="px-4 py-3">${item.kodePos}</td>
+                        </tr>
+                    `).join('');
+                }
+                
+                this.updatePagination();
+            }
+
+            updatePagination() {
+                const totalPages = Math.ceil(this.filteredData.length / this.itemsPerPage);
+                const startItem = (this.currentPage - 1) * this.itemsPerPage + 1;
+                const endItem = Math.min(this.currentPage * this.itemsPerPage, this.filteredData.length);
+                
+                this.paginationInfo.textContent = `Menampilkan ${startItem}-${endItem} dari ${this.filteredData.length} hasil`;
+                
+                this.prevBtn.disabled = this.currentPage === 1;
+                this.nextBtn.disabled = this.currentPage === totalPages || totalPages === 0;
+            }
+
+            previousPage() {
+                if (this.currentPage > 1) {
+                    this.currentPage--;
+                    this.displayResults();
+                }
+            }
+
+            nextPage() {
+                const totalPages = Math.ceil(this.filteredData.length / this.itemsPerPage);
+                if (this.currentPage < totalPages) {
+                    this.currentPage++;
+                    this.displayResults();
+                }
+            }
+
+            updateStatistics() {
+                const totalDesa = this.allData.length;
+                const totalProvinsi = new Set(this.allData.map(item => item.provinsi)).size;
+                const totalKabupaten = new Set(this.allData.map(item => item.kabupaten)).size;
+                const totalKecamatan = new Set(this.allData.map(item => item.kecamatan)).size;
+                
+                document.getElementById('totalDesa').textContent = totalDesa.toLocaleString();
+                document.getElementById('totalProvinsi').textContent = totalProvinsi;
+                document.getElementById('totalKabupaten').textContent = totalKabupaten;
+                document.getElementById('totalKecamatan').textContent = totalKecamatan;
+                
+                // Calculate additional statistics
+                const desaPerKabupaten = this.calculateDesaPerKabupaten();
+                const avgDesa = Math.round(totalDesa / totalKabupaten);
+                const maxKabupaten = this.getKabupatenWithMostDesa();
+                
+                document.getElementById('avgDesaPerKabupaten').textContent = avgDesa;
+                document.getElementById('maxDesaKabupaten').textContent = maxKabupaten;
+            }
+
+            calculateDesaPerKabupaten() {
+                const kabupatenCount = {};
+                this.allData.forEach(item => {
+                    const key = `${item.kabupaten}, ${item.provinsi}`;
+                    kabupatenCount[key] = (kabupatenCount[key] || 0) + 1;
+                });
+                return kabupatenCount;
+            }
+
+            getKabupatenWithMostDesa() {
+                const kabupatenCount = this.calculateDesaPerKabupaten();
+                let maxCount = 0;
+                let maxKabupaten = '-';
+                
+                Object.entries(kabupatenCount).forEach(([kabupaten, count]) => {
+                    if (count > maxCount) {
+                        maxCount = count;
+                        maxKabupaten = kabupaten.split(',')[0];
+                    }
+                });
+                
+                return `${maxKabupaten} (${maxCount})`;
+            }
+
+            showStatistics(type) {
+                this.currentStatsView = type;
+                
+                // Update button states
+                document.querySelectorAll('.stats-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                    btn.classList.remove('bg-red-900');
+                    btn.classList.add('bg-gray-600');
+                });
+                
+                const activeBtn = document.getElementById(`stats${type.charAt(0).toUpperCase() + type.slice(1)}Btn`);
+                activeBtn.classList.add('active');
+                activeBtn.classList.add('bg-red-900');
+                activeBtn.classList.remove('bg-gray-600');
+                
+                // Generate statistics content
+                let statsData = [];
+                let title = '';
+                
+                switch(type) {
+                    case 'provinsi':
+                        statsData = this.getProvinsiStats();
+                        title = 'Jumlah Desa per Provinsi';
+                        break;
+                    case 'kabupaten':
+                        statsData = this.getKabupatenStats();
+                        title = 'Jumlah Desa per Kabupaten';
+                        break;
+                    case 'kecamatan':
+                        statsData = this.getKecamatanStats();
+                        title = 'Jumlah Desa per Kecamatan';
+                        break;
+                }
+                
+                this.renderStatisticsTable(statsData, title);
+            }
+
+            getProvinsiStats() {
+                const provinsiCount = {};
+                this.allData.forEach(item => {
+                    provinsiCount[item.provinsi] = (provinsiCount[item.provinsi] || 0) + 1;
+                });
+                
+                return Object.entries(provinsiCount)
+                    .map(([provinsi, count]) => ({ name: provinsi, count }))
+                    .sort((a, b) => b.count - a.count);
+            }
+
+            getKabupatenStats() {
+                const kabupatenCount = {};
+                this.allData.forEach(item => {
+                    const key = `${item.kabupaten}, ${item.provinsi}`;
+                    kabupatenCount[key] = (kabupatenCount[key] || 0) + 1;
+                });
+                
+                return Object.entries(kabupatenCount)
+                    .map(([kabupaten, count]) => ({ name: kabupaten, count }))
+                    .sort((a, b) => b.count - a.count);
+            }
+
+            getKecamatanStats() {
+                const kecamatanCount = {};
+                this.allData.forEach(item => {
+                    const key = `${item.kecamatan}, ${item.kabupaten}`;
+                    kecamatanCount[key] = (kecamatanCount[key] || 0) + 1;
+                });
+                
+                return Object.entries(kecamatanCount)
+                    .map(([kecamatan, count]) => ({ name: kecamatan, count }))
+                    .sort((a, b) => b.count - a.count);
+            }
+
+            renderStatisticsTable(data, title) {
+                const maxCount = Math.max(...data.map(item => item.count));
+                
+                const tableHTML = `
+                    <div class="mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-3">${title}</h3>
+                        <div class="text-sm text-gray-600 mb-2">Total: ${data.length} ${this.currentStatsView}</div>
+                    </div>
+                    <div class="space-y-2 stats-table">
+                        ${data.map((item, index) => `
+                            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                                <div class="flex items-center gap-3 flex-1">
+                                    <div class="text-sm font-medium text-gray-500 w-8">${index + 1}</div>
+                                    <div class="flex-1">
+                                        <div class="font-medium text-gray-800">${item.name}</div>
+                                        <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
+                                            <div class="progress-bar rounded-full" style="width: ${(item.count / maxCount) * 100}%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="font-bold text-red-900">${item.count.toLocaleString()}</div>
+                                    <div class="text-xs text-gray-500">${((item.count / this.allData.length) * 100).toFixed(1)}%</div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                
+                this.statisticsContent.innerHTML = tableHTML;
+            }
+
+            updateSearchStatistics() {
+                document.getElementById('hasilPencarian').textContent = this.filteredData.length.toLocaleString();
+            }
+
+            exportToCSV() {
+                if (this.filteredData.length === 0) {
+                    alert('Tidak ada data untuk diekspor');
+                    return;
+                }
+                
+                const headers = ['No', 'Provinsi', 'Kabupaten', 'Kecamatan', 'Desa/Kelurahan', 'Kode Pos'];
+                const csvContent = [
+                    headers.join(','),
+                    ...this.filteredData.map((item, index) => 
+                        [index + 1, item.provinsi, item.kabupaten, item.kecamatan, item.desa, item.kodePos].join(',')
+                    )
+                ].join('\n');
+                
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const link = document.createElement('a');
+                const url = URL.createObjectURL(blob);
+                link.setAttribute('href', url);
+                link.setAttribute('download', `data_desa_${new Date().toISOString().split('T')[0]}.csv`);
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+
+            clearSearch() {
+                this.searchInput.value = '';
+                this.provinsiFilter.value = '';
+                this.kabupatenFilter.value = '';
+                this.kecamatanFilter.value = '';
+                this.filteredData = [...this.allData];
+                this.currentPage = 1;
+                this.displayResults();
+                this.updateSearchStatistics();
+            }
+
+            showLoading(show) {
+                this.loadingIndicator.classList.toggle('hidden', !show);
+                this.isLoading = show;
+            }
+
+            showDesaDetail(desa, kecamatan, kabupaten, provinsi, kodePos) {
+                const provinceLogo = this.getProvinceLogo(provinsi);
+                const kabupatenLogo = this.getKabupatenLogo(kabupaten);
+                const desaLogo = this.getDesaLogo(kabupaten);
+                
+                const modalHTML = `
+                    <div class="detail-card mb-6">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="province-logo">
+                                ${desaLogo}
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold">${desa}</h3>
+                                <p class="text-lg opacity-90">Desa/Kelurahan</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <!-- Provinsi Card -->
+                        <div class="bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl p-4 text-white">
+                            <div class="flex items-center gap-3 mb-3">
+                                <div class="province-logo" style="width: 50px; height: 50px; font-size: 1.2rem;">
+                                    ${provinceLogo}
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-lg">Provinsi</h4>
+                                    <p class="opacity-90">${provinsi}</p>
+                                </div>
+                            </div>
+                            <div class="info-badge">
+                                <div class="text-sm">🏛️ Tingkat Administratif: Provinsi</div>
+                            </div>
+                        </div>
+
+                        <!-- Kabupaten Card -->
+                        <div class="bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl p-4 text-white">
+                            <div class="flex items-center gap-3 mb-3">
+                                <div class="kabupaten-logo">
+                                    ${kabupatenLogo}
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-lg">Kabupaten/Kota</h4>
+                                    <p class="opacity-90">${kabupaten}</p>
+                                </div>
+                            </div>
+                            <div class="info-badge">
+                                <div class="text-sm">🏢 Tingkat Administratif: Kabupaten</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Detail Information -->
+                    <div class="bg-gradient-to-br from-green-800 to-green-900 rounded-xl p-6 text-white mb-6">
+                        <h4 class="text-xl font-bold mb-4">📋 Informasi Lengkap</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="info-badge">
+                                <div class="font-semibold">🏘️ Desa/Kelurahan</div>
+                                <div class="text-lg">${desa}</div>
+                            </div>
+                            <div class="info-badge">
+                                <div class="font-semibold">🏛️ Kecamatan</div>
+                                <div class="text-lg">${kecamatan}</div>
+                            </div>
+                            <div class="info-badge">
+                                <div class="font-semibold">🏢 Kabupaten/Kota</div>
+                                <div class="text-lg">${kabupaten}</div>
+                            </div>
+                            <div class="info-badge">
+                                <div class="font-semibold">🗺️ Provinsi</div>
+                                <div class="text-lg">${provinsi}</div>
+                            </div>
+                        </div>
+                        <div class="info-badge mt-4">
+                            <div class="font-semibold">📮 Kode Pos</div>
+                            <div class="text-2xl font-bold">${kodePos}</div>
+                        </div>
+                    </div>
+
+                    <!-- Statistics -->
+                    <div class="bg-gradient-to-br from-orange-500 to-red-500 rounded-xl p-6 text-white mb-6">
+                        <h4 class="text-xl font-bold mb-4">📊 Statistik Wilayah</h4>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="info-badge text-center">
+                                <div class="text-2xl font-bold">${this.getDesaCountInKecamatan(kecamatan, kabupaten)}</div>
+                                <div class="text-sm">Desa di Kecamatan ${kecamatan}</div>
+                            </div>
+                            <div class="info-badge text-center">
+                                <div class="text-2xl font-bold">${this.getDesaCountInKabupaten(kabupaten)}</div>
+                                <div class="text-sm">Desa di ${kabupaten}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Official Website Section -->
+                    ${this.getOfficialWebsite(desa, kecamatan, kabupaten)}
+
+                    <!-- Admin Section -->
+                    <div class="bg-gradient-to-br from-gray-700 to-gray-900 rounded-xl p-6 text-white">
+                        <h4 class="text-xl font-bold mb-4">👨‍💼 Administrator</h4>
+                        <div class="flex items-center gap-4">
+                            <div class="w-16 h-16 rounded-full overflow-hidden border-4 border-white shadow-lg">
+                                <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1751214851/SYAM-DIGITAL_qp3cfw.png" 
+                                     alt="Syam Digital Admin" 
+                                     class="w-full h-full object-contain bg-white"
+                                     onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'w-full h-full bg-blue-600 flex items-center justify-center text-white font-bold text-xl\'>SD</div>';">
+                            </div>
+                            <div>
+                                <div class="font-bold text-lg">Syam Digital</div>
+                                <div class="text-sm opacity-90">System Administrator</div>
+                                <div class="text-xs opacity-75 mt-1">Data Management & Support</div>
+                            </div>
+                        </div>
+                        <div class="info-badge mt-4">
+                            <div class="text-sm">
+                                <span class="font-semibold">📧 Support:</span> Untuk bantuan teknis dan informasi lebih lanjut
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                this.modalContent.innerHTML = modalHTML;
+                this.desaModal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+
+            hideDesaDetail() {
+                this.desaModal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+
+            getProvinceLogo(provinsi) {
+                // Special case for Central Sulawesi with actual logo image
+                if (provinsi.toLowerCase().includes('sulawesi tengah')) {
+                    return `<img src="https://res.cloudinary.com/di8stbg60/image/upload/v1756555934/download_45_eoandi.png" 
+                            alt="Logo Sulawesi Tengah" 
+                            class="w-full h-full object-contain rounded-full"
+                            onerror="this.style.display='none'; this.parentElement.innerHTML='🦋';">`;
+                }
+                
+                const logoMap = {
+                    'DKI Jakarta': '🏛️',
+                    'Jawa Barat': '🏔️',
+                    'Jawa Tengah': '🏯',
+                    'Jawa Timur': '🌋',
+                    'DI Yogyakarta': '👑',
+                    'Banten': '🏰',
+                    'Sumatera Utara': '🦅',
+                    'Sumatera Barat': '🏔️',
+                    'Sumatera Selatan': '🌊',
+                    'Lampung': '🌴',
+                    'Riau': '🛢️',
+                    'Jambi': '🌿',
+                    'Bengkulu': '🌺',
+                    'Aceh': '🕌',
+                    'Kepulauan Riau': '🏝️',
+                    'Kepulauan Bangka Belitung': '⛏️',
+                    'Kalimantan Barat': '🌳',
+                    'Kalimantan Tengah': '🐊',
+                    'Kalimantan Selatan': '💎',
+                    'Kalimantan Timur': '🛢️',
+                    'Kalimantan Utara': '🌲',
+                    'Sulawesi Utara': '🌋',
+                    'Sulawesi Tengah': '🦋',
+                    'Sulawesi Selatan': '⛵',
+                    'Sulawesi Tenggara': '🏝️',
+                    'Gorontalo': '🐟',
+                    'Sulawesi Barat': '🏔️',
+                    'Bali': '🏛️',
+                    'Nusa Tenggara Barat': '🏝️',
+                    'Nusa Tenggara Timur': '🐉',
+                    'Maluku': '🏝️',
+                    'Maluku Utara': '🌺',
+                    'Papua': '🦜',
+                    'Papua Barat': '🏔️'
+                };
+                return logoMap[provinsi] || provinsi.charAt(0).toUpperCase();
+            }
+
+            getKabupatenLogo(kabupaten) {
+                // Special case for Donggala with actual logo image
+                if (kabupaten.toLowerCase().includes('donggala')) {
+                    return `<img src="https://res.cloudinary.com/di8stbg60/image/upload/v1755051033/logo_donggala_lfddbe.png" 
+                            alt="Logo Donggala" 
+                            class="w-full h-full object-contain rounded-full"
+                            onerror="this.style.display='none'; this.parentElement.innerHTML='🏛️';">`;
+                }
+                
+                // Generate logo based on first letter or common patterns
+                if (kabupaten.toLowerCase().includes('jakarta')) return '🏛️';
+                if (kabupaten.toLowerCase().includes('bandung')) return '🏔️';
+                if (kabupaten.toLowerCase().includes('surabaya')) return '🏢';
+                if (kabupaten.toLowerCase().includes('medan')) return '🌆';
+                if (kabupaten.toLowerCase().includes('semarang')) return '⚓';
+                if (kabupaten.toLowerCase().includes('makassar')) return '⛵';
+                if (kabupaten.toLowerCase().includes('palembang')) return '🌊';
+                if (kabupaten.toLowerCase().includes('tangerang')) return '🏭';
+                if (kabupaten.toLowerCase().includes('bekasi')) return '🏘️';
+                if (kabupaten.toLowerCase().includes('depok')) return '🎓';
+                if (kabupaten.toLowerCase().includes('bogor')) return '🌿';
+                
+                return kabupaten.charAt(0).toUpperCase();
+            }
+
+            getDesaCountInKecamatan(kecamatan, kabupaten) {
+                return this.allData.filter(item => 
+                    item.kecamatan === kecamatan && item.kabupaten === kabupaten
+                ).length;
+            }
+
+            getDesaCountInKabupaten(kabupaten) {
+                return this.allData.filter(item => item.kabupaten === kabupaten).length;
+            }
+
+            getDesaLogo(kabupaten) {
+                // Special logo for villages in Donggala regency
+                if (kabupaten.toLowerCase().includes('donggala')) {
+                    return `<img src="https://res.cloudinary.com/di8stbg60/image/upload/v1755051033/logo_donggala_lfddbe.png" 
+                            alt="Logo Donggala" 
+                            class="w-full h-full object-contain rounded-full"
+                            onerror="this.style.display='none'; this.parentElement.innerHTML='🏘️';">`;
+                }
+                
+                // Default village icon for other regencies
+                return '🏘️';
+            }
+
+            getOfficialWebsite(desa, kecamatan, kabupaten) {
+                // Check if this is Desa Wani Lumbumpetigo
+                if (desa.toLowerCase().includes('wani') && desa.toLowerCase().includes('lumbumpetigo')) {
+                    return `
+                        <div class="bg-gradient-to-br from-indigo-600 to-purple-700 rounded-xl p-6 text-white mb-6">
+                            <h4 class="text-xl font-bold mb-4">🌐 Website Resmi Desa</h4>
+                            <div class="info-badge">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <div class="font-semibold text-lg">Portal Desa Wani Lumbumpetigo</div>
+                                        <div class="text-sm opacity-90 mt-1">Website resmi untuk informasi dan layanan desa</div>
+                                    </div>
+                                    <a href="https://lumbumpetigo.berdesa.id/" 
+                                       target="_blank" 
+                                       rel="noopener noreferrer"
+                                       class="bg-white text-indigo-600 px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-colors flex items-center gap-2">
+                                        <span>🔗</span>
+                                        <span>Kunjungi</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="mt-4 text-sm opacity-75">
+                                <span class="font-semibold">URL:</span> https://lumbumpetigo.berdesa.id/
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                // Return empty string for other villages
+                return '';
+            }
+        }
+
+        // Initialize the application
+        let app;
+        document.addEventListener('DOMContentLoaded', () => {
+            app = new DesaSearchApp();
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'977467a43506ce8a',t:'MTc1NjU1ODEzMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

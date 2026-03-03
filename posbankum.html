@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daftar SK POSBANKUM Kabupaten Donggala</title>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1763356194/Lambang_Kabupaten_Donggala_1_cvywgs.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+        body {
+            box-sizing: border-box;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .progress-bar {
+            transition: width 0.3s ease;
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full bg-gradient-to-br from-blue-50 to-green-50 font-sans">
+  <div class="min-h-full p-4">
+   <div class="max-w-4xl mx-auto"><!-- Header -->
+    <div class="text-center mb-8 fade-in">
+     <h1 id="main-title" class="text-3xl md:text-4xl font-bold text-blue-800 mb-2">Daftar Desa/Kelurahan SK POSBANKUM</h1>
+     <p id="subtitle" class="text-lg text-blue-600 mb-4">Kabupaten Donggala</p><!-- Progress Stats -->
+     <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+       <div class="text-center">
+        <div class="text-3xl font-bold text-green-600" id="completed-count">
+         108
+        </div>
+        <div class="text-sm text-gray-600">
+         Desa Selesai
+        </div>
+       </div>
+       <div class="text-center">
+        <div class="text-3xl font-bold text-yellow-600" id="pending-count">
+         1
+        </div>
+        <div class="text-sm text-gray-600">
+         Dalam Perbaikan
+        </div>
+       </div>
+       <div class="text-center">
+        <div class="text-3xl font-bold text-blue-600" id="total-count">
+         109
+        </div>
+        <div class="text-sm text-gray-600">
+         Total Desa
+        </div>
+       </div>
+      </div><!-- Progress Bar -->
+      <div class="w-full bg-gray-200 rounded-full h-3 mb-2">
+       <div class="progress-bar bg-gradient-to-r from-green-500 to-blue-500 h-3 rounded-full" style="width: 99.1%"></div>
+      </div>
+      <p class="text-sm text-gray-600 text-center">99.1% Progress</p>
+     </div>
+    </div><!-- Action Buttons -->
+    <div class="flex flex-wrap justify-center gap-2 mb-4"><button onclick="shareToWhatsApp()" class="px-6 py-2 rounded-full bg-green-600 text-white hover:bg-green-700 transition-colors font-semibold flex items-center gap-2">
+      <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488" />
+      </svg> Bagikan ke WhatsApp </button>
+    </div><!-- Filter Buttons -->
+    <div class="flex flex-wrap justify-center gap-2 mb-6"><button onclick="filterByStatus('all')" class="filter-btn active px-4 py-2 rounded-full bg-blue-600 text-white hover:bg-blue-700 transition-colors"> Semua (109) </button> <button onclick="filterByStatus('completed')" class="filter-btn px-4 py-2 rounded-full bg-gray-200 text-gray-700 hover:bg-green-100 transition-colors"> Selesai (108) </button> <button onclick="filterByStatus('pending')" class="filter-btn px-4 py-2 rounded-full bg-gray-200 text-gray-700 hover:bg-yellow-100 transition-colors"> Perbaikan (1) </button>
+    </div><!-- Village List -->
+    <div class="space-y-4" id="village-list"><!-- Villages will be populated by JavaScript -->
+    </div><!-- Footer -->
+    <div class="text-center mt-8 p-6 bg-white rounded-xl shadow-lg">
+     <p id="footer-message" class="text-lg font-semibold text-blue-800 mb-2">Ayoo kita gas terus Bapak/Ibu 🔥🔥🔥</p>
+     <p class="text-sm text-gray-600">(Mohon disampaikan apabila ada kesalahan dalam penulisan nama Desa 🙏)</p>
+    </div>
+   </div>
+  </div>
+  <script>
+        const defaultConfig = {
+            main_title: "Daftar Desa/Kelurahan SK POSBANKUM",
+            subtitle: "Kabupaten Donggala",
+            footer_message: "Ayoo kita gas terus Bapak/Ibu 🔥🔥🔥"
+        };
+
+        const villages = [
+            // Rabu, 08/10/2025
+            { date: "Rabu, 08/10/2025", name: "Desa Lenju", status: "completed", number: 1 },
+            { date: "Rabu, 08/10/2025", name: "Desa Loli Dondo", status: "completed", number: 2 },
+            { date: "Rabu, 08/10/2025", name: "Desa Labuan Salumbone", status: "completed", number: 3 },
+            { date: "Rabu, 08/10/2025", name: "Desa Sindosa", status: "completed", number: 4 },
+            { date: "Rabu, 08/10/2025", name: "Desa Sipeso", status: "completed", number: 5 },
+            { date: "Rabu, 08/10/2025", name: "Desa Guntarano", status: "completed", number: 6 },
+            
+            // Kamis, 09/10/2025
+            { date: "Kamis, 09/10/2025", name: "Desa Batusuya", status: "completed", number: 7 },
+            { date: "Kamis, 09/10/2025", name: "Desa Gumbasa", status: "completed", number: 8 },
+            { date: "Kamis, 09/10/2025", name: "Desa Lende", status: "completed", number: 9 },
+            { date: "Kamis, 09/10/2025", name: "Desa Towale", status: "completed", number: 10 },
+            { date: "Kamis, 09/10/2025", name: "Desa Simagaya", status: "completed", number: 11 },
+            { date: "Kamis, 09/10/2025", name: "Desa Enu", status: "completed", number: 12 },
+            { date: "Kamis, 09/10/2025", name: "Desa Bou", status: "completed", number: 13 },
+            { date: "Kamis, 09/10/2025", name: "Desa Lalundu", status: "pending", number: null, note: "Sudah mengirimkan SK, tapi masih hanya 1 paralegal. Sedang menunggu perbaikan" },
+            
+            // Jumat, 10/10/2025
+            { date: "Jumat, 10/10/2025", name: "Desa Lalombi", status: "completed", number: 14 },
+            { date: "Jumat, 10/10/2025", name: "Desa Polanto Jaya", status: "completed", number: 15 },
+            { date: "Jumat, 10/10/2025", name: "Desa Lembah Mukti", status: "completed", number: 16 },
+            { date: "Jumat, 10/10/2025", name: "Desa Labuan Toposo", status: "completed", number: 17 },
+            { date: "Jumat, 10/10/2025", name: "Desa Ogoamas II", status: "completed", number: 18 },
+            { date: "Jumat, 10/10/2025", name: "Desa Loli Saluran", status: "completed", number: 19 },
+            { date: "Jumat, 10/10/2025", name: "Desa Bukit Harapan", status: "completed", number: 20 },
+            
+            // Sabtu, 11/10/2025
+            { date: "Sabtu, 11/10/2025", name: "Desa Taripa", status: "completed", number: 21 },
+            
+            // Minggu, 12/10/2025
+            { date: "Minggu, 12/10/2025", name: "Desa Marana", status: "completed", number: 22 },
+            
+            // Senin, 12/10/2025
+            { date: "Senin, 12/10/2025", name: "Desa Loli Pesua", status: "completed", number: 23 },
+            { date: "Senin, 12/10/2025", name: "Desa Labuan Kungguma", status: "completed", number: 24 },
+            { date: "Senin, 12/10/2025", name: "Desa Palau", status: "completed", number: 25 },
+            { date: "Senin, 12/10/2025", name: "Desa Kaliburu", status: "completed", number: 26 },
+            { date: "Senin, 12/10/2025", name: "Desa Lombonga", status: "completed", number: 27 },
+            
+            // Selasa, 14/10/2025
+            { date: "Selasa, 14/10/2025", name: "Desa Bale", status: "completed", number: 28 },
+            { date: "Selasa, 14/10/2025", name: "Desa Tambu", status: "completed", number: 29 },
+            { date: "Selasa, 14/10/2025", name: "Desa Labuan Panimba", status: "completed", number: 30 },
+            { date: "Selasa, 14/10/2025", name: "Desa Rerang", status: "completed", number: 31 },
+            
+            // Kamis, 16/10/2025
+            { date: "Kamis, 16/10/2025", name: "Desa Surumana", status: "completed", number: 32 },
+            { date: "Kamis, 16/10/2025", name: "Desa Ogoamas I", status: "completed", number: 33 },
+            
+            // Jumat, 15/10/2025
+            { date: "Jumat, 15/10/2025", name: "Kelurahan Boneoge", status: "completed", number: 34 },
+            { date: "Jumat, 15/10/2025", name: "Kelurahan Kabonga Kecil", status: "completed", number: 35 },
+            { date: "Jumat, 15/10/2025", name: "Kelurahan Kabonga Besar", status: "completed", number: 36 },
+            { date: "Jumat, 15/10/2025", name: "Desa Manimbaya", status: "completed", number: 37 },
+            
+            // Senin, 20/10/2025
+            { date: "Senin, 20/10/2025", name: "Desa Sikara Tobata", status: "completed", number: 38 },
+            { date: "Senin, 20/10/2025", name: "Desa Bengkoli", status: "completed", number: 39 },
+            
+            // Selasa, 21/10/2025
+            { date: "Selasa, 21/10/2025", name: "Desa Labean", status: "completed", number: 40 },
+            { date: "Selasa, 21/10/2025", name: "Kelurahan Tanjung Batu", status: "completed", number: 41 },
+            { date: "Selasa, 21/10/2025", name: "Kelurahan Gunung Bale", status: "completed", number: 42 },
+            { date: "Selasa, 21/10/2025", name: "Desa Kamonji", status: "completed", number: 43 },
+            { date: "Selasa, 21/10/2025", name: "Desa Ketong", status: "completed", number: 44 },
+            { date: "Selasa, 21/10/2025", name: "Desa Rano B", status: "completed", number: 45 },
+            { date: "Selasa, 21/10/2025", name: "Desa Pomolulu", status: "completed", number: 46 },
+            
+            // Rabu, 22/10/2025
+            { date: "Rabu, 22/10/2025", name: "Desa Lende Tovea", status: "completed", number: 47 },
+            { date: "Rabu, 22/10/2025", name: "Desa Walandano", status: "completed", number: 48 },
+            { date: "Rabu, 22/10/2025", name: "Desa Batusuya Go'o", status: "completed", number: 49 },
+            { date: "Rabu, 22/10/2025", name: "Kelurahan Labuan Bajo", status: "completed", number: 50 },
+            
+            // Kamis, 23/10/2025
+            { date: "Kamis, 23/10/2025", name: "Desa Pani'i", status: "completed", number: 51 },
+            
+            // Jumat, 24/10/2025
+            { date: "Jumat, 24/10/2025", name: "Kelurahan Maleni", status: "completed", number: 52 },
+            { date: "Jumat, 24/10/2025", name: "Desa Labuan Lelea", status: "completed", number: 53 },
+            { date: "Jumat, 24/10/2025", name: "Desa Malei", status: "completed", number: 54 },
+            { date: "Jumat, 24/10/2025", name: "Desa Labuan Lumbubaka", status: "completed", number: 55 },
+            
+            // Senin, 27/10/2025
+            { date: "Senin, 27/10/2025", name: "Desa Kampung Baru Sibayu", status: "completed", number: 56 },
+            { date: "Senin, 27/10/2025", name: "Desa Siboang", status: "completed", number: 57 },
+            
+            // Senin, 03/11/2025
+            { date: "Senin, 03/11/2025", name: "Desa Wani Tiga", status: "completed", number: 58 },
+            
+            // Kamis, 06/11/2025
+            { date: "Kamis, 06/11/2025", name: "Desa Dalaka", status: "completed", number: 59 },
+            
+            // Jumat, 07/11/2025
+            { date: "Jumat, 07/11/2025", name: "Desa Wombo Kalonggo", status: "completed", number: 60 },
+            
+            // Rabu, 12/11/2025
+            { date: "Rabu, 12/11/2025", name: "Desa Tinauka", status: "completed", number: 61 },
+            
+            // Jumat, 14/11/2025
+            { date: "Jumat, 14/11/2025", name: "Kelurahan Boya", status: "completed", number: 62 },
+            { date: "Jumat, 14/11/2025", name: "Kelurahan Ganti", status: "completed", number: 63 },
+            { date: "Jumat, 14/11/2025", name: "Desa Tovia Tambu", status: "completed", number: 64 },
+            { date: "Jumat, 14/11/2025", name: "Desa Mekar Baru", status: "completed", number: 65 },
+            
+            // Sabtu, 15/11/2025
+            { date: "Sabtu, 15/11/2025", name: "Desa Long", status: "completed", number: 66 },
+            { date: "Sabtu, 15/11/2025", name: "Desa Lembasada", status: "completed", number: 67 },
+            { date: "Sabtu, 15/11/2025", name: "Desa Salungkaenu", status: "completed", number: 68 },
+            { date: "Sabtu, 15/11/2025", name: "Desa Oti", status: "completed", number: 69 },
+            { date: "Sabtu, 15/11/2025", name: "Desa Labuan", status: "completed", number: 70 },
+            { date: "Sabtu, 15/11/2025", name: "Desa Siwalempu", status: "completed", number: 71 },
+            { date: "Sabtu, 15/11/2025", name: "Desa Ape Maliko", status: "completed", number: 72 },
+            { date: "Sabtu, 15/11/2025", name: "Desa Jono Oge", status: "completed", number: 73 },
+            { date: "Sabtu, 15/11/2025", name: "Desa Ponggerang", status: "completed", number: 74 },
+            { date: "Sabtu, 15/11/2025", name: "Desa Karya Mukti", status: "completed", number: 75 },
+            { date: "Sabtu, 15/11/2025", name: "Desa Pakava", status: "completed", number: 76 },
+            { date: "Sabtu, 15/11/2025", name: "Desa Sabang", status: "completed", number: 77 },
+            { date: "Sabtu, 15/11/2025", name: "Desa Parisan Agung", status: "completed", number: 78 },
+            { date: "Sabtu, 15/11/2025", name: "Desa Tamodo", status: "completed", number: 79 },
+            { date: "Sabtu, 15/11/2025", name: "Desa Mapane Tambu", status: "completed", number: 80 },
+            { date: "Sabtu, 15/11/2025", name: "Desa Loli Tasiburi", status: "completed", number: 81 },
+            { date: "Sabtu, 15/11/2025", name: "Desa Dangaraa", status: "completed", number: 82 },
+            { date: "Sabtu, 15/11/2025", name: "Desa Bambakaenu", status: "completed", number: 83 },
+            { date: "Sabtu, 15/11/2025", name: "Desa Kanagalongga", status: "completed", number: 84 },
+            { date: "Sabtu, 15/11/2025", name: "Desa Gimpubia", status: "completed", number: 85 },
+            { date: "Sabtu, 15/11/2025", name: "Desa Karavia", status: "completed", number: 86 },
+            { date: "Sabtu, 15/11/2025", name: "Desa Tavanggeli", status: "completed", number: 87 },
+            { date: "Sabtu, 15/11/2025", name: "Desa Siweli", status: "completed", number: 88 },
+            
+            // Minggu, 16/11/2025
+            { date: "Minggu, 16/11/2025", name: "Desa Lumbu Tarombo", status: "completed", number: 89 },
+            { date: "Minggu, 16/11/2025", name: "Desa Toaya", status: "completed", number: 90 },
+            { date: "Minggu, 16/11/2025", name: "Desa Budi Mukti", status: "completed", number: 91 },
+            { date: "Minggu, 16/11/2025", name: "Desa Wani Tiga", status: "completed", number: 92 },
+            { date: "Minggu, 16/11/2025", name: "Desa Ngovi", status: "completed", number: 93 },
+            { date: "Minggu, 16/11/2025", name: "Desa Ombo", status: "completed", number: 94 },
+            { date: "Minggu, 16/11/2025", name: "Desa Wombo Mpanau", status: "completed", number: 95 },
+            
+            // Senin, 17/11/2025
+            { date: "Senin, 17/11/2025", name: "Desa Sumari", status: "completed", number: 96 },
+            { date: "Senin, 17/11/2025", name: "Desa Wani Lumbupetigo", status: "completed", number: 97 },
+            { date: "Senin, 17/11/2025", name: "Desa Tamarenja", status: "completed", number: 98 },
+            { date: "Senin, 17/11/2025", name: "Desa Alindau", status: "completed", number: 99 },
+            { date: "Senin, 17/11/2025", name: "Desa Mbuwu", status: "completed", number: 100 },
+            { date: "Senin, 17/11/2025", name: "Desa Lero Tatari", status: "completed", number: 101 },
+            { date: "Senin, 17/11/2025", name: "Desa Malino", status: "completed", number: 102 },
+            { date: "Senin, 17/11/2025", name: "Desa Sipure", status: "completed", number: 103 },
+            { date: "Senin, 17/11/2025", name: "Desa Lero", status: "completed", number: 104 },
+            { date: "Senin, 17/11/2025", name: "Desa Toaya Vunta", status: "completed", number: 105 },
+            { date: "Senin, 17/11/2025", name: "Desa Malonas", status: "completed", number: 106 },
+            { date: "Senin, 17/11/2025", name: "Desa Tanjung Padang", status: "completed", number: 107 },
+            { date: "Senin, 17/11/2025", name: "Desa Lompio", status: "completed", number: 108 }
+        ];
+
+        let currentFilter = 'all';
+
+        function renderVillages() {
+            const villageList = document.getElementById('village-list');
+            villageList.innerHTML = '';
+            
+            let currentDate = '';
+            const filteredVillages = villages.filter(village => {
+                if (currentFilter === 'all') return true;
+                return village.status === currentFilter;
+            });
+            
+            filteredVillages.forEach((village, index) => {
+                // Add date header if it's a new date
+                if (village.date !== currentDate) {
+                    currentDate = village.date;
+                    const dateHeader = document.createElement('div');
+                    dateHeader.className = 'bg-blue-100 rounded-lg p-3 mb-2';
+                    dateHeader.innerHTML = `
+                        <h3 class="font-semibold text-blue-800 text-lg">${village.date}</h3>
+                    `;
+                    villageList.appendChild(dateHeader);
+                }
+                
+                // Create village card
+                const villageCard = document.createElement('div');
+                villageCard.className = `bg-white rounded-lg shadow-md p-4 ml-4 fade-in ${village.status === 'pending' ? 'border-l-4 border-yellow-400' : 'border-l-4 border-green-400'}`;
+                villageCard.style.animationDelay = `${index * 0.05}s`;
+                
+                const statusIcon = village.status === 'completed' ? '✅' : '⏳';
+                const statusText = village.status === 'completed' ? 'Selesai' : 'Dalam Perbaikan';
+                const statusColor = village.status === 'completed' ? 'text-green-600' : 'text-yellow-600';
+                
+                villageCard.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <span class="text-2xl">${statusIcon}</span>
+                            <div>
+                                <h4 class="font-semibold text-gray-800">
+                                    ${village.number ? `${village.number}. ` : ''}${village.name}
+                                </h4>
+                                ${village.note ? `<p class="text-sm text-gray-600 mt-1">${village.note}</p>` : ''}
+                            </div>
+                        </div>
+                        <span class="px-3 py-1 rounded-full text-sm font-medium ${statusColor} bg-opacity-10 ${village.status === 'completed' ? 'bg-green-100' : 'bg-yellow-100'}">
+                            ${statusText}
+                        </span>
+                    </div>
+                `;
+                
+                villageList.appendChild(villageCard);
+            });
+        }
+
+        function filterByStatus(status) {
+            currentFilter = status;
+            
+            // Update button styles
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active', 'bg-blue-600', 'text-white');
+                btn.classList.add('bg-gray-200', 'text-gray-700');
+            });
+            
+            event.target.classList.remove('bg-gray-200', 'text-gray-700');
+            event.target.classList.add('active', 'bg-blue-600', 'text-white');
+            
+            renderVillages();
+        }
+
+        function shareToWhatsApp() {
+            const completed = villages.filter(v => v.status === 'completed').length;
+            const pending = villages.filter(v => v.status === 'pending').length;
+            const total = villages.length;
+            const progressPercent = ((completed / total) * 100).toFixed(1);
+            
+            const message = `📊 *LAPORAN SK POSBANKUM KABUPATEN DONGGALA*
+
+✅ Desa Selesai: ${completed}
+⏳ Dalam Perbaikan: ${pending}
+📈 Total Desa: ${total}
+🎯 Progress: 109/167
+
+🔥 Ayoo kita gas terus Bapak/Ibu! 
+
+Detail lengkap dapat dilihat di aplikasi.
+
+Info selengkapnya: https://syam.digital/posbankum
+
+(Mohon disampaikan apabila ada kesalahan dalam penulisan nama Desa 🙏)`;
+
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappUrl = `https://wa.me/?text=${encodedMessage}`;
+            
+            window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+        }
+
+        async function onConfigChange(config) {
+            const mainTitle = config.main_title || defaultConfig.main_title;
+            const subtitle = config.subtitle || defaultConfig.subtitle;
+            const footerMessage = config.footer_message || defaultConfig.footer_message;
+
+            document.getElementById('main-title').textContent = mainTitle;
+            document.getElementById('subtitle').textContent = subtitle;
+            document.getElementById('footer-message').textContent = footerMessage;
+        }
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            renderVillages();
+            
+            if (window.elementSdk) {
+                window.elementSdk.init({
+                    defaultConfig: defaultConfig,
+                    onConfigChange: onConfigChange,
+                    mapToCapabilities: (config) => ({
+                        recolorables: [],
+                        borderables: [],
+                        fontEditable: undefined,
+                        fontSizeable: undefined
+                    }),
+                    mapToEditPanelValues: (config) => new Map([
+                        ["main_title", config.main_title || defaultConfig.main_title],
+                        ["subtitle", config.subtitle || defaultConfig.subtitle],
+                        ["footer_message", config.footer_message || defaultConfig.footer_message]
+                    ])
+                });
+            }
+        });
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99fe8e00f66fce16',t:'MTc2MzM3NTQ0Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

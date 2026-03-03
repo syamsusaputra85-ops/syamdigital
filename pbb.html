@@ -1,0 +1,1331 @@
+<!doctype html>
+<html lang="id">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laporan Realisasi PBB</title>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1763356194/Lambang_Kabupaten_Donggala_1_cvywgs.png">
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 20px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100%;
+    }
+    
+    * {
+      box-sizing: border-box;
+    }
+    
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      overflow: hidden;
+    }
+    
+    .header {
+      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+    
+    .header h1 {
+      margin: 0 0 10px 0;
+      font-size: 28px;
+      font-weight: 700;
+    }
+    
+    .header p {
+      margin: 0;
+      font-size: 16px;
+      opacity: 0.95;
+    }
+    
+    .content {
+      padding: 30px;
+    }
+    
+    .kecamatan-section {
+      margin-bottom: 40px;
+    }
+    
+    .kecamatan-header {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      color: white;
+      padding: 15px 20px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      font-size: 20px;
+      font-weight: 700;
+      box-shadow: 0 4px 15px rgba(245, 87, 108, 0.3);
+    }
+    
+    .table-wrapper {
+      overflow-x: auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+    }
+    
+    thead {
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      color: white;
+    }
+    
+    th {
+      padding: 15px 12px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 14px;
+      border-bottom: 3px solid #0891b2;
+    }
+    
+    th:first-child {
+      text-align: center;
+      width: 60px;
+    }
+    
+    th:last-child {
+      text-align: center;
+      width: 80px;
+    }
+    
+    td {
+      padding: 14px 12px;
+      border-bottom: 1px solid #e5e7eb;
+      font-size: 15px;
+      font-weight: 500;
+    }
+    
+    tbody tr:hover {
+      background: #f0f9ff;
+      transition: background 0.2s;
+    }
+    
+    tbody tr:last-child {
+      font-weight: 700;
+      background: #fef3c7;
+    }
+    
+    tbody tr:last-child td {
+      border-bottom: none;
+      font-size: 16px;
+      font-weight: 800;
+      padding: 16px 12px;
+    }
+    
+    .number-cell {
+      text-align: center;
+      color: #475569;
+      font-weight: 700;
+      font-size: 16px;
+    }
+    
+    .currency-cell {
+      text-align: right;
+      font-family: 'Courier New', monospace;
+      color: #0f172a;
+      font-size: 16px;
+      font-weight: 600;
+    }
+    
+    .percent-cell {
+      text-align: center;
+      font-weight: 700;
+      font-size: 16px;
+    }
+    
+    .percent-badge {
+      display: inline-block;
+      padding: 6px 16px;
+      border-radius: 20px;
+      background: #dcfce7;
+      color: #166534;
+      font-size: 17px;
+      font-weight: 800;
+    }
+    
+    .percent-low {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+    
+    .percent-medium {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+    
+    .percent-high {
+      background: #dcfce7;
+      color: #16a34a;
+    }
+    
+    .search-container {
+      margin-bottom: 30px;
+      padding: 20px;
+      background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .search-label {
+      display: block;
+      font-size: 16px;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 10px;
+    }
+    
+    .search-input {
+      width: 100%;
+      padding: 12px 20px;
+      font-size: 16px;
+      border: 2px solid #cbd5e1;
+      border-radius: 8px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    .search-input:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+    
+    .kecamatan-section.hidden {
+      display: none;
+    }
+    
+    .no-results {
+      text-align: center;
+      padding: 40px 20px;
+      color: #64748b;
+      font-size: 18px;
+      display: none;
+    }
+    
+    .no-results.show {
+      display: block;
+    }
+    
+    .no-results svg {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 15px;
+      opacity: 0.5;
+    }
+    
+    .footer {
+      background: #f8fafc;
+      padding: 20px 30px;
+      text-align: center;
+      color: #64748b;
+      font-size: 14px;
+      border-top: 2px solid #e2e8f0;
+    }
+    
+    .desa-name {
+      cursor: pointer;
+      color: #2563eb;
+      transition: color 0.2s;
+    }
+    
+    .desa-name:hover {
+      color: #1d4ed8;
+      text-decoration: underline;
+    }
+    
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    
+    .modal-overlay.active {
+      display: flex;
+    }
+    
+    .modal-content {
+      background: white;
+      border-radius: 16px;
+      padding: 30px;
+      max-width: 600px;
+      width: 100%;
+      max-height: 90%;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      animation: modalSlideIn 0.3s ease-out;
+    }
+    
+    @keyframes modalSlideIn {
+      from {
+        transform: translateY(-30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 3px solid #e5e7eb;
+    }
+    
+    .modal-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: #1e293b;
+      margin: 0;
+    }
+    
+    .modal-close {
+      background: #ef4444;
+      color: white;
+      border: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+    
+    .modal-close:hover {
+      background: #dc2626;
+    }
+    
+    .modal-body {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    
+    .admin-section {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 15px;
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      border-radius: 12px;
+      border: 2px solid #cbd5e1;
+    }
+    
+    .admin-photo {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #3b82f6;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+    
+    .admin-info {
+      flex: 1;
+    }
+    
+    .admin-label {
+      font-size: 12px;
+      color: #64748b;
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .admin-name {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1e293b;
+    }
+    
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 15px;
+      background: #f8fafc;
+      border-radius: 8px;
+      border-left: 4px solid #3b82f6;
+    }
+    
+    .detail-label {
+      font-weight: 600;
+      color: #475569;
+      font-size: 14px;
+    }
+    
+    .detail-value {
+      font-weight: 700;
+      color: #1e293b;
+      font-size: 15px;
+      font-family: 'Courier New', monospace;
+    }
+    
+    .detail-percent {
+      text-align: center;
+      padding: 20px;
+      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+      border-radius: 12px;
+      margin-top: 10px;
+    }
+    
+    .detail-percent-label {
+      font-size: 14px;
+      color: #64748b;
+      margin-bottom: 10px;
+    }
+    
+    .detail-percent-value {
+      font-size: 48px;
+      font-weight: 700;
+      display: inline-block;
+      padding: 10px 30px;
+      border-radius: 12px;
+    }
+    
+    .status-message {
+      margin-top: 20px;
+      padding: 15px 20px;
+      background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+      border-radius: 10px;
+      border-left: 4px solid #16a34a;
+      color: #065f46;
+      font-size: 15px;
+      text-align: center;
+      animation: statusFadeIn 0.5s ease-out;
+    }
+    
+    @keyframes statusFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .share-whatsapp-btn {
+      margin-top: 20px;
+      width: 100%;
+      padding: 15px 25px;
+      background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+    }
+    
+    .share-whatsapp-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+    }
+    
+    .share-whatsapp-btn:active {
+      transform: translateY(0);
+    }
+    
+    .whatsapp-icon {
+      width: 24px;
+      height: 24px;
+      fill: white;
+    }
+    
+    @media (max-width: 768px) {
+      body {
+        padding: 10px;
+      }
+      
+      .content {
+        padding: 15px;
+      }
+      
+      .header h1 {
+        font-size: 22px;
+      }
+      
+      th, td {
+        padding: 8px 6px;
+        font-size: 12px;
+      }
+      
+      .kecamatan-header {
+        font-size: 18px;
+        padding: 12px 15px;
+      }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="container">
+   <div class="header">
+    <h1 id="main-title">LAPORAN REALISASI PAJAK BUMI DAN BANGUNAN PERDESAAN PERKOTAAN</h1>
+    <p id="period-text">PERIODE JANUARI SD 27 NOVEMBER 2025</p>
+   </div>
+   <div class="content"><!-- Search Box -->
+    <div class="search-container"><label class="search-label" for="searchInput">🔍 Cari Desa</label> <input type="text" id="searchInput" class="search-input" placeholder="Ketik nama desa untuk mencari..." autocomplete="off">
+    </div>
+    <div class="no-results" id="noResults">
+     <svg viewbox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8" stroke-width="2" /> <path d="m21 21-4.35-4.35" stroke-width="2" stroke-linecap="round" /> <path d="M11 8v6M8 11h6" stroke-width="2" stroke-linecap="round" />
+     </svg>
+     <div>
+      <strong>Tidak ada hasil ditemukan</strong>
+     </div>
+     <div style="font-size: 14px; margin-top: 8px;">
+      Coba kata kunci lain
+     </div>
+    </div><!-- Kecamatan Tanantovea -->
+    <div class="kecamatan-section">
+     <div class="kecamatan-header">
+      KECAMATAN TANANTOVEA
+     </div>
+     <div class="table-wrapper">
+      <table>
+       <thead>
+        <tr>
+         <th>NO</th>
+         <th>DESA/KELURAHAN</th>
+         <th>PAJAK TERHUTANG (Rp)</th>
+         <th>PENERIMAAN PBB-P2</th>
+         <th>SISA PAJAK TERUTANG</th>
+         <th>%</th>
+        </tr>
+       </thead>
+       <tbody id="tanantovea-data"></tbody>
+      </table>
+     </div>
+    </div><!-- Kecamatan Labuan -->
+    <div class="kecamatan-section">
+     <div class="kecamatan-header">
+      KECAMATAN LABUAN
+     </div>
+     <div class="table-wrapper">
+      <table>
+       <thead>
+        <tr>
+         <th>NO</th>
+         <th>DESA/KELURAHAN</th>
+         <th>PAJAK TERHUTANG (Rp)</th>
+         <th>PENERIMAAN PBB-P2</th>
+         <th>SISA PAJAK TERUTANG</th>
+         <th>%</th>
+        </tr>
+       </thead>
+       <tbody id="labuan-data"></tbody>
+      </table>
+     </div>
+    </div><!-- Kecamatan Sindue -->
+    <div class="kecamatan-section">
+     <div class="kecamatan-header">
+      KECAMATAN SINDUE
+     </div>
+     <div class="table-wrapper">
+      <table>
+       <thead>
+        <tr>
+         <th>NO</th>
+         <th>DESA/KELURAHAN</th>
+         <th>PAJAK TERHUTANG (Rp)</th>
+         <th>PENERIMAAN PBB-P2</th>
+         <th>SISA PAJAK TERUTANG</th>
+         <th>%</th>
+        </tr>
+       </thead>
+       <tbody id="sindue-data"></tbody>
+      </table>
+     </div>
+    </div><!-- Kecamatan Sindue Tombusabora -->
+    <div class="kecamatan-section">
+     <div class="kecamatan-header">
+      KECAMATAN SINDUE TOMBUSABORA
+     </div>
+     <div class="table-wrapper">
+      <table>
+       <thead>
+        <tr>
+         <th>NO</th>
+         <th>DESA/KELURAHAN</th>
+         <th>PAJAK TERHUTANG (Rp)</th>
+         <th>PENERIMAAN PBB-P2</th>
+         <th>SISA PAJAK TERUTANG</th>
+         <th>%</th>
+        </tr>
+       </thead>
+       <tbody id="sindue-tombusabora-data"></tbody>
+      </table>
+     </div>
+    </div><!-- Kecamatan Sindue Tobata -->
+    <div class="kecamatan-section">
+     <div class="kecamatan-header">
+      KECAMATAN SINDUE TOBATA
+     </div>
+     <div class="table-wrapper">
+      <table>
+       <thead>
+        <tr>
+         <th>NO</th>
+         <th>DESA/KELURAHAN</th>
+         <th>PAJAK TERHUTANG (Rp)</th>
+         <th>PENERIMAAN PBB-P2</th>
+         <th>SISA PAJAK TERUTANG</th>
+         <th>%</th>
+        </tr>
+       </thead>
+       <tbody id="sindue-tobata-data"></tbody>
+      </table>
+     </div>
+    </div><!-- Kecamatan Sirenja -->
+    <div class="kecamatan-section">
+     <div class="kecamatan-header">
+      KECAMATAN SIRENJA
+     </div>
+     <div class="table-wrapper">
+      <table>
+       <thead>
+        <tr>
+         <th>NO</th>
+         <th>DESA/KELURAHAN</th>
+         <th>PAJAK TERHUTANG (Rp)</th>
+         <th>PENERIMAAN PBB-P2</th>
+         <th>SISA PAJAK TERUTANG</th>
+         <th>%</th>
+        </tr>
+       </thead>
+       <tbody id="sirenja-data"></tbody>
+      </table>
+     </div>
+    </div><!-- Kecamatan Balaesang -->
+    <div class="kecamatan-section">
+     <div class="kecamatan-header">
+      KECAMATAN BALAESANG
+     </div>
+     <div class="table-wrapper">
+      <table>
+       <thead>
+        <tr>
+         <th>NO</th>
+         <th>DESA/KELURAHAN</th>
+         <th>PAJAK TERHUTANG (Rp)</th>
+         <th>PENERIMAAN PBB-P2</th>
+         <th>SISA PAJAK TERUTANG</th>
+         <th>%</th>
+        </tr>
+       </thead>
+       <tbody id="balaesang-data"></tbody>
+      </table>
+     </div>
+    </div><!-- Kecamatan Balaesang Tanjung -->
+    <div class="kecamatan-section">
+     <div class="kecamatan-header">
+      KECAMATAN BALAESANG TANJUNG
+     </div>
+     <div class="table-wrapper">
+      <table>
+       <thead>
+        <tr>
+         <th>NO</th>
+         <th>DESA/KELURAHAN</th>
+         <th>PAJAK TERHUTANG (Rp)</th>
+         <th>PENERIMAAN PBB-P2</th>
+         <th>SISA PAJAK TERUTANG</th>
+         <th>%</th>
+        </tr>
+       </thead>
+       <tbody id="balaesang-tanjung-data"></tbody>
+      </table>
+     </div>
+    </div><!-- Kecamatan Dampelas -->
+    <div class="kecamatan-section">
+     <div class="kecamatan-header">
+      KECAMATAN DAMPELAS
+     </div>
+     <div class="table-wrapper">
+      <table>
+       <thead>
+        <tr>
+         <th>NO</th>
+         <th>DESA/KELURAHAN</th>
+         <th>PAJAK TERHUTANG (Rp)</th>
+         <th>PENERIMAAN PBB-P2</th>
+         <th>SISA PAJAK TERUTANG</th>
+         <th>%</th>
+        </tr>
+       </thead>
+       <tbody id="dampelas-data"></tbody>
+      </table>
+     </div>
+    </div><!-- Kecamatan Sojol -->
+    <div class="kecamatan-section">
+     <div class="kecamatan-header">
+      KECAMATAN SOJOL
+     </div>
+     <div class="table-wrapper">
+      <table>
+       <thead>
+        <tr>
+         <th>NO</th>
+         <th>DESA/KELURAHAN</th>
+         <th>PAJAK TERHUTANG (Rp)</th>
+         <th>PENERIMAAN PBB-P2</th>
+         <th>SISA PAJAK TERUTANG</th>
+         <th>%</th>
+        </tr>
+       </thead>
+       <tbody id="sojol-data"></tbody>
+      </table>
+     </div>
+    </div><!-- Kecamatan Sojol Utara -->
+    <div class="kecamatan-section">
+     <div class="kecamatan-header">
+      KECAMATAN SOJOL UTARA
+     </div>
+     <div class="table-wrapper">
+      <table>
+       <thead>
+        <tr>
+         <th>NO</th>
+         <th>DESA/KELURAHAN</th>
+         <th>PAJAK TERHUTANG (Rp)</th>
+         <th>PENERIMAAN PBB-P2</th>
+         <th>SISA PAJAK TERUTANG</th>
+         <th>%</th>
+        </tr>
+       </thead>
+       <tbody id="sojol-utara-data"></tbody>
+      </table>
+     </div>
+    </div><!-- Kecamatan Banawa -->
+    <div class="kecamatan-section">
+     <div class="kecamatan-header">
+      KECAMATAN BANAWA
+     </div>
+     <div class="table-wrapper">
+      <table>
+       <thead>
+        <tr>
+         <th>NO</th>
+         <th>DESA/KELURAHAN</th>
+         <th>PAJAK TERHUTANG (Rp)</th>
+         <th>PENERIMAAN PBB-P2</th>
+         <th>SISA PAJAK TERUTANG</th>
+         <th>%</th>
+        </tr>
+       </thead>
+       <tbody id="banawa-data"></tbody>
+      </table>
+     </div>
+    </div><!-- Kecamatan Banawa Tengah -->
+    <div class="kecamatan-section">
+     <div class="kecamatan-header">
+      KECAMATAN BANAWA TENGAH
+     </div>
+     <div class="table-wrapper">
+      <table>
+       <thead>
+        <tr>
+         <th>NO</th>
+         <th>DESA/KELURAHAN</th>
+         <th>PAJAK TERHUTANG (Rp)</th>
+         <th>PENERIMAAN PBB-P2</th>
+         <th>SISA PAJAK TERUTANG</th>
+         <th>%</th>
+        </tr>
+       </thead>
+       <tbody id="banawa-tengah-data"></tbody>
+      </table>
+     </div>
+    </div><!-- Kecamatan Banawa Selatan -->
+    <div class="kecamatan-section">
+     <div class="kecamatan-header">
+      KECAMATAN BANAWA SELATAN
+     </div>
+     <div class="table-wrapper">
+      <table>
+       <thead>
+        <tr>
+         <th>NO</th>
+         <th>DESA/KELURAHAN</th>
+         <th>PAJAK TERHUTANG (Rp)</th>
+         <th>PENERIMAAN PBB-P2</th>
+         <th>SISA PAJAK TERUTANG</th>
+         <th>%</th>
+        </tr>
+       </thead>
+       <tbody id="banawa-selatan-data"></tbody>
+      </table>
+     </div>
+    </div><!-- Kecamatan Rio Pakava -->
+    <div class="kecamatan-section">
+     <div class="kecamatan-header">
+      KECAMATAN RIO PAKAVA
+     </div>
+     <div class="table-wrapper">
+      <table>
+       <thead>
+        <tr>
+         <th>NO</th>
+         <th>DESA/KELURAHAN</th>
+         <th>PAJAK TERHUTANG (Rp)</th>
+         <th>PENERIMAAN PBB-P2</th>
+         <th>SISA PAJAK TERUTANG</th>
+         <th>%</th>
+        </tr>
+       </thead>
+       <tbody id="rio-pakava-data"></tbody>
+      </table>
+     </div>
+    </div><!-- Kecamatan Pinembani -->
+    <div class="kecamatan-section">
+     <div class="kecamatan-header">
+      KECAMATAN PINEMBANI
+     </div>
+     <div class="table-wrapper">
+      <table>
+       <thead>
+        <tr>
+         <th>NO</th>
+         <th>DESA/KELURAHAN</th>
+         <th>PAJAK TERHUTANG (Rp)</th>
+         <th>PENERIMAAN PBB-P2</th>
+         <th>SISA PAJAK TERUTANG</th>
+         <th>%</th>
+        </tr>
+       </thead>
+       <tbody id="pinembani-data"></tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <div class="footer" id="footer-note">
+    Data per 27 November 2025 - Laporan ini menampilkan realisasi pajak dari berbagai kecamatan
+   </div>
+  </div><!-- Modal Rincian Desa -->
+  <div class="modal-overlay" id="modalOverlay">
+   <div class="modal-content">
+    <div class="modal-header">
+     <h2 class="modal-title" id="modalTitle">Rincian Desa</h2><button class="modal-close" id="modalClose">×</button>
+    </div>
+    <div class="modal-body" id="modalBody"><!-- Content will be dynamically inserted here -->
+    </div>
+   </div>
+  </div>
+  <script>
+    const defaultConfig = {
+      main_title: "LAPORAN REALISASI PAJAK BUMI DAN BANGUNAN PERDESAAN PERKOTAAN",
+      period_text: "PERIODE JANUARI SD 5 DESEMBER 2025",
+      footer_note: "Data per 5 Desember 2025 - Laporan ini menampilkan realisasi pajak dari berbagai kecamatan",
+      header_color: "#1e3c72",
+      table_header_color: "#4facfe",
+      accent_color: "#f5576c"
+    };
+    
+    const data = {
+      tanantovea: [
+        { no: 1, desa: "BALE", terhutang: 13445238, penerimaan: 10778336, sisa: 2666902, persen: 80 },
+        { no: 2, desa: "GUNTARANO", terhutang: 10481969, penerimaan: 5764108, sisa: 4717861, persen: 55 },
+        { no: 3, desa: "NUPABOMBA", terhutang: 19629889, penerimaan: 8798357, sisa: 10831532, persen: 45 },
+        { no: 4, desa: "WOMBO", terhutang: 9573174, penerimaan: 7710217, sisa: 1862957, persen: 81 },
+        { no: 5, desa: "WANI LUMPU PETIGO", terhutang: 6731454, penerimaan: 5669203, sisa: 1062251, persen: 84 },
+        { no: 6, desa: "WANI K/I", terhutang: 11688209, penerimaan: 4039290, sisa: 7648919, persen: 35 },
+        { no: 7, desa: "WANI B/II", terhutang: 13352778, penerimaan: 11029119, sisa: 2323659, persen: 83 },
+        { no: 8, desa: "WANI III", terhutang: 2917558, penerimaan: 2770064, sisa: 147494, persen: 95 },
+        { no: 9, desa: "WOMBO PANAU", terhutang: 8290658, penerimaan: 6663804, sisa: 1626854, persen: 80 },
+        { no: 10, desa: "WOMBO KALONGGO", terhutang: 6452930, penerimaan: 1719456, sisa: 4733474, persen: 27 },
+        { no: "", desa: "JUMLAH SEKTOR PERDESAAN", terhutang: 102563857, penerimaan: 64941954, sisa: 37621903, persen: 63 }
+      ],
+      labuan: [
+        { no: 1, desa: "LABUAN KUNGGUMA", terhutang: 7268543, penerimaan: 7225763, sisa: 42780, persen: 99 },
+        { no: 2, desa: "LABUAN TOPOSO", terhutang: 7822249, penerimaan: 7501924, sisa: 320325, persen: 96 },
+        { no: 3, desa: "LABUAN PANIMBA", terhutang: 16638402, penerimaan: 13731245, sisa: 2907157, persen: 83 },
+        { no: 4, desa: "LABUAN LELEA", terhutang: 25380591, penerimaan: 11176546, sisa: 14204045, persen: 44 },
+        { no: 5, desa: "LABUAN SALUMBONE", terhutang: 45192950, penerimaan: 40748691, sisa: 4444259, persen: 90 },
+        { no: 6, desa: "LABUAN INDUK", terhutang: 36785189, penerimaan: 11094828, sisa: 25690361, persen: 30 },
+        { no: 7, desa: "LABUAN LUMBUBAKA", terhutang: 4120000, penerimaan: 4120000, sisa: 0, persen: 100 },
+        { no: "", desa: "JUMLAH SEKTOR PERDESAAN", terhutang: 143207924, penerimaan: 95598997, sisa: 47608927, persen: 67 }
+      ],
+      sindue: [
+        { no: 1, desa: "DALAKA", terhutang: 46244511, penerimaan: 48617081, sisa: -2372570, persen: 105 },
+        { no: 2, desa: "LERO", terhutang: 5960052, penerimaan: 5212150, sisa: 747902, persen: 87 },
+        { no: 3, desa: "TOAYA", terhutang: 9355139, penerimaan: 5400915, sisa: 3954224, persen: 58 },
+        { no: 4, desa: "SUMARI", terhutang: 4540592, penerimaan: 3706476, sisa: 834116, persen: 82 },
+        { no: 5, desa: "TARIPA", terhutang: 2695328, penerimaan: 0, sisa: 2695328, persen: 0 },
+        { no: 6, desa: "MASAINGI", terhutang: 2926827, penerimaan: 2409034, sisa: 517793, persen: 82 },
+        { no: 7, desa: "MARANA", terhutang: 589868, penerimaan: 668189, sisa: -78321, persen: 113 },
+        { no: 8, desa: "ENU", terhutang: 1029521, penerimaan: 929874, sisa: 99647, persen: 90 },
+        { no: 9, desa: "TOAYA VUNTA", terhutang: 4373477, penerimaan: 3633880, sisa: 739597, persen: 83 },
+        { no: 10, desa: "LERO TATARI", terhutang: 20170489, penerimaan: 16704830, sisa: 3465659, persen: 83 },
+        { no: 11, desa: "KUMBASA", terhutang: 2579352, penerimaan: 2579352, sisa: 0, persen: 100 },
+        { no: 12, desa: "AMAL", terhutang: 1098109, penerimaan: 1210321, sisa: -112212, persen: 110 },
+        { no: 13, desa: "KAVAYA", terhutang: 2002214, penerimaan: 1072316, sisa: 929898, persen: 54 },
+        { no: "", desa: "JUMLAH SEKTOR PERDESAAN", terhutang: 103565479, penerimaan: 92144418, sisa: 11421061, persen: 89 }
+      ],
+      sindue_tombusabora: [
+        { no: 1, desa: "TIBO", terhutang: 14667511, penerimaan: 14760024, sisa: -92513, persen: 101 },
+        { no: 2, desa: "KALIBURU", terhutang: 5677234, penerimaan: 5657234, sisa: 20000, persen: 100 },
+        { no: 3, desa: "BATUSUYA", terhutang: 10538557, penerimaan: 8938201, sisa: 1600356, persen: 85 },
+        { no: 4, desa: "SALOYA", terhutang: 13984246, penerimaan: 12239665, sisa: 1744581, persen: 88 },
+        { no: 5, desa: "BATUSUYA GO'O", terhutang: 4388655, penerimaan: 20200, sisa: 4368455, persen: 0 },
+        { no: 6, desa: "KALIBURU KATA", terhutang: 5286017, penerimaan: 4262283, sisa: 1023734, persen: 81 },
+        { no: "", desa: "JUMLAH SEKTOR PERDESAAN", terhutang: 54542220, penerimaan: 45877607, sisa: 8664613, persen: 84 }
+      ],
+      sindue_tobata: [
+        { no: 1, desa: "SIKARA TOBATA", terhutang: 8403695, penerimaan: 4980941, sisa: 3422754, persen: 59 },
+        { no: 2, desa: "ALINDAU", terhutang: 11851426, penerimaan: 432429, sisa: 11418997, persen: 4 },
+        { no: 3, desa: "OTI", terhutang: 14248590, penerimaan: 2886299, sisa: 11362291, persen: 20 },
+        { no: 4, desa: "TAMARENJA", terhutang: 13607418, penerimaan: 10974357, sisa: 2633061, persen: 81 },
+        { no: 5, desa: "SIPESO", terhutang: 5226998, penerimaan: 4201816, sisa: 1025182, persen: 80 },
+        { no: 6, desa: "SINDOSA", terhutang: 12153051, penerimaan: 9705058, sisa: 2447993, persen: 80 },
+        { no: "", desa: "JUMLAH SEKTOR PERDESAAN", terhutang: 65491178, penerimaan: 33180900, sisa: 32310278, persen: 51 }
+      ],
+      sirenja: [
+        { no: 1, desa: "OMBO", terhutang: 9932678, penerimaan: 8875887, sisa: 1056791, persen: 89 },
+        { no: 2, desa: "TONDO", terhutang: 12302918, penerimaan: 1156280, sisa: 11146638, persen: 9 },
+        { no: 3, desa: "DAMPAL", terhutang: 6710292, penerimaan: 5700539, sisa: 1009753, persen: 85 },
+        { no: 4, desa: "JONO OGE", terhutang: 7074345, penerimaan: 4378622, sisa: 2695723, persen: 62 },
+        { no: 5, desa: "SIPI", terhutang: 10802047, penerimaan: 2298522, sisa: 8503525, persen: 21 },
+        { no: 6, desa: "TANJUNG PADANG", terhutang: 9300533, penerimaan: 4793079, sisa: 4507454, persen: 52 },
+        { no: 7, desa: "BALINTUMA", terhutang: 5380053, penerimaan: 4582436, sisa: 797617, persen: 85 },
+        { no: 8, desa: "SIBADO", terhutang: 10586962, penerimaan: 9898018, sisa: 688944, persen: 93 },
+        { no: 9, desa: "TOMPE", terhutang: 7858006, penerimaan: 7238960, sisa: 619046, persen: 92 },
+        { no: 10, desa: "LOMPIO", terhutang: 4181358, penerimaan: 1927876, sisa: 2253482, persen: 46 },
+        { no: 11, desa: "LENDE", terhutang: 10134713, penerimaan: 3878778, sisa: 6255935, persen: 38 },
+        { no: 12, desa: "LENDE TOVEA", terhutang: 8081390, penerimaan: 6471693, sisa: 1609697, persen: 80 },
+        { no: 13, desa: "UJUMBOU", terhutang: 7247536, penerimaan: 4573157, sisa: 2674379, persen: 63 },
+        { no: "", desa: "JUMLAH SEKTOR PERDESAAN", terhutang: 109592831, penerimaan: 65773847, sisa: 43818984, persen: 60 }
+      ],
+      balaesang: [
+        { no: 1, desa: "LOMBONGAN", terhutang: 15323514, penerimaan: 14582226, sisa: 741288, persen: 95 },
+        { no: 2, desa: "LABEAN", terhutang: 23192481, penerimaan: 18688022, sisa: 4504459, persen: 81 },
+        { no: 3, desa: "MELI", terhutang: 19860957, penerimaan: 12158758, sisa: 7702199, persen: 61 },
+        { no: 4, desa: "TAMBU", terhutang: 12561749, penerimaan: 10786118, sisa: 1775631, persen: 86 },
+        { no: 5, desa: "SIWELI", terhutang: 19617476, penerimaan: 11012690, sisa: 8604786, persen: 56 },
+        { no: 6, desa: "SIBOALONG", terhutang: 12154615, penerimaan: 3619559, sisa: 8535056, persen: 30 },
+        { no: 7, desa: "SIBAYU", terhutang: 12585945, penerimaan: 10319346, sisa: 2266599, persen: 82 },
+        { no: 8, desa: "MALINO", terhutang: 9203504, penerimaan: 8126504, sisa: 1077000, persen: 88 },
+        { no: 9, desa: "MAPANE TAMPU", terhutang: 10099027, penerimaan: 8203459, sisa: 1895568, persen: 81 },
+        { no: 10, desa: "TOVIA TAMBU", terhutang: 11282743, penerimaan: 9112258, sisa: 2170485, persen: 81 },
+        { no: 11, desa: "KAMPUNG BARU", terhutang: 10713314, penerimaan: 9314250, sisa: 1399064, persen: 87 },
+        { no: 12, desa: "SIMAGAYA", terhutang: 11803546, penerimaan: 9588569, sisa: 2214977, persen: 81 },
+        { no: 13, desa: "SIPURE", terhutang: 8528594, penerimaan: 6813221, sisa: 1715373, persen: 80 },
+        { no: "", desa: "JUMLAH SEKTOR PERDESAAN", terhutang: 176927465, penerimaan: 132324980, sisa: 44602485, persen: 75 }
+      ],
+      balaesang_tanjung: [
+        { no: 1, desa: "KETONG", terhutang: 21836118, penerimaan: 12161376, sisa: 9674742, persen: 56 },
+        { no: 2, desa: "KAMONJI", terhutang: 11117751, penerimaan: 9489397, sisa: 1628354, persen: 85 },
+        { no: 3, desa: "MALEI", terhutang: 15010589, penerimaan: 12381080, sisa: 2629509, persen: 82 },
+        { no: 4, desa: "RANO", terhutang: 11482741, penerimaan: 3948407, sisa: 7534334, persen: 34 },
+        { no: 5, desa: "POMOLULU", terhutang: 11019203, penerimaan: 10943208, sisa: 75995, persen: 99 },
+        { no: 6, desa: "WALANDANO", terhutang: 9596396, penerimaan: 956966, sisa: 8639430, persen: 10 },
+        { no: 7, desa: "PALAU", terhutang: 4524450, penerimaan: 4550450, sisa: -26000, persen: 101 },
+        { no: 8, desa: "MANIMBAYA", terhutang: 3133469, penerimaan: 3133469, sisa: 0, persen: 100 },
+        { no: "", desa: "JUMLAH SEKTOR PERDESAAN", terhutang: 87720717, penerimaan: 57564353, sisa: 30156364, persen: 66 }
+      ],
+      dampelas: [
+        { no: 1, desa: "KAMBAYANG", terhutang: 13931793, penerimaan: 12394196, sisa: 1537597, persen: 89 },
+        { no: 2, desa: "BUDI MUKTI", terhutang: 24666971, penerimaan: 19733576, sisa: 4933395, persen: 80 },
+        { no: 3, desa: "TALAGA", terhutang: 21899338, penerimaan: 19670514, sisa: 2228824, persen: 90 },
+        { no: 4, desa: "SABANG", terhutang: 12453437, penerimaan: 10449867, sisa: 2003570, persen: 84 },
+        { no: 5, desa: "SIOYONG", terhutang: 18030519, penerimaan: 7006696, sisa: 11023823, persen: 39 },
+        { no: 6, desa: "KARYA MUKTI", terhutang: 32228770, penerimaan: 25783016, sisa: 6445754, persen: 80 },
+        { no: 7, desa: "PANII", terhutang: 22719006, penerimaan: 18575682, sisa: 4143324, persen: 82 },
+        { no: 8, desa: "PONGGERANG", terhutang: 26919330, penerimaan: 19135780, sisa: 7783550, persen: 71 },
+        { no: 9, desa: "MALONAS", terhutang: 24154782, penerimaan: 10847508, sisa: 13307274, persen: 45 },
+        { no: 10, desa: "RERANG", terhutang: 26485952, penerimaan: 21890726, sisa: 4595226, persen: 83 },
+        { no: 11, desa: "LEMBAH MUKTI", terhutang: 34372641, penerimaan: 32210989, sisa: 2161652, persen: 94 },
+        { no: 12, desa: "PARISAN AGUNG", terhutang: 30488603, penerimaan: 26829860, sisa: 3658743, persen: 88 },
+        { no: 13, desa: "LONG", terhutang: 13136354, penerimaan: 2290399, sisa: 10845955, persen: 17 },
+        { no: "", desa: "JUMLAH SEKTOR PERDESAAN", terhutang: 301487496, penerimaan: 226818809, sisa: 74668687, persen: 75 }
+      ],
+      sojol: [
+        { no: 1, desa: "PANGALASIANG", terhutang: 24821235, penerimaan: 7429139, sisa: 17392096, persen: 30 },
+        { no: 2, desa: "TONGGOLOBIBI", terhutang: 37497216, penerimaan: 966673, sisa: 36530543, persen: 3 },
+        { no: 3, desa: "SIBOANG", terhutang: 30460670, penerimaan: 24368536, sisa: 6092134, persen: 80 },
+        { no: 4, desa: "SIWALEMPU", terhutang: 43990663, penerimaan: 38853573, sisa: 5137090, persen: 88 },
+        { no: 5, desa: "BALUKANG", terhutang: 14629343, penerimaan: 14411388, sisa: 217955, persen: 99 },
+        { no: 6, desa: "BOU", terhutang: 24184010, penerimaan: 20185491, sisa: 3998519, persen: 83 },
+        { no: 7, desa: "BUKIT HARAPAN", terhutang: 7829850, penerimaan: 6437771, sisa: 1392079, persen: 82 },
+        { no: 8, desa: "SAMALILI", terhutang: 21460831, penerimaan: 17596655, sisa: 3864176, persen: 82 },
+        { no: 9, desa: "BALUKANG II", terhutang: 9672743, penerimaan: 8155450, sisa: 1517293, persen: 84 },
+        { no: "", desa: "JUMLAH SEKTOR PERDESAAN", terhutang: 214546561, penerimaan: 138404676, sisa: 76141885, persen: 65 }
+      ],
+      sojol_utara: [
+        { no: 1, desa: "OGOAMAS I", terhutang: 21640752, penerimaan: 7970280, sisa: 13670472, persen: 37 },
+        { no: 2, desa: "OGOAMAS II", terhutang: 22661647, penerimaan: 18599882, sisa: 4061765, persen: 82 },
+        { no: 3, desa: "LENJU", terhutang: 8551029, penerimaan: 6856504, sisa: 1694525, persen: 80 },
+        { no: 4, desa: "PESIK", terhutang: 7741663, penerimaan: 707679, sisa: 7033984, persen: 9 },
+        { no: 5, desa: "BENGKOLI", terhutang: 9287072, penerimaan: 9287072, sisa: 0, persen: 100 },
+        { no: "", desa: "JUMLAH SEKTOR PERDESAAN", terhutang: 69882163, penerimaan: 43421417, sisa: 26460746, persen: 62 }
+      ],
+      banawa: [
+        { no: 1, desa: "LOLI OGE", terhutang: 27945655, penerimaan: 22403785, sisa: 5541870, persen: 80 },
+        { no: 2, desa: "LOLI TASIBURI", terhutang: 7864356, penerimaan: 6852786, sisa: 1011570, persen: 87 },
+        { no: 3, desa: "LOLI SALURAN", terhutang: 9820404, penerimaan: 10036812, sisa: -216408, persen: 102 },
+        { no: 4, desa: "LOLI PESUA", terhutang: 8844817, penerimaan: 8824817, sisa: 20000, persen: 100 },
+        { no: 5, desa: "LOLI DONDO", terhutang: 23486608, penerimaan: 20221901, sisa: 3264707, persen: 86 },
+        { no: 6, desa: "KABONGA BESAR", terhutang: 23045496, penerimaan: 19989976, sisa: 3055520, persen: 87 },
+        { no: 7, desa: "KABONGA KECIL", terhutang: 16896729, penerimaan: 8757226, sisa: 8139503, persen: 52 },
+        { no: 8, desa: "TANJUNG BATU", terhutang: 22602916, penerimaan: 8263533, sisa: 14339383, persen: 37 },
+        { no: 9, desa: "GUNUNG BALE", terhutang: 9845872, penerimaan: 6479261, sisa: 3366611, persen: 66 },
+        { no: 10, desa: "GANTI", terhutang: 24395083, penerimaan: 11574250, sisa: 12820833, persen: 47 },
+        { no: 11, desa: "MALENI", terhutang: 17679061, penerimaan: 7219260, sisa: 10459801, persen: 41 },
+        { no: 12, desa: "BOYA", terhutang: 53694235, penerimaan: 43438349, sisa: 10255886, persen: 81 },
+        { no: 13, desa: "LABUAN BAJO", terhutang: 16787083, penerimaan: 13130866, sisa: 3656217, persen: 78 },
+        { no: 14, desa: "BONE OGE", terhutang: 16248986, penerimaan: 8427303, sisa: 7821683, persen: 52 },
+        { no: "", desa: "JUMLAH SEKTOR PERDESAAN", terhutang: 279157301, penerimaan: 195620125, sisa: 83537176, persen: 70 }
+      ],
+      banawa_tengah: [
+        { no: 1, desa: "POWELUA", terhutang: 9839520, penerimaan: 8635431, sisa: 1204089, persen: 88 },
+        { no: 2, desa: "LUMBUDOLO", terhutang: 7277776, penerimaan: 6159153, sisa: 1118623, persen: 85 },
+        { no: 3, desa: "KOLA KOLA", terhutang: 7764239, penerimaan: 232989, sisa: 7531250, persen: 3 },
+        { no: 4, desa: "LIMBORO", terhutang: 14185373, penerimaan: 3866659, sisa: 10318714, persen: 27 },
+        { no: 5, desa: "TOWALE", terhutang: 6182809, penerimaan: 6026818, sisa: 155991, persen: 97 },
+        { no: 6, desa: "SALUBOMBA", terhutang: 10939630, penerimaan: 7602872, sisa: 3336758, persen: 69 },
+        { no: 7, desa: "MEKAR BARU", terhutang: 1611682, penerimaan: 1375093, sisa: 236589, persen: 85 },
+        { no: 8, desa: "LAMPO", terhutang: 5042844, penerimaan: 4490901, sisa: 551943, persen: 89 },
+        { no: "", desa: "JUMLAH SEKTOR PERDESAAN", terhutang: 62843873, penerimaan: 38389916, sisa: 24453957, persen: 61 }
+      ],
+      banawa_selatan: [
+        { no: 1, desa: "TOSALE", terhutang: 14002942, penerimaan: 3922030, sisa: 10080912, persen: 28 },
+        { no: 2, desa: "TOLONGANO", terhutang: 8141193, penerimaan: 6727086, sisa: 1414107, persen: 83 },
+        { no: 3, desa: "SALUNGKAENU", terhutang: 7363449, penerimaan: 7103433, sisa: 260016, persen: 96 },
+        { no: 4, desa: "LUMBUMAMARA", terhutang: 8998830, penerimaan: 7492361, sisa: 1506469, persen: 83 },
+        { no: 5, desa: "BAMBARIMI", terhutang: 7242965, penerimaan: 3175579, sisa: 4067386, persen: 44 },
+        { no: 6, desa: "SALUM PAKU", terhutang: 10156721, penerimaan: 581717, sisa: 9575004, persen: 6 },
+        { no: 7, desa: "MBUWU", terhutang: 8366465, penerimaan: 4885163, sisa: 3481302, persen: 58 },
+        { no: 8, desa: "TANAH MEA", terhutang: 15408567, penerimaan: 3874961, sisa: 11533606, persen: 25 },
+        { no: 9, desa: "LALOMBI", terhutang: 21176682, penerimaan: 707776, sisa: 20468906, persen: 3 },
+        { no: 10, desa: "WATATU", terhutang: 15707683, penerimaan: 13654737, sisa: 2052946, persen: 87 },
+        { no: 11, desa: "SURUMANA", terhutang: 8908036, penerimaan: 5271526, sisa: 3636510, persen: 59 },
+        { no: 12, desa: "MALINO", terhutang: 7221894, penerimaan: 0, sisa: 7221894, persen: 0 },
+        { no: 13, desa: "LUMBU TAROMBO", terhutang: 4293976, penerimaan: 3540800, sisa: 753176, persen: 82 },
+        { no: 14, desa: "LUMBULAMA", terhutang: 2096000, penerimaan: 0, sisa: 2096000, persen: 0 },
+        { no: 15, desa: "TANAMPULU", terhutang: 6657075, penerimaan: 5765750, sisa: 891325, persen: 87 },
+        { no: 16, desa: "SARUMBAYA", terhutang: 4217500, penerimaan: 3997500, sisa: 220000, persen: 95 },
+        { no: 17, desa: "LEMBASADA", terhutang: 5180822, penerimaan: 6255247, sisa: -1074425, persen: 121 },
+        { no: 18, desa: "SALUSUMPU", terhutang: 10716619, penerimaan: 9521585, sisa: 1195034, persen: 89 },
+        { no: "", desa: "JUMLAH SEKTOR PERDESAAN", terhutang: 165857419, penerimaan: 86477251, sisa: 79380168, persen: 52 }
+      ],
+      rio_pakava: [
+        { no: 1, desa: "LALUNDU", terhutang: 40703938, penerimaan: 28945447, sisa: 11758491, persen: 71 },
+        { no: 2, desa: "PANTOLOBETE", terhutang: 14819758, penerimaan: 6893662, sisa: 7926096, persen: 47 },
+        { no: 3, desa: "BONEMARAWA", terhutang: 19668818, penerimaan: 10253265, sisa: 9415553, persen: 52 },
+        { no: 4, desa: "TOWIORA", terhutang: 12578337, penerimaan: 5997305, sisa: 6581032, persen: 48 },
+        { no: 5, desa: "MINTI MAKMUR", terhutang: 28016458, penerimaan: 20133705, sisa: 7882753, persen: 72 },
+        { no: 6, desa: "POLANTO JAYA", terhutang: 17386390, penerimaan: 16332890, sisa: 1053500, persen: 94 },
+        { no: 7, desa: "POLANDO JAYA", terhutang: 16896090, penerimaan: 10644450, sisa: 6251640, persen: 63 },
+        { no: 8, desa: "TINAUKA", terhutang: 17346749, penerimaan: 2445053, sisa: 14901696, persen: 14 },
+        { no: 9, desa: "RIO MUKTI", terhutang: 24457147, penerimaan: 25559130, sisa: -1101983, persen: 105 },
+        { no: 10, desa: "PANCA MUKTI", terhutang: 18039672, penerimaan: 12268113, sisa: 5771559, persen: 68 },
+        { no: 11, desa: "NGOVI", terhutang: 8927094, penerimaan: 5394339, sisa: 3532755, persen: 60 },
+        { no: 12, desa: "PAKAVA", terhutang: 13093765, penerimaan: 13496765, sisa: -403000, persen: 103 },
+        { no: 13, desa: "BULAVA", terhutang: 9247880, penerimaan: 9722908, sisa: -475028, persen: 105 },
+        { no: 14, desa: "BUKIT INDAH", terhutang: 10131513, penerimaan: 8089913, sisa: 2041600, persen: 80 },
+        { no: "", desa: "JUMLAH SEKTOR PERDESAAN", terhutang: 251313609, penerimaan: 176176945, sisa: 75136664, persen: 70 }
+      ],
+      pinembani: [
+        { no: 1, desa: "PALINTUMA", terhutang: 1680000, penerimaan: 1664000, sisa: 16000, persen: 99 },
+        { no: 2, desa: "GIMPUBIA", terhutang: 1440000, penerimaan: 1401600, sisa: 38400, persen: 97 },
+        { no: 3, desa: "DANGARAA", terhutang: 2300000, penerimaan: 1844800, sisa: 455200, persen: 80 },
+        { no: 4, desa: "BAMBAKANINI", terhutang: 380000, penerimaan: 374400, sisa: 5600, persen: 99 },
+        { no: 5, desa: "TAMODO", terhutang: 180000, penerimaan: 183600, sisa: -3600, persen: 102 },
+        { no: 6, desa: "BAMBAKAENU", terhutang: 380000, penerimaan: 367200, sisa: 12800, persen: 97 },
+        { no: 7, desa: "KARUVIA", terhutang: 460000, penerimaan: 457600, sisa: 2400, persen: 99 },
+        { no: 8, desa: "TAVANGGAELI", terhutang: 468000, penerimaan: 465120, sisa: 2880, persen: 99 },
+        { no: 9, desa: "KANAGALONGGA", terhutang: 2920000, penerimaan: 2352000, sisa: 568000, persen: 81 },
+        { no: "", desa: "JUMLAH SEKTOR PERDESAAN", terhutang: 10208000, penerimaan: 9110320, sisa: 1097680, persen: 89 }
+      ]
+    };
+    
+    function formatCurrency(value) {
+      return value.toLocaleString('id-ID');
+    }
+    
+    function getPercentClass(percent) {
+      if (percent >= 80) return 'percent-high';
+      return 'percent-low';
+    }
+    
+    function showModal(rowData) {
+      const modal = document.getElementById('modalOverlay');
+      const modalTitle = document.getElementById('modalTitle');
+      const modalBody = document.getElementById('modalBody');
+      
+      modalTitle.textContent = `Rincian ${rowData.desa}`;
+      
+      const percentClass = getPercentClass(rowData.persen);
+      const percentColor = rowData.persen >= 80 ? '#dcfce7' : '#fee2e2';
+      const percentTextColor = rowData.persen >= 80 ? '#16a34a' : '#dc2626';
+      
+      const statusMessage = rowData.persen >= 80 
+        ? `<div class="status-message">
+             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="display: inline-block; vertical-align: middle; margin-right: 8px;">
+               <circle cx="12" cy="12" r="10" fill="#16a34a"/>
+               <path d="M8 12l3 3 5-5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+             </svg>
+             <strong>Memenuhi Syarat Pengajuan Dana BHP TA.2025</strong>
+           </div>`
+        : `<div class="status-message" style="background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%); border-left-color: #dc2626; color: #991b1b;">
+             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="display: inline-block; vertical-align: middle; margin-right: 8px;">
+               <circle cx="12" cy="12" r="10" fill="#dc2626"/>
+               <path d="M12 8v4m0 4h.01" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+             </svg>
+             <strong>Belum Memenuhi Syarat Pengajuan Dana BHP TA.2025</strong>
+           </div>`;
+      
+      const whatsappMessage = `*📊 LAPORAN REALISASI PBB-P2*%0A*Desa/Kelurahan: ${rowData.desa}*%0A%0A��� *Rincian:*%0A• Pajak Terhutang: Rp ${formatCurrency(rowData.terhutang)}%0A• Penerimaan PBB-P2: Rp ${formatCurrency(rowData.penerimaan)}%0A• Sisa Pajak Terutang: Rp ${formatCurrency(rowData.sisa)}%0A����� Persentase Realisasi: *${rowData.persen}%*%0A%0A${rowData.persen >= 80 ? '✅ Memenuhi Syarat Pengajuan Dana BHP TA.2025' : 'Belum Memenuhi Syarat Pengajuan Dana BHP TA.2025'}%0A%0A_Data per 5 DESEMBER 2025_%0A%0A🔗 Info Selengkapnya: https://syam.digital/pbb`;
+      
+      modalBody.innerHTML = `
+        <div class="admin-section">
+          <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1759537862/Syamdigital-agency-creatif_lpanrg.png" alt="Syam Digital" class="admin-photo">
+          <div class="admin-info">
+            <div class="admin-label">Administrator</div>
+            <div class="admin-name">Syam Digital</div>
+          </div>
+        </div>
+        
+        <div class="detail-row">
+          <span class="detail-label">Pajak Terhutang</span>
+          <span class="detail-value">Rp ${formatCurrency(rowData.terhutang)}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Penerimaan PBB-P2</span>
+          <span class="detail-value">Rp ${formatCurrency(rowData.penerimaan)}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Sisa Pajak Terutang</span>
+          <span class="detail-value">Rp ${formatCurrency(rowData.sisa)}</span>
+        </div>
+        <div class="detail-percent">
+          <div class="detail-percent-label">Persentase Realisasi</div>
+          <div class="detail-percent-value" style="background: ${percentColor}; color: ${percentTextColor};">
+            ${rowData.persen}%
+          </div>
+        </div>
+        ${statusMessage}
+        
+        <button class="share-whatsapp-btn" onclick="window.open('https://wa.me/?text=${whatsappMessage}', '_blank', 'noopener,noreferrer')">
+          <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+          </svg>
+          Bagikan ke WhatsApp
+        </button>
+      `;
+      
+      modal.classList.add('active');
+    }
+    
+    function closeModal() {
+      const modal = document.getElementById('modalOverlay');
+      modal.classList.remove('active');
+    }
+    
+    function renderTable(tableId, dataArray) {
+      const tbody = document.getElementById(tableId);
+      tbody.innerHTML = '';
+      
+      dataArray.forEach(row => {
+        const tr = document.createElement('tr');
+        const isTotal = row.no === "";
+        
+        const desaCell = isTotal 
+          ? `<td style="font-weight: 700">${row.desa}</td>`
+          : `<td><span class="desa-name">${row.desa}</span></td>`;
+        
+        tr.innerHTML = `
+          <td class="number-cell">${row.no}</td>
+          ${desaCell}
+          <td class="currency-cell">${formatCurrency(row.terhutang)}</td>
+          <td class="currency-cell">${formatCurrency(row.penerimaan)}</td>
+          <td class="currency-cell">${formatCurrency(row.sisa)}</td>
+          <td class="percent-cell">
+            <span class="percent-badge ${getPercentClass(row.persen)}">${row.persen}%</span>
+          </td>
+        `;
+        
+        if (!isTotal) {
+          const desaNameSpan = tr.querySelector('.desa-name');
+          desaNameSpan.addEventListener('click', () => showModal(row));
+        }
+        
+        tbody.appendChild(tr);
+      });
+    }
+    
+    async function onConfigChange(config) {
+      document.getElementById('main-title').textContent = config.main_title || defaultConfig.main_title;
+      document.getElementById('period-text').textContent = config.period_text || defaultConfig.period_text;
+      document.getElementById('footer-note').textContent = config.footer_note || defaultConfig.footer_note;
+      
+      const headerColor = config.header_color || defaultConfig.header_color;
+      const tableHeaderColor = config.table_header_color || defaultConfig.table_header_color;
+      const accentColor = config.accent_color || defaultConfig.accent_color;
+      
+      document.querySelector('.header').style.background = `linear-gradient(135deg, ${headerColor} 0%, #2a5298 100%)`;
+      
+      const kecamatanHeaders = document.querySelectorAll('.kecamatan-header');
+      kecamatanHeaders.forEach(header => {
+        header.style.background = `linear-gradient(135deg, #f093fb 0%, ${accentColor} 100%)`;
+      });
+      
+      const tableHeaders = document.querySelectorAll('thead');
+      tableHeaders.forEach(header => {
+        header.style.background = `linear-gradient(135deg, ${tableHeaderColor} 0%, #00f2fe 100%)`;
+      });
+    }
+    
+    renderTable('tanantovea-data', data.tanantovea);
+    renderTable('labuan-data', data.labuan);
+    renderTable('sindue-data', data.sindue);
+    renderTable('sindue-tombusabora-data', data.sindue_tombusabora);
+    renderTable('sindue-tobata-data', data.sindue_tobata);
+    renderTable('sirenja-data', data.sirenja);
+    renderTable('balaesang-data', data.balaesang);
+    renderTable('balaesang-tanjung-data', data.balaesang_tanjung);
+    renderTable('dampelas-data', data.dampelas);
+    renderTable('sojol-data', data.sojol);
+    renderTable('sojol-utara-data', data.sojol_utara);
+    renderTable('banawa-data', data.banawa);
+    renderTable('banawa-tengah-data', data.banawa_tengah);
+    renderTable('banawa-selatan-data', data.banawa_selatan);
+    renderTable('rio-pakava-data', data.rio_pakava);
+    renderTable('pinembani-data', data.pinembani);
+    
+    // Search functionality
+    const searchInput = document.getElementById('searchInput');
+    const kecamatanSections = document.querySelectorAll('.kecamatan-section');
+    const noResults = document.getElementById('noResults');
+    
+    searchInput.addEventListener('input', (e) => {
+      const searchTerm = e.target.value.toLowerCase().trim();
+      let visibleCount = 0;
+      
+      kecamatanSections.forEach(section => {
+        if (searchTerm === '') {
+          section.classList.remove('hidden');
+          visibleCount++;
+          return;
+        }
+        
+        const rows = section.querySelectorAll('tbody tr');
+        let hasVisibleRow = false;
+        
+        rows.forEach(row => {
+          const desaCell = row.querySelectorAll('td')[1];
+          if (desaCell) {
+            const desaName = desaCell.textContent.toLowerCase();
+            
+            if (desaName.includes(searchTerm) && !desaName.includes('jumlah sektor')) {
+              row.style.display = '';
+              hasVisibleRow = true;
+            } else if (!desaName.includes('jumlah sektor')) {
+              row.style.display = 'none';
+            }
+          }
+        });
+        
+        if (hasVisibleRow) {
+          section.classList.remove('hidden');
+          visibleCount++;
+        } else {
+          section.classList.add('hidden');
+        }
+      });
+      
+      if (visibleCount === 0 && searchTerm !== '') {
+        noResults.classList.add('show');
+      } else {
+        noResults.classList.remove('show');
+      }
+    });
+    
+    // Modal event listeners
+    document.getElementById('modalClose').addEventListener('click', closeModal);
+    document.getElementById('modalOverlay').addEventListener('click', (e) => {
+      if (e.target.id === 'modalOverlay') {
+        closeModal();
+      }
+    });
+    
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities: (config) => ({
+          recolorables: [
+            {
+              get: () => config.header_color || defaultConfig.header_color,
+              set: (value) => {
+                config.header_color = value;
+                window.elementSdk.setConfig({ header_color: value });
+              }
+            },
+            {
+              get: () => config.table_header_color || defaultConfig.table_header_color,
+              set: (value) => {
+                config.table_header_color = value;
+                window.elementSdk.setConfig({ table_header_color: value });
+              }
+            },
+            {
+              get: () => config.accent_color || defaultConfig.accent_color,
+              set: (value) => {
+                config.accent_color = value;
+                window.elementSdk.setConfig({ accent_color: value });
+              }
+            }
+          ],
+          borderables: [],
+          fontEditable: undefined,
+          fontSizeable: undefined
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ["main_title", config.main_title || defaultConfig.main_title],
+          ["period_text", config.period_text || defaultConfig.period_text],
+          ["footer_note", config.footer_note || defaultConfig.footer_note]
+        ])
+      });
+      
+      onConfigChange(window.elementSdk.config);
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a945e12b37dd2ac',t:'MTc2NDk0NjM0OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

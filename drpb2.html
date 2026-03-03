@@ -1,0 +1,821 @@
+<!doctype html>
+<html lang="id">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tracker Bahan Bangunan Lengkap</title>
+  <script src="/_sdk/data_sdk.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    .scrollable-table {
+      max-height: 600px;
+      overflow: auto;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+ </head>
+ <body class="w-full min-h-full">
+  <div class="w-full min-h-full" style="background-color: #f0f4f8; font-family: 'Segoe UI', -apple-system, sans-serif;">
+   <div class="w-full px-4 py-6">
+    <div class="max-w-full mx-auto"><!-- Header -->
+     <div class="mb-6">
+      <h1 id="appTitle" class="mb-2" style="font-size: 26px; font-weight: 700; color: #1a202c;">Tracker Bahan Bangunan Lengkap</h1>
+      <p style="font-size: 14px; color: #718096;">Kelola semua material konstruksi dengan mudah - 40+ jenis material</p>
+     </div><!-- Add Entry Form -->
+     <div class="mb-6 p-5 rounded-lg" style="background-color: #ffffff; box-shadow: 0 2px 4px rgba(0,0,0,0.08);">
+      <h2 class="mb-4" style="font-size: 17px; font-weight: 600; color: #2d3748;">Tambah Data Baru</h2>
+      <form id="addForm" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3">
+       <div><label for="nama" class="block mb-1" style="font-size: 12px; font-weight: 500; color: #4a5568;">Nama</label> <input type="text" id="nama" required class="w-full px-3 py-2 rounded-lg border text-sm" style="border-color: #cbd5e0; color: #2d3748;">
+       </div><!-- All Material Fields -->
+       <div>
+        <label for="semen" class="block mb-1" style="font-size: 12px; font-weight: 500; color: #4a5568;">Semen</label><input type="number" id="semen" min="0" class="w-full px-3 py-2 rounded-lg border text-sm" style="border-color: #cbd5e0;">
+       </div>
+       <div>
+        <label for="pasir_pasang" class="block mb-1" style="font-size: 12px; font-weight: 500; color: #4a5568;">Pasir Pasang</label><input type="number" id="pasir_pasang" min="0" step="0.01" class="w-full px-3 py-2 rounded-lg border text-sm" style="border-color: #cbd5e0;">
+       </div>
+       <div>
+        <label for="pasir_beton" class="block mb-1" style="font-size: 12px; font-weight: 500; color: #4a5568;">Pasir Beton</label><input type="number" id="pasir_beton" min="0" step="0.01" class="w-full px-3 py-2 rounded-lg border text-sm" style="border-color: #cbd5e0;">
+       </div>
+       <div>
+        <label for="batako" class="block mb-1" style="font-size: 12px; font-weight: 500; color: #4a5568;">Batako</label><input type="number" id="batako" min="0" class="w-full px-3 py-2 rounded-lg border text-sm" style="border-color: #cbd5e0;">
+       </div>
+       <div>
+        <label for="besi" class="block mb-1" style="font-size: 12px; font-weight: 500; color: #4a5568;">Besi</label><input type="number" id="besi" min="0" class="w-full px-3 py-2 rounded-lg border text-sm" style="border-color: #cbd5e0;">
+       </div>
+       <div>
+        <label for="kusen_pintu_200x80" class="block mb-1" style="font-size: 12px; font-weight: 500; color: #4a5568;">K.Pintu 200×80</label><input type="number" id="kusen_pintu_200x80" min="0" class="w-full px-3 py-2 rounded-lg border text-sm" style="border-color: #cbd5e0;">
+       </div>
+       <div>
+        <label for="kusen_jendela_120x40" class="block mb-1" style="font-size: 12px; font-weight: 500; color: #4a5568;">K.Jendela 120×40</label><input type="number" id="kusen_jendela_120x40" min="0" class="w-full px-3 py-2 rounded-lg border text-sm" style="border-color: #cbd5e0;">
+       </div>
+       <div>
+        <label for="daun_pintu_200x80" class="block mb-1" style="font-size: 12px; font-weight: 500; color: #4a5568;">D.Pintu 200×80</label><input type="number" id="daun_pintu_200x80" min="0" class="w-full px-3 py-2 rounded-lg border text-sm" style="border-color: #cbd5e0;">
+       </div>
+       <div>
+        <label for="paku_biasa" class="block mb-1" style="font-size: 12px; font-weight: 500; color: #4a5568;">Paku Biasa (kg)</label><input type="number" id="paku_biasa" min="0" step="0.1" class="w-full px-3 py-2 rounded-lg border text-sm" style="border-color: #cbd5e0;">
+       </div>
+       <div>
+        <label for="paku_seng" class="block mb-1" style="font-size: 12px; font-weight: 500; color: #4a5568;">Paku Seng (kg)</label><input type="number" id="paku_seng" min="0" step="0.1" class="w-full px-3 py-2 rounded-lg border text-sm" style="border-color: #cbd5e0;">
+       </div>
+       <div>
+        <label for="bendrat" class="block mb-1" style="font-size: 12px; font-weight: 500; color: #4a5568;">Bendrat (kg)</label><input type="number" id="bendrat" min="0" step="0.1" class="w-full px-3 py-2 rounded-lg border text-sm" style="border-color: #cbd5e0;">
+       </div>
+       <div>
+        <label for="daun_jendela_120x40" class="block mb-1" style="font-size: 12px; font-weight: 500; color: #4a5568;">D.Jendela 120×40</label><input type="number" id="daun_jendela_120x40" min="0" class="w-full px-3 py-2 rounded-lg border text-sm" style="border-color: #cbd5e0;">
+       </div>
+       <div>
+        <label for="seng_fumira" class="block mb-1" style="font-size: 12px; font-weight: 500; color: #4a5568;">Seng Fumira</label><input type="number" id="seng_fumira" min="0" class="w-full px-3 py-2 rounded-lg border text-sm" style="border-color: #cbd5e0;">
+       </div>
+       <div>
+        <label for="seng_plat_045" class="block mb-1" style="font-size: 12px; font-weight: 500; color: #4a5568;">Seng Plat 0,45</label><input type="number" id="seng_plat_045" min="0" class="w-full px-3 py-2 rounded-lg border text-sm" style="border-color: #cbd5e0;">
+       </div>
+       <div>
+        <label for="tehel" class="block mb-1" style="font-size: 12px; font-weight: 500; color: #4a5568;">Tehel</label><input type="number" id="tehel" min="0" class="w-full px-3 py-2 rounded-lg border text-sm" style="border-color: #cbd5e0;">
+       </div>
+       <div>
+        <label for="kayu_50x50" class="block mb-1" style="font-size: 12px; font-weight: 500; color: #4a5568;">Tehel 50×50</label><input type="number" id="kayu_50x50" min="0" class="w-full px-3 py-2 rounded-lg border text-sm" style="border-color: #cbd5e0;">
+       </div>
+       <div>
+        <label for="kayu_60x60" class="block mb-1" style="font-size: 12px; font-weight: 500; color: #4a5568;">Tehel 60×60</label><input type="number" id="kayu_60x60" min="0" class="w-full px-3 py-2 rounded-lg border text-sm" style="border-color: #cbd5e0;">
+       </div>
+       <div>
+        <label for="kayu_5_7" class="block mb-1" style="font-size: 12px; font-weight: 500; color: #4a5568;">Kayu 5/7</label><input type="number" id="kayu_5_7" min="0" class="w-full px-3 py-2 rounded-lg border text-sm" style="border-color: #cbd5e0;">
+       </div>
+       <div>
+        <label for="kayu_5_10" class="block mb-1" style="font-size: 12px; font-weight: 500; color: #4a5568;">Kayu 5/10</label><input type="number" id="kayu_5_10" min="0" class="w-full px-3 py-2 rounded-lg border text-sm" style="border-color: #cbd5e0;">
+       </div>
+       <div>
+        <label for="kayu_8_10" class="block mb-1" style="font-size: 12px; font-weight: 500; color: #4a5568;">Kayu 8/10</label><input type="number" id="kayu_8_10" min="0" class="w-full px-3 py-2 rounded-lg border text-sm" style="border-color: #cbd5e0;">
+       </div>
+       <div>
+        <label for="besi_8" class="block mb-1" style="font-size: 12px; font-weight: 500; color: #4a5568;">Besi 8</label><input type="number" id="besi_8" min="0" class="w-full px-3 py-2 rounded-lg border text-sm" style="border-color: #cbd5e0;">
+       </div>
+       <div>
+        <label for="besi_10" class="block mb-1" style="font-size: 12px; font-weight: 500; color: #4a5568;">Besi 10</label><input type="number" id="besi_10" min="0" class="w-full px-3 py-2 rounded-lg border text-sm" style="border-color: #cbd5e0;">
+       </div>
+       <div>
+        <label for="kanal_75_65" class="block mb-1" style="font-size: 12px; font-weight: 500; color: #4a5568;">Kanal 75/65</label><input type="number" id="kanal_75_65" min="0" class="w-full px-3 py-2 rounded-lg border text-sm" style="border-color: #cbd5e0;">
+       </div>
+       <div>
+        <label for="reng" class="block mb-1" style="font-size: 12px; font-weight: 500; color: #4a5568;">Reng</label><input type="number" id="reng" min="0" class="w-full px-3 py-2 rounded-lg border text-sm" style="border-color: #cbd5e0;">
+       </div>
+       <div>
+        <label for="besi_L_30cm" class="block mb-1" style="font-size: 12px; font-weight: 500; color: #4a5568;">Besi L=30cm</label><input type="number" id="besi_L_30cm" min="0" class="w-full px-3 py-2 rounded-lg border text-sm" style="border-color: #cbd5e0;">
+       </div><!-- New Fields -->
+       <div>
+        <label for="kusen_pintu_200x120" class="block mb-1" style="font-size: 12px; font-weight: 500; color: #4a5568;">K.Pintu 200×120</label><input type="number" id="kusen_pintu_200x120" min="0" class="w-full px-3 py-2 rounded-lg border text-sm" style="border-color: #cbd5e0;">
+       </div>
+       <div>
+        <label for="kusen_jendela_100x40" class="block mb-1" style="font-size: 12px; font-weight: 500; color: #4a5568;">K.Jendela 100×40</label><input type="number" id="kusen_jendela_100x40" min="0" class="w-full px-3 py-2 rounded-lg border text-sm" style="border-color: #cbd5e0;">
+       </div>
+       <div>
+        <label for="daun_pintu_200x82" class="block mb-1" style="font-size: 12px; font-weight: 500; color: #4a5568;">D.Pintu 200×82</label><input type="number" id="daun_pintu_200x82" min="0" class="w-full px-3 py-2 rounded-lg border text-sm" style="border-color: #cbd5e0;">
+       </div>
+       <div>
+        <label for="daun_pintu_195x87" class="block mb-1" style="font-size: 12px; font-weight: 500; color: #4a5568;">D.Pintu 195×87</label><input type="number" id="daun_pintu_195x87" min="0" class="w-full px-3 py-2 rounded-lg border text-sm" style="border-color: #cbd5e0;">
+       </div>
+       <div>
+        <label for="daun_jendela_150x42" class="block mb-1" style="font-size: 12px; font-weight: 500; color: #4a5568;">D.Jendela 150×42</label><input type="number" id="daun_jendela_150x42" min="0" class="w-full px-3 py-2 rounded-lg border text-sm" style="border-color: #cbd5e0;">
+       </div>
+       <div>
+        <label for="daun_jendela_139x41" class="block mb-1" style="font-size: 12px; font-weight: 500; color: #4a5568;">D.Jendela 139×41</label><input type="number" id="daun_jendela_139x41" min="0" class="w-full px-3 py-2 rounded-lg border text-sm" style="border-color: #cbd5e0;">
+       </div>
+       <div>
+        <label for="daun_jendela_150x40" class="block mb-1" style="font-size: 12px; font-weight: 500; color: #4a5568;">D.Jendela 150×40</label><input type="number" id="daun_jendela_150x40" min="0" class="w-full px-3 py-2 rounded-lg border text-sm" style="border-color: #cbd5e0;">
+       </div>
+       <div>
+        <label for="daun_pintu_kembar_120x207" class="block mb-1" style="font-size: 12px; font-weight: 500; color: #4a5568;">D.P.Kembar 120×207</label><input type="number" id="daun_pintu_kembar_120x207" min="0" class="w-full px-3 py-2 rounded-lg border text-sm" style="border-color: #cbd5e0;">
+       </div>
+       <div>
+        <label for="seng_plat_pintu_m" class="block mb-1" style="font-size: 12px; font-weight: 500; color: #4a5568;">Seng Plat Pintu (m)</label><input type="number" id="seng_plat_pintu_m" min="0" step="0.1" class="w-full px-3 py-2 rounded-lg border text-sm" style="border-color: #cbd5e0;">
+       </div>
+       <div>
+        <label for="besi_L_40cm" class="block mb-1" style="font-size: 12px; font-weight: 500; color: #4a5568;">Besi L=40cm</label><input type="number" id="besi_L_40cm" min="0" class="w-full px-3 py-2 rounded-lg border text-sm" style="border-color: #cbd5e0;">
+       </div>
+       <div>
+        <label for="kusen_jendela_120x30" class="block mb-1" style="font-size: 12px; font-weight: 500; color: #4a5568;">K.Jendela 120×30</label><input type="number" id="kusen_jendela_120x30" min="0" class="w-full px-3 py-2 rounded-lg border text-sm" style="border-color: #cbd5e0;">
+       </div>
+       <div>
+        <label for="kusen_jendela_80x40" class="block mb-1" style="font-size: 12px; font-weight: 500; color: #4a5568;">K.Jendela 80×40</label><input type="number" id="kusen_jendela_80x40" min="0" class="w-full px-3 py-2 rounded-lg border text-sm" style="border-color: #cbd5e0;">
+       </div>
+       <div>
+        <label for="daun_jendela_120x30" class="block mb-1" style="font-size: 12px; font-weight: 500; color: #4a5568;">D.Jendela 120×30</label><input type="number" id="daun_jendela_120x30" min="0" class="w-full px-3 py-2 rounded-lg border text-sm" style="border-color: #cbd5e0;">
+       </div>
+       <div>
+        <label for="daun_pintu_kembar_200x120" class="block mb-1" style="font-size: 12px; font-weight: 500; color: #4a5568;">D.P.Kembar 200×120</label><input type="number" id="daun_pintu_kembar_200x120" min="0" class="w-full px-3 py-2 rounded-lg border text-sm" style="border-color: #cbd5e0;">
+       </div>
+       <div>
+        <label for="ventilasi_angin" class="block mb-1" style="font-size: 12px; font-weight: 500; color: #4a5568;">Ventilasi Angin</label><input type="number" id="ventilasi_angin" min="0" class="w-full px-3 py-2 rounded-lg border text-sm" style="border-color: #cbd5e0;">
+       </div>
+       <div>
+        <label for="paku_35_4_inch" class="block mb-1" style="font-size: 12px; font-weight: 500; color: #4a5568;">Paku 3,5" &amp; 4"</label><input type="number" id="paku_35_4_inch" min="0" class="w-full px-3 py-2 rounded-lg border text-sm" style="border-color: #cbd5e0;">
+       </div>
+       <div>
+        <label for="spandek_hitam_P3m" class="block mb-1" style="font-size: 12px; font-weight: 500; color: #4a5568;">Spandek Hitam P=3m</label><input type="number" id="spandek_hitam_P3m" min="0" class="w-full px-3 py-2 rounded-lg border text-sm" style="border-color: #cbd5e0;">
+       </div>
+       <div>
+        <label for="paku_3_inch" class="block mb-1" style="font-size: 12px; font-weight: 500; color: #4a5568;">Paku 3"</label><input type="number" id="paku_3_inch" min="0" class="w-full px-3 py-2 rounded-lg border text-sm" style="border-color: #cbd5e0;">
+       </div>
+       <div class="col-span-2 md:col-span-4 lg:col-span-5 flex justify-end mt-2"><button type="submit" id="submitBtn" class="px-6 py-2 rounded-lg font-medium transition-colors text-sm" style="background-color: #4299e1; color: #ffffff;"> Tambah Data </button>
+       </div>
+      </form>
+     </div><!-- Tables Grid -->
+     <div class="grid grid-cols-1 gap-6"><!-- Table 1 -->
+      <div class="rounded-lg overflow-hidden" style="background-color: #ffffff; box-shadow: 0 2px 4px rgba(0,0,0,0.08);">
+       <h3 class="px-4 py-3 font-semibold" style="background-color: #e6f2ff; color: #2d3748; font-size: 15px;">Tabel 1: Material Dasar &amp; Kusen/Daun</h3>
+       <div class="scrollable-table">
+        <table class="w-full text-xs">
+         <thead style="background-color: #edf2f7; position: sticky; top: 0; z-index: 10;">
+          <tr>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">Nama</th>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">Semen</th>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">P.Pasang</th>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">P.Beton</th>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">Batako</th>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">Besi</th>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">KP 200×80</th>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">KJ 120×40</th>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">DP 200×80</th>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">PB (kg)</th>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">PS (kg)</th>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">Bendrat</th>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">Aksi</th>
+          </tr>
+         </thead>
+         <tbody id="tableBody1"></tbody>
+         <tfoot style="background-color: #f7fafc; border-top: 2px solid #e2e8f0; position: sticky; bottom: 0;">
+          <tr>
+           <td class="px-2 py-2 font-bold text-xs" style="color: #2d3748;">Total</td>
+           <td class="px-2 py-2 font-semibold text-xs" style="color: #2d3748;" id="t1_semen">0</td>
+           <td class="px-2 py-2 font-semibold text-xs" style="color: #2d3748;" id="t1_pasir_pasang">0</td>
+           <td class="px-2 py-2 font-semibold text-xs" style="color: #2d3748;" id="t1_pasir_beton">0</td>
+           <td class="px-2 py-2 font-semibold text-xs" style="color: #2d3748;" id="t1_batako">0</td>
+           <td class="px-2 py-2 font-semibold text-xs" style="color: #2d3748;" id="t1_besi">0</td>
+           <td class="px-2 py-2 font-semibold text-xs" style="color: #2d3748;" id="t1_kusen_pintu">0</td>
+           <td class="px-2 py-2 font-semibold text-xs" style="color: #2d3748;" id="t1_kusen_jendela">0</td>
+           <td class="px-2 py-2 font-semibold text-xs" style="color: #2d3748;" id="t1_daun_pintu">0</td>
+           <td class="px-2 py-2 font-semibold text-xs" style="color: #2d3748;" id="t1_paku_biasa">0</td>
+           <td class="px-2 py-2 font-semibold text-xs" style="color: #2d3748;" id="t1_paku_seng">0</td>
+           <td class="px-2 py-2 font-semibold text-xs" style="color: #2d3748;" id="t1_bendrat">0</td>
+           <td></td>
+          </tr>
+         </tfoot>
+        </table>
+       </div>
+      </div><!-- Table 2 -->
+      <div class="rounded-lg overflow-hidden" style="background-color: #ffffff; box-shadow: 0 2px 4px rgba(0,0,0,0.08);">
+       <h3 class="px-4 py-3 font-semibold" style="background-color: #fff5e6; color: #2d3748; font-size: 15px;">Tabel 2: Jendela, Seng &amp; Kayu</h3>
+       <div class="scrollable-table">
+        <table class="w-full text-xs">
+         <thead style="background-color: #edf2f7; position: sticky; top: 0; z-index: 10;">
+          <tr>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">Nama</th>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">DJ 120×40</th>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">S.Fumira</th>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">S.Plat 0.45</th>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">Tehel</th>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">T 50×50</th>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">T 60×60</th>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">K 5/7</th>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">K 5/10</th>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">K 8/10</th>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">B 8</th>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">B 10</th>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">Kanal</th>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">Reng</th>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">B L30</th>
+          </tr>
+         </thead>
+         <tbody id="tableBody2"></tbody>
+         <tfoot style="background-color: #f7fafc; border-top: 2px solid #e2e8f0; position: sticky; bottom: 0;">
+          <tr>
+           <td class="px-2 py-2 font-bold text-xs" style="color: #2d3748;">Total</td>
+           <td class="px-2 py-2 font-semibold text-xs" style="color: #2d3748;" id="t2_daun_jendela">0</td>
+           <td class="px-2 py-2 font-semibold text-xs" style="color: #2d3748;" id="t2_seng_fumira">0</td>
+           <td class="px-2 py-2 font-semibold text-xs" style="color: #2d3748;" id="t2_seng_plat">0</td>
+           <td class="px-2 py-2 font-semibold text-xs" style="color: #2d3748;" id="t2_tehel">0</td>
+           <td class="px-2 py-2 font-semibold text-xs" style="color: #2d3748;" id="t2_kayu_50x50">0</td>
+           <td class="px-2 py-2 font-semibold text-xs" style="color: #2d3748;" id="t2_kayu_60x60">0</td>
+           <td class="px-2 py-2 font-semibold text-xs" style="color: #2d3748;" id="t2_kayu_5_7">0</td>
+           <td class="px-2 py-2 font-semibold text-xs" style="color: #2d3748;" id="t2_kayu_5_10">0</td>
+           <td class="px-2 py-2 font-semibold text-xs" style="color: #2d3748;" id="t2_kayu_8_10">0</td>
+           <td class="px-2 py-2 font-semibold text-xs" style="color: #2d3748;" id="t2_besi_8">0</td>
+           <td class="px-2 py-2 font-semibold text-xs" style="color: #2d3748;" id="t2_besi_10">0</td>
+           <td class="px-2 py-2 font-semibold text-xs" style="color: #2d3748;" id="t2_kanal">0</td>
+           <td class="px-2 py-2 font-semibold text-xs" style="color: #2d3748;" id="t2_reng">0</td>
+           <td class="px-2 py-2 font-semibold text-xs" style="color: #2d3748;" id="t2_besi_L">0</td>
+          </tr>
+         </tfoot>
+        </table>
+       </div>
+      </div><!-- Table 3: New Materials -->
+      <div class="rounded-lg overflow-hidden" style="background-color: #ffffff; box-shadow: 0 2px 4px rgba(0,0,0,0.08);">
+       <h3 class="px-4 py-3 font-semibold" style="background-color: #e6ffe6; color: #2d3748; font-size: 15px;">Tabel 3: Pintu &amp; Jendela Tambahan</h3>
+       <div class="scrollable-table">
+        <table class="w-full text-xs">
+         <thead style="background-color: #edf2f7; position: sticky; top: 0; z-index: 10;">
+          <tr>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">Nama</th>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">KP 200×120</th>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">KJ 100×40</th>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">DP 200×82</th>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">DP 195×87</th>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">DJ 150×42</th>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">DJ 139×41</th>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">DJ 150×40</th>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">DPK 120×207</th>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">SP Pintu (m)</th>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">B L40</th>
+          </tr>
+         </thead>
+         <tbody id="tableBody3"></tbody>
+         <tfoot style="background-color: #f7fafc; border-top: 2px solid #e2e8f0; position: sticky; bottom: 0;">
+          <tr>
+           <td class="px-2 py-2 font-bold text-xs" style="color: #2d3748;">Total</td>
+           <td class="px-2 py-2 font-semibold text-xs" style="color: #2d3748;" id="t3_kp200x120">0</td>
+           <td class="px-2 py-2 font-semibold text-xs" style="color: #2d3748;" id="t3_kj100x40">0</td>
+           <td class="px-2 py-2 font-semibold text-xs" style="color: #2d3748;" id="t3_dp200x82">0</td>
+           <td class="px-2 py-2 font-semibold text-xs" style="color: #2d3748;" id="t3_dp195x87">0</td>
+           <td class="px-2 py-2 font-semibold text-xs" style="color: #2d3748;" id="t3_dj150x42">0</td>
+           <td class="px-2 py-2 font-semibold text-xs" style="color: #2d3748;" id="t3_dj139x41">0</td>
+           <td class="px-2 py-2 font-semibold text-xs" style="color: #2d3748;" id="t3_dj150x40">0</td>
+           <td class="px-2 py-2 font-semibold text-xs" style="color: #2d3748;" id="t3_dpk120x207">0</td>
+           <td class="px-2 py-2 font-semibold text-xs" style="color: #2d3748;" id="t3_sp_pintu">0</td>
+           <td class="px-2 py-2 font-semibold text-xs" style="color: #2d3748;" id="t3_besi_L40">0</td>
+          </tr>
+         </tfoot>
+        </table>
+       </div>
+      </div><!-- Table 4: Additional Materials -->
+      <div class="rounded-lg overflow-hidden" style="background-color: #ffffff; box-shadow: 0 2px 4px rgba(0,0,0,0.08);">
+       <h3 class="px-4 py-3 font-semibold" style="background-color: #fff0f0; color: #2d3748; font-size: 15px;">Tabel 4: Material Pelengkap</h3>
+       <div class="scrollable-table">
+        <table class="w-full text-xs">
+         <thead style="background-color: #edf2f7; position: sticky; top: 0; z-index: 10;">
+          <tr>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">Nama</th>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">KJ 120×30</th>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">KJ 80×40</th>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">DJ 120×30</th>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">DPK 200×120</th>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">Vent. Angin</th>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">Paku 3.5"/4"</th>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">Spandek Hitam</th>
+           <th class="px-2 py-2 text-left" style="font-size: 11px; font-weight: 600; color: #4a5568;">Paku 3"</th>
+          </tr>
+         </thead>
+         <tbody id="tableBody4"></tbody>
+         <tfoot style="background-color: #f7fafc; border-top: 2px solid #e2e8f0; position: sticky; bottom: 0;">
+          <tr>
+           <td class="px-2 py-2 font-bold text-xs" style="color: #2d3748;">Total</td>
+           <td class="px-2 py-2 font-semibold text-xs" style="color: #2d3748;" id="t4_kj120x30">0</td>
+           <td class="px-2 py-2 font-semibold text-xs" style="color: #2d3748;" id="t4_kj80x40">0</td>
+           <td class="px-2 py-2 font-semibold text-xs" style="color: #2d3748;" id="t4_dj120x30">0</td>
+           <td class="px-2 py-2 font-semibold text-xs" style="color: #2d3748;" id="t4_dpk200x120">0</td>
+           <td class="px-2 py-2 font-semibold text-xs" style="color: #2d3748;" id="t4_vent_angin">0</td>
+           <td class="px-2 py-2 font-semibold text-xs" style="color: #2d3748;" id="t4_paku354">0</td>
+           <td class="px-2 py-2 font-semibold text-xs" style="color: #2d3748;" id="t4_spandek">0</td>
+           <td class="px-2 py-2 font-semibold text-xs" style="color: #2d3748;" id="t4_paku3">0</td>
+          </tr>
+         </tfoot>
+        </table>
+       </div>
+      </div>
+     </div><!-- Limit Warning -->
+     <div id="limitWarning" class="mt-4 p-4 rounded-lg hidden" style="background-color: #fff3cd; border-left: 4px solid #ffc107;">
+      <p style="font-size: 13px; font-weight: 500; color: #856404;">Batas maksimum 999 data telah tercapai. Hapus beberapa data untuk menambahkan yang baru.</p>
+     </div>
+    </div>
+   </div>
+  </div>
+  <script>
+    const defaultConfig = {
+      app_title: "Tracker Bahan Bangunan Lengkap",
+      label_nama: "Nama",
+      total_label: "Total",
+      primary_color: "#4299e1",
+      background_color: "#f0f4f8",
+      surface_color: "#ffffff",
+      text_color: "#2d3748",
+      secondary_action_color: "#e53e3e"
+    };
+
+    let allRecords = [];
+
+    const dataHandler = {
+      onDataChanged(data) {
+        allRecords = data;
+        renderAllTables();
+        updateAllTotals();
+      }
+    };
+
+    async function initializeApp() {
+      if (window.dataSdk) {
+        const initResult = await window.dataSdk.init(dataHandler);
+        if (!initResult.isOk) {
+          console.error("Failed to initialize data SDK");
+        }
+      }
+
+      if (window.elementSdk) {
+        await window.elementSdk.init({
+          defaultConfig,
+          onConfigChange: async (config) => {
+            document.getElementById('appTitle').textContent = config.app_title || defaultConfig.app_title;
+            document.getElementById('submitBtn').style.backgroundColor = config.primary_color || defaultConfig.primary_color;
+            document.querySelector('body > div').style.backgroundColor = config.background_color || defaultConfig.background_color;
+            
+            const surfaces = document.querySelectorAll('.mb-6.p-5, .rounded-lg.overflow-hidden');
+            surfaces.forEach(el => {
+              el.style.backgroundColor = config.surface_color || defaultConfig.surface_color;
+            });
+            
+            document.querySelectorAll('h1, h2, h3, th, td, label, p').forEach(el => {
+              el.style.color = config.text_color || defaultConfig.text_color;
+            });
+            
+            document.querySelectorAll('.deleteBtn').forEach(btn => {
+              btn.style.backgroundColor = config.secondary_action_color || defaultConfig.secondary_action_color;
+            });
+          },
+          mapToCapabilities: (config) => ({
+            recolorables: [
+              {
+                get: () => config.background_color || defaultConfig.background_color,
+                set: (value) => {
+                  config.background_color = value;
+                  window.elementSdk.setConfig({ background_color: value });
+                }
+              },
+              {
+                get: () => config.surface_color || defaultConfig.surface_color,
+                set: (value) => {
+                  config.surface_color = value;
+                  window.elementSdk.setConfig({ surface_color: value });
+                }
+              },
+              {
+                get: () => config.text_color || defaultConfig.text_color,
+                set: (value) => {
+                  config.text_color = value;
+                  window.elementSdk.setConfig({ text_color: value });
+                }
+              },
+              {
+                get: () => config.primary_color || defaultConfig.primary_color,
+                set: (value) => {
+                  config.primary_color = value;
+                  window.elementSdk.setConfig({ primary_color: value });
+                }
+              },
+              {
+                get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
+                set: (value) => {
+                  config.secondary_action_color = value;
+                  window.elementSdk.setConfig({ secondary_action_color: value });
+                }
+              }
+            ],
+            borderables: [],
+            fontEditable: undefined,
+            fontSizeable: undefined
+          }),
+          mapToEditPanelValues: (config) => new Map([
+            ["app_title", config.app_title || defaultConfig.app_title],
+            ["label_nama", config.label_nama || defaultConfig.label_nama],
+            ["total_label", config.total_label || defaultConfig.total_label]
+          ])
+        });
+      }
+    }
+
+    function renderAllTables() {
+      renderTable1();
+      renderTable2();
+      renderTable3();
+      renderTable4();
+    }
+
+    function renderTable1() {
+      const tbody = document.getElementById('tableBody1');
+      const existingRows = new Map([...tbody.children].map(row => [row.dataset.recordId, row]));
+
+      allRecords.forEach(record => {
+        if (existingRows.has(record.__backendId)) {
+          updateRow1(existingRows.get(record.__backendId), record);
+          existingRows.delete(record.__backendId);
+        } else {
+          tbody.appendChild(createRow1(record));
+        }
+      });
+
+      existingRows.forEach(row => row.remove());
+    }
+
+    function createRow1(record) {
+      const tr = document.createElement('tr');
+      tr.dataset.recordId = record.__backendId;
+      tr.style.borderBottom = '1px solid #e2e8f0';
+      tr.innerHTML = `
+        <td class="px-2 py-2 text-xs" style="color: #2d3748;">${record.nama || ''}</td>
+        <td class="px-2 py-2 text-xs" style="color: #4a5568;">${record.semen || 0}</td>
+        <td class="px-2 py-2 text-xs" style="color: #4a5568;">${record.pasir_pasang || 0}</td>
+        <td class="px-2 py-2 text-xs" style="color: #4a5568;">${record.pasir_beton || 0}</td>
+        <td class="px-2 py-2 text-xs" style="color: #4a5568;">${record.batako || 0}</td>
+        <td class="px-2 py-2 text-xs" style="color: #4a5568;">${record.besi || 0}</td>
+        <td class="px-2 py-2 text-xs" style="color: #4a5568;">${record.kusen_pintu_200x80 || 0}</td>
+        <td class="px-2 py-2 text-xs" style="color: #4a5568;">${record.kusen_jendela_120x40 || 0}</td>
+        <td class="px-2 py-2 text-xs" style="color: #4a5568;">${record.daun_pintu_200x80 || 0}</td>
+        <td class="px-2 py-2 text-xs" style="color: #4a5568;">${record.paku_biasa_kg || 0}</td>
+        <td class="px-2 py-2 text-xs" style="color: #4a5568;">${record.paku_seng_kg || 0}</td>
+        <td class="px-2 py-2 text-xs" style="color: #4a5568;">${record.bendrat_kg || 0}</td>
+        <td class="px-2 py-2">
+          <button class="deleteBtn px-2 py-1 rounded text-white font-medium transition-colors text-xs" style="background-color: #e53e3e;">Hapus</button>
+        </td>
+      `;
+      
+      const deleteBtn = tr.querySelector('.deleteBtn');
+      deleteBtn.addEventListener('click', () => deleteRecord(record));
+      
+      return tr;
+    }
+
+    function updateRow1(row, record) {
+      const cells = row.querySelectorAll('td');
+      cells[0].textContent = record.nama || '';
+      cells[1].textContent = record.semen || 0;
+      cells[2].textContent = record.pasir_pasang || 0;
+      cells[3].textContent = record.pasir_beton || 0;
+      cells[4].textContent = record.batako || 0;
+      cells[5].textContent = record.besi || 0;
+      cells[6].textContent = record.kusen_pintu_200x80 || 0;
+      cells[7].textContent = record.kusen_jendela_120x40 || 0;
+      cells[8].textContent = record.daun_pintu_200x80 || 0;
+      cells[9].textContent = record.paku_biasa_kg || 0;
+      cells[10].textContent = record.paku_seng_kg || 0;
+      cells[11].textContent = record.bendrat_kg || 0;
+    }
+
+    function renderTable2() {
+      const tbody = document.getElementById('tableBody2');
+      const existingRows = new Map([...tbody.children].map(row => [row.dataset.recordId, row]));
+
+      allRecords.forEach(record => {
+        if (existingRows.has(record.__backendId)) {
+          updateRow2(existingRows.get(record.__backendId), record);
+          existingRows.delete(record.__backendId);
+        } else {
+          tbody.appendChild(createRow2(record));
+        }
+      });
+
+      existingRows.forEach(row => row.remove());
+    }
+
+    function createRow2(record) {
+      const tr = document.createElement('tr');
+      tr.dataset.recordId = record.__backendId;
+      tr.style.borderBottom = '1px solid #e2e8f0';
+      tr.innerHTML = `
+        <td class="px-2 py-2 text-xs" style="color: #2d3748;">${record.nama || ''}</td>
+        <td class="px-2 py-2 text-xs" style="color: #4a5568;">${record.daun_jendela_120x40 || 0}</td>
+        <td class="px-2 py-2 text-xs" style="color: #4a5568;">${record.seng_fumira || 0}</td>
+        <td class="px-2 py-2 text-xs" style="color: #4a5568;">${record.seng_plat_045 || 0}</td>
+        <td class="px-2 py-2 text-xs" style="color: #4a5568;">${record.tehel || 0}</td>
+        <td class="px-2 py-2 text-xs" style="color: #4a5568;">${record.kayu_50x50 || 0}</td>
+        <td class="px-2 py-2 text-xs" style="color: #4a5568;">${record.kayu_60x60 || 0}</td>
+        <td class="px-2 py-2 text-xs" style="color: #4a5568;">${record.kayu_5_7 || 0}</td>
+        <td class="px-2 py-2 text-xs" style="color: #4a5568;">${record.kayu_5_10 || 0}</td>
+        <td class="px-2 py-2 text-xs" style="color: #4a5568;">${record.kayu_8_10 || 0}</td>
+        <td class="px-2 py-2 text-xs" style="color: #4a5568;">${record.besi_8 || 0}</td>
+        <td class="px-2 py-2 text-xs" style="color: #4a5568;">${record.besi_10 || 0}</td>
+        <td class="px-2 py-2 text-xs" style="color: #4a5568;">${record.kanal_75_65 || 0}</td>
+        <td class="px-2 py-2 text-xs" style="color: #4a5568;">${record.reng || 0}</td>
+        <td class="px-2 py-2 text-xs" style="color: #4a5568;">${record.besi_L_30cm || 0}</td>
+      `;
+      
+      return tr;
+    }
+
+    function updateRow2(row, record) {
+      const cells = row.querySelectorAll('td');
+      cells[0].textContent = record.nama || '';
+      cells[1].textContent = record.daun_jendela_120x40 || 0;
+      cells[2].textContent = record.seng_fumira || 0;
+      cells[3].textContent = record.seng_plat_045 || 0;
+      cells[4].textContent = record.tehel || 0;
+      cells[5].textContent = record.kayu_50x50 || 0;
+      cells[6].textContent = record.kayu_60x60 || 0;
+      cells[7].textContent = record.kayu_5_7 || 0;
+      cells[8].textContent = record.kayu_5_10 || 0;
+      cells[9].textContent = record.kayu_8_10 || 0;
+      cells[10].textContent = record.besi_8 || 0;
+      cells[11].textContent = record.besi_10 || 0;
+      cells[12].textContent = record.kanal_75_65 || 0;
+      cells[13].textContent = record.reng || 0;
+      cells[14].textContent = record.besi_L_30cm || 0;
+    }
+
+    function renderTable3() {
+      const tbody = document.getElementById('tableBody3');
+      const existingRows = new Map([...tbody.children].map(row => [row.dataset.recordId, row]));
+
+      allRecords.forEach(record => {
+        if (existingRows.has(record.__backendId)) {
+          updateRow3(existingRows.get(record.__backendId), record);
+          existingRows.delete(record.__backendId);
+        } else {
+          tbody.appendChild(createRow3(record));
+        }
+      });
+
+      existingRows.forEach(row => row.remove());
+    }
+
+    function createRow3(record) {
+      const tr = document.createElement('tr');
+      tr.dataset.recordId = record.__backendId;
+      tr.style.borderBottom = '1px solid #e2e8f0';
+      tr.innerHTML = `
+        <td class="px-2 py-2 text-xs" style="color: #2d3748;">${record.nama || ''}</td>
+        <td class="px-2 py-2 text-xs" style="color: #4a5568;">${record.kusen_pintu_200x120 || 0}</td>
+        <td class="px-2 py-2 text-xs" style="color: #4a5568;">${record.kusen_jendela_100x40 || 0}</td>
+        <td class="px-2 py-2 text-xs" style="color: #4a5568;">${record.daun_pintu_200x82 || 0}</td>
+        <td class="px-2 py-2 text-xs" style="color: #4a5568;">${record.daun_pintu_195x87 || 0}</td>
+        <td class="px-2 py-2 text-xs" style="color: #4a5568;">${record.daun_jendela_150x42 || 0}</td>
+        <td class="px-2 py-2 text-xs" style="color: #4a5568;">${record.daun_jendela_139x41 || 0}</td>
+        <td class="px-2 py-2 text-xs" style="color: #4a5568;">${record.daun_jendela_150x40 || 0}</td>
+        <td class="px-2 py-2 text-xs" style="color: #4a5568;">${record.daun_pintu_kembar_120x207 || 0}</td>
+        <td class="px-2 py-2 text-xs" style="color: #4a5568;">${record.seng_plat_pintu_m || 0}</td>
+        <td class="px-2 py-2 text-xs" style="color: #4a5568;">${record.besi_L_40cm || 0}</td>
+      `;
+      
+      return tr;
+    }
+
+    function updateRow3(row, record) {
+      const cells = row.querySelectorAll('td');
+      cells[0].textContent = record.nama || '';
+      cells[1].textContent = record.kusen_pintu_200x120 || 0;
+      cells[2].textContent = record.kusen_jendela_100x40 || 0;
+      cells[3].textContent = record.daun_pintu_200x82 || 0;
+      cells[4].textContent = record.daun_pintu_195x87 || 0;
+      cells[5].textContent = record.daun_jendela_150x42 || 0;
+      cells[6].textContent = record.daun_jendela_139x41 || 0;
+      cells[7].textContent = record.daun_jendela_150x40 || 0;
+      cells[8].textContent = record.daun_pintu_kembar_120x207 || 0;
+      cells[9].textContent = record.seng_plat_pintu_m || 0;
+      cells[10].textContent = record.besi_L_40cm || 0;
+    }
+
+    function renderTable4() {
+      const tbody = document.getElementById('tableBody4');
+      const existingRows = new Map([...tbody.children].map(row => [row.dataset.recordId, row]));
+
+      allRecords.forEach(record => {
+        if (existingRows.has(record.__backendId)) {
+          updateRow4(existingRows.get(record.__backendId), record);
+          existingRows.delete(record.__backendId);
+        } else {
+          tbody.appendChild(createRow4(record));
+        }
+      });
+
+      existingRows.forEach(row => row.remove());
+    }
+
+    function createRow4(record) {
+      const tr = document.createElement('tr');
+      tr.dataset.recordId = record.__backendId;
+      tr.style.borderBottom = '1px solid #e2e8f0';
+      tr.innerHTML = `
+        <td class="px-2 py-2 text-xs" style="color: #2d3748;">${record.nama || ''}</td>
+        <td class="px-2 py-2 text-xs" style="color: #4a5568;">${record.kusen_jendela_120x30 || 0}</td>
+        <td class="px-2 py-2 text-xs" style="color: #4a5568;">${record.kusen_jendela_80x40 || 0}</td>
+        <td class="px-2 py-2 text-xs" style="color: #4a5568;">${record.daun_jendela_120x30 || 0}</td>
+        <td class="px-2 py-2 text-xs" style="color: #4a5568;">${record.daun_pintu_kembar_200x120 || 0}</td>
+        <td class="px-2 py-2 text-xs" style="color: #4a5568;">${record.ventilasi_angin || 0}</td>
+        <td class="px-2 py-2 text-xs" style="color: #4a5568;">${record.paku_35_4_inch || 0}</td>
+        <td class="px-2 py-2 text-xs" style="color: #4a5568;">${record.spandek_hitam_P3m || 0}</td>
+        <td class="px-2 py-2 text-xs" style="color: #4a5568;">${record.paku_3_inch || 0}</td>
+      `;
+      
+      return tr;
+    }
+
+    function updateRow4(row, record) {
+      const cells = row.querySelectorAll('td');
+      cells[0].textContent = record.nama || '';
+      cells[1].textContent = record.kusen_jendela_120x30 || 0;
+      cells[2].textContent = record.kusen_jendela_80x40 || 0;
+      cells[3].textContent = record.daun_jendela_120x30 || 0;
+      cells[4].textContent = record.daun_pintu_kembar_200x120 || 0;
+      cells[5].textContent = record.ventilasi_angin || 0;
+      cells[6].textContent = record.paku_35_4_inch || 0;
+      cells[7].textContent = record.spandek_hitam_P3m || 0;
+      cells[8].textContent = record.paku_3_inch || 0;
+    }
+
+    function updateAllTotals() {
+      const totals = {};
+      const fields = ['semen','pasir_pasang','pasir_beton','batako','besi','kusen_pintu_200x80','kusen_jendela_120x40','daun_pintu_200x80','paku_biasa_kg','paku_seng_kg','bendrat_kg','daun_jendela_120x40','seng_fumira','seng_plat_045','tehel','kayu_50x50','kayu_60x60','kayu_5_7','kayu_5_10','kayu_8_10','besi_8','besi_10','kanal_75_65','reng','besi_L_30cm','kusen_pintu_200x120','kusen_jendela_100x40','daun_pintu_200x82','daun_pintu_195x87','daun_jendela_150x42','daun_jendela_139x41','daun_jendela_150x40','daun_pintu_kembar_120x207','seng_plat_pintu_m','besi_L_40cm','kusen_jendela_120x30','kusen_jendela_80x40','daun_jendela_120x30','daun_pintu_kembar_200x120','ventilasi_angin','paku_35_4_inch','spandek_hitam_P3m','paku_3_inch'];
+      
+      fields.forEach(f => totals[f] = 0);
+
+      allRecords.forEach(record => {
+        fields.forEach(f => {
+          totals[f] += Number(record[f]) || 0;
+        });
+      });
+
+      // Table 1
+      document.getElementById('t1_semen').textContent = totals.semen;
+      document.getElementById('t1_pasir_pasang').textContent = totals.pasir_pasang.toFixed(2);
+      document.getElementById('t1_pasir_beton').textContent = totals.pasir_beton.toFixed(2);
+      document.getElementById('t1_batako').textContent = totals.batako;
+      document.getElementById('t1_besi').textContent = totals.besi;
+      document.getElementById('t1_kusen_pintu').textContent = totals.kusen_pintu_200x80;
+      document.getElementById('t1_kusen_jendela').textContent = totals.kusen_jendela_120x40;
+      document.getElementById('t1_daun_pintu').textContent = totals.daun_pintu_200x80;
+      document.getElementById('t1_paku_biasa').textContent = totals.paku_biasa_kg.toFixed(1);
+      document.getElementById('t1_paku_seng').textContent = totals.paku_seng_kg.toFixed(1);
+      document.getElementById('t1_bendrat').textContent = totals.bendrat_kg.toFixed(1);
+
+      // Table 2
+      document.getElementById('t2_daun_jendela').textContent = totals.daun_jendela_120x40;
+      document.getElementById('t2_seng_fumira').textContent = totals.seng_fumira;
+      document.getElementById('t2_seng_plat').textContent = totals.seng_plat_045;
+      document.getElementById('t2_tehel').textContent = totals.tehel;
+      document.getElementById('t2_kayu_50x50').textContent = totals.kayu_50x50;
+      document.getElementById('t2_kayu_60x60').textContent = totals.kayu_60x60;
+      document.getElementById('t2_kayu_5_7').textContent = totals.kayu_5_7;
+      document.getElementById('t2_kayu_5_10').textContent = totals.kayu_5_10;
+      document.getElementById('t2_kayu_8_10').textContent = totals.kayu_8_10;
+      document.getElementById('t2_besi_8').textContent = totals.besi_8;
+      document.getElementById('t2_besi_10').textContent = totals.besi_10;
+      document.getElementById('t2_kanal').textContent = totals.kanal_75_65;
+      document.getElementById('t2_reng').textContent = totals.reng;
+      document.getElementById('t2_besi_L').textContent = totals.besi_L_30cm;
+
+      // Table 3
+      document.getElementById('t3_kp200x120').textContent = totals.kusen_pintu_200x120;
+      document.getElementById('t3_kj100x40').textContent = totals.kusen_jendela_100x40;
+      document.getElementById('t3_dp200x82').textContent = totals.daun_pintu_200x82;
+      document.getElementById('t3_dp195x87').textContent = totals.daun_pintu_195x87;
+      document.getElementById('t3_dj150x42').textContent = totals.daun_jendela_150x42;
+      document.getElementById('t3_dj139x41').textContent = totals.daun_jendela_139x41;
+      document.getElementById('t3_dj150x40').textContent = totals.daun_jendela_150x40;
+      document.getElementById('t3_dpk120x207').textContent = totals.daun_pintu_kembar_120x207;
+      document.getElementById('t3_sp_pintu').textContent = totals.seng_plat_pintu_m.toFixed(1);
+      document.getElementById('t3_besi_L40').textContent = totals.besi_L_40cm;
+
+      // Table 4
+      document.getElementById('t4_kj120x30').textContent = totals.kusen_jendela_120x30;
+      document.getElementById('t4_kj80x40').textContent = totals.kusen_jendela_80x40;
+      document.getElementById('t4_dj120x30').textContent = totals.daun_jendela_120x30;
+      document.getElementById('t4_dpk200x120').textContent = totals.daun_pintu_kembar_200x120;
+      document.getElementById('t4_vent_angin').textContent = totals.ventilasi_angin;
+      document.getElementById('t4_paku354').textContent = totals.paku_35_4_inch;
+      document.getElementById('t4_spandek').textContent = totals.spandek_hitam_P3m;
+      document.getElementById('t4_paku3').textContent = totals.paku_3_inch;
+    }
+
+    async function deleteRecord(record) {
+      const deleteBtn = event.target;
+      deleteBtn.disabled = true;
+      deleteBtn.textContent = 'Hapus...';
+      
+      if (window.dataSdk) {
+        const result = await window.dataSdk.delete(record);
+        if (!result.isOk) {
+          deleteBtn.disabled = false;
+          deleteBtn.textContent = 'Hapus';
+        }
+      }
+    }
+
+    document.getElementById('addForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      if (allRecords.length >= 999) {
+        document.getElementById('limitWarning').classList.remove('hidden');
+        return;
+      }
+      
+      document.getElementById('limitWarning').classList.add('hidden');
+      
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Menambahkan...';
+      
+      const newRecord = {
+        id: Date.now().toString(),
+        nama: document.getElementById('nama').value,
+        semen: Number(document.getElementById('semen').value) || 0,
+        pasir_pasang: Number(document.getElementById('pasir_pasang').value) || 0,
+        pasir_beton: Number(document.getElementById('pasir_beton').value) || 0,
+        batako: Number(document.getElementById('batako').value) || 0,
+        besi: Number(document.getElementById('besi').value) || 0,
+        kusen_pintu_200x80: Number(document.getElementById('kusen_pintu_200x80').value) || 0,
+        kusen_jendela_120x40: Number(document.getElementById('kusen_jendela_120x40').value) || 0,
+        daun_pintu_200x80: Number(document.getElementById('daun_pintu_200x80').value) || 0,
+        paku_biasa_kg: Number(document.getElementById('paku_biasa').value) || 0,
+        paku_seng_kg: Number(document.getElementById('paku_seng').value) || 0,
+        bendrat_kg: Number(document.getElementById('bendrat').value) || 0,
+        daun_jendela_120x40: Number(document.getElementById('daun_jendela_120x40').value) || 0,
+        seng_fumira: Number(document.getElementById('seng_fumira').value) || 0,
+        seng_plat_045: Number(document.getElementById('seng_plat_045').value) || 0,
+        tehel: Number(document.getElementById('tehel').value) || 0,
+        kayu_50x50: Number(document.getElementById('kayu_50x50').value) || 0,
+        kayu_60x60: Number(document.getElementById('kayu_60x60').value) || 0,
+        kayu_5_7: Number(document.getElementById('kayu_5_7').value) || 0,
+        kayu_5_10: Number(document.getElementById('kayu_5_10').value) || 0,
+        kayu_8_10: Number(document.getElementById('kayu_8_10').value) || 0,
+        besi_8: Number(document.getElementById('besi_8').value) || 0,
+        besi_10: Number(document.getElementById('besi_10').value) || 0,
+        kanal_75_65: Number(document.getElementById('kanal_75_65').value) || 0,
+        reng: Number(document.getElementById('reng').value) || 0,
+        besi_L_30cm: Number(document.getElementById('besi_L_30cm').value) || 0,
+        kusen_pintu_200x120: Number(document.getElementById('kusen_pintu_200x120').value) || 0,
+        kusen_jendela_100x40: Number(document.getElementById('kusen_jendela_100x40').value) || 0,
+        daun_pintu_200x82: Number(document.getElementById('daun_pintu_200x82').value) || 0,
+        daun_pintu_195x87: Number(document.getElementById('daun_pintu_195x87').value) || 0,
+        daun_jendela_150x42: Number(document.getElementById('daun_jendela_150x42').value) || 0,
+        daun_jendela_139x41: Number(document.getElementById('daun_jendela_139x41').value) || 0,
+        daun_jendela_150x40: Number(document.getElementById('daun_jendela_150x40').value) || 0,
+        daun_pintu_kembar_120x207: Number(document.getElementById('daun_pintu_kembar_120x207').value) || 0,
+        seng_plat_pintu_m: Number(document.getElementById('seng_plat_pintu_m').value) || 0,
+        besi_L_40cm: Number(document.getElementById('besi_L_40cm').value) || 0,
+        kusen_jendela_120x30: Number(document.getElementById('kusen_jendela_120x30').value) || 0,
+        kusen_jendela_80x40: Number(document.getElementById('kusen_jendela_80x40').value) || 0,
+        daun_jendela_120x30: Number(document.getElementById('daun_jendela_120x30').value) || 0,
+        daun_pintu_kembar_200x120: Number(document.getElementById('daun_pintu_kembar_200x120').value) || 0,
+        ventilasi_angin: Number(document.getElementById('ventilasi_angin').value) || 0,
+        paku_35_4_inch: Number(document.getElementById('paku_35_4_inch').value) || 0,
+        spandek_hitam_P3m: Number(document.getElementById('spandek_hitam_P3m').value) || 0,
+        paku_3_inch: Number(document.getElementById('paku_3_inch').value) || 0
+      };
+      
+      if (window.dataSdk) {
+        const result = await window.dataSdk.create(newRecord);
+        if (result.isOk) {
+          document.getElementById('addForm').reset();
+        }
+      }
+      
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Tambah Data';
+    });
+
+    initializeApp();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a4e94109543ce63',t:'MTc2NDIxNDU1Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

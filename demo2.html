@@ -1,0 +1,1474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasi Modern</title>
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1757245484/SYAMDIGITAL-LOGO-2025_mmpllg.png">
+    <link rel="shortcut icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1757245484/SYAMDIGITAL-LOGO-2025_mmpllg.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .header_nav {
+            background: white;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-image {
+            height: 40px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .brand-name {
+            font-size: 24px;
+            font-weight: 700;
+            color: #333;
+            background: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #f5576c, #4facfe, #00f2fe);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 3s ease-in-out infinite;
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .header-button {
+            background: none;
+            border: none;
+            padding: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+        }
+
+        .header-button:hover {
+            background: #f8f9fa;
+        }
+
+        .header-button-icon {
+            width: 22px;
+            height: 22px;
+            fill: #333;
+        }
+
+        .header-button-arrow {
+            width: 0;
+            height: 0;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-top: 4px solid #666;
+            transition: transform 0.3s ease;
+        }
+
+        .header-button.active .header-button-arrow {
+            transform: rotate(180deg);
+        }
+
+        .main-menu-container {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-20px) scale(0.95);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            transform-origin: top center;
+        }
+
+        .main-menu-container.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        .main-menu {
+            list-style: none;
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .main-menu_item {
+            position: relative;
+            flex: 1;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+
+        .main-menu-container.active .main-menu_item {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .main-menu-container.active .main-menu_item:nth-child(1) {
+            transition-delay: 0.1s;
+        }
+
+        .main-menu-container.active .main-menu_item:nth-child(2) {
+            transition-delay: 0.2s;
+        }
+
+        .main-menu-container.active .main-menu_item:nth-child(3) {
+            transition-delay: 0.3s;
+        }
+
+        .main-menu-container.active .main-menu_item:nth-child(4) {
+            transition-delay: 0.4s;
+        }
+
+        .main-menu_link {
+            text-decoration: none;
+            color: #333;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 8px;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-menu_link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+            z-index: 2;
+        }
+
+        .main-menu_link::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 15%, #45b7d1 30%, #96ceb4 45%, #ffeaa7 60%, #fd79a8 75%, #6c5ce7 90%, #a29bfe 100%);
+            background-size: 400% 400%;
+            opacity: 0;
+            transition: all 0.4s ease;
+            z-index: 1;
+            animation: gradientFlow 3s ease-in-out infinite;
+        }
+
+        .main-menu_link:hover {
+            color: white;
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.6), 0 0 30px rgba(78, 205, 196, 0.4);
+            text-shadow: 0 3px 6px rgba(0, 0, 0, 0.8), 0 1px 3px rgba(0, 0, 0, 0.9);
+            font-weight: 600;
+        }
+
+        .main-menu_link:hover::before {
+            left: 100%;
+        }
+
+        .main-menu_link:hover::after {
+            opacity: 1;
+        }
+
+        .main-menu_link:active {
+            transform: translateY(-1px) scale(0.98);
+        }
+
+        .main-menu_link-text {
+            position: relative;
+            z-index: 3;
+        }
+
+        .main-menu_link-arrow {
+            position: relative;
+            z-index: 3;
+        }
+
+        @keyframes gradientFlow {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .main-menu_link-arrow {
+            width: 0;
+            height: 0;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-top: 4px solid #999;
+        }
+
+        .main-menu-columns {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid #eee;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-15px) rotateX(-10deg);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transform-origin: top center;
+            z-index: 100;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border-radius: 0 0 12px 12px;
+        }
+
+        .main-menu_item:hover .main-menu-columns {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) rotateX(0deg);
+        }
+
+        .main-menu-column {
+            padding: 20px;
+        }
+
+        .main-menu_inner {
+            list-style: none;
+        }
+
+        .main-menu_inner .main-menu_item {
+            margin-bottom: 10px;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.3s ease;
+        }
+
+        .main-menu_item:hover .main-menu_inner .main-menu_item {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .main-menu_item:hover .main-menu_inner .main-menu_item:nth-child(1) {
+            transition-delay: 0.1s;
+        }
+
+        .main-menu_item:hover .main-menu_inner .main-menu_item:nth-child(2) {
+            transition-delay: 0.15s;
+        }
+
+        .main-menu_item:hover .main-menu_inner .main-menu_item:nth-child(3) {
+            transition-delay: 0.2s;
+        }
+
+        .main-menu_item:hover .main-menu_inner .main-menu_item:nth-child(4) {
+            transition-delay: 0.25s;
+        }
+
+        .main-menu_inner .main-menu_link {
+            padding: 10px 15px;
+            font-size: 14px;
+            font-weight: normal;
+        }
+
+        .main-menu_inner .main-menu_link::after {
+            background: linear-gradient(135deg, #00b894 0%, #00cec9 20%, #0984e3 40%, #6c5ce7 60%, #fd79a8 80%, #fdcb6e 100%);
+            background-size: 300% 300%;
+        }
+
+        .main-menu_inner .main-menu_link:hover {
+            color: white;
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 0 6px 20px rgba(0, 184, 148, 0.5), 0 0 25px rgba(0, 206, 201, 0.3);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8), 0 1px 2px rgba(0, 0, 0, 0.9);
+            font-weight: 600;
+        }
+
+        .main-menu_link-icon {
+            width: 20px;
+            height: 20px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            margin-right: 10px;
+            border-radius: 4px;
+        }
+
+        .level-3 .main-menu_link {
+            display: flex;
+            align-items: center;
+            padding: 8px 15px;
+        }
+
+        .level-3 .main-menu_link::after {
+            background: linear-gradient(135deg, #e17055 0%, #00b894 20%, #0984e3 40%, #6c5ce7 60%, #fd79a8 80%, #fdcb6e 100%);
+            background-size: 350% 350%;
+        }
+
+        .level-3 .main-menu_link:hover {
+            color: white;
+            transform: translateY(-1px) scale(1.005);
+            box-shadow: 0 4px 15px rgba(225, 112, 85, 0.5), 0 0 20px rgba(0, 184, 148, 0.3);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8), 0 1px 2px rgba(0, 0, 0, 0.9);
+            font-weight: 600;
+        }
+
+        .level-3 .main-menu_link-text {
+            margin-left: 10px;
+        }
+
+        /* Demo content */
+        .demo-content {
+            padding: 60px 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .demo-content h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .demo-content p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* Product Cards Styling */
+        .products-section {
+            background: white;
+            padding: 60px 20px;
+        }
+
+        .products-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 50px;
+            font-weight: 600;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .product-container-link {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid #f0f0f0;
+        }
+
+        .product-container-link:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        }
+
+        .product-grid-main-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .product-image-wrapper {
+            position: relative;
+            overflow: hidden;
+            height: 200px;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .product-image-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .product-container-link:hover .product-image {
+            transform: scale(1.05);
+        }
+
+        .product-details {
+            padding: 20px;
+        }
+
+        .product-name {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .product-name-icon {
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .product-name-title {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .product-name-title-link {
+            color: #333;
+        }
+
+        .product-name-title-text {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .product-info {
+            margin-bottom: 20px;
+        }
+
+        .product-info-line {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .rating-stars {
+            color: #ffc107;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+
+        .product-price {
+            font-size: 18px;
+            font-weight: 700;
+            background: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #f5576c, #4facfe, #00f2fe);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: priceGradientShift 3s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-price::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+            animation: lightning 2s infinite;
+        }
+
+        @keyframes priceGradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        @keyframes lightning {
+            0% {
+                left: -100%;
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                left: 100%;
+                opacity: 0;
+            }
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            width: 100%;
+            font-size: 14px;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+            animation: btnPulse 0.6s ease-out;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn:active {
+            transform: translateY(-1px) scale(0.98);
+            animation: btnRipple 0.4s ease-out;
+        }
+
+        @keyframes btnPulse {
+            0% {
+                box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+            }
+            50% {
+                box-shadow: 0 12px 35px rgba(102, 126, 234, 0.7), 0 0 0 10px rgba(102, 126, 234, 0.1);
+            }
+            100% {
+                box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+            }
+        }
+
+        @keyframes btnRipple {
+            0% {
+                box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5), 0 0 0 0 rgba(102, 126, 234, 0.7);
+            }
+            100% {
+                box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5), 0 0 0 20px rgba(102, 126, 234, 0);
+            }
+        }
+
+        /* Floating WhatsApp Button */
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
+            z-index: 1000;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            animation: whatsappFloat 3s ease-in-out infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 12px 35px rgba(37, 211, 102, 0.6);
+            background: linear-gradient(135deg, #128c7e 0%, #25d366 100%);
+        }
+
+        .whatsapp-float::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            background: linear-gradient(45deg, #25d366, #128c7e, #25d366);
+            border-radius: 50%;
+            z-index: -1;
+            animation: whatsappGlow 2s linear infinite;
+            opacity: 0.7;
+        }
+
+        .whatsapp-float::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(37, 211, 102, 0.3) 0%, transparent 70%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -2;
+            animation: whatsappPulse 2s ease-in-out infinite;
+        }
+
+        .whatsapp-icon {
+            width: 32px;
+            height: 32px;
+            fill: currentColor;
+            animation: whatsappBounce 2s ease-in-out infinite;
+        }
+
+        @keyframes whatsappFloat {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            25% {
+                transform: translateY(-10px) rotate(2deg);
+            }
+            50% {
+                transform: translateY(-5px) rotate(-1deg);
+            }
+            75% {
+                transform: translateY(-15px) rotate(1deg);
+            }
+        }
+
+        @keyframes whatsappGlow {
+            0% {
+                transform: rotate(0deg) scale(1);
+                opacity: 0.7;
+            }
+            50% {
+                transform: rotate(180deg) scale(1.1);
+                opacity: 0.9;
+            }
+            100% {
+                transform: rotate(360deg) scale(1);
+                opacity: 0.7;
+            }
+        }
+
+        @keyframes whatsappPulse {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.3;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.2);
+                opacity: 0.1;
+            }
+        }
+
+        @keyframes whatsappBounce {
+            0%, 100% {
+                transform: scale(1);
+            }
+            25% {
+                transform: scale(1.1) rotate(-5deg);
+            }
+            50% {
+                transform: scale(0.95) rotate(3deg);
+            }
+            75% {
+                transform: scale(1.05) rotate(-2deg);
+            }
+        }
+
+        /* Tooltip for WhatsApp */
+        .whatsapp-tooltip {
+            position: absolute;
+            right: 70px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .whatsapp-tooltip::after {
+            content: '';
+            position: absolute;
+            left: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            border: 6px solid transparent;
+            border-left-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .whatsapp-float:hover .whatsapp-tooltip {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(-50%) translateX(-10px);
+        }
+
+        @media (max-width: 768px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+                margin-bottom: 30px;
+            }
+
+            .whatsapp-float {
+                width: 55px;
+                height: 55px;
+                bottom: 20px;
+                right: 20px;
+                font-size: 26px;
+            }
+
+            .whatsapp-icon {
+                width: 28px;
+                height: 28px;
+            }
+
+            .whatsapp-tooltip {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="header_nav">
+        <div class="nav-container">
+            <a href="https://syam.digital/" class="brand-logo" style="text-decoration: none; color: inherit;">
+                <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1757245484/SYAMDIGITAL-LOGO-2025_mmpllg.png" alt="Syam Digital Logo" class="logo-image" onerror="this.style.display='none';">
+                <span class="brand-name">Syam Digital</span>
+            </a>
+            <button type="button" class="header-button header_nav-toggle" aria-label="Toggle navigation" title="All Products">
+                <svg class="header-button-icon" viewBox="0 0 22 22">
+                    <rect width="10.214" height="10.214" rx="1"></rect>
+                    <rect y="11.786" width="10.214" height="10.214" rx="1"></rect>
+                    <rect x="11.786" width="10.214" height="10.214" rx="1"></rect>
+                    <rect x="11.786" y="11.786" width="10.214" height="10.214" rx="1"></rect>
+                </svg>
+                <span class="header-button-arrow"></span>
+            </button>
+        </div>
+
+        <div class="main-menu-container">
+            <ul class="main-menu">
+                <li class="main-menu_item main-menu_item_level-1">
+                    <a class="main-menu_link" href="https://syam.digital/" data-menu-level="1">
+                        <span class="main-menu_link-text">Website Templates</span>
+                        <span class="main-menu_link-arrow"></span>
+                    </a>
+                    <div class="main-menu-columns">
+                        <div class="main-menu-column">
+                            <ul class="main-menu_inner">
+                                <li class="main-menu_item">
+                                    <a class="main-menu_link" href="https://syam.digital/">
+                                        <span class="main-menu_link-text">WordPress Store</span>
+                                    </a>
+                                    <ul class="main-menu_inner level-3">
+                                        <li class="main-menu_item">
+                                            <a class="main-menu_link" href="https://syam.digital/">
+                                                <span class="main-menu_link-icon" style="background: linear-gradient(45deg, #667eea, #764ba2);"></span>
+                                                <span class="main-menu_link-text">WordPress Templates</span>
+                                            </a>
+                                        </li>
+                                        <li class="main-menu_item">
+                                            <a class="main-menu_link" href="https://syam.digital/">
+                                                <span class="main-menu_link-icon" style="background: linear-gradient(45deg, #f093fb, #f5576c);"></span>
+                                                <span class="main-menu_link-text">WooCommerce Themes</span>
+                                            </a>
+                                        </li>
+                                        <li class="main-menu_item">
+                                            <a class="main-menu_link" href="https://syam.digital/">
+                                                <span class="main-menu_link-icon" style="background: linear-gradient(45deg, #4facfe, #00f2fe);"></span>
+                                                <span class="main-menu_link-text">Marketplace for Elementor</span>
+                                            </a>
+                                        </li>
+                                        <li class="main-menu_item">
+                                            <a class="main-menu_link" href="https://syam.digital/">
+                                                <span class="main-menu_link-icon" style="background: linear-gradient(45deg, #43e97b, #38f9d7);"></span>
+                                                <span class="main-menu_link-text">WordPress Maintenance</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="main-menu_item">
+                                    <a class="main-menu_link" href="https://syam.digital/">
+                                        <span class="main-menu_link-text">HTML Templates</span>
+                                    </a>
+                                    <ul class="main-menu_inner level-3">
+                                        <li class="main-menu_item">
+                                            <a class="main-menu_link" href="https://syam.digital/">
+                                                <span class="main-menu_link-icon" style="background: linear-gradient(45deg, #fa709a, #fee140);"></span>
+                                                <span class="main-menu_link-text">HTML5 Site Templates</span>
+                                            </a>
+                                        </li>
+                                        <li class="main-menu_item">
+                                            <a class="main-menu_link" href="https://syam.digital/">
+                                                <span class="main-menu_link-icon" style="background: linear-gradient(45deg, #a8edea, #fed6e3);"></span>
+                                                <span class="main-menu_link-text">Bootstrap Templates</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="main-menu_item main-menu_item_level-1">
+                    <a class="main-menu_link" href="https://syam.digital/" data-menu-level="1">
+                        <span class="main-menu_link-text">Graphics & Design</span>
+                        <span class="main-menu_link-arrow"></span>
+                    </a>
+                    <div class="main-menu-columns">
+                        <div class="main-menu-column">
+                            <ul class="main-menu_inner level-3">
+                                <li class="main-menu_item">
+                                    <a class="main-menu_link" href="https://syam.digital/">
+                                        <span class="main-menu_link-icon" style="background: linear-gradient(45deg, #ff9a9e, #fecfef);"></span>
+                                        <span class="main-menu_link-text">Logo Templates</span>
+                                    </a>
+                                </li>
+                                <li class="main-menu_item">
+                                    <a class="main-menu_link" href="https://syam.digital/">
+                                        <span class="main-menu_link-icon" style="background: linear-gradient(45deg, #a18cd1, #fbc2eb);"></span>
+                                        <span class="main-menu_link-text">Business Cards</span>
+                                    </a>
+                                </li>
+                                <li class="main-menu_item">
+                                    <a class="main-menu_link" href="https://syam.digital/">
+                                        <span class="main-menu_link-icon" style="background: linear-gradient(45deg, #ffecd2, #fcb69f);"></span>
+                                        <span class="main-menu_link-text">Flyer Templates</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="main-menu_item main-menu_item_level-1">
+                    <a class="main-menu_link" href="https://syam.digital/" data-menu-level="1">
+                        <span class="main-menu_link-text">Digital Marketing</span>
+                        <span class="main-menu_link-arrow"></span>
+                    </a>
+                    <div class="main-menu-columns">
+                        <div class="main-menu-column">
+                            <ul class="main-menu_inner level-3">
+                                <li class="main-menu_item">
+                                    <a class="main-menu_link" href="https://syam.digital/">
+                                        <span class="main-menu_link-icon" style="background: linear-gradient(45deg, #84fab0, #8fd3f4);"></span>
+                                        <span class="main-menu_link-text">Email Templates</span>
+                                    </a>
+                                </li>
+                                <li class="main-menu_item">
+                                    <a class="main-menu_link" href="https://syam.digital/">
+                                        <span class="main-menu_link-icon" style="background: linear-gradient(45deg, #d299c2, #fef9d7);"></span>
+                                        <span class="main-menu_link-text">Social Media</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="main-menu_item main-menu_item_level-1">
+                    <a class="main-menu_link" href="https://syam.digital/" data-menu-level="1">
+                        <span class="main-menu_link-text">Services</span>
+                        <span class="main-menu_link-arrow"></span>
+                    </a>
+                    <div class="main-menu-columns">
+                        <div class="main-menu-column">
+                            <ul class="main-menu_inner level-3">
+                                <li class="main-menu_item">
+                                    <a class="main-menu_link" href="https://syam.digital/">
+                                        <span class="main-menu_link-icon" style="background: linear-gradient(45deg, #89f7fe, #66a6ff);"></span>
+                                        <span class="main-menu_link-text">Custom Development</span>
+                                    </a>
+                                </li>
+                                <li class="main-menu_item">
+                                    <a class="main-menu_link" href="https://syam.digital/">
+                                        <span class="main-menu_link-icon" style="background: linear-gradient(45deg, #fdbb2d, #22c1c3);"></span>
+                                        <span class="main-menu_link-text">SEO Services</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="demo-content">
+        <h1>Daftar Aplikasi Modern dan Responsif</h1>
+        <p>Semua fitur dalam satu aplikasi, Pilih Sesuai dengan Kebutuhan Anda.</p>
+        <p>Menerima Pesanan Aplikasi yang Anda Butuhkan.</p>
+    </div>
+
+    <div class="products-section">
+        <div class="products-container">
+            <h2 class="section-title">Featured Templates</h2>
+            <div class="products-grid">
+                <div class="product-container-link product-container-link_grid">
+                    <a href="#" class="product-grid-main-link">
+                        <div class="product-image-wrapper">
+                            <img class="product-image" src="https://s.tmimgcdn.com/scr/400x250/390400/cyclink-cycling-store-minimal-ecommerce-html-website_390490-2-original.png" alt="Cyclink - Cycling Store Minimal eCommerce HTML Website" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
+                        </div>
+                    </a>
+                    <a href="#" class="product-grid-main-link product-grid-main-link_details">
+                        <div class="product-details">
+                            <div class="product-name">
+                                <span class="product-name-icon" style="background: linear-gradient(45deg, #e34c26, #f06529); width: 20px; height: 20px; border-radius: 4px;"></span>
+                                <h3 class="product-name-title">
+                                    <div class="product-name-title-link" title="Cyclink - Cycling Store Minimal eCommerce HTML Website">
+                                        <span class="product-name-title-text">Cyclink - Cycling Store Minimal eCommerce HTML Website</span>
+                                    </div>
+                                </h3>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-info-line">
+                                    <div class="rating product-rating">
+                                        <span class="rating-stars">★★★★★</span>
+                                    </div>
+                                    <div class="product-price">Rp 250.000</div>
+                                </div>
+                            </div>
+                            <a href="https://syam.digital/" target="_blank" class="btn product-grid-link product-grid-link_demo" style="text-decoration: none; display: block; text-align: center;">Live Demo</a>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="product-container-link product-container-link_grid">
+                    <a href="#" class="product-grid-main-link">
+                        <div class="product-image-wrapper">
+                            <img class="product-image" src="https://res.cloudinary.com/di8stbg60/image/upload/v1758115324/3_spdpro.png" alt="Modern Business WordPress Theme" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
+                        </div>
+                    </a>
+                    <a href="#" class="product-grid-main-link product-grid-main-link_details">
+                        <div class="product-details">
+                            <div class="product-name">
+                                <span class="product-name-icon" style="background: linear-gradient(45deg, #1572b6, #33a9dc); width: 20px; height: 20px; border-radius: 4px;"></span>
+                                <h3 class="product-name-title">
+                                    <div class="product-name-title-link" title="Modern Business WordPress Theme">
+                                        <span class="product-name-title-text">Modern Business WordPress Theme</span>
+                                    </div>
+                                </h3>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-info-line">
+                                    <div class="rating product-rating">
+                                        <span class="rating-stars">★★★★☆</span>
+                                    </div>
+                                    <div class="product-price">Rp 250.000</div>
+                                </div>
+                            </div>
+                            <a href="https://syam.digital/" target="_blank" class="btn product-grid-link product-grid-link_demo" style="text-decoration: none; display: block; text-align: center;">Live Demo</a>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="product-container-link product-container-link_grid">
+                    <a href="#" class="product-grid-main-link">
+                        <div class="product-image-wrapper">
+                            <img class="product-image" src="https://res.cloudinary.com/di8stbg60/image/upload/v1758115324/1_khkp5y.png" alt="Creative Portfolio HTML Template" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
+                        </div>
+                    </a>
+                    <a href="#" class="product-grid-main-link product-grid-main-link_details">
+                        <div class="product-details">
+                            <div class="product-name">
+                                <span class="product-name-icon" style="background: linear-gradient(45deg, #f7df1e, #ffeb3b); width: 20px; height: 20px; border-radius: 4px;"></span>
+                                <h3 class="product-name-title">
+                                    <div class="product-name-title-link" title="Creative Portfolio HTML Template">
+                                        <span class="product-name-title-text">Creative Portfolio HTML Template</span>
+                                    </div>
+                                </h3>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-info-line">
+                                    <div class="rating product-rating">
+                                        <span class="rating-stars">★★★★★</span>
+                                    </div>
+                                    <div class="product-price">Rp 250.000</div>
+                                </div>
+                            </div>
+                            <a href="https://syam.digital/" target="_blank" class="btn product-grid-link product-grid-link_demo" style="text-decoration: none; display: block; text-align: center;">Live Demo</a>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="product-container-link product-container-link_grid">
+                    <a href="#" class="product-grid-main-link">
+                        <div class="product-image-wrapper">
+                            <img class="product-image" src="https://res.cloudinary.com/di8stbg60/image/upload/v1757170701/Cuplikan_layar_2025-09-06_225742_uhf7td.png" alt="E-commerce Store WooCommerce Theme" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
+                        </div>
+                    </a>
+                    <a href="#" class="product-grid-main-link product-grid-main-link_details">
+                        <div class="product-details">
+                            <div class="product-name">
+                                <span class="product-name-icon" style="background: linear-gradient(45deg, #96c93d, #00b09b); width: 20px; height: 20px; border-radius: 4px;"></span>
+                                <h3 class="product-name-title">
+                                    <div class="product-name-title-link" title="E-commerce Store WooCommerce Theme">
+                                        <span class="product-name-title-text">E-commerce Store WooCommerce Theme</span>
+                                    </div>
+                                </h3>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-info-line">
+                                    <div class="rating product-rating">
+                                        <span class="rating-stars">★★★★☆</span>
+                                    </div>
+                                    <div class="product-price">Rp 250.000</div>
+                                </div>
+                            </div>
+                            <a href="https://syam.digital/" target="_blank" class="btn product-grid-link product-grid-link_demo" style="text-decoration: none; display: block; text-align: center;">Live Demo</a>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="product-container-link product-container-link_grid">
+                    <a href="#" class="product-grid-main-link">
+                        <div class="product-image-wrapper">
+                            <img class="product-image" src="https://res.cloudinary.com/di8stbg60/image/upload/v1758115324/2_wm05fo.png" alt="Restaurant & Food HTML Template" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
+                        </div>
+                    </a>
+                    <a href="#" class="product-grid-main-link product-grid-main-link_details">
+                        <div class="product-details">
+                            <div class="product-name">
+                                <span class="product-name-icon" style="background: linear-gradient(45deg, #ff6b6b, #ee5a24); width: 20px; height: 20px; border-radius: 4px;"></span>
+                                <h3 class="product-name-title">
+                                    <div class="product-name-title-link" title="Restaurant & Food HTML Template">
+                                        <span class="product-name-title-text">Restaurant & Food HTML Template</span>
+                                    </div>
+                                </h3>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-info-line">
+                                    <div class="rating product-rating">
+                                        <span class="rating-stars">★★★★★</span>
+                                    </div>
+                                    <div class="product-price">Rp 250.000</div>
+                                </div>
+                            </div>
+                            <a href="https://syam.digital/" target="_blank" class="btn product-grid-link product-grid-link_demo" style="text-decoration: none; display: block; text-align: center;">Live Demo</a>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="product-container-link product-container-link_grid">
+                    <a href="#" class="product-grid-main-link">
+                        <div class="product-image-wrapper">
+                            <img class="product-image" src="https://res.cloudinary.com/di8stbg60/image/upload/v1758115324/2_wm05fo.png" alt="Fashion Store Shopify Theme" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
+                        </div>
+                    </a>
+                    <a href="#" class="product-grid-main-link product-grid-main-link_details">
+                        <div class="product-details">
+                            <div class="product-name">
+                                <span class="product-name-icon" style="background: linear-gradient(45deg, #a8edea, #fed6e3); width: 20px; height: 20px; border-radius: 4px;"></span>
+                                <h3 class="product-name-title">
+                                    <div class="product-name-title-link" title="Fashion Store Shopify Theme">
+                                        <span class="product-name-title-text">Fashion Store Shopify Theme</span>
+                                    </div>
+                                </h3>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-info-line">
+                                    <div class="rating product-rating">
+                                        <span class="rating-stars">★★★★☆</span>
+                                    </div>
+                                    <div class="product-price">Rp 250.000</div>
+                                </div>
+                            </div>
+                            <a href="https://syam.digital/" target="_blank" class="btn product-grid-link product-grid-link_demo" style="text-decoration: none; display: block; text-align: center;">Live Demo</a>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="product-container-link product-container-link_grid">
+                    <a href="#" class="product-grid-main-link">
+                        <div class="product-image-wrapper">
+                            <img class="product-image" src="https://res.cloudinary.com/di8stbg60/image/upload/v1758115324/2_wm05fo.png" alt="Medical Clinic WordPress Theme" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
+                        </div>
+                    </a>
+                    <a href="#" class="product-grid-main-link product-grid-main-link_details">
+                        <div class="product-details">
+                            <div class="product-name">
+                                <span class="product-name-icon" style="background: linear-gradient(45deg, #667eea, #764ba2); width: 20px; height: 20px; border-radius: 4px;"></span>
+                                <h3 class="product-name-title">
+                                    <div class="product-name-title-link" title="Medical Clinic WordPress Theme">
+                                        <span class="product-name-title-text">Medical Clinic WordPress Theme</span>
+                                    </div>
+                                </h3>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-info-line">
+                                    <div class="rating product-rating">
+                                        <span class="rating-stars">★★★★★</span>
+                                    </div>
+                                    <div class="product-price">Rp 250.000</div>
+                                </div>
+                            </div>
+                            <a href="https://syam.digital/" target="_blank" class="btn product-grid-link product-grid-link_demo" style="text-decoration: none; display: block; text-align: center;">Live Demo</a>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="product-container-link product-container-link_grid">
+                    <a href="#" class="product-grid-main-link">
+                        <div class="product-image-wrapper">
+                            <img class="product-image" src="https://res.cloudinary.com/di8stbg60/image/upload/v1758115324/2_wm05fo.png" alt="Real Estate Agency HTML Template" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
+                        </div>
+                    </a>
+                    <a href="#" class="product-grid-main-link product-grid-main-link_details">
+                        <div class="product-details">
+                            <div class="product-name">
+                                <span class="product-name-icon" style="background: linear-gradient(45deg, #fdbb2d, #22c1c3); width: 20px; height: 20px; border-radius: 4px;"></span>
+                                <h3 class="product-name-title">
+                                    <div class="product-name-title-link" title="Real Estate Agency HTML Template">
+                                        <span class="product-name-title-text">Real Estate Agency HTML Template</span>
+                                    </div>
+                                </h3>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-info-line">
+                                    <div class="rating product-rating">
+                                        <span class="rating-stars">★★★★☆</span>
+                                    </div>
+                                    <div class="product-price">Rp 250.000</div>
+                                </div>
+                            </div>
+                            <a href="https://syam.digital/" target="_blank" class="btn product-grid-link product-grid-link_demo" style="text-decoration: none; display: block; text-align: center;">Live Demo</a>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="product-container-link product-container-link_grid">
+                    <a href="#" class="product-grid-main-link">
+                        <div class="product-image-wrapper">
+                            <img class="product-image" src="https://res.cloudinary.com/di8stbg60/image/upload/v1758115324/2_wm05fo.png" alt="Corporate Business Template" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
+                        </div>
+                    </a>
+                    <a href="#" class="product-grid-main-link product-grid-main-link_details">
+                        <div class="product-details">
+                            <div class="product-name">
+                                <span class="product-name-icon" style="background: linear-gradient(45deg, #667eea, #764ba2); width: 20px; height: 20px; border-radius: 4px;"></span>
+                                <h3 class="product-name-title">
+                                    <div class="product-name-title-link" title="Corporate Business Template">
+                                        <span class="product-name-title-text">Corporate Business Template</span>
+                                    </div>
+                                </h3>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-info-line">
+                                    <div class="rating product-rating">
+                                        <span class="rating-stars">★★★★★</span>
+                                    </div>
+                                    <div class="product-price">Rp 250.000</div>
+                                </div>
+                            </div>
+                            <a href="https://syam.digital/" target="_blank" class="btn product-grid-link product-grid-link_demo" style="text-decoration: none; display: block; text-align: center;">Live Demo</a>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="product-container-link product-container-link_grid">
+                    <a href="#" class="product-grid-main-link">
+                        <div class="product-image-wrapper">
+                            <img class="product-image" src="https://res.cloudinary.com/di8stbg60/image/upload/v1758115324/2_wm05fo.png" alt="Travel Agency WordPress Theme" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
+                        </div>
+                    </a>
+                    <a href="#" class="product-grid-main-link product-grid-main-link_details">
+                        <div class="product-details">
+                            <div class="product-name">
+                                <span class="product-name-icon" style="background: linear-gradient(45deg, #ff9a9e, #fecfef); width: 20px; height: 20px; border-radius: 4px;"></span>
+                                <h3 class="product-name-title">
+                                    <div class="product-name-title-link" title="Travel Agency WordPress Theme">
+                                        <span class="product-name-title-text">Travel Agency WordPress Theme</span>
+                                    </div>
+                                </h3>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-info-line">
+                                    <div class="rating product-rating">
+                                        <span class="rating-stars">★★★★☆</span>
+                                    </div>
+                                    <div class="product-price">Rp 250.000</div>
+                                </div>
+                            </div>
+                            <a href="https://syam.digital/" target="_blank" class="btn product-grid-link product-grid-link_demo" style="text-decoration: none; display: block; text-align: center;">Live Demo</a>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="product-container-link product-container-link_grid">
+                    <a href="#" class="product-grid-main-link">
+                        <div class="product-image-wrapper">
+                            <img class="product-image" src="https://res.cloudinary.com/di8stbg60/image/upload/v1758115324/2_wm05fo.png" alt="Fitness Gym HTML Template" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
+                        </div>
+                    </a>
+                    <a href="#" class="product-grid-main-link product-grid-main-link_details">
+                        <div class="product-details">
+                            <div class="product-name">
+                                <span class="product-name-icon" style="background: linear-gradient(45deg, #43e97b, #38f9d7); width: 20px; height: 20px; border-radius: 4px;"></span>
+                                <h3 class="product-name-title">
+                                    <div class="product-name-title-link" title="Fitness Gym HTML Template">
+                                        <span class="product-name-title-text">Fitness Gym HTML Template</span>
+                                    </div>
+                                </h3>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-info-line">
+                                    <div class="rating product-rating">
+                                        <span class="rating-stars">★★★★★</span>
+                                    </div>
+                                    <div class="product-price">Rp 250.000</div>
+                                </div>
+                            </div>
+                            <a href="https://syam.digital/" target="_blank" class="btn product-grid-link product-grid-link_demo" style="text-decoration: none; display: block; text-align: center;">Live Demo</a>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="product-container-link product-container-link_grid">
+                    <a href="#" class="product-grid-main-link">
+                        <div class="product-image-wrapper">
+                            <img class="product-image" src="https://res.cloudinary.com/di8stbg60/image/upload/v1758115324/2_wm05fo.png" alt="Education Learning Platform" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
+                        </div>
+                    </a>
+                    <a href="#" class="product-grid-main-link product-grid-main-link_details">
+                        <div class="product-details">
+                            <div class="product-name">
+                                <span class="product-name-icon" style="background: linear-gradient(45deg, #4facfe, #00f2fe); width: 20px; height: 20px; border-radius: 4px;"></span>
+                                <h3 class="product-name-title">
+                                    <div class="product-name-title-link" title="Education Learning Platform">
+                                        <span class="product-name-title-text">Education Learning Platform</span>
+                                    </div>
+                                </h3>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-info-line">
+                                    <div class="rating product-rating">
+                                        <span class="rating-stars">★★★★☆</span>
+                                    </div>
+                                    <div class="product-price">Rp 250.000</div>
+                                </div>
+                            </div>
+                            <a href="https://syam.digital/" target="_blank" class="btn product-grid-link product-grid-link_demo" style="text-decoration: none; display: block; text-align: center;">Live Demo</a>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="product-container-link product-container-link_grid">
+                    <a href="#" class="product-grid-main-link">
+                        <div class="product-image-wrapper">
+                            <img class="product-image" src="https://res.cloudinary.com/di8stbg60/image/upload/v1758115324/2_wm05fo.png" alt="Photography Portfolio Theme" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
+                        </div>
+                    </a>
+                    <a href="#" class="product-grid-main-link product-grid-main-link_details">
+                        <div class="product-details">
+                            <div class="product-name">
+                                <span class="product-name-icon" style="background: linear-gradient(45deg, #fa709a, #fee140); width: 20px; height: 20px; border-radius: 4px;"></span>
+                                <h3 class="product-name-title">
+                                    <div class="product-name-title-link" title="Photography Portfolio Theme">
+                                        <span class="product-name-title-text">Photography Portfolio Theme</span>
+                                    </div>
+                                </h3>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-info-line">
+                                    <div class="rating product-rating">
+                                        <span class="rating-stars">★★★★★</span>
+                                    </div>
+                                    <div class="product-price">Rp 250.000</div>
+                                </div>
+                            </div>
+                            <a href="https://syam.digital/" target="_blank" class="btn product-grid-link product-grid-link_demo" style="text-decoration: none; display: block; text-align: center;">Live Demo</a>
+                        </div>
+                    </a>
+                </div>
+              <div class="product-container-link product-container-link_grid">
+                    <a href="#" class="product-grid-main-link">
+                        <div class="product-image-wrapper">
+                            <img class="product-image" src="https://res.cloudinary.com/di8stbg60/image/upload/v1758115324/2_wm05fo.png" alt="Photography Portfolio Theme" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
+                        </div>
+                    </a>
+                    <a href="#" class="product-grid-main-link product-grid-main-link_details">
+                        <div class="product-details">
+                            <div class="product-name">
+                                <span class="product-name-icon" style="background: linear-gradient(45deg, #fa709a, #fee140); width: 20px; height: 20px; border-radius: 4px;"></span>
+                                <h3 class="product-name-title">
+                                    <div class="product-name-title-link" title="Photography Portfolio Theme">
+                                        <span class="product-name-title-text">Photography Portfolio Theme</span>
+                                    </div>
+                                </h3>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-info-line">
+                                    <div class="rating product-rating">
+                                        <span class="rating-stars">★★★★★</span>
+                                    </div>
+                                    <div class="product-price">Rp 250.000</div>
+                                </div>
+                            </div>
+                            <a href="https://syam.digital/" target="_blank" class="btn product-grid-link product-grid-link_demo" style="text-decoration: none; display: block; text-align: center;">Live Demo</a>
+                        </div>
+                    </a>
+                </div>
+                    <div class="product-container-link product-container-link_grid">
+                    <a href="#" class="product-grid-main-link">
+                        <div class="product-image-wrapper">
+                            <img class="product-image" src="https://res.cloudinary.com/di8stbg60/image/upload/v1758115324/2_wm05fo.png" alt="Photography Portfolio Theme" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
+                        </div>
+                    </a>
+                    <a href="#" class="product-grid-main-link product-grid-main-link_details">
+                        <div class="product-details">
+                            <div class="product-name">
+                                <span class="product-name-icon" style="background: linear-gradient(45deg, #fa709a, #fee140); width: 20px; height: 20px; border-radius: 4px;"></span>
+                                <h3 class="product-name-title">
+                                    <div class="product-name-title-link" title="Photography Portfolio Theme">
+                                        <span class="product-name-title-text">Photography Portfolio Theme</span>
+                                    </div>
+                                </h3>
+                            </div>
+                            <div class="product-info">
+                                <div class="product-info-line">
+                                    <div class="rating product-rating">
+                                        <span class="rating-stars">★★★★★</span>
+                                    </div>
+                                    <div class="product-price">Rp 250.000</div>
+                                </div>
+                            </div>
+                            <a href="https://syam.digital/" target="_blank" class="btn product-grid-link product-grid-link_demo" style="text-decoration: none; display: block; text-align: center;">Live Demo</a>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/6281234567890?text=Halo%20Syam%20Digital!%20Saya%20tertarik%20dengan%20template%20website%20Anda." target="_blank" class="whatsapp-float" title="Chat WhatsApp">
+        <div class="whatsapp-tooltip">Chat dengan kami!</div>
+        <svg class="whatsapp-icon" viewBox="0 0 24 24">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.465 3.085"/>
+        </svg>
+    </a>
+
+    <script>
+        const toggleButton = document.querySelector('.header_nav-toggle');
+        const menuContainer = document.querySelector('.main-menu-container');
+
+        toggleButton.addEventListener('click', function() {
+            const isActive = menuContainer.classList.contains('active');
+            
+            if (isActive) {
+                menuContainer.classList.remove('active');
+                toggleButton.classList.remove('active');
+            } else {
+                menuContainer.classList.add('active');
+                toggleButton.classList.add('active');
+            }
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.header_nav')) {
+                menuContainer.classList.remove('active');
+                toggleButton.classList.remove('active');
+            }
+        });
+
+        // Prevent menu from closing when clicking inside
+        menuContainer.addEventListener('click', function(event) {
+            event.stopPropagation();
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98098fcb91e887dd',t:'MTc1ODEyMjE1NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

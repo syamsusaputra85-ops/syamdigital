@@ -1,0 +1,1383 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pencarian Data Penduduk</title>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/dpr2vc3b0/image/upload/v1767107096/logo_donggala-fix-2025_napiej.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+  <style>
+        body {
+            box-sizing: border-box;
+        }
+        
+        .search-container {
+            position: relative;
+        }
+        
+        .loading-spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 3px solid white;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .result-card {
+            transition: all 0.3s ease;
+        }
+        
+        .result-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+        
+        .filter-badge {
+            transition: all 0.2s ease;
+        }
+        
+        .filter-badge:hover {
+            transform: scale(1.05);
+        }
+        
+        .stats-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+        }
+
+        .shake {
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+            20%, 40%, 60%, 80% { transform: translateX(10px); }
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full">
+  <div id="app" class="w-full h-full overflow-auto"></div>
+  <script>
+        const defaultConfig = {
+            background_color: "#f0f4f8",
+            surface_color: "#ffffff",
+            text_color: "#2d3748",
+            primary_action_color: "#4169E1",
+            secondary_action_color: "#718096",
+            font_family: "system-ui",
+            font_size: 16,
+            app_title: "Pencarian Data Penduduk",
+            search_placeholder: "Cari berdasarkan nama, NIK, atau alamat...",
+            login_title: "Login Admin",
+            login_subtitle: "Masukkan password untuk mengakses data",
+            footer_text: "© 2024 Data Penduduk"
+        };
+
+        let config = { ...defaultConfig };
+        let allData = [];
+        let filteredData = [];
+        let currentFilters = {
+            gender: '',
+            ageRange: '',
+            dusun: ''
+        };
+        let isAuthenticated = false;
+
+        const CORRECT_PASSWORD = "7203192010";
+        const SPREADSHEET_URL = 'https://docs.google.com/spreadsheets/d/1uY32OytNzfwY0KvOWfPxsSFLkTVFVLskb5E_nUwDqks/gviz/tq?tqx=out:csv&gid=1000014469';
+        const KEPALA_KELUARGA_URL = 'https://docs.google.com/spreadsheets/d/1uY32OytNzfwY0KvOWfPxsSFLkTVFVLskb5E_nUwDqks/gviz/tq?tqx=out:csv&gid=0';
+
+        async function fetchSpreadsheetData() {
+            try {
+                const response = await fetch(SPREADSHEET_URL);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const csvText = await response.text();
+                const parsedData = parseCSV(csvText);
+                return parsedData;
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                showCopyNotification('Gagal memuat data dari Spreadsheet', true);
+                return [];
+            }
+        }
+
+        async function fetchKepalaKeluargaData() {
+            try {
+                const response = await fetch(KEPALA_KELUARGA_URL);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const csvText = await response.text();
+                return parseCSV(csvText);
+            } catch (error) {
+                console.error('Error fetching KK data:', error);
+                return [];
+            }
+        }
+
+        function parseCSV(csvText) {
+            const lines = csvText.trim().split('\n').filter(line => line.trim());
+            if (lines.length < 2) return [];
+            
+            const firstLine = lines[0];
+            const separator = firstLine.includes('\t') ? '\t' : ',';
+            
+            const headerLine = firstLine.split(separator);
+            const headers = headerLine.map(h => h.trim().replace(/^["']|["']$/g, ''));
+            
+            const data = [];
+
+            for (let i = 1; i < lines.length; i++) {
+                const line = lines[i].trim();
+                if (!line) continue;
+                
+                let values = [];
+                
+                if (separator === ',') {
+                    const regex = /,(?=(?:(?:[^"]*"){2})*[^"]*$)/;
+                    values = line.split(regex).map(v => v.trim().replace(/^["']|["']$/g, ''));
+                } else {
+                    values = line.split(separator).map(v => v.trim().replace(/^["']|["']$/g, ''));
+                }
+                
+                if (values.length < Math.min(headers.length, 3)) continue;
+                
+                const row = {};
+                let hasValidData = false;
+                
+                headers.forEach((header, index) => {
+                    if (header && index < values.length) {
+                        const value = values[index] || '';
+                        row[header] = value;
+                        if (value.trim()) hasValidData = true;
+                    }
+                });
+                
+                if (hasValidData && Object.keys(row).length > 0) {
+                    data.push(row);
+                }
+            }
+            
+            return data;
+        }
+
+        function calculateAge(birthDate) {
+            if (!birthDate || birthDate === '-') return '-';
+            
+            const birth = new Date(birthDate);
+            const today = new Date();
+            let age = today.getFullYear() - birth.getFullYear();
+            const monthDiff = today.getMonth() - birth.getMonth();
+            
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+                age--;
+            }
+            
+            return age;
+        }
+
+        function filterData(searchQuery) {
+            let results = allData;
+
+            if (searchQuery) {
+                const query = searchQuery.toLowerCase().trim();
+                results = results.filter(person => {
+                    return Object.values(person).some(value => 
+                        String(value).toLowerCase().trim() === query
+                    );
+                });
+            }
+
+            if (currentFilters.gender) {
+                results = results.filter(person => {
+                    const gender = String(person['Jenis Kelamin'] || '').toLowerCase();
+                    return gender.includes(currentFilters.gender.toLowerCase());
+                });
+            }
+
+            if (currentFilters.ageRange) {
+                results = results.filter(person => {
+                    const birthDate = person['tanggallahir'] || '';
+                    const age = calculateAge(birthDate);
+                    
+                    if (age === '-' || age === 0) return false;
+                    
+                    switch(currentFilters.ageRange) {
+                        case 'young': return age < 25;
+                        case 'adult': return age >= 25 && age < 50;
+                        case 'senior': return age >= 50;
+                        default: return true;
+                    }
+                });
+            }
+
+            if (currentFilters.dusun) {
+                results = results.filter(person => {
+                    const dusun = String(person['dusun'] || '').toLowerCase();
+                    return dusun.includes(currentFilters.dusun.toLowerCase());
+                });
+            }
+
+            filteredData = results;
+            renderResults();
+        }
+
+        function getUniqueDusun() {
+            const dusuns = new Set();
+            allData.forEach(person => {
+                const dusun = person['dusun'] || '';
+                if (dusun) dusuns.add(dusun);
+            });
+            return Array.from(dusuns).sort();
+        }
+
+        function renderResults() {
+            const resultsContainer = document.getElementById('results-container');
+            const resultsCount = document.getElementById('results-count');
+            
+            if (!resultsContainer || !resultsCount) return;
+            
+            const baseFontSize = config.font_size || defaultConfig.font_size;
+            const customFont = config.font_family || defaultConfig.font_family;
+            const baseFontStack = 'system-ui, -apple-system, sans-serif';
+
+            resultsCount.textContent = `${filteredData.length} hasil ditemukan`;
+            resultsCount.style.fontSize = `${baseFontSize * 0.9}px`;
+            resultsCount.style.fontFamily = `${customFont}, ${baseFontStack}`;
+            resultsCount.style.color = config.text_color || defaultConfig.text_color;
+
+            if (filteredData.length === 0) {
+                resultsContainer.innerHTML = `
+                    <div class="text-center py-16">
+                        <div style="font-size: ${baseFontSize * 3}px;">🔍</div>
+                        <p style="font-size: ${baseFontSize * 1.2}px; font-family: ${customFont}, ${baseFontStack}; color: ${config.text_color}; margin-top: 16px;">Tidak ada data yang ditemukan</p>
+                        <p style="font-size: ${baseFontSize * 0.9}px; font-family: ${customFont}, ${baseFontStack}; color: ${config.secondary_action_color}; margin-top: 8px;">Coba gunakan kata kunci yang berbeda</p>
+                    </div>
+                `;
+                return;
+            }
+
+            resultsContainer.innerHTML = filteredData.map((person, index) => {
+                const name = person['nama'] || 'Tidak ada nama';
+                const nik = person['nik'] || '-';
+                const gender = person['Jenis Kelamin'] || '-';
+                const birthDate = person['tanggallahir'] || '-';
+                const religion = person['agama'] || '-';
+                const address = person['alamat'] || '-';
+                const dusun = person['dusun'] || '-';
+                const age = calculateAge(birthDate);
+
+                return `
+                    <div class="result-card p-6 rounded-lg" style="background-color: ${config.surface_color}; margin-bottom: 16px; border: 1px solid #e2e8f0;">
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+                            <h3 style="font-size: ${baseFontSize * 1.2}px; font-family: ${customFont}, ${baseFontStack}; color: ${config.text_color}; font-weight: 600; margin: 0;">${name}</h3>
+                            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                ${nik !== '-' ? `
+                                <div style="display: flex; align-items: center; gap: 4px; font-size: ${baseFontSize * 0.75}px; font-family: ${customFont}, ${baseFontStack}; background-color: ${config.primary_action_color}; color: white; padding: 4px 12px; border-radius: 12px;">
+                                    <span>NIK: ${nik}</span>
+                                    <button onclick="copyToClipboard('${nik}', 'NIK')" style="background: rgba(255, 255, 255, 0.3); border: none; color: white; cursor: pointer; padding: 2px 6px; border-radius: 4px; font-size: ${baseFontSize * 0.7}px; transition: all 0.2s ease;" onmouseover="this.style.backgroundColor='rgba(255, 255, 255, 0.5)'" onmouseout="this.style.backgroundColor='rgba(255, 255, 255, 0.3)'">📋</button>
+                                </div>
+                                ` : ''}
+                                ${person['no_kk'] && person['no_kk'] !== '-' ? `
+                                <div style="display: flex; align-items: center; gap: 4px; font-size: ${baseFontSize * 0.75}px; font-family: ${customFont}, ${baseFontStack}; background-color: ${config.secondary_action_color}; color: white; padding: 4px 12px; border-radius: 12px;">
+                                    <span>KK: ${person['no_kk']}</span>
+                                    <button onclick="copyToClipboard('${person['no_kk']}', 'No KK')" style="background: rgba(255, 255, 255, 0.3); border: none; color: white; cursor: pointer; padding: 2px 6px; border-radius: 4px; font-size: ${baseFontSize * 0.7}px; transition: all 0.2s ease;" onmouseover="this.style.backgroundColor='rgba(255, 255, 255, 0.5)'" onmouseout="this.style.backgroundColor='rgba(255, 255, 255, 0.3)'">📋</button>
+                                </div>
+                                ` : ''}
+                            </div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 12px;">
+                            <div>
+                                <p style="font-size: ${baseFontSize * 0.8}px; font-family: ${customFont}, ${baseFontStack}; color: ${config.secondary_action_color}; margin: 0;">Jenis Kelamin</p>
+                                <p style="font-size: ${baseFontSize}px; font-family: ${customFont}, ${baseFontStack}; color: ${config.text_color}; margin: 4px 0 0 0;">${gender}</p>
+                            </div>
+                            <div>
+                                <p style="font-size: ${baseFontSize * 0.8}px; font-family: ${customFont}, ${baseFontStack}; color: ${config.secondary_action_color}; margin: 0;">Tanggal Lahir</p>
+                                <p style="font-size: ${baseFontSize}px; font-family: ${customFont}, ${baseFontStack}; color: ${config.text_color}; margin: 4px 0 0 0;">${birthDate}</p>
+                            </div>
+                            <div>
+                                <p style="font-size: ${baseFontSize * 0.8}px; font-family: ${customFont}, ${baseFontStack}; color: ${config.secondary_action_color}; margin: 0;">Usia</p>
+                                <p style="font-size: ${baseFontSize}px; font-family: ${customFont}, ${baseFontStack}; color: ${config.text_color}; margin: 4px 0 0 0;">${age !== '-' ? `${age} tahun` : '-'}</p>
+                            </div>
+                            <div>
+                                <p style="font-size: ${baseFontSize * 0.8}px; font-family: ${customFont}, ${baseFontStack}; color: ${config.secondary_action_color}; margin: 0;">Agama</p>
+                                <p style="font-size: ${baseFontSize}px; font-family: ${customFont}, ${baseFontStack}; color: ${config.text_color}; margin: 4px 0 0 0;">${religion}</p>
+                            </div>
+                            <div>
+                                <p style="font-size: ${baseFontSize * 0.8}px; font-family: ${customFont}, ${baseFontStack}; color: ${config.secondary_action_color}; margin: 0;">Dusun</p>
+                                <p style="font-size: ${baseFontSize}px; font-family: ${customFont}, ${baseFontStack}; color: ${config.text_color}; margin: 4px 0 0 0;">${dusun}</p>
+                            </div>
+                            <div style="grid-column: 1 / -1;">
+                                <p style="font-size: ${baseFontSize * 0.8}px; font-family: ${customFont}, ${baseFontStack}; color: ${config.secondary_action_color}; margin: 0;">Alamat</p>
+                                <p style="font-size: ${baseFontSize}px; font-family: ${customFont}, ${baseFontStack}; color: ${config.text_color}; margin: 4px 0 0 0;">${address}</p>
+                            </div>
+                        </div>
+                        ${Object.keys(person).length > 5 ? `
+                            <button onclick="toggleDetails(${index})" style="margin-top: 12px; font-size: ${baseFontSize * 0.9}px; font-family: ${customFont}, ${baseFontStack}; color: white; background: ${config.primary_action_color}; border: none; cursor: pointer; padding: 10px 20px; border-radius: 8px; font-weight: 600; transition: all 0.2s ease;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                                📋 Lihat Detail Lengkap
+                            </button>
+                        ` : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function toggleDetails(index) {
+            const person = filteredData[index];
+            if (!person) return;
+
+            const baseFontSize = config.font_size || defaultConfig.font_size;
+            const customFont = config.font_family || defaultConfig.font_family;
+            const baseFontStack = 'system-ui, -apple-system, sans-serif';
+
+            const name = person['nama'] || 'Detail Lengkap';
+
+            const modalBackdrop = document.createElement('div');
+            modalBackdrop.id = 'modal-backdrop';
+            modalBackdrop.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: rgba(0, 0, 0, 0.6);
+                z-index: 9998;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 20px;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            `;
+
+            const modalContent = document.createElement('div');
+            modalContent.style.cssText = `
+                background-color: ${config.surface_color};
+                border-radius: 16px;
+                max-width: 700px;
+                width: 100%;
+                max-height: 85%;
+                overflow: hidden;
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+                transform: translateY(30px);
+                transition: transform 0.3s ease;
+                display: flex;
+                flex-direction: column;
+            `;
+
+            const modalHeader = document.createElement('div');
+            modalHeader.style.cssText = `
+                background: linear-gradient(135deg, ${config.primary_action_color} 0%, #1e40af 100%);
+                padding: 24px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            `;
+
+            const headerLeft = document.createElement('div');
+            headerLeft.style.cssText = `
+                display: flex;
+                align-items: center;
+                gap: 16px;
+                flex: 1;
+            `;
+
+            const adminPhoto = document.createElement('img');
+            adminPhoto.src = 'https://res.cloudinary.com/di8stbg60/image/upload/v1767107507/SYAM_DIGITAL_ADMIN_dt6quc.jpg';
+            adminPhoto.alt = 'Syam Digital Admin';
+            adminPhoto.style.cssText = `
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+                object-fit: cover;
+                border: 3px solid rgba(255, 255, 255, 0.3);
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            `;
+            adminPhoto.onerror = function() {
+                this.style.display = 'none';
+            };
+
+            const titleContainer = document.createElement('div');
+            titleContainer.style.cssText = `
+                flex: 1;
+            `;
+
+            const modalTitle = document.createElement('h2');
+            modalTitle.textContent = name;
+            modalTitle.style.cssText = `
+                font-size: ${baseFontSize * 1.5}px;
+                font-family: ${customFont}, ${baseFontStack};
+                color: white;
+                margin: 0;
+                font-weight: 700;
+            `;
+
+            const adminLabel = document.createElement('p');
+            adminLabel.textContent = 'Admin: Syam Digital';
+            adminLabel.style.cssText = `
+                font-size: ${baseFontSize * 0.85}px;
+                font-family: ${customFont}, ${baseFontStack};
+                color: rgba(255, 255, 255, 0.9);
+                margin: 4px 0 0 0;
+                font-weight: 500;
+            `;
+
+            titleContainer.appendChild(modalTitle);
+            titleContainer.appendChild(adminLabel);
+            headerLeft.appendChild(adminPhoto);
+            headerLeft.appendChild(titleContainer);
+
+            const closeButton = document.createElement('button');
+            closeButton.innerHTML = '×';
+            closeButton.style.cssText = `
+                background: rgba(255, 255, 255, 0.2);
+                border: none;
+                color: white;
+                font-size: ${baseFontSize * 2}px;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.2s ease;
+                padding: 0;
+                line-height: 1;
+            `;
+            closeButton.onmouseover = function() {
+                this.style.backgroundColor = 'rgba(255, 255, 255, 0.3)';
+                this.style.transform = 'rotate(90deg)';
+            };
+            closeButton.onmouseout = function() {
+                this.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
+                this.style.transform = 'rotate(0deg)';
+            };
+
+            modalHeader.appendChild(headerLeft);
+            modalHeader.appendChild(closeButton);
+
+            const modalBody = document.createElement('div');
+            modalBody.style.cssText = `
+                padding: 24px;
+                overflow-y: auto;
+                flex: 1;
+            `;
+
+            const detailsHTML = Object.entries(person).map(([key, value]) => {
+                const displayValue = value || '-';
+                const isCopyable = (key.toLowerCase() === 'nik' || key.toLowerCase() === 'no_kk' || key.toLowerCase().includes('no kk')) && displayValue !== '-';
+                
+                return `
+                    <div style="padding: 16px; border-bottom: 1px solid #e2e8f0; transition: background-color 0.2s ease;" onmouseover="this.style.backgroundColor='${config.background_color}'" onmouseout="this.style.backgroundColor='transparent'">
+                        <p style="font-size: ${baseFontSize * 0.8}px; font-family: ${customFont}, ${baseFontStack}; color: ${config.secondary_action_color}; margin: 0; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">${key}</p>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-top: 8px;">
+                            <p style="font-size: ${baseFontSize * 1.05}px; font-family: ${customFont}, ${baseFontStack}; color: ${config.text_color}; margin: 0; word-break: break-word; flex: 1;">${displayValue}</p>
+                            ${isCopyable ? `
+                                <button onclick="copyToClipboard('${displayValue}', '${key}')" style="background-color: ${config.primary_action_color}; border: none; color: white; cursor: pointer; padding: 6px 12px; border-radius: 6px; font-size: ${baseFontSize * 0.8}px; font-family: ${customFont}, ${baseFontStack}; transition: all 0.2s ease; flex-shrink: 0;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">📋 Salin</button>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            modalBody.innerHTML = detailsHTML;
+
+            modalContent.appendChild(modalHeader);
+            modalContent.appendChild(modalBody);
+            modalBackdrop.appendChild(modalContent);
+            document.body.appendChild(modalBackdrop);
+
+            setTimeout(() => {
+                modalBackdrop.style.opacity = '1';
+                modalContent.style.transform = 'translateY(0)';
+            }, 10);
+
+            const closeModal = () => {
+                modalBackdrop.style.opacity = '0';
+                modalContent.style.transform = 'translateY(30px)';
+                setTimeout(() => {
+                    if (modalBackdrop.parentNode) {
+                        document.body.removeChild(modalBackdrop);
+                    }
+                }, 300);
+            };
+
+            closeButton.addEventListener('click', closeModal);
+            modalBackdrop.addEventListener('click', (e) => {
+                if (e.target === modalBackdrop) {
+                    closeModal();
+                }
+            });
+
+            const escapeHandler = (e) => {
+                if (e.key === 'Escape') {
+                    closeModal();
+                    document.removeEventListener('keydown', escapeHandler);
+                }
+            };
+            document.addEventListener('keydown', escapeHandler);
+        }
+
+        function renderFilterBadges() {
+            const container = document.getElementById('active-filters');
+            if (!container) return;
+            
+            const baseFontSize = config.font_size || defaultConfig.font_size;
+            const customFont = config.font_family || defaultConfig.font_family;
+            const baseFontStack = 'system-ui, -apple-system, sans-serif';
+            
+            const badges = [];
+            
+            if (currentFilters.gender) {
+                badges.push(`
+                    <span class="filter-badge" style="display: inline-flex; align-items: center; gap: 6px; font-size: ${baseFontSize * 0.85}px; font-family: ${customFont}, ${baseFontStack}; background-color: ${config.primary_action_color}; color: white; padding: 6px 12px; border-radius: 16px; margin-right: 8px; margin-bottom: 8px;">
+                        ${currentFilters.gender === 'laki' ? 'Laki-laki' : 'Perempuan'}
+                        <button onclick="removeFilter('gender')" style="background: none; border: none; color: white; cursor: pointer; padding: 0; margin-left: 4px; font-size: ${baseFontSize * 1.2}px; line-height: 1;">×</button>
+                    </span>
+                `);
+            }
+            
+            if (currentFilters.ageRange) {
+                const ageLabels = {
+                    'young': 'Di bawah 25 tahun',
+                    'adult': '25-50 tahun',
+                    'senior': 'Di atas 50 tahun'
+                };
+                badges.push(`
+                    <span class="filter-badge" style="display: inline-flex; align-items: center; gap: 6px; font-size: ${baseFontSize * 0.85}px; font-family: ${customFont}, ${baseFontStack}; background-color: ${config.primary_action_color}; color: white; padding: 6px 12px; border-radius: 16px; margin-right: 8px; margin-bottom: 8px;">
+                        ${ageLabels[currentFilters.ageRange]}
+                        <button onclick="removeFilter('ageRange')" style="background: none; border: none; color: white; cursor: pointer; padding: 0; margin-left: 4px; font-size: ${baseFontSize * 1.2}px; line-height: 1;">×</button>
+                    </span>
+                `);
+            }
+            
+            if (currentFilters.dusun) {
+                badges.push(`
+                    <span class="filter-badge" style="display: inline-flex; align-items: center; gap: 6px; font-size: ${baseFontSize * 0.85}px; font-family: ${customFont}, ${baseFontStack}; background-color: ${config.primary_action_color}; color: white; padding: 6px 12px; border-radius: 16px; margin-right: 8px; margin-bottom: 8px;">
+                        ${currentFilters.dusun}
+                        <button onclick="removeFilter('dusun')" style="background: none; border: none; color: white; cursor: pointer; padding: 0; margin-left: 4px; font-size: ${baseFontSize * 1.2}px; line-height: 1;">×</button>
+                    </span>
+                `);
+            }
+            
+            container.innerHTML = badges.join('');
+        }
+
+        function removeFilter(filterType) {
+            currentFilters[filterType] = '';
+            const selectElement = document.getElementById(`filter-${filterType}`);
+            if (selectElement) {
+                selectElement.value = '';
+            }
+            renderFilterBadges();
+            const searchInput = document.getElementById('search-input');
+            if (searchInput) {
+                filterData(searchInput.value);
+            }
+        }
+
+        function copyToClipboard(text, label) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showCopyNotification(`${label} berhasil disalin!`);
+                }).catch(() => {
+                    fallbackCopy(text, label);
+                });
+            } else {
+                fallbackCopy(text, label);
+            }
+        }
+
+        function fallbackCopy(text, label) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-9999px';
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                showCopyNotification(`${label} berhasil disalin!`);
+            } catch (err) {
+                showCopyNotification(`Gagal menyalin ${label}`, true);
+            }
+            document.body.removeChild(textArea);
+        }
+
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('password-input');
+            const toggleButton = document.getElementById('toggle-password');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleButton.textContent = '👁️‍🗨️';
+            } else {
+                passwordInput.type = 'password';
+                toggleButton.textContent = '👁️';
+            }
+        }
+
+        function showCopyNotification(message, isError = false) {
+            const baseFontSize = config.font_size || defaultConfig.font_size;
+            const customFont = config.font_family || defaultConfig.font_family;
+            const baseFontStack = 'system-ui, -apple-system, sans-serif';
+            
+            const existing = document.getElementById('copy-notification');
+            if (existing) {
+                existing.remove();
+            }
+
+            const notification = document.createElement('div');
+            notification.id = 'copy-notification';
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background-color: ${isError ? '#ef4444' : config.primary_action_color};
+                color: white;
+                padding: 12px 20px;
+                border-radius: 8px;
+                font-size: ${baseFontSize * 0.9}px;
+                font-family: ${customFont}, ${baseFontStack};
+                font-weight: 600;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                z-index: 10000;
+                opacity: 0;
+                transform: translateY(-10px);
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            `;
+            notification.innerHTML = `
+                <span>${isError ? '��' : '✅'}</span>
+                <span>${message}</span>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.opacity = '1';
+                notification.style.transform = 'translateY(0)';
+            }, 10);
+            
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateY(-10px)';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.remove();
+                    }
+                }, 300);
+            }, 2500);
+        }
+
+        async function exportKepalaKeluargaToPDF() {
+            showCopyNotification('Sedang memuat data Kepala Keluarga...');
+            
+            const kkData = await fetchKepalaKeluargaData();
+
+            if (kkData.length === 0) {
+                showCopyNotification('Tidak ada data Kepala Keluarga', true);
+                return;
+            }
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('landscape');
+
+            doc.setFontSize(18);
+            doc.setFont(undefined, 'bold');
+            doc.text('Data Kepala Keluarga', 14, 20);
+            
+            doc.setFontSize(11);
+            doc.setFont(undefined, 'normal');
+            doc.text(`Total: ${kkData.length} Kepala Keluarga`, 14, 28);
+            doc.text(`Tanggal Export: ${new Date().toLocaleDateString('id-ID')}`, 14, 34);
+
+            const tableData = kkData.map(kk => [
+                kk['nama'] || '-',
+                kk['no_kk'] || '-',
+                kk['nik'] || '-',
+                kk['Jenis Kelamin'] || '-',
+                kk['tanggallahir'] || '-',
+                kk['dusun'] || '-',
+                kk['alamat'] || '-'
+            ]);
+
+            doc.autoTable({
+                startY: 40,
+                head: [['Nama', 'No. KK', 'NIK', 'Jenis Kelamin', 'Tanggal Lahir', 'Dusun', 'Alamat']],
+                body: tableData,
+                styles: {
+                    fontSize: 8,
+                    cellPadding: 3
+                },
+                headStyles: {
+                    fillColor: [16, 185, 129],
+                    textColor: 255,
+                    fontStyle: 'bold'
+                },
+                alternateRowStyles: {
+                    fillColor: [245, 245, 245]
+                },
+                margin: { top: 40 }
+            });
+
+            doc.save(`Data_Kepala_Keluarga_${new Date().getTime()}.pdf`);
+            
+            showCopyNotification(`PDF ${kkData.length} Kepala Keluarga berhasil di-download!`);
+        }
+
+        function showExportModal() {
+            const baseFontSize = config.font_size || defaultConfig.font_size;
+            const customFont = config.font_family || defaultConfig.font_family;
+            const baseFontStack = 'system-ui, -apple-system, sans-serif';
+
+            const modalBackdrop = document.createElement('div');
+            modalBackdrop.id = 'export-modal-backdrop';
+            modalBackdrop.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: rgba(0, 0, 0, 0.6);
+                z-index: 9998;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 20px;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            `;
+
+            const modalContent = document.createElement('div');
+            modalContent.style.cssText = `
+                background-color: ${config.surface_color};
+                border-radius: 16px;
+                max-width: 500px;
+                width: 100%;
+                max-height: 85%;
+                overflow: hidden;
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+                transform: translateY(30px);
+                transition: transform 0.3s ease;
+                display: flex;
+                flex-direction: column;
+            `;
+
+            const dusuns = getUniqueDusun();
+
+            modalContent.innerHTML = `
+                <div style="background: linear-gradient(135deg, ${config.primary_action_color} 0%, #1e40af 100%); padding: 24px; display: flex; justify-content: space-between; align-items: center;">
+                    <h2 style="font-size: ${baseFontSize * 1.5}px; font-family: ${customFont}, ${baseFontStack}; color: white; margin: 0; font-weight: 700;">📄 Export Data PDF</h2>
+                    <button id="close-export-modal" style="background: rgba(255, 255, 255, 0.2); border: none; color: white; font-size: ${baseFontSize * 2}px; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; padding: 0; line-height: 1;">×</button>
+                </div>
+                <div style="padding: 24px; overflow-y: auto; flex: 1;">
+                    <p style="font-size: ${baseFontSize * 0.95}px; font-family: ${customFont}, ${baseFontStack}; color: ${config.text_color}; margin: 0 0 20px 0;">Pilih opsi export PDF:</p>
+                    
+                    <div style="margin-bottom: 16px;">
+                        <button onclick="exportKepalaKeluargaToPDF()" style="width: 100%; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 14px 20px; border: none; border-radius: 8px; cursor: pointer; font-size: ${baseFontSize}px; font-family: ${customFont}, ${baseFontStack}; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); margin-bottom: 12px;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                            <span>👨‍👩‍👧‍👦</span>
+                            <span>Export Kepala Keluarga</span>
+                        </button>
+                    </div>
+
+                    <div style="margin-bottom: 16px;">
+                        <button onclick="exportAllDusun()" style="width: 100%; background: linear-gradient(135deg, ${config.primary_action_color} 0%, ${config.secondary_action_color} 100%); color: white; padding: 14px 20px; border: none; border-radius: 8px; cursor: pointer; font-size: ${baseFontSize}px; font-family: ${customFont}, ${baseFontStack}; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                            <span>📦</span>
+                            <span>Export Semua Dusun</span>
+                        </button>
+                    </div>
+
+                    <div style="border-top: 2px solid ${config.background_color}; margin: 20px 0; padding-top: 20px;">
+                        <p style="font-size: ${baseFontSize * 0.85}px; font-family: ${customFont}, ${baseFontStack}; color: ${config.secondary_action_color}; margin: 0 0 12px 0; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Export Per Dusun:</p>
+                        <div id="dusun-list" style="display: grid; gap: 8px;">
+                            ${dusuns.map(dusun => {
+                                const count = allData.filter(p => (p['dusun'] || '') === dusun).length;
+                                return `
+                                    <button onclick="exportDusunToPDF('${dusun.replace(/'/g, "\\'")}')" style="width: 100%; background-color: ${config.surface_color}; border: 2px solid ${config.primary_action_color}; color: ${config.text_color}; padding: 12px 16px; border-radius: 8px; cursor: pointer; font-size: ${baseFontSize * 0.9}px; font-family: ${customFont}, ${baseFontStack}; text-align: left; display: flex; justify-content: space-between; align-items: center; transition: all 0.2s ease;" onmouseover="this.style.backgroundColor='${config.background_color}'; this.style.transform='translateX(4px)'" onmouseout="this.style.backgroundColor='${config.surface_color}'; this.style.transform='translateX(0)'">
+                                        <span style="font-weight: 600;">${dusun}</span>
+                                        <span style="background-color: ${config.primary_action_color}; color: white; padding: 4px 12px; border-radius: 12px; font-size: ${baseFontSize * 0.75}px; font-weight: 600;">${count} orang</span>
+                                    </button>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            modalBackdrop.appendChild(modalContent);
+            document.body.appendChild(modalBackdrop);
+
+            setTimeout(() => {
+                modalBackdrop.style.opacity = '1';
+                modalContent.style.transform = 'translateY(0)';
+            }, 10);
+
+            const closeModal = () => {
+                modalBackdrop.style.opacity = '0';
+                modalContent.style.transform = 'translateY(30px)';
+                setTimeout(() => {
+                    if (modalBackdrop.parentNode) {
+                        document.body.removeChild(modalBackdrop);
+                    }
+                }, 300);
+            };
+
+            document.getElementById('close-export-modal').addEventListener('click', closeModal);
+            modalBackdrop.addEventListener('click', (e) => {
+                if (e.target === modalBackdrop) {
+                    closeModal();
+                }
+            });
+
+            const escapeHandler = (e) => {
+                if (e.key === 'Escape') {
+                    closeModal();
+                    document.removeEventListener('keydown', escapeHandler);
+                }
+            };
+            document.addEventListener('keydown', escapeHandler);
+        }
+
+        function exportDusunToPDF(dusunName) {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('landscape');
+
+            const dusunData = allData.filter(p => (p['dusun'] || '') === dusunName);
+
+            if (dusunData.length === 0) {
+                showCopyNotification(`Tidak ada data untuk dusun ${dusunName}`, true);
+                return;
+            }
+
+            doc.setFontSize(18);
+            doc.setFont(undefined, 'bold');
+            doc.text(`Data Penduduk Desa Wani Lumbumpetigo`, 14, 20);
+            
+            doc.setFontSize(14);
+            doc.text(`Dusun ${dusunName}`, 14, 28);
+            
+            doc.setFontSize(11);
+            doc.setFont(undefined, 'normal');
+            doc.text(`Total: ${dusunData.length} orang`, 14, 36);
+            doc.text(`Tanggal Export: ${new Date().toLocaleDateString('id-ID')}`, 14, 42);
+
+            const tableData = dusunData.map(person => [
+                person['nama'] || '-',
+                person['no_kk'] || '-',
+                person['nik'] || '-',
+                person['Jenis Kelamin'] || '-',
+                person['tanggallahir'] || '-',
+                person['agama'] || '-',
+                person['alamat'] || '-'
+            ]);
+
+            doc.autoTable({
+                startY: 48,
+                head: [['Nama', 'No. KK', 'NIK', 'Jenis Kelamin', 'Tanggal Lahir', 'Agama', 'Alamat']],
+                body: tableData,
+                styles: {
+                    fontSize: 8,
+                    cellPadding: 3
+                },
+                headStyles: {
+                    fillColor: [65, 105, 225],
+                    textColor: 255,
+                    fontStyle: 'bold'
+                },
+                alternateRowStyles: {
+                    fillColor: [245, 245, 245]
+                },
+                margin: { top: 48 }
+            });
+
+            doc.save(`Data_Penduduk_${dusunName.replace(/\s+/g, '_')}_${new Date().getTime()}.pdf`);
+            
+            const modal = document.getElementById('export-modal-backdrop');
+            if (modal && modal.parentNode) {
+                modal.style.opacity = '0';
+                setTimeout(() => {
+                    if (modal.parentNode) {
+                        document.body.removeChild(modal);
+                    }
+                }, 300);
+            }
+            
+            showCopyNotification(`PDF untuk ${dusunName} berhasil di-download!`);
+        }
+
+        function exportAllDusun() {
+            const { jsPDF } = window.jspdf;
+            const dusuns = getUniqueDusun();
+
+            if (dusuns.length === 0) {
+                showCopyNotification('Tidak ada data dusun untuk di-export', true);
+                return;
+            }
+
+            dusuns.forEach((dusun, index) => {
+                setTimeout(() => {
+                    exportDusunToPDF(dusun);
+                }, index * 500);
+            });
+
+            const modal = document.getElementById('export-modal-backdrop');
+            if (modal && modal.parentNode) {
+                modal.style.opacity = '0';
+                setTimeout(() => {
+                    if (modal.parentNode) {
+                        document.body.removeChild(modal);
+                    }
+                }, 300);
+            }
+
+            showCopyNotification(`Mengunduh ${dusuns.length} file PDF...`);
+        }
+
+        function renderLoginPage() {
+            const app = document.getElementById('app');
+            const baseFontSize = config.font_size || defaultConfig.font_size;
+            const customFont = config.font_family || defaultConfig.font_family;
+            const baseFontStack = 'system-ui, -apple-system, sans-serif';
+
+            app.innerHTML = `
+                <div style="background: linear-gradient(135deg, ${config.background_color} 0%, ${config.primary_action_color} 50%, ${config.secondary_action_color} 100%); min-height: 100%; display: flex; align-items: center; justify-content: center; padding: 24px; position: relative; overflow: hidden;">
+                    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.03) 50%, transparent 70%); pointer-events: none;"></div>
+                    <div style="background-color: ${config.surface_color}; border-radius: 20px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4); max-width: 450px; width: 100%; padding: 48px 40px; text-align: center; position: relative; z-index: 1; backdrop-filter: blur(10px);">
+                        <img src="https://res.cloudinary.com/dpr2vc3b0/image/upload/v1767107096/logo_donggala-fix-2025_napiej.png" alt="Logo Donggala" style="width: 100px; height: auto; margin: 0 auto 24px auto; display: block;" onerror="this.style.display='none';">
+                        
+                        <h1 id="login-title" style="font-size: ${baseFontSize * 1.8}px; font-family: ${customFont}, ${baseFontStack}; color: ${config.text_color}; margin: 0 0 12px 0; font-weight: 700;">${config.login_title}</h1>
+                        
+                        <p id="login-subtitle" style="font-size: ${baseFontSize * 0.95}px; font-family: ${customFont}, ${baseFontStack}; color: ${config.secondary_action_color}; margin: 0 0 32px 0;">${config.login_subtitle}</p>
+
+                        <div style="display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 32px; padding: 16px; background-color: ${config.background_color}; border-radius: 12px;">
+                            <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1767107507/SYAM_DIGITAL_ADMIN_dt6quc.jpg" alt="Admin Syam Digital" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 3px solid ${config.primary_action_color}; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);" onerror="this.style.display='none';">
+                            <div style="text-align: left;">
+                                <p style="font-size: ${baseFontSize * 0.9}px; font-family: ${customFont}, ${baseFontStack}; color: ${config.text_color}; margin: 0; font-weight: 600;">Admin</p>
+                                <p style="font-size: ${baseFontSize * 0.85}px; font-family: ${customFont}, ${baseFontStack}; color: ${config.secondary_action_color}; margin: 2px 0 0 0;">Syam Digital</p>
+                            </div>
+                        </div>
+
+                        <form id="login-form" style="margin-bottom: 24px;">
+                            <div style="position: relative; margin-bottom: 8px;">
+                                <input 
+                                    type="password" 
+                                    id="password-input" 
+                                    placeholder="Masukkan password"
+                                    style="width: 100%; font-size: ${baseFontSize}px; font-family: ${customFont}, ${baseFontStack}; color: ${config.text_color}; background-color: ${config.background_color}; padding: 14px 48px 14px 16px; border: 2px solid #e2e8f0; border-radius: 8px; outline: none; box-sizing: border-box; transition: all 0.2s ease;"
+                                    onfocus="this.style.borderColor='${config.primary_action_color}'"
+                                    onblur="this.style.borderColor='#e2e8f0'"
+                                >
+                                <button 
+                                    type="button"
+                                    id="toggle-password"
+                                    style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: ${baseFontSize * 1.3}px; padding: 4px; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; opacity: 0.6;"
+                                    onmouseover="this.style.opacity='1'"
+                                    onmouseout="this.style.opacity='0.6'"
+                                    onclick="togglePasswordVisibility()"
+                                >
+                                    👁️
+                                </button>
+                            </div>
+                            <p id="error-message" style="font-size: ${baseFontSize * 0.85}px; font-family: ${customFont}, ${baseFontStack}; color: #ef4444; margin: 0 0 16px 0; min-height: 20px; text-align: left;"></p>
+                            
+                            <button 
+                                type="submit"
+                                style="width: 100%; font-size: ${baseFontSize * 1.05}px; font-family: ${customFont}, ${baseFontStack}; background: linear-gradient(135deg, ${config.primary_action_color} 0%, ${config.secondary_action_color} 100%); color: white; padding: 14px 24px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);"
+                                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(0, 0, 0, 0.3)'"
+                                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.2)'"
+                            >
+                                <span>🔐</span>
+                                <span>Masuk</span>
+                            </button>
+                        </form>
+
+                        <p style="font-size: ${baseFontSize * 0.8}px; font-family: ${customFont}, ${baseFontStack}; color: ${config.secondary_action_color}; margin: 0;">
+                            <span style="display: inline-block; margin-right: 4px;">🔒</span>
+                            Akses terlindungi untuk keamanan data
+                        </p>
+                    </div>
+                </div>
+            `;
+
+            const loginForm = document.getElementById('login-form');
+            const passwordInput = document.getElementById('password-input');
+            const errorMessage = document.getElementById('error-message');
+
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const password = passwordInput.value;
+
+                if (password === CORRECT_PASSWORD) {
+                    isAuthenticated = true;
+                    errorMessage.textContent = '';
+                    initializeMainApp();
+                } else {
+                    errorMessage.textContent = '❌ Password salah. Silakan coba lagi.';
+                    passwordInput.value = '';
+                    passwordInput.classList.add('shake');
+                    setTimeout(() => {
+                        passwordInput.classList.remove('shake');
+                    }, 500);
+                }
+            });
+
+            passwordInput.focus();
+        }
+
+        async function initializeMainApp() {
+            const app = document.getElementById('app');
+            const baseFontSize = config.font_size || defaultConfig.font_size;
+            const customFont = config.font_family || defaultConfig.font_family;
+            const baseFontStack = 'system-ui, -apple-system, sans-serif';
+
+            app.innerHTML = `
+                <div style="background-color: ${config.background_color}; min-height: 100%;">
+                    <!-- Header -->
+                    <div style="background: linear-gradient(135deg, ${config.background_color} 0%, ${config.primary_action_color} 50%, ${config.secondary_action_color} 100%); padding: 48px 24px; text-align: center; position: relative; overflow: hidden;">
+                        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.05) 50%, transparent 70%); pointer-events: none;"></div>
+                        <img src="https://res.cloudinary.com/dpr2vc3b0/image/upload/v1767107096/logo_donggala-fix-2025_napiej.png" alt="Logo Donggala" style="width: 100px; height: auto; margin: 0 auto 16px auto; display: block; position: relative; z-index: 1; filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));" onerror="this.style.display='none';">
+                        <h1 id="app-title" style="font-size: ${baseFontSize * 2}px; font-family: ${customFont}, ${baseFontStack}; color: white; margin: 0; font-weight: 700; position: relative; z-index: 1; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);">${config.app_title}</h1>
+                        <p style="font-size: ${baseFontSize * 1.1}px; font-family: ${customFont}, ${baseFontStack}; color: rgba(255, 255, 255, 0.95); margin: 12px 0 0 0; position: relative; z-index: 1; text-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);">Temukan data penduduk dengan mudah dan cepat</p>
+                        <div style="display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.2); position: relative; z-index: 1;">
+                            <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1767107507/SYAM_DIGITAL_ADMIN_dt6quc.jpg" alt="Admin Syam Digital" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 3px solid rgba(255, 255, 255, 0.6); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);" onerror="this.style.display='none';">
+                            <div style="text-align: left; flex: 1;">
+                                <p style="font-size: ${baseFontSize * 0.9}px; font-family: ${customFont}, ${baseFontStack}; color: white; margin: 0; font-weight: 600; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);">Admin: Syam Digital</p>
+                                <p style="font-size: ${baseFontSize * 0.8}px; font-family: ${customFont}, ${baseFontStack}; color: rgba(255, 255, 255, 0.9); margin: 2px 0 0 0; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);">🔐 Login berhasil</p>
+                            </div>
+                            <a href="https://syam.digital/kk" target="_blank" rel="noopener noreferrer" style="background: rgba(255, 255, 255, 0.2); color: white; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-size: ${baseFontSize * 0.85}px; font-family: ${customFont}, ${baseFontStack}; font-weight: 600; display: flex; align-items: center; gap: 6px; transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); margin-right: 8px;" onmouseover="this.style.backgroundColor='rgba(255, 255, 255, 0.3)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.backgroundColor='rgba(255, 255, 255, 0.2)'; this.style.transform='translateY(0)'">
+                                <span>🏠</span>
+                                <span>Syam Digital</span>
+                            </a>
+                            <button onclick="showExportModal()" style="background: rgba(255, 255, 255, 0.2); color: white; padding: 8px 16px; border-radius: 8px; border: none; cursor: pointer; font-size: ${baseFontSize * 0.85}px; font-family: ${customFont}, ${baseFontStack}; font-weight: 600; display: flex; align-items: center; gap: 6px; transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); margin-right: 8px;" onmouseover="this.style.backgroundColor='rgba(255, 255, 255, 0.3)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.backgroundColor='rgba(255, 255, 255, 0.2)'; this.style.transform='translateY(0)'">
+                                <span>📄</span>
+                                <span>Export PDF</span>
+                            </button>
+                            <a href="https://docs.google.com/spreadsheets/d/1uY32OytNzfwY0KvOWfPxsSFLkTVFVLskb5E_nUwDqks/edit?usp=sharing" target="_blank" rel="noopener noreferrer" style="background: rgba(255, 255, 255, 0.2); color: white; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-size: ${baseFontSize * 0.85}px; font-family: ${customFont}, ${baseFontStack}; font-weight: 600; display: flex; align-items: center; gap: 6px; transition: all 0.2s ease; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);" onmouseover="this.style.backgroundColor='rgba(255, 255, 255, 0.3)'; this.style.transform='translateY(-2px)'" onmouseout="this.style.backgroundColor='rgba(255, 255, 255, 0.2)'; this.style.transform='translateY(0)'">
+                                <span>📊</span>
+                                <span>Buka Spreadsheet</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div style="max-width: 1200px; margin: 0 auto; padding: 24px;">
+                        <!-- Stats Cards -->
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 32px;">
+                            <div class="stats-card" style="background: linear-gradient(135deg, ${config.surface_color} 0%, ${config.surface_color} 100%); padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); border: 1px solid rgba(27, 20, 100, 0.1); position: relative; overflow: hidden;">
+                                <div style="position: absolute; top: -50%; right: -50%; width: 200%; height: 200%; background: linear-gradient(135deg, transparent 0%, rgba(65, 105, 225, 0.05) 50%, transparent 100%); pointer-events: none;"></div>
+                                <p class="stats-title" style="font-size: ${baseFontSize * 0.85}px; font-family: ${customFont}, ${baseFontStack}; color: ${config.secondary_action_color}; margin: 0; position: relative; z-index: 1;">Total Data</p>
+                                <p class="stats-value" id="total-count" style="font-size: ${baseFontSize * 1.8}px; font-family: ${customFont}, ${baseFontStack}; background: linear-gradient(135deg, ${config.primary_action_color} 0%, ${config.secondary_action_color} 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin: 8px 0 0 0; font-weight: 700; position: relative; z-index: 1;">-</p>
+                            </div>
+                            <div class="stats-card" style="background: linear-gradient(135deg, ${config.surface_color} 0%, ${config.surface_color} 100%); padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); border: 1px solid rgba(27, 20, 100, 0.1); position: relative; overflow: hidden;">
+                                <div style="position: absolute; top: -50%; right: -50%; width: 200%; height: 200%; background: linear-gradient(135deg, transparent 0%, rgba(65, 105, 225, 0.05) 50%, transparent 100%); pointer-events: none;"></div>
+                                <p class="stats-title" style="font-size: ${baseFontSize * 0.85}px; font-family: ${customFont}, ${baseFontStack}; color: ${config.secondary_action_color}; margin: 0; position: relative; z-index: 1;">Laki-laki</p>
+                                <p class="stats-value" id="male-count" style="font-size: ${baseFontSize * 1.8}px; font-family: ${customFont}, ${baseFontStack}; background: linear-gradient(135deg, ${config.primary_action_color} 0%, ${config.secondary_action_color} 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin: 8px 0 0 0; font-weight: 700; position: relative; z-index: 1;">-</p>
+                            </div>
+                            <div class="stats-card" style="background: linear-gradient(135deg, ${config.surface_color} 0%, ${config.surface_color} 100%); padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); border: 1px solid rgba(27, 20, 100, 0.1); position: relative; overflow: hidden;">
+                                <div style="position: absolute; top: -50%; right: -50%; width: 200%; height: 200%; background: linear-gradient(135deg, transparent 0%, rgba(65, 105, 225, 0.05) 50%, transparent 100%); pointer-events: none;"></div>
+                                <p class="stats-title" style="font-size: ${baseFontSize * 0.85}px; font-family: ${customFont}, ${baseFontStack}; color: ${config.secondary_action_color}; margin: 0; position: relative; z-index: 1;">Perempuan</p>
+                                <p class="stats-value" id="female-count" style="font-size: ${baseFontSize * 1.8}px; font-family: ${customFont}, ${baseFontStack}; background: linear-gradient(135deg, ${config.primary_action_color} 0%, ${config.secondary_action_color} 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin: 8px 0 0 0; font-weight: 700; position: relative; z-index: 1;">-</p>
+                            </div>
+                        </div>
+
+                        <!-- Search Bar -->
+                        <div style="background-color: ${config.surface_color}; padding: 24px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); margin-bottom: 24px;">
+                            <div class="search-container" style="display: flex; gap: 12px; margin-bottom: 16px;">
+                                <input 
+                                    type="text" 
+                                    id="search-input" 
+                                    placeholder="${config.search_placeholder}"
+                                    style="flex: 1; font-size: ${baseFontSize}px; font-family: ${customFont}, ${baseFontStack}; color: ${config.text_color}; background-color: ${config.surface_color}; padding: 12px 16px; border: 2px solid #e2e8f0; border-radius: 8px; outline: none;"
+                                >
+                                <button 
+                                    id="search-button"
+                                    style="font-size: ${baseFontSize}px; font-family: ${customFont}, ${baseFontStack}; background: linear-gradient(135deg, ${config.primary_action_color} 0%, ${config.secondary_action_color} 100%); color: white; padding: 12px 24px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(65, 105, 225, 0.3); transition: all 0.3s ease;"
+                                    onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 16px rgba(65, 105, 225, 0.4)'"
+                                    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(65, 105, 225, 0.3)'"
+                                >
+                                    <span>🔍</span>
+                                    <span id="search-button-text">Cari</span>
+                                </button>
+                            </div>
+
+                            <!-- Filters -->
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 16px;">
+                                <select id="filter-gender" class="filter-select" style="font-size: ${baseFontSize * 0.9}px; font-family: ${customFont}, ${baseFontStack}; color: ${config.text_color}; background-color: ${config.surface_color}; padding: 10px; border: 1px solid ${config.secondary_action_color}; border-radius: 8px; cursor: pointer;">
+                                    <option value="">Semua Jenis Kelamin</option>
+                                    <option value="laki">Laki-laki</option>
+                                    <option value="perempuan">Perempuan</option>
+                                </select>
+
+                                <select id="filter-ageRange" class="filter-select" style="font-size: ${baseFontSize * 0.9}px; font-family: ${customFont}, ${baseFontStack}; color: ${config.text_color}; background-color: ${config.surface_color}; padding: 10px; border: 1px solid ${config.secondary_action_color}; border-radius: 8px; cursor: pointer;">
+                                    <option value="">Semua Usia</option>
+                                    <option value="young">Di bawah 25 tahun</option>
+                                    <option value="adult">25-50 tahun</option>
+                                    <option value="senior">Di atas 50 tahun</option>
+                                </select>
+
+                                <select id="filter-dusun" class="filter-select" style="font-size: ${baseFontSize * 0.9}px; font-family: ${customFont}, ${baseFontStack}; color: ${config.text_color}; background-color: ${config.surface_color}; padding: 10px; border: 1px solid ${config.secondary_action_color}; border-radius: 8px; cursor: pointer;">
+                                    <option value="">Semua Dusun</option>
+                                </select>
+                            </div>
+
+                            <!-- Active Filters -->
+                            <div id="active-filters" style="display: flex; flex-wrap: wrap;"></div>
+                        </div>
+
+                        <!-- Results -->
+                        <div style="margin-bottom: 24px;">
+                            <p id="results-count" style="font-size: ${baseFontSize * 0.9}px; font-family: ${customFont}, ${baseFontStack}; color: ${config.text_color}; margin: 0 0 16px 0; font-weight: 600;">Memuat data...</p>
+                            <div id="results-container"></div>
+                        </div>
+
+                        <!-- Footer -->
+                        <div style="text-align: center; padding: 24px 0; border-top: 1px solid #e2e8f0;">
+                            <p id="footer-text" style="font-size: ${baseFontSize * 0.85}px; font-family: ${customFont}, ${baseFontStack}; color: ${config.secondary_action_color}; margin: 0;">${config.footer_text}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            const loadingMessage = document.getElementById('results-count');
+            loadingMessage.innerHTML = '<div class="loading-spinner" style="margin: 0 auto;"></div>';
+            
+            allData = await fetchSpreadsheetData();
+            filteredData = allData;
+
+            document.getElementById('total-count').textContent = allData.length;
+            
+            const maleCount = allData.filter(p => {
+                const gender = String(p['Jenis Kelamin'] || '').toLowerCase();
+                return gender.includes('laki');
+            }).length;
+            document.getElementById('male-count').textContent = maleCount;
+            
+            const femaleCount = allData.filter(p => {
+                const gender = String(p['Jenis Kelamin'] || '').toLowerCase();
+                return gender.includes('perempuan') || gender.includes('wanita');
+            }).length;
+            document.getElementById('female-count').textContent = femaleCount;
+
+            const dusunSelect = document.getElementById('filter-dusun');
+            const dusuns = getUniqueDusun();
+            dusuns.forEach(dusun => {
+                const option = document.createElement('option');
+                option.value = dusun;
+                option.textContent = dusun;
+                dusunSelect.appendChild(option);
+            });
+
+            const searchInput = document.getElementById('search-input');
+            const searchButton = document.getElementById('search-button');
+
+            searchInput.addEventListener('input', (e) => {
+                filterData(e.target.value);
+            });
+
+            searchButton.addEventListener('click', () => {
+                filterData(searchInput.value);
+            });
+
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    filterData(searchInput.value);
+                }
+            });
+
+            document.getElementById('filter-gender').addEventListener('change', (e) => {
+                currentFilters.gender = e.target.value;
+                renderFilterBadges();
+                filterData(searchInput.value);
+            });
+
+            document.getElementById('filter-ageRange').addEventListener('change', (e) => {
+                currentFilters.ageRange = e.target.value;
+                renderFilterBadges();
+                filterData(searchInput.value);
+            });
+
+            document.getElementById('filter-dusun').addEventListener('change', (e) => {
+                currentFilters.dusun = e.target.value;
+                renderFilterBadges();
+                filterData(searchInput.value);
+            });
+
+            renderResults();
+        }
+
+        async function onConfigChange(newConfig) {
+            config = { ...defaultConfig, ...newConfig };
+            const baseFontSize = config.font_size || defaultConfig.font_size;
+            const customFont = config.font_family || defaultConfig.font_family;
+            const baseFontStack = 'system-ui, -apple-system, sans-serif';
+
+            document.body.style.backgroundColor = config.background_color;
+
+            const loginTitle = document.getElementById('login-title');
+            if (loginTitle) {
+                loginTitle.textContent = config.login_title;
+                loginTitle.style.fontSize = `${baseFontSize * 1.8}px`;
+                loginTitle.style.fontFamily = `${customFont}, ${baseFontStack}`;
+                loginTitle.style.color = config.text_color;
+            }
+
+            const loginSubtitle = document.getElementById('login-subtitle');
+            if (loginSubtitle) {
+                loginSubtitle.textContent = config.login_subtitle;
+                loginSubtitle.style.fontSize = `${baseFontSize * 0.95}px`;
+                loginSubtitle.style.fontFamily = `${customFont}, ${baseFontStack}`;
+                loginSubtitle.style.color = config.secondary_action_color;
+            }
+
+            const appTitle = document.getElementById('app-title');
+            if (appTitle) {
+                appTitle.textContent = config.app_title;
+                appTitle.style.fontSize = `${baseFontSize * 2}px`;
+                appTitle.style.fontFamily = `${customFont}, ${baseFontStack}`;
+                appTitle.style.color = config.text_color;
+            }
+
+            const searchInput = document.getElementById('search-input');
+            if (searchInput) {
+                searchInput.placeholder = config.search_placeholder;
+                searchInput.style.fontSize = `${baseFontSize}px`;
+                searchInput.style.fontFamily = `${customFont}, ${baseFontStack}`;
+                searchInput.style.color = config.text_color;
+                searchInput.style.backgroundColor = config.surface_color;
+            }
+
+            const searchButton = document.getElementById('search-button');
+            if (searchButton) {
+                searchButton.style.backgroundColor = config.primary_action_color;
+            }
+
+            const filterSelects = document.querySelectorAll('.filter-select');
+            filterSelects.forEach(select => {
+                select.style.fontSize = `${baseFontSize * 0.9}px`;
+                select.style.fontFamily = `${customFont}, ${baseFontStack}`;
+                select.style.color = config.text_color;
+                select.style.backgroundColor = config.surface_color;
+                select.style.borderColor = config.secondary_action_color;
+            });
+
+            const statsCards = document.querySelectorAll('.stats-card');
+            statsCards.forEach(card => {
+                card.style.backgroundColor = config.surface_color;
+                const title = card.querySelector('.stats-title');
+                const value = card.querySelector('.stats-value');
+                if (title) {
+                    title.style.fontSize = `${baseFontSize * 0.85}px`;
+                    title.style.fontFamily = `${customFont}, ${baseFontStack}`;
+                    title.style.color = config.secondary_action_color;
+                }
+                if (value) {
+                    value.style.fontSize = `${baseFontSize * 1.8}px`;
+                    value.style.fontFamily = `${customFont}, ${baseFontStack}`;
+                    value.style.color = config.primary_action_color;
+                }
+            });
+
+            const footer = document.getElementById('footer-text');
+            if (footer) {
+                footer.textContent = config.footer_text;
+                footer.style.fontSize = `${baseFontSize * 0.85}px`;
+                footer.style.fontFamily = `${customFont}, ${baseFontStack}`;
+                footer.style.color = config.secondary_action_color;
+            }
+
+            renderFilterBadges();
+            renderResults();
+        }
+
+        if (window.elementSdk) {
+            window.elementSdk.init({
+                defaultConfig,
+                onConfigChange,
+                mapToCapabilities: (config) => ({
+                    recolorables: [
+                        {
+                            get: () => config.background_color || defaultConfig.background_color,
+                            set: (value) => {
+                                config.background_color = value;
+                                window.elementSdk.setConfig({ background_color: value });
+                            }
+                        },
+                        {
+                            get: () => config.surface_color || defaultConfig.surface_color,
+                            set: (value) => {
+                                config.surface_color = value;
+                                window.elementSdk.setConfig({ surface_color: value });
+                            }
+                        },
+                        {
+                            get: () => config.text_color || defaultConfig.text_color,
+                            set: (value) => {
+                                config.text_color = value;
+                                window.elementSdk.setConfig({ text_color: value });
+                            }
+                        },
+                        {
+                            get: () => config.primary_action_color || defaultConfig.primary_action_color,
+                            set: (value) => {
+                                config.primary_action_color = value;
+                                window.elementSdk.setConfig({ primary_action_color: value });
+                            }
+                        },
+                        {
+                            get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
+                            set: (value) => {
+                                config.secondary_action_color = value;
+                                window.elementSdk.setConfig({ secondary_action_color: value });
+                            }
+                        }
+                    ],
+                    borderables: [],
+                    fontEditable: {
+                        get: () => config.font_family || defaultConfig.font_family,
+                        set: (value) => {
+                            config.font_family = value;
+                            window.elementSdk.setConfig({ font_family: value });
+                        }
+                    },
+                    fontSizeable: {
+                        get: () => config.font_size || defaultConfig.font_size,
+                        set: (value) => {
+                            config.font_size = value;
+                            window.elementSdk.setConfig({ font_size: value });
+                        }
+                    }
+                }),
+                mapToEditPanelValues: (config) => new Map([
+                    ["app_title", config.app_title || defaultConfig.app_title],
+                    ["search_placeholder", config.search_placeholder || defaultConfig.search_placeholder],
+                    ["login_title", config.login_title || defaultConfig.login_title],
+                    ["login_subtitle", config.login_subtitle || defaultConfig.login_subtitle],
+                    ["footer_text", config.footer_text || defaultConfig.footer_text]
+                ])
+            });
+        }
+
+        renderLoginPage();
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b7b4384479afd8c',t:'MTc2NzM2NzQ3MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

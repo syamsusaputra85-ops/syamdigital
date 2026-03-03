@@ -1,0 +1,644 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daftar Hasil Tumbuhan</title>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/dxzlbgfnq/image/upload/v1766904916/LOGO-PT-AGAS88-fixx_sg4yvr.png">
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+        body {
+            box-sizing: border-box;
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #10b981;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .copy-btn-mini:hover {
+            transform: scale(1.1);
+        }
+        
+        .copy-btn-mini:active {
+            transform: scale(0.9);
+        }
+        
+        .copy-btn-mini {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        /* Mobile responsive styles */
+        @media (max-width: 768px) {
+            .mobile-card {
+                display: block;
+                padding: 16px;
+                border-bottom: 1px solid rgba(220, 38, 38, 0.2);
+            }
+            
+            .mobile-card:hover {
+                background-color: rgba(127, 29, 29, 0.3);
+            }
+            
+            .mobile-row {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                margin-bottom: 8px;
+            }
+            
+            .mobile-label {
+                font-weight: 600;
+                font-size: 0.75rem;
+                opacity: 0.8;
+                min-width: 100px;
+            }
+            
+            .mobile-value {
+                font-size: 0.875rem;
+                text-align: right;
+                flex: 1;
+            }
+            
+            .desktop-table {
+                display: table;
+            }
+            
+            @media (max-width: 768px) {
+                .desktop-table {
+                    display: none;
+                }
+            }
+        }
+        
+        .mobile-view {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .mobile-view {
+                display: block;
+            }
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full">
+  <div class="w-full h-full overflow-auto" style="background: linear-gradient(135deg, #1a0000 0%, #2d0a0a 25%, #4a0404 50%, #2d0a0a 75%, #1a0000 100%);">
+   <div class="max-w-7xl mx-auto px-4 py-8">
+    <header class="mb-8">
+     <div class="mb-6"><img src="https://res.cloudinary.com/dxzlbgfnq/image/upload/v1752856451/kop-surat-ptagas88_rv6rgs.png" alt="Kop Surat PT Agas88" class="w-full h-auto object-contain" onerror="this.style.display='none'; this.alt='Kop surat failed to load';">
+     </div>
+     <div class="flex items-center justify-between gap-4 mb-4">
+      <div class="flex items-center gap-4"><img src="https://res.cloudinary.com/dxzlbgfnq/image/upload/v1724199493/logo_barantin-Db3lMAJw_ourdm6.png" alt="Logo Barantin" class="h-12 md:h-16 w-auto object-contain" onerror="this.style.display='none'; this.alt='Logo failed to load';">
+       <div>
+        <h1 id="pageTitle" class="text-2xl md:text-4xl font-bold mb-1" style="color: #fecaca;">Daftar Hasil Tumbuhan Indonesia</h1>
+        <p id="tableHeader" class="text-sm md:text-lg" style="color: #fca5a5;">Katalog Sayuran dan Buah-buahan</p>
+       </div>
+      </div><img src="https://res.cloudinary.com/dxzlbgfnq/image/upload/v1766904916/LOGO-PT-AGAS88-fixx_sg4yvr.png" alt="Logo PT Agas88" class="h-16 md:h-20 w-auto object-contain" onerror="this.style.display='none'; this.alt='Logo failed to load';">
+     </div>
+    </header>
+    <div class="rounded-lg shadow-lg overflow-hidden" style="background: linear-gradient(135deg, #3f1515 0%, #2a1215 100%); border: 1px solid rgba(220, 38, 38, 0.3);"><!-- Desktop Table View -->
+     <div class="overflow-x-auto desktop-table">
+      <table class="w-full">
+       <thead class="text-white" style="background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 50%, #7f1d1d 100%);">
+        <tr>
+         <th class="px-4 py-3 text-left text-sm font-semibold">No</th>
+         <th class="px-4 py-3 text-left text-sm font-semibold">Kode HS</th>
+         <th class="px-4 py-3 text-left text-sm font-semibold">Kategori</th>
+         <th class="px-4 py-3 text-left text-sm font-semibold">Nama Produk</th>
+         <th class="px-4 py-3 text-left text-sm font-semibold">Nama Latin</th>
+         <th class="px-4 py-3 text-left text-sm font-semibold">Kuantitas</th>
+         <th class="px-4 py-3 text-left text-sm font-semibold">Harga</th>
+        </tr>
+       </thead>
+       <tbody id="tableBody" class="divide-y" style="border-color: rgba(220, 38, 38, 0.2);">
+       </tbody>
+      </table>
+     </div><!-- Mobile Card View -->
+     <div id="mobileView" class="mobile-view">
+     </div>
+    </div>
+    <div class="mt-6 bg-white rounded-lg shadow-lg p-4 md:p-6" style="background: linear-gradient(135deg, #3f1515 0%, #2a1215 100%); border: 1px solid rgba(220, 38, 38, 0.3);">
+     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+      <div class="text-sm" style="color: #fca5a5;">
+       <p>Total Item: <span id="totalCount" class="font-semibold" style="color: #fecaca;">12</span></p>
+      </div>
+      <div class="text-left md:text-right">
+       <p class="text-sm mb-1" style="color: #fca5a5;">Total Harga:</p>
+       <p id="totalPrice" class="text-xl md:text-2xl font-bold" style="color: #fecaca;">37,500,000 IDR</p>
+      </div>
+     </div>
+    </div>
+    <footer class="mt-6"><img src="https://res.cloudinary.com/dxzlbgfnq/image/upload/v1722609412/oPERATOR_juc5ll.png" alt="Operator Footer" class="w-full h-auto object-contain" onerror="this.style.display='none'; this.alt='Footer image failed to load';">
+    </footer>
+   </div>
+  </div>
+  <div id="toast" class="toast"></div><!-- Modal -->
+  <div id="detailModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300 z-50">
+   <div class="bg-white rounded-lg shadow-2xl max-w-2xl w-full max-h-[90%] overflow-y-auto" style="background: linear-gradient(135deg, #3f1515 0%, #2a1215 100%); border: 2px solid rgba(220, 38, 38, 0.5);">
+    <div class="sticky top-0 px-6 py-4 border-b flex justify-between items-center" style="background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 50%, #7f1d1d 100%); border-color: rgba(220, 38, 38, 0.3);">
+     <h2 class="text-2xl font-bold text-white">Detail Produk</h2><button id="closeModal" class="text-white hover:text-red-200 text-3xl font-bold transition-colors">×</button>
+    </div>
+    <div class="p-6" id="modalContent"><!-- Content will be inserted here -->
+    </div>
+   </div>
+  </div>
+  <script>
+        const defaultConfig = {
+            page_title: "Daftar Hasil Tumbuhan Indonesia",
+            table_header: "Katalog Sayuran dan Buah-buahan Muatan Kapal PT.Agas88",
+            background_color: "linear-gradient(135deg, #1a0000 0%, #2d0a0a 25%, #4a0404 50%, #2d0a0a 75%, #1a0000 100%)",
+            surface_color: "#2a1215",
+            text_color: "#f5e6e8",
+            primary_action_color: "#b91c1c",
+            secondary_action_color: "#dc2626"
+        };
+
+        const data = [
+            {
+                no: 1,
+                kode: "07049030",
+                kategori: "Hasil Tumbuhan / Non Benih - Berbentuk daun, bunga",
+                nama: "SAYURAN KUBIS",
+                latin: "Brassica",
+                qty: "1,000 KGM",
+                harga: "5,000,000 IDR"
+            },
+            {
+                no: 2,
+                kode: "07041010",
+                kategori: "Hasil Tumbuhan / Non Benih - Berbentuk daun, bunga",
+                nama: "SAYURAN BUNGA KOL",
+                latin: "Brassica paradisi",
+                qty: "500 KGM",
+                harga: "3,000,000 IDR"
+            },
+            {
+                no: 3,
+                kode: "07061010",
+                kategori: "Hasil Tumbuhan / Non Benih - Berbentuk umbi, akar, rimpang",
+                nama: "SAYURAN WORTEL",
+                latin: "Daucus carota",
+                qty: "500 KGM",
+                harga: "3,000,000 IDR"
+            },
+            {
+                no: 4,
+                kode: "07101000",
+                kategori: "Hasil Tumbuhan / Non Benih - Berbentuk umbi, akar, rimpang",
+                nama: "SAYURAN KENTANG",
+                latin: "Solanum tuberosum",
+                qty: "500 KGM",
+                harga: "3,000,000 IDR"
+            },
+            {
+                no: 5,
+                kode: "07093000",
+                kategori: "Hasil Tumbuhan / Non Benih - Berbentuk buah (buah segar)",
+                nama: "SAYURAN TERUNG",
+                latin: "Solanum melongena",
+                qty: "500 KGM",
+                harga: "3,000,000 IDR"
+            },
+            {
+                no: 6,
+                kode: "07096010",
+                kategori: "Hasil Tumbuhan / Non Benih - Berbentuk buah (buah segar)",
+                nama: "CABE MERAH",
+                latin: "Capsicum sp.",
+                qty: "500 KGM",
+                harga: "3,000,000 IDR"
+            },
+            {
+                no: 7,
+                kode: "07096010",
+                kategori: "Hasil Tumbuhan / Non Benih - Berbentuk buah (buah segar)",
+                nama: "CABE KERITING",
+                latin: "Capsicum annum L.",
+                qty: "500 KGM",
+                harga: "3,000,000 IDR"
+            },
+            {
+                no: 8,
+                kode: "08044000",
+                kategori: "Hasil Tumbuhan / Non Benih - Berbentuk buah (buah segar)",
+                nama: "BUAH ALPUKAT",
+                latin: "Persea gratissima",
+                qty: "500 KGM",
+                harga: "3,500,000 IDR"
+            },
+            {
+                no: 9,
+                kode: "07096010",
+                kategori: "Hasil Tumbuhan / Non Benih - Berbentuk buah (buah segar)",
+                nama: "CABE RAWIT",
+                latin: "Capsicum frutescens",
+                qty: "500 KGM",
+                harga: "3,000,000 IDR"
+            },
+            {
+                no: 10,
+                kode: "20079930",
+                kategori: "Hasil Tumbuhan / Non Benih - Berbentuk buah (buah segar)",
+                nama: "BUAH MANGGA",
+                latin: "Mangifera indica",
+                qty: "500 KGM",
+                harga: "3,000,000 IDR"
+            },
+            {
+                no: 11,
+                kode: "07133390",
+                kategori: "Hasil Tumbuhan / Non Benih - Berbentuk buah (buah segar)",
+                nama: "SAYURAN BUNCIS",
+                latin: "Phaseolus vulgaris",
+                qty: "500 KGM",
+                harga: "3,000,000 IDR"
+            },
+            {
+                no: 12,
+                kode: "07096090",
+                kategori: "Hasil Tumbuhan / Non Benih - Berbentuk daun, bunga",
+                nama: "SAYURAN SAWI",
+                latin: "Brassica juncea",
+                qty: "500 KGM",
+                harga: "2,500,000 IDR"
+            }
+        ];
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+
+        function copyText(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                showToast('Teks berhasil disalin!');
+            } catch (err) {
+                showToast('Gagal menyalin teks');
+            }
+            
+            document.body.removeChild(textArea);
+        }
+
+        function openModal(item) {
+            const config = window.elementSdk ? window.elementSdk.config : defaultConfig;
+            const modal = document.getElementById('detailModal');
+            const modalContent = document.getElementById('modalContent');
+            
+            modalContent.innerHTML = `
+                <div class="space-y-4">
+                    <div class="border-b pb-4" style="border-color: rgba(220, 38, 38, 0.3);">
+                        <h3 class="text-xl font-bold mb-2" style="color: ${config.text_color || defaultConfig.text_color}">${item.nama}</h3>
+                        <p class="text-sm italic" style="color: ${config.secondary_action_color || defaultConfig.secondary_action_color}">${item.latin}</p>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="space-y-3">
+                            <div>
+                                <label class="text-xs font-semibold uppercase tracking-wider mb-1 block" style="color: ${config.secondary_action_color || defaultConfig.secondary_action_color}">Nomor</label>
+                                <div class="flex items-center justify-between p-3 rounded" style="background-color: rgba(127, 29, 29, 0.3);">
+                                    <span style="color: ${config.text_color || defaultConfig.text_color}">${item.no}</span>
+                                    <button class="modal-copy-btn px-3 py-1 rounded text-sm font-medium text-white transition-all" 
+                                            style="background-color: ${config.primary_action_color || defaultConfig.primary_action_color}"
+                                            data-text="${item.no}">
+                                        📋 Salin
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="text-xs font-semibold uppercase tracking-wider mb-1 block" style="color: ${config.secondary_action_color || defaultConfig.secondary_action_color}">Kode HS</label>
+                                <div class="flex items-center justify-between p-3 rounded" style="background-color: rgba(127, 29, 29, 0.3);">
+                                    <span class="font-mono" style="color: ${config.text_color || defaultConfig.text_color}">${item.kode}</span>
+                                    <button class="modal-copy-btn px-3 py-1 rounded text-sm font-medium text-white transition-all" 
+                                            style="background-color: ${config.primary_action_color || defaultConfig.primary_action_color}"
+                                            data-text="${item.kode}">
+                                        📋 Salin
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="text-xs font-semibold uppercase tracking-wider mb-1 block" style="color: ${config.secondary_action_color || defaultConfig.secondary_action_color}">Kuantitas</label>
+                                <div class="flex items-center justify-between p-3 rounded" style="background-color: rgba(127, 29, 29, 0.3);">
+                                    <span style="color: ${config.text_color || defaultConfig.text_color}">${item.qty}</span>
+                                    <button class="modal-copy-btn px-3 py-1 rounded text-sm font-medium text-white transition-all" 
+                                            style="background-color: ${config.primary_action_color || defaultConfig.primary_action_color}"
+                                            data-text="${item.qty}">
+                                        📋 Salin
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="text-xs font-semibold uppercase tracking-wider mb-1 block" style="color: ${config.secondary_action_color || defaultConfig.secondary_action_color}">Harga</label>
+                                <div class="flex items-center justify-between p-3 rounded" style="background-color: rgba(127, 29, 29, 0.3);">
+                                    <span class="font-bold text-lg" style="color: ${config.text_color || defaultConfig.text_color}">${item.harga}</span>
+                                    <button class="modal-copy-btn px-3 py-1 rounded text-sm font-medium text-white transition-all" 
+                                            style="background-color: ${config.primary_action_color || defaultConfig.primary_action_color}"
+                                            data-text="${item.harga}">
+                                        📋 Salin
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="text-xs font-semibold uppercase tracking-wider mb-1 block" style="color: ${config.secondary_action_color || defaultConfig.secondary_action_color}">Kategori</label>
+                            <div class="p-3 rounded h-full flex flex-col" style="background-color: rgba(127, 29, 29, 0.3);">
+                                <p class="text-sm flex-1" style="color: ${config.text_color || defaultConfig.text_color}">${item.kategori}</p>
+                                <button class="modal-copy-btn mt-3 px-3 py-2 rounded text-sm font-medium text-white transition-all self-end" 
+                                        style="background-color: ${config.primary_action_color || defaultConfig.primary_action_color}"
+                                        data-text="${item.kategori.replace(/"/g, '&quot;')}">
+                                    📋 Salin Kategori
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="pt-4 border-t" style="border-color: rgba(220, 38, 38, 0.3);">
+                        <button id="copyAllBtn" class="w-full px-6 py-3 rounded-lg text-white font-bold text-lg transition-all hover:opacity-90" 
+                                style="background: linear-gradient(135deg, ${config.primary_action_color || defaultConfig.primary_action_color} 0%, ${config.secondary_action_color || defaultConfig.secondary_action_color} 100%);">
+                            📋 Salin Semua Informasi
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            // Add event listeners for copy buttons
+            modalContent.querySelectorAll('.modal-copy-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    copyText(this.getAttribute('data-text'));
+                });
+            });
+            
+            // Add event listener for copy all button
+            document.getElementById('copyAllBtn').addEventListener('click', function() {
+                const allText = `
+Nama Produk: ${item.nama}
+Nama Latin: ${item.latin}
+Nomor: ${item.no}
+Kode HS: ${item.kode}
+Kategori: ${item.kategori}
+Kuantitas: ${item.qty}
+Harga: ${item.harga}
+                `.trim();
+                copyText(allText);
+            });
+            
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('detailModal');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+        }
+
+        // Close modal event listeners
+        document.getElementById('closeModal').addEventListener('click', closeModal);
+        document.getElementById('detailModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        function renderTable() {
+            const config = window.elementSdk ? window.elementSdk.config : defaultConfig;
+            const tbody = document.getElementById('tableBody');
+            const mobileView = document.getElementById('mobileView');
+            tbody.innerHTML = '';
+            mobileView.innerHTML = '';
+            
+            let totalPrice = 0;
+            
+            data.forEach((item) => {
+                // Calculate total price
+                const priceNum = parseInt(item.harga.replace(/[,\.]/g, '').replace(' IDR', ''));
+                totalPrice += priceNum;
+                
+                // Desktop table row
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-red-950 hover:bg-opacity-30 transition-colors';
+                row.style.backgroundColor = config.surface_color || defaultConfig.surface_color;
+                
+                row.innerHTML = `
+                    <td class="px-4 py-3 text-sm font-medium" style="color: ${config.text_color || defaultConfig.text_color}">${item.no}</td>
+                    <td class="px-4 py-3 text-sm">
+                        <div class="flex items-center gap-2">
+                            <span class="cursor-pointer hover:underline font-semibold" style="color: ${config.secondary_action_color || defaultConfig.secondary_action_color}" data-kode="${item.kode}">${item.kode}</span>
+                            <button class="copy-btn-mini px-2 py-1 rounded text-xs font-medium text-white transition-all" 
+                                    style="background-color: ${config.primary_action_color || defaultConfig.primary_action_color}"
+                                    data-text="${item.kode}">
+                                📋
+                            </button>
+                        </div>
+                    </td>
+                    <td class="px-4 py-3 text-sm">
+                        <div class="flex items-center gap-2">
+                            <span style="color: ${config.text_color || defaultConfig.text_color}">${item.kategori}</span>
+                            <button class="copy-btn-mini px-2 py-1 rounded text-xs font-medium text-white transition-all" 
+                                    style="background-color: ${config.primary_action_color || defaultConfig.primary_action_color}"
+                                    data-text="${item.kategori.replace(/"/g, '&quot;')}">
+                                📋
+                            </button>
+                        </div>
+                    </td>
+                    <td class="px-4 py-3 text-sm">
+                        <div class="flex items-center gap-2">
+                            <span class="font-semibold" style="color: ${config.text_color || defaultConfig.text_color}">${item.nama}</span>
+                            <button class="copy-btn-mini px-2 py-1 rounded text-xs font-medium text-white transition-all" 
+                                    style="background-color: ${config.primary_action_color || defaultConfig.primary_action_color}"
+                                    data-text="${item.nama}">
+                                📋
+                            </button>
+                        </div>
+                    </td>
+                    <td class="px-4 py-3 text-sm italic" style="color: ${config.text_color || defaultConfig.text_color}">${item.latin}</td>
+                    <td class="px-4 py-3 text-sm" style="color: ${config.text_color || defaultConfig.text_color}">${item.qty}</td>
+                    <td class="px-4 py-3 text-sm font-semibold" style="color: ${config.text_color || defaultConfig.text_color}">${item.harga}</td>
+                `;
+                
+                tbody.appendChild(row);
+                
+                // Mobile card view
+                const card = document.createElement('div');
+                card.className = 'mobile-card';
+                card.innerHTML = `
+                    <div class="mobile-row">
+                        <span class="mobile-label" style="color: ${config.text_color || defaultConfig.text_color}">No:</span>
+                        <span class="mobile-value font-bold" style="color: ${config.text_color || defaultConfig.text_color}">${item.no}</span>
+                    </div>
+                    <div class="mobile-row">
+                        <span class="mobile-label" style="color: ${config.text_color || defaultConfig.text_color}">Nama:</span>
+                        <div class="flex items-center gap-2">
+                            <span class="mobile-value font-bold" style="color: ${config.text_color || defaultConfig.text_color}">${item.nama}</span>
+                            <button class="copy-btn-mini px-2 py-1 rounded text-xs font-medium text-white transition-all" 
+                                    style="background-color: ${config.primary_action_color || defaultConfig.primary_action_color}"
+                                    data-text="${item.nama}">
+                                📋
+                            </button>
+                        </div>
+                    </div>
+                    <div class="mobile-row">
+                        <span class="mobile-label" style="color: ${config.text_color || defaultConfig.text_color}">Kode HS:</span>
+                        <div class="flex items-center gap-2">
+                            <span class="mobile-value cursor-pointer hover:underline font-semibold" style="color: ${config.secondary_action_color || defaultConfig.secondary_action_color}" data-kode="${item.kode}">${item.kode}</span>
+                            <button class="copy-btn-mini px-2 py-1 rounded text-xs font-medium text-white transition-all" 
+                                    style="background-color: ${config.primary_action_color || defaultConfig.primary_action_color}"
+                                    data-text="${item.kode}">
+                                📋
+                            </button>
+                        </div>
+                    </div>
+                    <div class="mobile-row">
+                        <span class="mobile-label" style="color: ${config.text_color || defaultConfig.text_color}">Latin:</span>
+                        <span class="mobile-value italic" style="color: ${config.text_color || defaultConfig.text_color}">${item.latin}</span>
+                    </div>
+                    <div class="mobile-row">
+                        <span class="mobile-label" style="color: ${config.text_color || defaultConfig.text_color}">Kuantitas:</span>
+                        <span class="mobile-value" style="color: ${config.text_color || defaultConfig.text_color}">${item.qty}</span>
+                    </div>
+                    <div class="mobile-row">
+                        <span class="mobile-label" style="color: ${config.text_color || defaultConfig.text_color}">Harga:</span>
+                        <span class="mobile-value font-bold" style="color: ${config.text_color || defaultConfig.text_color}">${item.harga}</span>
+                    </div>
+                    <div class="mobile-row" style="border-top: 1px solid rgba(220, 38, 38, 0.2); padding-top: 8px; margin-top: 8px;">
+                        <span class="mobile-label" style="color: ${config.text_color || defaultConfig.text_color}">Kategori:</span>
+                        <div class="flex items-center gap-2">
+                            <span class="mobile-value text-xs" style="color: ${config.text_color || defaultConfig.text_color}">${item.kategori}</span>
+                            <button class="copy-btn-mini px-2 py-1 rounded text-xs font-medium text-white transition-all" 
+                                    style="background-color: ${config.primary_action_color || defaultConfig.primary_action_color}"
+                                    data-text="${item.kategori.replace(/"/g, '&quot;')}">
+                                📋
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                mobileView.appendChild(card);
+            });
+            
+            // Update total price display
+            const formattedTotal = totalPrice.toLocaleString('id-ID');
+            document.getElementById('totalPrice').textContent = `${formattedTotal} IDR`;
+            
+            document.querySelectorAll('.copy-btn-mini').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    copyText(this.getAttribute('data-text'));
+                });
+            });
+            
+            // Add click event to Kode HS
+            document.querySelectorAll('[data-kode]').forEach(kodeElement => {
+                kodeElement.addEventListener('click', function() {
+                    const kode = this.getAttribute('data-kode');
+                    const item = data.find(d => d.kode === kode);
+                    if (item) {
+                        openModal(item);
+                    }
+                });
+            });
+        }
+
+        async function onConfigChange(config) {
+            document.getElementById('pageTitle').textContent = config.page_title || defaultConfig.page_title;
+            document.getElementById('tableHeader').textContent = config.table_header || defaultConfig.table_header;
+            
+            const bgColor = config.background_color || defaultConfig.background_color;
+            document.querySelector('.bg-gradient-to-br').style.background = bgColor;
+            
+            document.getElementById('pageTitle').style.color = config.text_color || defaultConfig.text_color;
+            document.getElementById('tableHeader').style.color = config.secondary_action_color || defaultConfig.secondary_action_color;
+            
+            renderTable();
+        }
+
+        if (window.elementSdk) {
+            window.elementSdk.init({
+                defaultConfig: defaultConfig,
+                onConfigChange: onConfigChange,
+                mapToCapabilities: (config) => ({
+                    recolorables: [
+                        {
+                            get: () => config.background_color || defaultConfig.background_color,
+                            set: (value) => {
+                                config.background_color = value;
+                                window.elementSdk.setConfig({ background_color: value });
+                            }
+                        },
+                        {
+                            get: () => config.surface_color || defaultConfig.surface_color,
+                            set: (value) => {
+                                config.surface_color = value;
+                                window.elementSdk.setConfig({ surface_color: value });
+                            }
+                        },
+                        {
+                            get: () => config.text_color || defaultConfig.text_color,
+                            set: (value) => {
+                                config.text_color = value;
+                                window.elementSdk.setConfig({ text_color: value });
+                            }
+                        },
+                        {
+                            get: () => config.primary_action_color || defaultConfig.primary_action_color,
+                            set: (value) => {
+                                config.primary_action_color = value;
+                                window.elementSdk.setConfig({ primary_action_color: value });
+                            }
+                        },
+                        {
+                            get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
+                            set: (value) => {
+                                config.secondary_action_color = value;
+                                window.elementSdk.setConfig({ secondary_action_color: value });
+                            }
+                        }
+                    ],
+                    borderables: [],
+                    fontEditable: undefined,
+                    fontSizeable: undefined
+                }),
+                mapToEditPanelValues: (config) => new Map([
+                    ["page_title", config.page_title || defaultConfig.page_title],
+                    ["table_header", config.table_header || defaultConfig.table_header]
+                ])
+            });
+        }
+
+        renderTable();
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b4f3263e0bca3d5',t:'MTc2NjkwNTM5Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

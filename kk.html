@@ -1,0 +1,919 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Search</title>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/dpr2vc3b0/image/upload/v1767107096/logo_donggala-fix-2025_napiej.png">
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    .search-card {
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .search-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    }
+    
+    .loading-spinner {
+      border: 3px solid #f3f4f6;
+      border-top: 3px solid #3b82f6;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .shake {
+      animation: shake 0.5s;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+      20%, 40%, 60%, 80% { transform: translateX(5px); }
+    }
+
+    .modal-enter {
+      animation: modalFadeIn 0.3s ease-out;
+    }
+
+    @keyframes modalFadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9) translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    .toast-enter {
+      animation: toastSlideIn 0.3s ease-out;
+    }
+
+    .toast-exit {
+      animation: toastSlideOut 0.3s ease-in;
+    }
+
+    @keyframes toastSlideIn {
+      from {
+        opacity: 0;
+        transform: translate(-50%, -100%);
+      }
+      to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+    }
+
+    @keyframes toastSlideOut {
+      from {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+      to {
+        opacity: 0;
+        transform: translate(-50%, -100%);
+      }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full">
+  <div id="app" class="w-full h-full overflow-auto"><!-- Login Screen -->
+   <div id="loginScreen" class="min-h-full flex items-center justify-center" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+    <div class="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md mx-4">
+     <div class="text-center mb-8">
+      <div class="mx-auto w-24 h-24 mb-4 flex items-center justify-center"><img src="https://res.cloudinary.com/dpr2vc3b0/image/upload/v1767107096/logo_donggala-fix-2025_napiej.png" alt="Logo" class="w-full h-full object-contain" onerror="this.src=''; this.alt='Logo gagal dimuat'; this.style.display='none';">
+      </div>
+      <div class="mx-auto w-24 h-24 mb-4 rounded-full overflow-hidden border-4 border-gradient-to-r from-blue-500 to-purple-600 shadow-lg"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1767107507/SYAM_DIGITAL_ADMIN_dt6quc.jpg" alt="Syam Digital Admin" class="w-full h-full object-cover" onerror="this.src=''; this.alt='Foto admin gagal dimuat'; this.style.display='none';">
+      </div>
+      <h1 id="loginTitle" class="text-3xl font-bold text-gray-800">Login</h1>
+      <p class="text-gray-600 mt-2">Masukkan password untuk mengakses data</p>
+      <p class="text-sm text-gray-500 mt-1">Admin: Syam Digital</p>
+     </div>
+     <form id="loginForm" class="space-y-6">
+      <div><label for="passwordInput" class="block text-sm font-semibold text-gray-700 mb-2">Password</label> <input type="password" id="passwordInput" placeholder="Masukkan password" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 transition-colors" required>
+      </div>
+      <div id="errorMessage" class="hidden bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
+       ❌ Password salah! Silakan coba lagi.
+      </div><button type="submit" id="loginButton" class="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold py-3 rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"> Masuk </button>
+     </form>
+    </div>
+   </div><!-- Main App Screen (Hidden by default) -->
+   <div id="mainScreen" class="hidden min-h-full" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+    <div class="max-w-6xl mx-auto px-4 py-8"><!-- Action Buttons -->
+     <div class="flex justify-end mb-4 gap-3"><a href="https://syam.digital/penduduk" target="_blank" rel="noopener noreferrer" class="bg-white bg-opacity-20 hover:bg-opacity-30 text-white px-4 py-2 rounded-lg transition-all flex items-center gap-2">
+       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path>
+       </svg> Kunjungi Website </a> <a href="https://docs.google.com/spreadsheets/d/1ht9tCI89TUwSrkqrwdIbtQugn3BSSUb-5BLQ_k_gndg/edit?usp=sharing" target="_blank" rel="noopener noreferrer" class="bg-white bg-opacity-20 hover:bg-opacity-30 text-white px-4 py-2 rounded-lg transition-all flex items-center gap-2">
+       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+       </svg> Buka Spreadsheet </a> <button id="exportPdfButton" class="bg-white bg-opacity-20 hover:bg-opacity-30 text-white px-4 py-2 rounded-lg transition-all flex items-center gap-2">
+       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+       </svg> Ekspor PDF  </button><button id="logoutButton" class="bg-white bg-opacity-20 hover:bg-opacity-30 text-white px-4 py-2 rounded-lg transition-all flex items-center gap-2">
+       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+       </svg> Keluar </button>
+     </div><!-- Header -->
+     <div class="text-center mb-8">
+      <div class="mx-auto w-20 h-20 mb-4 flex items-center justify-center bg-white rounded-full p-2 shadow-lg"><img src="https://res.cloudinary.com/dpr2vc3b0/image/upload/v1767107096/logo_donggala-fix-2025_napiej.png" alt="Logo" class="w-full h-full object-contain" onerror="this.src=''; this.alt='Logo gagal dimuat'; this.style.display='none';">
+      </div>
+      <h1 id="pageTitle" class="text-4xl font-bold text-white mb-2">Pencarian Data Keluarga</h1>
+      <p class="text-white text-opacity-90">Desa Wani Lumbumpetigo, Tanantovea, Donggala, Sulawesi Tengah</p>
+      <div class="mx-auto w-16 h-16 mt-4 rounded-full overflow-hidden border-4 border-white shadow-lg"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1767107507/SYAM_DIGITAL_ADMIN_dt6quc.jpg" alt="Syam Digital Admin" class="w-full h-full object-cover" onerror="this.src=''; this.alt='Foto admin gagal dimuat'; this.style.display='none';">
+      </div>
+      <p class="text-white text-sm mt-2 opacity-90">Admin: Syam Digital</p>
+     </div><!-- Search Box -->
+     <div class="bg-white rounded-lg shadow-xl p-6 mb-8">
+      <div class="relative"><input type="text" id="searchInput" placeholder="Ketik untuk mencari data..." class="w-full px-4 py-3 pr-12 text-gray-700 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 transition-colors">
+       <svg class="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+       </svg>
+      </div>
+      <div id="statsBar" class="mt-4 text-sm text-gray-600 flex items-center justify-between"><span id="resultCount">Memuat data...</span> <span id="searchTime"></span>
+      </div>
+     </div><!-- Loading State -->
+     <div id="loadingState" class="flex flex-col items-center justify-center py-12">
+      <div class="loading-spinner mb-4"></div>
+      <p class="text-white text-lg">Memuat data dari spreadsheet...</p>
+     </div><!-- Results Container -->
+     <div id="resultsContainer" class="hidden grid gap-6 md:grid-cols-2 lg:grid-cols-3"><!-- Cards will be inserted here -->
+     </div><!-- No Results State -->
+     <div id="noResultsState" class="hidden text-center py-12">
+      <svg class="mx-auto w-24 h-24 text-white text-opacity-50 mb-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+      </svg>
+      <p id="noResultsMessage" class="text-white text-xl">Tidak ada data yang ditemukan</p>
+     </div><!-- Error State -->
+     <div id="errorState" class="hidden bg-red-100 border border-red-400 text-red-700 px-6 py-4 rounded-lg">
+      <p class="font-bold mb-2">⚠️ Gagal Memuat Data</p>
+      <p id="errorMessage">Terjadi kesalahan saat mengambil data dari spreadsheet.</p>
+     </div>
+    </div>
+   </div><!-- Detail Modal -->
+   <div id="detailModal" class="hidden fixed inset-0 z-50 overflow-y-auto" style="background-color: rgba(0, 0, 0, 0.75);">
+    <div class="flex items-center justify-center min-h-full p-4">
+     <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full mx-4 transform transition-all"><!-- Modal Header -->
+      <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-4 rounded-t-2xl flex items-center justify-between">
+       <h2 id="modalTitle" class="text-2xl font-bold">📋 Detail Lengkap</h2><button id="closeModalButton" class="text-white hover:text-gray-200 transition-colors focus:outline-none">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg></button>
+      </div><!-- Modal Body -->
+      <div id="modalBody" class="px-6 py-6 max-h-96 overflow-y-auto"><!-- Content will be inserted here -->
+      </div><!-- Modal Footer -->
+      <div class="bg-gray-50 px-6 py-4 rounded-b-2xl flex justify-end gap-3"><button id="closeModalFooterButton" class="px-6 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500"> Tutup </button>
+      </div>
+     </div>
+    </div>
+   </div><!-- Export PDF Modal -->
+   <div id="exportModal" class="hidden fixed inset-0 z-50 overflow-y-auto" style="background-color: rgba(0, 0, 0, 0.75);">
+    <div class="flex items-center justify-center min-h-full p-4">
+     <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full mx-4 transform transition-all"><!-- Modal Header -->
+      <div class="bg-gradient-to-r from-green-500 to-teal-600 text-white px-6 py-4 rounded-t-2xl flex items-center justify-between">
+       <h2 class="text-2xl font-bold">📄 Pilih Dusun untuk Ekspor PDF</h2><button id="closeExportModalButton" class="text-white hover:text-gray-200 transition-colors focus:outline-none">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg></button>
+      </div><!-- Modal Body -->
+      <div id="exportModalBody" class="px-6 py-6">
+       <p class="text-gray-600 mb-4">Pilih dusun yang ingin Anda ekspor ke file PDF:</p>
+       <div id="dusunList" class="space-y-2 max-h-96 overflow-y-auto"><!-- Dusun buttons will be inserted here -->
+       </div>
+      </div><!-- Modal Footer -->
+      <div class="bg-gray-50 px-6 py-4 rounded-b-2xl flex justify-end gap-3"><button id="closeExportModalFooterButton" class="px-6 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500"> Batal </button>
+      </div>
+     </div>
+    </div>
+   </div><!-- Toast Notification -->
+   <div id="toastNotification" class="hidden fixed top-8 left-1/2 transform -translate-x-1/2 z-50 bg-green-600 text-white px-6 py-4 rounded-lg shadow-2xl flex items-center gap-3 transition-all">
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+    </svg>
+    <div>
+     <p class="font-bold" id="toastTitle">Berhasil Disalin!</p>
+     <p class="text-sm" id="toastMessage">Teks telah disalin ke clipboard</p>
+    </div>
+   </div>
+  </div>
+  <script>
+    const CORRECT_PASSWORD = "7203192010";
+    
+    const defaultConfig = {
+      page_title: "Pencarian Data Keluarga",
+      search_placeholder: "Ketik untuk mencari data...",
+      no_results_message: "Tidak ada data yang ditemukan",
+      login_title: "Login",
+      password_placeholder: "Masukkan password",
+      background_color: "#667eea",
+      card_color: "#ffffff",
+      text_color: "#1f2937",
+      primary_button_color: "#3b82f6",
+      secondary_button_color: "#6366f1"
+    };
+    
+    let allData = [];
+    let filteredData = [];
+    let isLoggedIn = false;
+    
+    // Login functionality
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const passwordInput = document.getElementById('passwordInput');
+      const password = passwordInput.value;
+      const errorMessage = document.getElementById('errorMessage');
+      const loginForm = document.getElementById('loginForm');
+      
+      if (password === CORRECT_PASSWORD) {
+        isLoggedIn = true;
+        document.getElementById('loginScreen').classList.add('hidden');
+        document.getElementById('mainScreen').classList.remove('hidden');
+        initializeApp();
+      } else {
+        errorMessage.classList.remove('hidden');
+        loginForm.classList.add('shake');
+        passwordInput.value = '';
+        passwordInput.focus();
+        
+        setTimeout(() => {
+          loginForm.classList.remove('shake');
+        }, 500);
+      }
+    });
+
+    // Logout functionality
+    document.getElementById('logoutButton').addEventListener('click', function() {
+      isLoggedIn = false;
+      document.getElementById('loginScreen').classList.remove('hidden');
+      document.getElementById('mainScreen').classList.add('hidden');
+      document.getElementById('passwordInput').value = '';
+      document.getElementById('errorMessage').classList.add('hidden');
+      
+      // Reset app state
+      document.getElementById('loadingState').classList.remove('hidden');
+      document.getElementById('resultsContainer').classList.add('hidden');
+      document.getElementById('noResultsState').classList.add('hidden');
+      document.getElementById('errorState').classList.add('hidden');
+    });
+    
+    async function fetchSpreadsheetData() {
+      const spreadsheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSiRHJbRlmTPdYZJWdV3IqWimER2jfkky3JM2I8Ac8Tv5KBwgmYYTBxSmeDBp5UmjoducFky03uE_Sw/pub?output=csv&gid=0";
+      
+      try {
+        const response = await fetch(spreadsheetUrl);
+        if (!response.ok) throw new Error('Gagal mengambil data');
+        
+        const csvText = await response.text();
+        const rows = csvText.split('\n').filter(row => row.trim());
+        
+        if (rows.length === 0) throw new Error('Spreadsheet kosong');
+        
+        const headers = rows[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
+        const data = [];
+        
+        for (let i = 1; i < rows.length; i++) {
+          const values = rows[i].split(',').map(v => v.trim().replace(/^"|"$/g, ''));
+          if (values.some(v => v)) {
+            const item = {};
+            headers.forEach((header, index) => {
+              item[header] = values[index] || '';
+            });
+            data.push(item);
+          }
+        }
+        
+        return { success: true, data, headers };
+      } catch (error) {
+        return { success: false, error: error.message };
+      }
+    }
+    
+    function createCard(item, headers) {
+      const config = window.elementSdk?.config || defaultConfig;
+      const card = document.createElement('div');
+      card.className = 'search-card bg-white rounded-lg shadow-lg p-6';
+      card.style.backgroundColor = config.card_color || defaultConfig.card_color;
+      card.style.color = config.text_color || defaultConfig.text_color;
+      
+      let content = '';
+      headers.forEach((header, index) => {
+        if (item[header]) {
+          if (index === 0) {
+            content += `<h3 class="text-xl font-bold mb-3" style="color: #800000; font-weight: 900;">${item[header]}</h3>`;
+          } else {
+            // Check if this is the "Kepala Keluarga" field
+            const isKepalaKeluarga = header.toLowerCase().includes('kepala keluarga');
+            const valueStyle = isKepalaKeluarga ? 'color: #2563eb; font-weight: 900;' : '';
+            const valueClass = isKepalaKeluarga ? 'ml-2' : 'ml-2 text-gray-800';
+            
+            content += `
+              <div class="mb-2">
+                <span class="font-semibold text-sm text-gray-600">${header}:</span>
+                <span class="${valueClass}" style="${valueStyle}">${item[header]}</span>
+              </div>
+            `;
+          }
+        }
+      });
+      
+      content += `
+        <button class="detail-button mt-4 w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold py-2 px-4 rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-500">
+          👁️ Lihat Detail Lengkap
+        </button>
+      `;
+      
+      card.innerHTML = content;
+      
+      // Add click event to detail button
+      const detailButton = card.querySelector('.detail-button');
+      detailButton.addEventListener('click', () => {
+        showDetailModal(item, headers);
+      });
+      
+      return card;
+    }
+    
+    function renderResults(data, headers) {
+      const container = document.getElementById('resultsContainer');
+      const config = window.elementSdk?.config || defaultConfig;
+      
+      container.innerHTML = '';
+      
+      if (data.length === 0) {
+        document.getElementById('noResultsState').classList.remove('hidden');
+        document.getElementById('resultsContainer').classList.add('hidden');
+        return;
+      }
+      
+      document.getElementById('noResultsState').classList.add('hidden');
+      document.getElementById('resultsContainer').classList.remove('hidden');
+      
+      data.forEach(item => {
+        const card = createCard(item, headers);
+        container.appendChild(card);
+      });
+    }
+    
+    function performSearch(query) {
+      const startTime = performance.now();
+      
+      if (!query.trim()) {
+        filteredData = [...allData];
+      } else {
+        const lowerQuery = query.toLowerCase();
+        filteredData = allData.filter(item => {
+          return Object.values(item).some(value => 
+            String(value).toLowerCase().includes(lowerQuery)
+          );
+        });
+      }
+      
+      const endTime = performance.now();
+      const searchTime = ((endTime - startTime) / 1000).toFixed(3);
+      
+      document.getElementById('resultCount').textContent = 
+        `Ditemukan ${filteredData.length} dari ${allData.length} data`;
+      document.getElementById('searchTime').textContent = 
+        `(${searchTime}s)`;
+      
+      renderResults(filteredData, dataHeaders);
+    }
+    
+    let dataHeaders = [];
+    
+    function showToast(title, message) {
+      const toast = document.getElementById('toastNotification');
+      const toastTitle = document.getElementById('toastTitle');
+      const toastMessage = document.getElementById('toastMessage');
+      
+      toastTitle.textContent = title;
+      toastMessage.textContent = message;
+      
+      toast.classList.remove('hidden', 'toast-exit');
+      toast.classList.add('toast-enter');
+      
+      setTimeout(() => {
+        toast.classList.remove('toast-enter');
+        toast.classList.add('toast-exit');
+        
+        setTimeout(() => {
+          toast.classList.add('hidden');
+          toast.classList.remove('toast-exit');
+        }, 300);
+      }, 3000);
+    }
+    
+    function showDetailModal(item, headers) {
+      const modal = document.getElementById('detailModal');
+      const modalBody = document.getElementById('modalBody');
+      const modalTitle = document.getElementById('modalTitle');
+      const modalContent = modal.querySelector('.bg-white');
+      
+      // Set modal title with first field value
+      if (headers.length > 0 && item[headers[0]]) {
+        modalTitle.textContent = `📋 ${item[headers[0]]}`;
+      }
+      
+      // Create detailed content
+      let content = '<div class="space-y-4">';
+      
+      headers.forEach((header, index) => {
+        if (item[header]) {
+          const icon = index === 0 ? '👤' : index === 1 ? '📍' : index === 2 ? '📞' : index === 3 ? '✉️' : '📝';
+          // Check if this is the "Kepala Keluarga" field
+          const isKepalaKeluarga = header.toLowerCase().includes('kepala keluarga');
+          const valueStyle = isKepalaKeluarga ? 'color: #2563eb; font-weight: 900;' : '';
+          const valueClass = isKepalaKeluarga ? 'text-lg font-medium' : 'text-lg text-gray-800 font-medium';
+          
+          // Check if this is NIK or KK field
+          const isNIKorKK = header.toLowerCase().includes('nik') || header.toLowerCase().includes('kk') || header.toLowerCase().includes('no. kk');
+          
+          content += `
+            <div class="border-l-4 border-blue-500 bg-gradient-to-r from-blue-50 to-purple-50 p-4 rounded-r-lg hover:shadow-md transition-shadow">
+              <div class="flex items-start gap-3">
+                <span class="text-2xl">${icon}</span>
+                <div class="flex-1">
+                  <p class="text-sm font-semibold text-gray-600 uppercase tracking-wide mb-1">${header}</p>
+                  <div class="flex items-center gap-2">
+                    <p class="${valueClass}" style="${valueStyle}">${item[header]}</p>
+                    ${isNIKorKK ? `
+                      <button class="copy-button px-3 py-1 bg-green-500 hover:bg-green-600 text-white text-sm font-semibold rounded-lg transition-all flex items-center gap-1 focus:outline-none focus:ring-2 focus:ring-green-400" data-copy="${item[header]}" data-label="${header}">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                        </svg>
+                        Salin
+                      </button>
+                    ` : ''}
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+      });
+      
+      content += '</div>';
+      modalBody.innerHTML = content;
+      
+      // Add copy button event listeners
+      modalBody.querySelectorAll('.copy-button').forEach(button => {
+        button.addEventListener('click', function() {
+          const textToCopy = this.getAttribute('data-copy');
+          const label = this.getAttribute('data-label');
+          
+          navigator.clipboard.writeText(textToCopy).then(() => {
+            // Show toast notification
+            showToast('✅ Berhasil Disalin!', `${label} telah disalin ke clipboard`);
+            
+            // Change button appearance temporarily
+            const originalHTML = this.innerHTML;
+            this.innerHTML = `
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              Tersalin!
+            `;
+            this.classList.remove('bg-green-500', 'hover:bg-green-600');
+            this.classList.add('bg-green-700');
+            
+            // Reset button after 2 seconds
+            setTimeout(() => {
+              this.innerHTML = originalHTML;
+              this.classList.add('bg-green-500', 'hover:bg-green-600');
+              this.classList.remove('bg-green-700');
+            }, 2000);
+          }).catch(err => {
+            // Show error toast
+            showToast('❌ Gagal Menyalin', 'Terjadi kesalahan saat menyalin teks');
+            
+            // Fallback error handling
+            this.innerHTML = `
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+              Gagal
+            `;
+            this.classList.remove('bg-green-500');
+            this.classList.add('bg-red-500');
+          });
+        });
+      });
+      
+      // Show modal with animation
+      modal.classList.remove('hidden');
+      modalContent.classList.add('modal-enter');
+      document.body.style.overflow = 'hidden';
+      
+      setTimeout(() => {
+        modalContent.classList.remove('modal-enter');
+      }, 300);
+    }
+    
+    function closeDetailModal() {
+      const modal = document.getElementById('detailModal');
+      modal.classList.add('hidden');
+      document.body.style.overflow = 'auto';
+    }
+    
+    // Modal close button events
+    document.getElementById('closeModalButton').addEventListener('click', closeDetailModal);
+    document.getElementById('closeModalFooterButton').addEventListener('click', closeDetailModal);
+    
+    // Close modal when clicking backdrop
+    document.getElementById('detailModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeDetailModal();
+      }
+    });
+    
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeDetailModal();
+        closeExportModal();
+      }
+    });
+
+    // Export PDF functionality
+    function closeExportModal() {
+      const modal = document.getElementById('exportModal');
+      modal.classList.add('hidden');
+      document.body.style.overflow = 'auto';
+    }
+
+    function getDusunList() {
+      const dusunSet = new Set();
+      const validDusuns = ['1 PETIGO', '2 LUMBUM', '3 KAVATUA'];
+      
+      allData.forEach(item => {
+        // Assuming 'Dusun' is one of the headers - adjust if different
+        const dusunField = dataHeaders.find(h => h.toLowerCase().includes('dusun'));
+        if (dusunField && item[dusunField]) {
+          const dusunValue = item[dusunField].trim();
+          // Only add if it matches one of the valid dusuns
+          if (validDusuns.includes(dusunValue)) {
+            dusunSet.add(dusunValue);
+          }
+        }
+      });
+      return Array.from(dusunSet).sort();
+    }
+
+    function showExportModal() {
+      const modal = document.getElementById('exportModal');
+      const dusunList = document.getElementById('dusunList');
+      const modalContent = modal.querySelector('.bg-white');
+      
+      const dusuns = getDusunList();
+      
+      if (dusuns.length === 0) {
+        dusunList.innerHTML = '<p class="text-center text-gray-500 py-4">Tidak ada data dusun tersedia</p>';
+      } else {
+        let content = '';
+        dusuns.forEach(dusun => {
+          content += `
+            <button class="export-dusun-button w-full text-left px-6 py-4 bg-gradient-to-r from-green-50 to-teal-50 hover:from-green-100 hover:to-teal-100 border-2 border-green-300 rounded-lg transition-all transform hover:scale-102 focus:outline-none focus:ring-2 focus:ring-green-500 flex items-center justify-between group" data-dusun="${dusun}">
+              <div class="flex items-center gap-3">
+                <span class="text-2xl">📍</span>
+                <span class="font-semibold text-gray-800 text-lg">${dusun}</span>
+              </div>
+              <svg class="w-5 h-5 text-green-600 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+              </svg>
+            </button>
+          `;
+        });
+        dusunList.innerHTML = content;
+        
+        // Add click events to dusun buttons
+        document.querySelectorAll('.export-dusun-button').forEach(button => {
+          button.addEventListener('click', function() {
+            const dusun = this.getAttribute('data-dusun');
+            exportPdfForDusun(dusun);
+          });
+        });
+      }
+      
+      modal.classList.remove('hidden');
+      modalContent.classList.add('modal-enter');
+      document.body.style.overflow = 'hidden';
+      
+      setTimeout(() => {
+        modalContent.classList.remove('modal-enter');
+      }, 300);
+    }
+
+    function exportPdfForDusun(dusunName) {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF('l', 'mm', 'a4'); // Landscape orientation for better column fit
+      
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const pageHeight = doc.internal.pageSize.getHeight();
+      
+      // Find dusun field name
+      const dusunField = dataHeaders.find(h => h.toLowerCase().includes('dusun'));
+      
+      // Filter data for selected dusun
+      const dusunData = allData.filter(item => item[dusunField] === dusunName);
+      
+      if (dusunData.length === 0) {
+        return;
+      }
+      
+      // Header background with gradient effect
+      doc.setFillColor(59, 130, 246);
+      doc.rect(0, 0, pageWidth, 40, 'F');
+      
+      // White title text
+      doc.setTextColor(255, 255, 255);
+      doc.setFontSize(18);
+      doc.setFont(undefined, 'bold');
+      doc.text('LAPORAN DATA PENDUDUK', pageWidth / 2, 10, { align: 'center' });
+      
+      doc.setFontSize(14);
+      doc.text(`"KEPALA KELUARGA" ${dusunName}`, pageWidth / 2, 18, { align: 'center' });
+      
+      doc.setFontSize(13);
+      doc.text('Desa Wani Lumbumpetigo', pageWidth / 2, 25, { align: 'center' });
+      
+      doc.setFontSize(10);
+      doc.setFont(undefined, 'normal');
+      doc.text('Tanantovea, Donggala, Sulawesi Tengah', pageWidth / 2, 32, { align: 'center' });
+      
+      // Info box
+      doc.setFillColor(237, 242, 247);
+      doc.roundedRect(15, 48, pageWidth - 30, 20, 3, 3, 'F');
+      
+      doc.setTextColor(31, 41, 55);
+      doc.setFontSize(12);
+      doc.setFont(undefined, 'bold');
+      doc.text(`Dusun: ${dusunName}`, 20, 56);
+      
+      doc.setFontSize(9);
+      doc.setFont(undefined, 'normal');
+      doc.text(`Total: ${dusunData.length} Keluarga`, 20, 63);
+      doc.text(`Tanggal: ${new Date().toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' })}`, pageWidth - 20, 60, { align: 'right' });
+      
+      // Prepare table data with numbering
+      const tableHeaders = ['No', ...dataHeaders];
+      const tableData = dusunData.map((item, index) => {
+        return [index + 1, ...dataHeaders.map(header => {
+          const value = item[header] || '-';
+          // Truncate long values to prevent overflow
+          return value.length > 50 ? value.substring(0, 47) + '...' : value;
+        })];
+      });
+      
+      // Calculate optimal column widths
+      const availableWidth = pageWidth - 30; // margins
+      const numColWidth = 15; // Number column - increased for better spacing
+      const remainingWidth = availableWidth - numColWidth;
+      const dataColumnWidth = remainingWidth / dataHeaders.length;
+      
+      // Column styles with specific widths
+      const columnStyles = {
+        0: { 
+          halign: 'center', 
+          cellWidth: numColWidth,
+          fontStyle: 'bold',
+          minCellWidth: 15
+        }
+      };
+      
+      // Set consistent width for all data columns
+      for (let i = 1; i <= dataHeaders.length; i++) {
+        columnStyles[i] = {
+          cellWidth: dataColumnWidth,
+          overflow: 'linebreak'
+        };
+      }
+      
+      // Add table with better styling
+      doc.autoTable({
+        head: [tableHeaders],
+        body: tableData,
+        startY: 75,
+        theme: 'striped',
+        styles: {
+          fontSize: 8,
+          cellPadding: 3,
+          lineColor: [220, 220, 220],
+          lineWidth: 0.3,
+          textColor: [31, 41, 55],
+          overflow: 'linebreak',
+          cellWidth: 'wrap',
+          valign: 'middle'
+        },
+        headStyles: {
+          fillColor: [59, 130, 246],
+          textColor: [255, 255, 255],
+          fontStyle: 'bold',
+          fontSize: 9,
+          halign: 'center',
+          cellPadding: 4,
+          lineWidth: 0.3,
+          lineColor: [40, 100, 200]
+        },
+        alternateRowStyles: {
+          fillColor: [249, 250, 251],
+        },
+        columnStyles: columnStyles,
+        margin: { left: 15, right: 15 },
+        tableLineColor: [220, 220, 220],
+        tableLineWidth: 0.3,
+        didDrawPage: function(data) {
+          // Header on each page (except first)
+          if (data.pageNumber > 1) {
+            doc.setFillColor(59, 130, 246);
+            doc.rect(0, 0, pageWidth, 15, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(10);
+            doc.setFont(undefined, 'bold');
+            doc.text(`${dusunName} - Lanjutan`, pageWidth / 2, 10, { align: 'center' });
+          }
+          
+          // Footer on each page
+          const footerY = pageHeight - 10;
+          doc.setFontSize(7);
+          doc.setTextColor(100, 100, 100);
+          doc.setFont(undefined, 'normal');
+          doc.text(`Halaman ${data.pageNumber}`, 15, footerY);
+          doc.text('Dicetak dari sistem data penduduk Desa Wani Lumbumpetigo', pageWidth / 2, footerY, { align: 'center' });
+          doc.text(`${new Date().toLocaleDateString('id-ID')}`, pageWidth - 15, footerY, { align: 'right' });
+        }
+      });
+      
+      // Save the PDF
+      const filename = `Laporan_${dusunName.replace(/\s+/g, '_')}_${new Date().getTime()}.pdf`;
+      doc.save(filename);
+      
+      // Show success toast
+      showToast('✅ PDF Berhasil Diunduh!', `Laporan ${dusunName} telah tersimpan`);
+      
+      // Close modal
+      closeExportModal();
+    }
+
+    // Export button event
+    document.getElementById('exportPdfButton').addEventListener('click', function() {
+      if (allData.length === 0) {
+        return;
+      }
+      showExportModal();
+    });
+
+    // Export modal close events
+    document.getElementById('closeExportModalButton').addEventListener('click', closeExportModal);
+    document.getElementById('closeExportModalFooterButton').addEventListener('click', closeExportModal);
+    
+    document.getElementById('exportModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeExportModal();
+      }
+    });
+    
+    async function initializeApp() {
+      if (!isLoggedIn) return;
+      
+      const result = await fetchSpreadsheetData();
+      
+      document.getElementById('loadingState').classList.add('hidden');
+      
+      if (!result.success) {
+        document.getElementById('errorState').classList.remove('hidden');
+        document.getElementById('errorMessage').textContent = 
+          `Error: ${result.error}. Pastikan spreadsheet sudah dipublikasikan dan dapat diakses publik.`;
+        return;
+      }
+      
+      allData = result.data;
+      filteredData = [...allData];
+      dataHeaders = result.headers;
+      
+      document.getElementById('resultCount').textContent = 
+        `Ditemukan ${allData.length} data`;
+      
+      renderResults(filteredData, dataHeaders);
+      
+      const searchInput = document.getElementById('searchInput');
+      searchInput.addEventListener('input', (e) => {
+        performSearch(e.target.value);
+      });
+    }
+    
+    async function onConfigChange(config) {
+      const customFont = config.font_family || defaultConfig.font_family;
+      const fontSize = config.font_size || defaultConfig.font_size || 16;
+      const baseFontStack = 'system-ui, -apple-system, sans-serif';
+      
+      // Login screen
+      document.getElementById('loginTitle').textContent = 
+        config.login_title || defaultConfig.login_title;
+      document.getElementById('loginTitle').style.fontFamily = 
+        customFont ? `${customFont}, ${baseFontStack}` : baseFontStack;
+      document.getElementById('loginTitle').style.fontSize = `${fontSize * 1.875}px`;
+      
+      document.getElementById('passwordInput').placeholder = 
+        config.password_placeholder || defaultConfig.password_placeholder;
+      document.getElementById('passwordInput').style.fontFamily = 
+        customFont ? `${customFont}, ${baseFontStack}` : baseFontStack;
+      document.getElementById('passwordInput').style.fontSize = `${fontSize}px`;
+      
+      // Main screen
+      document.getElementById('pageTitle').textContent = 
+        config.page_title || defaultConfig.page_title;
+      document.getElementById('pageTitle').style.fontFamily = 
+        customFont ? `${customFont}, ${baseFontStack}` : baseFontStack;
+      document.getElementById('pageTitle').style.fontSize = `${fontSize * 2}px`;
+      
+      document.getElementById('searchInput').placeholder = 
+        config.search_placeholder || defaultConfig.search_placeholder;
+      document.getElementById('searchInput').style.fontFamily = 
+        customFont ? `${customFont}, ${baseFontStack}` : baseFontStack;
+      document.getElementById('searchInput').style.fontSize = `${fontSize}px`;
+      
+      document.getElementById('noResultsMessage').textContent = 
+        config.no_results_message || defaultConfig.no_results_message;
+      document.getElementById('noResultsMessage').style.fontFamily = 
+        customFont ? `${customFont}, ${baseFontStack}` : baseFontStack;
+      document.getElementById('noResultsMessage').style.fontSize = `${fontSize * 1.25}px`;
+      
+      const bgColor = config.background_color || defaultConfig.background_color;
+      const gradientBg = `linear-gradient(135deg, ${bgColor} 0%, #764ba2 100%)`;
+      document.querySelector('#loginScreen > div').previousElementSibling.style.background = gradientBg;
+      const mainScreenBg = document.querySelector('#mainScreen');
+      if (mainScreenBg) {
+        mainScreenBg.style.background = gradientBg;
+      }
+      
+      if (filteredData.length > 0) {
+        renderResults(filteredData, dataHeaders);
+      }
+    }
+    
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities: (config) => ({
+          recolorables: [
+            {
+              get: () => config.background_color || defaultConfig.background_color,
+              set: (value) => {
+                config.background_color = value;
+                window.elementSdk.setConfig({ background_color: value });
+              }
+            },
+            {
+              get: () => config.card_color || defaultConfig.card_color,
+              set: (value) => {
+                config.card_color = value;
+                window.elementSdk.setConfig({ card_color: value });
+              }
+            },
+            {
+              get: () => config.text_color || defaultConfig.text_color,
+              set: (value) => {
+                config.text_color = value;
+                window.elementSdk.setConfig({ text_color: value });
+              }
+            }
+          ],
+          borderables: [],
+          fontEditable: {
+            get: () => config.font_family || defaultConfig.font_family,
+            set: (value) => {
+              config.font_family = value;
+              window.elementSdk.setConfig({ font_family: value });
+            }
+          },
+          fontSizeable: {
+            get: () => config.font_size || defaultConfig.font_size || 16,
+            set: (value) => {
+              config.font_size = value;
+              window.elementSdk.setConfig({ font_size: value });
+            }
+          }
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ["page_title", config.page_title || defaultConfig.page_title],
+          ["search_placeholder", config.search_placeholder || defaultConfig.search_placeholder],
+          ["no_results_message", config.no_results_message || defaultConfig.no_results_message],
+          ["login_title", config.login_title || defaultConfig.login_title],
+          ["password_placeholder", config.password_placeholder || defaultConfig.password_placeholder]
+        ])
+      });
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b7a5661b28cfce2',t:'MTc2NzM1Nzc1OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

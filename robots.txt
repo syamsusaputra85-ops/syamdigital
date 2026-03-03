@@ -1,0 +1,18 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://syam-digital.netlify.app/sitemap.xml
+
+Disallow: /admin/
+Disallow: /.netlify/
+Disallow: /api/
+Disallow: /_redirects
+Disallow: /netlify.toml
+
+Allow: /
+Allow: /#services
+Allow: /#portfolio
+Allow: /#about
+Allow: /#contact
+
+Crawl-delay: 1

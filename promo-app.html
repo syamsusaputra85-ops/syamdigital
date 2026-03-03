@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Artikel Promosi - Aplikasi Pencarian Data Penduduk</title>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1767425380/syam-digital-01_i5zfka.png">
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.6s ease-out forwards;
+    }
+    
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+    
+    .promo-blink {
+      animation: blink 1.5s ease-in-out infinite;
+      font-weight: 600;
+    }
+    
+    .feature-card {
+      transition: all 0.3s ease;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+    
+    .gradient-text {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full">
+  <div id="app-wrapper" class="w-full h-full overflow-auto">
+   <div class="min-h-full py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-4xl mx-auto"><!-- Header Section -->
+     <header class="text-center mb-12 fade-in">
+      <div class="mb-6"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1767425380/syam-digital-01_i5zfka.png" alt="Syam Digital Logo" class="mx-auto" style="max-width: 200px; height: auto;" onerror="this.style.display='none'; this.alt='Syam Digital';">
+       <p class="text-2xl font-bold mt-3" style="color: #2d3748;">Syam Digital</p>
+      </div>
+      <div class="inline-block mb-4 px-4 py-2 rounded-full text-sm font-semibold">
+       💎 Penawaran Terbatas
+      </div>
+      <h1 id="main-title" class="text-5xl font-bold mb-4 gradient-text">Revolusi Pencarian Data Penduduk</h1>
+      <p id="subtitle" class="text-xl">Akses Data Cepat, Akurat, dan Terpercaya dalam Genggaman Anda</p>
+     </header><!-- Introduction -->
+     <section class="mb-12 p-8 rounded-2xl shadow-lg fade-in">
+      <p id="intro-text" class="text-lg leading-relaxed mb-6">Dalam era digital yang serba cepat ini, <strong>efisiensi waktu</strong> adalah kunci kesuksesan. Aplikasi Pencarian Data Penduduk hadir sebagai solusi revolusioner yang mengubah cara Anda mengakses informasi kependudukan. Tidak perlu lagi menghabiskan waktu berjam-jam untuk mencari data – semua informasi yang Anda butuhkan tersedia dalam hitungan detik!</p>
+     </section><!-- Features Section -->
+     <section class="mb-12">
+      <h2 class="text-3xl font-bold mb-8 text-center">🚀 Mengapa Memilih Aplikasi Kami?</h2>
+      <div class="grid md:grid-cols-3 gap-6"><!-- Feature 1 -->
+       <div class="feature-card p-6 rounded-xl shadow-md">
+        <div class="text-4xl mb-4">
+         ⚡
+        </div>
+        <h3 id="feature-1-title" class="text-xl font-bold mb-3">Pencarian Super Cepat</h3>
+        <p class="leading-relaxed">Temukan data penduduk dalam hitungan detik dengan sistem pencarian canggih berbasis AI. Hemat waktu hingga 90% dibanding metode manual!</p>
+       </div><!-- Feature 2 -->
+       <div class="feature-card p-6 rounded-xl shadow-md">
+        <div class="text-4xl mb-4">
+         🔒
+        </div>
+        <h3 id="feature-2-title" class="text-xl font-bold mb-3">Keamanan Terjamin</h3>
+        <p class="leading-relaxed">Data terenkripsi dengan standar internasional. Privacy dan keamanan informasi Anda adalah prioritas utama kami.</p>
+       </div><!-- Feature 3 -->
+       <div class="feature-card p-6 rounded-xl shadow-md">
+        <div class="text-4xl mb-4">
+         📊
+        </div>
+        <h3 id="feature-3-title" class="text-xl font-bold mb-3">Database Terupdate</h3>
+        <p class="leading-relaxed">Akses ke database yang selalu diperbarui secara berkala. Pastikan Anda mendapat informasi terkini dan akurat setiap saat.</p>
+       </div>
+      </div>
+     </section><!-- Benefits Section -->
+     <section class="mb-12 p-8 rounded-2xl shadow-lg">
+      <h2 class="text-3xl font-bold mb-6 text-center">✨ Manfaat yang Anda Dapatkan</h2>
+      <div class="space-y-4">
+       <div class="flex items-start gap-4"><span class="text-2xl">✓</span>
+        <div><strong class="text-lg">Efisiensi Maksimal:</strong>
+         <p class="mt-1">Kurangi beban kerja administratif hingga 80% dengan otomasi pencarian data</p>
+        </div>
+       </div>
+       <div class="flex items-start gap-4"><span class="text-2xl">✓</span>
+        <div><strong class="text-lg">Akses 24/7:</strong>
+         <p class="mt-1">Cari data kapan saja, dimana saja melalui perangkat mobile atau desktop</p>
+        </div>
+       </div>
+       <div class="flex items-start gap-4"><span class="text-2xl">✓</span>
+        <div><strong class="text-lg">Laporan Instan:</strong>
+         <p class="mt-1">Generate laporan profesional dengan satu klik untuk kebutuhan administrasi Anda</p>
+        </div>
+       </div>
+       <div class="flex items-start gap-4"><span class="text-2xl">✓</span>
+        <div><strong class="text-lg">Support Responsif:</strong>
+         <p class="mt-1">Tim customer service siap membantu Anda setiap hari kerja</p>
+        </div>
+       </div>
+      </div>
+     </section><!-- Pricing Section -->
+     <section class="mb-12 text-center">
+      <div class="inline-block p-10 rounded-3xl shadow-2xl transform hover:scale-105 transition-all duration-300">
+       <div class="mb-4"><span class="text-sm font-semibold uppercase tracking-wide">Investasi Terbaik Anda</span>
+       </div>
+       <div class="mb-6"><span id="price-text" class="text-6xl font-bold gradient-text"> Rp 500.000 </span> <span class="text-2xl">/tahun</span>
+       </div>
+       <div class="mb-6 text-lg">
+        <p class="mb-2">✓ Akses tanpa batas selama 12 bulan</p>
+        <p class="mb-2">✓ Update database gratis</p>
+        <p class="mb-2">✓ Support prioritas</p>
+        <p>✓ Garansi uang kembali 30 hari</p>
+       </div>
+       <div class="text-sm mb-6"><span class="line-through">Harga normal: Rp 1.200.000</span> <span class="ml-2 px-3 py-1 rounded-full font-bold">HEMAT 58%</span>
+       </div><a href="https://wa.me/6285150531572?text=Halo,%20saya%20tertarik%20dengan%20Aplikasi%20Pencarian%20Data%20Penduduk%20paket%20Rp%20500.000/tahun" target="_blank" rel="noopener noreferrer" id="cta-button" class="inline-block px-8 py-4 rounded-full text-lg font-bold shadow-lg transform hover:scale-105 transition-all duration-300 no-underline"> 📱 Hubungi Kami Via WhatsApp </a>
+       <p class="mt-4 text-sm">💬 WhatsApp: 085150531572</p>
+       <div class="mt-6 pt-6 border-t">
+        <p class="text-sm mb-3 font-semibold">📖 Pelajari Cara Menggunakan Aplikasi</p><a href="https://syam.digital/panduan-app" target="_blank" rel="noopener noreferrer" id="guide-button" class="inline-block px-6 py-3 rounded-full text-base font-semibold shadow-md transform hover:scale-105 transition-all duration-300 no-underline border-2 mb-4"> 📚 Panduan Aplikasi Lengkap </a>
+        <p class="text-sm mb-3 font-semibold">🎮 Ingin Coba Aplikasinya Dulu?</p><a href="https://syam.digital/appdemo" target="_blank" rel="noopener noreferrer" id="demo-button" class="inline-block px-6 py-3 rounded-full text-base font-semibold shadow-md transform hover:scale-105 transition-all duration-300 no-underline border-2 mb-4"> 🖥️ Akses Demo Aplikasi V.01 </a>
+        <p class="mt-3 mb-4 text-sm">🔑 Password Demo: <strong>7203192025</strong></p><a href="https://datapenduduk.online/demo" target="_blank" rel="noopener noreferrer" id="demo-button-v2" class="inline-block px-6 py-3 rounded-full text-base font-semibold shadow-md transform hover:scale-105 transition-all duration-300 no-underline border-2"> 🖥️ Akses Demo Aplikasi V.02 </a>
+        <p class="mt-3 text-sm">🔑 Password Demo: <strong>7203192025</strong></p>
+       </div>
+       <div class="mt-2 text-sm promo-blink">
+        <p class="mb-1">💰 <strong>Promo berakhir dalam 7 hari!</strong></p>
+        <p>Akan Kembali Pada Harga Normal <strong>Rp 1.200.000</strong></p>
+       </div>
+      </div>
+     </section><!-- Testimonial Section -->
+     <section class="mb-12">
+      <h2 class="text-3xl font-bold mb-8 text-center">💬 Apa Kata Pengguna Kami?</h2>
+      <div class="grid md:grid-cols-2 gap-6">
+       <div class="p-6 rounded-xl shadow-md">
+        <div class="flex items-center gap-2 mb-4"><span class="text-2xl">⭐⭐⭐⭐⭐</span>
+        </div>
+        <p class="italic mb-4">"Aplikasi ini benar-benar mengubah cara kerja kantor kami. Yang dulu butuh 2 jam, sekarang cuma 5 menit!"</p>
+        <p class="font-bold">- Budi Santoso, Kepala Kelurahan</p>
+       </div>
+       <div class="p-6 rounded-xl shadow-md">
+        <div class="flex items-center gap-2 mb-4"><span class="text-2xl">⭐⭐⭐⭐⭐</span>
+        </div>
+        <p class="italic mb-4">"Sangat membantu untuk pekerjaan administratif. Interface-nya mudah dipahami dan hasil pencarian sangat akurat."</p>
+        <p class="font-bold">- Siti Nurhaliza, Staff Administrasi</p>
+       </div>
+      </div>
+     </section><!-- CTA Section -->
+     <section class="text-center p-8 rounded-2xl shadow-lg">
+      <h2 class="text-3xl font-bold mb-4">🎁 Bonus Eksklusif untuk Anda!</h2>
+      <p class="text-lg mb-6">Daftar hari ini dan dapatkan <strong>Panduan Lengkap Penggunaan Aplikasi</strong> + <strong>30 Hari Uji Coba Gratis</strong> fitur premium!</p>
+      <div class="inline-block">
+       <div class="text-sm mb-2">
+        📱 WhatsApp: 085150531572
+       </div>
+       <div class="text-sm">
+        📧 Email: info@aplikasidatapenduduk.com
+       </div>
+      </div>
+     </section><!-- Share Section -->
+     <section class="text-center mb-8 p-6 rounded-2xl shadow-lg">
+      <h3 class="text-2xl font-bold mb-4">📢 Bagikan Info Ini ke Teman Anda!</h3>
+      <p class="text-base mb-4">Bantu teman dan kolega Anda menemukan solusi pencarian data yang lebih efisien</p><button id="share-whatsapp" class="inline-flex items-center gap-2 px-6 py-3 rounded-full text-base font-bold shadow-lg transform hover:scale-105 transition-all duration-300"> <img src="https://res.cloudinary.com/dpr2vc3b0/image/upload/v1767427479/Syam_Digital_1_kt8g9u.png" alt="WhatsApp" style="width: 24px; height: 24px;" onerror="this.style.display='none';"> Bagikan via WhatsApp </button>
+     </section><!-- Footer -->
+     <footer class="text-center mt-12 pt-8 border-t">
+      <p class="text-sm">© 2024 Aplikasi Pencarian Data Penduduk. Terpercaya &amp; Profesional.</p>
+      <p class="text-sm mt-2">🔐 Data Anda aman bersama kami | ⚖️ Sesuai regulasi perlindungan data</p>
+     </footer>
+    </div>
+   </div>
+  </div>
+  <script>
+    const defaultConfig = {
+      background_color: "#f8f9fa",
+      surface_color: "#ffffff",
+      text_color: "#2d3748",
+      primary_action_color: "#667eea",
+      secondary_action_color: "#764ba2",
+      font_family: "system-ui",
+      font_size: 16,
+      main_title: "Revolusi Pencarian Data Penduduk",
+      subtitle: "Akses Data Cepat, Akurat, dan Terpercaya dalam Genggaman Anda",
+      intro_text: "Dalam era digital yang serba cepat ini, efisiensi waktu adalah kunci kesuksesan. Aplikasi Pencarian Data Penduduk hadir sebagai solusi revolusioner yang mengubah cara Anda mengakses informasi kependudukan. Tidak perlu lagi menghabiskan waktu berjam-jam untuk mencari data – semua informasi yang Anda butuhkan tersedia dalam hitungan detik!",
+      feature_1_title: "Pencarian Super Cepat",
+      feature_2_title: "Keamanan Terjamin",
+      feature_3_title: "Database Terupdate",
+      price_text: "Rp 500.000",
+      cta_button: "📱 Hubungi Kami Via WhatsApp"
+    };
+
+    async function onConfigChange(config) {
+      const baseFont = config.font_family || defaultConfig.font_family;
+      const baseFontStack = 'system-ui, -apple-system, sans-serif';
+      const baseSize = config.font_size || defaultConfig.font_size;
+      
+      const backgroundColor = config.background_color || defaultConfig.background_color;
+      const surfaceColor = config.surface_color || defaultConfig.surface_color;
+      const textColor = config.text_color || defaultConfig.text_color;
+      const primaryColor = config.primary_action_color || defaultConfig.primary_action_color;
+      const secondaryColor = config.secondary_action_color || defaultConfig.secondary_action_color;
+      
+      // Apply background color
+      document.getElementById('app-wrapper').style.backgroundColor = backgroundColor;
+      
+      // Apply fonts
+      document.body.style.fontFamily = `${baseFont}, ${baseFontStack}`;
+      document.getElementById('main-title').style.fontFamily = `${baseFont}, ${baseFontStack}`;
+      document.getElementById('subtitle').style.fontFamily = `${baseFont}, ${baseFontStack}`;
+      
+      // Apply font sizes
+      document.getElementById('main-title').style.fontSize = `${baseSize * 2}px`;
+      document.getElementById('subtitle').style.fontSize = `${baseSize * 1.25}px`;
+      document.getElementById('intro-text').style.fontSize = `${baseSize * 1.125}px`;
+      document.body.style.fontSize = `${baseSize}px`;
+      
+      // Apply text colors
+      document.getElementById('app-wrapper').style.color = textColor;
+      document.getElementById('main-title').style.color = textColor;
+      document.getElementById('subtitle').style.color = textColor;
+      
+      // Apply surface colors
+      const surfaces = document.querySelectorAll('section');
+      surfaces.forEach(surface => {
+        surface.style.backgroundColor = surfaceColor;
+      });
+      
+      const featureCards = document.querySelectorAll('.feature-card');
+      featureCards.forEach(card => {
+        card.style.backgroundColor = surfaceColor;
+      });
+      
+      // Apply primary action color
+      const ctaButton = document.getElementById('cta-button');
+      ctaButton.style.backgroundColor = primaryColor;
+      ctaButton.style.color = '#ffffff';
+      
+      // Apply demo button styling
+      const demoButton = document.getElementById('demo-button');
+      if (demoButton) {
+        demoButton.style.backgroundColor = 'transparent';
+        demoButton.style.color = primaryColor;
+        demoButton.style.borderColor = primaryColor;
+      }
+      
+      // Apply demo button v2 styling
+      const demoButtonV2 = document.getElementById('demo-button-v2');
+      if (demoButtonV2) {
+        demoButtonV2.style.backgroundColor = 'transparent';
+        demoButtonV2.style.color = primaryColor;
+        demoButtonV2.style.borderColor = primaryColor;
+      }
+      
+      // Apply guide button styling
+      const guideButton = document.getElementById('guide-button');
+      if (guideButton) {
+        guideButton.style.backgroundColor = 'transparent';
+        guideButton.style.color = primaryColor;
+        guideButton.style.borderColor = primaryColor;
+      }
+      
+      // Apply share button styling with important flags
+      const shareButton = document.getElementById('share-whatsapp');
+      if (shareButton) {
+        shareButton.style.setProperty('background-color', '#25D366', 'important');
+        shareButton.style.setProperty('color', '#ffffff', 'important');
+      }
+      
+      // Apply secondary color to badges
+      const badges = document.querySelectorAll('.inline-block.px-4.py-2, .inline-block.px-3.py-1');
+      badges.forEach(badge => {
+        badge.style.backgroundColor = secondaryColor;
+        badge.style.color = '#ffffff';
+      });
+      
+      // Update text content
+      document.getElementById('main-title').textContent = config.main_title || defaultConfig.main_title;
+      document.getElementById('subtitle').textContent = config.subtitle || defaultConfig.subtitle;
+      document.getElementById('intro-text').innerHTML = config.intro_text || defaultConfig.intro_text;
+      document.getElementById('feature-1-title').textContent = config.feature_1_title || defaultConfig.feature_1_title;
+      document.getElementById('feature-2-title').textContent = config.feature_2_title || defaultConfig.feature_2_title;
+      document.getElementById('feature-3-title').textContent = config.feature_3_title || defaultConfig.feature_3_title;
+      document.getElementById('price-text').textContent = config.price_text || defaultConfig.price_text;
+      document.getElementById('cta-button').textContent = config.cta_button || defaultConfig.cta_button;
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [
+          {
+            get: () => config.background_color || defaultConfig.background_color,
+            set: (value) => {
+              config.background_color = value;
+              window.elementSdk.setConfig({ background_color: value });
+            }
+          },
+          {
+            get: () => config.surface_color || defaultConfig.surface_color,
+            set: (value) => {
+              config.surface_color = value;
+              window.elementSdk.setConfig({ surface_color: value });
+            }
+          },
+          {
+            get: () => config.text_color || defaultConfig.text_color,
+            set: (value) => {
+              config.text_color = value;
+              window.elementSdk.setConfig({ text_color: value });
+            }
+          },
+          {
+            get: () => config.primary_action_color || defaultConfig.primary_action_color,
+            set: (value) => {
+              config.primary_action_color = value;
+              window.elementSdk.setConfig({ primary_action_color: value });
+            }
+          },
+          {
+            get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
+            set: (value) => {
+              config.secondary_action_color = value;
+              window.elementSdk.setConfig({ secondary_action_color: value });
+            }
+          }
+        ],
+        borderables: [],
+        fontEditable: {
+          get: () => config.font_family || defaultConfig.font_family,
+          set: (value) => {
+            config.font_family = value;
+            window.elementSdk.setConfig({ font_family: value });
+          }
+        },
+        fontSizeable: {
+          get: () => config.font_size || defaultConfig.font_size,
+          set: (value) => {
+            config.font_size = value;
+            window.elementSdk.setConfig({ font_size: value });
+          }
+        }
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ["main_title", config.main_title || defaultConfig.main_title],
+        ["subtitle", config.subtitle || defaultConfig.subtitle],
+        ["intro_text", config.intro_text || defaultConfig.intro_text],
+        ["feature_1_title", config.feature_1_title || defaultConfig.feature_1_title],
+        ["feature_2_title", config.feature_2_title || defaultConfig.feature_2_title],
+        ["feature_3_title", config.feature_3_title || defaultConfig.feature_3_title],
+        ["price_text", config.price_text || defaultConfig.price_text],
+        ["cta_button", config.cta_button || defaultConfig.cta_button]
+      ]);
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+    
+    // Share to WhatsApp functionality
+    document.getElementById('share-whatsapp').addEventListener('click', function() {
+      const shareText = encodeURIComponent('APLIKASI PENCARIAN DATA PENDUDUK\n\nSolusi cepat dan akurat untuk pencarian data kependudukan\n\n━━━━━━━━━━━━━━━━━━━━\nPENAWARAN SPESIAL\n━━━━━━━━━━━━━━━━━━━━\n\nHarga: Rp 500.000/tahun\n(Hemat 58% dari harga normal Rp 1.200.000)\n\nBonus:\n- Panduan Lengkap Penggunaan Aplikasi\n- 30 Hari Uji Coba Gratis Fitur Premium\n- Update Database Gratis\n- Support Prioritas\n\n━━━━━━━━━━━━━━━━━━━━\nCOBA DEMO APLIKASI V.01 GRATIS\n━━━━━━━━━━━━━━━━━━━━\n\nLink Demo: https://syam.digital/appdemo\nPassword: 7203192025\n\n━━━━━━━━━━━━━━━━━━━━\nCOBA DEMO APLIKASI V.02 GRATIS\n━━━━━━━━━━━━━━━━━━━━\n\nLink Demo: https://datapenduduk.online/demo\nPassword: 7203192025\n\n━━━━━━━━━━━━━━━━━━━━\nPANDUAN APLIKASI\n━━━━━━━━━━━━━━━━━━━━\n\nhttps://syam.digital/panduan-app\n\n━━━━���━━━━━━━━━━━━━━━\nINFO SELENGKAPNYA\n━━━━━━━━━━━━━━━━━━━━\n\nhttps://datapenduduk.online/\n\n━━━━━━━━━━━━━━━━━━━━\nINFO & PEMESANAN\n━━━━━━━━━━━━━━━━━━━━\n\nHubungi Kami:\nhttps://wa.me/6285150531572\n\n💰 Promo berakhir dalam 7 hari!');
+      const whatsappUrl = `https://wa.me/?text=${shareText}`;
+      window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+    });
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b9052c195d8fd03',t:'MTc2NzU4ODI5Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

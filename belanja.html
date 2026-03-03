@@ -1,0 +1,1233 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laporan Belanja Harian</title>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1766150319/SYAMDIGITAL-LOGO-2025_mmpllg_1_pvugiw.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    
+    .gradient-bg {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    }
+    
+    .glass-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .stat-card {
+      background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .category-makanan { background: linear-gradient(135deg, #ff6b6b, #ee5a5a); }
+    .category-transportasi { background: linear-gradient(135deg, #4ecdc4, #44a8a0); }
+    .category-belanja { background: linear-gradient(135deg, #a855f7, #9333ea); }
+    .category-tagihan { background: linear-gradient(135deg, #f59e0b, #d97706); }
+    .category-hiburan { background: linear-gradient(135deg, #ec4899, #db2777); }
+    .category-kesehatan { background: linear-gradient(135deg, #10b981, #059669); }
+    .category-lainnya { background: linear-gradient(135deg, #6366f1, #4f46e5); }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      transition: all 0.3s ease;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 40px rgba(99, 102, 241, 0.4);
+    }
+    
+    .btn-export {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      transition: all 0.3s ease;
+    }
+    
+    .btn-export:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 40px rgba(16, 185, 129, 0.4);
+    }
+    
+    .btn-danger {
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+      transition: all 0.3s ease;
+    }
+    
+    .btn-danger:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 40px rgba(239, 68, 68, 0.4);
+    }
+    
+    .input-field {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.2);
+      transition: all 0.3s ease;
+    }
+    
+    .input-field:focus {
+      background: rgba(255,255,255,0.1);
+      border-color: #8b5cf6;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+    }
+    
+    .chart-bar {
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .tab-active {
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    }
+    
+    .expense-item {
+      animation: slideIn 0.3s ease;
+    }
+    
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    
+    .toast {
+      animation: toastIn 0.3s ease, toastOut 0.3s ease 2.7s;
+    }
+    
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes toastOut {
+      from { opacity: 1; transform: translateY(0); }
+      to { opacity: 0; transform: translateY(20px); }
+    }
+    
+    .delete-confirm {
+      animation: fadeIn 0.2s ease;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    .warning-banner {
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    }
+    
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: rgba(255,255,255,0.05);
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.2);
+      border-radius: 3px;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full gradient-bg text-white">
+  <div id="app" class="h-full overflow-auto"><!-- Header -->
+   <header class="sticky top-0 z-50 glass-card px-3 py-3 md:px-8 md:py-4">
+    <div class="max-w-6xl mx-auto flex items-center justify-between gap-2">
+     <div class="flex items-center gap-2 md:gap-3 min-w-0">
+      <div class="w-8 h-8 md:w-10 md:h-10 rounded-lg md:rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center flex-shrink-0">
+       <svg class="w-4 h-4 md:w-6 md:h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+       </svg>
+      </div>
+      <div class="min-w-0">
+       <h1 id="app-title" class="text-base md:text-2xl font-bold bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent truncate">Laporan Belanja Harian</h1>
+       <p class="text-[10px] md:text-xs text-gray-400 hidden sm:block">Syam Digital</p>
+      </div>
+     </div>
+     <div class="text-right flex-shrink-0">
+      <p class="text-[10px] md:text-xs text-gray-400">Hari ini</p>
+      <p id="current-date" class="text-[11px] md:text-sm font-medium"></p>
+     </div>
+    </div>
+   </header><!-- Main Content -->
+   <main class="max-w-6xl mx-auto px-3 py-4 md:px-8 md:py-6"><!-- Stats Cards -->
+    <div class="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4 mb-6">
+     <div class="stat-card rounded-xl md:rounded-2xl p-3 md:p-4">
+      <div class="flex items-center gap-1.5 md:gap-2 mb-1.5 md:mb-2">
+       <div class="w-6 h-6 md:w-8 md:h-8 rounded-lg bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center">
+        <svg class="w-3 h-3 md:w-4 md:h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+       </div><span class="text-[10px] md:text-xs text-gray-400">Hari Ini</span>
+      </div>
+      <p id="stat-today" class="text-sm md:text-xl font-bold truncate">Rp 0</p>
+     </div>
+     <div class="stat-card rounded-xl md:rounded-2xl p-3 md:p-4">
+      <div class="flex items-center gap-1.5 md:gap-2 mb-1.5 md:mb-2">
+       <div class="w-6 h-6 md:w-8 md:h-8 rounded-lg bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center">
+        <svg class="w-3 h-3 md:w-4 md:h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+        </svg>
+       </div><span class="text-[10px] md:text-xs text-gray-400">Minggu Ini</span>
+      </div>
+      <p id="stat-week" class="text-sm md:text-xl font-bold truncate">Rp 0</p>
+     </div>
+     <div class="stat-card rounded-xl md:rounded-2xl p-3 md:p-4">
+      <div class="flex items-center gap-1.5 md:gap-2 mb-1.5 md:mb-2">
+       <div class="w-6 h-6 md:w-8 md:h-8 rounded-lg bg-gradient-to-br from-purple-400 to-pink-500 flex items-center justify-center">
+        <svg class="w-3 h-3 md:w-4 md:h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+        </svg>
+       </div><span class="text-[10px] md:text-xs text-gray-400">Bulan Ini</span>
+      </div>
+      <p id="stat-month" class="text-sm md:text-xl font-bold truncate">Rp 0</p>
+     </div>
+     <div class="stat-card rounded-xl md:rounded-2xl p-3 md:p-4">
+      <div class="flex items-center gap-1.5 md:gap-2 mb-1.5 md:mb-2">
+       <div class="w-6 h-6 md:w-8 md:h-8 rounded-lg bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center">
+        <svg class="w-3 h-3 md:w-4 md:h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"></path>
+        </svg>
+       </div><span class="text-[10px] md:text-xs text-gray-400">Total Item</span>
+      </div>
+      <p id="stat-items" class="text-sm md:text-xl font-bold">0</p>
+     </div>
+    </div><!-- Tabs -->
+    <div class="flex gap-1 md:gap-2 mb-6 p-1 glass-card rounded-xl overflow-x-auto"><button id="tab-input" class="tab-active px-3 md:px-4 py-2 rounded-lg text-xs md:text-sm font-medium transition-all whitespace-nowrap" onclick="switchTab('input')"> ➕ <span class="hidden sm:inline">Tambah</span> </button> <button id="tab-list" class="px-3 md:px-4 py-2 rounded-lg text-xs md:text-sm font-medium transition-all hover:bg-white/10 whitespace-nowrap" onclick="switchTab('list')"> 📋 <span class="hidden sm:inline">Daftar</span> </button> <button id="tab-report" class="px-3 md:px-4 py-2 rounded-lg text-xs md:text-sm font-medium transition-all hover:bg-white/10 whitespace-nowrap" onclick="switchTab('report')"> 📊 <span class="hidden sm:inline">Laporan</span> </button> <button id="tab-settings" class="px-3 md:px-4 py-2 rounded-lg text-xs md:text-sm font-medium transition-all hover:bg-white/10 whitespace-nowrap" onclick="switchTab('settings')"> ⚙️ <span class="hidden sm:inline">Pengaturan</span> </button>
+    </div><!-- Input Panel -->
+    <div id="panel-input" class="glass-card rounded-xl md:rounded-2xl p-4 md:p-6 mb-6">
+     <h2 class="text-base md:text-lg font-semibold mb-3 md:mb-4 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500"></span> Tambah Pengeluaran Baru</h2>
+     <form id="expense-form" class="space-y-3 md:space-y-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+       <div><label for="item-name" class="block text-xs md:text-sm text-gray-400 mb-1.5 md:mb-2">Nama Item</label> <input type="text" id="item-name" class="input-field w-full px-3 md:px-4 py-2.5 md:py-3 rounded-lg md:rounded-xl text-white placeholder-gray-500 text-sm md:text-base" placeholder="Contoh: Makan siang" required>
+       </div>
+       <div><label for="item-amount" class="block text-xs md:text-sm text-gray-400 mb-1.5 md:mb-2">Jumlah (<span id="currency-label">Rp</span>)</label> <input type="number" id="item-amount" class="input-field w-full px-3 md:px-4 py-2.5 md:py-3 rounded-lg md:rounded-xl text-white placeholder-gray-500 text-sm md:text-base" placeholder="50000" min="0" required>
+       </div>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-2 gap-3 md:gap-4">
+       <div><label for="item-category" class="block text-xs md:text-sm text-gray-400 mb-1.5 md:mb-2">Kategori</label> <select id="item-category" class="input-field w-full px-3 md:px-4 py-2.5 md:py-3 rounded-lg md:rounded-xl text-white text-sm md:text-base"> <option value="makanan">🍔 Makanan</option> <option value="transportasi">🚗 Transport</option> <option value="belanja">🛒 Belanja</option> <option value="tagihan">📄 Tagihan</option> <option value="hiburan">🎮 Hiburan</option> <option value="kesehatan">�� Kesehatan</option> <option value="lainnya">📦 Lainnya</option> </select>
+       </div>
+       <div><label for="item-date" class="block text-xs md:text-sm text-gray-400 mb-1.5 md:mb-2">Tanggal</label> <input type="date" id="item-date" class="input-field w-full px-3 md:px-4 py-2.5 md:py-3 rounded-lg md:rounded-xl text-white text-sm md:text-base">
+       </div>
+      </div>
+      <div><label for="item-notes" class="block text-xs md:text-sm text-gray-400 mb-1.5 md:mb-2">Catatan (Opsional)</label> <input type="text" id="item-notes" class="input-field w-full px-3 md:px-4 py-2.5 md:py-3 rounded-lg md:rounded-xl text-white placeholder-gray-500 text-sm md:text-base" placeholder="Tambahkan catatan...">
+      </div><button type="submit" id="submit-btn" class="btn-primary w-full py-2.5 md:py-3 rounded-lg md:rounded-xl font-semibold text-white flex items-center justify-center gap-2 text-sm md:text-base">
+       <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+       </svg><span>Simpan Pengeluaran</span> </button>
+     </form>
+    </div><!-- List Panel -->
+    <div id="panel-list" class="glass-card rounded-xl md:rounded-2xl p-4 md:p-6 mb-6 hidden">
+     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+      <h2 class="text-base md:text-lg font-semibold flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500"></span> Daftar Pengeluaran</h2>
+      <div class="flex gap-2"><select id="filter-category" class="input-field px-2 md:px-3 py-1.5 md:py-2 rounded-lg text-xs md:text-sm w-full sm:w-auto" onchange="renderExpenseList()"> <option value="all">Semua</option> <option value="makanan">🍔 Makanan</option> <option value="transportasi">🚗 Transport</option> <option value="belanja">🛒 Belanja</option> <option value="tagihan">📄 Tagihan</option> <option value="hiburan">🎮 Hiburan</option> <option value="kesehatan">💊 Kesehatan</option> <option value="lainnya">📦 Lainnya</option> </select>
+      </div>
+     </div>
+     <div id="expense-list" class="space-y-2 md:space-y-3 max-h-80 md:max-h-96 overflow-y-auto pr-1 md:pr-2">
+      <div class="text-center text-gray-400 py-8">
+       <svg class="w-16 h-16 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+       </svg>
+       <p>Belum ada pengeluaran tercatat</p>
+       <p class="text-sm">Mulai tambahkan pengeluaran pertamamu!</p>
+      </div>
+     </div>
+    </div><!-- Report Panel -->
+    <div id="panel-report" class="hidden"><!-- Category Chart -->
+     <div class="glass-card rounded-xl md:rounded-2xl p-4 md:p-6 mb-4 md:mb-6">
+      <h2 class="text-base md:text-lg font-semibold mb-3 md:mb-4 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500"></span> Pengeluaran per Kategori</h2>
+      <div id="category-chart" class="space-y-3 md:space-y-4">
+       <div class="text-center text-gray-400 py-6 md:py-8 text-sm">
+        <p>Belum ada data untuk ditampilkan</p>
+       </div>
+      </div>
+     </div><!-- Daily Trend -->
+     <div class="glass-card rounded-xl md:rounded-2xl p-4 md:p-6 mb-4 md:mb-6">
+      <h2 class="text-base md:text-lg font-semibold mb-3 md:mb-4 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500"></span> Tren 7 Hari Terakhir</h2>
+      <div id="daily-chart" class="flex items-end justify-between h-32 md:h-40 gap-1 md:gap-2">
+       <div class="text-center text-gray-400 w-full py-6 md:py-8 text-sm">
+        <p>Belum ada data untuk ditampilkan</p>
+       </div>
+      </div>
+     </div><!-- Top Expenses -->
+     <div class="glass-card rounded-xl md:rounded-2xl p-4 md:p-6 mb-4 md:mb-6">
+      <h2 class="text-base md:text-lg font-semibold mb-3 md:mb-4 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500"></span> Top 5 Pengeluaran Terbesar</h2>
+      <div id="top-expenses" class="space-y-2 md:space-y-3">
+       <div class="text-center text-gray-400 py-6 md:py-8 text-sm">
+        <p>Belum ada data untuk ditampilkan</p>
+       </div>
+      </div>
+     </div>
+    </div><!-- Settings Panel -->
+    <div id="panel-settings" class="hidden">
+     <div class="glass-card rounded-xl md:rounded-2xl p-4 md:p-6 mb-4 md:mb-6">
+      <h2 class="text-base md:text-lg font-semibold mb-3 md:mb-4 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500"></span> Pengaturan Aplikasi</h2>
+      <div class="space-y-3 md:space-y-4">
+       <div><label for="setting-title" class="block text-xs md:text-sm text-gray-400 mb-1.5 md:mb-2">Judul Aplikasi</label> <input type="text" id="setting-title" class="input-field w-full px-3 md:px-4 py-2.5 md:py-3 rounded-lg md:rounded-xl text-white text-sm md:text-base" value="Laporan Belanja Harian" onchange="updateSettings()">
+       </div>
+       <div><label for="setting-currency" class="block text-xs md:text-sm text-gray-400 mb-1.5 md:mb-2">Simbol Mata Uang</label> <input type="text" id="setting-currency" class="input-field w-full px-3 md:px-4 py-2.5 md:py-3 rounded-lg md:rounded-xl text-white text-sm md:text-base" value="Rp" onchange="updateSettings()">
+       </div>
+      </div>
+     </div><!-- Export/Import -->
+     <div class="glass-card rounded-xl md:rounded-2xl p-4 md:p-6 mb-4 md:mb-6">
+      <h2 class="text-base md:text-lg font-semibold mb-3 md:mb-4 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-gradient-to-r from-green-500 to-emerald-500"></span> Backup &amp; Restore Data</h2>
+      <p class="text-xs md:text-sm text-gray-400 mb-3 md:mb-4">Export data untuk backup atau pindah ke device lain.</p>
+      <div class="grid grid-cols-1 gap-3 md:grid-cols-3 md:gap-4"><button onclick="exportData()" class="btn-export py-2.5 md:py-3 rounded-lg md:rounded-xl font-semibold text-white flex items-center justify-center gap-2 text-sm md:text-base">
+        <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+        </svg> Export JSON </button> <button onclick="exportHTML()" class="py-2.5 md:py-3 rounded-lg md:rounded-xl font-semibold text-white flex items-center justify-center gap-2 text-sm md:text-base" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
+        <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+        </svg> Export HTML </button>
+       <div class="relative"><input type="file" id="import-file" accept=".json" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onchange="importData(event)"> <button class="btn-primary w-full py-2.5 md:py-3 rounded-lg md:rounded-xl font-semibold text-white flex items-center justify-center gap-2 text-sm md:text-base">
+         <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+         </svg> Import JSON </button>
+       </div>
+      </div>
+     </div><!-- Clear Data -->
+     <div class="glass-card rounded-xl md:rounded-2xl p-4 md:p-6 mb-4 md:mb-6 border border-red-500/30">
+      <h2 class="text-base md:text-lg font-semibold mb-3 md:mb-4 flex items-center gap-2 text-red-400"><span class="w-2 h-2 rounded-full bg-red-500"></span> Hapus Semua Data</h2>
+      <p class="text-xs md:text-sm text-gray-400 mb-3 md:mb-4">Hati-hati! Aksi ini akan menghapus semua data pengeluaran secara permanen.</p>
+      <div id="clear-data-section"><button onclick="showClearConfirm()" class="btn-danger py-2.5 md:py-3 px-4 md:px-6 rounded-lg md:rounded-xl font-semibold text-white flex items-center gap-2 text-sm md:text-base">
+        <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+        </svg> Hapus Semua Data </button>
+      </div>
+     </div><!-- Storage Info -->
+     <div class="glass-card rounded-xl md:rounded-2xl p-4 md:p-6 mb-4 md:mb-6">
+      <h2 class="text-base md:text-lg font-semibold mb-3 md:mb-4 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500"></span> Informasi Penyimpanan</h2>
+      <div class="space-y-2 text-xs md:text-sm">
+       <div class="flex justify-between"><span class="text-gray-400">Total Item:</span> <span id="storage-items" class="font-medium">0</span>
+       </div>
+       <div class="flex justify-between"><span class="text-gray-400">Ukuran Data:</span> <span id="storage-size" class="font-medium">0 KB</span>
+       </div>
+       <div class="flex justify-between"><span class="text-gray-400">Penyimpanan:</span> <span class="font-medium text-amber-400">LocalStorage</span>
+       </div>
+      </div>
+     </div>
+    </div>
+   </main><!-- Footer -->
+   <footer class="text-center py-4 md:py-6 text-gray-500 text-xs md:text-sm px-4">
+    <p>💾 Data tersimpan di LocalStorage browser ini</p>
+    <p class="mt-1">Jangan lupa backup data secara berkala!</p>
+   </footer><!-- Toast Container -->
+   <div id="toast-container" class="fixed bottom-4 right-4 z-50"></div>
+  </div>
+  <script>
+    // Configuration
+    let appConfig = {
+      app_title: 'Laporan Belanja Harian',
+      currency_symbol: 'Rp'
+    };
+
+    // LocalStorage keys
+    const STORAGE_KEYS = {
+      EXPENSES: 'belanja_expenses',
+      CONFIG: 'belanja_config'
+    };
+
+    // State
+    let expenses = [];
+    let currentTab = 'input';
+    let deleteConfirmId = null;
+
+    // Category labels
+    const categoryLabels = {
+      makanan: '🍔 Makanan & Minuman',
+      transportasi: '🚗 Transportasi',
+      belanja: '🛒 Belanja',
+      tagihan: '📄 Tagihan',
+      hiburan: '🎮 Hiburan',
+      kesehatan: '💊 Kesehatan',
+      lainnya: '📦 Lainnya'
+    };
+
+    // Initialize app
+    function initApp() {
+      // Load data from LocalStorage
+      loadFromLocalStorage();
+      
+      // Set current date
+      const today = new Date();
+      document.getElementById('current-date').textContent = today.toLocaleDateString('id-ID', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      });
+      document.getElementById('item-date').value = today.toISOString().split('T')[0];
+
+      // Apply config
+      applyConfig();
+      
+      // Render UI
+      updateStats();
+      renderExpenseList();
+      renderReports();
+      updateStorageInfo();
+
+      // Initialize Element SDK if available (for Canva environment)
+      if (window.elementSdk) {
+        const defaultConfig = {
+          app_title: 'Laporan Belanja Harian',
+          currency_symbol: 'Rp',
+          background_color: '#1a1a2e',
+          surface_color: '#16213e',
+          text_color: '#ffffff',
+          primary_action_color: '#6366f1',
+          secondary_action_color: '#8b5cf6'
+        };
+
+        window.elementSdk.init({
+          defaultConfig,
+          onConfigChange: async (newConfig) => {
+            appConfig = { ...appConfig, ...newConfig };
+            saveToLocalStorage();
+            applyConfig();
+          },
+          mapToCapabilities: (cfg) => ({
+            recolorables: [
+              {
+                get: () => cfg.background_color || defaultConfig.background_color,
+                set: (v) => { cfg.background_color = v; window.elementSdk.setConfig({ background_color: v }); }
+              },
+              {
+                get: () => cfg.surface_color || defaultConfig.surface_color,
+                set: (v) => { cfg.surface_color = v; window.elementSdk.setConfig({ surface_color: v }); }
+              },
+              {
+                get: () => cfg.text_color || defaultConfig.text_color,
+                set: (v) => { cfg.text_color = v; window.elementSdk.setConfig({ text_color: v }); }
+              },
+              {
+                get: () => cfg.primary_action_color || defaultConfig.primary_action_color,
+                set: (v) => { cfg.primary_action_color = v; window.elementSdk.setConfig({ primary_action_color: v }); }
+              },
+              {
+                get: () => cfg.secondary_action_color || defaultConfig.secondary_action_color,
+                set: (v) => { cfg.secondary_action_color = v; window.elementSdk.setConfig({ secondary_action_color: v }); }
+              }
+            ],
+            borderables: [],
+            fontEditable: undefined,
+            fontSizeable: undefined
+          }),
+          mapToEditPanelValues: (cfg) => new Map([
+            ['app_title', cfg.app_title || defaultConfig.app_title],
+            ['currency_symbol', cfg.currency_symbol || defaultConfig.currency_symbol]
+          ])
+        });
+      }
+    }
+
+    // LocalStorage functions
+    function loadFromLocalStorage() {
+      try {
+        const savedExpenses = localStorage.getItem(STORAGE_KEYS.EXPENSES);
+        const savedConfig = localStorage.getItem(STORAGE_KEYS.CONFIG);
+        
+        if (savedExpenses) {
+          expenses = JSON.parse(savedExpenses);
+        }
+        
+        if (savedConfig) {
+          appConfig = { ...appConfig, ...JSON.parse(savedConfig) };
+        }
+      } catch (e) {
+        console.error('Error loading from LocalStorage:', e);
+        expenses = [];
+      }
+    }
+
+    function saveToLocalStorage() {
+      try {
+        localStorage.setItem(STORAGE_KEYS.EXPENSES, JSON.stringify(expenses));
+        localStorage.setItem(STORAGE_KEYS.CONFIG, JSON.stringify(appConfig));
+        updateStorageInfo();
+      } catch (e) {
+        console.error('Error saving to LocalStorage:', e);
+        showToast('Gagal menyimpan data', 'error');
+      }
+    }
+
+    // Apply configuration
+    function applyConfig() {
+      document.getElementById('app-title').textContent = appConfig.app_title;
+      document.getElementById('currency-label').textContent = appConfig.currency_symbol;
+      document.getElementById('setting-title').value = appConfig.app_title;
+      document.getElementById('setting-currency').value = appConfig.currency_symbol;
+      
+      updateStats();
+      renderExpenseList();
+    }
+
+    // Update settings
+    function updateSettings() {
+      appConfig.app_title = document.getElementById('setting-title').value || 'Laporan Belanja Harian';
+      appConfig.currency_symbol = document.getElementById('setting-currency').value || 'Rp';
+      saveToLocalStorage();
+      applyConfig();
+      showToast('Pengaturan tersimpan!');
+    }
+
+    // Format currency
+    function formatCurrency(amount) {
+      return `${appConfig.currency_symbol} ${amount.toLocaleString('id-ID')}`;
+    }
+
+    // Show toast
+    function showToast(message, type = 'success') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      const bgColor = type === 'success' ? 'from-green-500 to-emerald-600' : 'from-red-500 to-rose-600';
+      toast.className = `toast bg-gradient-to-r ${bgColor} text-white px-4 py-3 rounded-xl shadow-lg mb-2 flex items-center gap-2`;
+      toast.innerHTML = `
+        <span>${type === 'success' ? '✅' : '❌'}</span>
+        <span>${message}</span>
+      `;
+      container.appendChild(toast);
+      setTimeout(() => toast.remove(), 3000);
+    }
+
+    // Switch tabs
+    function switchTab(tab) {
+      currentTab = tab;
+      
+      ['input', 'list', 'report', 'settings'].forEach(t => {
+        const panel = document.getElementById(`panel-${t}`);
+        const tabBtn = document.getElementById(`tab-${t}`);
+        if (t === tab) {
+          panel.classList.remove('hidden');
+          tabBtn.classList.add('tab-active');
+          tabBtn.classList.remove('hover:bg-white/10');
+        } else {
+          panel.classList.add('hidden');
+          tabBtn.classList.remove('tab-active');
+          tabBtn.classList.add('hover:bg-white/10');
+        }
+      });
+
+      if (tab === 'settings') {
+        updateStorageInfo();
+      }
+    }
+
+    // Update statistics
+    function updateStats() {
+      const today = new Date().toISOString().split('T')[0];
+      const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+      const monthStart = new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().split('T')[0];
+
+      const todayTotal = expenses.filter(e => e.date === today).reduce((sum, e) => sum + e.amount, 0);
+      const weekTotal = expenses.filter(e => e.date >= weekAgo).reduce((sum, e) => sum + e.amount, 0);
+      const monthTotal = expenses.filter(e => e.date >= monthStart).reduce((sum, e) => sum + e.amount, 0);
+
+      document.getElementById('stat-today').textContent = formatCurrency(todayTotal);
+      document.getElementById('stat-week').textContent = formatCurrency(weekTotal);
+      document.getElementById('stat-month').textContent = formatCurrency(monthTotal);
+      document.getElementById('stat-items').textContent = expenses.length;
+    }
+
+    // Update storage info
+    function updateStorageInfo() {
+      const dataSize = new Blob([JSON.stringify(expenses)]).size;
+      const sizeKB = (dataSize / 1024).toFixed(2);
+      
+      document.getElementById('storage-items').textContent = expenses.length;
+      document.getElementById('storage-size').textContent = `${sizeKB} KB`;
+    }
+
+    // Render expense list
+    function renderExpenseList() {
+      const container = document.getElementById('expense-list');
+      const filterCategory = document.getElementById('filter-category').value;
+      
+      let filteredExpenses = [...expenses];
+      if (filterCategory !== 'all') {
+        filteredExpenses = filteredExpenses.filter(e => e.category === filterCategory);
+      }
+      
+      filteredExpenses.sort((a, b) => new Date(b.date) - new Date(a.date) || new Date(b.created_at) - new Date(a.created_at));
+
+      if (filteredExpenses.length === 0) {
+        container.innerHTML = `
+          <div class="text-center text-gray-400 py-8">
+            <svg class="w-16 h-16 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+            </svg>
+            <p>Belum ada pengeluaran tercatat</p>
+            <p class="text-sm">Mulai tambahkan pengeluaran pertamamu!</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = filteredExpenses.map(expense => {
+        const isDeleting = deleteConfirmId === expense.id;
+        return `
+          <div class="expense-item glass-card rounded-lg md:rounded-xl p-3 md:p-4 flex items-center justify-between gap-2" data-id="${expense.id}">
+            <div class="flex items-center gap-2 md:gap-3 min-w-0 flex-1">
+              <div class="w-8 h-8 md:w-10 md:h-10 rounded-lg category-${expense.category} flex items-center justify-center text-sm md:text-lg flex-shrink-0">
+                ${categoryLabels[expense.category]?.split(' ')[0] || '📦'}
+              </div>
+              <div class="min-w-0 flex-1">
+                <p class="font-medium text-sm md:text-base truncate">${expense.item_name}</p>
+                <p class="text-[10px] md:text-xs text-gray-400 truncate">${new Date(expense.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })}${expense.notes ? ` • ${expense.notes}` : ''}</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-2 md:gap-3 flex-shrink-0">
+              <p class="font-semibold text-right text-xs md:text-base">${formatCurrency(expense.amount)}</p>
+              ${isDeleting ? `
+                <div class="delete-confirm flex gap-1">
+                  <button onclick="confirmDelete('${expense.id}')" class="px-1.5 md:px-2 py-1 bg-red-500 hover:bg-red-600 rounded text-[10px] md:text-xs">Hapus</button>
+                  <button onclick="cancelDelete()" class="px-1.5 md:px-2 py-1 bg-gray-600 hover:bg-gray-700 rounded text-[10px] md:text-xs">Batal</button>
+                </div>
+              ` : `
+                <button onclick="startDelete('${expense.id}')" class="p-1.5 md:p-2 hover:bg-white/10 rounded-lg transition-colors">
+                  <svg class="w-3.5 h-3.5 md:w-4 md:h-4 text-gray-400 hover:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                  </svg>
+                </button>
+              `}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function startDelete(id) {
+      deleteConfirmId = id;
+      renderExpenseList();
+    }
+
+    function cancelDelete() {
+      deleteConfirmId = null;
+      renderExpenseList();
+    }
+
+    function confirmDelete(id) {
+      expenses = expenses.filter(e => e.id !== id);
+      deleteConfirmId = null;
+      saveToLocalStorage();
+      updateStats();
+      renderExpenseList();
+      renderReports();
+      showToast('Pengeluaran berhasil dihapus');
+    }
+
+    // Render reports
+    function renderReports() {
+      renderCategoryChart();
+      renderDailyChart();
+      renderTopExpenses();
+    }
+
+    function renderCategoryChart() {
+      const container = document.getElementById('category-chart');
+      const categoryTotals = {};
+      
+      expenses.forEach(e => {
+        categoryTotals[e.category] = (categoryTotals[e.category] || 0) + e.amount;
+      });
+
+      const categories = Object.entries(categoryTotals).sort((a, b) => b[1] - a[1]);
+      const maxAmount = Math.max(...Object.values(categoryTotals), 1);
+
+      if (categories.length === 0) {
+        container.innerHTML = '<div class="text-center text-gray-400 py-8"><p>Belum ada data untuk ditampilkan</p></div>';
+        return;
+      }
+
+      container.innerHTML = categories.map(([cat, amount]) => {
+        const percentage = (amount / maxAmount) * 100;
+        return `
+          <div class="space-y-2">
+            <div class="flex justify-between text-sm">
+              <span>${categoryLabels[cat] || cat}</span>
+              <span class="font-medium">${formatCurrency(amount)}</span>
+            </div>
+            <div class="h-3 bg-white/10 rounded-full overflow-hidden">
+              <div class="chart-bar h-full category-${cat} rounded-full" style="width: ${percentage}%"></div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderDailyChart() {
+      const container = document.getElementById('daily-chart');
+      const dailyTotals = {};
+      
+      for (let i = 6; i >= 0; i--) {
+        const date = new Date(Date.now() - i * 24 * 60 * 60 * 1000);
+        const dateStr = date.toISOString().split('T')[0];
+        dailyTotals[dateStr] = 0;
+      }
+
+      expenses.forEach(e => {
+        if (dailyTotals.hasOwnProperty(e.date)) {
+          dailyTotals[e.date] += e.amount;
+        }
+      });
+
+      const days = Object.entries(dailyTotals);
+      const maxAmount = Math.max(...Object.values(dailyTotals), 1);
+
+      if (days.every(([_, amount]) => amount === 0)) {
+        container.innerHTML = '<div class="text-center text-gray-400 w-full py-8"><p>Belum ada data untuk ditampilkan</p></div>';
+        return;
+      }
+
+      container.innerHTML = days.map(([date, amount]) => {
+        const height = (amount / maxAmount) * 100 || 5;
+        const dayName = new Date(date).toLocaleDateString('id-ID', { weekday: 'short' });
+        const shortAmount = amount >= 1000000 ? `${(amount/1000000).toFixed(1)}jt` : amount >= 1000 ? `${(amount/1000).toFixed(0)}rb` : amount;
+        return `
+          <div class="flex flex-col items-center flex-1 min-w-0">
+            <div class="w-full flex items-end justify-center h-24 md:h-32">
+              <div class="chart-bar w-full max-w-6 md:max-w-8 rounded-t-md md:rounded-t-lg bg-gradient-to-t from-indigo-600 to-purple-500" style="height: ${height}%"></div>
+            </div>
+            <p class="text-[9px] md:text-xs text-gray-400 mt-1 md:mt-2">${dayName}</p>
+            <p class="text-[9px] md:text-xs font-medium truncate w-full text-center">${appConfig.currency_symbol}${shortAmount}</p>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderTopExpenses() {
+      const container = document.getElementById('top-expenses');
+      const sorted = [...expenses].sort((a, b) => b.amount - a.amount).slice(0, 5);
+
+      if (sorted.length === 0) {
+        container.innerHTML = '<div class="text-center text-gray-400 py-8"><p>Belum ada data untuk ditampilkan</p></div>';
+        return;
+      }
+
+      container.innerHTML = sorted.map((expense, index) => `
+        <div class="flex items-center gap-2 md:gap-3 p-2.5 md:p-3 rounded-lg md:rounded-xl bg-white/5">
+          <div class="w-6 h-6 md:w-8 md:h-8 rounded-md md:rounded-lg bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center font-bold text-xs md:text-sm flex-shrink-0">
+            ${index + 1}
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="font-medium text-sm md:text-base truncate">${expense.item_name}</p>
+            <p class="text-[10px] md:text-xs text-gray-400 truncate">${categoryLabels[expense.category]?.split(' ')[0]} • ${new Date(expense.date).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })}</p>
+          </div>
+          <p class="font-semibold text-xs md:text-base flex-shrink-0">${formatCurrency(expense.amount)}</p>
+        </div>
+      `).join('');
+    }
+
+    // Export data
+    function exportData() {
+      const exportData = {
+        version: '1.0',
+        exported_at: new Date().toISOString(),
+        config: appConfig,
+        expenses: expenses
+      };
+      
+      const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `laporan-belanja-${new Date().toISOString().split('T')[0]}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      
+      showToast('Data berhasil di-export!');
+    }
+
+    // Export HTML Report
+    function exportHTML() {
+      if (expenses.length === 0) {
+        showToast('Belum ada data untuk di-export', 'error');
+        return;
+      }
+
+      const today = new Date();
+      const reportDate = today.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+      
+      // Calculate totals
+      const todayStr = today.toISOString().split('T')[0];
+      const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+      const monthStart = new Date(today.getFullYear(), today.getMonth(), 1).toISOString().split('T')[0];
+
+      const todayTotal = expenses.filter(e => e.date === todayStr).reduce((sum, e) => sum + e.amount, 0);
+      const weekTotal = expenses.filter(e => e.date >= weekAgo).reduce((sum, e) => sum + e.amount, 0);
+      const monthTotal = expenses.filter(e => e.date >= monthStart).reduce((sum, e) => sum + e.amount, 0);
+      const grandTotal = expenses.reduce((sum, e) => sum + e.amount, 0);
+
+      // Category totals
+      const categoryTotals = {};
+      expenses.forEach(e => {
+        categoryTotals[e.category] = (categoryTotals[e.category] || 0) + e.amount;
+      });
+
+      // Sort expenses by date
+      const sortedExpenses = [...expenses].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+      // Group by date
+      const groupedByDate = {};
+      sortedExpenses.forEach(e => {
+        if (!groupedByDate[e.date]) groupedByDate[e.date] = [];
+        groupedByDate[e.date].push(e);
+      });
+
+      const htmlContent = `<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laporan Belanja - ${reportDate}</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f5f5; color: #333; line-height: 1.6; }
+    .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+    .header { background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; padding: 30px; border-radius: 12px; margin-bottom: 20px; text-align: center; }
+    .header h1 { font-size: 24px; margin-bottom: 5px; }
+    .header p { opacity: 0.9; font-size: 14px; }
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 20px; }
+    @media (max-width: 600px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+    .stat-card { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center; }
+    .stat-card .label { font-size: 12px; color: #666; margin-bottom: 5px; }
+    .stat-card .value { font-size: 18px; font-weight: bold; color: #6366f1; }
+    .section { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 20px; }
+    .section h2 { font-size: 16px; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #f0f0f0; color: #333; }
+    .category-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
+    .category-item:last-child { border-bottom: none; }
+    .category-name { display: flex; align-items: center; gap: 8px; }
+    .category-amount { font-weight: 600; color: #6366f1; }
+    .date-group { margin-bottom: 20px; }
+    .date-header { background: #f8f9fa; padding: 10px 15px; border-radius: 8px; font-weight: 600; margin-bottom: 10px; color: #555; }
+    .expense-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; border-left: 3px solid #6366f1; background: #fafafa; margin-bottom: 8px; border-radius: 0 8px 8px 0; }
+    .expense-info .name { font-weight: 500; }
+    .expense-info .meta { font-size: 12px; color: #888; margin-top: 3px; }
+    .expense-amount { font-weight: 600; color: #333; }
+    .footer { text-align: center; padding: 20px; color: #888; font-size: 12px; }
+    .total-row { background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; padding: 15px; border-radius: 8px; display: flex; justify-content: space-between; font-weight: bold; margin-top: 10px; }
+    @media print { body { background: white; } .container { padding: 0; } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>${appConfig.app_title}</h1>
+      <p>Laporan dibuat: ${reportDate}</p>
+    </div>
+
+    <div class="stats">
+      <div class="stat-card">
+        <div class="label">Hari Ini</div>
+        <div class="value">${formatCurrency(todayTotal)}</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Minggu Ini</div>
+        <div class="value">${formatCurrency(weekTotal)}</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Bulan Ini</div>
+        <div class="value">${formatCurrency(monthTotal)}</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Total Item</div>
+        <div class="value">${expenses.length}</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>📊 Ringkasan per Kategori</h2>
+      ${Object.entries(categoryTotals).sort((a,b) => b[1] - a[1]).map(([cat, amount]) => `
+        <div class="category-item">
+          <span class="category-name">${categoryLabels[cat] || cat}</span>
+          <span class="category-amount">${formatCurrency(amount)}</span>
+        </div>
+      `).join('')}
+      <div class="total-row">
+        <span>Total Keseluruhan</span>
+        <span>${formatCurrency(grandTotal)}</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>📋 Detail Pengeluaran</h2>
+      ${Object.entries(groupedByDate).map(([date, items]) => `
+        <div class="date-group">
+          <div class="date-header">📅 ${new Date(date).toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</div>
+          ${items.map(item => `
+            <div class="expense-item">
+              <div class="expense-info">
+                <div class="name">${item.item_name}</div>
+                <div class="meta">${categoryLabels[item.category]?.split(' ')[0] || '📦'} ${categoryLabels[item.category]?.split(' ').slice(1).join(' ') || item.category}${item.notes ? ' • ' + item.notes : ''}</div>
+              </div>
+              <div class="expense-amount">${formatCurrency(item.amount)}</div>
+            </div>
+          `).join('')}
+        </div>
+      `).join('')}
+    </div>
+
+    <div class="footer">
+      <p>Laporan ini dibuat secara otomatis oleh ${appConfig.app_title}</p>
+      <p>© ${today.getFullYear()} Syam Digital</p>
+    </div>
+  </div>
+</body>
+</html>`;
+
+      const blob = new Blob([htmlContent], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `laporan-belanja-${today.toISOString().split('T')[0]}.html`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      
+      showToast('Laporan HTML berhasil di-export!');
+    }
+
+    // Import data
+    function importData(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const data = JSON.parse(e.target.result);
+          
+          if (data.expenses && Array.isArray(data.expenses)) {
+            expenses = data.expenses;
+            if (data.config) {
+              appConfig = { ...appConfig, ...data.config };
+            }
+            saveToLocalStorage();
+            applyConfig();
+            updateStats();
+            renderExpenseList();
+            renderReports();
+            showToast(`Berhasil import ${expenses.length} data!`);
+          } else {
+            showToast('Format file tidak valid', 'error');
+          }
+        } catch (err) {
+          showToast('Gagal membaca file', 'error');
+        }
+      };
+      reader.readAsText(file);
+      event.target.value = '';
+    }
+
+    // Clear all data
+    function showClearConfirm() {
+      const section = document.getElementById('clear-data-section');
+      section.innerHTML = `
+        <div class="delete-confirm space-y-3">
+          <p class="text-red-300 font-medium">Yakin ingin menghapus semua data?</p>
+          <div class="flex gap-2">
+            <button onclick="clearAllData()" class="btn-danger py-2 px-4 rounded-lg font-medium text-white">Ya, Hapus Semua</button>
+            <button onclick="cancelClearData()" class="py-2 px-4 rounded-lg font-medium bg-gray-600 hover:bg-gray-700 text-white">Batal</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function cancelClearData() {
+      const section = document.getElementById('clear-data-section');
+      section.innerHTML = `
+        <button onclick="showClearConfirm()" class="btn-danger py-3 px-6 rounded-xl font-semibold text-white flex items-center gap-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+          </svg>
+          Hapus Semua Data
+        </button>
+      `;
+    }
+
+    function clearAllData() {
+      expenses = [];
+      saveToLocalStorage();
+      updateStats();
+      renderExpenseList();
+      renderReports();
+      updateStorageInfo();
+      cancelClearData();
+      showToast('Semua data telah dihapus');
+    }
+
+    // Form submission
+    document.getElementById('expense-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const itemName = document.getElementById('item-name').value.trim();
+      const amount = parseFloat(document.getElementById('item-amount').value);
+      const category = document.getElementById('item-category').value;
+      const date = document.getElementById('item-date').value;
+      const notes = document.getElementById('item-notes').value.trim();
+
+      if (!itemName || !amount || amount <= 0) {
+        showToast('Mohon lengkapi nama item dan jumlah', 'error');
+        return;
+      }
+
+      const newExpense = {
+        id: Date.now().toString(),
+        item_name: itemName,
+        category: category,
+        amount: amount,
+        date: date || new Date().toISOString().split('T')[0],
+        notes: notes,
+        created_at: new Date().toISOString()
+      };
+
+      expenses.push(newExpense);
+      saveToLocalStorage();
+      
+      updateStats();
+      renderExpenseList();
+      renderReports();
+      
+      e.target.reset();
+      document.getElementById('item-date').value = new Date().toISOString().split('T')[0];
+      
+      showToast('Pengeluaran berhasil disimpan!');
+    });
+
+    // Initialize
+    initApp();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b0764d4f3687d87',t:'MTc2NjE1MjQ4Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feedback Buttons</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    * {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .btn-feedback {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .btn-feedback:hover {
+      transform: translateY(-2px);
+    }
+    .btn-feedback:active {
+      transform: translateY(0) scale(0.98);
+    }
+    .btn-feedback.clicked {
+      animation: pulse-ring 0.4s ease-out;
+    }
+    @keyframes pulse-ring {
+      0% { box-shadow: 0 0 0 0 currentColor; }
+      100% { box-shadow: 0 0 0 12px transparent; }
+    }
+    .count-badge {
+      animation: pop-in 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    @keyframes pop-in {
+      0% { transform: scale(0); }
+      100% { transform: scale(1); }
+    }
+    .toast-notification {
+      animation: slide-up 0.4s ease-out, fade-out 0.3s ease-in 2.7s forwards;
+    }
+    @keyframes slide-up {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes fade-out {
+      to { opacity: 0; visibility: hidden; }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full bg-transparent">
+  <main class="h-full w-full flex items-center justify-center p-4 md:p-6">
+   <div class="feedback-container bg-white rounded-xl border border-slate-200 shadow-sm p-6 max-w-2xl w-full"><!-- Header -->
+    <div class="mb-5">
+     <h3 class="text-base font-semibold text-slate-800 mb-1">Apakah artikel ini bermanfaat?</h3>
+     <p class="text-slate-500 text-sm">Bantu kami meningkatkan kualitas konten</p>
+    </div><!-- Buttons Container -->
+    <div class="flex flex-col sm:flex-row gap-3"><!-- Positive Feedback Button --> <button id="btn-positive" class="btn-feedback group flex-1 flex items-center justify-center gap-2 sm:gap-3 p-3 sm:p-3.5 rounded-lg border-2 border-emerald-200 bg-white hover:bg-emerald-50 hover:border-emerald-400 hover:shadow-md text-emerald-700">
+      <svg class="w-5 h-5 sm:w-6 sm:h-6 text-emerald-600 flex-shrink-0" focusable="false" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="currentColor"><path d="M21 7h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 0S7.08 6.85 7 7H2v13h16c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73V9c0-1.1-.9-2-2-2zM7 18H4V9h3v9zm14-7l-3 7H9V8l4.34-4.34L12 9h9v2z" />
+      </svg><span id="positive-text" class="font-semibold text-sm sm:text-base">Masukan Positif</span>
+      <div id="positive-count" class="count-badge hidden min-w-[24px] h-6 rounded-full bg-emerald-500 text-white text-xs font-bold flex items-center justify-center px-2">
+       0
+      </div></button> <!-- Negative Feedback Button --> <button id="btn-negative" class="btn-feedback group flex-1 flex items-center justify-center gap-2 sm:gap-3 p-3 sm:p-3.5 rounded-lg border-2 border-rose-200 bg-white hover:bg-rose-50 hover:border-rose-400 hover:shadow-md text-rose-700">
+      <svg class="w-5 h-5 sm:w-6 sm:h-6 text-rose-600 flex-shrink-0" focusable="false" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="currentColor"><path d="M3 17h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 24s7.09-6.85 7.17-7h5V4H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v2c0 1.1.9 2 2 2zM17 6h3v9h-3V6zM3 13l3-7h9v10l-4.34 4.34L12 15H3v-2z" />
+      </svg><span id="negative-text" class="font-semibold text-sm sm:text-base">Masukan Negatif</span>
+      <div id="negative-count" class="count-badge hidden min-w-[24px] h-6 rounded-full bg-rose-500 text-white text-xs font-bold flex items-center justify-center px-2">
+       0
+      </div></button> <!-- Share Button --> <button id="btn-share" class="btn-feedback group flex-1 flex items-center justify-center gap-2 sm:gap-3 p-3 sm:p-3.5 rounded-lg border-2 border-blue-200 bg-white hover:bg-blue-50 hover:border-blue-400 hover:shadow-md text-blue-700">
+      <svg class="w-5 h-5 sm:w-5 sm:h-5 text-blue-600 flex-shrink-0" height="20" width="20" aria-hidden="true" focusable="false" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z" />
+      </svg><span id="share-text" class="font-semibold text-sm sm:text-base">Bagikan</span> </button>
+    </div><!-- Toast Container -->
+    <div id="toast-container" style="position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 9999; pointer-events: none;"></div>
+   </div>
+  </main>
+  <script>
+    const defaultConfig = {
+      share_text: 'Bagikan',
+      positive_text: 'Masukan Positif',
+      negative_text: 'Masukan Negatif',
+      background_color: '#f8fafc',
+      text_color: '#1e293b',
+      positive_color: '#10b981',
+      negative_color: '#f43f5e',
+      share_color: '#3b82f6',
+      font_family: 'Plus Jakarta Sans',
+      font_size: 16
+    };
+
+    let positiveCount = 0;
+    let negativeCount = 0;
+
+    function showToast(message, type) {
+      const container = document.getElementById('toast-container');
+      const existing = container.querySelector('.toast-notification');
+      if (existing) existing.remove();
+
+      const colors = {
+        positive: 'bg-emerald-500',
+        negative: 'bg-rose-500',
+        share: 'bg-blue-500'
+      };
+
+      const toast = document.createElement('div');
+      toast.style.cssText = `
+        background-color: ${type === 'positive' ? '#10b981' : type === 'negative' ? '#f43f5e' : '#3b82f6'};
+        color: white;
+        padding: 12px 24px;
+        border-radius: 9999px;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        font-weight: 500;
+        font-size: 14px;
+        pointer-events: auto;
+      `;
+      toast.className = 'toast-notification';
+      toast.textContent = message;
+      container.appendChild(toast);
+
+      setTimeout(() => toast.remove(), 3000);
+    }
+
+    function updateCount(type) {
+      const countEl = document.getElementById(`${type}-count`);
+      const count = type === 'positive' ? ++positiveCount : ++negativeCount;
+      
+      countEl.textContent = count;
+      countEl.classList.remove('hidden');
+      countEl.classList.add('flex');
+      
+      // Re-trigger animation
+      countEl.style.animation = 'none';
+      countEl.offsetHeight;
+      countEl.style.animation = '';
+    }
+
+    document.getElementById('btn-positive').addEventListener('click', function() {
+      this.classList.add('clicked');
+      setTimeout(() => this.classList.remove('clicked'), 400);
+      updateCount('positive');
+      showToast('Terima kasih atas masukan positif! 👍', 'positive');
+    });
+
+    document.getElementById('btn-negative').addEventListener('click', function() {
+      this.classList.add('clicked');
+      setTimeout(() => this.classList.remove('clicked'), 400);
+      updateCount('negative');
+      showToast('Masukan Anda sangat berarti! 📝', 'negative');
+    });
+
+    document.getElementById('btn-share').addEventListener('click', function() {
+      this.classList.add('clicked');
+      setTimeout(() => this.classList.remove('clicked'), 400);
+      
+      if (navigator.share) {
+        navigator.share({
+          title: 'Bagikan Feedback',
+          text: 'Berikan masukan Anda!',
+          url: window.location.href
+        }).catch(() => {});
+      }
+      showToast('Link siap dibagikan! 🔗', 'share');
+    });
+
+    async function onConfigChange(config) {
+      const customFont = config.font_family || defaultConfig.font_family;
+      const baseSize = config.font_size || defaultConfig.font_size;
+      
+      document.body.style.fontFamily = `${customFont}, sans-serif`;
+      
+      document.getElementById('share-text').textContent = config.share_text || defaultConfig.share_text;
+      document.getElementById('positive-text').textContent = config.positive_text || defaultConfig.positive_text;
+      document.getElementById('negative-text').textContent = config.negative_text || defaultConfig.negative_text;
+
+      document.querySelectorAll('.btn-feedback span').forEach(el => {
+        el.style.fontSize = `${baseSize}px`;
+      });
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [
+          {
+            get: () => config.background_color || defaultConfig.background_color,
+            set: (value) => { config.background_color = value; window.elementSdk.setConfig({ background_color: value }); }
+          },
+          {
+            get: () => config.text_color || defaultConfig.text_color,
+            set: (value) => { config.text_color = value; window.elementSdk.setConfig({ text_color: value }); }
+          }
+        ],
+        borderables: [],
+        fontEditable: {
+          get: () => config.font_family || defaultConfig.font_family,
+          set: (value) => { config.font_family = value; window.elementSdk.setConfig({ font_family: value }); }
+        },
+        fontSizeable: {
+          get: () => config.font_size || defaultConfig.font_size,
+          set: (value) => { config.font_size = value; window.elementSdk.setConfig({ font_size: value }); }
+        }
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ['share_text', config.share_text || defaultConfig.share_text],
+        ['positive_text', config.positive_text || defaultConfig.positive_text],
+        ['negative_text', config.negative_text || defaultConfig.negative_text]
+      ]);
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c723675c547fd7c',t:'MTc2OTk1NjkxOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

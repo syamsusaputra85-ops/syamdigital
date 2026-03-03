@@ -1,0 +1,527 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pencarian Data Google Sheets</title>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1763356194/Lambang_Kabupaten_Donggala_1_cvywgs.png">
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.3s ease-in;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .loading-spinner {
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top: 3px solid white;
+      width: 24px;
+      height: 24px;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full">
+  <div id="app" class="h-full w-full overflow-auto">
+   <div class="min-h-full w-full"><!-- Header -->
+    <header class="w-full shadow-md">
+     <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 sm:py-8">
+      <h1 id="page-title" class="font-bold mb-2">Pencarian Data</h1>
+      <p id="data-info" class="text-sm opacity-80">Memuat data...</p>
+     </div>
+    </header><!-- Search Section -->
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 py-4 sm:py-8">
+     <div class="mb-6">
+      <div class="relative"><input type="text" id="search-input" placeholder="Cari data..." class="w-full px-3 sm:px-4 py-2 sm:py-3 pl-10 sm:pl-12 rounded-lg shadow-md focus:outline-none focus:ring-2 transition-all text-sm sm:text-base">
+       <svg class="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 w-4 sm:w-5 h-4 sm:h-5 opacity-50" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+       </svg>
+      </div>
+     </div><!-- Loading State -->
+     <div id="loading-state" class="text-center py-12">
+      <div class="loading-spinner mx-auto mb-4"></div>
+      <p class="opacity-70">Memuat data dari Google Sheets...</p>
+     </div><!-- Error State -->
+     <div id="error-state" class="hidden rounded-lg p-6 text-center">
+      <svg class="w-16 h-16 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+      </svg>
+      <p class="font-semibold mb-2">Gagal Memuat Data</p>
+      <p id="error-message" class="text-sm opacity-70"></p>
+     </div><!-- Results -->
+     <div id="results-container" class="hidden">
+      <div class="mb-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+       <p id="result-count" class="text-xs sm:text-sm opacity-70"></p><button id="clear-search" class="hidden text-xs sm:text-sm px-3 py-1 rounded-md transition-colors whitespace-nowrap"> Hapus Pencarian </button>
+      </div>
+      <div id="results-grid" class="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"></div>
+      <div id="no-results" class="hidden text-center py-12 rounded-lg">
+       <svg class="w-16 h-16 mx-auto mb-4 opacity-30" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+       </svg>
+       <p class="font-semibold mb-2">Tidak Ada Hasil</p>
+       <p class="text-sm opacity-70">Coba kata kunci lain</p>
+      </div>
+     </div>
+    </main><!-- Footer -->
+    <footer class="w-full border-t mt-8 sm:mt-12">
+     <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 sm:py-6 text-center">
+      <p id="footer-text" class="text-xs sm:text-sm opacity-70">Data dari Google Sheets</p>
+     </div>
+    </footer>
+   </div><!-- Modal -->
+   <div id="modal-overlay" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-2 sm:p-4 z-50" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%;">
+    <div id="modal-content" class="rounded-lg shadow-xl max-w-2xl w-full max-h-90 overflow-y-auto" style="max-height: 90%;">
+     <div class="sticky top-0 flex justify-between items-center p-4 sm:p-6 border-b">
+      <div class="flex items-center gap-2 sm:gap-3"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1763356194/Lambang_Kabupaten_Donggala_1_cvywgs.png" alt="Logo Kabupaten Donggala" onerror="this.style.display='none';" class="w-8 sm:w-10 h-8 sm:h-10 object-contain">
+       <h2 id="modal-title" class="font-bold text-lg sm:text-xl">Detail Data</h2>
+      </div><button id="modal-close" class="text-2xl sm:text-3xl hover:opacity-70 transition-opacity">×</button>
+     </div>
+     <div id="modal-body" class="p-4 sm:p-6"></div>
+    </div>
+   </div>
+  </div>
+  <script>
+    const defaultConfig = {
+      background_color: "#f0f4f8",
+      surface_color: "#ffffff",
+      text_color: "#1a202c",
+      primary_action_color: "#3b82f6",
+      secondary_action_color: "#64748b",
+      page_title: "Pencarian Data",
+      search_placeholder: "Cari Nama Desa...",
+      footer_text: "Data dari Google Sheets",
+      font_family: "Inter",
+      font_size: 16
+    };
+
+    let allData = [];
+    let filteredData = [];
+
+    async function onConfigChange(config) {
+      const bgColor = config.background_color || defaultConfig.background_color;
+      const surfaceColor = config.surface_color || defaultConfig.surface_color;
+      const textColor = config.text_color || defaultConfig.text_color;
+      const primaryColor = config.primary_action_color || defaultConfig.primary_action_color;
+      const secondaryColor = config.secondary_action_color || defaultConfig.secondary_action_color;
+      const customFont = config.font_family || defaultConfig.font_family;
+      const baseSize = config.font_size || defaultConfig.font_size;
+      const baseFontStack = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+
+      document.body.style.backgroundColor = bgColor;
+      document.body.style.color = textColor;
+      document.body.style.fontFamily = `${customFont}, ${baseFontStack}`;
+      document.body.style.fontSize = `${baseSize}px`;
+
+      const app = document.getElementById('app');
+      app.style.backgroundColor = bgColor;
+
+      const header = document.querySelector('header');
+      header.style.backgroundColor = surfaceColor;
+      header.style.color = textColor;
+
+      const pageTitle = document.getElementById('page-title');
+      pageTitle.textContent = config.page_title || defaultConfig.page_title;
+      pageTitle.style.fontSize = `${baseSize * 2}px`;
+      pageTitle.style.color = textColor;
+
+      const dataInfo = document.getElementById('data-info');
+      dataInfo.style.fontSize = `${baseSize * 0.875}px`;
+      dataInfo.style.color = textColor;
+
+      const searchInput = document.getElementById('search-input');
+      searchInput.placeholder = config.search_placeholder || defaultConfig.search_placeholder;
+      searchInput.style.backgroundColor = surfaceColor;
+      searchInput.style.color = textColor;
+      searchInput.style.borderColor = secondaryColor;
+      searchInput.style.fontSize = `${baseSize}px`;
+
+      searchInput.addEventListener('focus', function() {
+        this.style.outline = `2px solid ${primaryColor}`;
+      });
+
+      searchInput.addEventListener('blur', function() {
+        this.style.outline = 'none';
+      });
+
+      const searchIcon = document.querySelector('header + main svg');
+      searchIcon.style.color = textColor;
+
+      const loadingState = document.getElementById('loading-state');
+      loadingState.style.color = textColor;
+      loadingState.style.fontSize = `${baseSize}px`;
+
+      const loadingSpinner = document.querySelector('.loading-spinner');
+      loadingSpinner.style.borderTopColor = primaryColor;
+
+      const errorState = document.getElementById('error-state');
+      errorState.style.backgroundColor = surfaceColor;
+      errorState.style.color = textColor;
+
+      const resultCount = document.getElementById('result-count');
+      resultCount.style.fontSize = `${baseSize * 0.875}px`;
+      resultCount.style.color = textColor;
+
+      const clearBtn = document.getElementById('clear-search');
+      clearBtn.style.backgroundColor = secondaryColor;
+      clearBtn.style.color = surfaceColor;
+      clearBtn.style.fontSize = `${baseSize * 0.875}px`;
+
+      const noResults = document.getElementById('no-results');
+      noResults.style.backgroundColor = surfaceColor;
+      noResults.style.color = textColor;
+
+      const footer = document.querySelector('footer');
+      footer.style.backgroundColor = surfaceColor;
+      footer.style.borderTopColor = secondaryColor;
+
+      const footerText = document.getElementById('footer-text');
+      footerText.textContent = config.footer_text || defaultConfig.footer_text;
+      footerText.style.fontSize = `${baseSize * 0.875}px`;
+      footerText.style.color = textColor;
+
+      renderResults();
+    }
+
+    async function fetchGoogleSheetData() {
+      try {
+        const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQtumEfyXCfBckiBoGK7hNzU2qy-hIjAp82tNZKOLMdR0lxz8Xw2oVY8m6J3OxcgQ/pub?gid=1969442948&single=true&output=csv';
+        
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('Gagal mengambil data');
+        
+        const csvText = await response.text();
+        const rows = csvText.split('\n').map(row => {
+          const values = [];
+          let current = '';
+          let inQuotes = false;
+          
+          for (let i = 0; i < row.length; i++) {
+            const char = row[i];
+            if (char === '"') {
+              inQuotes = !inQuotes;
+            } else if (char === ',' && !inQuotes) {
+              values.push(current.trim());
+              current = '';
+            } else {
+              current += char;
+            }
+          }
+          values.push(current.trim());
+          return values;
+        });
+
+        // Skip first row (merged headers: TANAH, BANGUNAN)
+        // Use second row as actual headers
+        const headerRow1 = rows[0]; // Main categories
+        const headerRow2 = rows[1]; // Detailed headers
+        
+        // Manual column mapping for specific columns
+        const columnNames = {
+          0: 'No',
+          1: 'NAMA PEMERINTAH KECAMATAN',
+          2: 'NAMA PEMERINTAH DESA',
+          3: 'No',
+          4: 'NAMA BARANG',
+          5: 'LOKASI TANAH',
+          6: 'TITIK KOORDINAT',
+          7: 'LUAS (M2)',
+          8: 'NILAI (Rp)',
+          9: 'KONDISI ASET',
+          10: 'MEKANISME PEMANFAATAN ASET',
+          11: 'KETERANGAN'
+        };
+        
+        const headers = headerRow2.map((header, i) => {
+          // Use manual mapping if available
+          if (columnNames[i]) {
+            return columnNames[i];
+          }
+          
+          // Otherwise, use original logic
+          if (!header || header.trim() === '') return `Kolom ${i + 1}`;
+          
+          // Add category prefix for columns under TANAH or BANGUNAN
+          const category = headerRow1[i];
+          if (category && category !== 'NO' && category !== 'NAMA PEMERINTAH KECAMATAN' && category !== 'NAMA PEMERINTAH DESA') {
+            return `${category} - ${header}`;
+          }
+          return header;
+        });
+
+        // Start from row 3 (index 2) for actual data
+        const data = rows.slice(2).filter(row => row.some(cell => cell && cell.trim())).map((row, index) => {
+          const obj = { _id: `row-${index}` };
+          headers.forEach((header, i) => {
+            // Skip columns 13-21
+            if (i >= 13 && i <= 21) return;
+            
+            const value = row[i] || '';
+            obj[header] = value;
+          });
+          return obj;
+        });
+
+        return { headers, data };
+      } catch (error) {
+        throw error;
+      }
+    }
+
+    function renderResults() {
+      const config = window.elementSdk?.config || defaultConfig;
+      const surfaceColor = config.surface_color || defaultConfig.surface_color;
+      const textColor = config.text_color || defaultConfig.text_color;
+      const primaryColor = config.primary_action_color || defaultConfig.primary_action_color;
+      const secondaryColor = config.secondary_action_color || defaultConfig.secondary_action_color;
+      const baseSize = config.font_size || defaultConfig.font_size;
+
+      const resultsGrid = document.getElementById('results-grid');
+      const noResults = document.getElementById('no-results');
+
+      resultsGrid.innerHTML = '';
+
+      if (filteredData.length === 0) {
+        noResults.classList.remove('hidden');
+        return;
+      }
+
+      noResults.classList.add('hidden');
+
+      filteredData.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'fade-in rounded-lg shadow-md p-3 sm:p-5 hover:shadow-lg transition-shadow cursor-pointer';
+        card.style.backgroundColor = surfaceColor;
+        card.style.borderLeft = `3px solid ${primaryColor}`;
+
+        const entries = Object.entries(item).filter(([key]) => key !== '_id');
+        const html = entries.map(([key, value]) => {
+          return `
+            <div class="mb-2 sm:mb-3 last:mb-0">
+              <dt class="font-semibold mb-1 text-xs sm:text-sm" style="color: ${textColor}; opacity: 0.7;">${key}</dt>
+              <dd class="text-sm sm:text-base" style="color: ${textColor};">${value || '-'}</dd>
+            </div>
+          `;
+        }).join('');
+
+        card.innerHTML = `<dl>${html}</dl>`;
+        
+        // Add click handler to open modal
+        card.addEventListener('click', () => {
+          openModal(item);
+        });
+        
+        resultsGrid.appendChild(card);
+      });
+    }
+
+    function openModal(item) {
+      const config = window.elementSdk?.config || defaultConfig;
+      const surfaceColor = config.surface_color || defaultConfig.surface_color;
+      const textColor = config.text_color || defaultConfig.text_color;
+      const primaryColor = config.primary_action_color || defaultConfig.primary_action_color;
+      const baseSize = config.font_size || defaultConfig.font_size;
+
+      const modalOverlay = document.getElementById('modal-overlay');
+      const modalContent = document.getElementById('modal-content');
+      const modalTitle = document.getElementById('modal-title');
+      const modalBody = document.getElementById('modal-body');
+      const modalClose = document.getElementById('modal-close');
+
+      // Set modal styling
+      modalContent.style.backgroundColor = surfaceColor;
+      modalContent.style.color = textColor;
+      modalTitle.style.color = textColor;
+      modalTitle.style.fontSize = `${baseSize * 1.5}px`;
+      modalClose.style.color = textColor;
+
+      // Set modal title
+      const desaName = item['NAMA PEMERINTAH DESA'] || 'Detail Data';
+      modalTitle.textContent = desaName;
+
+      // Build modal content with admin photo
+      const entries = Object.entries(item).filter(([key]) => key !== '_id');
+      const detailsHtml = entries.map(([key, value]) => {
+        return `
+          <div class="mb-3 sm:mb-4 pb-3 sm:pb-4 border-b last:border-b-0">
+            <dt class="font-semibold mb-1 sm:mb-2 text-xs sm:text-sm" style="color: ${textColor}; opacity: 0.7;">${key}</dt>
+            <dd class="text-sm sm:text-base" style="color: ${textColor};">${value || '-'}</dd>
+          </div>
+        `;
+      }).join('');
+
+      modalBody.innerHTML = `
+        <div class="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6 pb-3 sm:pb-4 border-b">
+          <img 
+            src="https://res.cloudinary.com/di8stbg60/image/upload/v1765500559/Syam_Digital_nvguw4.png" 
+            alt="Syam Digital"
+            onerror="this.style.display='none';"
+            class="w-10 sm:w-12 h-10 sm:h-12 rounded-full object-cover"
+          >
+          <div>
+            <p class="font-semibold text-sm sm:text-base" style="color: ${textColor};">Syam Digital</p>
+            <p class="text-xs sm:text-sm opacity-70" style="color: ${textColor};">Admin</p>
+          </div>
+        </div>
+        <dl>${detailsHtml}</dl>
+      `;
+
+      // Show modal
+      modalOverlay.classList.remove('hidden');
+
+      // Close modal handlers
+      modalClose.onclick = () => {
+        modalOverlay.classList.add('hidden');
+      };
+
+      modalOverlay.onclick = (e) => {
+        if (e.target === modalOverlay) {
+          modalOverlay.classList.add('hidden');
+        }
+      };
+    }
+
+    function performSearch(query) {
+      const config = window.elementSdk?.config || defaultConfig;
+      const clearBtn = document.getElementById('clear-search');
+      const resultCount = document.getElementById('result-count');
+
+      if (!query.trim()) {
+        filteredData = allData;
+        clearBtn.classList.add('hidden');
+      } else {
+        const lowerQuery = query.toLowerCase();
+        filteredData = allData.filter(item => {
+          return Object.values(item).some(value => 
+            String(value).toLowerCase().includes(lowerQuery)
+          );
+        });
+        clearBtn.classList.remove('hidden');
+      }
+
+      resultCount.textContent = `Menampilkan ${filteredData.length} dari ${allData.length} data`;
+      renderResults();
+    }
+
+    async function initializeApp() {
+      try {
+        document.getElementById('loading-state').classList.remove('hidden');
+        document.getElementById('error-state').classList.add('hidden');
+        document.getElementById('results-container').classList.add('hidden');
+
+        const { headers, data } = await fetchGoogleSheetData();
+        allData = data;
+        filteredData = data;
+
+        document.getElementById('loading-state').classList.add('hidden');
+        document.getElementById('results-container').classList.remove('hidden');
+
+        const dataInfo = document.getElementById('data-info');
+        dataInfo.textContent = `${data.length} data tersedia • ${headers.length} kolom`;
+
+        const resultCount = document.getElementById('result-count');
+        resultCount.textContent = `Menampilkan ${filteredData.length} dari ${allData.length} data`;
+
+        renderResults();
+
+        const searchInput = document.getElementById('search-input');
+        searchInput.addEventListener('input', (e) => {
+          performSearch(e.target.value);
+        });
+
+        const clearBtn = document.getElementById('clear-search');
+        clearBtn.addEventListener('click', () => {
+          searchInput.value = '';
+          performSearch('');
+        });
+
+      } catch (error) {
+        document.getElementById('loading-state').classList.add('hidden');
+        document.getElementById('error-state').classList.remove('hidden');
+        document.getElementById('error-message').textContent = error.message;
+      }
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities: (config) => ({
+          recolorables: [
+            {
+              get: () => config.background_color || defaultConfig.background_color,
+              set: (value) => {
+                config.background_color = value;
+                window.elementSdk.setConfig({ background_color: value });
+              }
+            },
+            {
+              get: () => config.surface_color || defaultConfig.surface_color,
+              set: (value) => {
+                config.surface_color = value;
+                window.elementSdk.setConfig({ surface_color: value });
+              }
+            },
+            {
+              get: () => config.text_color || defaultConfig.text_color,
+              set: (value) => {
+                config.text_color = value;
+                window.elementSdk.setConfig({ text_color: value });
+              }
+            },
+            {
+              get: () => config.primary_action_color || defaultConfig.primary_action_color,
+              set: (value) => {
+                config.primary_action_color = value;
+                window.elementSdk.setConfig({ primary_action_color: value });
+              }
+            },
+            {
+              get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
+              set: (value) => {
+                config.secondary_action_color = value;
+                window.elementSdk.setConfig({ secondary_action_color: value });
+              }
+            }
+          ],
+          borderables: [],
+          fontEditable: {
+            get: () => config.font_family || defaultConfig.font_family,
+            set: (value) => {
+              config.font_family = value;
+              window.elementSdk.setConfig({ font_family: value });
+            }
+          },
+          fontSizeable: {
+            get: () => config.font_size || defaultConfig.font_size,
+            set: (value) => {
+              config.font_size = value;
+              window.elementSdk.setConfig({ font_size: value });
+            }
+          }
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ['page_title', config.page_title || defaultConfig.page_title],
+          ['search_placeholder', config.search_placeholder || defaultConfig.search_placeholder],
+          ['footer_text', config.footer_text || defaultConfig.footer_text]
+        ])
+      });
+    }
+
+    initializeApp();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9ac94809144f5f90',t:'MTc2NTUwMTE5MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

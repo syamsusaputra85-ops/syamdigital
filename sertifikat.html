@@ -1,0 +1,602 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sertifikat Pelatihan Pemberdayaan Perempuan</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1763356194/Lambang_Kabupaten_Donggala_1_cvywgs.png">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&amp;family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&amp;family=Poppins:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes shimmer {
+      0% { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+    
+    .animate-in {
+      animation: fadeIn 0.6s ease-out forwards;
+    }
+    
+    .participant-card {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .participant-card:hover {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 20px 50px rgba(139, 90, 43, 0.2);
+    }
+    
+    .gold-shimmer {
+      background: linear-gradient(90deg, #8B5A2B, #D4A853, #F5DEB3, #D4A853, #8B5A2B);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer 4s linear infinite;
+    }
+    
+    .certificate-wrapper {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      padding: 12px;
+      border-radius: 8px;
+      box-shadow: 0 25px 80px rgba(0,0,0,0.4);
+    }
+    
+    .certificate-frame {
+      background: linear-gradient(135deg, #D4A853 0%, #F5DEB3 25%, #D4A853 50%, #8B5A2B 75%, #D4A853 100%);
+      padding: 4px;
+      border-radius: 4px;
+    }
+    
+    .certificate-inner-frame {
+      background: linear-gradient(135deg, #8B5A2B 0%, #D4A853 50%, #8B5A2B 100%);
+      padding: 3px;
+      border-radius: 3px;
+    }
+    
+    .certificate-body {
+      background: linear-gradient(180deg, #FFFEF7 0%, #FFF9E8 30%, #FFFEF7 70%, #FDF5E6 100%);
+      border-radius: 2px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .certificate-body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        radial-gradient(circle at 0% 0%, rgba(212,168,83,0.1) 0%, transparent 50%),
+        radial-gradient(circle at 100% 0%, rgba(212,168,83,0.1) 0%, transparent 50%),
+        radial-gradient(circle at 100% 100%, rgba(212,168,83,0.1) 0%, transparent 50%),
+        radial-gradient(circle at 0% 100%, rgba(212,168,83,0.1) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    
+    .watermark-pattern {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 300px;
+      height: 300px;
+      opacity: 0.04;
+      pointer-events: none;
+    }
+    
+    .elegant-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+    
+    .elegant-divider::before,
+    .elegant-divider::after {
+      content: '';
+      height: 1px;
+      width: 80px;
+      background: linear-gradient(90deg, transparent, #D4A853, transparent);
+    }
+    
+    .name-underline {
+      position: relative;
+    }
+    
+    .name-underline::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #D4A853, #8B5A2B, #D4A853, transparent);
+    }
+    
+    .seal-container {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .seal-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100px;
+      height: 100px;
+      background: radial-gradient(circle, rgba(212,168,83,0.3) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 3s ease-in-out infinite;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full overflow-auto" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);">
+  <div id="app-wrapper" class="w-full min-h-full"><!-- Header -->
+   <header class="py-6 md:py-10 px-3 md:px-4 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10">
+     <svg class="w-full h-full" viewbox="0 0 100 100" preserveaspectratio="none"><pattern id="header-pattern" x="0" y="0" width="20" height="20" patternunits="userSpaceOnUse">
+       <circle cx="10" cy="10" r="1" fill="#D4A853" />
+      </pattern> <rect width="100" height="100" fill="url(#header-pattern)" />
+     </svg>
+    </div>
+    <div class="max-w-6xl mx-auto text-center relative z-10">
+     <div class="flex justify-center mb-6">
+      <div class="relative">
+       <div class="absolute inset-0 bg-gradient-to-r from-amber-400 to-yellow-300 blur-xl opacity-30 rounded-full"></div>
+       <svg class="w-20 h-20 relative" viewbox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="38" stroke="url(#gold-gradient)" stroke-width="2" /> <circle cx="40" cy="40" r="32" stroke="url(#gold-gradient)" stroke-width="1" opacity="0.5" /> <path d="M40 15L45 30H60L48 40L53 55L40 45L27 55L32 40L20 30H35L40 15Z" fill="url(#gold-gradient)" /> <defs>
+         <lineargradient id="gold-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#D4A853" />
+          <stop offset="50%" stop-color="#F5DEB3" />
+          <stop offset="100%" stop-color="#8B5A2B" />
+         </lineargradient>
+        </defs>
+       </svg>
+      </div>
+     </div>
+     <h1 class="text-2xl sm:text-4xl md:text-5xl font-bold mb-2 md:mb-3 gold-shimmer" style="font-family: 'Cinzel', serif;">Sertifikat Peserta</h1>
+     <p id="page-subtitle" class="text-sm sm:text-base md:text-lg text-amber-100/80 max-w-2xl mx-auto px-2" style="font-family: 'Cormorant Garamond', serif;">Pelatihan dan Penyuluhan Pemberdayaan Perempuan terkait Percepatan Penurunan Stunting</p>
+     <div class="mt-4 md:mt-6 inline-flex items-center gap-2 md:gap-3 px-4 md:px-6 py-1.5 md:py-2 rounded-full" style="background: linear-gradient(90deg, rgba(212,168,83,0.2), rgba(212,168,83,0.1), rgba(212,168,83,0.2)); border: 1px solid rgba(212,168,83,0.3);">
+      <svg class="w-4 h-4 md:w-5 md:h-5 text-amber-400" fill="currentColor" viewbox="0 0 20 20"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
+      </svg><span class="text-amber-300 font-medium text-sm md:text-base" style="font-family: 'Poppins', sans-serif;">22 Peserta Terdaftar</span>
+     </div>
+    </div>
+   </header><!-- Participant List -->
+   <main class="max-w-6xl mx-auto py-4 md:py-8 px-3 md:px-4">
+    <div id="participant-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6"><!-- Cards will be generated by JS -->
+    </div>
+   </main><!-- Certificate Preview Modal -->
+   <div id="modal" class="fixed inset-0 bg-black/80 backdrop-blur-md hidden items-center justify-center z-50 p-2 md:p-4 overflow-auto">
+    <div class="bg-gradient-to-b from-slate-900 to-slate-800 rounded-xl md:rounded-2xl shadow-2xl max-w-5xl w-full my-4 md:my-8 border border-amber-900/30">
+     <div class="p-3 md:p-5 border-b border-amber-900/30 flex justify-between items-center">
+      <h3 class="text-base md:text-xl font-semibold text-amber-100" style="font-family: 'Cinzel', serif;">Preview Sertifikat</h3><button id="close-modal" class="p-2 hover:bg-amber-900/30 rounded-full transition text-amber-400">
+       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+       </svg></button>
+     </div>
+     <div class="p-4 md:p-6 overflow-auto flex justify-center" style="background: linear-gradient(180deg, rgba(15,52,96,0.5) 0%, rgba(22,33,62,0.5) 100%);">
+      <div id="certificate-container" class="w-full max-w-[850px]" style="min-width: 320px;"><!-- Certificate will be rendered here -->
+      </div>
+     </div>
+     <div class="p-3 md:p-5 border-t border-amber-900/30 flex justify-end gap-3"><button id="download-btn" class="px-4 md:px-8 py-2 md:py-3 rounded-lg font-medium transition flex items-center gap-2 text-sm md:text-base" style="background: linear-gradient(135deg, #D4A853 0%, #8B5A2B 100%); color: #1a1a2e; font-family: 'Poppins', sans-serif;">
+       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+       </svg><span>Download PNG</span> </button>
+     </div>
+    </div>
+   </div>
+  </div>
+  <script>
+    // Participant data
+    const participants = [
+      { id: 1, name: "INDAR" },
+      { id: 2, name: "AFDIAN ABDIHI" },
+      { id: 3, name: "Ratna Sari Dewi, SKM" },
+      { id: 4, name: "Kartini Wulandari, S.Gz" },
+      { id: 5, name: "Aminah Cendrawasih, S.ST" },
+      { id: 6, name: "Fatimah Az-Zahra, S.Sos" },
+      { id: 7, name: "Nur Aini Pratiwi, S.Pd" },
+      { id: 8, name: "Sari Mutiara, A.Md.Keb" },
+      { id: 9, name: "Indah Permata Sari, S.KM" },
+      { id: 10, name: "Rahayu Kusumawati, S.Gz" },
+      { id: 11, name: "Lestari Handayani, S.Kep" },
+      { id: 12, name: "Wulan Maharani, SKM" },
+      { id: 13, name: "Putri Ayu Lestari, S.ST" },
+      { id: 14, name: "Cahaya Pertiwi, A.Md.Gz" },
+      { id: 15, name: "Melati Puspa Dewi, S.Sos" },
+      { id: 16, name: "Anggrek Sari Wulan, S.Pd" },
+      { id: 17, name: "Mawar Indah Sari, S.Kep" },
+      { id: 18, name: "Bunga Citra Lestari, SKM" },
+      { id: 19, name: "Dahlia Permata, S.Gz" },
+      { id: 20, name: "Kenanga Wati, A.Md.Keb" },
+      { id: 21, name: "Seruni Handayani, S.KM" },
+      { id: 22, name: "Teratai Kusuma, S.ST" }
+    ];
+
+    const defaultConfig = {
+      certificate_title: "SERTIFIKAT",
+      training_name: "Pelatihan dan Penyuluhan Pemberdayaan Perempuan terkait Percepatan Penurunan Stunting",
+      organizer: "Pemerintah Desa Wani Lumbumpetigo, Tanantovea, Donggala",
+      event_date: "18 Desember 2025",
+      location: "Wani Lumbumpetigo",
+      signer_name: "AMIR RAMANG",
+      signer_title: "Kepala Desa Wani Lumbumpetigo",
+      primary_color: "#1a1a2e",
+      accent_color: "#D4A853",
+      background_color: "#0f3460",
+      text_color: "#1a1a2e",
+      card_color: "#16213e"
+    };
+
+    let config = { ...defaultConfig };
+    let currentParticipant = null;
+
+    // Generate elegant certificate HTML
+    function generateCertificate(participant) {
+      return `
+        <div class="certificate-wrapper">
+          <div class="certificate-frame">
+            <div class="certificate-inner-frame">
+              <div class="certificate-body p-4 sm:p-6 md:p-10 relative">
+                
+                <!-- Watermark -->
+                <svg class="watermark-pattern" viewBox="0 0 200 200" fill="#8B5A2B">
+                  <circle cx="100" cy="100" r="80" stroke="#8B5A2B" stroke-width="2" fill="none"/>
+                  <circle cx="100" cy="100" r="60" stroke="#8B5A2B" stroke-width="1" fill="none"/>
+                  <path d="M100 30L115 70H155L123 95L138 135L100 110L62 135L77 95L45 70H85L100 30Z" fill="#8B5A2B"/>
+                </svg>
+                
+                <!-- Corner Ornaments - Top Left -->
+                <svg class="absolute" style="top: 16px; left: 16px; width: 80px; height: 80px;" viewBox="0 0 100 100" fill="none">
+                  <path d="M0 0 L100 0 L100 10 L10 10 L10 100 L0 100 Z" fill="#C4973D"/>
+                  <path d="M15 15 L80 15 L80 20 L20 20 L20 80 L15 80 Z" fill="#B8860B" opacity="0.6"/>
+                  <circle cx="30" cy="30" r="8" fill="#D4A853"/>
+                  <circle cx="30" cy="30" r="4" fill="#FFFEF7"/>
+                  <path d="M5 40 Q20 50 5 60" stroke="#D4A853" stroke-width="2" fill="none"/>
+                  <path d="M40 5 Q50 20 60 5" stroke="#D4A853" stroke-width="2" fill="none"/>
+                </svg>
+                
+                <!-- Corner Ornaments - Top Right -->
+                <svg class="absolute" style="top: 16px; right: 16px; width: 80px; height: 80px;" viewBox="0 0 100 100" fill="none">
+                  <path d="M100 0 L0 0 L0 10 L90 10 L90 100 L100 100 Z" fill="#C4973D"/>
+                  <path d="M85 15 L20 15 L20 20 L80 20 L80 80 L85 80 Z" fill="#B8860B" opacity="0.6"/>
+                  <circle cx="70" cy="30" r="8" fill="#D4A853"/>
+                  <circle cx="70" cy="30" r="4" fill="#FFFEF7"/>
+                  <path d="M95 40 Q80 50 95 60" stroke="#D4A853" stroke-width="2" fill="none"/>
+                  <path d="M60 5 Q50 20 40 5" stroke="#D4A853" stroke-width="2" fill="none"/>
+                </svg>
+                
+                <!-- Corner Ornaments - Bottom Left -->
+                <svg class="absolute" style="bottom: 16px; left: 16px; width: 80px; height: 80px;" viewBox="0 0 100 100" fill="none">
+                  <path d="M0 100 L100 100 L100 90 L10 90 L10 0 L0 0 Z" fill="#C4973D"/>
+                  <path d="M15 85 L80 85 L80 80 L20 80 L20 20 L15 20 Z" fill="#B8860B" opacity="0.6"/>
+                  <circle cx="30" cy="70" r="8" fill="#D4A853"/>
+                  <circle cx="30" cy="70" r="4" fill="#FFFEF7"/>
+                  <path d="M5 60 Q20 50 5 40" stroke="#D4A853" stroke-width="2" fill="none"/>
+                  <path d="M40 95 Q50 80 60 95" stroke="#D4A853" stroke-width="2" fill="none"/>
+                </svg>
+                
+                <!-- Corner Ornaments - Bottom Right -->
+                <svg class="absolute" style="bottom: 16px; right: 16px; width: 80px; height: 80px;" viewBox="0 0 100 100" fill="none">
+                  <path d="M100 100 L0 100 L0 90 L90 90 L90 0 L100 0 Z" fill="#C4973D"/>
+                  <path d="M85 85 L20 85 L20 80 L80 80 L80 20 L85 20 Z" fill="#B8860B" opacity="0.6"/>
+                  <circle cx="70" cy="70" r="8" fill="#D4A853"/>
+                  <circle cx="70" cy="70" r="4" fill="#FFFEF7"/>
+                  <path d="M95 60 Q80 50 95 40" stroke="#D4A853" stroke-width="2" fill="none"/>
+                  <path d="M60 95 Q50 80 40 95" stroke="#D4A853" stroke-width="2" fill="none"/>
+                </svg>
+
+                <!-- Header Section -->
+                <div class="text-center mb-3 sm:mb-4 md:mb-6 relative z-10">
+                  <div class="flex justify-center mb-2 sm:mb-3 md:mb-4">
+                    <div class="seal-container">
+                      <div class="seal-glow"></div>
+                      <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1763356194/Lambang_Kabupaten_Donggala_1_cvywgs.png" 
+                           alt="Lambang Kabupaten Donggala" 
+                           style="width: 80px; height: 80px; object-fit: contain;"
+                           class="relative z-10"
+                           onerror="this.src=''; this.alt=''; this.style.display='none';">
+                    </div>
+                  </div>
+                  <p class="text-[8px] sm:text-[10px] md:text-xs tracking-[0.15em] sm:tracking-[0.2em] md:tracking-[0.3em] uppercase mb-1 sm:mb-2 px-2" style="color: #8B5A2B; font-family: 'Poppins', sans-serif; font-weight: 500;">
+                    ${config.organizer}
+                  </p>
+                  
+                  <!-- Decorative Line -->
+                  <div class="flex items-center justify-center gap-2 sm:gap-3 md:gap-4 my-2 sm:my-3 md:my-4">
+                    <svg class="w-12 sm:w-16 md:w-24 h-2 sm:h-3" viewBox="0 0 100 12" fill="none">
+                      <path d="M0 6 H40" stroke="url(#line-gold)" stroke-width="1"/>
+                      <circle cx="50" cy="6" r="4" fill="url(#line-gold)"/>
+                      <circle cx="50" cy="6" r="2" fill="#FFFEF7"/>
+                      <path d="M60 6 H100" stroke="url(#line-gold)" stroke-width="1"/>
+                      <defs>
+                        <linearGradient id="line-gold" x1="0%" y1="0%" x2="100%" y2="0%">
+                          <stop offset="0%" stop-color="transparent"/>
+                          <stop offset="30%" stop-color="#D4A853"/>
+                          <stop offset="70%" stop-color="#D4A853"/>
+                          <stop offset="100%" stop-color="transparent"/>
+                        </linearGradient>
+                      </defs>
+                    </svg>
+                  </div>
+                  
+                  <h1 class="text-2xl sm:text-3xl md:text-5xl font-bold tracking-wider mb-1 sm:mb-2" style="font-family: 'Cinzel', serif; background: linear-gradient(180deg, #D4A853 0%, #8B5A2B 50%, #D4A853 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                    ${config.certificate_title}
+                  </h1>
+                  
+                  <div class="flex items-center justify-center gap-2 sm:gap-3">
+                    <svg class="w-10 sm:w-12 md:w-16 h-1.5 sm:h-2" viewBox="0 0 60 8" fill="none">
+                      <path d="M0 4 Q15 0 30 4 Q45 8 60 4" stroke="#D4A853" stroke-width="1.5" fill="none"/>
+                    </svg>
+                    <svg class="w-3 h-3 sm:w-4 sm:h-4" viewBox="0 0 16 16" fill="#D4A853">
+                      <path d="M8 0L10 6H16L11 10L13 16L8 12L3 16L5 10L0 6H6L8 0Z"/>
+                    </svg>
+                    <svg class="w-10 sm:w-12 md:w-16 h-1.5 sm:h-2" viewBox="0 0 60 8" fill="none">
+                      <path d="M0 4 Q15 8 30 4 Q45 0 60 4" stroke="#D4A853" stroke-width="1.5" fill="none"/>
+                    </svg>
+                  </div>
+                </div>
+
+                <!-- Body Section -->
+                <div class="text-center mb-3 sm:mb-4 md:mb-6 relative z-10">
+                  <p class="text-xs sm:text-sm md:text-base mb-2 sm:mb-3 md:mb-4" style="color: #5a4a3a; font-family: 'Cormorant Garamond', serif; font-style: italic;">
+                    Dengan bangga diberikan kepada
+                  </p>
+                  
+                  <div class="name-underline inline-block mb-3 sm:mb-4 md:mb-6">
+                    <h2 class="text-lg sm:text-2xl md:text-4xl font-bold px-2 sm:px-4 md:px-8" style="font-family: 'Cinzel', serif; color: #1a1a2e;">
+                      ${participant.name}
+                    </h2>
+                  </div>
+                  
+                  <p class="text-xs sm:text-sm md:text-base max-w-xl mx-auto leading-relaxed mb-2 sm:mb-3 md:mb-4 px-2" style="color: #4a4a4a; font-family: 'Cormorant Garamond', serif;">
+                    Atas partisipasi dan dedikasi yang luar biasa sebagai peserta dalam kegiatan
+                  </p>
+                  
+                  <div class="bg-gradient-to-r from-transparent via-amber-50 to-transparent py-1.5 sm:py-2 md:py-3 px-2 sm:px-4 md:px-6 mb-2 sm:mb-3 md:mb-4">
+                    <p class="text-xs sm:text-sm md:text-lg font-semibold" style="color: #8B5A2B; font-family: 'Cormorant Garamond', serif;">
+                      "${config.training_name}"
+                    </p>
+                  </div>
+                  
+                  <p class="text-[10px] sm:text-xs md:text-base" style="color: #5a5a5a; font-family: 'Cormorant Garamond', serif;">
+                    yang dilaksanakan pada tanggal <strong style="color: #1a1a2e;">${config.event_date}</strong>
+                    <br>di <strong style="color: #1a1a2e;">${config.location}</strong>
+                  </p>
+                </div>
+
+                <!-- Footer Section -->
+                <div class="flex flex-col sm:flex-row justify-between items-center sm:items-end mt-4 sm:mt-6 md:mt-10 px-2 sm:px-4 md:px-6 relative z-10 gap-4 sm:gap-0">
+                  <div class="text-center order-2 sm:order-1">
+                    <p class="text-[8px] sm:text-[10px] md:text-xs uppercase tracking-widest mb-0.5 sm:mb-1" style="color: #8B5A2B; font-family: 'Poppins', sans-serif;">No. Sertifikat</p>
+                    <p class="font-mono text-[10px] sm:text-xs md:text-sm" style="color: #1a1a2e;">CERT/PPP-STNT/2025/${String(participant.id).padStart(3, '0')}</p>
+                    
+                    <!-- Decorative Seal -->
+                    <div class="mt-2 sm:mt-3 md:mt-4">
+                      <svg class="w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 mx-auto" viewBox="0 0 64 64" fill="none">
+                        <circle cx="32" cy="32" r="30" stroke="url(#seal-gold)" stroke-width="2"/>
+                        <circle cx="32" cy="32" r="24" stroke="url(#seal-gold)" stroke-width="1"/>
+                        <circle cx="32" cy="32" r="18" fill="url(#seal-gold)" opacity="0.2"/>
+                        <path d="M32 14L36 26H48L38 34L42 46L32 38L22 46L26 34L16 26H28L32 14Z" fill="url(#seal-gold)"/>
+                        <defs>
+                          <linearGradient id="seal-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#D4A853"/>
+                            <stop offset="50%" stop-color="#8B5A2B"/>
+                            <stop offset="100%" stop-color="#D4A853"/>
+                          </linearGradient>
+                        </defs>
+                      </svg>
+                    </div>
+                  </div>
+                  
+                  <div class="text-center order-1 sm:order-2">
+                    <p class="text-[8px] sm:text-[10px] md:text-xs mb-1 sm:mb-2 md:mb-3" style="color: #6a6a6a; font-family: 'Poppins', sans-serif;">
+                      ${config.location}, ${config.event_date}
+                    </p>
+                    <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1764739765/AMIR_RAMANG_rizbqf.png" 
+                         alt="Tanda Tangan" 
+                         style="width: 120px; height: 80px; object-fit: contain; margin: 0 auto 8px auto; display: block;"
+                         onerror="this.src=''; this.alt=''; this.style.display='none';">
+                    <p class="font-bold text-xs sm:text-sm md:text-base" style="color: #1a1a2e; font-family: 'Cinzel', serif;">${config.signer_name}</p>
+                    <div class="w-24 sm:w-32 md:w-40 h-0.5 mx-auto my-0.5 sm:my-1" style="background: linear-gradient(90deg, transparent, #D4A853, transparent);"></div>
+                    <p class="text-[8px] sm:text-[10px] md:text-xs" style="color: #6a6a6a; font-family: 'Poppins', sans-serif;">${config.signer_title}</p>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // Render participant cards
+    function renderParticipants() {
+      const grid = document.getElementById('participant-grid');
+      grid.innerHTML = participants.map((p, index) => `
+        <div class="participant-card rounded-lg md:rounded-xl p-3 md:p-5 animate-in cursor-pointer" 
+             style="animation-delay: ${index * 30}ms; background: linear-gradient(135deg, #16213e 0%, #1a1a2e 100%); border: 1px solid rgba(212,168,83,0.2);"
+             data-id="${p.id}">
+          <div class="flex items-center gap-3 md:gap-4">
+            <div class="w-10 h-10 md:w-14 md:h-14 rounded-full flex items-center justify-center text-sm md:text-lg font-bold flex-shrink-0" 
+                 style="background: linear-gradient(135deg, #D4A853 0%, #8B5A2B 100%); color: #1a1a2e; font-family: 'Cinzel', serif;">
+              ${String(p.id).padStart(2, '0')}
+            </div>
+            <div class="flex-1 min-w-0">
+              <h3 class="font-semibold text-amber-100 text-sm md:text-base truncate" style="font-family: 'Poppins', sans-serif;">
+                ${p.name}
+              </h3>
+              <p class="text-xs md:text-sm text-amber-100/50">Peserta Pelatihan</p>
+            </div>
+            <button class="view-cert-btn px-3 md:px-4 py-1.5 md:py-2 rounded-lg text-xs md:text-sm font-medium transition flex items-center gap-1.5 md:gap-2 hover:scale-105 flex-shrink-0"
+                    style="background: linear-gradient(135deg, #D4A853 0%, #8B5A2B 100%); color: #1a1a2e;"
+                    data-id="${p.id}">
+              <svg class="w-3.5 h-3.5 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+              </svg>
+              <span class="hidden sm:inline">Lihat</span>
+            </button>
+          </div>
+        </div>
+      `).join('');
+
+      // Add click handlers
+      document.querySelectorAll('.view-cert-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const id = parseInt(btn.dataset.id);
+          showCertificate(id);
+        });
+      });
+
+      document.querySelectorAll('.participant-card').forEach(card => {
+        card.addEventListener('click', () => {
+          const id = parseInt(card.dataset.id);
+          showCertificate(id);
+        });
+      });
+    }
+
+    // Show certificate modal
+    function showCertificate(participantId) {
+      currentParticipant = participants.find(p => p.id === participantId);
+      if (!currentParticipant) return;
+
+      const container = document.getElementById('certificate-container');
+      container.innerHTML = generateCertificate(currentParticipant);
+      
+      const modal = document.getElementById('modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    // Close modal
+    document.getElementById('close-modal').addEventListener('click', () => {
+      const modal = document.getElementById('modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    });
+
+    document.getElementById('modal').addEventListener('click', (e) => {
+      if (e.target.id === 'modal') {
+        const modal = document.getElementById('modal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    });
+
+    // Download certificate
+    document.getElementById('download-btn').addEventListener('click', async () => {
+      if (!currentParticipant) return;
+
+      const btn = document.getElementById('download-btn');
+      const originalContent = btn.innerHTML;
+      btn.innerHTML = '<svg class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg><span>Mengunduh...</span>';
+      btn.disabled = true;
+
+      try {
+        const container = document.getElementById('certificate-container');
+        const canvas = await html2canvas(container, {
+          scale: 2,
+          useCORS: true,
+          backgroundColor: null
+        });
+
+        const link = document.createElement('a');
+        link.download = `Sertifikat_${currentParticipant.name.replace(/[^a-zA-Z0-9]/g, '_')}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      } catch (error) {
+        console.error('Download failed:', error);
+      }
+
+      btn.innerHTML = originalContent;
+      btn.disabled = false;
+    });
+
+    // Apply config to UI
+    async function onConfigChange(cfg) {
+      config = { ...defaultConfig, ...cfg };
+      
+      // Update page subtitle
+      const subtitle = document.getElementById('page-subtitle');
+      if (subtitle) subtitle.textContent = config.training_name;
+      
+      // Re-render participants
+      renderParticipants();
+      
+      // Update certificate if modal is open
+      if (currentParticipant) {
+        const container = document.getElementById('certificate-container');
+        container.innerHTML = generateCertificate(currentParticipant);
+      }
+    }
+
+    // Initialize
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities: (cfg) => ({
+          recolorables: [
+            {
+              get: () => cfg.background_color || defaultConfig.background_color,
+              set: (v) => { cfg.background_color = v; window.elementSdk.setConfig({ background_color: v }); }
+            },
+            {
+              get: () => cfg.card_color || defaultConfig.card_color,
+              set: (v) => { cfg.card_color = v; window.elementSdk.setConfig({ card_color: v }); }
+            },
+            {
+              get: () => cfg.text_color || defaultConfig.text_color,
+              set: (v) => { cfg.text_color = v; window.elementSdk.setConfig({ text_color: v }); }
+            },
+            {
+              get: () => cfg.primary_color || defaultConfig.primary_color,
+              set: (v) => { cfg.primary_color = v; window.elementSdk.setConfig({ primary_color: v }); }
+            },
+            {
+              get: () => cfg.accent_color || defaultConfig.accent_color,
+              set: (v) => { cfg.accent_color = v; window.elementSdk.setConfig({ accent_color: v }); }
+            }
+          ],
+          borderables: [],
+          fontEditable: undefined,
+          fontSizeable: undefined
+        }),
+        mapToEditPanelValues: (cfg) => new Map([
+          ["certificate_title", cfg.certificate_title || defaultConfig.certificate_title],
+          ["training_name", cfg.training_name || defaultConfig.training_name],
+          ["organizer", cfg.organizer || defaultConfig.organizer],
+          ["event_date", cfg.event_date || defaultConfig.event_date],
+          ["location", cfg.location || defaultConfig.location],
+          ["signer_name", cfg.signer_name || defaultConfig.signer_name],
+          ["signer_title", cfg.signer_title || defaultConfig.signer_title]
+        ])
+      });
+    } else {
+      onConfigChange(defaultConfig);
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9af81bb8b35deb9e',t:'MTc2NTk5MjIwNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

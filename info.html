@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Penelusuran Fakta Pertamina</title>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1766150319/SYAMDIGITAL-LOGO-2025_mmpllg_1_pvugiw.png">
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+        body {
+            box-sizing: border-box;
+        }
+        
+        .step-card {
+            transition: all 0.3s ease;
+        }
+        
+        .step-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .warning-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full">
+  <div class="w-full h-full overflow-auto" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+   <div class="max-w-4xl mx-auto px-4 py-8"><!-- Header -->
+    <div class="bg-white rounded-lg shadow-xl p-6 mb-6">
+     <div class="flex items-center justify-between mb-4">
+      <h1 id="main-title" class="text-3xl font-bold" style="color: #1a202c;">Penelusuran Fakta: Hadiah Tahun Baru Pertamina</h1><span class="bg-red-100 text-red-800 px-4 py-2 rounded-full text-sm font-semibold">🔍 Cek Fakta</span>
+     </div><!-- Claim Box -->
+     <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded">
+      <p class="text-sm font-semibold text-red-800 mb-2">KLAIM YANG DIPERIKSA:</p>
+      <p id="claim-text" class="text-red-900">"Pertamina membagikan tautan pendaftaran hadiah tahun baru sebesar Rp1.500.000"</p>
+     </div>
+    </div><!-- Verdict -->
+    <div class="bg-white rounded-lg shadow-xl p-6 mb-6">
+     <div class="flex items-center gap-4">
+      <div class="text-6xl">
+       ❌
+      </div>
+      <div>
+       <p class="text-sm text-gray-600 mb-1">KESIMPULAN:</p>
+       <p id="verdict-label" class="text-2xl font-bold text-red-600">SALAH DAN MENYESATKAN</p>
+       <p class="text-gray-700 mt-2">Tautan tersebut adalah modus penipuan dan phishing</p>
+      </div>
+     </div>
+    </div><!-- Investigation Steps -->
+    <div class="bg-white rounded-lg shadow-xl p-6 mb-6">
+     <h2 class="text-2xl font-bold mb-6" style="color: #1a202c;">📋 Langkah Penelusuran</h2>
+     <div class="space-y-4"><!-- Step 1 -->
+      <div class="step-card bg-blue-50 p-5 rounded-lg border-l-4 border-blue-500">
+       <div class="flex gap-3"><span class="text-2xl flex-shrink-0">1️⃣</span>
+        <div>
+         <h3 class="font-bold text-blue-900 mb-2">Verifikasi Domain</h3>
+         <p class="text-blue-800 mb-2">Analisis UrlScan menunjukkan tautan <strong>tidak terafiliasi</strong> dengan Pertamina resmi.</p>
+         <div class="bg-white p-3 rounded mt-2">
+          <p class="text-sm"><strong>Domain palsu:</strong> oklv.buzz (Cloudflarenet)</p>
+          <p class="text-sm"><strong>Domain resmi:</strong> www.pertamina.com</p>
+          <p class="text-sm text-gray-600">Dibuat: 5 Desember 2025 (berlaku 3 bulan)</p>
+         </div>
+        </div>
+       </div>
+      </div><!-- Step 2 -->
+      <div class="step-card bg-yellow-50 p-5 rounded-lg border-l-4 border-yellow-500">
+       <div class="flex gap-3"><span class="text-2xl flex-shrink-0">2️⃣</span>
+        <div>
+         <h3 class="font-bold text-yellow-900 mb-2">Analisis Konten Tautan</h3>
+         <p class="text-yellow-800 mb-2">Tautan mengarahkan ke kuesioner mencurigakan:</p>
+         <ul class="list-disc list-inside text-yellow-800 space-y-1 ml-4">
+          <li>Pertanyaan umum tentang Pertamina</li>
+          <li>Permintaan data pribadi (usia, jenis kelamin)</li>
+          <li>Memilih kotak hadiah 3 kali</li>
+          <li>Diminta share ke 5 grup atau 20 teman</li>
+          <li>Kontak WhatsApp untuk klaim hadiah</li>
+         </ul>
+        </div>
+       </div>
+      </div><!-- Step 3 -->
+      <div class="step-card bg-orange-50 p-5 rounded-lg border-l-4 border-orange-500">
+       <div class="flex gap-3"><span class="text-2xl flex-shrink-0">3️⃣</span>
+        <div>
+         <h3 class="font-bold text-orange-900 mb-2">Identifikasi Modus Penipuan</h3>
+         <p class="text-orange-800 mb-2">Pola yang terdeteksi:</p>
+         <div class="bg-white p-3 rounded space-y-2">
+          <div class="flex items-start gap-2"><span>⚠️</span>
+           <p class="text-sm"><strong>Phishing:</strong> Pencurian data pribadi dengan menyamar sebagai pihak terpercaya</p>
+          </div>
+          <div class="flex items-start gap-2"><span>⚠️</span>
+           <p class="text-sm"><strong>Social Engineering:</strong> Memaksa korban share untuk menjangkau lebih banyak target</p>
+          </div>
+          <div class="flex items-start gap-2"><span>⚠️</span>
+           <p class="text-sm"><strong>Data Exploitation:</strong> Data yang dikumpulkan digunakan untuk penipuan lanjutan</p>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div><!-- Step 4 -->
+      <div class="step-card bg-green-50 p-5 rounded-lg border-l-4 border-green-500">
+       <div class="flex gap-3"><span class="text-2xl flex-shrink-0">4️⃣</span>
+        <div>
+         <h3 class="font-bold text-green-900 mb-2">Konfirmasi Sumber Resmi</h3>
+         <p class="text-green-800 mb-2">Pernyataan VP Corporate Communication Pertamina (Muhammad Baron):</p>
+         <div class="bg-white p-3 rounded">
+          <p class="text-sm italic">"Seluruh program promosi Pertamina disampaikan melalui saluran komunikasi resmi perusahaan."</p>
+          <p class="text-sm mt-2"><strong>Saluran resmi:</strong></p>
+          <ul class="text-sm list-disc list-inside ml-4 mt-1">
+           <li>Website: www.pertamina.com</li>
+           <li>Media sosial: @pertamina</li>
+           <li>Aplikasi: MyPertamina</li>
+          </ul>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div><!-- Real Promo -->
+    <div class="bg-white rounded-lg shadow-xl p-6 mb-6">
+     <h2 class="text-2xl font-bold mb-4" style="color: #1a202c;">✅ Promo Resmi Pertamina</h2>
+     <p class="text-gray-700 mb-4">Promo akhir tahun yang <strong>sebenarnya</strong> dari @pertaminapatraniaga:</p>
+     <div class="grid md:grid-cols-2 gap-4">
+      <div class="bg-green-50 p-4 rounded-lg">
+       <p class="font-semibold text-green-900">🎁 Tukar poin MyPertamina</p>
+       <p class="text-sm text-green-800">Merchandise eksklusif</p>
+      </div>
+      <div class="bg-green-50 p-4 rounded-lg">
+       <p class="font-semibold text-green-900">💰 Hemat hingga Rp20.000</p>
+       <p class="text-sm text-green-800">Pertamax, Pertamax Turbo, Pertamina Dex</p>
+      </div>
+      <div class="bg-green-50 p-4 rounded-lg">
+       <p class="font-semibold text-green-900">��� Hemat hingga Rp10.000</p>
+       <p class="text-sm text-green-800">Pembelian tabung &amp; isi ulang Brightgas</p>
+      </div>
+      <div class="bg-green-50 p-4 rounded-lg">
+       <p class="font-semibold text-green-900">💳 Cashback spesial</p>
+       <p class="text-sm text-green-800">Sesuai ketentuan berlaku</p>
+      </div>
+     </div>
+    </div><!-- Warning Box Pertamina -->
+    <div class="bg-red-600 text-white rounded-lg shadow-xl p-6 mb-6 warning-pulse">
+     <div class="flex items-start gap-4"><span class="text-4xl">🚨</span>
+      <div>
+       <h3 class="text-xl font-bold mb-2">PERINGATAN PENTING - PERTAMINA</h3>
+       <p class="mb-2">Pertamina mengimbau masyarakat waspada terhadap penipuan undian atau hadiah Natal 2025 &amp; Tahun Baru 2026 yang mengatasnamakan Pertamina.</p>
+       <p class="font-semibold">Jangan percaya penawaran melalui WhatsApp, SMS, atau email yang tidak resmi!</p>
+      </div>
+     </div>
+    </div><!-- Warning Box PLN -->
+    <div class="bg-orange-600 text-white rounded-lg shadow-xl p-6 mb-6">
+     <div class="flex items-start gap-4"><span class="text-4xl">⚡</span>
+      <div>
+       <h3 class="text-xl font-bold mb-2">PERINGATAN - PLN HADIAH TAHUN BARU 2026</h3>
+       <p class="mb-3">Pesan yang Anda terima tentang <strong>"PLN-Hadiah Tahun Baru 2026"</strong> yang meminta Anda mengeklik tautan kemungkinan besar merupakan <strong>PENIPUAN</strong>.</p>
+       <div class="bg-orange-700 bg-opacity-50 p-4 rounded-lg mb-3">
+        <p class="font-semibold mb-2">❌ Fakta Penting:</p>
+        <ul class="space-y-1 text-sm">
+         <li>• PLN tidak menyelenggarakan program hadiah melalui tautan yang tidak dikenal</li>
+         <li>• Tanggal Tahun Baru 2026 masih jauh di masa depan</li>
+         <li>• Ini adalah modus <strong>phishing</strong> untuk mencuri data pribadi dan kredensial perbankan</li>
+        </ul>
+       </div>
+       <p class="font-bold mb-2 text-yellow-200">⚠️ JANGAN MENGEKLIK TAUTAN APA PUN!</p>
+       <div class="bg-white text-gray-800 p-4 rounded-lg mt-3">
+        <p class="font-semibold mb-2 text-orange-600">✅ Cara Verifikasi &amp; Kontak PLN yang Aman:</p>
+        <ul class="space-y-1 text-sm">
+         <li>📱 <strong>Aplikasi Resmi:</strong> PLN Mobile (dari toko aplikasi resmi)</li>
+         <li>🌐 <strong>Website Resmi:</strong> www.pln.co.id</li>
+         <li>☎️ <strong>Call Center:</strong> 123</li>
+         <li>📲 <strong>Media Sosial:</strong> @pln_id (akun terverifikasi)</li>
+        </ul>
+       </div>
+      </div>
+     </div>
+    </div><!-- Tips -->
+    <div class="bg-white rounded-lg shadow-xl p-6">
+     <h2 class="text-2xl font-bold mb-4" style="color: #1a202c;">💡 Tips Menghindari Penipuan</h2>
+     <div class="space-y-3">
+      <div class="flex items-start gap-3 p-3 bg-purple-50 rounded"><span class="text-xl">✓</span>
+       <p class="text-gray-800"><strong>Verifikasi domain:</strong> Pastikan URL berasal dari situs resmi perusahaan</p>
+      </div>
+      <div class="flex items-start gap-3 p-3 bg-purple-50 rounded"><span class="text-xl">✓</span>
+       <p class="text-gray-800"><strong>Cek sumber resmi:</strong> Konfirmasi melalui website atau media sosial terverifikasi</p>
+      </div>
+      <div class="flex items-start gap-3 p-3 bg-purple-50 rounded"><span class="text-xl">✓</span>
+       <p class="text-gray-800"><strong>Jangan share data pribadi:</strong> Perusahaan resmi tidak meminta data sensitif melalui link tidak jelas</p>
+      </div>
+      <div class="flex items-start gap-3 p-3 bg-purple-50 rounded"><span class="text-xl">✓</span>
+       <p class="text-gray-800"><strong>Waspadai urgency:</strong> Penipuan sering membuat korban terburu-buru dengan iming-iming hadiah besar</p>
+      </div>
+      <div class="flex items-start gap-3 p-3 bg-purple-50 rounded"><span class="text-xl">✓</span>
+       <p class="text-gray-800"><strong>Jangan klik sembarangan:</strong> Hindari mengklik tautan dari sumber yang tidak dikenal</p>
+      </div>
+     </div>
+    </div><!-- Share Button -->
+    <div class="bg-white rounded-lg shadow-xl p-6 mb-6">
+     <h2 class="text-2xl font-bold mb-4" style="color: #1a202c;">📤 Bagikan Informasi Ini</h2>
+     <p class="text-gray-700 mb-4">Bantu orang lain agar tidak menjadi korban penipuan dengan membagikan penelusuran fakta ini.</p><button id="shareWhatsApp" class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-4 px-6 rounded-lg transition-all flex items-center justify-center gap-3 shadow-lg hover:shadow-xl">
+      <svg class="w-6 h-6" fill="currentColor" viewbox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+      </svg><span>Bagikan ke WhatsApp</span> </button>
+    </div><!-- Footer -->
+    <div class="text-center mt-8 text-white">
+     <p class="text-sm">Selalu verifikasi informasi dari sumber resmi sebelum bertindak</p>
+    </div>
+   </div>
+  </div>
+  <script>
+        const defaultConfig = {
+            main_title: "Penelusuran Fakta: Hadiah Tahun Baru Pertamina",
+            claim_text: '"Pertamina membagikan tautan pendaftaran hadiah tahun baru sebesar Rp1.500.000"',
+            verdict_label: "SALAH DAN MENYESATKAN",
+            background_color: "#667eea",
+            card_color: "#ffffff",
+            text_color: "#1a202c",
+            warning_color: "#dc2626",
+            success_color: "#059669",
+            font_family: "system-ui",
+            font_size: 16
+        };
+
+        async function onConfigChange(config) {
+            const baseSize = config.font_size || defaultConfig.font_size;
+            const customFont = config.font_family || defaultConfig.font_family;
+            const baseFontStack = 'ui-sans-serif, system-ui, -apple-system, sans-serif';
+            
+            document.getElementById('main-title').textContent = config.main_title || defaultConfig.main_title;
+            document.getElementById('main-title').style.fontSize = `${baseSize * 1.875}px`;
+            document.getElementById('main-title').style.fontFamily = `${customFont}, ${baseFontStack}`;
+            document.getElementById('main-title').style.color = config.text_color || defaultConfig.text_color;
+            
+            document.getElementById('claim-text').textContent = config.claim_text || defaultConfig.claim_text;
+            document.getElementById('claim-text').style.fontSize = `${baseSize}px`;
+            document.getElementById('claim-text').style.fontFamily = `${customFont}, ${baseFontStack}`;
+            
+            document.getElementById('verdict-label').textContent = config.verdict_label || defaultConfig.verdict_label;
+            document.getElementById('verdict-label').style.fontSize = `${baseSize * 1.5}px`;
+            document.getElementById('verdict-label').style.fontFamily = `${customFont}, ${baseFontStack}`;
+            document.getElementById('verdict-label').style.color = config.warning_color || defaultConfig.warning_color;
+            
+            const allText = document.querySelectorAll('p, li, h2, h3, span:not(.text-6xl):not(.text-4xl):not(.text-2xl):not(.text-xl)');
+            allText.forEach(el => {
+                if (!el.id) {
+                    el.style.fontFamily = `${customFont}, ${baseFontStack}`;
+                }
+            });
+        }
+
+        // WhatsApp Share Functionality
+        document.getElementById('shareWhatsApp').addEventListener('click', function() {
+            const title = document.getElementById('main-title').textContent;
+            const verdict = document.getElementById('verdict-label').textContent;
+            
+            const message = `🚨 *PERINGATAN PENIPUAN* 🚨\n\n` +
+                `${title}\n\n` +
+                `⚠️ *KESIMPULAN: ${verdict}*\n\n` +
+                `📌 *Fakta Penting:*\n` +
+                `❌ Tautan bukan dari situs resmi Pertamina\n` +
+                `❌ Domain palsu: oklv.buzz (bukan pertamina.com)\n` +
+                `❌ Modus phishing untuk mencuri data pribadi\n` +
+                `❌ Tidak ada program hadiah Rp1.500.000\n\n` +
+                `✅ *Promo Resmi Pertamina:*\n` +
+                `• Tukar poin MyPertamina jadi merchandise\n` +
+                `• Hemat hingga Rp20.000 untuk Pertamax\n` +
+                `• Hemat hingga Rp10.000 untuk Brightgas\n` +
+                `• Cashback sesuai ketentuan\n\n` +
+                `🔍 *Cek info resmi di:*\n` +
+                `• www.pertamina.com\n` +
+                `• @pertamina (media sosial)\n` +
+                `• Aplikasi MyPertamina\n\n` +
+                `ℹ️ *Info selengkapnya:*\nhttps://syam.digital/info\n\n` +
+                `💡 Bagikan ini agar lebih banyak orang terhindar dari penipuan!`;
+            
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappUrl = `https://wa.me/?text=${encodedMessage}`;
+            
+            window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+        });
+
+        if (window.elementSdk) {
+            window.elementSdk.init({
+                defaultConfig,
+                onConfigChange,
+                mapToCapabilities: (config) => ({
+                    recolorables: [
+                        {
+                            get: () => config.background_color || defaultConfig.background_color,
+                            set: (value) => {
+                                config.background_color = value;
+                                window.elementSdk.setConfig({ background_color: value });
+                            }
+                        },
+                        {
+                            get: () => config.card_color || defaultConfig.card_color,
+                            set: (value) => {
+                                config.card_color = value;
+                                window.elementSdk.setConfig({ card_color: value });
+                            }
+                        },
+                        {
+                            get: () => config.text_color || defaultConfig.text_color,
+                            set: (value) => {
+                                config.text_color = value;
+                                window.elementSdk.setConfig({ text_color: value });
+                            }
+                        },
+                        {
+                            get: () => config.warning_color || defaultConfig.warning_color,
+                            set: (value) => {
+                                config.warning_color = value;
+                                window.elementSdk.setConfig({ warning_color: value });
+                            }
+                        },
+                        {
+                            get: () => config.success_color || defaultConfig.success_color,
+                            set: (value) => {
+                                config.success_color = value;
+                                window.elementSdk.setConfig({ success_color: value });
+                            }
+                        }
+                    ],
+                    borderables: [],
+                    fontEditable: {
+                        get: () => config.font_family || defaultConfig.font_family,
+                        set: (value) => {
+                            config.font_family = value;
+                            window.elementSdk.setConfig({ font_family: value });
+                        }
+                    },
+                    fontSizeable: {
+                        get: () => config.font_size || defaultConfig.font_size,
+                        set: (value) => {
+                            config.font_size = value;
+                            window.elementSdk.setConfig({ font_size: value });
+                        }
+                    }
+                }),
+                mapToEditPanelValues: (config) => new Map([
+                    ["main_title", config.main_title || defaultConfig.main_title],
+                    ["claim_text", config.claim_text || defaultConfig.claim_text],
+                    ["verdict_label", config.verdict_label || defaultConfig.verdict_label]
+                ])
+            });
+        }
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b3fb1cc43c7fdbc',t:'MTc2Njc0Mjg0Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

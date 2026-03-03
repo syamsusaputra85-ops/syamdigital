@@ -1,0 +1,2947 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Syam Digital - QR Code Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        * { font-family: 'Poppins', sans-serif; }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, 
+                #0a0a0a 0%, 
+                #1a0f0f 20%, 
+                #2d1a1a 35%, 
+                #3d1a2a 50%, 
+                #4a1f35 65%, 
+                #5a2438 80%, 
+                #6b2940 90%, 
+                #7a2e45 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 20s ease infinite;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            25% { background-position: 100% 50%; }
+            50% { background-position: 100% 100%; }
+            75% { background-position: 0% 100%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .glass-effect {
+            backdrop-filter: blur(25px) saturate(180%);
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.12) 0%, 
+                rgba(255, 255, 255, 0.08) 50%, 
+                rgba(255, 255, 255, 0.05) 100%);
+            border: 2px solid rgba(255, 23, 68, 0.2);
+            box-shadow: 
+                0 8px 32px rgba(139, 21, 56, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                0 0 0 1px rgba(255, 23, 68, 0.05);
+            color: #1f2937;
+        }
+        
+        .glass-effect-dark {
+            backdrop-filter: blur(20px) saturate(120%);
+            background: linear-gradient(135deg, 
+                rgba(15, 15, 15, 0.75) 0%, 
+                rgba(25, 18, 18, 0.80) 25%, 
+                rgba(35, 22, 22, 0.75) 50%, 
+                rgba(45, 25, 30, 0.70) 75%, 
+                rgba(55, 28, 35, 0.65) 100%);
+            border: 1px solid rgba(180, 50, 80, 0.25);
+            box-shadow: 
+                0 8px 25px rgba(80, 30, 40, 0.3),
+                inset 0 1px 0 rgba(200, 100, 120, 0.1),
+                0 0 0 1px rgba(150, 60, 80, 0.05);
+            color: #f0f0f0;
+        }
+        
+        .card-hover {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-8px) scale(1.01);
+            box-shadow: 
+                0 25px 50px rgba(255, 23, 68, 0.4),
+                0 15px 30px rgba(139, 21, 56, 0.3),
+                0 5px 15px rgba(74, 26, 46, 0.2);
+        }
+        
+        .card-hover::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, 
+                rgba(255, 23, 68, 0.05) 0%, 
+                transparent 50%, 
+                rgba(139, 21, 56, 0.05) 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+            border-radius: inherit;
+        }
+        
+        .card-hover:hover::after {
+            opacity: 1;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, 
+                #c41e3a 0%, 
+                #a91b3c 25%, 
+                #8e1838 50%, 
+                #731532 75%, 
+                #58122c 100%);
+            background-size: 200% 200%;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 
+                0 6px 20px rgba(180, 30, 50, 0.25),
+                0 3px 8px rgba(120, 20, 40, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            color: #f5f5f5;
+            font-weight: 600;
+            border: 1px solid rgba(180, 30, 50, 0.2);
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            padding: 1rem 1.5rem;
+            min-height: 56px;
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn-responsive {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            min-height: 48px;
+            font-size: 0.875rem;
+        }
+        
+        @media (min-width: 768px) {
+            .btn-responsive {
+                padding: 1rem 1.5rem;
+                min-height: 56px;
+                font-size: 1rem;
+            }
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px) scale(1.01);
+            background-position: 100% 100%;
+            box-shadow: 
+                0 10px 25px rgba(180, 30, 50, 0.35),
+                0 6px 12px rgba(120, 20, 40, 0.25),
+                inset 0 1px 0 rgba(255, 255, 255, 0.12);
+            border-color: rgba(180, 30, 50, 0.3);
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.2), 
+                transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+        
+        .qr-display-container {
+            min-height: 320px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .slide-in {
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        .running-text {
+            animation: runningText 20s linear infinite;
+            display: inline-block;
+        }
+        
+        @keyframes runningText {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        
+        .notification {
+            animation: slideInRight 0.3s ease-out;
+        }
+        
+        @keyframes slideInRight {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+        
+        .loading-spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 3px solid #fff;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .type-btn-active {
+            background: linear-gradient(135deg, 
+                #c41e3a 0%, 
+                #a91b3c 25%, 
+                #8e1838 50%, 
+                #731532 75%, 
+                #58122c 100%) !important;
+            background-size: 200% 200%;
+            animation: gradientPulse 4s ease infinite;
+            color: #f5f5f5 !important;
+            transform: scale(1.05) translateY(-1px);
+            box-shadow: 
+                0 6px 20px rgba(180, 30, 50, 0.35) !important,
+                0 3px 10px rgba(120, 20, 40, 0.25) !important,
+                inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
+            font-weight: 700;
+            border: 1px solid rgba(180, 30, 50, 0.3) !important;
+        }
+        
+        @keyframes gradientPulse {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .input-focus {
+            border-color: #ff1744 !important;
+            box-shadow: 
+                0 0 0 4px rgba(255, 23, 68, 0.2) !important,
+                0 0 20px rgba(255, 23, 68, 0.1) !important,
+                inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.95) 0%, 
+                rgba(255, 255, 255, 0.98) 100%) !important;
+        }
+        
+        /* Enhanced Responsive Design */
+        .card-responsive {
+            padding: 1rem;
+        }
+        
+        .input-responsive {
+            width: 100%;
+            padding: 0.75rem;
+            font-size: 0.875rem;
+        }
+        
+        .qr-display-responsive {
+            min-height: 280px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        
+        .history-responsive {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        
+        @media (min-width: 640px) {
+            .history-responsive {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .card-responsive {
+                padding: 1.5rem;
+            }
+            
+            .input-responsive {
+                padding: 1rem;
+                font-size: 1rem;
+            }
+            
+            .qr-display-responsive {
+                min-height: 320px;
+                padding: 1.5rem;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .container { padding: 0 1rem; }
+            .grid-lg-2 { grid-template-columns: 1fr; gap: 1.5rem; }
+            
+            .history-responsive {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (min-width: 1280px) {
+            .history-responsive {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container-mobile { padding: 0.75rem; }
+            .grid-mobile { grid-template-columns: 1fr; }
+            .text-mobile { font-size: 1.25rem; line-height: 1.4; }
+            .btn-mobile { padding: 0.875rem 1rem; font-size: 0.875rem; min-height: 48px; }
+            .card-mobile { padding: 1rem; margin-bottom: 1rem; }
+            .nav-mobile { padding: 0.75rem 1rem; }
+            .stats-mobile { grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
+            .type-btn-mobile { padding: 0.75rem 0.5rem; font-size: 0.75rem; }
+            .input-mobile { padding: 0.875rem; font-size: 1rem; }
+            .modal-mobile { margin: 1rem; max-height: 90vh; overflow-y: auto; }
+        }
+        
+        @media (max-width: 640px) {
+            .grid-cols-mobile { grid-template-columns: 1fr; }
+            .text-xs-mobile { font-size: 0.75rem; }
+            .title-mobile { font-size: 1.75rem; text-align: center; }
+            .subtitle-mobile { font-size: 0.875rem; text-align: center; }
+            .download-grid-mobile { grid-template-columns: 1fr; gap: 0.5rem; }
+            .png-grid-mobile { grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
+            .history-mobile { grid-template-columns: 1fr; }
+            .advanced-mobile { grid-template-columns: 1fr; gap: 0.75rem; }
+        }
+        
+        @media (max-width: 480px) {
+            .container-xs { padding: 0.5rem; }
+            .text-xs { font-size: 1.5rem; }
+            .btn-xs { padding: 0.75rem; font-size: 0.8rem; }
+            .card-xs { padding: 0.75rem; }
+            .type-grid-xs { grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
+            .input-xs { padding: 0.75rem; font-size: 0.9rem; }
+            .modal-xs { margin: 0.5rem; }
+        }
+        
+        /* Touch-friendly interactions */
+        .touch-active {
+            transform: scale(0.98);
+            opacity: 0.8;
+        }
+        
+        @media (hover: none) and (pointer: coarse) {
+            .card-hover:hover { transform: none; }
+            .btn-primary:hover { transform: none; }
+            button, .qr-type-btn { min-height: 44px; }
+            input, textarea, select { min-height: 44px; }
+            
+            .qr-type-btn {
+                padding: 0.875rem 0.5rem;
+                font-size: 0.75rem;
+            }
+            
+            .btn-responsive {
+                min-height: 48px;
+                padding: 0.875rem 1rem;
+            }
+        }
+        
+        /* Enhanced mobile interactions */
+        @media (max-width: 640px) {
+            .qr-type-btn {
+                min-height: 60px;
+                padding: 0.75rem 0.5rem;
+            }
+            
+            .input-responsive {
+                min-height: 48px;
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+            
+            select.input-responsive {
+                min-height: 48px;
+            }
+        }
+        
+        /* Landscape mobile adjustments */
+        @media (max-width: 896px) and (orientation: landscape) {
+            .nav-landscape { padding: 0.5rem 1rem; }
+            .container-landscape { padding-top: 1rem; }
+            .title-landscape { font-size: 1.5rem; margin-bottom: 1rem; }
+        }
+        
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            .glass-effect {
+                background: rgba(0, 0, 0, 0.2);
+            }
+        }
+        
+        /* Print styles */
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white !important; }
+        }
+
+
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: linear-gradient(135deg, 
+                rgba(10, 10, 10, 0.4) 0%, 
+                rgba(26, 13, 13, 0.5) 50%, 
+                rgba(45, 27, 27, 0.4) 100%);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 23, 68, 0.1);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, 
+                #a91b3c 0%, 
+                #8e1838 25%, 
+                #731532 50%, 
+                #58122c 75%, 
+                #3d0f20 100%);
+            border-radius: 8px;
+            border: 1px solid rgba(150, 30, 50, 0.15);
+            box-shadow: 
+                0 2px 8px rgba(150, 30, 50, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, 
+                #c41e3a 0%, 
+                #a91b3c 25%, 
+                #8e1838 50%, 
+                #731532 75%, 
+                #58122c 100%);
+            box-shadow: 
+                0 3px 12px rgba(150, 30, 50, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.12);
+        }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen">
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="fixed inset-0 bg-gradient-to-br from-black via-gray-900 via-red-900 to-red-800 flex items-center justify-center z-50">
+        <div class="text-center text-white">
+            <div class="relative mb-8">
+                <div class="loading-spinner mx-auto mb-4 border-4 border-red-500/30 border-t-red-500"></div>
+                <div class="absolute inset-0 loading-spinner mx-auto mb-4 border-4 border-transparent border-t-pink-400 animate-spin" style="animation-duration: 0.8s; animation-direction: reverse;"></div>
+            </div>
+            <h2 class="text-3xl font-bold bg-gradient-to-r from-red-400 via-pink-500 to-red-600 bg-clip-text text-transparent mb-2">Syam Digital</h2>
+            <p class="text-red-200 text-sm animate-pulse">Professional QR Generator Loading...</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="glass-effect-dark sticky top-0 z-40 no-print nav-mobile nav-landscape">
+        <div class="container mx-auto px-4 py-3 nav-mobile">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-2 md:space-x-3">
+                    <i class="fas fa-qrcode text-xl md:text-2xl text-white"></i>
+                    <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1751214851/SYAM-DIGITAL_qp3cfw.png" 
+                         alt="Syam Digital" 
+                         class="w-8 h-8 md:w-10 md:h-10 rounded-full border-2 border-white/30 object-cover">
+                    <h1 class="text-lg md:text-xl font-bold text-white hidden sm:block">Syam Digital</h1>
+                    <h1 class="text-sm font-bold text-white sm:hidden">Syam Digital</h1>
+                </div>
+                <div class="flex items-center space-x-2 md:space-x-4">
+                    <button onclick="showAdminProfile()" class="text-white hover:text-red-300 transition-colors p-2 rounded-lg hover:bg-red-900/20" title="Admin Profile">
+                        <i class="fas fa-user-shield text-base md:text-lg"></i>
+                    </button>
+                    <button onclick="toggleTheme()" class="text-white hover:text-red-300 transition-colors p-2 rounded-lg hover:bg-red-900/20" title="Toggle Theme">
+                        <i id="theme-icon" class="fas fa-sun text-base md:text-lg"></i>
+                    </button>
+                    <button onclick="showHelp()" class="text-white hover:text-red-300 transition-colors p-2 rounded-lg hover:bg-red-900/20" title="Help">
+                        <i class="fas fa-question-circle text-base md:text-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto container-mobile container-xs container-landscape py-4 md:py-8">
+        <!-- Header Section -->
+        <div class="text-center mb-6 md:mb-8 fade-in">
+            <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 md:mb-4 text-mobile title-mobile title-landscape drop-shadow-lg">
+                <i class="fas fa-qrcode mr-2 md:mr-3"></i>
+                <span class="hidden sm:inline">Syam Digital</span>
+                <span class="sm:hidden">Syam Digital</span>
+            </h1>
+            <div class="text-sm sm:text-base md:text-lg mb-4 md:mb-6 subtitle-mobile px-4 overflow-hidden">
+                <div class="bg-gradient-to-r from-gray-900/40 via-red-900/30 to-gray-900/40 backdrop-blur-lg rounded-full py-4 px-8 shadow-xl border border-red-800/25 relative">
+                    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent rounded-full"></div>
+                    <p class="running-text whitespace-nowrap text-gray-200 font-semibold text-shadow-md relative z-10">
+                        ✨ Buat QR code profesional untuk berbagai keperluan dengan mudah • 🚀 Generator QR terbaik dan tercepat • 💎 Gratis selamanya • 🎯 Tanpa watermark • 📱 Download berbagai format • 💾 Simpan riwayat otomatis • 🔥 Kualitas HD Premium • 
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Quick Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4 max-w-2xl mx-auto stats-mobile px-4">
+                <div class="glass-effect-dark rounded-lg p-2 md:p-3 text-center">
+                    <div class="text-lg md:text-2xl font-bold text-gray-200" id="total-generated">0</div>
+                    <div class="text-gray-400 text-xs md:text-sm">Generated</div>
+                </div>
+                <div class="glass-effect-dark rounded-lg p-2 md:p-3 text-center">
+                    <div class="text-lg md:text-2xl font-bold text-gray-200">6</div>
+                    <div class="text-gray-400 text-xs md:text-sm">Types</div>
+                </div>
+                <div class="glass-effect-dark rounded-lg p-2 md:p-3 text-center">
+                    <div class="text-lg md:text-2xl font-bold text-gray-200">3</div>
+                    <div class="text-gray-400 text-xs md:text-sm">Formats</div>
+                </div>
+                <div class="glass-effect-dark rounded-lg p-2 md:p-3 text-center">
+                    <div class="text-lg md:text-2xl font-bold text-gray-200">100%</div>
+                    <div class="text-gray-400 text-xs md:text-sm">Free</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="grid lg:grid-cols-2 gap-4 md:gap-6 lg:gap-8 grid-mobile grid-lg-2">
+            <!-- Input Panel -->
+            <div class="glass-effect rounded-xl md:rounded-2xl p-4 md:p-6 card-hover slide-in card-mobile card-xs">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-xl font-semibold text-gray-800 flex items-center">
+                        <i class="fas fa-edit mr-2 text-red-600"></i>Input Data
+                    </h2>
+                    <button onclick="clearAllInputs()" class="text-gray-500 hover:text-red-600 transition-colors">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </div>
+                
+                <!-- Type Selection -->
+                <div class="mb-4 md:mb-6">
+                    <label class="block text-gray-700 font-semibold mb-2 md:mb-3 text-sm md:text-base">
+                        <i class="fas fa-list mr-2 text-red-600"></i>Pilih Jenis QR Code:
+                    </label>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 grid-cols-mobile type-grid-xs">
+                        <button onclick="setQRType('text')" id="btn-text" class="qr-type-btn bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 md:py-3 px-2 md:px-4 rounded-lg transition-all btn-mobile type-btn-mobile text-xs md:text-sm border border-gray-300 font-medium">
+                            <i class="fas fa-font mb-1 text-sm md:text-base text-red-600"></i><br>Teks
+                        </button>
+                        <button onclick="setQRType('url')" id="btn-url" class="qr-type-btn bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 md:py-3 px-2 md:px-4 rounded-lg transition-all btn-mobile type-btn-mobile text-xs md:text-sm border border-gray-300 font-medium">
+                            <i class="fas fa-globe mb-1 text-sm md:text-base text-red-700"></i><br>URL
+                        </button>
+                        <button onclick="setQRType('email')" id="btn-email" class="qr-type-btn bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 md:py-3 px-2 md:px-4 rounded-lg transition-all btn-mobile type-btn-mobile text-xs md:text-sm border border-gray-300 font-medium">
+                            <i class="fas fa-envelope mb-1 text-sm md:text-base text-red-800"></i><br>Email
+                        </button>
+                        <button onclick="setQRType('phone')" id="btn-phone" class="qr-type-btn bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 md:py-3 px-2 md:px-4 rounded-lg transition-all btn-mobile type-btn-mobile text-xs md:text-sm border border-gray-300 font-medium">
+                            <i class="fas fa-phone mb-1 text-sm md:text-base text-red-600"></i><br>Telepon
+                        </button>
+                        <button onclick="setQRType('sms')" id="btn-sms" class="qr-type-btn bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 md:py-3 px-2 md:px-4 rounded-lg transition-all btn-mobile type-btn-mobile text-xs md:text-sm border border-gray-300 font-medium">
+                            <i class="fas fa-sms mb-1 text-sm md:text-base text-red-700"></i><br>SMS
+                        </button>
+                        <button onclick="setQRType('wifi')" id="btn-wifi" class="qr-type-btn bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 md:py-3 px-2 md:px-4 rounded-lg transition-all btn-mobile type-btn-mobile text-xs md:text-sm border border-gray-300 font-medium">
+                            <i class="fas fa-wifi mb-1 text-sm md:text-base text-red-800"></i><br>WiFi
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Dynamic Input Fields -->
+                <div id="input-fields" class="mb-6">
+                    <!-- Text Input -->
+                    <div id="text-input" class="input-group">
+                        <label class="block text-gray-700 font-semibold mb-2">
+                            <i class="fas fa-keyboard mr-2 text-blue-600"></i>Masukkan Teks:
+                        </label>
+                        <textarea id="text-content" class="input-responsive rounded-lg bg-white border-2 border-red-800 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-600 focus:border-red-600 transition-all" rows="4" placeholder="Ketik teks yang ingin dijadikan QR code..."></textarea>
+                        <div class="text-gray-600 text-sm mt-1">
+                            <span id="text-counter">0</span>/2000 karakter
+                        </div>
+                    </div>
+
+                    <!-- URL Input -->
+                    <div id="url-input" class="input-group hidden">
+                        <label class="block text-gray-700 font-semibold mb-2">
+                            <i class="fas fa-link mr-2 text-green-600"></i>URL Website:
+                        </label>
+                        <input type="url" id="url-content" class="input-responsive rounded-lg bg-white border border-gray-300 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" placeholder="https://example.com">
+                        <div class="text-gray-600 text-sm mt-1">
+                            <i class="fas fa-info-circle mr-1 text-blue-500"></i>URL akan otomatis diformat
+                        </div>
+                    </div>
+
+                    <!-- Email Input -->
+                    <div id="email-input" class="input-group hidden">
+                        <label class="block text-gray-700 font-semibold mb-2">
+                            <i class="fas fa-at mr-2 text-red-600"></i>Email:
+                        </label>
+                        <input type="email" id="email-address" class="input-responsive rounded-lg bg-white border border-gray-300 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all mb-3" placeholder="email@example.com">
+                        <label class="block text-gray-700 font-semibold mb-2">
+                            <i class="fas fa-subject mr-2 text-red-600"></i>Subject (opsional):
+                        </label>
+                        <input type="text" id="email-subject" class="input-responsive rounded-lg bg-white border border-gray-300 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all mb-3" placeholder="Subject email">
+                        <label class="block text-gray-700 font-semibold mb-2">
+                            <i class="fas fa-envelope-open-text mr-2 text-red-600"></i>Pesan (opsional):
+                        </label>
+                        <textarea id="email-body" class="input-responsive rounded-lg bg-white border border-gray-300 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" rows="3" placeholder="Pesan email (opsional)"></textarea>
+                    </div>
+
+                    <!-- Phone Input -->
+                    <div id="phone-input" class="input-group hidden">
+                        <label class="block text-gray-700 font-semibold mb-2">
+                            <i class="fas fa-phone-alt mr-2 text-purple-600"></i>Nomor Telepon:
+                        </label>
+                        <input type="tel" id="phone-number" class="input-responsive rounded-lg bg-white border border-gray-300 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" placeholder="+62812345678">
+                        <div class="text-gray-600 text-sm mt-1">
+                            <i class="fas fa-info-circle mr-1 text-blue-500"></i>Format: +62812345678 atau 08123456789
+                        </div>
+                    </div>
+
+                    <!-- SMS Input -->
+                    <div id="sms-input" class="input-group hidden">
+                        <label class="block text-gray-700 font-semibold mb-2">
+                            <i class="fas fa-mobile-alt mr-2 text-yellow-600"></i>Nomor Telepon:
+                        </label>
+                        <input type="tel" id="sms-number" class="input-responsive rounded-lg bg-white border border-gray-300 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all mb-3" placeholder="+62812345678">
+                        <label class="block text-gray-700 font-semibold mb-2">
+                            <i class="fas fa-comment mr-2 text-yellow-600"></i>Pesan SMS:
+                        </label>
+                        <textarea id="sms-message" class="input-responsive rounded-lg bg-white border border-gray-300 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" rows="3" placeholder="Tulis pesan SMS..."></textarea>
+                        <div class="text-gray-600 text-sm mt-1">
+                            <span id="sms-counter">0</span>/160 karakter
+                        </div>
+                    </div>
+
+                    <!-- WiFi Input -->
+                    <div id="wifi-input" class="input-group hidden">
+                        <label class="block text-gray-700 font-semibold mb-2">
+                            <i class="fas fa-wifi mr-2 text-indigo-600"></i>Nama WiFi (SSID):
+                        </label>
+                        <input type="text" id="wifi-ssid" class="input-responsive rounded-lg bg-white border border-gray-300 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all mb-3" placeholder="Nama WiFi">
+                        <label class="block text-gray-700 font-semibold mb-2">
+                            <i class="fas fa-shield-alt mr-2 text-indigo-600"></i>Keamanan:
+                        </label>
+                        <select id="wifi-security" class="input-responsive rounded-lg bg-white border border-gray-300 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all mb-3" onchange="toggleWifiPassword()">
+                            <option value="WPA">WPA/WPA2</option>
+                            <option value="WEP">WEP</option>
+                            <option value="nopass">Tanpa Password</option>
+                        </select>
+                        <label class="block text-gray-700 font-semibold mb-2">
+                            <i class="fas fa-lock mr-2 text-indigo-600"></i>Password:
+                        </label>
+                        <div class="relative mb-3">
+                            <input type="password" id="wifi-password" class="input-responsive pr-12 rounded-lg bg-white border border-gray-300 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" placeholder="Password WiFi">
+                            <button type="button" onclick="togglePasswordVisibility('wifi-password')" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <div class="text-gray-600 text-sm">
+                            <i class="fas fa-info-circle mr-1 text-blue-500"></i>Kosongkan password untuk WiFi terbuka
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Advanced Settings -->
+                <div class="mb-6">
+                    <button onclick="toggleAdvancedSettings()" class="flex items-center justify-between w-full text-gray-700 font-semibold mb-3 hover:text-blue-600 transition-colors">
+                        <span><i class="fas fa-cog mr-2 text-red-600"></i>Pengaturan Lanjutan</span>
+                        <i id="advanced-arrow" class="fas fa-chevron-down transition-transform text-red-600"></i>
+                    </button>
+                    <div id="advanced-settings" class="hidden space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 advanced-mobile">
+                            <div>
+                                <label class="block text-gray-700 font-medium text-xs md:text-sm mb-2">
+                                    <i class="fas fa-expand-arrows-alt mr-1 text-red-600"></i>Ukuran:
+                                </label>
+                                <select id="qr-size" class="input-responsive rounded-lg bg-white border border-gray-300 text-gray-800 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all">
+                                    <option value="200">200x200px</option>
+                                    <option value="300" selected>300x300px</option>
+                                    <option value="400">400x400px</option>
+                                    <option value="500">500x500px</option>
+                                    <option value="600">600x600px</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 font-medium text-xs md:text-sm mb-2">
+                                    <i class="fas fa-palette mr-1 text-red-600"></i>Warna Foreground:
+                                </label>
+                                <div class="flex space-x-2">
+                                    <input type="color" id="qr-color" value="#000000" class="flex-1 h-10 md:h-12 rounded-lg bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all">
+                                    <button onclick="resetColors()" class="px-3 bg-gray-100 hover:bg-gray-200 rounded-lg text-gray-700 transition-colors text-sm border border-gray-300 min-h-[40px] md:min-h-[48px]">
+                                        <i class="fas fa-undo"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 font-medium text-xs md:text-sm mb-2">
+                                    <i class="fas fa-fill mr-1 text-red-600"></i>Warna Background:
+                                </label>
+                                <input type="color" id="qr-bg-color" value="#FFFFFF" class="w-full h-10 md:h-12 rounded-lg bg-white border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all">
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 font-medium text-xs md:text-sm mb-2">
+                                    <i class="fas fa-shield-alt mr-1 text-red-600"></i>Error Correction:
+                                </label>
+                                <select id="qr-error-level" class="input-responsive rounded-lg bg-white border border-gray-300 text-gray-800 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all">
+                                    <option value="L">Low (7%)</option>
+                                    <option value="M" selected>Medium (15%)</option>
+                                    <option value="Q">Quartile (25%)</option>
+                                    <option value="H">High (30%)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Generate Button -->
+                <button id="generate-btn" onclick="generateQR()" class="btn-responsive btn-primary text-white font-semibold rounded-lg transition-all transform hover:scale-105 flex items-center justify-center">
+                    <i class="fas fa-magic mr-2"></i>
+                    <span id="generate-text">Generate QR Code</span>
+                </button>
+
+                <!-- Keyboard Shortcuts -->
+                <div class="mt-3 md:mt-4 text-white/60 text-xs md:text-sm text-center hidden sm:block">
+                    <i class="fas fa-keyboard mr-1"></i>
+                    Shortcuts: <kbd class="bg-white/20 px-2 py-1 rounded text-xs">Ctrl+Enter</kbd> Generate • 
+                    <kbd class="bg-white/20 px-2 py-1 rounded text-xs">Ctrl+S</kbd> Download
+                </div>
+            </div>
+
+            <!-- Output Panel -->
+            <div class="glass-effect rounded-xl md:rounded-2xl card-responsive card-hover">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-xl font-semibold text-gray-800 flex items-center">
+                        <i class="fas fa-qrcode mr-2 text-blue-600"></i>QR Code Result
+                    </h2>
+                    <div class="flex space-x-2">
+                        <button onclick="fullscreenQR()" class="text-gray-500 hover:text-blue-600 transition-colors" title="Fullscreen">
+                            <i class="fas fa-expand"></i>
+                        </button>
+                        <button onclick="shareQR()" class="text-gray-500 hover:text-green-600 transition-colors" title="Share">
+                            <i class="fas fa-share-alt"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- QR Code Display -->
+                <div class="qr-display-responsive bg-white rounded-xl mb-6">
+                    <div id="qr-display" class="text-gray-400 text-center">
+                        <div class="text-6xl mb-4 pulse-animation">
+                            <i class="fas fa-qrcode"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">QR Code akan muncul di sini</h3>
+                        <p class="text-sm">Pilih jenis dan masukkan data untuk memulai</p>
+                        <div class="mt-4 flex justify-center space-x-4 text-xs">
+                            <span><i class="fas fa-mobile-alt mr-1"></i>Mobile Ready</span>
+                            <span><i class="fas fa-download mr-1"></i>High Quality</span>
+                            <span><i class="fas fa-bolt mr-1"></i>Instant</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Download Options -->
+                <div id="download-section" class="hidden">
+                    <h3 class="text-gray-800 font-semibold mb-3 flex items-center">
+                        <i class="fas fa-download mr-2 text-blue-600"></i>Download Options:
+                    </h3>
+                    
+                    <!-- PNG Options -->
+                    <div class="mb-4">
+                        <h4 class="text-gray-700 text-sm font-medium mb-3 flex items-center">
+                            <i class="fas fa-file-image mr-2 text-green-600"></i>PNG Downloads:
+                        </h4>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4">
+                            <button onclick="downloadPNG(256)" class="bg-green-400 hover:bg-green-500 text-white py-3 px-3 rounded-lg text-xs transition-all transform hover:scale-105 flex flex-col items-center min-h-[70px] justify-center">
+                                <i class="fas fa-mobile-alt mb-1 text-sm"></i>
+                                <span class="text-xs font-medium">256px</span>
+                                <span class="text-xs opacity-75">Mobile</span>
+                            </button>
+                            <button onclick="downloadPNG(512)" class="bg-green-500 hover:bg-green-600 text-white py-3 px-3 rounded-lg text-xs transition-all transform hover:scale-105 flex flex-col items-center min-h-[70px] justify-center">
+                                <i class="fas fa-desktop mb-1 text-sm"></i>
+                                <span class="text-xs font-medium">512px</span>
+                                <span class="text-xs opacity-75">Standard</span>
+                            </button>
+                            <button onclick="downloadPNG(1024)" class="bg-green-600 hover:bg-green-700 text-white py-3 px-3 rounded-lg text-xs transition-all transform hover:scale-105 flex flex-col items-center min-h-[70px] justify-center">
+                                <i class="fas fa-expand-arrows-alt mb-1 text-sm"></i>
+                                <span class="text-xs font-medium">1024px</span>
+                                <span class="text-xs opacity-75">HD</span>
+                            </button>
+                            <button onclick="downloadPNG(2048)" class="bg-green-700 hover:bg-green-800 text-white py-3 px-3 rounded-lg text-xs transition-all transform hover:scale-105 flex flex-col items-center min-h-[70px] justify-center">
+                                <i class="fas fa-print mb-1 text-sm"></i>
+                                <span class="text-xs font-medium">2048px</span>
+                                <span class="text-xs opacity-75">Print</span>
+                            </button>
+                        </div>
+                        
+                        <!-- Custom PNG Size -->
+                        <div class="flex items-center space-x-2 mb-4">
+                            <input type="number" id="custom-png-size" placeholder="Custom size" min="100" max="4096" class="flex-1 p-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/50 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 min-h-[44px]">
+                            <button onclick="downloadCustomPNG()" class="bg-green-500 hover:bg-green-600 text-white py-3 px-4 rounded-lg text-sm transition-all min-h-[44px] flex items-center">
+                                <i class="fas fa-download mr-2"></i>Custom PNG
+                            </button>
+                        </div>
+                        
+                        <!-- PNG Quality Options -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+                            <button onclick="downloadPNGQuality('standard')" class="bg-green-500/80 hover:bg-green-500 text-white py-3 px-3 rounded-lg text-xs transition-all min-h-[44px] flex items-center justify-center">
+                                <i class="fas fa-compress mr-2"></i>Standard Quality
+                            </button>
+                            <button onclick="downloadPNGQuality('high')" class="bg-green-600/80 hover:bg-green-600 text-white py-3 px-3 rounded-lg text-xs transition-all min-h-[44px] flex items-center justify-center">
+                                <i class="fas fa-star mr-2"></i>High Quality
+                            </button>
+                            <button onclick="downloadPNGQuality('ultra')" class="bg-green-700/80 hover:bg-green-700 text-white py-3 px-3 rounded-lg text-xs transition-all min-h-[44px] flex items-center justify-center">
+                                <i class="fas fa-gem mr-2"></i>Ultra Quality
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Other Formats -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+                        <button onclick="downloadQR('svg')" class="bg-blue-500 hover:bg-blue-600 text-white py-3 px-4 rounded-lg transition-all transform hover:scale-105 flex items-center justify-center text-sm min-h-[50px]">
+                            <i class="fas fa-vector-square mr-2"></i>SVG Vector
+                        </button>
+                        <button onclick="downloadQR('pdf')" class="bg-red-500 hover:bg-red-600 text-white py-3 px-4 rounded-lg transition-all transform hover:scale-105 flex items-center justify-center text-sm min-h-[50px]">
+                            <i class="fas fa-file-pdf mr-2"></i>PDF Document
+                        </button>
+                    </div>
+                    
+                    <!-- Batch Download -->
+                    <button onclick="downloadAll()" class="w-full bg-purple-500 hover:bg-purple-600 text-white py-4 px-4 rounded-lg transition-all transform hover:scale-105 flex items-center justify-center mb-4 text-sm font-medium min-h-[56px]">
+                        <i class="fas fa-download mr-2"></i>
+                        <span class="hidden sm:inline">Download All Formats & Sizes</span>
+                        <span class="sm:hidden">Download All</span>
+                    </button>
+                </div>
+
+                <!-- QR Info -->
+                <div id="qr-info" class="hidden bg-white/10 rounded-lg p-4">
+                    <h4 class="text-white font-medium mb-3 flex items-center">
+                        <i class="fas fa-info-circle mr-2"></i>Informasi QR Code:
+                    </h4>
+                    <div id="qr-details" class="text-white/80 text-sm space-y-2">
+                        <!-- Details will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- History Section -->
+        <div class="mt-6 md:mt-8 glass-effect rounded-xl md:rounded-2xl card-responsive card-hover">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 md:mb-6 gap-3">
+                <h2 class="text-lg md:text-xl font-semibold text-gray-800 flex items-center">
+                    <i class="fas fa-history mr-2 text-blue-600"></i>Riwayat QR Code
+                </h2>
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="dataManager.exportAllData()" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-3 md:px-4 rounded-lg text-xs md:text-sm transition-all flex items-center">
+                        <i class="fas fa-download mr-1"></i>
+                        <span class="hidden sm:inline">Backup Data</span>
+                    </button>
+                    <button onclick="showImportModal()" class="bg-green-500 hover:bg-green-600 text-white py-2 px-3 md:px-4 rounded-lg text-xs md:text-sm transition-all flex items-center">
+                        <i class="fas fa-upload mr-1"></i>
+                        <span class="hidden sm:inline">Import</span>
+                    </button>
+                    <button onclick="showStorageInfo()" class="bg-purple-500 hover:bg-purple-600 text-white py-2 px-3 md:px-4 rounded-lg text-xs md:text-sm transition-all flex items-center">
+                        <i class="fas fa-info-circle mr-1"></i>
+                        <span class="hidden sm:inline">Storage</span>
+                    </button>
+                    <button onclick="clearHistory()" class="bg-red-500 hover:bg-red-600 text-white py-2 px-3 md:px-4 rounded-lg text-xs md:text-sm transition-all flex items-center">
+                        <i class="fas fa-trash-alt mr-1"></i>
+                        <span class="hidden sm:inline">Hapus Semua</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Search History -->
+            <div class="mb-4">
+                <div class="relative">
+                    <input type="text" id="history-search" placeholder="Cari dalam riwayat..." class="input-responsive pl-10 rounded-lg bg-white border border-gray-300 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all">
+                    <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
+                </div>
+            </div>
+            
+            <div id="qr-history" class="history-responsive">
+                <div class="text-white/60 text-center py-6 md:py-8 col-span-full">
+                    <i class="fas fa-history text-3xl md:text-4xl mb-3 md:mb-4 opacity-50"></i>
+                    <p class="text-sm md:text-base">Belum ada QR code yang dibuat</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fullscreen Modal -->
+    <div id="fullscreen-modal" class="fixed inset-0 bg-black bg-opacity-90 z-50 hidden flex items-center justify-center">
+        <div class="relative">
+            <button onclick="closeFullscreen()" class="absolute -top-12 right-0 text-white text-2xl hover:text-gray-300">
+                <i class="fas fa-times"></i>
+            </button>
+            <div id="fullscreen-qr" class="bg-white p-8 rounded-lg"></div>
+        </div>
+    </div>
+
+    <!-- Admin Profile Modal -->
+    <div id="admin-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-2 md:p-4">
+        <div class="bg-white rounded-xl md:rounded-2xl card-responsive max-w-md w-full modal-responsive">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-xl font-bold text-gray-800">
+                    <i class="fas fa-user-shield mr-2 text-pink-500"></i>Admin Profile
+                </h3>
+                <button onclick="closeAdminProfile()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <div class="text-center">
+                <!-- Admin Photo -->
+                <div class="mb-6">
+                    <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1751214851/SYAM-DIGITAL_qp3cfw.png" 
+                         alt="Syam Digital" 
+                         class="w-24 h-24 rounded-full mx-auto border-4 border-pink-500 shadow-lg object-cover">
+                </div>
+                
+                <!-- Admin Info -->
+                <div class="mb-6">
+                    <h4 class="text-2xl font-bold text-gray-800 mb-2">Syam Digital</h4>
+                    <div class="inline-flex items-center px-3 py-1 rounded-full bg-pink-100 text-pink-800 text-sm font-medium mb-3">
+                        <i class="fas fa-crown mr-2"></i>Administrator
+                    </div>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        Professional QR Code Generator Developer<br>
+                        Specialized in creating innovative digital solutions
+                    </p>
+                </div>
+                
+                <!-- Admin Stats -->
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <div class="bg-gradient-to-r from-pink-50 to-red-100 rounded-lg p-3">
+                        <div class="text-2xl font-bold text-pink-600">Pro</div>
+                        <div class="text-pink-600 text-sm">Version</div>
+                    </div>
+                    <div class="bg-gradient-to-r from-red-50 to-pink-100 rounded-lg p-3">
+                        <div class="text-2xl font-bold text-red-600">2024</div>
+                        <div class="text-red-600 text-sm">Latest</div>
+                    </div>
+                </div>
+                
+                <!-- Contact Info -->
+                <div class="space-y-3">
+                    <div class="flex items-center justify-center text-gray-600">
+                        <i class="fas fa-envelope mr-3 text-pink-500"></i>
+                        <span class="text-sm">syam.digital@example.com</span>
+                    </div>
+                    <div class="flex items-center justify-center text-gray-600">
+                        <i class="fas fa-globe mr-3 text-red-500"></i>
+                        <span class="text-sm">www.syamdigital.com</span>
+                    </div>
+                    <div class="flex items-center justify-center text-gray-600">
+                        <i class="fas fa-code mr-3 text-purple-500"></i>
+                        <span class="text-sm">Full Stack Developer</span>
+                    </div>
+                </div>
+                
+                <!-- Social Links -->
+                <div class="flex justify-center space-x-4 mt-6 pt-4 border-t border-gray-200">
+                    <button class="w-10 h-10 bg-pink-500 hover:bg-pink-600 text-white rounded-full flex items-center justify-center transition-colors">
+                        <i class="fab fa-linkedin-in"></i>
+                    </button>
+                    <button class="w-10 h-10 bg-gray-800 hover:bg-gray-900 text-white rounded-full flex items-center justify-center transition-colors">
+                        <i class="fab fa-github"></i>
+                    </button>
+                    <button class="w-10 h-10 bg-green-500 hover:bg-green-600 text-white rounded-full flex items-center justify-center transition-colors">
+                        <i class="fab fa-whatsapp"></i>
+                    </button>
+                </div>
+                
+                <!-- Copyright -->
+                <div class="mt-6 pt-4 border-t border-gray-200 text-xs text-gray-500">
+                    © 2024 Syam Digital. All rights reserved.<br>
+                    Syam Digital QR Generator v2.0
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Help Modal -->
+    <div id="help-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-2 md:p-4">
+        <div class="bg-white rounded-xl md:rounded-2xl p-4 md:p-6 max-w-2xl w-full max-h-80 md:max-h-96 overflow-y-auto modal-mobile modal-xs">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-xl font-bold text-gray-800">
+                    <i class="fas fa-question-circle mr-2 text-pink-500"></i>Bantuan
+                </h3>
+                <button onclick="closeHelp()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="space-y-4 text-gray-600">
+                <div>
+                    <h4 class="font-semibold mb-2">Cara Menggunakan:</h4>
+                    <ol class="list-decimal list-inside space-y-1 text-sm">
+                        <li>Pilih jenis QR code yang diinginkan</li>
+                        <li>Masukkan data sesuai jenis yang dipilih</li>
+                        <li>Atur pengaturan lanjutan jika diperlukan</li>
+                        <li>Klik "Generate QR Code" atau tekan Ctrl+Enter</li>
+                        <li>Download QR code dalam format yang diinginkan</li>
+                    </ol>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-2">Keyboard Shortcuts:</h4>
+                    <ul class="space-y-1 text-sm">
+                        <li><kbd class="bg-gray-200 px-2 py-1 rounded">Ctrl+Enter</kbd> - Generate QR Code</li>
+                        <li><kbd class="bg-gray-200 px-2 py-1 rounded">Ctrl+S</kbd> - Download PNG</li>
+                        <li><kbd class="bg-gray-200 px-2 py-1 rounded">Esc</kbd> - Close modals</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Import Data Modal -->
+    <div id="import-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-2 md:p-4">
+        <div class="bg-white rounded-xl md:rounded-2xl p-4 md:p-6 max-w-md w-full modal-mobile modal-xs">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-xl font-bold text-gray-800">
+                    <i class="fas fa-upload mr-2 text-green-500"></i>Import Data
+                </h3>
+                <button onclick="closeImportModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="space-y-4">
+                <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                    <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-3"></i>
+                    <p class="text-gray-600 mb-3">Pilih file backup untuk diimport</p>
+                    <input type="file" id="import-file" accept=".json" class="hidden" onchange="handleImportFile(this)">
+                    <button onclick="document.getElementById('import-file').click()" class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg transition-all">
+                        <i class="fas fa-folder-open mr-2"></i>Pilih File
+                    </button>
+                </div>
+                <div class="text-sm text-gray-500">
+                    <p><strong>Catatan:</strong></p>
+                    <ul class="list-disc list-inside space-y-1 mt-2">
+                        <li>File harus berformat JSON dari backup Syam Digital</li>
+                        <li>Data saat ini akan diganti dengan data import</li>
+                        <li>Pastikan backup file dari sumber terpercaya</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Storage Info Modal -->
+    <div id="storage-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-2 md:p-4">
+        <div class="bg-white rounded-xl md:rounded-2xl p-4 md:p-6 max-w-md w-full modal-mobile modal-xs">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-xl font-bold text-gray-800">
+                    <i class="fas fa-database mr-2 text-purple-500"></i>Storage Info
+                </h3>
+                <button onclick="closeStorageModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div id="storage-info-content" class="space-y-4">
+                <!-- Content will be populated by JavaScript -->
+            </div>
+            <div class="mt-6 pt-4 border-t border-gray-200">
+                <button onclick="dataManager.clearAllData()" class="w-full bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg transition-all flex items-center justify-center">
+                    <i class="fas fa-exclamation-triangle mr-2"></i>Hapus Semua Data
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- QR Success Modal -->
+    <div id="qr-success-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-2 md:p-4">
+        <div class="bg-white rounded-xl md:rounded-2xl p-4 md:p-6 max-w-lg w-full modal-mobile modal-xs transform scale-95 transition-transform duration-300">
+            <div class="text-center">
+                <!-- Success Animation -->
+                <div class="mb-6">
+                    <div class="w-20 h-20 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse">
+                        <i class="fas fa-check text-3xl text-pink-500"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">
+                        QR Code Berhasil Dibuat! 🎉
+                    </h3>
+                    <p class="text-gray-600">
+                        QR code Anda telah siap untuk digunakan dan didownload
+                    </p>
+                </div>
+
+                <!-- QR Preview in Modal -->
+                <div class="mb-6">
+                    <div id="modal-qr-preview" class="bg-gray-50 rounded-lg p-4 inline-block border-2 border-dashed border-gray-300">
+                        <!-- QR code preview will be inserted here -->
+                    </div>
+                </div>
+
+                <!-- QR Info Summary -->
+                <div id="modal-qr-info" class="bg-gradient-to-r from-pink-50 to-red-50 rounded-lg p-4 mb-6 text-left">
+                    <!-- QR info will be populated here -->
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="grid grid-cols-2 gap-3 mb-6">
+                    <button onclick="downloadFromModal('png')" class="bg-green-500 hover:bg-green-600 text-white py-3 px-4 rounded-lg transition-all transform hover:scale-105 flex items-center justify-center">
+                        <i class="fas fa-download mr-2"></i>
+                        Download PNG
+                    </button>
+                    <button onclick="shareFromModal()" class="bg-pink-500 hover:bg-pink-600 text-white py-3 px-4 rounded-lg transition-all transform hover:scale-105 flex items-center justify-center">
+                        <i class="fas fa-share-alt mr-2"></i>
+                        Share
+                    </button>
+                </div>
+
+                <!-- Additional Actions -->
+                <div class="flex flex-col sm:flex-row gap-2 mb-4">
+                    <button onclick="downloadFromModal('svg')" class="flex-1 bg-purple-500 hover:bg-purple-600 text-white py-2 px-3 rounded-lg text-sm transition-all flex items-center justify-center">
+                        <i class="fas fa-vector-square mr-2"></i>SVG
+                    </button>
+                    <button onclick="downloadFromModal('pdf')" class="flex-1 bg-red-500 hover:bg-red-600 text-white py-2 px-3 rounded-lg text-sm transition-all flex items-center justify-center">
+                        <i class="fas fa-file-pdf mr-2"></i>PDF
+                    </button>
+                    <button onclick="fullscreenFromModal()" class="flex-1 bg-gray-500 hover:bg-gray-600 text-white py-2 px-3 rounded-lg text-sm transition-all flex items-center justify-center">
+                        <i class="fas fa-expand mr-2"></i>Fullscreen
+                    </button>
+                </div>
+
+                <!-- Close Button -->
+                <div class="flex gap-3">
+                    <button onclick="createAnotherQR()" class="flex-1 bg-gradient-to-r from-pink-500 to-red-500 hover:from-pink-600 hover:to-red-600 text-white py-3 px-4 rounded-lg transition-all transform hover:scale-105 flex items-center justify-center">
+                        <i class="fas fa-plus mr-2"></i>
+                        Buat QR Lain
+                    </button>
+                    <button onclick="closeSuccessModal()" class="flex-1 bg-gray-500 hover:bg-gray-600 text-white py-3 px-4 rounded-lg transition-all flex items-center justify-center">
+                        <i class="fas fa-times mr-2"></i>
+                        Tutup
+                    </button>
+                </div>
+
+                <!-- Tips -->
+                <div class="mt-4 p-3 bg-yellow-50 rounded-lg border-l-4 border-yellow-400">
+                    <div class="flex items-start">
+                        <i class="fas fa-lightbulb text-yellow-500 mr-2 mt-1"></i>
+                        <div class="text-left">
+                            <p class="text-sm text-yellow-800 font-medium">Tips:</p>
+                            <p class="text-xs text-yellow-700 mt-1">
+                                Untuk hasil terbaik, gunakan ukuran minimal 300px dan pastikan kontras warna yang baik antara foreground dan background.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global Variables
+        let currentQRType = 'text';
+        let qrHistory = JSON.parse(localStorage.getItem('qrHistory') || '[]');
+        let currentQRData = null;
+        let qrInstance = null;
+        let totalGenerated = parseInt(localStorage.getItem('totalGenerated') || '0');
+        let isDarkMode = localStorage.getItem('darkMode') === 'true';
+        let userSettings = JSON.parse(localStorage.getItem('userSettings') || '{}');
+        let appData = JSON.parse(localStorage.getItem('syamDigitalAppData') || '{}');
+
+        // Data Persistence Manager
+        class DataManager {
+            constructor() {
+                this.storageKey = 'syamDigitalAppData';
+                this.backupKey = 'syamDigitalBackup';
+                this.init();
+            }
+
+            init() {
+                // Load existing data
+                this.loadAllData();
+                
+                // Auto-save every 30 seconds
+                setInterval(() => this.autoSave(), 30000);
+                
+                // Save on page unload
+                window.addEventListener('beforeunload', () => this.saveAllData());
+                
+                // Save on visibility change (mobile app switching)
+                document.addEventListener('visibilitychange', () => {
+                    if (document.hidden) {
+                        this.saveAllData();
+                    }
+                });
+            }
+
+            saveAllData() {
+                try {
+                    const data = {
+                        version: '2.0',
+                        timestamp: new Date().toISOString(),
+                        qrHistory: qrHistory,
+                        totalGenerated: totalGenerated,
+                        userSettings: {
+                            darkMode: isDarkMode,
+                            defaultSize: document.getElementById('qr-size')?.value || '300',
+                            defaultColor: document.getElementById('qr-color')?.value || '#000000',
+                            defaultBgColor: document.getElementById('qr-bg-color')?.value || '#FFFFFF',
+                            defaultErrorLevel: document.getElementById('qr-error-level')?.value || 'M',
+                            lastQRType: currentQRType
+                        },
+                        statistics: {
+                            totalGenerated: totalGenerated,
+                            lastUsed: new Date().toISOString(),
+                            favoriteType: this.getMostUsedType()
+                        }
+                    };
+
+                    // Save main data
+                    localStorage.setItem(this.storageKey, JSON.stringify(data));
+                    
+                    // Create backup
+                    localStorage.setItem(this.backupKey, JSON.stringify(data));
+                    
+                    // Also save individual items for compatibility
+                    localStorage.setItem('qrHistory', JSON.stringify(qrHistory));
+                    localStorage.setItem('totalGenerated', totalGenerated.toString());
+                    localStorage.setItem('darkMode', isDarkMode.toString());
+                    
+                    return true;
+                } catch (error) {
+                    console.error('Error saving data:', error);
+                    return false;
+                }
+            }
+
+            loadAllData() {
+                try {
+                    const data = JSON.parse(localStorage.getItem(this.storageKey) || '{}');
+                    
+                    if (data.version) {
+                        // Load from main data structure
+                        qrHistory = data.qrHistory || [];
+                        totalGenerated = data.totalGenerated || 0;
+                        isDarkMode = data.userSettings?.darkMode || false;
+                        currentQRType = data.userSettings?.lastQRType || 'text';
+                        
+                        // Apply user settings
+                        if (data.userSettings) {
+                            setTimeout(() => {
+                                if (document.getElementById('qr-size')) {
+                                    document.getElementById('qr-size').value = data.userSettings.defaultSize || '300';
+                                    document.getElementById('qr-color').value = data.userSettings.defaultColor || '#000000';
+                                    document.getElementById('qr-bg-color').value = data.userSettings.defaultBgColor || '#FFFFFF';
+                                    document.getElementById('qr-error-level').value = data.userSettings.defaultErrorLevel || 'M';
+                                }
+                            }, 100);
+                        }
+                    } else {
+                        // Fallback to individual items
+                        qrHistory = JSON.parse(localStorage.getItem('qrHistory') || '[]');
+                        totalGenerated = parseInt(localStorage.getItem('totalGenerated') || '0');
+                        isDarkMode = localStorage.getItem('darkMode') === 'true';
+                    }
+                    
+                    return true;
+                } catch (error) {
+                    console.error('Error loading data:', error);
+                    this.restoreFromBackup();
+                    return false;
+                }
+            }
+
+            restoreFromBackup() {
+                try {
+                    const backup = JSON.parse(localStorage.getItem(this.backupKey) || '{}');
+                    if (backup.version) {
+                        localStorage.setItem(this.storageKey, JSON.stringify(backup));
+                        this.loadAllData();
+                        showNotification('Data dipulihkan dari backup', 'success');
+                    }
+                } catch (error) {
+                    console.error('Error restoring backup:', error);
+                }
+            }
+
+            autoSave() {
+                this.saveAllData();
+            }
+
+            getMostUsedType() {
+                const typeCounts = {};
+                qrHistory.forEach(item => {
+                    typeCounts[item.type] = (typeCounts[item.type] || 0) + 1;
+                });
+                
+                let mostUsed = 'text';
+                let maxCount = 0;
+                for (const [type, count] of Object.entries(typeCounts)) {
+                    if (count > maxCount) {
+                        maxCount = count;
+                        mostUsed = type;
+                    }
+                }
+                return mostUsed;
+            }
+
+            exportAllData() {
+                const data = JSON.parse(localStorage.getItem(this.storageKey) || '{}');
+                data.exportInfo = {
+                    exportDate: new Date().toISOString(),
+                    appVersion: '2.0',
+                    deviceInfo: navigator.userAgent
+                };
+                
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                const link = document.createElement('a');
+                link.download = `syam-digital-backup-${new Date().toISOString().slice(0, 10)}.json`;
+                link.href = URL.createObjectURL(blob);
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(link.href);
+                
+                showNotification('Semua data berhasil diekspor!', 'success');
+            }
+
+            importData(file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    try {
+                        const data = JSON.parse(e.target.result);
+                        
+                        if (data.version && confirm('Import data ini? Data saat ini akan diganti.')) {
+                            localStorage.setItem(this.storageKey, JSON.stringify(data));
+                            this.loadAllData();
+                            loadHistory();
+                            updateStats();
+                            showNotification('Data berhasil diimport!', 'success');
+                            location.reload();
+                        }
+                    } catch (error) {
+                        showNotification('File import tidak valid', 'error');
+                    }
+                };
+                reader.readAsText(file);
+            }
+
+            clearAllData() {
+                if (confirm('PERINGATAN: Ini akan menghapus SEMUA data termasuk riwayat, pengaturan, dan statistik. Yakin ingin melanjutkan?')) {
+                    localStorage.removeItem(this.storageKey);
+                    localStorage.removeItem(this.backupKey);
+                    localStorage.removeItem('qrHistory');
+                    localStorage.removeItem('totalGenerated');
+                    localStorage.removeItem('darkMode');
+                    
+                    qrHistory = [];
+                    totalGenerated = 0;
+                    isDarkMode = false;
+                    
+                    showNotification('Semua data berhasil dihapus', 'success');
+                    setTimeout(() => location.reload(), 1000);
+                }
+            }
+
+            getStorageInfo() {
+                const used = new Blob([localStorage.getItem(this.storageKey) || '']).size;
+                const total = 5 * 1024 * 1024; // 5MB typical localStorage limit
+                return {
+                    used: used,
+                    total: total,
+                    percentage: (used / total * 100).toFixed(2),
+                    itemCount: qrHistory.length
+                };
+            }
+        }
+
+        // Initialize Data Manager
+        const dataManager = new DataManager();
+
+        // Initialize Application
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                document.getElementById('loading-screen').style.display = 'none';
+                initializeApp();
+            }, 1500);
+        });
+
+        function initializeApp() {
+            try {
+                // Check if required elements exist
+                if (!document.getElementById('text-content') || !document.getElementById('qr-display')) {
+                    setTimeout(initializeApp, 500);
+                    return;
+                }
+
+                setQRType('text');
+                loadHistory();
+                setupRealTimeGeneration();
+                setupKeyboardShortcuts();
+                updateStats();
+                setupInputValidation();
+                setupTouchSupport();
+                
+                if (isDarkMode) {
+                    document.body.classList.add('dark-mode');
+                    const themeIcon = document.getElementById('theme-icon');
+                    if (themeIcon) {
+                        themeIcon.className = 'fas fa-moon text-lg';
+                    }
+                }
+
+                // Initialize responsive features
+                handleResize();
+                window.addEventListener('resize', debounce(handleResize, 250));
+                window.addEventListener('orientationchange', () => {
+                    setTimeout(handleResize, 100);
+                });
+
+                console.log('Syam Digital QR Generator initialized successfully');
+            } catch (error) {
+                console.error('Error initializing app:', error);
+                setTimeout(initializeApp, 1000);
+            }
+        }
+
+        // Real-time generation setup
+        function setupRealTimeGeneration() {
+            const inputs = document.querySelectorAll('input, textarea, select');
+            inputs.forEach(input => {
+                input.addEventListener('input', debounce(autoGenerateQR, 800));
+                input.addEventListener('focus', function() {
+                    this.classList.add('input-focus');
+                });
+                input.addEventListener('blur', function() {
+                    this.classList.remove('input-focus');
+                });
+            });
+
+            // Character counter for text input
+            document.getElementById('text-content').addEventListener('input', function() {
+                const counter = document.getElementById('text-counter');
+                counter.textContent = this.value.length;
+                if (this.value.length > 2000) {
+                    counter.style.color = '#ef4444';
+                    counter.parentElement.innerHTML = `<span style="color: #ef4444;"><i class="fas fa-exclamation-triangle mr-1"></i><span id="text-counter">${this.value.length}</span>/2000 karakter - Terlalu panjang!</span>`;
+                } else if (this.value.length > 1500) {
+                    counter.style.color = '#f59e0b';
+                } else {
+                    counter.style.color = '';
+                    if (counter.parentElement.innerHTML.includes('Terlalu panjang')) {
+                        counter.parentElement.innerHTML = `<span id="text-counter">${this.value.length}</span>/2000 karakter`;
+                    }
+                }
+            });
+
+            // Character counter for SMS input
+            document.getElementById('sms-message').addEventListener('input', function() {
+                const counter = document.getElementById('sms-counter');
+                counter.textContent = this.value.length;
+                if (this.value.length > 160) {
+                    counter.style.color = '#ef4444';
+                } else {
+                    counter.style.color = '';
+                }
+            });
+
+            // History search
+            document.getElementById('history-search').addEventListener('input', debounce(searchHistory, 300));
+        }
+
+        // Keyboard shortcuts
+        function setupKeyboardShortcuts() {
+            document.addEventListener('keydown', function(e) {
+                if (e.ctrlKey || e.metaKey) {
+                    switch(e.key) {
+                        case 'Enter':
+                            e.preventDefault();
+                            generateQR();
+                            break;
+                        case 's':
+                            e.preventDefault();
+                            if (currentQRData) downloadQR('png');
+                            break;
+                    }
+                }
+                if (e.key === 'Escape') {
+                    closeFullscreen();
+                    closeHelp();
+                    closeAdminProfile();
+                    closeImportModal();
+                    closeStorageModal();
+                    closeSuccessModal();
+                }
+            });
+        }
+
+        // Input validation setup
+        function setupInputValidation() {
+            const urlInput = document.getElementById('url-content');
+            urlInput.addEventListener('blur', function() {
+                if (this.value && !this.value.match(/^https?:\/\//)) {
+                    if (this.value.includes('.')) {
+                        this.value = 'https://' + this.value;
+                    }
+                }
+            });
+
+            const emailInput = document.getElementById('email-address');
+            emailInput.addEventListener('blur', function() {
+                if (this.value && !this.value.includes('@')) {
+                    showNotification('Format email tidak valid', 'error');
+                }
+            });
+        }
+
+        // Debounce function
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Auto-generate QR code
+        function autoGenerateQR() {
+            const qrData = getQRData();
+            if (qrData && qrData.length > 0) {
+                generateQR(true);
+            }
+        }
+
+        // Set QR Type
+        function setQRType(type) {
+            currentQRType = type;
+            
+            // Update button styles with animation
+            document.querySelectorAll('.qr-type-btn').forEach(btn => {
+                btn.classList.remove('type-btn-active');
+            });
+            document.getElementById(`btn-${type}`).classList.add('type-btn-active');
+
+            // Show/hide input fields with animation
+            document.querySelectorAll('.input-group').forEach(group => {
+                group.classList.add('hidden');
+            });
+            const targetGroup = document.getElementById(`${type}-input`);
+            targetGroup.classList.remove('hidden');
+            targetGroup.classList.add('fade-in');
+        }
+
+        // Generate QR Code
+        function generateQR(silent = false) {
+            const qrData = getQRData();
+            if (!qrData) {
+                if (!silent) {
+                    showNotification('Mohon isi data yang diperlukan!', 'error');
+                }
+                return;
+            }
+
+            if (!validateQRData(qrData, currentQRType)) {
+                if (!silent) {
+                    showNotification('Format data tidak valid!', 'error');
+                }
+                return;
+            }
+
+            const generateBtn = document.getElementById('generate-btn');
+            const generateText = document.getElementById('generate-text');
+            
+            if (!silent) {
+                generateBtn.disabled = true;
+                generateText.innerHTML = '<div class="loading-spinner inline-block mr-2"></div>Generating...';
+            }
+
+            requestAnimationFrame(() => {
+                try {
+                    const size = parseInt(document.getElementById('qr-size').value);
+                    const color = document.getElementById('qr-color').value;
+                    const backgroundColor = document.getElementById('qr-bg-color').value;
+                    const errorLevel = document.getElementById('qr-error-level').value;
+
+                    const canvas = document.createElement('canvas');
+                    
+                    qrInstance = new QRious({
+                        element: canvas,
+                        value: qrData,
+                        size: size,
+                        foreground: color,
+                        background: backgroundColor,
+                        level: errorLevel
+                    });
+
+                    const qrDisplay = document.getElementById('qr-display');
+                    qrDisplay.style.opacity = '0.5';
+                    qrDisplay.innerHTML = '';
+                    qrDisplay.appendChild(canvas);
+                    
+                    setTimeout(() => {
+                        qrDisplay.style.opacity = '1';
+                        qrDisplay.style.transition = 'opacity 0.3s ease';
+                    }, 50);
+
+                    currentQRData = {
+                        data: qrData,
+                        type: currentQRType,
+                        size: size,
+                        color: color,
+                        backgroundColor: backgroundColor,
+                        errorLevel: errorLevel,
+                        timestamp: new Date().toISOString(),
+                        canvas: canvas,
+                        id: Date.now()
+                    };
+
+                    document.getElementById('download-section').classList.remove('hidden');
+                    document.getElementById('qr-info').classList.remove('hidden');
+                    
+                    updateQRInfo(qrData, currentQRType);
+
+                    if (!silent) {
+                        addToHistory(currentQRData);
+                        updateStats();
+                        
+                        generateText.innerHTML = '<i class="fas fa-check mr-2"></i>Generated!';
+                        setTimeout(() => {
+                            generateText.innerHTML = '<i class="fas fa-magic mr-2"></i>Generate QR Code';
+                            generateBtn.disabled = false;
+                        }, 2000);
+                        
+                        // Show success modal
+                        showSuccessModal();
+                    }
+
+                } catch (error) {
+                    console.error('QR Generation Error:', error);
+                    if (!silent) {
+                        showNotification('Terjadi kesalahan saat membuat QR code', 'error');
+                        generateText.innerHTML = '<i class="fas fa-magic mr-2"></i>Generate QR Code';
+                        generateBtn.disabled = false;
+                    }
+                }
+            });
+        }
+
+        // Validate QR data
+        function validateQRData(data, type) {
+            if (!data || data.length === 0) return false;
+            
+            try {
+                switch(type) {
+                    case 'url':
+                        return /^https?:\/\/.+\..+/.test(data);
+                    case 'email':
+                        return /^mailto:.+@.+\..+/.test(data);
+                    case 'phone':
+                        return /^tel:\+?[\d\s\-\(\)]+$/.test(data);
+                    case 'sms':
+                        return /^sms:\+?[\d\s\-\(\)]+/.test(data);
+                    case 'wifi':
+                        return /^WIFI:T:.+;S:.+;P:.*;;$/.test(data);
+                    case 'text':
+                        return data.length > 0 && data.length <= 2000; // Increased limit
+                    default:
+                        return data.length > 0 && data.length <= 2000;
+                }
+            } catch (error) {
+                console.error('Validation error:', error);
+                return false;
+            }
+        }
+
+        // Get QR Data
+        function getQRData() {
+            try {
+                switch(currentQRType) {
+                    case 'text':
+                        const textContent = document.getElementById('text-content').value.trim();
+                        return textContent.length > 0 ? textContent : null;
+                    
+                    case 'url':
+                        let url = document.getElementById('url-content').value.trim();
+                        if (!url) return null;
+                        
+                        if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                            if (url.startsWith('www.') || url.includes('.')) {
+                                url = 'https://' + url;
+                            } else {
+                                return null;
+                            }
+                        }
+                        return url;
+                    
+                    case 'email':
+                        const email = document.getElementById('email-address').value.trim();
+                        if (!email) return null;
+                        
+                        const subject = document.getElementById('email-subject').value.trim();
+                        const body = document.getElementById('email-body').value.trim();
+                        
+                        let emailData = `mailto:${email}`;
+                        const params = [];
+                        if (subject) params.push(`subject=${encodeURIComponent(subject)}`);
+                        if (body) params.push(`body=${encodeURIComponent(body)}`);
+                        if (params.length > 0) {
+                            emailData += '?' + params.join('&');
+                        }
+                        return emailData;
+                    
+                    case 'phone':
+                        const phoneNumber = document.getElementById('phone-number').value.trim();
+                        if (!phoneNumber) return null;
+                        let cleanPhone = phoneNumber.replace(/[^\d\+\-\(\)\s]/g, '');
+                        
+                        // Convert Indonesian format to international
+                        if (cleanPhone.startsWith('08')) {
+                            cleanPhone = '+62' + cleanPhone.substring(1);
+                        } else if (cleanPhone.startsWith('62') && !cleanPhone.startsWith('+62')) {
+                            cleanPhone = '+' + cleanPhone;
+                        } else if (!cleanPhone.startsWith('+')) {
+                            cleanPhone = '+' + cleanPhone;
+                        }
+                        
+                        return `tel:${cleanPhone}`;
+                    
+                    case 'sms':
+                        const smsNumber = document.getElementById('sms-number').value.trim();
+                        if (!smsNumber) return null;
+                        
+                        const smsMessage = document.getElementById('sms-message').value.trim();
+                        let cleanSmsNumber = smsNumber.replace(/[^\d\+\-\(\)\s]/g, '');
+                        
+                        // Convert Indonesian format to international
+                        if (cleanSmsNumber.startsWith('08')) {
+                            cleanSmsNumber = '+62' + cleanSmsNumber.substring(1);
+                        } else if (cleanSmsNumber.startsWith('62') && !cleanSmsNumber.startsWith('+62')) {
+                            cleanSmsNumber = '+' + cleanSmsNumber;
+                        } else if (!cleanSmsNumber.startsWith('+')) {
+                            cleanSmsNumber = '+' + cleanSmsNumber;
+                        }
+                        
+                        let smsData = `sms:${cleanSmsNumber}`;
+                        if (smsMessage) {
+                            smsData += `?body=${encodeURIComponent(smsMessage)}`;
+                        }
+                        return smsData;
+                    
+                    case 'wifi':
+                        const ssid = document.getElementById('wifi-ssid').value.trim();
+                        if (!ssid) return null;
+                        
+                        const password = document.getElementById('wifi-password').value.trim();
+                        const security = document.getElementById('wifi-security').value;
+                        
+                        const escapedSSID = ssid.replace(/[";,\\]/g, '\\$&');
+                        const escapedPassword = password.replace(/[";,\\]/g, '\\$&');
+                        
+                        // Handle different security types
+                        let securityType = security;
+                        if (security === 'nopass' || !password) {
+                            securityType = 'nopass';
+                            return `WIFI:T:${securityType};S:${escapedSSID};P:;;`;
+                        }
+                        
+                        return `WIFI:T:${securityType};S:${escapedSSID};P:${escapedPassword};;`;
+                    
+                    default:
+                        return null;
+                }
+            } catch (error) {
+                console.error('Error getting QR data:', error);
+                return null;
+            }
+        }
+
+        // Update QR Info
+        function updateQRInfo(data, type) {
+            const details = document.getElementById('qr-details');
+            const typeNames = {
+                'text': 'Teks',
+                'url': 'URL Website',
+                'email': 'Email',
+                'phone': 'Nomor Telepon',
+                'sms': 'SMS',
+                'wifi': 'WiFi'
+            };
+
+            const size = document.getElementById('qr-size').value;
+            const dataLength = data.length;
+            const errorLevel = document.getElementById('qr-error-level').value;
+            
+            let complexityLevel = 'Rendah';
+            if (dataLength > 100) complexityLevel = 'Tinggi';
+            else if (dataLength > 50) complexityLevel = 'Sedang';
+
+            let dataPreview = data;
+            if (type === 'wifi') {
+                const match = data.match(/S:([^;]+);P:([^;]*)/);
+                if (match) {
+                    dataPreview = `WiFi: ${match[1]} ${match[2] ? '(dengan password)' : '(tanpa password)'}`;
+                }
+            } else if (type === 'email') {
+                dataPreview = data.replace('mailto:', 'Email ke: ').split('?')[0];
+            } else if (type === 'phone') {
+                dataPreview = data.replace('tel:', 'Telepon: ');
+            } else if (type === 'sms') {
+                dataPreview = data.replace('sms:', 'SMS ke: ').split('?')[0];
+            }
+
+            details.innerHTML = `
+                <div class="grid grid-cols-2 gap-3 text-xs">
+                    <div class="flex items-center">
+                        <i class="fas fa-tag mr-2 text-pink-400"></i>
+                        <span><strong>Jenis:</strong> ${typeNames[type]}</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-expand-arrows-alt mr-2 text-green-400"></i>
+                        <span><strong>Ukuran:</strong> ${size}×${size}px</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-chart-bar mr-2 text-yellow-400"></i>
+                        <span><strong>Kompleksitas:</strong> ${complexityLevel}</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-font mr-2 text-purple-400"></i>
+                        <span><strong>Karakter:</strong> ${dataLength}</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-shield-alt mr-2 text-red-400"></i>
+                        <span><strong>Error Correction:</strong> ${errorLevel}</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-mobile-alt mr-2 text-indigo-400"></i>
+                        <span><strong>Scan Distance:</strong> ${Math.round(parseInt(size) / 10)}cm</span>
+                    </div>
+                </div>
+                <div class="mt-3 pt-3 border-t border-white/20">
+                    <div class="flex items-start">
+                        <i class="fas fa-eye mr-2 text-cyan-400 mt-1"></i>
+                        <div>
+                            <strong>Preview:</strong><br>
+                            <span class="text-xs opacity-80 break-all">${dataPreview.length > 80 ? dataPreview.substring(0, 80) + '...' : dataPreview}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3 pt-3 border-t border-white/20 text-xs opacity-60 flex items-center">
+                    <i class="fas fa-clock mr-2"></i>
+                    Dibuat: ${new Date().toLocaleString('id-ID')}
+                </div>
+            `;
+        }
+
+        // Download Functions
+        function downloadQR(format) {
+            if (!currentQRData || !currentQRData.canvas) {
+                showNotification('Tidak ada QR code untuk didownload!', 'error');
+                return;
+            }
+
+            const canvas = currentQRData.canvas;
+            const timestamp = new Date().toISOString().slice(0, 19).replace(/:/g, '-');
+            const typePrefix = currentQRType.toUpperCase();
+            
+            try {
+                if (format === 'png') {
+                    downloadPNG(512); // Default PNG size
+                    
+                } else if (format === 'svg') {
+                    const svgSize = currentQRData.size;
+                    const tempCanvas = document.createElement('canvas');
+                    const qr = new QRious({
+                        element: tempCanvas,
+                        value: currentQRData.data,
+                        size: svgSize,
+                        foreground: currentQRData.color,
+                        background: currentQRData.backgroundColor,
+                        level: currentQRData.errorLevel
+                    });
+                    
+                    const imageData = tempCanvas.toDataURL('image/png');
+                    
+                    const svgContent = `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+     width="${svgSize}" height="${svgSize}" viewBox="0 0 ${svgSize} ${svgSize}">
+    <title>QR Code - ${currentQRType.toUpperCase()}</title>
+    <desc>Generated on ${new Date().toISOString()}</desc>
+    <image x="0" y="0" width="${svgSize}" height="${svgSize}" xlink:href="${imageData}"/>
+</svg>`;
+                    
+                    const blob = new Blob([svgContent], { type: 'image/svg+xml;charset=utf-8' });
+                    const link = document.createElement('a');
+                    link.download = `QR_${typePrefix}_${timestamp}.svg`;
+                    link.href = URL.createObjectURL(blob);
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(link.href);
+                    
+                    showNotification(`QR Code SVG berhasil didownload!`, 'success');
+                    
+                } else if (format === 'pdf') {
+                    generatePDF();
+                }
+                
+            } catch (error) {
+                console.error('Download error:', error);
+                showNotification(`Gagal download ${format.toUpperCase()}. Silakan coba lagi.`, 'error');
+            }
+        }
+
+        // PNG Download Functions
+        function downloadPNG(size) {
+            if (!currentQRData) {
+                showNotification('Tidak ada QR code untuk didownload!', 'error');
+                return;
+            }
+
+            const timestamp = new Date().toISOString().slice(0, 19).replace(/:/g, '-');
+            const typePrefix = currentQRType.toUpperCase();
+            
+            try {
+                const downloadCanvas = document.createElement('canvas');
+                downloadCanvas.width = size;
+                downloadCanvas.height = size;
+                
+                const downloadQR = new QRious({
+                    element: downloadCanvas,
+                    value: currentQRData.data,
+                    size: size,
+                    foreground: currentQRData.color,
+                    background: currentQRData.backgroundColor,
+                    level: 'H'
+                });
+                
+                downloadCanvas.toBlob(function(blob) {
+                    if (blob) {
+                        const url = URL.createObjectURL(blob);
+                        const link = document.createElement('a');
+                        link.download = `QR_${typePrefix}_${size}px_${timestamp}.png`;
+                        link.href = url;
+                        link.style.display = 'none';
+                        
+                        document.body.appendChild(link);
+                        link.click();
+                        
+                        setTimeout(() => {
+                            document.body.removeChild(link);
+                            URL.revokeObjectURL(url);
+                        }, 100);
+                        
+                        showNotification(`PNG ${size}px berhasil didownload!`, 'success');
+                    }
+                }, 'image/png', 1.0);
+                
+            } catch (error) {
+                console.error('PNG download error:', error);
+                showNotification(`Gagal download PNG ${size}px`, 'error');
+            }
+        }
+
+        function downloadCustomPNG() {
+            const customSize = parseInt(document.getElementById('custom-png-size').value);
+            
+            if (!customSize || customSize < 100 || customSize > 4096) {
+                showNotification('Ukuran harus antara 100-4096 pixel!', 'error');
+                return;
+            }
+            
+            downloadPNG(customSize);
+        }
+
+        function downloadPNGQuality(quality) {
+            if (!currentQRData) {
+                showNotification('Tidak ada QR code untuk didownload!', 'error');
+                return;
+            }
+
+            let size, errorLevel, compressionQuality;
+            
+            switch(quality) {
+                case 'standard':
+                    size = 512;
+                    errorLevel = 'M';
+                    compressionQuality = 0.8;
+                    break;
+                case 'high':
+                    size = 1024;
+                    errorLevel = 'Q';
+                    compressionQuality = 0.9;
+                    break;
+                case 'ultra':
+                    size = 2048;
+                    errorLevel = 'H';
+                    compressionQuality = 1.0;
+                    break;
+                default:
+                    size = 512;
+                    errorLevel = 'M';
+                    compressionQuality = 0.8;
+            }
+
+            const timestamp = new Date().toISOString().slice(0, 19).replace(/:/g, '-');
+            const typePrefix = currentQRType.toUpperCase();
+            
+            try {
+                const downloadCanvas = document.createElement('canvas');
+                downloadCanvas.width = size;
+                downloadCanvas.height = size;
+                
+                const downloadQR = new QRious({
+                    element: downloadCanvas,
+                    value: currentQRData.data,
+                    size: size,
+                    foreground: currentQRData.color,
+                    background: currentQRData.backgroundColor,
+                    level: errorLevel
+                });
+                
+                downloadCanvas.toBlob(function(blob) {
+                    if (blob) {
+                        const url = URL.createObjectURL(blob);
+                        const link = document.createElement('a');
+                        link.download = `QR_${typePrefix}_${quality}_${size}px_${timestamp}.png`;
+                        link.href = url;
+                        link.style.display = 'none';
+                        
+                        document.body.appendChild(link);
+                        link.click();
+                        
+                        setTimeout(() => {
+                            document.body.removeChild(link);
+                            URL.revokeObjectURL(url);
+                        }, 100);
+                        
+                        showNotification(`PNG ${quality} quality (${size}px) berhasil didownload!`, 'success');
+                    }
+                }, 'image/png', compressionQuality);
+                
+            } catch (error) {
+                console.error('PNG quality download error:', error);
+                showNotification(`Gagal download PNG ${quality} quality`, 'error');
+            }
+        }
+
+        function downloadAll() {
+            if (!currentQRData) {
+                showNotification('Tidak ada QR code untuk didownload!', 'error');
+                return;
+            }
+
+            showNotification('Memulai download semua format dan ukuran...', 'info');
+            
+            // Download different PNG sizes
+            setTimeout(() => downloadPNG(256), 500);
+            setTimeout(() => downloadPNG(512), 800);
+            setTimeout(() => downloadPNG(1024), 1100);
+            setTimeout(() => downloadPNG(2048), 1400);
+            
+            // Download other formats
+            setTimeout(() => downloadQR('svg'), 1700);
+            setTimeout(() => downloadQR('pdf'), 2000);
+        }
+
+        function generatePDF() {
+            try {
+                const canvas = currentQRData.canvas;
+                const imgData = canvas.toDataURL('image/png');
+                
+                const printWindow = window.open('', '_blank');
+                const printContent = `
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <title>QR Code - ${currentQRType.toUpperCase()}</title>
+                        <style>
+                            body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 40px; text-align: center; }
+                            .header { border-bottom: 3px solid #a64d6b; padding-bottom: 20px; margin-bottom: 30px; }
+                            .qr-container { margin: 30px 0; }
+                            .qr-info { margin-top: 40px; text-align: left; max-width: 600px; margin-left: auto; margin-right: auto; }
+                            .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 25px 0; }
+                            .info-item { padding: 10px; background: #f8f9fa; border-radius: 8px; }
+                            .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; font-size: 12px; color: #666; }
+                            @media print { body { margin: 20px; } }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="header">
+                            <h1 style="color: #a64d6b; margin: 0;">Syam Digital</h1>
+                            <p style="margin: 10px 0 0 0; color: #666;">Professional QR Code Solution</p>
+                        </div>
+                        <div class="qr-container">
+                            <img src="${imgData}" alt="QR Code" style="max-width: 400px; border: 2px solid #ddd; border-radius: 12px;">
+                        </div>
+                        <div class="qr-info">
+                            <h3 style="color: #333; border-bottom: 2px solid #a64d6b; padding-bottom: 10px;">Informasi QR Code</h3>
+                            <div class="info-grid">
+                                <div class="info-item"><strong>Jenis:</strong> ${getTypeName(currentQRData.type)}</div>
+                                <div class="info-item"><strong>Ukuran:</strong> ${currentQRData.size}×${currentQRData.size}px</div>
+                                <div class="info-item"><strong>Warna:</strong> ${currentQRData.color}</div>
+                                <div class="info-item"><strong>Background:</strong> ${currentQRData.backgroundColor}</div>
+                                <div class="info-item"><strong>Error Correction:</strong> ${currentQRData.errorLevel}</div>
+                                <div class="info-item"><strong>Karakter:</strong> ${currentQRData.data.length}</div>
+                            </div>
+                            <div style="margin-top: 25px; padding: 15px; background: #f8f9fa; border-radius: 8px;">
+                                <strong>Data QR Code:</strong><br>
+                                <code style="background: #e9ecef; padding: 10px; display: block; margin-top: 10px; word-break: break-all; border-radius: 4px; font-size: 14px;">
+                                    ${currentQRData.data}
+                                </code>
+                            </div>
+                        </div>
+                        <div class="footer">
+                            <p>Dibuat pada: ${new Date(currentQRData.timestamp).toLocaleString('id-ID')}</p>
+                            <p>Generated by Syam Digital - Professional QR Code Solution</p>
+                        </div>
+                    </body>
+                    </html>
+                `;
+                
+                printWindow.document.write(printContent);
+                printWindow.document.close();
+                
+                printWindow.onload = function() {
+                    printWindow.print();
+                };
+                
+                showNotification('PDF siap untuk dicetak!', 'success');
+                
+            } catch (error) {
+                console.error('PDF generation error:', error);
+                showNotification('Gagal membuat PDF', 'error');
+            }
+        }
+
+        // History Functions
+        function addToHistory(qrData) {
+            qrHistory.unshift({
+                ...qrData,
+                id: Date.now()
+            });
+            
+            if (qrHistory.length > 50) { // Increased limit
+                qrHistory = qrHistory.slice(0, 50);
+            }
+            
+            totalGenerated++;
+            
+            // Save immediately
+            dataManager.saveAllData();
+            loadHistory();
+        }
+
+        function loadHistory() {
+            const historyContainer = document.getElementById('qr-history');
+            
+            if (qrHistory.length === 0) {
+                historyContainer.innerHTML = `
+                    <div class="text-white/60 text-center py-12 col-span-full">
+                        <i class="fas fa-history text-6xl mb-4 opacity-30"></i>
+                        <h3 class="text-xl font-semibold mb-2">Belum ada QR code yang dibuat</h3>
+                        <p class="text-sm">Mulai buat QR code pertama Anda!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const fragment = document.createDocumentFragment();
+            
+            qrHistory.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = 'bg-white/10 rounded-xl p-4 border border-white/20 card-hover history-item';
+                div.innerHTML = `
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-gradient-to-r from-pink-500 to-red-500 rounded-full flex items-center justify-center text-white text-sm font-bold mr-3">
+                                ${getTypeIcon(item.type)}
+                            </div>
+                            <div>
+                                <div class="text-white font-medium">${getTypeName(item.type)}</div>
+                                <div class="text-white/50 text-xs">${new Date(item.timestamp).toLocaleString('id-ID')}</div>
+                            </div>
+                        </div>
+                        <button onclick="deleteHistoryItem('${item.id}')" class="text-white/40 hover:text-red-400 transition-colors">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </div>
+                    <div class="text-white/70 text-sm mb-3 break-all">${item.data.length > 50 ? item.data.substring(0, 50) + '...' : item.data}</div>
+                    <div class="flex space-x-2">
+                        <button onclick="regenerateFromHistory('${item.id}')" class="flex-1 bg-white/20 hover:bg-white/30 text-white py-2 px-3 rounded-lg text-sm transition-all flex items-center justify-center">
+                            <i class="fas fa-redo mr-1"></i>Buat Ulang
+                        </button>
+                        <button onclick="previewHistory('${item.id}')" class="bg-pink-500 hover:bg-pink-600 text-white py-2 px-3 rounded-lg text-sm transition-all">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                `;
+                fragment.appendChild(div);
+            });
+            
+            historyContainer.innerHTML = '';
+            historyContainer.appendChild(fragment);
+        }
+
+        function searchHistory() {
+            const searchTerm = document.getElementById('history-search').value.toLowerCase();
+            const historyItems = document.querySelectorAll('.history-item');
+            
+            historyItems.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        function deleteHistoryItem(id) {
+            if (confirm('Yakin ingin menghapus item ini dari riwayat?')) {
+                qrHistory = qrHistory.filter(item => item.id != id);
+                dataManager.saveAllData();
+                loadHistory();
+                showNotification('Item berhasil dihapus dari riwayat', 'success');
+            }
+        }
+
+        function previewHistory(id) {
+            const item = qrHistory.find(h => h.id == id);
+            if (item) {
+                // Create temporary canvas for preview
+                const canvas = document.createElement('canvas');
+                const qr = new QRious({
+                    element: canvas,
+                    value: item.data,
+                    size: 300,
+                    foreground: item.color,
+                    background: item.backgroundColor,
+                    level: item.errorLevel
+                });
+                
+                const fullscreenQR = document.getElementById('fullscreen-qr');
+                fullscreenQR.innerHTML = '';
+                fullscreenQR.appendChild(canvas);
+                document.getElementById('fullscreen-modal').classList.remove('hidden');
+            }
+        }
+
+        function regenerateFromHistory(id) {
+            const item = qrHistory.find(h => h.id == id);
+            if (!item) {
+                showNotification('Item riwayat tidak ditemukan!', 'error');
+                return;
+            }
+
+            try {
+                setQRType(item.type);
+                document.getElementById('qr-size').value = item.size || 300;
+                document.getElementById('qr-color').value = item.color || '#000000';
+                document.getElementById('qr-bg-color').value = item.backgroundColor || '#FFFFFF';
+                document.getElementById('qr-error-level').value = item.errorLevel || 'M';
+
+                // Fill input fields based on type
+                switch(item.type) {
+                    case 'text':
+                        document.getElementById('text-content').value = item.data;
+                        break;
+                    case 'url':
+                        let urlValue = item.data;
+                        if (urlValue.startsWith('https://')) {
+                            urlValue = urlValue.replace('https://', '');
+                        } else if (urlValue.startsWith('http://')) {
+                            urlValue = urlValue.replace('http://', '');
+                        }
+                        document.getElementById('url-content').value = urlValue;
+                        break;
+                    case 'email':
+                        const emailMatch = item.data.match(/mailto:([^?]+)(\?(.+))?/);
+                        if (emailMatch) {
+                            document.getElementById('email-address').value = emailMatch[1];
+                            if (emailMatch[3]) {
+                                const params = new URLSearchParams(emailMatch[3]);
+                                document.getElementById('email-subject').value = params.get('subject') || '';
+                                document.getElementById('email-body').value = params.get('body') || '';
+                            }
+                        }
+                        break;
+                    case 'phone':
+                        document.getElementById('phone-number').value = item.data.replace('tel:', '');
+                        break;
+                    case 'sms':
+                        const smsMatch = item.data.match(/sms:([^?]+)(\?body=(.+))?/);
+                        if (smsMatch) {
+                            document.getElementById('sms-number').value = smsMatch[1];
+                            document.getElementById('sms-message').value = smsMatch[3] ? decodeURIComponent(smsMatch[3]) : '';
+                        }
+                        break;
+                    case 'wifi':
+                        const wifiMatch = item.data.match(/WIFI:T:([^;]+);S:([^;]+);P:([^;]*);/);
+                        if (wifiMatch) {
+                            document.getElementById('wifi-security').value = wifiMatch[1];
+                            document.getElementById('wifi-ssid').value = wifiMatch[2].replace(/\\(.)/g, '$1');
+                            document.getElementById('wifi-password').value = wifiMatch[3].replace(/\\(.)/g, '$1');
+                        }
+                        break;
+                }
+
+                generateQR();
+                showNotification('QR Code berhasil dibuat ulang dari riwayat!', 'success');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+            } catch (error) {
+                console.error('Error regenerating from history:', error);
+                showNotification('Gagal membuat ulang QR code dari riwayat', 'error');
+            }
+        }
+
+        function clearHistory() {
+            if (confirm('Yakin ingin menghapus semua riwayat QR code?')) {
+                qrHistory = [];
+                dataManager.saveAllData();
+                loadHistory();
+                showNotification('Semua riwayat berhasil dihapus', 'success');
+            }
+        }
+
+        function exportHistory() {
+            if (qrHistory.length === 0) {
+                showNotification('Tidak ada riwayat untuk diekspor', 'error');
+                return;
+            }
+
+            const exportData = {
+                exportDate: new Date().toISOString(),
+                totalItems: qrHistory.length,
+                history: qrHistory.map(item => ({
+                    type: item.type,
+                    data: item.data,
+                    timestamp: item.timestamp,
+                    settings: {
+                        size: item.size,
+                        color: item.color,
+                        backgroundColor: item.backgroundColor,
+                        errorLevel: item.errorLevel
+                    }
+                }))
+            };
+
+            const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+            const link = document.createElement('a');
+            link.download = `qr-history-${new Date().toISOString().slice(0, 10)}.json`;
+            link.href = URL.createObjectURL(blob);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(link.href);
+
+            showNotification('Riwayat berhasil diekspor!', 'success');
+        }
+
+        // Utility Functions
+        function getTypeIcon(type) {
+            const icons = {
+                'text': '📄',
+                'url': '🌐',
+                'email': '📧',
+                'phone': '📞',
+                'sms': '💬',
+                'wifi': '📶'
+            };
+            return icons[type] || '📄';
+        }
+
+        function getTypeName(type) {
+            const names = {
+                'text': 'Teks',
+                'url': 'URL Website',
+                'email': 'Email',
+                'phone': 'Nomor Telepon',
+                'sms': 'SMS',
+                'wifi': 'WiFi'
+            };
+            return names[type] || 'Teks';
+        }
+
+        function updateStats() {
+            document.getElementById('total-generated').textContent = totalGenerated;
+        }
+
+        function showNotification(message, type = 'info') {
+            const existing = document.querySelector('.notification');
+            if (existing) existing.remove();
+
+            const notification = document.createElement('div');
+            notification.className = `notification fixed top-4 right-4 z-50 px-6 py-4 rounded-lg text-white font-medium transform translate-x-full transition-transform duration-300 ${
+                type === 'success' ? 'bg-green-500' : 
+                type === 'error' ? 'bg-red-500' : 
+                'bg-pink-500'
+            }`;
+            
+            const icon = type === 'success' ? 'fas fa-check-circle' : 
+                        type === 'error' ? 'fas fa-exclamation-circle' : 
+                        'fas fa-info-circle';
+            
+            notification.innerHTML = `
+                <div class="flex items-center">
+                    <i class="${icon} mr-2"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => notification.remove(), 300);
+            }, 4000);
+        }
+
+        // Advanced Features
+        function toggleAdvancedSettings() {
+            const settings = document.getElementById('advanced-settings');
+            const arrow = document.getElementById('advanced-arrow');
+            
+            if (settings.classList.contains('hidden')) {
+                settings.classList.remove('hidden');
+                arrow.style.transform = 'rotate(180deg)';
+            } else {
+                settings.classList.add('hidden');
+                arrow.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        function resetColors() {
+            document.getElementById('qr-color').value = '#000000';
+            document.getElementById('qr-bg-color').value = '#FFFFFF';
+            showNotification('Warna direset ke default', 'info');
+        }
+
+        function clearAllInputs() {
+            if (confirm('Yakin ingin menghapus semua input?')) {
+                document.querySelectorAll('input, textarea').forEach(input => {
+                    if (input.type !== 'color' && input.id !== 'qr-size' && input.id !== 'qr-error-level') {
+                        input.value = '';
+                    }
+                });
+                document.getElementById('qr-display').innerHTML = `
+                    <div class="text-gray-400 text-center">
+                        <div class="text-6xl mb-4 pulse-animation">
+                            <i class="fas fa-qrcode"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">QR Code akan muncul di sini</h3>
+                        <p class="text-sm">Pilih jenis dan masukkan data untuk memulai</p>
+                    </div>
+                `;
+                document.getElementById('download-section').classList.add('hidden');
+                document.getElementById('qr-info').classList.add('hidden');
+                showNotification('Semua input berhasil dihapus', 'success');
+            }
+        }
+
+        function togglePasswordVisibility(inputId) {
+            const input = document.getElementById(inputId);
+            const icon = input.nextElementSibling.querySelector('i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'fas fa-eye-slash';
+            } else {
+                input.type = 'password';
+                icon.className = 'fas fa-eye';
+            }
+        }
+
+        function toggleWifiPassword() {
+            const security = document.getElementById('wifi-security').value;
+            const passwordContainer = document.getElementById('wifi-password').parentElement;
+            const passwordInput = document.getElementById('wifi-password');
+            
+            if (security === 'nopass') {
+                passwordContainer.style.opacity = '0.5';
+                passwordInput.disabled = true;
+                passwordInput.value = '';
+                passwordInput.placeholder = 'Tidak diperlukan untuk WiFi terbuka';
+            } else {
+                passwordContainer.style.opacity = '1';
+                passwordInput.disabled = false;
+                passwordInput.placeholder = 'Password WiFi';
+            }
+        }
+
+        function fullscreenQR() {
+            if (!currentQRData) {
+                showNotification('Tidak ada QR code untuk ditampilkan', 'error');
+                return;
+            }
+
+            const canvas = document.createElement('canvas');
+            const qr = new QRious({
+                element: canvas,
+                value: currentQRData.data,
+                size: 400,
+                foreground: currentQRData.color,
+                background: currentQRData.backgroundColor,
+                level: currentQRData.errorLevel
+            });
+
+            const fullscreenQR = document.getElementById('fullscreen-qr');
+            fullscreenQR.innerHTML = '';
+            fullscreenQR.appendChild(canvas);
+            document.getElementById('fullscreen-modal').classList.remove('hidden');
+        }
+
+        function closeFullscreen() {
+            document.getElementById('fullscreen-modal').classList.add('hidden');
+        }
+
+        function shareQR() {
+            if (!currentQRData) {
+                showNotification('Tidak ada QR code untuk dibagikan', 'error');
+                return;
+            }
+
+            if (navigator.share) {
+                const canvas = currentQRData.canvas;
+                canvas.toBlob(async (blob) => {
+                    try {
+                        const file = new File([blob], `qr-code-${currentQRType}.png`, { type: 'image/png' });
+                        await navigator.share({
+                            title: `QR Code - ${getTypeName(currentQRType)}`,
+                            text: `QR Code yang dibuat dengan Syam Digital`,
+                            files: [file]
+                        });
+                        showNotification('QR Code berhasil dibagikan!', 'success');
+                    } catch (error) {
+                        fallbackShare();
+                    }
+                });
+            } else {
+                fallbackShare();
+            }
+        }
+
+        function fallbackShare() {
+            const canvas = currentQRData.canvas;
+            const dataURL = canvas.toDataURL('image/png');
+            
+            // Copy to clipboard if supported
+            if (navigator.clipboard && navigator.clipboard.write) {
+                canvas.toBlob(async (blob) => {
+                    try {
+                        await navigator.clipboard.write([
+                            new ClipboardItem({ 'image/png': blob })
+                        ]);
+                        showNotification('QR Code disalin ke clipboard!', 'success');
+                    } catch (error) {
+                        showShareModal(dataURL);
+                    }
+                });
+            } else {
+                showShareModal(dataURL);
+            }
+        }
+
+        function showShareModal(dataURL) {
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4';
+            modal.innerHTML = `
+                <div class="bg-white rounded-2xl p-6 max-w-md w-full">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-bold text-gray-800">
+                            <i class="fas fa-share-alt mr-2 text-pink-500"></i>Bagikan QR Code
+                        </h3>
+                        <button onclick="this.closest('.fixed').remove()" class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-times text-xl"></i>
+                        </button>
+                    </div>
+                    <div class="text-center mb-6">
+                        <img src="${dataURL}" alt="QR Code" class="mx-auto mb-4 border-2 border-gray-200 rounded-lg" style="max-width: 200px;">
+                        <p class="text-gray-600 text-sm">Klik kanan pada gambar untuk menyimpan atau salin link di bawah:</p>
+                    </div>
+                    <div class="space-y-3">
+                        <button onclick="copyToClipboard('${dataURL}')" class="w-full bg-pink-500 hover:bg-pink-600 text-white py-3 px-4 rounded-lg transition-all flex items-center justify-center">
+                            <i class="fas fa-copy mr-2"></i>Salin Data URL
+                        </button>
+                        <button onclick="downloadFromDataURL('${dataURL}')" class="w-full bg-green-500 hover:bg-green-600 text-white py-3 px-4 rounded-lg transition-all flex items-center justify-center">
+                            <i class="fas fa-download mr-2"></i>Download PNG
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        function copyToClipboard(text) {
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showNotification('Data URL disalin ke clipboard!', 'success');
+                }).catch(() => {
+                    fallbackCopyToClipboard(text);
+                });
+            } else {
+                fallbackCopyToClipboard(text);
+            }
+        }
+
+        function fallbackCopyToClipboard(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            textArea.style.top = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                showNotification('Data URL disalin ke clipboard!', 'success');
+            } catch (err) {
+                showNotification('Gagal menyalin ke clipboard', 'error');
+            }
+            
+            document.body.removeChild(textArea);
+        }
+
+        function downloadFromDataURL(dataURL) {
+            const link = document.createElement('a');
+            link.download = `qr-code-${currentQRType}-${Date.now()}.png`;
+            link.href = dataURL;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showNotification('QR Code berhasil didownload!', 'success');
+        }
+
+        // Theme Functions
+        function toggleTheme() {
+            isDarkMode = !isDarkMode;
+            const themeIcon = document.getElementById('theme-icon');
+            
+            if (isDarkMode) {
+                document.body.classList.add('dark-mode');
+                themeIcon.className = 'fas fa-moon text-lg';
+                showNotification('Mode gelap diaktifkan', 'info');
+            } else {
+                document.body.classList.remove('dark-mode');
+                themeIcon.className = 'fas fa-sun text-lg';
+                showNotification('Mode terang diaktifkan', 'info');
+            }
+            
+            dataManager.saveAllData();
+        }
+
+        // Modal Functions
+        function showAdminProfile() {
+            document.getElementById('admin-modal').classList.remove('hidden');
+        }
+
+        function closeAdminProfile() {
+            document.getElementById('admin-modal').classList.add('hidden');
+        }
+
+        function showHelp() {
+            document.getElementById('help-modal').classList.remove('hidden');
+        }
+
+        function closeHelp() {
+            document.getElementById('help-modal').classList.add('hidden');
+        }
+
+        function showImportModal() {
+            document.getElementById('import-modal').classList.remove('hidden');
+        }
+
+        function closeImportModal() {
+            document.getElementById('import-modal').classList.add('hidden');
+        }
+
+        function showStorageInfo() {
+            const storageInfo = dataManager.getStorageInfo();
+            const content = document.getElementById('storage-info-content');
+            
+            content.innerHTML = `
+                <div class="space-y-4">
+                    <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg p-4">
+                        <h4 class="font-semibold text-gray-800 mb-3">Penggunaan Storage</h4>
+                        <div class="space-y-3">
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span>Data Tersimpan</span>
+                                    <span>${(storageInfo.used / 1024).toFixed(2)} KB</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-purple-500 h-2 rounded-full" style="width: ${storageInfo.percentage}%"></div>
+                                </div>
+                                <div class="text-xs text-gray-500 mt-1">${storageInfo.percentage}% dari kapasitas</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-blue-50 rounded-lg p-3 text-center">
+                            <div class="text-2xl font-bold text-blue-600">${storageInfo.itemCount}</div>
+                            <div class="text-blue-600 text-sm">QR Codes</div>
+                        </div>
+                        <div class="bg-green-50 rounded-lg p-3 text-center">
+                            <div class="text-2xl font-bold text-green-600">${totalGenerated}</div>
+                            <div class="text-green-600 text-sm">Total Generated</div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-yellow-50 rounded-lg p-4">
+                        <h5 class="font-medium text-yellow-800 mb-2">Tips Pengelolaan Storage:</h5>
+                        <ul class="text-sm text-yellow-700 space-y-1">
+                            <li>• Backup data secara berkala</li>
+                            <li>• Hapus riwayat lama yang tidak diperlukan</li>
+                            <li>• Gunakan export untuk menyimpan data penting</li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('storage-modal').classList.remove('hidden');
+        }
+
+        function closeStorageModal() {
+            document.getElementById('storage-modal').classList.add('hidden');
+        }
+
+        function handleImportFile(input) {
+            const file = input.files[0];
+            if (file && file.type === 'application/json') {
+                dataManager.importData(file);
+                closeImportModal();
+            } else {
+                showNotification('Pilih file JSON yang valid!', 'error');
+            }
+        }
+
+        // Success Modal Functions
+        function showSuccessModal() {
+            if (!currentQRData) return;
+            
+            // Populate modal with QR preview
+            const modalPreview = document.getElementById('modal-qr-preview');
+            const previewCanvas = document.createElement('canvas');
+            const previewQR = new QRious({
+                element: previewCanvas,
+                value: currentQRData.data,
+                size: 200,
+                foreground: currentQRData.color,
+                background: currentQRData.backgroundColor,
+                level: currentQRData.errorLevel
+            });
+            modalPreview.innerHTML = '';
+            modalPreview.appendChild(previewCanvas);
+            
+            // Populate QR info
+            const modalInfo = document.getElementById('modal-qr-info');
+            modalInfo.innerHTML = `
+                <div class="grid grid-cols-2 gap-3 text-sm">
+                    <div><strong>Jenis:</strong> ${getTypeName(currentQRData.type)}</div>
+                    <div><strong>Ukuran:</strong> ${currentQRData.size}px</div>
+                    <div><strong>Karakter:</strong> ${currentQRData.data.length}</div>
+                    <div><strong>Error Level:</strong> ${currentQRData.errorLevel}</div>
+                </div>
+                <div class="mt-3 pt-3 border-t border-pink-200">
+                    <strong class="text-sm">Data:</strong>
+                    <div class="text-xs mt-1 p-2 bg-white rounded border break-all">
+                        ${currentQRData.data.length > 100 ? currentQRData.data.substring(0, 100) + '...' : currentQRData.data}
+                    </div>
+                </div>
+            `;
+            
+            // Show modal with animation
+            const modal = document.getElementById('qr-success-modal');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.querySelector('.transform').classList.remove('scale-95');
+                modal.querySelector('.transform').classList.add('scale-100');
+            }, 50);
+        }
+
+        function closeSuccessModal() {
+            const modal = document.getElementById('qr-success-modal');
+            modal.querySelector('.transform').classList.add('scale-95');
+            modal.querySelector('.transform').classList.remove('scale-100');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        function downloadFromModal(format) {
+            downloadQR(format);
+        }
+
+        function shareFromModal() {
+            shareQR();
+        }
+
+        function fullscreenFromModal() {
+            fullscreenQR();
+            closeSuccessModal();
+        }
+
+        function createAnotherQR() {
+            closeSuccessModal();
+            clearAllInputs();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Enhanced Mobile Support
+        function handleTouchStart(e) {
+            this.classList.add('touch-active');
+        }
+
+        function handleTouchEnd(e) {
+            this.classList.remove('touch-active');
+        }
+
+        function setupTouchSupport() {
+            const buttons = document.querySelectorAll('button, .qr-type-btn');
+            buttons.forEach(button => {
+                button.addEventListener('touchstart', handleTouchStart, { passive: true });
+                button.addEventListener('touchend', handleTouchEnd, { passive: true });
+                button.addEventListener('touchcancel', handleTouchEnd, { passive: true });
+            });
+        }
+
+        function handleResize() {
+            // Adjust layout based on screen size
+            const isMobile = window.innerWidth < 768;
+            const isTablet = window.innerWidth >= 768 && window.innerWidth < 1024;
+            
+            // Update QR display size for mobile
+            if (isMobile) {
+                const qrDisplay = document.getElementById('qr-display');
+                if (qrDisplay && qrDisplay.querySelector('canvas')) {
+                    const canvas = qrDisplay.querySelector('canvas');
+                    const maxSize = Math.min(window.innerWidth - 80, 280);
+                    canvas.style.maxWidth = maxSize + 'px';
+                    canvas.style.height = 'auto';
+                }
+            }
+            
+            // Adjust modal sizes
+            const modals = document.querySelectorAll('.fixed.inset-0 > div');
+            modals.forEach(modal => {
+                if (isMobile) {
+                    modal.style.margin = '0.5rem';
+                    modal.style.maxHeight = '90vh';
+                    modal.style.overflowY = 'auto';
+                }
+            });
+        }
+
+        // Service Worker Registration (for PWA support)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js').then(function(registration) {
+                    console.log('ServiceWorker registration successful');
+                }, function(err) {
+                    console.log('ServiceWorker registration failed');
+                });
+            });
+        }
+
+        // Performance Optimization
+        function optimizePerformance() {
+            // Lazy load history items
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('loaded');
+                    }
+                });
+            });
+
+            document.querySelectorAll('.history-item').forEach(item => {
+                observer.observe(item);
+            });
+        }
+
+        // Error Handling
+        window.addEventListener('error', function(e) {
+            console.error('Global error:', e.error);
+            if (e.error && e.error.message && !e.error.message.includes('Script error')) {
+                showNotification('Terjadi kesalahan. Silakan coba lagi.', 'error');
+            }
+        });
+
+        window.addEventListener('unhandledrejection', function(e) {
+            console.error('Unhandled promise rejection:', e.reason);
+            e.preventDefault(); // Prevent default browser error handling
+            showNotification('Terjadi kesalahan sistem. Silakan coba lagi.', 'error');
+        });
+
+        // Auto-save functionality
+        setInterval(() => {
+            if (currentQRData) {
+                dataManager.autoSave();
+            }
+        }, 30000);
+
+        // Initialize app when DOM is ready
+        function safeInitialize() {
+            try {
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', function() {
+                        setTimeout(initializeApp, 100);
+                    });
+                } else {
+                    setTimeout(initializeApp, 100);
+                }
+            } catch (error) {
+                console.error('Initialization error:', error);
+                setTimeout(safeInitialize, 1000);
+            }
+        }
+
+        safeInitialize();
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97f7d26a458ecbe1',t:'MTc1NzkzNjE0MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

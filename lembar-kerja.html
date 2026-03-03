@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel Worksheet - Fitur Lengkap</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .excel-container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .toolbar {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            padding: 15px 20px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .toolbar button {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 12px;
+        }
+
+        .toolbar button:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        .formula-bar {
+            background: #f8f9fa;
+            padding: 10px 20px;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .cell-reference {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 5px 10px;
+            border-radius: 4px;
+            min-width: 80px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .formula-input {
+            flex: 1;
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+
+        .spreadsheet-container {
+            overflow: auto;
+            max-height: 600px;
+            background: white;
+        }
+
+        .spreadsheet {
+            display: grid;
+            grid-template-columns: 60px repeat(10, 120px);
+            border-collapse: collapse;
+        }
+
+        .row-header, .col-header, .cell {
+            border: 1px solid #e1e5e9;
+            padding: 8px;
+            text-align: center;
+            position: relative;
+        }
+
+        .row-header, .col-header {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            font-weight: bold;
+            color: #495057;
+            user-select: none;
+        }
+
+        .col-header {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            cursor: pointer;
+        }
+
+        .row-header {
+            background: linear-gradient(135deg, #28a745, #1e7e34);
+            color: white;
+            cursor: pointer;
+        }
+
+        .cell {
+            background: white;
+            cursor: cell;
+            transition: all 0.2s ease;
+            min-height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cell:hover {
+            background: #f8f9ff;
+            box-shadow: inset 0 0 0 2px #007bff;
+        }
+
+        .cell.selected {
+            background: #e3f2fd;
+            box-shadow: inset 0 0 0 2px #2196f3;
+        }
+
+        .cell input {
+            border: none;
+            background: transparent;
+            width: 100%;
+            text-align: center;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .status-bar {
+            background: #f8f9fa;
+            padding: 10px 20px;
+            border-top: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: #6c757d;
+        }
+
+        .chart-container {
+            margin: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .chart {
+            width: 100%;
+            height: 300px;
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: end;
+            justify-content: space-around;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .bar {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            width: 40px;
+            border-radius: 4px 4px 0 0;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .bar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .functions-panel {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            width: 250px;
+            display: none;
+        }
+
+        .function-btn {
+            display: block;
+            width: 100%;
+            margin: 5px 0;
+            padding: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .function-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        @media (max-width: 768px) {
+            .toolbar {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .spreadsheet {
+                grid-template-columns: 50px repeat(5, 100px);
+            }
+            
+            .functions-panel {
+                position: relative;
+                right: auto;
+                top: auto;
+                transform: none;
+                width: 100%;
+                margin: 20px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="excel-container">
+        <!-- Toolbar -->
+        <div class="toolbar">
+            <button onclick="newFile()">📄 Baru</button>
+            <button onclick="saveFile()">💾 Simpan</button>
+            <button onclick="openFile()">📁 Buka</button>
+            <button onclick="toggleBold()">🅱️ Bold</button>
+            <button onclick="toggleItalic()">🔤 Italic</button>
+            <button onclick="insertChart()">📊 Grafik</button>
+            <button onclick="toggleFunctions()">🧮 Fungsi</button>
+            <button onclick="formatCurrency()">💰 Mata Uang</button>
+            <button onclick="formatPercent()">📈 Persen</button>
+            <button onclick="autoSum()">∑ Jumlah</button>
+        </div>
+
+        <!-- Formula Bar -->
+        <div class="formula-bar">
+            <div class="cell-reference" id="cellRef">A1</div>
+            <input type="text" class="formula-input" id="formulaInput" placeholder="Masukkan rumus atau nilai...">
+        </div>
+
+        <!-- Spreadsheet -->
+        <div class="spreadsheet-container">
+            <div class="spreadsheet" id="spreadsheet">
+                <!-- Headers akan dibuat dengan JavaScript -->
+            </div>
+        </div>
+
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <div>Siap</div>
+            <div>Sel: <span id="selectedCell">A1</span></div>
+            <div>Jumlah: <span id="sumDisplay">0</span></div>
+        </div>
+
+        <!-- Chart Container -->
+        <div class="chart-container" id="chartContainer">
+            <h3>📊 Grafik Data</h3>
+            <div class="chart" id="chart">
+                <div class="bar" style="height: 60px;" title="Data 1: 60"></div>
+                <div class="bar" style="height: 80px;" title="Data 2: 80"></div>
+                <div class="bar" style="height: 45px;" title="Data 3: 45"></div>
+                <div class="bar" style="height: 90px;" title="Data 4: 90"></div>
+                <div class="bar" style="height: 70px;" title="Data 5: 70"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Functions Panel -->
+    <div class="functions-panel" id="functionsPanel">
+        <h3>🧮 Fungsi Excel Lengkap</h3>
+        <div style="max-height: 400px; overflow-y: auto;">
+            <button class="function-btn" onclick="insertFunction('SUM')">SUM - Penjumlahan</button>
+            <button class="function-btn" onclick="insertFunction('AVERAGE')">AVERAGE - Rata-rata</button>
+            <button class="function-btn" onclick="insertFunction('MAX')">MAX - Nilai Maksimum</button>
+            <button class="function-btn" onclick="insertFunction('MIN')">MIN - Nilai Minimum</button>
+            <button class="function-btn" onclick="insertFunction('COUNT')">COUNT - Hitung Angka</button>
+            <button class="function-btn" onclick="insertFunction('COUNTA')">COUNTA - Hitung Tidak Kosong</button>
+            <button class="function-btn" onclick="insertFunction('IF')">IF - Kondisi</button>
+            <button class="function-btn" onclick="insertFunction('VLOOKUP')">VLOOKUP - Pencarian Vertikal</button>
+            <button class="function-btn" onclick="insertFunction('HLOOKUP')">HLOOKUP - Pencarian Horizontal</button>
+            <button class="function-btn" onclick="insertFunction('CONCATENATE')">CONCATENATE - Gabung Teks</button>
+            <button class="function-btn" onclick="insertFunction('LEN')">LEN - Panjang Teks</button>
+            <button class="function-btn" onclick="insertFunction('UPPER')">UPPER - Huruf Besar</button>
+            <button class="function-btn" onclick="insertFunction('LOWER')">LOWER - Huruf Kecil</button>
+            <button class="function-btn" onclick="insertFunction('ROUND')">ROUND - Pembulatan</button>
+            <button class="function-btn" onclick="insertFunction('ABS')">ABS - Nilai Absolut</button>
+            <button class="function-btn" onclick="insertFunction('SQRT')">SQRT - Akar Kuadrat</button>
+            <button class="function-btn" onclick="insertFunction('POWER')">POWER - Pangkat</button>
+            <button class="function-btn" onclick="insertFunction('MOD')">MOD - Sisa Bagi</button>
+            <button class="function-btn" onclick="insertFunction('TODAY')">TODAY - Tanggal Hari Ini</button>
+            <button class="function-btn" onclick="insertFunction('NOW')">NOW - Tanggal & Waktu</button>
+            <button class="function-btn" onclick="insertFunction('RAND')">RAND - Angka Acak</button>
+            <button class="function-btn" onclick="insertFunction('RANDBETWEEN')">RANDBETWEEN - Acak Range</button>
+        </div>
+    </div>
+
+    <script>
+        let currentCell = null;
+        let selectedCells = [];
+        let data = {};
+        let isFormulaMode = false;
+
+        // Inisialisasi spreadsheet
+        function initSpreadsheet() {
+            const spreadsheet = document.getElementById('spreadsheet');
+            
+            // Header kosong di pojok kiri atas
+            const cornerCell = document.createElement('div');
+            cornerCell.className = 'col-header';
+            spreadsheet.appendChild(cornerCell);
+
+            // Column headers (A, B, C, ...)
+            for (let i = 0; i < 10; i++) {
+                const colHeader = document.createElement('div');
+                colHeader.className = 'col-header';
+                colHeader.textContent = String.fromCharCode(65 + i);
+                colHeader.onclick = () => selectColumn(i);
+                spreadsheet.appendChild(colHeader);
+            }
+
+            // Rows
+            for (let row = 1; row <= 20; row++) {
+                // Row header
+                const rowHeader = document.createElement('div');
+                rowHeader.className = 'row-header';
+                rowHeader.textContent = row;
+                rowHeader.onclick = () => selectRow(row);
+                spreadsheet.appendChild(rowHeader);
+
+                // Cells
+                for (let col = 0; col < 10; col++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'cell';
+                    cell.dataset.row = row;
+                    cell.dataset.col = col;
+                    
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.onchange = (e) => updateCell(row, col, e.target.value);
+                    input.onfocus = () => selectCell(row, col);
+                    input.onkeydown = handleKeyDown;
+                    
+                    cell.appendChild(input);
+                    spreadsheet.appendChild(cell);
+                }
+            }
+        }
+
+        function selectCell(row, col) {
+            if (currentCell) {
+                currentCell.classList.remove('selected');
+            }
+            
+            const cellId = String.fromCharCode(65 + col) + row;
+            currentCell = document.querySelector(`[data-row="${row}"][data-col="${col}"]`);
+            currentCell.classList.add('selected');
+            
+            document.getElementById('cellRef').textContent = cellId;
+            document.getElementById('selectedCell').textContent = cellId;
+            document.getElementById('formulaInput').value = data[cellId] || '';
+        }
+
+        function updateCell(row, col, value) {
+            const cellId = String.fromCharCode(65 + col) + row;
+            data[cellId] = value;
+            
+            // Evaluasi formula jika dimulai dengan =
+            if (value.startsWith('=')) {
+                try {
+                    const result = evaluateFormula(value);
+                    currentCell.querySelector('input').value = result;
+                } catch (e) {
+                    currentCell.querySelector('input').value = '#ERROR';
+                }
+            }
+            
+            updateSum();
+        }
+
+        function evaluateFormula(formula) {
+            try {
+                // Implementasi formula Excel yang lengkap dan fungsional
+                formula = formula.substring(1).toUpperCase(); // Hapus tanda = dan ubah ke uppercase
+                
+                // SUM - Penjumlahan
+                if (formula.startsWith('SUM(')) {
+                    const content = formula.match(/SUM\(([^)]+)\)/)[1];
+                    return calculateSUM(content);
+                }
+                
+                // AVERAGE - Rata-rata
+                if (formula.startsWith('AVERAGE(')) {
+                    const content = formula.match(/AVERAGE\(([^)]+)\)/)[1];
+                    return calculateAVERAGE(content);
+                }
+                
+                // MAX - Nilai maksimum
+                if (formula.startsWith('MAX(')) {
+                    const content = formula.match(/MAX\(([^)]+)\)/)[1];
+                    return calculateMAX(content);
+                }
+                
+                // MIN - Nilai minimum
+                if (formula.startsWith('MIN(')) {
+                    const content = formula.match(/MIN\(([^)]+)\)/)[1];
+                    return calculateMIN(content);
+                }
+                
+                // COUNT - Menghitung sel berisi angka
+                if (formula.startsWith('COUNT(')) {
+                    const content = formula.match(/COUNT\(([^)]+)\)/)[1];
+                    return calculateCOUNT(content);
+                }
+                
+                // COUNTA - Menghitung sel tidak kosong
+                if (formula.startsWith('COUNTA(')) {
+                    const content = formula.match(/COUNTA\(([^)]+)\)/)[1];
+                    return calculateCOUNTA(content);
+                }
+                
+                // IF - Kondisi
+                if (formula.startsWith('IF(')) {
+                    const content = formula.match(/IF\(([^)]+)\)/)[1];
+                    return calculateIF(content);
+                }
+                
+                // VLOOKUP - Pencarian vertikal
+                if (formula.startsWith('VLOOKUP(')) {
+                    const content = formula.match(/VLOOKUP\(([^)]+)\)/)[1];
+                    return calculateVLOOKUP(content);
+                }
+                
+                // HLOOKUP - Pencarian horizontal
+                if (formula.startsWith('HLOOKUP(')) {
+                    const content = formula.match(/HLOOKUP\(([^)]+)\)/)[1];
+                    return calculateHLOOKUP(content);
+                }
+                
+                // CONCATENATE - Menggabungkan teks
+                if (formula.startsWith('CONCATENATE(')) {
+                    const content = formula.match(/CONCATENATE\(([^)]+)\)/)[1];
+                    return calculateCONCATENATE(content);
+                }
+                
+                // LEN - Panjang teks
+                if (formula.startsWith('LEN(')) {
+                    const content = formula.match(/LEN\(([^)]+)\)/)[1];
+                    return calculateLEN(content);
+                }
+                
+                // UPPER - Huruf besar
+                if (formula.startsWith('UPPER(')) {
+                    const content = formula.match(/UPPER\(([^)]+)\)/)[1];
+                    return calculateUPPER(content);
+                }
+                
+                // LOWER - Huruf kecil
+                if (formula.startsWith('LOWER(')) {
+                    const content = formula.match(/LOWER\(([^)]+)\)/)[1];
+                    return calculateLOWER(content);
+                }
+                
+                // ROUND - Pembulatan
+                if (formula.startsWith('ROUND(')) {
+                    const content = formula.match(/ROUND\(([^)]+)\)/)[1];
+                    return calculateROUND(content);
+                }
+                
+                // ABS - Nilai absolut
+                if (formula.startsWith('ABS(')) {
+                    const content = formula.match(/ABS\(([^)]+)\)/)[1];
+                    return calculateABS(content);
+                }
+                
+                // SQRT - Akar kuadrat
+                if (formula.startsWith('SQRT(')) {
+                    const content = formula.match(/SQRT\(([^)]+)\)/)[1];
+                    return calculateSQRT(content);
+                }
+                
+                // POWER - Pangkat
+                if (formula.startsWith('POWER(')) {
+                    const content = formula.match(/POWER\(([^)]+)\)/)[1];
+                    return calculatePOWER(content);
+                }
+                
+                // MOD - Sisa bagi
+                if (formula.startsWith('MOD(')) {
+                    const content = formula.match(/MOD\(([^)]+)\)/)[1];
+                    return calculateMOD(content);
+                }
+                
+                // TODAY - Tanggal hari ini
+                if (formula === 'TODAY()') {
+                    return new Date().toLocaleDateString('id-ID');
+                }
+                
+                // NOW - Tanggal dan waktu sekarang
+                if (formula === 'NOW()') {
+                    return new Date().toLocaleString('id-ID');
+                }
+                
+                // RAND - Angka acak
+                if (formula === 'RAND()') {
+                    return Math.random();
+                }
+                
+                // RANDBETWEEN - Angka acak dalam range
+                if (formula.startsWith('RANDBETWEEN(')) {
+                    const content = formula.match(/RANDBETWEEN\(([^)]+)\)/)[1];
+                    return calculateRANDBETWEEN(content);
+                }
+                
+                // Evaluasi ekspresi matematika dengan referensi sel
+                return eval(formula.replace(/[A-Z]\d+/g, (match) => {
+                    const value = data[match];
+                    return isNaN(parseFloat(value)) ? 0 : parseFloat(value);
+                }));
+                
+            } catch (error) {
+                return '#ERROR';
+            }
+        }
+
+        // Fungsi untuk mengurai range atau daftar sel
+        function parseCellReferences(content) {
+            const values = [];
+            
+            // Pisahkan berdasarkan koma untuk sel individual
+            const parts = content.split(',');
+            
+            parts.forEach(part => {
+                part = part.trim();
+                
+                // Cek apakah ini range (A1:A5)
+                if (part.includes(':')) {
+                    const [start, end] = part.split(':');
+                    const startCol = start.charCodeAt(0) - 65;
+                    const startRow = parseInt(start.substring(1));
+                    const endCol = end.charCodeAt(0) - 65;
+                    const endRow = parseInt(end.substring(1));
+                    
+                    for (let row = startRow; row <= endRow; row++) {
+                        for (let col = startCol; col <= endCol; col++) {
+                            const cellId = String.fromCharCode(65 + col) + row;
+                            const value = parseFloat(data[cellId]);
+                            if (!isNaN(value)) {
+                                values.push(value);
+                            }
+                        }
+                    }
+                } else {
+                    // Sel individual
+                    const value = parseFloat(data[part]);
+                    if (!isNaN(value)) {
+                        values.push(value);
+                    }
+                }
+            });
+            
+            return values;
+        }
+
+        function calculateSUM(content) {
+            const values = parseCellReferences(content);
+            return values.reduce((sum, val) => sum + val, 0);
+        }
+
+        function calculateAVERAGE(content) {
+            const values = parseCellReferences(content);
+            return values.length > 0 ? values.reduce((sum, val) => sum + val, 0) / values.length : 0;
+        }
+
+        function calculateMAX(content) {
+            const values = parseCellReferences(content);
+            return values.length > 0 ? Math.max(...values) : 0;
+        }
+
+        function calculateMIN(content) {
+            const values = parseCellReferences(content);
+            return values.length > 0 ? Math.min(...values) : 0;
+        }
+
+        function calculateCOUNT(content) {
+            const values = parseCellReferences(content);
+            return values.length;
+        }
+
+        function calculateCOUNTA(content) {
+            let count = 0;
+            const parts = content.split(',');
+            
+            parts.forEach(part => {
+                part = part.trim();
+                
+                if (part.includes(':')) {
+                    const [start, end] = part.split(':');
+                    const startCol = start.charCodeAt(0) - 65;
+                    const startRow = parseInt(start.substring(1));
+                    const endCol = end.charCodeAt(0) - 65;
+                    const endRow = parseInt(end.substring(1));
+                    
+                    for (let row = startRow; row <= endRow; row++) {
+                        for (let col = startCol; col <= endCol; col++) {
+                            const cellId = String.fromCharCode(65 + col) + row;
+                            if (data[cellId] && data[cellId].toString().trim() !== '') {
+                                count++;
+                            }
+                        }
+                    }
+                } else {
+                    if (data[part] && data[part].toString().trim() !== '') {
+                        count++;
+                    }
+                }
+            });
+            
+            return count;
+        }
+
+        function calculateIF(content) {
+            // Parsing untuk IF(kondisi, nilai_true, nilai_false)
+            const parts = parseIFArguments(content);
+            if (parts.length !== 3) return '#ERROR';
+            
+            const condition = parts[0].trim();
+            let trueValue = parts[1].trim().replace(/^"|"$/g, '');
+            let falseValue = parts[2].trim().replace(/^"|"$/g, '');
+            
+            // Cek apakah nilai adalah referensi sel
+            if (trueValue.match(/^[A-Z]\d+$/)) {
+                trueValue = data[trueValue] || '';
+            }
+            if (falseValue.match(/^[A-Z]\d+$/)) {
+                falseValue = data[falseValue] || '';
+            }
+            
+            try {
+                const conditionResult = eval(condition.replace(/[A-Z]\d+/g, (match) => {
+                    const value = data[match];
+                    return isNaN(parseFloat(value)) ? `"${value || ''}"` : parseFloat(value);
+                }));
+                
+                return conditionResult ? trueValue : falseValue;
+            } catch (e) {
+                return '#ERROR';
+            }
+        }
+
+        function parseIFArguments(content) {
+            const args = [];
+            let current = '';
+            let inQuotes = false;
+            let parenCount = 0;
+            
+            for (let i = 0; i < content.length; i++) {
+                const char = content[i];
+                
+                if (char === '"') {
+                    inQuotes = !inQuotes;
+                    current += char;
+                } else if (char === '(' && !inQuotes) {
+                    parenCount++;
+                    current += char;
+                } else if (char === ')' && !inQuotes) {
+                    parenCount--;
+                    current += char;
+                } else if (char === ',' && !inQuotes && parenCount === 0) {
+                    args.push(current);
+                    current = '';
+                } else {
+                    current += char;
+                }
+            }
+            
+            if (current) args.push(current);
+            return args;
+        }
+
+        function calculateVLOOKUP(content) {
+            const parts = content.split(',');
+            if (parts.length < 3) return '#ERROR';
+            
+            const lookupValue = parts[0].trim();
+            const tableArray = parts[1].trim();
+            const colIndex = parseInt(parts[2].trim());
+            const exactMatch = parts[3] ? parts[3].trim().toUpperCase() === 'FALSE' : true;
+            
+            // Parse table range
+            const [start, end] = tableArray.split(':');
+            const startCol = start.charCodeAt(0) - 65;
+            const startRow = parseInt(start.substring(1));
+            const endCol = end.charCodeAt(0) - 65;
+            const endRow = parseInt(end.substring(1));
+            
+            // Get lookup value
+            let searchValue = lookupValue;
+            if (lookupValue.match(/^[A-Z]\d+$/)) {
+                searchValue = data[lookupValue] || '';
+            }
+            
+            // Search in first column of table
+            for (let row = startRow; row <= endRow; row++) {
+                const firstColId = String.fromCharCode(65 + startCol) + row;
+                const cellValue = data[firstColId] || '';
+                
+                if (cellValue.toString() === searchValue.toString()) {
+                    const resultColId = String.fromCharCode(65 + startCol + colIndex - 1) + row;
+                    return data[resultColId] || '';
+                }
+            }
+            
+            return '#N/A';
+        }
+
+        function calculateHLOOKUP(content) {
+            const parts = content.split(',');
+            if (parts.length < 3) return '#ERROR';
+            
+            const lookupValue = parts[0].trim();
+            const tableArray = parts[1].trim();
+            const rowIndex = parseInt(parts[2].trim());
+            
+            // Parse table range
+            const [start, end] = tableArray.split(':');
+            const startCol = start.charCodeAt(0) - 65;
+            const startRow = parseInt(start.substring(1));
+            const endCol = end.charCodeAt(0) - 65;
+            const endRow = parseInt(end.substring(1));
+            
+            // Get lookup value
+            let searchValue = lookupValue;
+            if (lookupValue.match(/^[A-Z]\d+$/)) {
+                searchValue = data[lookupValue] || '';
+            }
+            
+            // Search in first row of table
+            for (let col = startCol; col <= endCol; col++) {
+                const firstRowId = String.fromCharCode(65 + col) + startRow;
+                const cellValue = data[firstRowId] || '';
+                
+                if (cellValue.toString() === searchValue.toString()) {
+                    const resultRowId = String.fromCharCode(65 + col) + (startRow + rowIndex - 1);
+                    return data[resultRowId] || '';
+                }
+            }
+            
+            return '#N/A';
+        }
+
+        function calculateCONCATENATE(content) {
+            const parts = content.split(',');
+            let result = '';
+            
+            parts.forEach(part => {
+                part = part.trim().replace(/^"|"$/g, '');
+                if (part.match(/^[A-Z]\d+$/)) {
+                    result += data[part] || '';
+                } else {
+                    result += part;
+                }
+            });
+            
+            return result;
+        }
+
+        function calculateLEN(content) {
+            const value = content.trim();
+            if (value.match(/^[A-Z]\d+$/)) {
+                return (data[value] || '').toString().length;
+            }
+            return value.replace(/^"|"$/g, '').length;
+        }
+
+        function calculateUPPER(content) {
+            const value = content.trim();
+            if (value.match(/^[A-Z]\d+$/)) {
+                return (data[value] || '').toString().toUpperCase();
+            }
+            return value.replace(/^"|"$/g, '').toUpperCase();
+        }
+
+        function calculateLOWER(content) {
+            const value = content.trim();
+            if (value.match(/^[A-Z]\d+$/)) {
+                return (data[value] || '').toString().toLowerCase();
+            }
+            return value.replace(/^"|"$/g, '').toLowerCase();
+        }
+
+        function calculateROUND(content) {
+            const parts = content.split(',');
+            const number = parseFloat(parts[0].trim());
+            const digits = parts[1] ? parseInt(parts[1].trim()) : 0;
+            
+            return Math.round(number * Math.pow(10, digits)) / Math.pow(10, digits);
+        }
+
+        function calculateABS(content) {
+            const value = content.trim();
+            let number;
+            
+            if (value.match(/^[A-Z]\d+$/)) {
+                number = parseFloat(data[value]) || 0;
+            } else {
+                number = parseFloat(value) || 0;
+            }
+            
+            return Math.abs(number);
+        }
+
+        function calculateSQRT(content) {
+            const value = content.trim();
+            let number;
+            
+            if (value.match(/^[A-Z]\d+$/)) {
+                number = parseFloat(data[value]) || 0;
+            } else {
+                number = parseFloat(value) || 0;
+            }
+            
+            return number >= 0 ? Math.sqrt(number) : '#NUM!';
+        }
+
+        function calculatePOWER(content) {
+            const parts = content.split(',');
+            const base = parseFloat(parts[0].trim()) || 0;
+            const exponent = parseFloat(parts[1].trim()) || 0;
+            
+            return Math.pow(base, exponent);
+        }
+
+        function calculateMOD(content) {
+            const parts = content.split(',');
+            const number = parseFloat(parts[0].trim()) || 0;
+            const divisor = parseFloat(parts[1].trim()) || 1;
+            
+            return number % divisor;
+        }
+
+        function calculateRANDBETWEEN(content) {
+            const parts = content.split(',');
+            const min = parseInt(parts[0].trim()) || 0;
+            const max = parseInt(parts[1].trim()) || 1;
+            
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function updateSum() {
+            let sum = 0;
+            Object.values(data).forEach(value => {
+                if (!isNaN(value) && value !== '') {
+                    sum += parseFloat(value);
+                }
+            });
+            document.getElementById('sumDisplay').textContent = sum.toFixed(2);
+        }
+
+        function handleKeyDown(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                const row = parseInt(currentCell.dataset.row);
+                const col = parseInt(currentCell.dataset.col);
+                if (row < 20) {
+                    selectCell(row + 1, col);
+                    currentCell.querySelector('input').focus();
+                }
+            }
+        }
+
+        // Toolbar functions
+        function newFile() {
+            if (confirm('Buat file baru? Data yang belum disimpan akan hilang.')) {
+                data = {};
+                document.querySelectorAll('.cell input').forEach(input => input.value = '');
+                updateSum();
+                alert('📄 File baru berhasil dibuat!');
+            }
+        }
+
+        function saveFile() {
+            const jsonData = JSON.stringify(data, null, 2);
+            const blob = new Blob([jsonData], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'spreadsheet_data.json';
+            a.click();
+            alert('💾 File berhasil disimpan!');
+        }
+
+        function openFile() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        try {
+                            data = JSON.parse(e.target.result);
+                            loadDataToSpreadsheet();
+                            alert('📁 File berhasil dibuka!');
+                        } catch (error) {
+                            alert('❌ Error membaca file!');
+                        }
+                    };
+                    reader.readAsText(file);
+                }
+            };
+            input.click();
+        }
+
+        function loadDataToSpreadsheet() {
+            Object.keys(data).forEach(cellId => {
+                const col = cellId.charCodeAt(0) - 65;
+                const row = parseInt(cellId.substring(1));
+                const cell = document.querySelector(`[data-row="${row}"][data-col="${col}"] input`);
+                if (cell) {
+                    cell.value = data[cellId];
+                }
+            });
+            updateSum();
+        }
+
+        function toggleBold() {
+            if (currentCell) {
+                const input = currentCell.querySelector('input');
+                input.style.fontWeight = input.style.fontWeight === 'bold' ? 'normal' : 'bold';
+                alert('🅱️ Format bold diterapkan!');
+            }
+        }
+
+        function toggleItalic() {
+            if (currentCell) {
+                const input = currentCell.querySelector('input');
+                input.style.fontStyle = input.style.fontStyle === 'italic' ? 'normal' : 'italic';
+                alert('🔤 Format italic diterapkan!');
+            }
+        }
+
+        function insertChart() {
+            const chartContainer = document.getElementById('chartContainer');
+            chartContainer.style.display = chartContainer.style.display === 'none' ? 'block' : 'none';
+            
+            if (chartContainer.style.display === 'block') {
+                updateChart();
+                alert('📊 Grafik berhasil dibuat!');
+            }
+        }
+
+        function updateChart() {
+            const chart = document.getElementById('chart');
+            chart.innerHTML = '';
+            
+            // Ambil 5 nilai pertama dari data untuk grafik
+            const values = Object.values(data).slice(0, 5).map(v => parseFloat(v) || Math.random() * 100);
+            
+            values.forEach((value, index) => {
+                const bar = document.createElement('div');
+                bar.className = 'bar';
+                bar.style.height = `${Math.max(value, 10)}px`;
+                bar.title = `Data ${index + 1}: ${value.toFixed(1)}`;
+                chart.appendChild(bar);
+            });
+        }
+
+        function toggleFunctions() {
+            const panel = document.getElementById('functionsPanel');
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function insertFunction(funcName) {
+            const formulaInput = document.getElementById('formulaInput');
+            let formula = '';
+            
+            switch(funcName) {
+                case 'SUM':
+                    formula = '=SUM(A1:A5)';
+                    break;
+                case 'AVERAGE':
+                    formula = '=AVERAGE(A1:A5)';
+                    break;
+                case 'MAX':
+                    formula = '=MAX(A1:A5)';
+                    break;
+                case 'MIN':
+                    formula = '=MIN(A1:A5)';
+                    break;
+                case 'COUNT':
+                    formula = '=COUNT(A1:A5)';
+                    break;
+                case 'COUNTA':
+                    formula = '=COUNTA(A1:A5)';
+                    break;
+                case 'IF':
+                    formula = '=IF(A1>25,"Tinggi","Rendah")';
+                    break;
+                case 'VLOOKUP':
+                    formula = '=VLOOKUP(A1,A1:B10,2,FALSE)';
+                    break;
+                case 'HLOOKUP':
+                    formula = '=HLOOKUP(A1,A1:E2,2,FALSE)';
+                    break;
+                case 'CONCATENATE':
+                    formula = '=CONCATENATE(A1," ",B1)';
+                    break;
+                case 'LEN':
+                    formula = '=LEN(A1)';
+                    break;
+                case 'UPPER':
+                    formula = '=UPPER(A1)';
+                    break;
+                case 'LOWER':
+                    formula = '=LOWER(A1)';
+                    break;
+                case 'ROUND':
+                    formula = '=ROUND(A1,2)';
+                    break;
+                case 'ABS':
+                    formula = '=ABS(A1)';
+                    break;
+                case 'SQRT':
+                    formula = '=SQRT(A1)';
+                    break;
+                case 'POWER':
+                    formula = '=POWER(A1,2)';
+                    break;
+                case 'MOD':
+                    formula = '=MOD(A1,2)';
+                    break;
+                case 'TODAY':
+                    formula = '=TODAY()';
+                    break;
+                case 'NOW':
+                    formula = '=NOW()';
+                    break;
+                case 'RAND':
+                    formula = '=RAND()';
+                    break;
+                case 'RANDBETWEEN':
+                    formula = '=RANDBETWEEN(1,100)';
+                    break;
+            }
+            
+            formulaInput.value = formula;
+            if (currentCell) {
+                currentCell.querySelector('input').focus();
+            }
+            alert(`🧮 Fungsi ${funcName} berhasil dimasukkan! Tekan Enter untuk menerapkan.`);
+        }
+
+        function formatCurrency() {
+            if (currentCell) {
+                const input = currentCell.querySelector('input');
+                const value = parseFloat(input.value) || 0;
+                input.value = 'Rp ' + value.toLocaleString('id-ID');
+                alert('💰 Format mata uang diterapkan!');
+            }
+        }
+
+        function formatPercent() {
+            if (currentCell) {
+                const input = currentCell.querySelector('input');
+                const value = parseFloat(input.value) || 0;
+                input.value = (value * 100).toFixed(2) + '%';
+                alert('📈 Format persen diterapkan!');
+            }
+        }
+
+        function autoSum() {
+            if (currentCell) {
+                const row = parseInt(currentCell.dataset.row);
+                const col = parseInt(currentCell.dataset.col);
+                
+                // Cari range untuk sum otomatis
+                let sum = 0;
+                for (let i = 1; i < row; i++) {
+                    const cellId = String.fromCharCode(65 + col) + i;
+                    const value = parseFloat(data[cellId]) || 0;
+                    sum += value;
+                }
+                
+                currentCell.querySelector('input').value = sum;
+                updateCell(row, col, sum.toString());
+                alert('∑ Penjumlahan otomatis berhasil!');
+            }
+        }
+
+        function selectColumn(col) {
+            document.querySelectorAll('.cell').forEach(cell => cell.classList.remove('selected'));
+            document.querySelectorAll(`[data-col="${col}"]`).forEach(cell => {
+                if (cell.classList.contains('cell')) {
+                    cell.classList.add('selected');
+                }
+            });
+            alert(`Kolom ${String.fromCharCode(65 + col)} dipilih!`);
+        }
+
+        function selectRow(row) {
+            document.querySelectorAll('.cell').forEach(cell => cell.classList.remove('selected'));
+            document.querySelectorAll(`[data-row="${row}"]`).forEach(cell => {
+                if (cell.classList.contains('cell')) {
+                    cell.classList.add('selected');
+                }
+            });
+            alert(`Baris ${row} dipilih!`);
+        }
+
+        // Inisialisasi saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', function() {
+            initSpreadsheet();
+            selectCell(1, 0); // Pilih A1 sebagai default
+            
+            // Tambahkan contoh data lengkap untuk testing semua formula
+            const sampleData = {
+                'A1': '10',
+                'A2': '20',
+                'A3': '30',
+                'A4': '40',
+                'A5': '50',
+                'B1': 'Apel',
+                'B2': 'Jeruk',
+                'B3': 'Mangga',
+                'B4': 'Pisang',
+                'B5': 'Anggur',
+                'C1': '100',
+                'C2': '200',
+                'C3': '150',
+                'C4': '75',
+                'C5': '300',
+                'D1': 'Buah',
+                'D2': 'Sayur',
+                'D3': 'Buah',
+                'D4': 'Buah',
+                'D5': 'Buah',
+                'E1': 'hello world',
+                'E2': 'EXCEL FORMULA',
+                'E3': 'Test Data',
+                'F1': '-25',
+                'F2': '16',
+                'F3': '9',
+                'G1': '3.14159',
+                'G2': '2.71828',
+                'G3': '1.41421'
+            };
+            
+            // Load sample data
+            Object.keys(sampleData).forEach(cellId => {
+                data[cellId] = sampleData[cellId];
+                const col = cellId.charCodeAt(0) - 65;
+                const row = parseInt(cellId.substring(1));
+                const cell = document.querySelector(`[data-row="${row}"][data-col="${col}"] input`);
+                if (cell) {
+                    cell.value = sampleData[cellId];
+                }
+            });
+            
+            updateSum();
+            
+            // Event listener untuk formula input
+            document.getElementById('formulaInput').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && currentCell) {
+                    const row = parseInt(currentCell.dataset.row);
+                    const col = parseInt(currentCell.dataset.col);
+                    updateCell(row, col, this.value);
+                    
+                    // Evaluasi dan tampilkan hasil
+                    if (this.value.startsWith('=')) {
+                        try {
+                            const result = evaluateFormula(this.value);
+                            currentCell.querySelector('input').value = result;
+                        } catch (e) {
+                            currentCell.querySelector('input').value = '#ERROR';
+                        }
+                    } else {
+                        currentCell.querySelector('input').value = this.value;
+                    }
+                }
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97711ed877e714b5',t:'MTc1NjUyMzY5My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

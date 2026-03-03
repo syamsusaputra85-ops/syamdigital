@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verifikasi Tanda Tangan Digital</title>
+    <style>
+        :root {
+            --primary: #00c853;
+            --bg: #f4f7f6;
+            --text: #333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .verification-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            max-width: 400px;
+            text-align: center;
+            border-top: 5px solid var(--primary);
+        }
+
+        .status-icon {
+            background: rgba(0, 200, 83, 0.1);
+            color: var(--primary);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            margin: 0 auto 1rem;
+        }
+
+        h2 {
+            margin: 0.5rem 0;
+            color: var(--text);
+            font-size: 1.5rem;
+        }
+
+        .description {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+        }
+
+        .details {
+            background: #f9f9f9;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: left;
+            font-size: 0.85rem;
+        }
+
+        .details div {
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .label { color: #888; }
+        .value { font-weight: 600; color: #333; }
+
+        .btn-verify {
+            display: inline-block;
+            margin-top: 1.5rem;
+            background: var(--primary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn-verify:hover {
+            background: #00a844;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+
+<div class="verification-card">
+    <div class="status-icon">✓</div>
+    <h2>Verifikasi Berhasil</h2>
+    <p class="description">Tanda tangan elektronik telah divalidasi dan menjamin integritas dokumen ini sesuai hukum.</p>
+    
+    <div class="details">
+        <div><span class="label">Penandatangan:</span> <span class="value">Budi Sudarsono</span></div>
+        <div><span class="label">Waktu:</span> <span class="value">17 Feb 2026, 10:45 WIB</span></div>
+        <div><span class="label">Penyelenggara (PSrE):</span> <span class="value">PrivyID / Peruri</span></div>
+        <div><span class="label">Integritas:</span> <span class="value" style="color: var(--primary);">Utuh (Tidak Diubah)</span></div>
+    </div>
+
+    <a href="#" class="btn-verify">Cek Detail Sertifikat</a>
+</div>
+
+</body>
+</html>
+---------------------------------------
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Signature Verification</title>
+    <style>
+        :root {
+            --primary: #00c853;
+            --secondary: #2196f3;
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: #f8fafc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        /* Container Kartu */
+        .verification-card {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            border: 1px solid rgba(255,255,255,0.1);
+            overflow: hidden; /* Penting untuk animasi scan */
+        }
+
+        /* Efek Animasi Pemindaian (Scanning) */
+        .scan-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to bottom, transparent, var(--primary), transparent);
+            box-shadow: 0 0 15px var(--primary);
+            z-index: 10;
+            animation: scan 3s ease-in-out infinite;
+            opacity: 0.7;
+        }
+
+        @keyframes scan {
+            0% { top: 0%; }
+            50% { top: 100%; }
+            100% { top: 0%; }
+        }
+
+        /* Ikon Berhasil */
+        .status-icon {
+            background: rgba(0, 200, 83, 0.15);
+            color: var(--primary);
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 35px;
+            margin: 0 auto 1.5rem;
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 20px rgba(0, 200, 83, 0.3);
+        }
+
+        h2 { margin: 0; font-size: 1.6rem; letter-spacing: 0.5px; }
+        
+        .description {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin: 1rem 0 2rem;
+            line-height: 1.6;
+        }
+
+        /* Tabel Detail */
+        .details {
+            background: rgba(15, 23, 42, 0.5);
+            padding: 1.2rem;
+            border-radius: 12px;
+            text-align: left;
+            font-size: 0.85rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .details div {
+            margin-bottom: 0.6rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .label { color: #64748b; }
+        .value { font-weight: 500; color: #f1f5f9; }
+
+        /* Tombol Unduh PDF */
+        .btn-download {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: var(--primary);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .btn-download:hover {
+            background: #00e676;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 200, 83, 0.3);
+        }
+
+        .btn-download svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-5px);}
+            60% {transform: translateY(-3px);}
+        }
+    </style>
+</head>
+<body>
+
+<div class="verification-card">
+    <!-- Garis Animasi Scan -->
+    <div class="scan-line"></div>
+
+    <div class="status-icon">✓</div>
+    <h2>Dokumen Terverifikasi</h2>
+    <p class="description">Tanda tangan digital valid dan diakreditasi oleh PSrE Nasional.</p>
+    
+    <div class="details">
+        <div><span class="label">ID Dokumen:</span> <span class="value">#DOC-2026-X99</span></div>
+        <div><span class="label">Penandatangan:</span> <span class="value">Ir. Ahmad Hidayat</span></div>
+        <div><span class="label">Status:</span> <span class="value" style="color: var(--primary);">ASLI & SAH</span></div>
+    </div>
+
+    <!-- Tombol Unduh dengan Ikon SVG -->
+    <a href="#" class="btn-download">
+        <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+        Unduh Sertifikat PDF
+    </a>
+</div>
+
+</body>
+</html>
+

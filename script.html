@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kotak Script untuk Postingan</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    .font-code {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .font-sans {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .code-box {
+      background: linear-gradient(135deg, #1e1e2e 0%, #2d2d44 100%);
+    }
+    .code-header {
+      background: linear-gradient(90deg, #3b3b5c 0%, #4a4a6a 100%);
+    }
+    .copy-btn {
+      transition: all 0.2s ease;
+    }
+    .copy-btn:hover {
+      transform: translateY(-1px);
+    }
+    .window-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+    .line-number {
+      user-select: none;
+    }
+    @keyframes copied {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    .copied-animation {
+      animation: copied 0.3s ease;
+    }
+    
+    /* Modal styling - NOTIFIKASI POP UP YANG PASTI MUNCUL */
+    #success-modal {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      display: none !important;
+      align-items: center !important;
+      justify-content: center !important;
+      z-index: 999999 !important;
+      background: rgba(0, 0, 0, 0.7) !important;
+      padding: 20px !important;
+    }
+    
+    #success-modal.show {
+      display: flex !important;
+    }
+    
+    .modal-content {
+      background: white !important;
+      border-radius: 20px !important;
+      padding: 50px 40px !important;
+      text-align: center !important;
+      width: 100% !important;
+      max-width: 450px !important;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4) !important;
+      animation: slideUp 0.4s ease !important;
+      font-family: 'Plus Jakarta Sans', sans-serif !important;
+    }
+    
+    @keyframes slideUp {
+      from {
+        transform: translateY(30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    
+    .modal-icon {
+      width: 70px !important;
+      height: 70px !important;
+      background: #d1fae5 !important;
+      border-radius: 50% !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      margin: 0 auto 20px !important;
+    }
+    
+    .modal-title {
+      font-size: 28px !important;
+      font-weight: 700 !important;
+      color: #1e293b !important;
+      margin: 0 0 12px 0 !important;
+    }
+    
+    .modal-text {
+      font-size: 16px !important;
+      color: #64748b !important;
+      margin: 0 0 30px 0 !important;
+      line-height: 1.5 !important;
+    }
+    
+    .modal-button {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+      color: white !important;
+      border: none !important;
+      padding: 14px 40px !important;
+      border-radius: 12px !important;
+      font-size: 16px !important;
+      font-weight: 600 !important;
+      cursor: pointer !important;
+      transition: all 0.3s ease !important;
+      font-family: 'Plus Jakarta Sans', sans-serif !important;
+    }
+    
+    .modal-button:hover {
+      transform: translateY(-3px) !important;
+      box-shadow: 0 15px 35px rgba(16, 185, 129, 0.4) !important;
+    }
+    
+    .modal-button:active {
+      transform: translateY(-1px) !important;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full font-sans">
+  <div id="app-container" class="h-full w-full p-6 md:p-10 overflow-auto" style="background: #f8fafc;"><!-- Header Section -->
+   <div class="max-w-4xl mx-auto mb-8">
+    <h1 id="main-title" class="text-2xl md:text-3xl font-bold mb-2" style="color: #1e293b;">📦 Kotak Script untuk Postingan</h1>
+    <p class="text-base" style="color: #64748b;">Tampilkan kode dengan gaya profesional di blog Anda</p>
+   </div><!-- Code Box Preview -->
+   <div class="max-w-4xl mx-auto mb-8">
+    <div class="code-box rounded-xl overflow-hidden shadow-2xl"><!-- Header dengan tombol window & judul -->
+     <div class="code-header px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3"><!-- Window dots -->
+       <div class="flex gap-2">
+        <div class="window-dot" style="background: #ff5f56;"></div>
+        <div class="window-dot" style="background: #ffbd2e;"></div>
+        <div class="window-dot" style="background: #27ca40;"></div>
+       </div><!-- Language badge --> <span id="language-badge" class="font-code text-xs px-3 py-1 rounded-full font-medium" style="background: #6366f1; color: #ffffff;">HTML</span>
+      </div><!-- Copy button --> <button id="copy-btn" class="copy-btn flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium" style="background: #4f46e5; color: #ffffff;">
+       <svg id="copy-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect> <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+       </svg><span id="copy-text">Salin Kode</span> </button>
+     </div><!-- Code content area -->
+     <div class="p-5 overflow-x-auto">
+      <pre id="code-display" class="font-code text-sm leading-relaxed" style="color: #e2e8f0;"><code><span class="line-number" style="color: #6b7280; margin-right: 16px;">1</span><span style="color: #f472b6;">&lt;div</span> <span style="color: #a5b4fc;">class</span>=<span style="color: #34d399;">"container"</span><span style="color: #f472b6;">&gt;</span>
+<span class="line-number" style="color: #6b7280; margin-right: 16px;">2</span>  <span style="color: #f472b6;">&lt;h1&gt;</span><span style="color: #e2e8f0;">Hello World!</span><span style="color: #f472b6;">&lt;/h1&gt;</span>
+<span class="line-number" style="color: #6b7280; margin-right: 16px;">3</span>  <span style="color: #f472b6;">&lt;p&gt;</span><span style="color: #e2e8f0;">Selamat datang di blog saya</span><span style="color: #f472b6;">&lt;/p&gt;</span>
+<span class="line-number" style="color: #6b7280; margin-right: 16px;">4</span><span style="color: #f472b6;">&lt;/div&gt;</span></code></pre>
+     </div>
+    </div>
+   </div><!-- Style Variations -->
+   <div class="max-w-4xl mx-auto mb-8">
+    <h2 class="text-lg font-semibold mb-4" style="color: #1e293b;">🎨 Pilih Gaya Tampilan</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3"><button onclick="changeTheme('dark')" class="theme-btn px-4 py-3 rounded-xl text-sm font-medium transition-all hover:scale-105" style="background: #1e1e2e; color: #e2e8f0; border: 2px solid #6366f1;"> 🌙 Gelap </button> <button onclick="changeTheme('light')" class="theme-btn px-4 py-3 rounded-xl text-sm font-medium transition-all hover:scale-105" style="background: #ffffff; color: #1e293b; border: 2px solid #e2e8f0;"> ☀️ Terang </button> <button onclick="changeTheme('ocean')" class="theme-btn px-4 py-3 rounded-xl text-sm font-medium transition-all hover:scale-105" style="background: #0d1b2a; color: #48cae4; border: 2px solid #48cae4;"> 🌊 Samudra </button> <button onclick="changeTheme('forest')" class="theme-btn px-4 py-3 rounded-xl text-sm font-medium transition-all hover:scale-105" style="background: #1b4332; color: #95d5b2; border: 2px solid #95d5b2;"> 🌲 Hutan </button>
+    </div>
+   </div><!-- Generated Code Section -->
+   <div class="max-w-4xl mx-auto">
+    <h2 class="text-lg font-semibold mb-4" style="color: #1e293b;">📋 Kode HTML untuk Blog Anda</h2>
+    <div class="rounded-xl overflow-hidden" style="background: #ffffff; border: 1px solid #e2e8f0;">
+     <div class="px-4 py-3 flex items-center justify-between" style="background: #f1f5f9; border-bottom: 1px solid #e2e8f0;"><span class="text-sm font-medium" style="color: #64748b;">Salin dan tempel ke postingan blog</span> <button id="copy-generated" class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-all hover:scale-105" style="background: #10b981; color: #ffffff;">
+       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect> <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+       </svg> Salin </button>
+     </div>
+     <div class="p-4 overflow-x-auto">
+      <pre id="generated-code" class="font-code text-xs leading-relaxed whitespace-pre-wrap" style="color: #334155;"></pre>
+     </div>
+    </div>
+   </div><!-- SUCCESS MODAL - NOTIFIKASI YANG PASTI MUNCUL -->
+   <div id="success-modal">
+    <div class="modal-content">
+     <div class="modal-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewbox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+     </div>
+     <h2 class="modal-title">✓ Berhasil!</h2>
+     <p class="modal-text">Kode telah disalin ke clipboard Anda</p><button id="close-modal" class="modal-button"> OK </button>
+    </div>
+   </div>
+  </div>
+  <script>
+    // Default configuration
+    const defaultConfig = {
+      box_title: 'HTML',
+      code_content: '<div class="container">\n  <h1>Hello World!</h1>\n  <p>Selamat datang di blog saya</p>\n</div>',
+      primary_color: '#6366f1',
+      background_color: '#f8fafc',
+      text_color: '#1e293b',
+      surface_color: '#ffffff',
+      accent_color: '#10b981'
+    };
+
+    let currentTheme = 'dark';
+    const themes = {
+      dark: {
+        bg: 'linear-gradient(135deg, #1e1e2e 0%, #2d2d44 100%)',
+        header: 'linear-gradient(90deg, #3b3b5c 0%, #4a4a6a 100%)',
+        text: '#e2e8f0',
+        tag: '#f472b6',
+        attr: '#a5b4fc',
+        string: '#34d399',
+        lineNum: '#6b7280'
+      },
+      light: {
+        bg: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
+        header: 'linear-gradient(90deg, #e2e8f0 0%, #f1f5f9 100%)',
+        text: '#334155',
+        tag: '#be185d',
+        attr: '#4f46e5',
+        string: '#059669',
+        lineNum: '#94a3b8'
+      },
+      ocean: {
+        bg: 'linear-gradient(135deg, #0d1b2a 0%, #1b263b 100%)',
+        header: 'linear-gradient(90deg, #1b3a4b 0%, #274060 100%)',
+        text: '#caf0f8',
+        tag: '#48cae4',
+        attr: '#90e0ef',
+        string: '#00b4d8',
+        lineNum: '#457b9d'
+      },
+      forest: {
+        bg: 'linear-gradient(135deg, #1b4332 0%, #2d6a4f 100%)',
+        header: 'linear-gradient(90deg, #40916c 0%, #52b788 100%)',
+        text: '#d8f3dc',
+        tag: '#95d5b2',
+        attr: '#b7e4c7',
+        string: '#74c69d',
+        lineNum: '#52b788'
+      }
+    };
+
+    // Initialize Element SDK
+    window.elementSdk.init({
+      defaultConfig,
+      onConfigChange: async (config) => {
+        const title = config.box_title || defaultConfig.box_title;
+        const code = config.code_content || defaultConfig.code_content;
+        
+        document.getElementById('language-badge').textContent = title;
+        updateCodeDisplay(code);
+        updateGeneratedCode();
+      },
+      mapToCapabilities: (config) => ({
+        recolorables: [
+          {
+            get: () => config.background_color || defaultConfig.background_color,
+            set: (value) => {
+              config.background_color = value;
+              window.elementSdk.setConfig({ background_color: value });
+            }
+          },
+          {
+            get: () => config.surface_color || defaultConfig.surface_color,
+            set: (value) => {
+              config.surface_color = value;
+              window.elementSdk.setConfig({ surface_color: value });
+            }
+          },
+          {
+            get: () => config.text_color || defaultConfig.text_color,
+            set: (value) => {
+              config.text_color = value;
+              window.elementSdk.setConfig({ text_color: value });
+            }
+          },
+          {
+            get: () => config.primary_color || defaultConfig.primary_color,
+            set: (value) => {
+              config.primary_color = value;
+              window.elementSdk.setConfig({ primary_color: value });
+            }
+          },
+          {
+            get: () => config.accent_color || defaultConfig.accent_color,
+            set: (value) => {
+              config.accent_color = value;
+              window.elementSdk.setConfig({ accent_color: value });
+            }
+          }
+        ],
+        borderables: [],
+        fontEditable: undefined,
+        fontSizeable: undefined
+      }),
+      mapToEditPanelValues: (config) => new Map([
+        ['box_title', config.box_title || defaultConfig.box_title],
+        ['code_content', config.code_content || defaultConfig.code_content]
+      ])
+    });
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function highlightCode(code, theme) {
+      const t = themes[theme];
+      const lines = code.split('\n');
+      let result = '';
+      
+      lines.forEach((line, index) => {
+        const lineNum = `<span class="line-number" style="color: ${t.lineNum}; margin-right: 16px;">${index + 1}</span>`;
+        
+        let highlighted = escapeHtml(line)
+          .replace(/(&lt;\/?[\w-]+)/g, `<span style="color: ${t.tag};">$1</span>`)
+          .replace(/([\w-]+)=/g, `<span style="color: ${t.attr};">$1</span>=`)
+          .replace(/"([^"]*)"/g, `<span style="color: ${t.string};">"$1"</span>`)
+          .replace(/'([^']*)'/g, `<span style="color: ${t.string};">'$1'</span>`);
+        
+        result += lineNum + highlighted;
+        if (index < lines.length - 1) result += '\n';
+      });
+      
+      return result;
+    }
+
+    function updateCodeDisplay(code) {
+      const t = themes[currentTheme];
+      const codeBox = document.querySelector('.code-box');
+      const codeHeader = document.querySelector('.code-header');
+      const codeDisplay = document.getElementById('code-display');
+      
+      codeBox.style.background = t.bg;
+      codeHeader.style.background = t.header;
+      
+      const highlighted = highlightCode(code || defaultConfig.code_content, currentTheme);
+      codeDisplay.innerHTML = `<code>${highlighted}</code>`;
+    }
+
+    function changeTheme(theme) {
+      currentTheme = theme;
+      const config = window.elementSdk.config;
+      const code = config.code_content || defaultConfig.code_content;
+      updateCodeDisplay(code);
+      updateGeneratedCode();
+    }
+
+    function updateGeneratedCode() {
+      const config = window.elementSdk.config;
+      const title = config.box_title || defaultConfig.box_title;
+      const code = config.code_content || defaultConfig.code_content;
+      const t = themes[currentTheme];
+      
+      const generatedHTML = `<!-- Kotak Script - ${title} -->
+<div style="background: ${t.bg}; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.2); font-family: 'JetBrains Mono', monospace; margin: 20px 0;">
+  <div style="background: ${t.header}; padding: 12px 16px; display: flex; align-items: center; gap: 12px;">
+    <div style="display: flex; gap: 8px;">
+      <span style="width: 12px; height: 12px; border-radius: 50%; background: #ff5f56;"></span>
+      <span style="width: 12px; height: 12px; border-radius: 50%; background: #ffbd2e;"></span>
+      <span style="width: 12px; height: 12px; border-radius: 50%; background: #27ca40;"></span>
+    </div>
+    <span style="background: #6366f1; color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 500;">${escapeHtml(title)}</span>
+  </div>
+  <pre style="margin: 0; padding: 20px; overflow-x: auto; color: ${t.text}; font-size: 14px; line-height: 1.6;"><code>${escapeHtml(code)}</code></pre>
+</div>`;
+
+      document.getElementById('generated-code').textContent = generatedHTML;
+    }
+
+    // Fungsi menampilkan modal sukses
+    function showSuccessModal() {
+      const modal = document.getElementById('success-modal');
+      modal.classList.add('show');
+      
+      // Auto close setelah 4 detik
+      setTimeout(() => {
+        modal.classList.remove('show');
+      }, 4000);
+    }
+
+    // Close modal button
+    document.getElementById('close-modal').addEventListener('click', function() {
+      document.getElementById('success-modal').classList.remove('show');
+    });
+
+    // Tutup modal saat klik di luar
+    document.getElementById('success-modal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        this.classList.remove('show');
+      }
+    });
+
+    // Copy preview code
+    document.getElementById('copy-btn').addEventListener('click', function() {
+      const config = window.elementSdk.config;
+      const code = config.code_content || defaultConfig.code_content;
+      
+      navigator.clipboard.writeText(code).then(() => {
+        const copyText = document.getElementById('copy-text');
+        const copyBtn = document.getElementById('copy-btn');
+        
+        copyText.textContent = 'Tersalin!';
+        copyBtn.classList.add('copied-animation');
+        copyBtn.style.background = '#10b981';
+        
+        setTimeout(() => {
+          copyText.textContent = 'Salin Kode';
+          copyBtn.classList.remove('copied-animation');
+          copyBtn.style.background = '#4f46e5';
+        }, 2000);
+        
+        showSuccessModal();
+      }).catch(err => {
+        console.error('Gagal menyalin:', err);
+        showSuccessModal();
+      });
+    });
+
+    // Copy generated code
+    document.getElementById('copy-generated').addEventListener('click', function() {
+      const generatedCode = document.getElementById('generated-code').textContent;
+      
+      navigator.clipboard.writeText(generatedCode).then(() => {
+        const btn = document.getElementById('copy-generated');
+        btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Tersalin!`;
+        
+        setTimeout(() => {
+          btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Salin`;
+        }, 2000);
+        
+        showSuccessModal();
+      }).catch(err => {
+        console.error('Gagal menyalin:', err);
+        showSuccessModal();
+      });
+    });
+
+    // Initial render
+    updateGeneratedCode();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c787acb814c7975',t:'MTc3MDAyMjYzMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

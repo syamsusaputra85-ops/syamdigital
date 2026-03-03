@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Penyaluran BLT Dana Desa Tahap II</title>
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1757855384/Logo_donggala-removebg-preview_imrpgu.png">
+    <link rel="shortcut icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1757855384/Logo_donggala-removebg-preview_imrpgu.png">
+    <style>
+        body {
+            box-sizing: border-box;
+            font-family: 'Times New Roman', serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100%;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 2px solid #2c5aa0;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+        }
+        
+        .letterhead {
+            width: 100%;
+            max-width: 700px;
+            height: auto;
+            margin: 0 auto;
+            display: block;
+        }
+        
+        .fallback-header .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 15px;
+            background: #2c5aa0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .fallback-header h1 {
+            color: #2c5aa0;
+            margin: 0;
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .fallback-header h2 {
+            color: #666;
+            margin: 5px 0 0 0;
+            font-size: 14px;
+            font-weight: normal;
+        }
+        
+        .letter-info {
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+        
+        .letter-info div {
+            margin-bottom: 3px;
+        }
+        
+        .recipients {
+            margin: 25px 0;
+        }
+        
+        .recipients h3 {
+            margin-bottom: 15px;
+            color: #2c5aa0;
+            font-size: 14px;
+        }
+        
+        .recipients ol {
+            margin: 0;
+            padding-left: 20px;
+        }
+        
+        .recipients li {
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        
+        .content {
+            text-align: justify;
+            margin: 25px 0;
+            font-size: 14px;
+        }
+        
+        .event-details {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #2c5aa0;
+            margin: 20px 0;
+        }
+        
+        .event-details h3 {
+            color: #2c5aa0;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        .detail-row {
+            display: flex;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .detail-label {
+            font-weight: bold;
+            width: 120px;
+            color: #333;
+        }
+        
+        .detail-value {
+            flex: 1;
+            color: #555;
+        }
+        
+        .signature {
+            margin-top: 40px;
+            text-align: right;
+        }
+        
+        .signature-content {
+            display: inline-block;
+            text-align: center;
+            min-width: 250px;
+        }
+        
+        .signature-place {
+            margin-bottom: 60px;
+            font-size: 14px;
+        }
+        
+        .signature-area {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .qr-code {
+            width: 60px;
+            height: 60px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .signature-name {
+            font-weight: bold;
+            text-decoration: underline;
+            font-size: 14px;
+            color: #2c5aa0;
+        }
+        
+        .action-buttons {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .print-btn, .whatsapp-btn {
+            background: #2c5aa0;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            box-shadow: 0 4px 15px rgba(44, 90, 160, 0.3);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .whatsapp-btn {
+            background: #25D366;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+        }
+        
+        .print-btn:hover {
+            background: #1e3d6f;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(44, 90, 160, 0.4);
+        }
+        
+        .whatsapp-btn:hover {
+            background: #1da851;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+        }
+        
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                border: 1px solid #000;
+                margin: 0;
+                max-width: none;
+            }
+            .action-buttons {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 15px;
+                margin: 0;
+                border-radius: 5px;
+            }
+            .action-buttons {
+                position: static;
+                flex-direction: row;
+                justify-content: center;
+                margin-bottom: 15px;
+                gap: 8px;
+            }
+            .print-btn, .whatsapp-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 10px 15px;
+                font-size: 12px;
+            }
+            .letterhead {
+                max-width: 100%;
+            }
+            .letter-info {
+                font-size: 12px;
+                margin-bottom: 20px;
+            }
+            .recipients {
+                margin: 20px 0;
+            }
+            .recipients h3 {
+                font-size: 13px;
+            }
+            .recipients li {
+                font-size: 12px;
+                margin-bottom: 3px;
+            }
+            .content {
+                font-size: 12px;
+                margin: 20px 0;
+            }
+            .event-details {
+                padding: 15px;
+                margin: 15px 0;
+            }
+            .event-details h3 {
+                font-size: 14px;
+                margin-bottom: 12px;
+            }
+            .detail-row {
+                font-size: 12px;
+                margin-bottom: 6px;
+                flex-direction: column;
+            }
+            .detail-label {
+                width: auto;
+                margin-bottom: 2px;
+            }
+            .detail-value {
+                padding-left: 10px;
+            }
+            .signature {
+                margin-top: 30px;
+            }
+            .signature-content {
+                min-width: auto;
+            }
+            .signature-place {
+                margin-bottom: 40px;
+                font-size: 12px;
+            }
+            .signature-area {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .qr-code {
+                width: 50px;
+                height: 50px;
+            }
+            .signature-name {
+                font-size: 12px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 12px;
+            }
+            .letter-info {
+                font-size: 11px;
+            }
+            .recipients li {
+                font-size: 11px;
+            }
+            .content {
+                font-size: 11px;
+            }
+            .event-details {
+                padding: 12px;
+            }
+            .detail-row {
+                font-size: 11px;
+            }
+            .signature-place {
+                font-size: 11px;
+            }
+            .signature-name {
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="action-buttons">
+        <button class="print-btn" onclick="window.print()">🖨️ Cetak Undangan</button>
+        <a href="#" class="whatsapp-btn" onclick="shareToWhatsApp()">📱 Bagikan ke WhatsApp</a>
+    </div>
+    
+    <script>
+        function shareToWhatsApp() {
+            const text = `*UNDANGAN PENYALURAN BLT DANA DESA TAHAP II*
+
+📋 *Nomor:* 006/Und-BLT/PEM-DWLP/X/2025
+📄 *Hal:* Undangan Penyaluran BLT-DD TAHAP II
+
+🏛️ *Kepada Yth:*
+1. Camat Tanantovea
+2. Bhabinkamtibmas Desa Wani Lumbumpetigo
+3. Babinsa Desa Wani Lumbumpetigo
+4. Pendamping Desa (PD)
+5. Pendamping Lokal Desa (PLD)
+6. BPD Wani Lumbumpetigo
+
+📅 *Jadwal Kegiatan:*
+🗓️ Hari/Tanggal: Kamis, 02 Oktober 2025
+⏰ Jam: 14.00 WITA s/d Selesai
+📍 Tempat: KANTOR DESA WANI LUMBUMPETIGO
+
+Dalam rangka Penyaluran Bantuan Langsung Tunai Dana Desa (BLT-DD) Tahap II (Bulan Oktober) Tahun Anggaran 2025.
+
+Kehadiran dan partisipasi Bapak/Ibu sangat kami harapkan.
+
+Terima kasih.
+
+*Kepala Desa Wani Lumbumpetigo*
+*AMIR RAMANG*
+
+🔗 Lihat undangan lengkap: https://syam.digital/contoh-undangan`;
+            
+            const encodedText = encodeURIComponent(text);
+            const whatsappUrl = `https://wa.me/?text=${encodedText}`;
+            window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+        }
+    </script>
+    
+    <div class="container">
+        <div class="header">
+            <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1755944441/KOP-DESA-FIX_p0ahsk.png" alt="Kop Surat Desa Wani Lumbumpetigo" class="letterhead" onerror="this.style.display='none'; document.querySelector('.fallback-header').style.display='block';">
+            <div class="fallback-header" style="display: none;">
+                <div class="logo">WL</div>
+                <h1>Pemerintah Desa Wani Lumbumpetigo</h1>
+                <h2>Kecamatan Tanantovea</h2>
+            </div>
+        </div>
+        
+        <div class="letter-info">
+            <div><strong>Nomor</strong> : 006/Und-BLT/PEM-DWLP/X/2025</div>
+            <div><strong>Lamp</strong> : -</div>
+            <div><strong>Hal</strong> : Undangan Penyaluran BLT-DD TAHAP II</div>
+        </div>
+        
+        <div class="recipients">
+            <h3>Kepada Yth,</h3>
+            <ol>
+                <li>Camat Tanantovea</li>
+                <li>Bhabinkamtibmas Desa Wani Lumbumpetigo</li>
+                <li>Babinsa Desa Wani Lumbumpetigo</li>
+                <li>Pendamping Desa (PD)</li>
+                <li>Pendamping Lokal Desa (PLD)</li>
+                <li>BPD Wani Lumbumpetigo</li>
+            </ol>
+        </div>
+        
+        <div class="content">
+            <p><strong>Dengan Hormat,</strong></p>
+            
+            <p>Salam Sejahtera kami sampaikan semoga Allah SWT senantiasa meridhoi segala aktifitas dan dedikasi kita semua.</p>
+            
+            <p>Dalam rangka Penyaluran Bantuan Langsung Tunai Dana Desa (BLT-DD) Tahap II (Bulan Oktober) Tahun Anggaran 2025. Dengan ini kami Pemerintah Desa Wani Lumbumpetigo Mengundang Bapak/Ibu Saudara (i) untuk hadir dalam Penyaluran Bantuan Langsung Tunai Dana Desa (BLT-DD) Tahun Anggaran 2025.</p>
+            
+            <div class="event-details">
+                <h3>Yang Insya Allah akan dilaksanakan Pada:</h3>
+                <div class="detail-row">
+                    <div class="detail-label">Hari/Tanggal</div>
+                    <div class="detail-value">: Kamis, 02 Oktober 2025</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Jam</div>
+                    <div class="detail-value">: 14.00 WITA s/d Selesai</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Tempat</div>
+                    <div class="detail-value">: KANTOR DESA WANI LUMBUMPETIGO</div>
+                </div>
+            </div>
+            
+            <p>Demikian undangan ini kami sampaikan, atas kehadiran dan Partisipasinya sangat kami Harapkan dan diucapkan terima kasih.</p>
+        </div>
+        
+        <div class="signature">
+            <div class="signature-content">
+                <div class="signature-place">Wani Lumbumpetigo, 01 Oktober 2025</div>
+                <div>Kepala Desa Wani Lumbumpetigo</div>
+                <div class="signature-area">
+                    <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1760214774/ca8c8a3f-7c6f-49ea-b385-177467c940b2_mtna3u.png" alt="QR Code Verifikasi" class="qr-code" onerror="this.style.display='none';">
+                    <div class="signature-name">AMIR RAMANG</div>
+                </div>
+            </div>
+        </div>
+    </div>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98d15419d6daa8de',t:'MTc2MDIxNjg2Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

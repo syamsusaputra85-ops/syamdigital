@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Rapat Koordinasi - DPD PAN Donggala</title>
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1757245484/SYAMDIGITAL-LOGO-2025_mmpllg.png">
+    <style>
+        body {
+            box-sizing: border-box;
+            font-family: 'Georgia', serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .invitation-container {
+            max-width: 600px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="40" r="1.5" fill="rgba(255,255,255,0.1)"/><circle cx="40" cy="70" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="70" cy="20" r="1.5" fill="rgba(255,255,255,0.1)"/><circle cx="30" cy="50" r="1" fill="rgba(255,255,255,0.1)"/></svg>');
+        }
+
+        .logo-section {
+            position: relative;
+            z-index: 2;
+        }
+
+        .party-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+
+        .region {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .address {
+            font-size: 12px;
+            opacity: 0.9;
+            margin-top: 15px;
+        }
+
+        .content {
+            padding: 40px 30px;
+            line-height: 1.6;
+        }
+
+        .letter-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+
+        .recipient {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #1e40af;
+        }
+
+        .meeting-details {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            text-align: center;
+        }
+
+        .meeting-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 12px 0;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .detail-value {
+            font-size: 16px;
+            text-align: right;
+        }
+
+        .signatures {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .signature-box {
+            flex: 1;
+            margin: 0 15px;
+        }
+
+        .signature-title {
+            font-weight: bold;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .signature-name {
+            font-weight: bold;
+            border-top: 2px solid #333;
+            padding-top: 10px;
+            font-size: 13px;
+        }
+
+        .copy-section {
+            background: #f8f9fa;
+            padding: 20px;
+            margin-top: 30px;
+            border-radius: 10px;
+        }
+
+        .copy-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #1e40af;
+        }
+
+        .copy-list {
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .share-button {
+            background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 20px auto;
+            display: block;
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .share-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
+        }
+
+        .decorative-border {
+            height: 4px;
+            background: linear-gradient(90deg, #1e40af, #3b82f6, #1e40af);
+            margin: 20px 0;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .content {
+                padding: 20px 15px;
+            }
+            
+            .letter-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .signatures {
+                flex-direction: column;
+                gap: 30px;
+            }
+            
+            .signature-box {
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="invitation-container">
+        <div class="header">
+            <div class="logo-section">
+                <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1758948835/Logo-PAN-01_q3tlho.jpg" 
+                     alt="Logo PAN" 
+                     style="width: 80px; height: 80px; object-fit: contain; margin-bottom: 15px; border-radius: 10px; background: rgba(255,255,255,0.1); padding: 8px;"
+                     onerror="this.style.display='none';">
+                <div class="party-name">DEWAN PIMPINAN DAERAH</div>
+                <div class="party-name">PARTAI AMANAT NASIONAL</div>
+                <div class="region">KABUPATEN DONGGALA</div>
+                <div class="address">
+                    Sekretariat: Jl. Trans Sulawesi Desa Lero Kec. Sindue Kab. Donggala
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="letter-header">
+                <div>
+                    <strong>Kepada Yth:</strong><br>
+                    Bapak/Ibu Pengurus<br>
+                    Di Tempat
+                </div>
+            </div>
+            
+            <div style="margin-bottom: 25px;">
+                <strong>Nomor:</strong> 27/DPD.PAN/DGLA/IX/2025<br>
+                <strong>Lampiran:</strong> -<br>
+                <strong>Perihal:</strong> Undangan Rapat Koordinasi
+            </div>
+
+            <div class="decorative-border"></div>
+
+            <p>Memperhatikan dan menindak lanjuti hasil pertemuan pengurus Dewan Pimpinan Wilayah Partai Amanat Nasional Provinsi Sulawesi Tengah pada hari Kamis, 4 September di Hotel Santika Palu.</p>
+
+            <p>Maka dengan ini, kami mengundang Bapak/Ibu Saudara untuk hadir pada <strong>Rapat Pengurus Dewan Pimpinan Daerah DPD PAN Kabupaten Donggala</strong> yang Insya Allah dilaksanakan pada:</p>
+
+            <div class="meeting-details">
+                <div class="meeting-title">Detail Acara</div>
+                <div class="detail-item">
+                    <span class="detail-label">📅 Hari/Tanggal:</span>
+                    <span class="detail-value">Minggu, 28 September 2025</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">🕐 Waktu:</span>
+                    <span class="detail-value">11.00 - Siang</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">📍 Tempat:</span>
+                    <span class="detail-value">Sekretariat Kantor DPD PAN<br>Kab. Donggala Desa Lero,<br>Sapo Oge Magau Pimpilembah</span>
+                </div>
+            </div>
+
+            <p>Demikian undangan ini kami sampaikan. Atas kehadirannya, sebelumnya diucapkan terima kasih.</p>
+
+            <div class="signatures">
+                <div class="signature-box">
+                    <div class="signature-title">KETUA</div>
+                    <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1758950602/download_1_e1naho.png" 
+                         alt="Tanda Tangan Ketua" 
+                         style="width: 120px; height: 60px; object-fit: contain; margin: 10px 0;"
+                         onerror="this.style.display='none';">
+                    <div class="signature-name">Dr. Drs. KASMAN LASSA, SH.MH.AIFO</div>
+                </div>
+                <div class="signature-box">
+                    <div class="signature-title">SEKRETARIS</div>
+                    <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1758950602/download_2_obxdnd.png" 
+                         alt="Tanda Tangan Sekretaris" 
+                         style="width: 120px; height: 60px; object-fit: contain; margin: 10px 0;"
+                         onerror="this.style.display='none';">
+                    <div class="signature-name">HI KASIM JUFRI, SE</div>
+                </div>
+            </div>
+
+            <div class="copy-section">
+                <div class="copy-title">Tembusan:</div>
+                <div class="copy-list">
+                    1. Ketua Umum Dewan Pimpinan Pusat PAN Di Jakarta<br>
+                    2. Ketua Dewan Pimpinan Wilayah Partai Amanat Nasional Provinsi Sulawesi Tengah Di Palu<br>
+                    3. Arsip
+                </div>
+            </div>
+
+            <button class="share-button" onclick="shareToWhatsApp()">
+                📱 Bagikan ke WhatsApp
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function shareToWhatsApp() {
+            const message = `🏛️ *UNDANGAN RAPAT KOORDINASI*
+            
+*DEWAN PIMPINAN DAERAH*
+*PARTAI AMANAT NASIONAL*
+*KABUPATEN DONGGALA*
+
+📋 *Perihal:* Undangan Rapat Koordinasi Pengurus
+
+📅 *Hari/Tanggal:* Minggu, 28 September 2025
+🕐 *Waktu:* 11.00 - Siang  
+📍 *Tempat:* Sekretariat Kantor DPD PAN Kab. Donggala
+Desa Lero, Sapo Oge Magau Pimpilembah
+
+Kehadiran Bapak/Ibu sangat diharapkan.
+
+🔗 *Link Undangan:* https://syam.digital/undangan
+
+Terima kasih 🙏
+
+*PENGURUS DPD PAN KABUPATEN DONGGALA*`;
+
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappUrl = `https://wa.me/?text=${encodedMessage}`;
+            
+            window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9858945fe59bd8e3',t:'MTc1ODk1MDcxNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

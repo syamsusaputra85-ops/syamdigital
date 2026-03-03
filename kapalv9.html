@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pencarian Nama Kapal</title>
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1757245484/SYAMDIGITAL-LOGO-2025_mmpllg.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            box-sizing: border-box;
+        }
+        .loading {
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .highlight {
+            background-color: #fef3c7;
+            font-weight: bold;
+        }
+        .gradient-text {
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 4s ease infinite;
+        }
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        .border-blink {
+            animation: borderBlink 0.8s ease-in-out 3;
+        }
+        @keyframes borderBlink {
+            0%, 100% {
+                border-left-color: #10b981;
+                opacity: 1;
+            }
+            50% {
+                border-left-color: #34d399;
+                opacity: 0.7;
+            }
+        }
+        .copy-icon-spin {
+            animation: copyIconSpin 0.6s ease-in-out;
+        }
+        @keyframes copyIconSpin {
+            0% {
+                transform: rotate(0deg) scale(1);
+            }
+            50% {
+                transform: rotate(180deg) scale(1.1);
+            }
+            100% {
+                transform: rotate(360deg) scale(1);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <div class="flex items-center justify-center mb-2">
+                <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1757245484/SYAMDIGITAL-LOGO-2025_mmpllg.png" 
+                     alt="SYAMDIGITAL Logo" 
+                     class="w-12 h-12 mr-3"
+                     onerror="this.style.display='none';">
+                <h1 class="text-4xl font-bold gradient-text">Syam Digital</h1>
+            </div>
+            <h2 class="text-2xl font-semibold text-gray-700 mb-2">Pencarian Nama Kapal</h2>
+            <p class="text-gray-600 mb-4">Cari informasi kapal dari database terpusat</p>
+            <div class="flex flex-col sm:flex-row gap-3 items-center justify-center">
+                <a href="https://syam.digital/" 
+                   target="_blank" 
+                   rel="noopener noreferrer"
+                   class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors shadow-md hover:shadow-lg">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                    Kembali ke Home
+                </a>
+                <a href="https://docs.google.com/spreadsheets/d/1usAulSuswZSgbUbTPu-IqsHgSTIBnUKZgXVuy1UPft4/edit?usp=sharing" 
+                   target="_blank" 
+                   rel="noopener noreferrer"
+                   class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors shadow-md hover:shadow-lg">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    Lihat Google Sheets
+                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+
+        <!-- Dropdown Selection -->
+        <div class="max-w-2xl mx-auto mb-8">
+            <div class="relative">
+                <select 
+                    id="shipDropdown" 
+                    class="w-full px-6 py-4 text-lg border-2 border-blue-200 rounded-xl focus:border-blue-500 focus:outline-none shadow-lg bg-white appearance-none cursor-pointer"
+                >
+                    <option value="">Pilih Nama Kapal</option>
+                    <option value="KLM.SUMBER RIZKY">KLM.SUMBER RIZKY</option>
+                    <option value="KLM.SUMBER RIZKY 02">KLM.SUMBER RIZKY 02</option>
+                    <option value="KLM.SUMBER REZKY A">KLM.SUMBER REZKY A</option>
+                    <option value="KLM.BERKAH BUAH">KLM.BERKAH BUAH</option>
+                    <option value="KLM.ADI RAHMATULLAH PUTRA">KLM.ADI RAHMATULLAH PUTRA</option>
+                    <option value="KLM.SUMBER REZKY B">KLM.SUMBER REZKY B</option>
+                    <option value="KLM.QUDRAT ILAHI">KLM.QUDRAT ILAHI</option>
+                    <option value="KLM.PUTRA TUNGGAL 64">KLM.PUTRA TUNGGAL 64</option>
+                    <option value="KLM.FIRDAH JAYA 03">KLM.FIRDAH JAYA 03</option>
+                    <option value="KLM.SYUKRAN 3">KLM.SYUKRAN 3</option>
+                    <option value="KLM.SYUKRAN 03">KLM.SYUKRAN 03</option>
+                    <option value="KLM.BUNGA RIZKA">KLM.BUNGA RIZKA</option>
+                    <option value="KLM.SURYA UTAMA 77">KLM.SURYA UTAMA 77</option>
+                    <option value="KLM.MARHABAN 02">KLM.MARHABAN 02</option>
+                    <option value="KLM.BERKAT SABAR 05">KLM.BERKAT SABAR 05</option>
+                    <option value="KLM.ANUGERAH ILAHI 05">KLM.ANUGERAH ILAHI 05</option>
+                    <option value="KLM.ANUGERAH ILAHI 45">KLM.ANUGERAH ILAHI 45</option>
+                    <option value="KLM.BERKAH ILAHI 99">KLM.BERKAH ILAHI 99</option>
+                </select>
+                <div class="absolute right-6 top-4 pointer-events-none">
+                    <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Indicator -->
+        <div id="loadingIndicator" class="text-center mb-6 hidden">
+            <div class="inline-flex items-center">
+                <div class="loading w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full mr-3"></div>
+                <span class="text-gray-600">Memuat data kapal...</span>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div id="statsContainer" class="max-w-2xl mx-auto mb-6 hidden">
+            <div class="bg-white rounded-lg shadow-md p-4">
+                <div class="flex justify-between items-center text-sm text-gray-600">
+                    <span>Total kapal: <span id="totalShips" class="font-semibold text-blue-600">0</span></span>
+                    <span>Hasil pencarian: <span id="searchResults" class="font-semibold text-green-600">0</span></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Container -->
+        <div id="resultsContainer" class="max-w-4xl mx-auto">
+            <div id="noResults" class="text-center py-12 hidden">
+                <div class="text-6xl mb-4">🔍</div>
+                <h3 class="text-xl font-semibold text-gray-700 mb-2">Kapal tidak ditemukan</h3>
+                <p class="text-gray-500">Coba gunakan kata kunci yang berbeda</p>
+            </div>
+            
+            <div id="initialMessage" class="text-center py-12">
+                <div class="text-6xl mb-4">⚓</div>
+                <h3 class="text-xl font-semibold text-gray-700 mb-2">Siap untuk mencari kapal</h3>
+                <p class="text-gray-500">Pilih nama kapal dari dropdown untuk memulai</p>
+            </div>
+
+            <div id="shipResults" class="space-y-4"></div>
+        </div>
+
+        <!-- Modal -->
+        <div id="shipModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+            <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden shadow-2xl">
+                <!-- Modal Header -->
+                <div class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-6 relative">
+                    <button id="closeModal" class="absolute top-4 right-4 text-white hover:text-gray-200 transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                    <div class="text-center">
+                        <div class="text-5xl mb-3">🚢</div>
+                        <h2 class="text-2xl font-bold mb-1">Detail Kapal</h2>
+                        <p class="text-blue-100">Informasi Lengkap</p>
+                    </div>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="p-6 overflow-y-auto max-h-[60vh]">
+                    <div id="modalContent" class="space-y-4">
+                        <!-- Content will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="bg-gray-50 px-6 py-4 flex justify-center">
+                    <button id="closeModalBtn" class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-lg transition-colors">
+                        Tutup
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let shipsData = [];
+        let isDataLoaded = false;
+
+        // Load data from Google Sheets
+        async function loadShipsData() {
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            loadingIndicator.classList.remove('hidden');
+            
+            try {
+                // Convert the pubhtml URL to CSV format
+                const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQja1-1bAo0h2c1Xu5s34T1D6qEIal-PbNKt6aBu739AoOIVxXM1JjzMUFhhwVqs7OSdnbU6yNoEAFZ/pub?gid=0&single=true&output=csv';
+                
+                const response = await fetch(csvUrl);
+                const csvText = await response.text();
+                
+                // Parse CSV data
+                const rows = csvText.split('\n');
+                const headers = rows[0].split(',').map(header => header.replace(/"/g, '').trim());
+                
+                shipsData = [];
+                for (let i = 1; i < rows.length; i++) {
+                    if (rows[i].trim()) {
+                        const values = rows[i].split(',').map(value => value.replace(/"/g, '').trim());
+                        const ship = {};
+                        headers.forEach((header, index) => {
+                            ship[header] = values[index] || '';
+                        });
+                        shipsData.push(ship);
+                    }
+                }
+                
+                isDataLoaded = true;
+                updateStats();
+                console.log(`Berhasil memuat ${shipsData.length} data kapal`);
+                
+            } catch (error) {
+                console.error('Error loading data:', error);
+                showError('Gagal memuat data kapal. Silakan coba lagi.');
+            } finally {
+                loadingIndicator.classList.add('hidden');
+            }
+        }
+
+        function showError(message) {
+            const resultsContainer = document.getElementById('shipResults');
+            resultsContainer.innerHTML = `
+                <div class="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
+                    <div class="text-4xl mb-3">⚠️</div>
+                    <h3 class="text-lg font-semibold text-red-800 mb-2">Terjadi Kesalahan</h3>
+                    <p class="text-red-600">${message}</p>
+                </div>
+            `;
+        }
+
+        function updateStats() {
+            const totalShips = document.getElementById('totalShips');
+            const searchResults = document.getElementById('searchResults');
+            const statsContainer = document.getElementById('statsContainer');
+            
+            if (isDataLoaded) {
+                totalShips.textContent = shipsData.length;
+                statsContainer.classList.remove('hidden');
+            }
+        }
+
+        function highlightText(text, searchTerm) {
+            if (!searchTerm) return text;
+            const regex = new RegExp(`(${searchTerm})`, 'gi');
+            return text.replace(regex, '<span class="highlight">$1</span>');
+        }
+
+        function searchShips(query) {
+            if (!isDataLoaded) {
+                loadShipsData();
+                return;
+            }
+
+            const searchTerm = query.toLowerCase().trim();
+            const resultsContainer = document.getElementById('shipResults');
+            const noResults = document.getElementById('noResults');
+            const initialMessage = document.getElementById('initialMessage');
+            const searchResultsCount = document.getElementById('searchResults');
+
+            // Hide initial message
+            initialMessage.classList.add('hidden');
+
+            if (!searchTerm) {
+                resultsContainer.innerHTML = '';
+                noResults.classList.add('hidden');
+                initialMessage.classList.remove('hidden');
+                searchResultsCount.textContent = '0';
+                return;
+            }
+
+            // Filter ships based on search term
+            const filteredShips = shipsData.filter(ship => {
+                return Object.values(ship).some(value => 
+                    value.toLowerCase().includes(searchTerm)
+                );
+            });
+
+            searchResultsCount.textContent = filteredShips.length;
+
+            if (filteredShips.length === 0) {
+                resultsContainer.innerHTML = '';
+                noResults.classList.remove('hidden');
+                return;
+            }
+
+            noResults.classList.add('hidden');
+
+            // Display results
+            const headers = Object.keys(shipsData[0]);
+            resultsContainer.innerHTML = filteredShips.map((ship, index) => `
+                <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-200 p-6 cursor-pointer border-2 border-transparent hover:border-blue-300" onclick="openModal(${shipsData.indexOf(ship)})">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="flex items-center">
+                            <div class="text-3xl mr-3">🚢</div>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800">${highlightText(ship[headers[0]] || 'Nama Kapal', searchTerm)}</h3>
+                                <p class="text-gray-500 text-sm">Klik untuk melihat detail lengkap</p>
+                            </div>
+                        </div>
+                        <div class="text-blue-500">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        ${headers.slice(1, 5).map(header => `
+                            <div class="flex flex-col">
+                                <span class="text-xs font-medium text-gray-500 uppercase tracking-wide">${header}</span>
+                                <span class="text-gray-700 text-sm mt-1">${highlightText(ship[header] || '-', searchTerm)}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                    ${headers.length > 5 ? `<div class="mt-3 text-sm text-blue-600 font-medium">+${headers.length - 5} informasi lainnya</div>` : ''}
+                </div>
+            `).join('');
+        }
+
+        // Modal functions
+        function openModal(shipIndex) {
+            console.log('Opening modal for ship index:', shipIndex);
+            
+            if (!shipsData || shipsData.length === 0) {
+                console.error('No ships data available');
+                return;
+            }
+            
+            const ship = shipsData[shipIndex];
+            if (!ship) {
+                console.error('Ship not found at index:', shipIndex);
+                return;
+            }
+            
+            const modal = document.getElementById('shipModal');
+            const modalContent = document.getElementById('modalContent');
+            
+            if (!modal || !modalContent) {
+                console.error('Modal elements not found');
+                return;
+            }
+            
+            // Get headers from the ship data
+            const headers = Object.keys(ship);
+            console.log('Ship headers:', headers);
+            console.log('Ship data:', ship);
+            
+            // Populate modal content - show only first 3 fields in simple format with copy buttons
+            modalContent.innerHTML = headers.slice(0, 3).map((header, index) => {
+                return `
+                    <div class="bg-gray-50 rounded-lg p-4 border-l-4 border-gray-300 transition-all duration-300 mb-4">
+                        <div class="flex justify-between items-start">
+                            <div class="flex-1">
+                                <label class="text-lg font-semibold text-gray-700 block mb-2">${header}</label>
+                                <div class="text-2xl font-bold text-gray-900 mb-2" id="field-${header.replace(/\s+/g, '-')}">${ship[header] || '-'}</div>
+                            </div>
+                            <button 
+                                onclick="copyText('${(ship[header] || '').replace(/'/g, "\\'")}', '${header}', this)" 
+                                class="copy-btn ml-3 p-2 rounded-lg text-gray-400 hover:text-blue-600 hover:bg-blue-50 transition-all duration-200"
+                                title="Salin ${header}"
+                            >
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('') + `
+                <div class="mt-6 text-center">
+                    <button 
+                        onclick="copyAllData()" 
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors shadow-md hover:shadow-lg"
+                    >
+                        📋 Salin Semua Data
+                    </button>
+                </div>
+            `;
+            
+            // Store current ship data for copying all
+            window.currentShipData = ship;
+            
+            // Show modal
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            
+            console.log('Modal should be visible now');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('shipModal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        function copyText(text, fieldName, buttonElement) {
+            if (!text || text === '-') {
+                showNotification('Tidak ada data untuk disalin', 'warning');
+                return;
+            }
+            
+            // Stop all existing blinking animations first
+            const allContainers = document.querySelectorAll('.bg-gray-50');
+            allContainers.forEach(container => {
+                container.classList.remove('border-blink');
+            });
+            
+            // Stop all existing icon animations
+            const allCopyIcons = document.querySelectorAll('.copy-btn svg');
+            allCopyIcons.forEach(icon => {
+                icon.classList.remove('copy-icon-spin');
+            });
+            
+            // Get the parent container to add blinking animation
+            const parentContainer = buttonElement.closest('.bg-gray-50');
+            
+            // Add blinking animation to the border
+            parentContainer.classList.add('border-blink');
+            
+            // Add spinning animation to the copy icon
+            const copyIcon = buttonElement.querySelector('svg');
+            if (copyIcon) {
+                copyIcon.classList.add('copy-icon-spin');
+                // Remove icon animation after it completes (0.6s)
+                setTimeout(() => {
+                    copyIcon.classList.remove('copy-icon-spin');
+                }, 600);
+            }
+            
+            // Remove border animation after it completes (0.8s * 3 = 2.4s)
+            setTimeout(() => {
+                parentContainer.classList.remove('border-blink');
+            }, 2400);
+            
+            // Reset all copy buttons and labels to original state
+            const allCopyButtons = document.querySelectorAll('.copy-btn');
+            allCopyButtons.forEach(btn => {
+                btn.classList.remove('text-green-600', 'bg-green-100');
+                btn.classList.add('text-gray-400', 'hover:text-blue-600', 'hover:bg-blue-50');
+                // Reset SVG color
+                const svg = btn.querySelector('svg');
+                if (svg) {
+                    svg.style.color = '';
+                }
+                // Reset label color
+                const label = btn.closest('.bg-gray-50').querySelector('label');
+                if (label) {
+                    label.style.color = '';
+                }
+            });
+            
+            // Set current button to green (copied state)
+            buttonElement.classList.remove('text-gray-400', 'hover:text-blue-600', 'hover:bg-blue-50');
+            buttonElement.classList.add('text-green-600', 'bg-green-100');
+            
+            // Set SVG color to green
+            const svg = buttonElement.querySelector('svg');
+            if (svg) {
+                svg.style.color = '#16a34a'; // green-600 color
+            }
+            
+            // Set label color to green
+            const label = buttonElement.closest('.bg-gray-50').querySelector('label');
+            if (label) {
+                label.style.color = '#16a34a'; // green-600 color
+                label.style.fontWeight = 'bold';
+            }
+            
+            navigator.clipboard.writeText(text).then(() => {
+                showNotification(`${fieldName} berhasil disalin!`, 'success');
+            }).catch(() => {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showNotification(`${fieldName} berhasil disalin!`, 'success');
+            });
+        }
+
+        function copyAllData() {
+            if (!window.currentShipData) return;
+            
+            const ship = window.currentShipData;
+            const headers = Object.keys(ship);
+            let allData = '';
+            
+            headers.forEach(header => {
+                allData += `${header}: ${ship[header] || '-'}\n`;
+            });
+            
+            navigator.clipboard.writeText(allData).then(() => {
+                showNotification('Semua data kapal berhasil disalin!', 'success');
+            }).catch(() => {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = allData;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showNotification('Semua data kapal berhasil disalin!', 'success');
+            });
+        }
+
+        function showNotification(message, type = 'success') {
+            // Remove existing notification
+            const existingNotification = document.getElementById('notification');
+            if (existingNotification) {
+                existingNotification.remove();
+            }
+            
+            const notification = document.createElement('div');
+            notification.id = 'notification';
+            notification.className = `fixed top-4 right-4 z-[60] px-6 py-3 rounded-lg shadow-lg transform transition-all duration-300 ${
+                type === 'success' ? 'bg-green-500 text-white' : 'bg-yellow-500 text-white'
+            }`;
+            notification.innerHTML = `
+                <div class="flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        ${type === 'success' 
+                            ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>'
+                            : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>'
+                        }
+                    </svg>
+                    ${message}
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Auto remove after 3 seconds
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Event listeners
+        document.getElementById('shipDropdown').addEventListener('change', (e) => {
+            const selectedShip = e.target.value;
+            if (selectedShip) {
+                searchShips(selectedShip);
+            } else {
+                // Clear search when "Pilih Nama Kapal" is selected
+                searchShips('');
+            }
+        });
+
+        // Modal event listeners
+        document.getElementById('closeModal').addEventListener('click', closeModal);
+        document.getElementById('closeModalBtn').addEventListener('click', closeModal);
+
+        // Close modal when clicking outside
+        document.getElementById('shipModal').addEventListener('click', (e) => {
+            if (e.target.id === 'shipModal') {
+                closeModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Load data when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            loadShipsData();
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98524f661638ce81',t:'MTc1ODg4NDk3Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

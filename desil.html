@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pencarian Data Desil - Desa Wani Lumbumpetigo</title>
+  <meta name="color-scheme" content="light only">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root { color-scheme: light only; }
+    html, body { height: 100%; }
+    body { font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+    .fade-in { animation: fadeIn .4s ease both; }
+    @keyframes fadeIn { from {opacity:0; transform: translateY(4px);} to {opacity:1; transform: none;} }
+    .focus-ring:focus { outline: none; box-shadow: 0 0 0 3px rgba(99,102,241,.35); }
+    th.sortable { cursor: pointer; user-select: none; }
+    th.sortable .chev { transition: transform .2s ease; }
+    th.sortable.asc .chev { transform: rotate(180deg); }
+    th.sortable.none .chev { opacity: .2; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    thead th { position: sticky; top: 0; z-index: 10; }
+  </style>
+</head>
+<body class="min-h-full bg-gradient-to-br from-indigo-50 via-sky-50 to-emerald-50 text-slate-800">
+  <main class="max-w-7xl mx-auto p-6 lg:p-10">
+    <!-- Header -->
+    <header class="mb-6 md:mb-8">
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+        <div>
+          <h1 class="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">
+            Pencarian Data Desil
+          </h1>
+          <p class="text-slate-600 mt-1">
+            Desa Wani Lumbumpetigo • Sumber: Google Sheets (publik)
+          </p>
+        </div>
+        <div class="flex gap-2">
+          <a class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/70 backdrop-blur border border-slate-200 text-slate-700 hover:bg-white shadow-sm focus-ring"
+             href="https://docs.google.com/spreadsheets/d/e/2PACX-1vRurVKcAy1llJL_sgAbgvJK2GVzqGvwFAHpUYfd7G9dt9i992ITe-Ube-4rJUdL9h0e-HHmD9gJsPwN/pubhtml?gid=0&single=true"
+             target="_blank" rel="noopener noreferrer">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="opacity-80" aria-hidden="true">
+              <path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9l-6-6z" stroke="#334155" stroke-width="1.5"/>
+              <path d="M14 3v6h6" stroke="#334155" stroke-width="1.5"/>
+            </svg>
+            Lihat Sumber
+          </a>
+          <button id="btnRefresh" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700 shadow-sm focus-ring">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M21 12a9 9 0 1 1-2.64-6.36" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M21 3v6h-6" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+            Muat Ulang
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Controls -->
+    <section class="bg-white/80 backdrop-blur border border-slate-200 rounded-2xl p-4 md:p-5 shadow-sm mb-5">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-4 items-end">
+        <!-- Search -->
+        <div class="md:col-span-6">
+          <label for="q" class="block text-sm font-medium text-slate-700 mb-1">Cari data</label>
+          <div class="relative">
+            <span class="absolute left-3 top-2.5 text-slate-400">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.6"/>
+                <path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <input id="q" type="text" placeholder="Ketik nama, alamat, NIK, atau kata kunci apa pun..."
+                   class="w-full pl-10 pr-3 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-800 placeholder-slate-400 focus-ring" />
+          </div>
+        </div>
+
+        <!-- Desil filter -->
+        <div class="md:col-span-3">
+          <label for="desilFilter" class="block text-sm font-medium text-slate-700 mb-1">Filter desil</label>
+          <select id="desilFilter" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-800 focus-ring">
+            <option value="">Semua desil</option>
+            <option value="1">Desil 1</option>
+            <option value="2">Desil 2</option>
+            <option value="3">Desil 3</option>
+            <option value="4">Desil 4</option>
+            <option value="5">Desil 5</option>
+            <option value="6">Desil 6</option>
+            <option value="7">Desil 7</option>
+            <option value="8">Desil 8</option>
+            <option value="9">Desil 9</option>
+            <option value="10">Desil 10</option>
+          </select>
+          <p id="desilFilterHelper" class="text-xs text-amber-600 mt-1 hidden">Kolom Desil tidak ditemukan. Filter ini dinonaktifkan.</p>
+        </div>
+
+        <!-- Page size -->
+        <div class="md:col-span-3">
+          <label for="pageSize" class="block text-sm font-medium text-slate-700 mb-1">Tampilkan per halaman</label>
+          <select id="pageSize" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-800 focus-ring">
+            <option>10</option>
+            <option selected>20</option>
+            <option>50</option>
+            <option>100</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats -->
+    <section id="statsWrap" class="mb-5 hidden">
+      <div class="bg-white/80 backdrop-blur border border-slate-200 rounded-2xl p-4 md:p-5 shadow-sm">
+        <div class="flex flex-wrap gap-3 no-scrollbar overflow-x-auto">
+          <div class="px-4 py-3 rounded-xl border border-slate-200 bg-white text-slate-700">
+            Total baris: <span id="statTotal" class="font-semibold text-slate-900">0</span>
+          </div>
+          <div id="desilStats" class="flex gap-2 flex-wrap"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Table -->
+    <section class="bg-white/90 backdrop-blur border border-slate-200 rounded-2xl shadow-sm">
+      <div class="p-3 md:p-4 border-b border-slate-200 flex items-center justify-between gap-3">
+        <div class="text-sm text-slate-600">
+          Ditemukan <span id="countFiltered" class="font-semibold text-slate-900">0</span> data
+        </div>
+        <div class="text-sm text-slate-500">
+          Klik judul kolom untuk urutkan
+        </div>
+      </div>
+      <div class="overflow-auto">
+        <table class="min-w-full text-sm">
+          <thead class="bg-slate-50/80 backdrop-blur border-b border-slate-200 text-slate-700">
+            <tr id="theadRow"></tr>
+          </thead>
+          <tbody id="tbody" class="divide-y divide-slate-100"></tbody>
+        </table>
+      </div>
+
+      <!-- States -->
+      <div id="stateLoading" class="p-8 text-center text-slate-600">
+        Sedang memuat data dari Google Sheets...
+      </div>
+      <div id="stateEmpty" class="p-8 text-center text-slate-600 hidden">
+        Tidak ada data untuk ditampilkan.
+      </div>
+      <div id="stateError" class="p-8 text-center text-rose-600 hidden">
+        Gagal mengambil data. Pastikan Sheet dipublikasikan ke web dan dapat diakses publik.
+      </div>
+
+      <!-- Pagination -->
+      <div class="p-4 md:p-5 border-t border-slate-200 flex flex-col md:flex-row items-center justify-between gap-3">
+        <div class="text-xs md:text-sm text-slate-600">
+          Menampilkan <span id="rangeText" class="font-medium text-slate-900">0–0</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="prevPage" class="px-3 py-2 rounded-lg border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 disabled:opacity-40 focus-ring">
+            Sebelumnya
+          </button>
+          <div class="px-3 py-2 rounded-lg bg-slate-100 text-slate-700">
+            Hal. <span id="pageNum">1</span> / <span id="pageTotal">1</span>
+          </div>
+          <button id="nextPage" class="px-3 py-2 rounded-lg border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 disabled:opacity-40 focus-ring">
+            Berikutnya
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer note -->
+    <p class="text-xs text-slate-500 mt-4">
+      Catatan: Pencarian bersifat lokal di perangkat Anda. Tidak ada data yang dikirim ke tempat lain.
+    </p>
+
+    <!-- Modal Rincian -->
+    <div id="detailModal" class="fixed inset-0 z-50 hidden">
+      <div id="detailBackdrop" class="absolute inset-0 bg-slate-900/50 backdrop-blur-sm"></div>
+      <div class="absolute inset-0 flex items-center justify-center p-4">
+        <div class="w-full max-w-3xl bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
+          <div class="flex items-center justify-between px-5 py-4 border-b border-slate-200 bg-slate-50/60">
+            <div class="flex items-center gap-2">
+              <span class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-indigo-100 text-indigo-700">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5zm0 2c-4 0-8 2-8 6v1h16v-1c0-4-4-6-8-6z" stroke="#4338ca" stroke-width="1.5"/></svg>
+              </span>
+              <h3 id="detailTitle" class="text-base font-semibold text-slate-900">Rincian Data</h3>
+            </div>
+            <button id="detailClose" class="p-2 rounded-lg hover:bg-slate-100 text-slate-500" aria-label="Tutup">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </button>
+          </div>
+          <div id="detailBody" class="p-5 max-h-[70vh] overflow-auto">
+            <!-- Konten dinamis -->
+          </div>
+          <div class="px-5 py-4 bg-slate-50/60 border-t border-slate-200 text-right">
+            <button id="detailClose2" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700 shadow-sm">Tutup</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="fixed top-4 right-4 z-[60] hidden">
+      <div class="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-600 text-white shadow-lg">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M20 6L9 17l-5-5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span id="toastMsg" class="text-sm font-medium">Tersalin</span>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // ---- Konfigurasi ----
+    const SHEET_PUBHTML = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRurVKcAy1llJL_sgAbgvJK2GVzqGvwFAHpUYfd7G9dt9i992ITe-Ube-4rJUdL9h0e-HHmD9gJsPwN/pubhtml?gid=0&single=true";
+    const CSV_URL = SHEET_PUBHTML.replace("/pubhtml?", "/pub?") + "&output=csv";
+
+    // ---- Elemen UI ----
+    const qEl = document.getElementById("q");
+    const desilFilterEl = document.getElementById("desilFilter");
+    const desilHelperEl = document.getElementById("desilFilterHelper");
+    const pageSizeEl = document.getElementById("pageSize");
+
+    const theadRow = document.getElementById("theadRow");
+    const tbody = document.getElementById("tbody");
+    const countFilteredEl = document.getElementById("countFiltered");
+    const rangeTextEl = document.getElementById("rangeText");
+    const pageNumEl = document.getElementById("pageNum");
+    const pageTotalEl = document.getElementById("pageTotal");
+    const prevPageBtn = document.getElementById("prevPage");
+    const nextPageBtn = document.getElementById("nextPage");
+
+    const stateLoading = document.getElementById("stateLoading");
+    const stateEmpty = document.getElementById("stateEmpty");
+    const stateError = document.getElementById("stateError");
+
+    const statsWrap = document.getElementById("statsWrap");
+    const statTotal = document.getElementById("statTotal");
+    const desilStats = document.getElementById("desilStats");
+
+    const btnRefresh = document.getElementById("btnRefresh");
+
+    // Modal & Toast
+    const modalEl = document.getElementById('detailModal');
+    const modalBackdrop = document.getElementById('detailBackdrop');
+    const detailTitle = document.getElementById('detailTitle');
+    const detailBody = document.getElementById('detailBody');
+    const detailClose = document.getElementById('detailClose');
+    const detailClose2 = document.getElementById('detailClose2');
+
+    const toastEl = document.getElementById('toast');
+    const toastMsgEl = document.getElementById('toastMsg');
+    let toastTimer;
+
+    // ---- Data & State ----
+    let headers = [];
+    let rows = [];
+    let filtered = [];
+    let sortKey = null;
+    let sortDir = "asc";
+    let page = 1;
+    let pageSize = parseInt(pageSizeEl.value, 10) || 20;
+    let desilColKey = null;
+
+    // Field yang diberi tombol Salin (toleran variasi ejaan/tanda baca)
+    const COPY_FIELDS = [
+      "Nama Lengkap","No","ID Keluarga P3KE","Provinsi","Kabupaten/Kota","Kecamatan",
+      "Desa/Kelurahan","Desil Kesejahteraan","Alamat","NIK","Padan Dukcapil","Jenis Kelamin",
+      "Tanggal Lahir","Pekerjaan","Pendidikan","Kepemilikan Rumah","Penerima BPUM",
+      "Penerima BST","Penerima PKH","Penerima SEMBAKO"
+    ];
+    const normalize = (s) => (s || "")
+      .toString()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+      .toLowerCase()
+      .replace(/[^a-z0-9]/g,'');
+    const COPY_SET = new Set(COPY_FIELDS.map(normalize));
+
+    // ---- Utils ----
+    function debounce(fn, delay=250) {
+      let t; return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), delay); };
+    }
+    function parseCSV(text) {
+      const rows = []; let row = []; let cur = ''; let insideQuotes = false;
+      for (let i=0;i<text.length;i++) {
+        const c = text[i], next = text[i+1];
+        if (c === '"') { if (insideQuotes && next === '"') { cur += '"'; i++; } else { insideQuotes = !insideQuotes; } }
+        else if (c === ',' && !insideQuotes) { row.push(cur); cur = ''; }
+        else if ((c === '\n' || c === '\r') && !insideQuotes) {
+          if (cur.length > 0 || row.length > 0) { row.push(cur); rows.push(row); row=[]; cur=''; }
+          if (c === '\r' && next === '\n') i++;
+        } else { cur += c; }
+      }
+      if (cur.length > 0 || row.length > 0) { row.push(cur); rows.push(row); }
+      return rows;
+    }
+    const normalizeHeader = (h) => (h || "").toString().trim();
+    function toObj(arr, heads) {
+      const obj = {}; heads.forEach((h, i) => { obj[h] = (arr[i] ?? "").toString().trim(); }); return obj;
+    }
+    function detectDesilColumn(heads) {
+      const idx = heads.findIndex(h => h.toLowerCase().includes("desil"));
+      return idx >= 0 ? heads[idx] : null;
+    }
+    function isNumeric(val) {
+      if (val === null || val === undefined) return false;
+      const n = Number(val.toString().replace(',', '.'));
+      return !isNaN(n) && isFinite(n);
+    }
+
+    // ---- Renderers ----
+    function renderHeader() {
+      theadRow.innerHTML = "";
+      headers.forEach(h => {
+        const th = document.createElement("th");
+        th.className = "px-3 md:px-4 py-3 text-left font-semibold text-slate-700 whitespace-nowrap border-b border-slate-200 sortable";
+        th.dataset.key = h;
+        if (sortKey === h) th.classList.add(sortDir === "asc" ? "asc" : "desc");
+        else th.classList.add("none");
+        th.innerHTML = `
+          <div class="inline-flex items-center gap-2">
+            <span>${h}</span>
+            <span class="chev text-slate-400">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M7 10l5-5 5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M7 14l5 5 5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </div>
+        `;
+        th.addEventListener("click", () => {
+          if (sortKey === h) sortDir = sortDir === "asc" ? "desc" : "asc";
+          else { sortKey = h; sortDir = "asc"; }
+          update();
+        });
+        theadRow.appendChild(th);
+      });
+    }
+
+    function renderBody(pageItems) {
+      const frag = document.createDocumentFragment();
+      pageItems.forEach((rowObj, idx) => {
+        const tr = document.createElement("tr");
+        tr.className = (idx % 2 === 0 ? "bg-white" : "bg-slate-50/40") + " hover:bg-indigo-50/40 transition-colors cursor-pointer";
+        tr.addEventListener("click", () => openDetail(rowObj));
+        headers.forEach((h, i) => {
+          const td = document.createElement("td");
+          td.className = "px-3 md:px-4 py-3 text-slate-800 align-top";
+          const val = rowObj[h] ?? "";
+          if (i === 0) {
+            const span = document.createElement("span");
+            span.className = "text-indigo-600 hover:text-indigo-800 font-medium underline-offset-2 hover:underline";
+            span.textContent = val || "(Tanpa Nama)";
+            td.appendChild(span);
+          } else {
+            td.textContent = val;
+          }
+          tr.appendChild(td);
+        });
+        frag.appendChild(tr);
+      });
+      tbody.appendChild(frag);
+    }
+
+    function renderStats() {
+      statTotal.textContent = rows.length.toLocaleString('id-ID');
+      desilStats.innerHTML = "";
+      if (!desilColKey) return;
+      const counts = {};
+      rows.forEach(r => {
+        const v = (r[desilColKey] || "").trim();
+        if (!v) return; counts[v] = (counts[v] || 0) + 1;
+      });
+      const keys = Object.keys(counts).sort((a,b) => {
+        const na = Number(a), nb = Number(b);
+        if (!isNaN(na) && !isNaN(nb)) return na - nb;
+        return a.localeCompare(b, 'id');
+      });
+      keys.forEach(k => {
+        const pill = document.createElement("div");
+        pill.className = "px-4 py-3 rounded-xl border border-slate-200 bg-white text-slate-700";
+        pill.textContent = `Desil ${k}: ${counts[k].toLocaleString('id-ID')}`;
+        desilStats.appendChild(pill);
+      });
+    }
+
+    function setState({loading=false, error=false, empty=false}) {
+      stateLoading.classList.toggle("hidden", !loading);
+      stateError.classList.toggle("hidden", !error);
+      stateEmpty.classList.toggle("hidden", !empty);
+    }
+
+    // ---- Core logic ----
+    function applyFilters() {
+      const term = qEl.value.trim().toLowerCase();
+      const desilVal = desilFilterEl.disabled ? "" : desilFilterEl.value.trim();
+      filtered = rows.filter(obj => {
+        if (desilVal && desilColKey) {
+          const v = (obj[desilColKey] || "").toString().trim();
+          if (v !== desilVal) return false;
+        }
+        if (!term) return true;
+        for (const h of headers) {
+          const cell = (obj[h] ?? "").toString().toLowerCase();
+          if (cell.includes(term)) return true;
+        }
+        return false;
+      });
+    }
+
+    function applySort() {
+      if (!sortKey) return;
+      const key = sortKey;
+      const dir = sortDir === "asc" ? 1 : -1;
+      const numeric = filtered.every(r => r[key] === "" || isNumeric(r[key]));
+      filtered.sort((a, b) => {
+        let va = a[key] ?? "", vb = b[key] ?? "";
+        if (numeric) {
+          const na = Number(va.toString().replace(',', '.')) || 0;
+          const nb = Number(vb.toString().replace(',', '.')) || 0;
+          return (na - nb) * dir;
+        } else {
+          return va.toString().localeCompare(vb.toString(), 'id', {numeric:true, sensitivity:'base'}) * dir;
+        }
+      });
+    }
+
+    function applyPagination() {
+      const total = filtered.length;
+      const totalPages = Math.max(1, Math.ceil(total / pageSize));
+      if (page > totalPages) page = totalPages;
+      const start = (page - 1) * pageSize;
+      const end = Math.min(start + pageSize, total);
+      const items = filtered.slice(start, end);
+
+      tbody.innerHTML = "";
+      renderBody(items);
+      countFilteredEl.textContent = total.toLocaleString('id-ID');
+      pageNumEl.textContent = totalPages === 0 ? 0 : page;
+      pageTotalEl.textContent = totalPages;
+      rangeTextEl.textContent = total === 0 ? "0–0" : `${(start+1).toLocaleString('id-ID')}–${end.toLocaleString('id-ID')}`;
+      prevPageBtn.disabled = page <= 1;
+      nextPageBtn.disabled = page >= totalPages;
+
+      setState({loading:false, error:false, empty: total === 0});
+    }
+
+    function update() {
+      applyFilters();
+      applySort();
+      applyPagination();
+      [...theadRow.children].forEach(th => {
+        th.classList.remove("asc", "desc", "none");
+        if (th.dataset.key === sortKey) th.classList.add(sortDir === "asc" ? "asc" : "desc");
+        else th.classList.add("none");
+      });
+    }
+
+    // ---- Modal & Copy ----
+    function showToast(msg = "Tersalin") {
+      toastMsgEl.textContent = msg;
+      toastEl.classList.remove('hidden');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toastEl.classList.add('hidden'), 1500);
+    }
+
+    async function copyToClipboard(text, labelForMsg = "") {
+      try {
+        await navigator.clipboard.writeText(text);
+        showToast(`${labelForMsg || 'Teks'} disalin`);
+      } catch (e) {
+        showToast(`Gagal menyalin`);
+      }
+    }
+
+    function openDetail(rowObj) {
+      const firstKey = headers[0] || 'Rincian Data';
+      detailTitle.textContent = rowObj[firstKey] ? `${rowObj[firstKey]}` : 'Rincian Data';
+
+      detailBody.innerHTML = '';
+      const list = document.createElement('div');
+      list.className = 'grid grid-cols-1 sm:grid-cols-2 gap-3';
+
+      headers.forEach((h) => {
+        const wrap = document.createElement('div');
+        wrap.className = 'p-3 rounded-xl border border-slate-200 bg-slate-50/60';
+        const top = document.createElement('div');
+        top.className = 'flex items-start justify-between gap-3';
+
+        const left = document.createElement('div');
+        const label = document.createElement('div');
+        label.className = 'text-xs font-medium text-slate-500';
+        label.textContent = h;
+        const value = document.createElement('div');
+        value.className = 'mt-1 text-slate-900 break-words';
+        const v = (rowObj[h] ?? '').toString().trim();
+        value.textContent = v || '-';
+        left.appendChild(label);
+        left.appendChild(value);
+
+        top.appendChild(left);
+
+        // Tambah tombol Salin hanya untuk kolom yang diminta
+        if (COPY_SET.has(normalize(h)) && v) {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white text-slate-700 border border-slate-300 hover:bg-slate-100 focus-ring';
+          btn.innerHTML = `
+            <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" class="-ml-0.5">
+              <path d="M9 7a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2h-6a2 2 0 0 1-2-2V7z" stroke="currentColor" stroke-width="1.8" fill="none"/>
+              <path d="M6 16a2 2 0 0 1-2-2V6a3 3 0 0 1 3-3h7" stroke="currentColor" stroke-width="1.8" fill="none"/>
+            </svg>
+            <span>Salin</span>
+          `;
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            copyToClipboard(v, h);
+          });
+          top.appendChild(btn);
+        }
+
+        wrap.appendChild(top);
+        list.appendChild(wrap);
+      });
+
+      detailBody.appendChild(list);
+      modalEl.classList.remove('hidden');
+    }
+
+    function closeDetail() {
+      modalEl.classList.add('hidden');
+    }
+
+    // ---- Load Data ----
+    async function loadData() {
+      setState({loading:true, error:false, empty:false});
+      try {
+        const res = await fetch(CSV_URL, {cache: "no-store"});
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        const text = await res.text();
+
+        const matrix = parseCSV(text).filter(r => r.some(c => (c || "").toString().trim() !== ""));
+        if (!matrix.length) {
+          headers = [];
+          rows = [];
+          renderHeader();
+          renderStats();
+          setState({loading:false, error:false, empty:true});
+          return;
+        }
+
+        headers = matrix[0].map(normalizeHeader);
+        const dataRows = matrix.slice(1);
+        rows = dataRows.map(r => toObj(r, headers));
+
+        desilColKey = detectDesilColumn(headers);
+        if (!desilColKey) {
+          desilFilterEl.disabled = true;
+          desilFilterEl.classList.add("opacity-60", "cursor-not-allowed");
+          desilHelperEl.classList.remove("hidden");
+        } else {
+          desilFilterEl.disabled = false;
+          desilFilterEl.classList.remove("opacity-60", "cursor-not-allowed");
+          desilHelperEl.classList.add("hidden");
+        }
+
+        renderHeader();
+        statsWrap.classList.remove("hidden");
+        renderStats();
+
+        sortKey = null; sortDir = "asc"; page = 1;
+        update();
+      } catch (err) {
+        console.error("Fetch/parse error:", err);
+        setState({loading:false, error:true, empty:false});
+      }
+    }
+
+    // ---- Events ----
+    qEl.addEventListener("input", debounce(() => { page = 1; update(); }, 200));
+    desilFilterEl.addEventListener("change", () => { page = 1; update(); });
+    pageSizeEl.addEventListener("change", () => {
+      pageSize = parseInt(pageSizeEl.value, 10) || 20;
+      page = 1; update();
+    });
+    prevPageBtn.addEventListener("click", (e) => { e.preventDefault(); if (page > 1) { page--; update(); } });
+    nextPageBtn.addEventListener("click", (e) => { e.preventDefault(); page++; update(); });
+    btnRefresh.addEventListener("click", (e) => { e.preventDefault(); loadData(); });
+
+    // Modal close interactions
+    detailClose.addEventListener('click', (e) => { e.preventDefault(); closeDetail(); });
+    detailClose2.addEventListener('click', (e) => { e.preventDefault(); closeDetail(); });
+    modalBackdrop.addEventListener('click', (e) => { e.preventDefault(); closeDetail(); });
+    window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeDetail(); });
+
+    // Init
+    loadData();
+  </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'983e94d8c1356112',t:'MTc1ODY3ODEwNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

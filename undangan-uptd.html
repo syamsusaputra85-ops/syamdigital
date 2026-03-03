@@ -1,0 +1,727 @@
+<!doctype html>
+<html lang="id">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Undangan Resmi Puskesmas</title>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1763356194/Lambang_Kabupaten_Donggala_1_cvywgs.png">
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+        body {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Times New Roman', Times, serif;
+            background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+            min-height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem 1rem;
+        }
+
+        html {
+            height: 100%;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: white;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2E7D32 0%, #43A047 100%);
+            color: white;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            border-bottom: 4px solid #1B5E20;
+        }
+
+        .logo-placeholder {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-image {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+        }
+
+        .header h1 {
+            margin: 0.5rem 0 0.25rem;
+            font-size: 1.3rem;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        .header h2 {
+            margin: 0.25rem 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .header h3 {
+            margin: 0.25rem 0 1rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .header-contact {
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            opacity: 0.95;
+            line-height: 1.6;
+        }
+
+        .divider {
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #43A047, transparent);
+            margin: 1.5rem 0;
+        }
+
+        .content {
+            padding: 2rem 2.5rem;
+        }
+
+        .letter-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #E0E0E0;
+        }
+
+        .letter-meta-item {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .letter-meta-label {
+            font-weight: bold;
+            color: #2E7D32;
+            min-width: 80px;
+        }
+
+        .recipient-box {
+            background: #F1F8E9;
+            padding: 1rem 1.5rem;
+            border-left: 4px solid #43A047;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+
+        .recipient-box p {
+            margin: 0.25rem 0;
+        }
+
+        .recipient-label {
+            font-weight: bold;
+            color: #2E7D32;
+        }
+
+        .body-text {
+            text-align: justify;
+            line-height: 1.8;
+            color: #333;
+            margin: 1.5rem 0;
+        }
+
+        .event-details {
+            background: #F9FBE7;
+            border: 2px solid #C5E1A5;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .event-item {
+            display: flex;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #E0E0E0;
+        }
+
+        .event-item:last-child {
+            border-bottom: none;
+        }
+
+        .event-label {
+            font-weight: bold;
+            color: #2E7D32;
+            min-width: 150px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .event-value {
+            color: #333;
+            flex: 1;
+        }
+
+        .icon {
+            font-size: 1.2rem;
+        }
+
+        .closing {
+            margin-top: 2rem;
+            text-align: justify;
+            line-height: 1.8;
+        }
+
+        .signature-section {
+            margin-top: 3rem;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .signature-box {
+            text-align: center;
+            min-width: 250px;
+        }
+
+        .signature-location {
+            text-align: right;
+            margin-bottom: 0.5rem;
+        }
+
+        .signature-title {
+            margin: 0.5rem 0;
+            font-weight: bold;
+        }
+
+        .signature-space {
+            height: 120px;
+            margin: 1rem 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .signature-image {
+            max-width: 150px;
+            max-height: 120px;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .signature-name {
+            font-weight: bold;
+            text-decoration: underline;
+            margin-bottom: 0.25rem;
+        }
+
+        .signature-nip {
+            font-size: 0.9rem;
+        }
+
+        .footer {
+            background: #2E7D32;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .share-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 1rem 1.5rem;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .share-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6);
+        }
+
+        .share-button:active {
+            transform: translateY(0);
+        }
+
+        .whatsapp-icon {
+            font-size: 1.5rem;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem 0.5rem;
+            }
+            
+            .container {
+                border-radius: 4px;
+            }
+            
+            .header {
+                padding: 1.5rem 1rem;
+            }
+            
+            .logo-placeholder {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .logo-image {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .header h1 {
+                font-size: 1rem;
+                margin: 0.5rem 0 0.25rem;
+            }
+            
+            .header h2 {
+                font-size: 0.9rem;
+            }
+            
+            .header h3 {
+                font-size: 1rem;
+            }
+            
+            .header-contact {
+                font-size: 0.75rem;
+                line-height: 1.4;
+            }
+            
+            .content {
+                padding: 1rem;
+            }
+            
+            .letter-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+                margin-bottom: 1rem;
+                padding-bottom: 0.75rem;
+            }
+            
+            .letter-meta-label {
+                min-width: 70px;
+                font-size: 0.9rem;
+            }
+            
+            .letter-meta-item {
+                font-size: 0.9rem;
+            }
+            
+            .recipient-box {
+                padding: 0.75rem 1rem;
+                font-size: 0.9rem;
+            }
+            
+            .body-text {
+                font-size: 0.9rem;
+                line-height: 1.6;
+                margin: 1rem 0;
+            }
+            
+            .event-details {
+                padding: 1rem;
+                margin: 1.5rem 0;
+            }
+            
+            .event-item {
+                flex-direction: column;
+                padding: 0.5rem 0;
+                gap: 0.25rem;
+            }
+            
+            .event-label {
+                min-width: auto;
+                margin-bottom: 0.25rem;
+                font-size: 0.9rem;
+            }
+            
+            .event-value {
+                font-size: 0.85rem;
+                padding-left: 1.7rem;
+            }
+            
+            .closing {
+                margin-top: 1.5rem;
+                font-size: 0.9rem;
+                line-height: 1.6;
+            }
+            
+            .signature-section {
+                margin-top: 2rem;
+            }
+            
+            .signature-box {
+                min-width: 200px;
+                font-size: 0.85rem;
+            }
+            
+            .signature-space {
+                height: 100px;
+            }
+            
+            .signature-image {
+                max-width: 120px;
+                max-height: 100px;
+            }
+            
+            .signature-nip {
+                font-size: 0.75rem;
+            }
+            
+            .footer {
+                font-size: 0.75rem;
+                padding: 0.75rem;
+            }
+            
+            .share-button {
+                bottom: 1rem;
+                right: 1rem;
+                padding: 0.75rem 1rem;
+                font-size: 0.85rem;
+            }
+            
+            .whatsapp-icon {
+                font-size: 1.2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 0.5rem 0.25rem;
+            }
+            
+            .header h1 {
+                font-size: 0.9rem;
+            }
+            
+            .header h2 {
+                font-size: 0.8rem;
+            }
+            
+            .header h3 {
+                font-size: 0.9rem;
+            }
+            
+            .content {
+                padding: 0.75rem;
+            }
+            
+            .share-button {
+                bottom: 0.5rem;
+                right: 0.5rem;
+                padding: 0.6rem 0.8rem;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="container">
+   <div class="header">
+    <div class="logo-placeholder"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1763356194/Lambang_Kabupaten_Donggala_1_cvywgs.png" alt="Logo Kabupaten Donggala" class="logo-image" onerror="this.style.display='none';">
+    </div>
+    <h1 id="institution-name">PEMERINTAH KABUPATEN DONGGALA</h1>
+    <h2 id="sub-institution">KECAMATAN TANANTOVEA</h2>
+    <h3 id="office-name">UPTD PUSKESMAS MALAMBORA WANI</h3>
+    <div class="divider"></div>
+    <div class="header-contact">
+     <div id="address">
+      Alamat: Jalan KH. Moh. Arsyad No. 17 Wani, Kode Pos 94352
+     </div>
+     <div id="email">
+      Email: puskesmeswani1@gmail.com
+     </div>
+    </div>
+   </div>
+   <div class="content">
+    <div class="letter-meta">
+     <div class="letter-meta-item"><span class="letter-meta-label">Nomor</span> <span id="letter-number">: 522/445-440/PKMWN/X1/2025</span>
+     </div>
+    </div>
+    <div class="letter-meta">
+     <div class="letter-meta-item"><span class="letter-meta-label">Lampiran</span> <span>: -</span>
+     </div>
+    </div>
+    <div class="letter-meta" style="border-bottom: none;">
+     <div class="letter-meta-item"><span class="letter-meta-label">Perihal</span> <span id="subject">: Undangan Pelaksanaan Gerakan Kebugaran Jasmani</span>
+     </div>
+    </div>
+    <div class="recipient-box">
+     <p class="recipient-label">Kepada Yth.</p>
+     <p id="recipient">Ketua TP PKK Desa Wani Lumbumpetigo</p>
+     <p><strong>Di Tempat</strong></p>
+    </div>
+    <div class="body-text">
+     <p id="paragraph-1">Aparatur Sipil Negara (ASN) merupakan pekerja dengan usia produktif yang membutuhkan kebugaran jasmani yang baik dalam melaksanakan tugas dan fungsinya. Untuk mengetahui tingkat kebugaran jasmani, perlu dilakukan pengukuran kebugaran jasmani. Pengukuran ini juga bertujuan untuk meningkatkan kebugaran ASN dalam mewujudkan ASN yang produktif serta penerapan gaya hidup sehat.</p>
+     <p id="paragraph-2">Untuk itu dalam rangka memperingati Hari Kesehatan Nasional ke-61, kami mengundang kepada Bapak/Ibu untuk dapat hadir pada kegiatan Gerakan Kebugaran Jasmani ASN tingkat Puskesmas Malambora Wani yang dirangkaikan dengan Pemeriksaan Penyakit Tidak Menular (PTM). Kegiatan tersebut sekiranya akan dilaksanakan pada:</p>
+    </div>
+    <div class="event-details">
+     <div class="event-item">
+      <div class="event-label"><span class="icon">���</span> <span>Hari/Tanggal</span>
+      </div>
+      <div class="event-value" id="event-day">
+       : Jum'at, 21 November 2025
+      </div>
+     </div>
+     <div class="event-item">
+      <div class="event-label"><span class="icon">🕐</span> <span>Waktu</span>
+      </div>
+      <div class="event-value" id="event-time">
+       : 07.00 WITA - Selesai
+      </div>
+     </div>
+     <div class="event-item">
+      <div class="event-label"><span class="icon">📍</span> <span>Tempat</span>
+      </div>
+      <div class="event-value" id="event-location">
+       : Halaman Kantor UPTD Puskesmas Malambora Wani
+      </div>
+     </div>
+     <div class="event-item">
+      <div class="event-label"><span class="icon">📝</span> <span>Catatan</span>
+      </div>
+      <div class="event-value" id="event-notes">
+       : Membawa KTP &amp; mengenakan pakaian olahraga
+      </div>
+     </div>
+    </div>
+    <div class="closing">
+     <p id="closing-text">Demikian undangan ini kami sampaikan, atas kehadirannya diucapkan terimakasih.</p>
+    </div>
+    <div class="signature-section">
+     <div class="signature-box">
+      <div class="signature-location" id="signature-location">
+       Wani, 19 November 2025
+      </div>
+      <div class="signature-title" id="signature-title">
+       Kepala UPTD Puskesmas Malambora Wani
+      </div>
+      <div class="signature-space"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1763534943/qr-code-kapus_rcfenq.png" alt="Tanda Tangan Digital" class="signature-image" onerror="this.style.display='none'; this.alt='Tanda tangan tidak dapat dimuat';">
+      </div>
+      <div class="signature-name" id="signature-name">
+       DIAN ANDRIANI, SKM
+      </div>
+      <div class="signature-nip" id="signature-nip">
+       NIP. 19850712 201012 2 012
+      </div>
+     </div>
+    </div>
+   </div>
+   <div class="footer">
+    🏥 UPTD Puskesmas Malambora Wani - Melayani dengan Sepenuh Hati
+   </div>
+  </div><button class="share-button" id="shareWhatsApp"> <span class="whatsapp-icon">📱</span> <span>Bagikan Ke WhatsApp</span> </button>
+  <script>
+        const defaultConfig = {
+            institution_name: "PEMERINTAH KABUPATEN DONGGALA",
+            sub_institution: "KECAMATAN TANANTOVEA",
+            office_name: "UPTD PUSKESMAS MALAMBORA WANI",
+            address: "Alamat: Jalan KH. Moh. Arsyad No. 17 Wani, Kode Pos 94352",
+            email: "Email: puskesmaswani1@gmail.com",
+            letter_number: ": 522/445-440/PKMWN/X1/2025",
+            subject: ": Undangan Pelaksanaan Gerakan Kebugaran Jasmani",
+            recipient: "Ketua TP PKK Desa Wani Lumbumpetigo",
+            paragraph_1: "Aparatur Sipil Negara (ASN) merupakan pekerja dengan usia produktif yang membutuhkan kebugaran jasmani yang baik dalam melaksanakan tugas dan fungsinya. Untuk mengetahui tingkat kebugaran jasmani, perlu dilakukan pengukuran kebugaran jasmani. Pengukuran ini juga bertujuan untuk meningkatkan kebugaran ASN dalam mewujudkan ASN yang produktif serta penerapan gaya hidup sehat.",
+            paragraph_2: "Untuk itu dalam rangka memperingati Hari Kesehatan Nasional ke-61, kami mengundang kepada Bapak/Ibu untuk dapat hadir pada kegiatan Gerakan Kebugaran Jasmani ASN tingkat Puskesmas Malambora Wani yang dirangkaikan dengan Pemeriksaan Penyakit Tidak Menular (PTM). Kegiatan tersebut sekiranya akan dilaksanakan pada:",
+            event_day: ": Jum'at, 21 November 2025",
+            event_time: ": 07.00 WITA - Selesai",
+            event_location: ": Halaman Kantor UPTD Puskesmas Malambora Wani",
+            event_notes: ": Membawa KTP & mengenakan pakaian olahraga",
+            closing_text: "Demikian undangan ini kami sampaikan, atas kehadirannya diucapkan terimakasih.",
+            signature_location: "Wani, 19 November 2025",
+            signature_title: "Kepala UPTD Puskesmas Malambora Wani",
+            signature_name: "DIAN ANDRIANI, SKM",
+            signature_nip: "NIP. 19850712 201012 2 012",
+            header_color: "#2E7D32",
+            accent_color: "#43A047",
+            background_color: "#F1F8E9",
+            text_color: "#333333",
+            border_color: "#C5E1A5"
+        };
+
+        async function onConfigChange(config) {
+            document.getElementById('institution-name').textContent = config.institution_name || defaultConfig.institution_name;
+            document.getElementById('sub-institution').textContent = config.sub_institution || defaultConfig.sub_institution;
+            document.getElementById('office-name').textContent = config.office_name || defaultConfig.office_name;
+            document.getElementById('address').textContent = config.address || defaultConfig.address;
+            document.getElementById('email').textContent = config.email || defaultConfig.email;
+            document.getElementById('letter-number').textContent = config.letter_number || defaultConfig.letter_number;
+            document.getElementById('subject').textContent = config.subject || defaultConfig.subject;
+            document.getElementById('recipient').textContent = config.recipient || defaultConfig.recipient;
+            document.getElementById('paragraph-1').textContent = config.paragraph_1 || defaultConfig.paragraph_1;
+            document.getElementById('paragraph-2').textContent = config.paragraph_2 || defaultConfig.paragraph_2;
+            document.getElementById('event-day').textContent = config.event_day || defaultConfig.event_day;
+            document.getElementById('event-time').textContent = config.event_time || defaultConfig.event_time;
+            document.getElementById('event-location').textContent = config.event_location || defaultConfig.event_location;
+            document.getElementById('event-notes').textContent = config.event_notes || defaultConfig.event_notes;
+            document.getElementById('closing-text').textContent = config.closing_text || defaultConfig.closing_text;
+            document.getElementById('signature-location').textContent = config.signature_location || defaultConfig.signature_location;
+            document.getElementById('signature-title').textContent = config.signature_title || defaultConfig.signature_title;
+            document.getElementById('signature-name').textContent = config.signature_name || defaultConfig.signature_name;
+            document.getElementById('signature-nip').textContent = config.signature_nip || defaultConfig.signature_nip;
+
+            const headerColor = config.header_color || defaultConfig.header_color;
+            const accentColor = config.accent_color || defaultConfig.accent_color;
+            const backgroundColor = config.background_color || defaultConfig.background_color;
+            const textColor = config.text_color || defaultConfig.text_color;
+            const borderColor = config.border_color || defaultConfig.border_color;
+
+            document.querySelector('.header').style.background = `linear-gradient(135deg, ${headerColor} 0%, ${accentColor} 100%)`;
+            document.querySelector('.footer').style.background = headerColor;
+            document.querySelectorAll('.letter-meta-label, .recipient-label, .event-label').forEach(el => {
+                el.style.color = headerColor;
+            });
+            document.querySelector('.recipient-box').style.background = backgroundColor;
+            document.querySelector('.recipient-box').style.borderLeftColor = accentColor;
+            document.querySelector('.event-details').style.borderColor = borderColor;
+            document.querySelectorAll('.body-text, .event-value, .closing').forEach(el => {
+                el.style.color = textColor;
+            });
+        }
+
+        function mapToCapabilities(config) {
+            return {
+                recolorables: [
+                    {
+                        get: () => config.header_color || defaultConfig.header_color,
+                        set: (value) => {
+                            config.header_color = value;
+                            if (window.elementSdk) {
+                                window.elementSdk.setConfig({ header_color: value });
+                            }
+                        }
+                    },
+                    {
+                        get: () => config.accent_color || defaultConfig.accent_color,
+                        set: (value) => {
+                            config.accent_color = value;
+                            if (window.elementSdk) {
+                                window.elementSdk.setConfig({ accent_color: value });
+                            }
+                        }
+                    },
+                    {
+                        get: () => config.background_color || defaultConfig.background_color,
+                        set: (value) => {
+                            config.background_color = value;
+                            if (window.elementSdk) {
+                                window.elementSdk.setConfig({ background_color: value });
+                            }
+                        }
+                    },
+                    {
+                        get: () => config.text_color || defaultConfig.text_color,
+                        set: (value) => {
+                            config.text_color = value;
+                            if (window.elementSdk) {
+                                window.elementSdk.setConfig({ text_color: value });
+                            }
+                        }
+                    },
+                    {
+                        get: () => config.border_color || defaultConfig.border_color,
+                        set: (value) => {
+                            config.border_color = value;
+                            if (window.elementSdk) {
+                                window.elementSdk.setConfig({ border_color: value });
+                            }
+                        }
+                    }
+                ],
+                borderables: [],
+                fontEditable: undefined,
+                fontSizeable: undefined
+            };
+        }
+
+        function mapToEditPanelValues(config) {
+            return new Map([
+                ["institution_name", config.institution_name || defaultConfig.institution_name],
+                ["sub_institution", config.sub_institution || defaultConfig.sub_institution],
+                ["office_name", config.office_name || defaultConfig.office_name],
+                ["address", config.address || defaultConfig.address],
+                ["email", config.email || defaultConfig.email],
+                ["letter_number", config.letter_number || defaultConfig.letter_number],
+                ["subject", config.subject || defaultConfig.subject],
+                ["recipient", config.recipient || defaultConfig.recipient],
+                ["paragraph_1", config.paragraph_1 || defaultConfig.paragraph_1],
+                ["paragraph_2", config.paragraph_2 || defaultConfig.paragraph_2],
+                ["event_day", config.event_day || defaultConfig.event_day],
+                ["event_time", config.event_time || defaultConfig.event_time],
+                ["event_location", config.event_location || defaultConfig.event_location],
+                ["event_notes", config.event_notes || defaultConfig.event_notes],
+                ["closing_text", config.closing_text || defaultConfig.closing_text],
+                ["signature_location", config.signature_location || defaultConfig.signature_location],
+                ["signature_title", config.signature_title || defaultConfig.signature_title],
+                ["signature_name", config.signature_name || defaultConfig.signature_name],
+                ["signature_nip", config.signature_nip || defaultConfig.signature_nip]
+            ]);
+        }
+
+        if (window.elementSdk) {
+            window.elementSdk.init({
+                defaultConfig,
+                onConfigChange,
+                mapToCapabilities,
+                mapToEditPanelValues
+            });
+        }
+
+        // WhatsApp Share Functionality
+        document.getElementById('shareWhatsApp').addEventListener('click', function() {
+            const config = window.elementSdk ? window.elementSdk.config : defaultConfig;
+            
+            const message = `*UNDANGAN RESMI*\n\n` +
+                `${config.institution_name || defaultConfig.institution_name}\n` +
+                `${config.sub_institution || defaultConfig.sub_institution}\n` +
+                `${config.office_name || defaultConfig.office_name}\n\n` +
+                `📋 *${(config.subject || defaultConfig.subject).replace(': ', '')}*\n\n` +
+                `Kepada Yth.\n${config.recipient || defaultConfig.recipient}\n\n` +
+                `📅 ${(config.event_day || defaultConfig.event_day).replace(': ', '')}\n` +
+                `🕐 ${(config.event_time || defaultConfig.event_time).replace(': ', '')}\n` +
+                `📍 ${(config.event_location || defaultConfig.event_location).replace(': ', '')}\n\n` +
+                `📝 Catatan: ${(config.event_notes || defaultConfig.event_notes).replace(': ', '')}\n\n` +
+                `_${config.closing_text || defaultConfig.closing_text}_\n\n` +
+                `${config.signature_title || defaultConfig.signature_title}\n` +
+                `${config.signature_name || defaultConfig.signature_name}\n\n` +
+                `ℹ️ Info Selengkapnya:\nhttps://syam.digital/undangan-uptd`;
+            
+            const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+        });
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a0dd620a04d91bd',t:'MTc2MzUzNTY4OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

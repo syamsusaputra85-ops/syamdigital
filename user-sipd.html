@@ -1,0 +1,1264 @@
+<!doctype html>
+<html lang="id">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pencarian Data User SIPD-RI</title>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/dpr2vc3b0/image/upload/v1766586115/LOGO_DONGGALA-removebg-preview_wllzdo.png">
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .app-wrapper {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .container {
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .header {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .header-top {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .logo-container {
+      width: 50px;
+      height: 50px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-container img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .header h1 {
+      margin: 0;
+      color: #333;
+      font-size: 28px;
+      font-weight: 600;
+    }
+
+    .header-share-btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin-left: auto;
+    }
+
+    .header-share-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+
+    .header-share-btn:active {
+      transform: translateY(0);
+    }
+
+    .search-box {
+      display: flex;
+      gap: 10px;
+    }
+
+    .search-input {
+      flex: 1;
+      padding: 12px 16px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: border-color 0.3s;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .filter-select {
+      padding: 12px 16px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 14px;
+      background: white;
+      cursor: pointer;
+      transition: border-color 0.3s;
+    }
+
+    .filter-select:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .results-info {
+      color: #666;
+      font-size: 13px;
+      margin-top: 12px;
+    }
+
+    .results-container {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    .no-results {
+      text-align: center;
+      padding: 40px 20px;
+      color: #999;
+      font-size: 14px;
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    thead {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      position: sticky;
+      top: 0;
+    }
+
+    th {
+      padding: 14px 12px;
+      text-align: left;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 12px;
+      border-bottom: 1px solid #f0f0f0;
+      word-break: break-word;
+    }
+
+    tbody tr:hover {
+      background: #f8f9ff;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .no-data {
+      text-align: center;
+      padding: 30px;
+      color: #999;
+    }
+
+    .highlight {
+      background: #fffacd;
+      padding: 2px 4px;
+      border-radius: 3px;
+    }
+
+    .desa-name {
+      cursor: pointer;
+      color: #667eea;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .desa-name:hover {
+      color: #764ba2;
+      text-decoration: underline;
+    }
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      max-width: 500px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      animation: slideIn 0.3s ease-out;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .modal-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 24px;
+      border-radius: 12px 12px 0 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h2 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      transition: transform 0.2s;
+      padding: 0;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-close:hover {
+      transform: scale(1.2);
+    }
+
+    .modal-body {
+      padding: 24px;
+    }
+
+    .detail-row {
+      display: flex;
+      margin-bottom: 16px;
+      border-bottom: 1px solid #f0f0f0;
+      padding-bottom: 12px;
+    }
+
+    .detail-row:last-child {
+      border-bottom: none;
+    }
+
+    .detail-label {
+      font-weight: 600;
+      color: #666;
+      min-width: 140px;
+      flex-shrink: 0;
+      font-size: 13px;
+    }
+
+    .detail-value {
+      color: #333;
+      flex: 1;
+      word-break: break-word;
+      font-size: 13px;
+    }
+
+    .copy-btn {
+      background: #f0f0f0;
+      border: 1px solid #e0e0e0;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      color: #667eea;
+      font-weight: 500;
+      transition: all 0.2s;
+      margin-left: 8px;
+    }
+
+    .copy-btn:hover {
+      background: #e0e0e0;
+      border-color: #667eea;
+    }
+
+    .password-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .password-toggle {
+      background: #f0f0f0;
+      border: 1px solid #e0e0e0;
+      padding: 4px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      color: #667eea;
+    }
+
+    .password-toggle:hover {
+      background: #e0e0e0;
+    }
+
+    .password-toggle:disabled {
+      background: #e8e8e8;
+      border-color: #d0d0d0;
+      color: #999;
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+
+    .password-toggle:disabled:hover {
+      background: #e8e8e8;
+    }
+
+    .share-button {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      width: 100%;
+      margin-top: 20px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .share-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+
+    .share-button:active {
+      transform: translateY(0);
+    }
+
+    @media (max-width: 768px) {
+      .app-wrapper {
+        padding: 12px;
+      }
+
+      .header {
+        padding: 16px;
+        margin-bottom: 12px;
+      }
+
+      .header-top {
+        margin-bottom: 12px;
+        flex-wrap: wrap;
+      }
+
+      .logo-container {
+        width: 40px;
+        height: 40px;
+      }
+
+      .header h1 {
+        font-size: 18px;
+        font-weight: 600;
+        flex: 1;
+      }
+
+      .header-share-btn {
+        padding: 8px 14px;
+        font-size: 12px;
+        width: 100%;
+        margin-left: 0;
+        margin-top: 8px;
+      }
+
+      .search-box {
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .search-input {
+        width: 100%;
+        padding: 10px 12px;
+        font-size: 14px;
+      }
+
+      .filter-select {
+        width: 100%;
+        padding: 10px 12px;
+        font-size: 14px;
+      }
+
+      .results-info {
+        font-size: 12px;
+        margin-top: 8px;
+      }
+
+      .results-container {
+        padding: 12px;
+        border-radius: 8px;
+      }
+
+      .table-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      table {
+        font-size: 11px;
+        width: 100%;
+      }
+
+      th {
+        padding: 8px 6px;
+        font-size: 11px;
+      }
+
+      td {
+        padding: 8px 6px;
+        font-size: 11px;
+      }
+
+      code {
+        font-size: 10px !important;
+      }
+
+      .desa-name {
+        font-size: 11px;
+      }
+
+      .highlight {
+        padding: 1px 3px;
+      }
+
+      .modal-content {
+        max-width: 95vw;
+        max-height: 85vh;
+        border-radius: 12px;
+      }
+
+      .modal-header {
+        padding: 16px;
+      }
+
+      .modal-header h2 {
+        font-size: 16px;
+      }
+
+      .modal-body {
+        padding: 16px;
+      }
+
+      .detail-row {
+        flex-direction: column;
+        margin-bottom: 12px;
+        padding-bottom: 10px;
+      }
+
+      .detail-label {
+        font-size: 12px;
+        min-width: auto;
+        margin-bottom: 4px;
+        font-weight: 600;
+      }
+
+      .detail-value {
+        font-size: 12px;
+      }
+
+      .copy-btn {
+        padding: 5px 10px;
+        font-size: 11px;
+        margin-left: 6px;
+        margin-top: 4px;
+      }
+
+      .password-row {
+        flex-direction: column;
+        gap: 6px;
+        margin-top: 4px;
+      }
+
+      .password-toggle {
+        padding: 5px 8px;
+        font-size: 11px;
+        width: fit-content;
+      }
+
+      .share-button {
+        padding: 10px 16px;
+        font-size: 13px;
+        margin-top: 12px;
+      }
+
+      .no-data {
+        padding: 20px 10px;
+        font-size: 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .app-wrapper {
+        padding: 8px;
+      }
+
+      .header {
+        padding: 12px;
+        margin-bottom: 8px;
+      }
+
+      .header-top {
+        gap: 8px;
+        margin-bottom: 8px;
+      }
+
+      .logo-container {
+        width: 36px;
+        height: 36px;
+      }
+
+      .header h1 {
+        font-size: 16px;
+      }
+
+      .search-box {
+        gap: 6px;
+      }
+
+      .search-input,
+      .filter-select {
+        padding: 9px 10px;
+        font-size: 13px;
+      }
+
+      .results-container {
+        padding: 10px;
+      }
+
+      table {
+        font-size: 10px;
+      }
+
+      th {
+        padding: 6px 4px;
+        font-size: 10px;
+      }
+
+      td {
+        padding: 6px 4px;
+        font-size: 10px;
+      }
+
+      code {
+        font-size: 9px !important;
+        padding: 2px 4px !important;
+      }
+
+      .modal-content {
+        max-width: 100vw;
+        max-height: 80vh;
+      }
+
+      .modal-header {
+        padding: 12px;
+      }
+
+      .modal-header h2 {
+        font-size: 14px;
+      }
+
+      .modal-body {
+        padding: 12px;
+      }
+
+      .detail-row {
+        margin-bottom: 10px;
+        padding-bottom: 8px;
+      }
+
+      .detail-label {
+        font-size: 11px;
+      }
+
+      .detail-value {
+        font-size: 11px;
+      }
+
+      .copy-btn {
+        padding: 4px 8px;
+        font-size: 10px;
+        margin-left: 4px;
+      }
+
+      .share-button {
+        padding: 9px 12px;
+        font-size: 12px;
+        margin-top: 10px;
+      }
+    }
+  .vote-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 20px;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border-radius: 16px;
+  margin: 20px 0;
+  flex-wrap: wrap;
+}
+.vote-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  font-weight: 600;
+  font-size: 14px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+.vote-btn svg {
+  transition: transform 0.3s ease;
+}
+.vote-btn:hover svg {
+  transform: scale(1.15);
+}
+.like-btn {
+  background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+  color: #2e7d32;
+}
+.like-btn:hover {
+  background: linear-gradient(135deg, #c8e6c9 0%, #a5d6a7 100%);
+  box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
+  transform: translateY(-2px);
+}
+.like-btn.active {
+  background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+  color: white;
+}
+.dislike-btn {
+  background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+  color: #c62828;
+}
+.dislike-btn:hover {
+  background: linear-gradient(135deg, #ffcdd2 0%, #ef9a9a 100%);
+  box-shadow: 0 4px 15px rgba(198, 40, 40, 0.3);
+  transform: translateY(-2px);
+}
+.dislike-btn.active {
+  background: linear-gradient(135deg, #ef5350 0%, #c62828 100%);
+  color: white;
+}
+.vote-feedback {
+  width: 100%;
+  text-align: center;
+  margin-top: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.vote-feedback.show {
+  opacity: 1;
+} 
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="app-wrapper">
+   <div class="container">
+    <div class="header">
+     <div class="header-top">
+      <div class="logo-container"><img src="https://res.cloudinary.com/dpr2vc3b0/image/upload/v1766586115/LOGO_DONGGALA-removebg-preview_wllzdo.png" alt="Logo Donggala" loading="lazy" onerror="console.error('Logo failed to load:', this.src); this.style.display='none';">
+      </div>
+      <h1 id="app-title">Pencarian Data User SIPD-RI</h1><button class="header-share-btn" onclick="shareAppToWhatsApp()">📱 Bagikan Aplikasi</button>
+     </div>
+     <div class="search-box"><input type="text" id="searchInput" class="search-input" placeholder="Cari berdasarkan nama desa atau kepala desa..."> <select id="kecamatanFilter" class="filter-select"> <option value="">Kecamatan</option> </select>
+     </div>
+     <div class="results-info">
+      Ditemukan: <strong id="resultCount">0</strong> data
+     </div>
+    </div>
+    <div class="results-container">
+     <div class="table-wrapper">
+      <table id="dataTable">
+       <thead>
+        <tr>
+         <th>No.</th>
+         <th>Kecamatan</th>
+         <th>Desa</th>
+         <th>Nama Kepala Desa</th>
+         <th>Username</th>
+         <th>Password</th>
+        </tr>
+       </thead>
+       <tbody id="tableBody">
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+  </div><!-- Modal Rincian -->
+  <div class="modal-overlay" id="detailModal">
+   <div class="modal-content">
+    <div class="modal-header">
+     <h2 id="modalTitle">Rincian Desa</h2><button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"><!-- Detail akan ditampilkan di sini -->
+    </div>
+   </div>
+  </div>
+  <script>
+    // Data dari tabel yang diberikan - dioptimalkan untuk loading cepat
+    const allData = [
+      { no: 1, kecamatan: 'Tanantovea', desa: 'Wani Satu', kepala: 'ZAINUDIN NY', username: 'desawani1', password: '' },
+      { no: 2, kecamatan: 'Tanantovea', desa: 'Wani Dua', kepala: 'Sunardin, SE', username: 'desawani2', password: 'donggalakab01#@!A' },
+      { no: 3, kecamatan: 'Tanantovea', desa: 'Nupa Bomba', kepala: 'IDRAL', username: 'desanupabomba', password: 'donggalakab01#@!A' },
+      { no: 4, kecamatan: 'Tanantovea', desa: 'Wombo', kepala: 'RUBERT', username: 'desawombo', password: 'donggalakab01#@!A' },
+      { no: 5, kecamatan: 'Tanantovea', desa: 'Guntarano', kepala: 'Uswatun Hasanah, SE (Pj)', username: 'desaguntarano', password: 'donggalakab01#@!A' },
+      { no: 6, kecamatan: 'Tanantovea', desa: 'Bale', kepala: 'Adam', username: 'desabale', password: 'donggalakab01#@!A' },
+      { no: 7, kecamatan: 'Tanantovea', desa: 'Wombo Mpanau', kepala: 'MOHAMAD NASIR', username: 'desawombompanau', password: 'donggalakab01#@!A' },
+      { no: 8, kecamatan: 'Tanantovea', desa: 'Wombo Kalonggo', kepala: 'Zulfikar, S.Pd', username: 'desawombokalonggo', password: 'donggalakab01#@!A' },
+      { no: 9, kecamatan: 'Tanantovea', desa: 'Wani Tiga', kepala: 'Amran', username: 'desawani3', password: 'donggalakab01#@!A' },
+      { no: 10, kecamatan: 'Tanantovea', desa: 'Wani Lumbumpetigo', kepala: 'Amir Ramang', username: 'desalumbupetigo', password: 'donggalakab01#@!A' }
+    ];
+
+    let filteredData = [...allData];
+    let isInitialized = false;
+    const defaultConfig = {
+      app_title: 'Pencarian Data User SIPD-RI',
+      search_placeholder: 'Cari berdasarkan nama desa atau kepala desa...'
+    };
+    let config = { ...defaultConfig };
+
+    // Initialize Element SDK
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange: async (newConfig) => {
+          config = newConfig;
+          document.getElementById('app-title').textContent = config.app_title || defaultConfig.app_title;
+          document.getElementById('searchInput').placeholder = config.search_placeholder || defaultConfig.search_placeholder;
+        },
+        mapToCapabilities: () => ({
+          recolorables: [],
+          borderables: [],
+          fontEditable: undefined,
+          fontSizeable: undefined
+        }),
+        mapToEditPanelValues: () => new Map([
+          ['app_title', config.app_title || defaultConfig.app_title],
+          ['search_placeholder', config.search_placeholder || defaultConfig.search_placeholder]
+        ])
+      });
+    }
+
+    // Setup filter dropdown
+    function setupFilters() {
+      const kecamatanSet = new Set(allData.map(item => item.kecamatan));
+      const kecamatanFilter = document.getElementById('kecamatanFilter');
+      
+      Array.from(kecamatanSet).sort().forEach(kecamatan => {
+        const option = document.createElement('option');
+        option.value = kecamatan;
+        option.textContent = kecamatan;
+        kecamatanFilter.appendChild(option);
+      });
+    }
+
+    // Filter and search data
+    function filterData() {
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+      const kecamatanTerm = document.getElementById('kecamatanFilter').value;
+
+      filteredData = allData.filter(item => {
+        const matchSearch = !searchTerm || 
+          item.desa.toLowerCase().includes(searchTerm) ||
+          item.kepala.toLowerCase().includes(searchTerm) ||
+          item.username.toLowerCase().includes(searchTerm);
+        
+        const matchKecamatan = !kecamatanTerm || item.kecamatan === kecamatanTerm;
+
+        return matchSearch && matchKecamatan;
+      });
+
+      renderTable();
+      updateResultCount();
+    }
+
+    // Highlight search term in text
+    function highlightText(text, term) {
+      if (!term) return text;
+      const regex = new RegExp(`(${term})`, 'gi');
+      return text.replace(regex, '<span class="highlight">$1</span>');
+    }
+
+    // Render table dengan optimisasi
+    function renderTable() {
+      const tableBody = document.getElementById('tableBody');
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+
+      if (filteredData.length === 0) {
+        tableBody.innerHTML = '<tr class="no-data"><td colspan="6">Tidak ada data yang ditemukan</td></tr>';
+        return;
+      }
+
+      // Render rows secara batch untuk performa lebih baik
+      const fragment = document.createDocumentFragment();
+      filteredData.forEach((item, index) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${item.no}</td>
+          <td>${highlightText(item.kecamatan, searchTerm)}</td>
+          <td><span class="desa-name" onclick="openModal(${index})">${highlightText(item.desa, searchTerm)}</span></td>
+          <td>${highlightText(item.kepala, searchTerm)}</td>
+          <td><code style="background: #f0f0f0; padding: 4px 8px; border-radius: 4px; font-size: 12px;">${highlightText(item.username, searchTerm)}</code></td>
+          <td><code style="background: #f0f0f0; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold;">●●●●●●●●●●●●</code></td>
+        `;
+        fragment.appendChild(tr);
+      });
+      tableBody.innerHTML = '';
+      tableBody.appendChild(fragment);
+    }
+
+    // Update result count
+    function updateResultCount() {
+      document.getElementById('resultCount').textContent = filteredData.length;
+    }
+
+    // Event listeners
+    document.getElementById('searchInput').addEventListener('input', filterData);
+    document.getElementById('kecamatanFilter').addEventListener('change', filterData);
+
+    // Initialize - dipanggil secepatnya
+    if (!isInitialized) {
+      isInitialized = true;
+      setupFilters();
+      renderTable();
+      updateResultCount();
+    }
+
+    // Modal functions
+    function openModal(index) {
+      const item = filteredData[index];
+      if (!item) return;
+
+      const modalTitle = document.getElementById('modalTitle');
+      const modalBody = document.getElementById('modalBody');
+      
+      modalTitle.textContent = `Rincian - ${item.desa}`;
+      
+      modalBody.innerHTML = `
+        <div class="detail-row">
+          <span class="detail-label">No.</span>
+          <span class="detail-value">${item.no}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Kecamatan</span>
+          <span class="detail-value">${item.kecamatan}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Desa</span>
+          <span class="detail-value">${item.desa}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Kepala Desa</span>
+          <span class="detail-value">${item.kepala}</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Username</span>
+          <span class="detail-value">
+            ${item.username}
+            <button class="copy-btn" onclick="copyToClipboard('${item.username}', this)">Salin</button>
+          </span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Password</span>
+          <span class="detail-value">
+            <div class="password-row">
+              <span id="passwordDisplay">●●●●●●●●●●●</span>
+              <button class="password-toggle" onclick="togglePassword('${item.password}')">Tampilkan</button>
+              <button class="copy-btn" onclick="copyToClipboard('${item.password}', this)">Salin</button>
+            </div>
+          </span>
+        </div>
+        <button class="share-button" onclick="shareToWhatsApp('${item.desa}', '${item.kepala}', '${item.username}', '${item.password}')">
+          📱 Bagikan ke WhatsApp
+        </button>
+      `;
+
+      document.getElementById('detailModal').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('detailModal').classList.remove('active');
+    }
+
+    function togglePassword(password) {
+      const display = document.getElementById('passwordDisplay');
+      const toggle = event.target;
+      
+      if (display.textContent === '●●●●●●●●●●●') {
+        display.textContent = password;
+        toggle.textContent = 'Sembunyikan';
+      } else {
+        display.textContent = '●●●●●●●●●●●●';
+        toggle.textContent = 'Tampilkan';
+      }
+    }
+
+    function copyToClipboard(text, button) {
+      navigator.clipboard.writeText(text).then(() => {
+        const originalText = button.textContent;
+        button.textContent = 'Tersalin!';
+        setTimeout(() => {
+          button.textContent = originalText;
+        }, 2000);
+      }).catch(err => {
+        console.error('Gagal menyalin:', err);
+        button.textContent = 'Gagal';
+      });
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('detailModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeModal();
+      }
+    });
+
+    function shareToWhatsApp(desa, kepala, username, password) {
+      const message = `*RINCIAN DATA DESA*%0A%0A*Nama Desa:* ${encodeURIComponent(desa)}%0A*Kepala Desa:* ${encodeURIComponent(kepala)}%0A*Username:* ${encodeURIComponent(username)}%0A*Password:* ${encodeURIComponent(password)}%0A%0A*Kunjungi:* https://syam.digital/user-sipd`;
+      const whatsappUrl = `https://wa.me/?text=${message}`;
+      window.open(whatsappUrl, '_blank');
+    }
+
+    function shareAppToWhatsApp() {
+      const appTitle = document.getElementById('app-title').textContent;
+      const message = `*${encodeURIComponent(appTitle)}*%0A%0AHalo! Saya ingin berbagi aplikasi pencarian data user SIPD-RI semoga membantu.%0A%0A🔗 *Kunjungi:* https://syam.digital/user-sipd%0A%0ADapatkan informasi lengkap tentang desa, kepala desa, username, dan akses yang diperlukan dengan mudah!`;
+      const whatsappUrl = `https://wa.me/?text=${message}`;
+      window.open(whatsappUrl, '_blank');
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c7f153585bc8321',t:'MTc3MDA5MTg3MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
+<!-- Tombol Voting Kepuasan - Mulai -->
+<html>
+ <head>
+  <style>
+.vote-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 20px;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border-radius: 16px;
+  margin: 20px 0;
+  flex-wrap: wrap;
+}
+.vote-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  font-weight: 600;
+  font-size: 14px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+.vote-btn svg {
+  transition: transform 0.3s ease;
+}
+.vote-btn:hover svg {
+  transform: scale(1.15);
+}
+.like-btn {
+  background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+  color: #2e7d32;
+}
+.like-btn:hover {
+  background: linear-gradient(135deg, #c8e6c9 0%, #a5d6a7 100%);
+  box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
+  transform: translateY(-2px);
+}
+.like-btn.active {
+  background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+  color: white;
+}
+.dislike-btn {
+  background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+  color: #c62828;
+}
+.dislike-btn:hover {
+  background: linear-gradient(135deg, #ffcdd2 0%, #ef9a9a 100%);
+  box-shadow: 0 4px 15px rgba(198, 40, 40, 0.3);
+  transform: translateY(-2px);
+}
+.dislike-btn.active {
+  background: linear-gradient(135deg, #ef5350 0%, #c62828 100%);
+  color: white;
+}
+.vote-feedback {
+  width: 100%;
+  text-align: center;
+  margin-top: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.vote-feedback.show {
+  opacity: 1;
+}
+</style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <div style="margin-bottom: 16px; text-align: center;">
+   <p style="font-size: 16px; font-weight: 600; color: #1e293b; margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">Apakah Aplikasi ini Membantu?</p>
+  </div>
+  <div class="vote-container"><button class="vote-btn like-btn" onclick="voteBlog('like', this)">
+    <svg width="18" height="18" viewbox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M4.31157 6.00902C4.10807 6.32955 4 6.70137 4 7.08104V12.9998C4 13.552 4.44772 13.9998 5 13.9998H11.882C12.2607 13.9998 12.607 13.7858 12.7764 13.447L13.8152 11.3694C14.5944 9.81104 15 8.09271 15 6.35046C15 6.15677 14.843 5.99975 14.6493 5.99975H8.5C8.5 5.99975 9 4.49975 9 3.08617C9 2.55783 8.8603 2.0212 8.68533 1.5563C8.43189 0.882894 7.56948 0.877823 7.18381 1.48525L4.31157 6.00902ZM3 6.99975H1V13.9998H3V6.99975Z" fill="currentColor" />
+    </svg><span>Puas</span> </button> <button class="vote-btn dislike-btn" onclick="voteBlog('dislike', this)">
+    <svg width="18" height="18" viewbox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M12.1884 9.99098C12.3919 9.67045 12.5 9.29863 12.5 8.91896L12.5 3.00025C12.5 2.44796 12.0523 2.00025 11.5 2.00025L4.61803 2.00025C4.23926 2.00025 3.893 2.21425 3.72361 2.55303L2.6848 4.63065C1.90564 6.18896 1.5 7.90729 1.5 9.64954C1.5 9.84323 1.65702 10.0002 1.85071 10.0002L8 10.0002C8 10.0002 7.5 11.5002 7.5 12.9138C7.5 13.4422 7.6397 13.9788 7.81467 14.4437C8.06811 15.1171 8.93052 15.1222 9.31619 14.5147L12.1884 9.99098ZM13.5 9.00025H15.5L15.5 2.00025H13.5L13.5 9.00025Z" fill="currentColor" />
+    </svg><span>Tidak Puas</span> </button>
+   <div id="voteFeedback" class="vote-feedback"></div>
+  </div>
+  <script>
+var currentVoteBlog = null;
+function voteBlog(type, btn) {
+  var container = btn.parentElement;
+  var allBtns = container.querySelectorAll('.vote-btn');
+  var feedback = document.getElementById('voteFeedback');
+  
+  allBtns.forEach(function(b) { b.classList.remove('active'); });
+  
+  if (currentVoteBlog === type) {
+    currentVoteBlog = null;
+    feedback.classList.remove('show');
+  } else {
+    currentVoteBlog = type;
+    btn.classList.add('active');
+    
+    if (type === 'like') {
+      feedback.innerHTML = '🎉 Terima kasih atas feedback positif Anda!';
+      feedback.style.color = '#2e7d32';
+    } else {
+      feedback.innerHTML = '🙏 Terima kasih! Kami akan terus memperbaiki.';
+      feedback.style.color = '#c62828';
+    }
+    feedback.classList.add('show');
+  }
+}
+</script><!-- Tombol Voting Kepuasan - Selesai -->
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c7f7cf8709c1d1c',t:'MTc3MDA5NjEyMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
+
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SIPD-RI Minimal Button</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    * {
+      font-family: 'Inter', sans-serif;
+    }
+    .btn-minimal {
+      transition: all 0.2s ease;
+    }
+    .btn-minimal:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(59, 130, 246, 0.25);
+    }
+    .btn-minimal:active {
+      transform: translateY(0);
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full"><a href="https://sipd-ri.kemendagri.go.id/auth/login" target="_blank" rel="noopener noreferrer" class="btn-minimal flex items-center gap-5 px-8 py-5 rounded-xl bg-white border border-slate-200 shadow-sm hover:border-blue-300 w-full max-w-md"> <!-- Logo -->
+   <div class="flex-shrink-0 w-16 h-16 rounded-lg flex items-center justify-center bg-slate-100"><img src="https://res.cloudinary.com/dpr2vc3b0/image/upload/v1770098331/logo_hqfb65.png" alt="SIPD-RI Logo" class="w-14 h-14 object-contain" loading="lazy" onerror="console.error('Logo failed to load:', this.src); this.style.background='#3b82f6'; this.alt='Logo unavailable';">
+   </div><!-- Text Content -->
+   <div class="flex-1 min-w-0">
+    <h3 id="button-text" class="text-slate-800 font-semibold text-sm">SIPD-RI Kemendagri</h3>
+    <p id="subtitle-text" class="text-slate-500 text-xs mt-0.5">Sistem Informasi Pemerintahan Daerah</p>
+   </div><!-- Arrow -->
+   <div class="flex-shrink-0">
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-slate-400" fill="none" viewbox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+    </svg>
+   </div></a>
+  <script>
+    const defaultConfig = {
+      button_text: 'SIPD-RI Kemendagri',
+      subtitle_text: 'Sistem Informasi Pemerintahan Daerah',
+      primary_color: '#3b82f6',
+      background_color: '#f8fafc',
+      surface_color: '#ffffff',
+      text_color: '#1e293b',
+      secondary_text_color: '#64748b'
+    };
+
+    let config = { ...defaultConfig };
+
+    async function onConfigChange(cfg) {
+      config = { ...defaultConfig, ...cfg };
+      
+      // Update text content
+      const buttonText = document.getElementById('button-text');
+      const subtitleText = document.getElementById('subtitle-text');
+      
+      if (buttonText) {
+        buttonText.textContent = config.button_text || defaultConfig.button_text;
+        buttonText.style.color = config.text_color || defaultConfig.text_color;
+      }
+      
+      if (subtitleText) {
+        subtitleText.textContent = config.subtitle_text || defaultConfig.subtitle_text;
+        subtitleText.style.color = config.secondary_text_color || defaultConfig.secondary_text_color;
+      }
+      
+      // Update background
+      const container = document.getElementById('app-container');
+      if (container) {
+        container.style.background = config.background_color || defaultConfig.background_color;
+      }
+    }
+
+    function mapToCapabilities(cfg) {
+      return {
+        recolorables: [
+          {
+            get: () => cfg.background_color || defaultConfig.background_color,
+            set: (value) => {
+              config.background_color = value;
+              window.elementSdk.setConfig({ background_color: value });
+            }
+          },
+          {
+            get: () => cfg.surface_color || defaultConfig.surface_color,
+            set: (value) => {
+              config.surface_color = value;
+              window.elementSdk.setConfig({ surface_color: value });
+            }
+          },
+          {
+            get: () => cfg.text_color || defaultConfig.text_color,
+            set: (value) => {
+              config.text_color = value;
+              window.elementSdk.setConfig({ text_color: value });
+            }
+          },
+          {
+            get: () => cfg.primary_color || defaultConfig.primary_color,
+            set: (value) => {
+              config.primary_color = value;
+              window.elementSdk.setConfig({ primary_color: value });
+            }
+          },
+          {
+            get: () => cfg.secondary_text_color || defaultConfig.secondary_text_color,
+            set: (value) => {
+              config.secondary_text_color = value;
+              window.elementSdk.setConfig({ secondary_text_color: value });
+            }
+          }
+        ],
+        borderables: [],
+        fontEditable: undefined,
+        fontSizeable: undefined
+      };
+    }
+
+    function mapToEditPanelValues(cfg) {
+      return new Map([
+        ['button_text', cfg.button_text || defaultConfig.button_text],
+        ['subtitle_text', cfg.subtitle_text || defaultConfig.subtitle_text]
+      ]);
+    }
+
+    // Initialize SDK
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c7fb9e9047fec6b',t:'MTc3MDA5ODYxOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tally Calculator</title>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1766150319/SYAMDIGITAL-LOGO-2025_mmpllg_1_pvugiw.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&amp;family=Nunito:wght@400;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    .font-handwritten {
+      font-family: 'Caveat', cursive;
+    }
+    
+    .font-main {
+      font-family: 'Nunito', sans-serif;
+    }
+    
+    /* Tally Group Container */
+    .tally-group {
+      display: inline-flex;
+      align-items: flex-end;
+      position: relative;
+      margin: 8px 20px;
+      height: 50px;
+    }
+    
+    /* Vertical tally marks */
+    .tally-mark {
+      width: 6px;
+      height: 50px;
+      background: currentColor;
+      margin: 0 5px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+    
+    /* Diagonal strike-through - from bottom-left to top-right like reference image */
+    .tally-diagonal {
+      position: absolute;
+      width: 5px;
+      height: 65px;
+      background: currentColor;
+      border-radius: 2px;
+      left: 50%;
+      top: 50%;
+      transform-origin: center center;
+      transform: translate(-50%, -50%) rotate(-70deg);
+    }
+    
+    @media (min-width: 640px) {
+      .tally-group {
+        margin: 10px 24px;
+        height: 60px;
+      }
+      
+      .tally-mark {
+        width: 6px;
+        height: 60px;
+        margin: 0 5px;
+      }
+      
+      .tally-diagonal {
+        width: 5px;
+        height: 80px;
+      }
+    }
+    
+    .paper-texture {
+      background-color: #fefce8;
+      background-image: 
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 28px,
+          #e5d9c3 28px,
+          #e5d9c3 29px
+        );
+    }
+    
+    .btn-bounce:active {
+      transform: scale(0.95);
+    }
+    
+    @keyframes pop {
+      0% { transform: scale(0); opacity: 0; }
+      50% { transform: scale(1.15); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    
+    @keyframes popDiagonal {
+      0% { transform: translate(-50%, -50%) rotate(-70deg) scale(0); opacity: 0; }
+      50% { transform: translate(-50%, -50%) rotate(-70deg) scale(1.15); }
+      100% { transform: translate(-50%, -50%) rotate(-70deg) scale(1); opacity: 1; }
+    }
+    
+    .tally-animate {
+      animation: pop 0.25s ease-out forwards;
+    }
+    
+    .tally-diagonal.tally-animate {
+      animation: popDiagonal 0.25s ease-out forwards;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full font-main">
+  <div id="app-container" class="h-full w-full overflow-auto" style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 50%, #fcd34d 100%);">
+   <div class="min-h-full w-full flex flex-col items-center py-4 sm:py-8 px-3 sm:px-4"><!-- Header -->
+    <header class="text-center mb-6">
+     <h1 id="title" class="font-handwritten text-4xl sm:text-5xl md:text-6xl font-bold" style="color: #92400e;">Kalkulator Tally</h1>
+     <p class="text-base sm:text-lg mt-2" style="color: #b45309;">Jumlah Kapal Berangkat</p>
+    </header><!-- Main Card -->
+    <main class="w-full max-w-lg rounded-3xl shadow-2xl overflow-hidden" style="background-color: #fffbeb;"><!-- Display Area -->
+     <div class="p-4 sm:p-6 paper-texture min-h-44 sm:min-h-52 relative">
+      <div class="absolute top-3 right-4 sm:right-5 font-handwritten text-3xl sm:text-4xl font-bold" style="color: #92400e;">
+       = <span id="count-display">0</span>
+      </div>
+      <div id="tally-container" class="flex flex-wrap justify-center items-center pt-8 sm:pt-10 pb-4 min-h-32 sm:min-h-36" style="color: #78350f;">
+       <p id="empty-message" class="text-center opacity-50 font-handwritten text-xl sm:text-2xl px-2">Tekan + untuk mulai menghitung</p>
+      </div>
+     </div><!-- Controls -->
+     <div class="p-4 sm:p-6" style="background-color: #fef3c7;"><!-- Main Buttons -->
+      <div class="flex justify-center gap-3 sm:gap-5 mb-6"><button id="btn-subtract" class="btn-bounce w-16 h-16 sm:w-20 sm:h-20 rounded-full text-3xl sm:text-4xl font-bold shadow-lg transition-all duration-200 hover:shadow-xl active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center" style="background-color: #fbbf24; color: #78350f;"> − </button> <button id="btn-add" class="btn-bounce w-20 h-20 sm:w-24 sm:h-24 rounded-full text-4xl sm:text-5xl font-bold shadow-lg transition-all duration-200 hover:shadow-xl active:scale-95 flex items-center justify-center" style="background-color: #f59e0b; color: white;"> + </button> <button id="btn-reset" class="btn-bounce w-16 h-16 sm:w-20 sm:h-20 rounded-full text-2xl sm:text-3xl font-bold shadow-lg transition-all duration-200 hover:shadow-xl active:scale-95 flex items-center justify-center" style="background-color: #fcd34d; color: #92400e;"> ↻ </button>
+      </div><!-- Quick Add Buttons -->
+      <div class="flex justify-center gap-2 sm:gap-3 flex-wrap"><button class="quick-btn btn-bounce px-4 py-2 sm:px-5 sm:py-2.5 rounded-full text-sm sm:text-base font-semibold shadow transition-all duration-200 active:scale-95" style="background-color: #fde68a; color: #92400e;" data-value="5"> +5 </button> <button class="quick-btn btn-bounce px-4 py-2 sm:px-5 sm:py-2.5 rounded-full text-sm sm:text-base font-semibold shadow transition-all duration-200 active:scale-95" style="background-color: #fde68a; color: #92400e;" data-value="10"> +10 </button> <button class="quick-btn btn-bounce px-4 py-2 sm:px-5 sm:py-2.5 rounded-full text-sm sm:text-base font-semibold shadow transition-all duration-200 active:scale-95" style="background-color: #fde68a; color: #92400e;" data-value="25"> +25 </button>
+      </div>
+     </div><!-- Legend -->
+     <div class="px-4 sm:px-6 py-4 border-t flex justify-center" style="background-color: #fef9c3; border-color: #fcd34d;">
+      <div class="flex items-center gap-6 sm:gap-10 text-sm sm:text-base" style="color: #92400e;"><!-- Single tally = 1 -->
+       <div class="flex items-center gap-3">
+        <div class="flex items-end h-8"><span class="inline-block w-1.5 h-8 rounded-sm" style="background-color: #78350f;"></span>
+        </div><span class="font-semibold">= 1</span>
+       </div><!-- Five tally = 5 -->
+       <div class="flex items-center gap-3">
+        <div class="flex items-end relative h-8" style="width: 40px;"><span class="inline-block w-1.5 h-8 rounded-sm" style="background-color: #78350f; margin-right: 3px;"></span> <span class="inline-block w-1.5 h-8 rounded-sm" style="background-color: #78350f; margin-right: 3px;"></span> <span class="inline-block w-1.5 h-8 rounded-sm" style="background-color: #78350f; margin-right: 3px;"></span> <span class="inline-block w-1.5 h-8 rounded-sm" style="background-color: #78350f;"></span> <!-- Diagonal from bottom-left to top-right like reference --> <span class="absolute w-1 h-12 rounded-sm" style="background-color: #78350f; left: 50%; top: 50%; transform: translate(-50%, -50%) rotate(-70deg);"></span>
+        </div><span class="font-semibold">= 5</span>
+       </div>
+      </div>
+     </div>
+    </main><!-- Footer -->
+    <footer class="mt-5 sm:mt-6 text-xs sm:text-sm opacity-70 text-center px-4" style="color: #92400e;">
+     Ketuk tanda tally untuk menghapus satu per satu
+    </footer>
+   </div>
+  </div>
+  <script>
+    // Default configuration
+    const defaultConfig = {
+      title_text: 'Kalkulator Tally',
+      primary_color: '#f59e0b',
+      background_color: '#fef3c7',
+      text_color: '#92400e',
+      surface_color: '#fffbeb',
+      accent_color: '#fbbf24'
+    };
+
+    // Load saved count from localStorage
+    let count = parseInt(localStorage.getItem('tallyCount')) || 0;
+    const maxCount = 100;
+
+    // DOM Elements
+    const countDisplay = document.getElementById('count-display');
+    const tallyContainer = document.getElementById('tally-container');
+    const btnAdd = document.getElementById('btn-add');
+    const btnSubtract = document.getElementById('btn-subtract');
+    const btnReset = document.getElementById('btn-reset');
+    const quickBtns = document.querySelectorAll('.quick-btn');
+    const titleEl = document.getElementById('title');
+
+    // Render tally marks
+    function renderTally() {
+      const fullGroups = Math.floor(count / 5);
+      const remainder = count % 5;
+      
+      tallyContainer.innerHTML = '';
+      
+      if (count === 0) {
+        const textColor = window.elementSdk?.config?.text_color || defaultConfig.text_color;
+        tallyContainer.innerHTML = `<p id="empty-message" class="text-center opacity-50 font-handwritten text-2xl" style="color: ${textColor};">Tekan + untuk mulai menghitung</p>`;
+        btnSubtract.disabled = true;
+        return;
+      }
+      
+      btnSubtract.disabled = false;
+      
+      // Render full groups of 5
+      for (let g = 0; g < fullGroups; g++) {
+        const group = createTallyGroup(5, g);
+        tallyContainer.appendChild(group);
+      }
+      
+      // Render remainder
+      if (remainder > 0) {
+        const group = createTallyGroup(remainder, fullGroups);
+        tallyContainer.appendChild(group);
+      }
+      
+      countDisplay.textContent = count;
+      
+      // Save to localStorage
+      localStorage.setItem('tallyCount', count);
+    }
+
+    function createTallyGroup(num, groupIndex) {
+      const group = document.createElement('div');
+      group.className = 'tally-group';
+      
+      const textColor = window.elementSdk?.config?.text_color || defaultConfig.text_color;
+      
+      // Create 4 vertical marks
+      for (let i = 0; i < Math.min(num, 4); i++) {
+        const mark = document.createElement('span');
+        mark.className = 'tally-mark tally-animate';
+        mark.style.backgroundColor = textColor;
+        mark.style.animationDelay = `${i * 0.05}s`;
+        mark.style.cursor = 'pointer';
+        mark.onclick = () => {
+          if (count > 0) {
+            count--;
+            renderTally();
+          }
+        };
+        group.appendChild(mark);
+      }
+      
+      // Add diagonal mark for group of 5 (from bottom-left to top-right at -45deg)
+      if (num === 5) {
+        const diagonal = document.createElement('span');
+        diagonal.className = 'tally-diagonal tally-animate';
+        diagonal.style.backgroundColor = textColor;
+        diagonal.style.animationDelay = '0.2s';
+        diagonal.style.cursor = 'pointer';
+        diagonal.onclick = () => {
+          if (count > 0) {
+            count--;
+            renderTally();
+          }
+        };
+        group.appendChild(diagonal);
+      }
+      
+      return group;
+    }
+
+    function addCount(value = 1) {
+      if (count + value <= maxCount) {
+        count += value;
+        renderTally();
+      }
+    }
+
+    function subtractCount() {
+      if (count > 0) {
+        count--;
+        renderTally();
+      }
+    }
+
+    function resetCount() {
+      count = 0;
+      renderTally();
+    }
+
+    // Event Listeners
+    btnAdd.addEventListener('click', () => addCount(1));
+    btnSubtract.addEventListener('click', subtractCount);
+    btnReset.addEventListener('click', resetCount);
+    
+    quickBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const value = parseInt(btn.dataset.value);
+        addCount(value);
+      });
+    });
+
+    // Initialize SDK
+    const element = {
+      defaultConfig,
+      onConfigChange: async (config) => {
+        titleEl.textContent = config.title_text || defaultConfig.title_text;
+        renderTally();
+      },
+      mapToCapabilities: (config) => ({
+        recolorables: [
+          {
+            get: () => config.background_color || defaultConfig.background_color,
+            set: (value) => {
+              config.background_color = value;
+              window.elementSdk.setConfig({ background_color: value });
+            }
+          },
+          {
+            get: () => config.surface_color || defaultConfig.surface_color,
+            set: (value) => {
+              config.surface_color = value;
+              window.elementSdk.setConfig({ surface_color: value });
+            }
+          },
+          {
+            get: () => config.text_color || defaultConfig.text_color,
+            set: (value) => {
+              config.text_color = value;
+              window.elementSdk.setConfig({ text_color: value });
+            }
+          },
+          {
+            get: () => config.primary_color || defaultConfig.primary_color,
+            set: (value) => {
+              config.primary_color = value;
+              window.elementSdk.setConfig({ primary_color: value });
+            }
+          },
+          {
+            get: () => config.accent_color || defaultConfig.accent_color,
+            set: (value) => {
+              config.accent_color = value;
+              window.elementSdk.setConfig({ accent_color: value });
+            }
+          }
+        ],
+        borderables: [],
+        fontEditable: undefined,
+        fontSizeable: undefined
+      }),
+      mapToEditPanelValues: (config) => new Map([
+        ['title_text', config.title_text || defaultConfig.title_text]
+      ])
+    };
+
+    window.elementSdk.init(element);
+
+    // Initial render - load saved count
+    renderTally();
+    countDisplay.textContent = count;
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b1f438c557ef853',t:'MTc2NjQwMjc4Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

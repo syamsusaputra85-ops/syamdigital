@@ -1,0 +1,5006 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <p><center><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1741811686/Banner-Syam-Digital_fiitsu.png" width="70%"></center></p>
+    
+ 
+<style>
+  html, {
+  height: 100%; 
+  width: 100%; 
+  margin: 0;
+}
+  {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.text-wrap {
+  position: relative;
+  background-color: #eee;
+  padding: 2em;
+}
+
+textarea {
+  min-width: 20vw;
+  max-width: 80vw;
+  min-height: 200px;
+  max-height: 80vh;
+  padding: 0.8em 1em;
+  font-size: 1em;
+  
+}
+textarea::-webkit-scrollbar {
+    width: 4px;
+}
+textarea::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+textarea::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+textarea::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+
+.clipboard.icon {
+  position: absolute;
+    top: 2.3em;
+    right: 2.5em;
+  margin-top: 4px;
+  margin-left: 4px;
+  width: 11px;
+  height: 13px;
+  border: solid 1px #333333;
+  border-top: none;
+  border-radius: 1px; 
+  cursor: pointer;
+}
+.clipboard.icon:before {
+  top: -1px;
+  left: 2px;
+  width: 5px;
+  height: 1px;
+  border: solid 1px #333333;
+  border-radius: 1px; 
+}
+.clipboard.icon:after {
+  width: 3px;
+  height: 1px;
+  background-color: #333333;
+  box-shadow: 8px 0 0 0 #333333; 
+}
+
+.icon:before, .icon:after {
+  content: '';
+  position: absolute;
+  display: block;
+}
+</style>
+<script>
+  document.getElementById('copyToClipboard-a').addEventListener('click', function() {
+  
+  var text = document.getElementById('textA');
+  text.select();
+  document.execCommand('copy');
+
+})
+  </script>
+
+<p>
+<style>
+.as-tooltip {
+  cursor: help;
+  position: relative;
+  display: inline-block;
+  left: 3px;
+  top: 0;
+}
+.as-tooltip:hover .as-tooltip__info {
+  visibility: visible;
+}
+.as-tooltip__info {
+  font-size: 0.875rem;
+  border-radius: 12px;
+  visibility: hidden;
+  display: inline-block;
+  cursor: auto;
+  width: 150px;
+  padding: 0.75rem 1rem;
+  color: #fff;
+  background: #121212;
+  position: absolute;
+  margin-top: 8px;
+  z-index: 2;
+  word-wrap: break-word;
+  text-align: left;
+}
+.as-tooltip__info--top {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.as-tooltip__info--top::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #121212;
+}
+
+.as-copy-text em {
+  text-transform: capitalize;
+}
+.as-copy-text input {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-right: 1rem;
+  padding: 0.5rem 1rem;
+}
+
+.no-tooltip {
+  display: none;
+}
+
+.as-button-icon {
+  --icon-url: url("https://burst.shopify.com/photos/laptop-from-above?c=coffee");
+  position: relative;
+  margin-right: 1.5rem;
+}
+.as-button-icon::before {
+  content: var(--icon-url);
+  margin-left: 0.5rem;
+  position: absolute;
+  transition: all 1s;
+}
+</style>
+  <center>
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <!-- Contoh 5 -->
+                    <p style="border:3px solid Blue;" class="h5 mb-3"><strong> "KLM.SUMBER RIZKY" </strong></p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="KLM.SUMBER RIZKY" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"><i class="fa-solid fa-copy"></i> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">Nama Kapal Berhasil diCopy!</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+  
+$(function () {
+  $('.as-button-copy').click(function (e) {
+    e.preventDefault();
+    var $this = $(this);
+    var copy_text = $this.parent().find('input');
+    var dummy = copy_text.select();
+    document.execCommand('copy');
+
+    $('.as-copy-text input').css({ 'backgroundColor': 'white', 'color': 'green' });
+    $('.no-tooltip').hide();
+
+    $this.parent().find('input').css({ 'backgroundColor': 'green', 'color': 'white', 'border': 'green' });
+    $this.parents('.as-copy-wrapper').find('.no-tooltip').show();
+    setTimeout(function () {
+      $this.parents('.as-copy-wrapper').find('.no-tooltip').hide();
+    }, 3000);
+  });
+});
+//# sourceURL=pen.js
+       
+           </script>
+  
+  <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans">
+
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="GT.68/21." readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">GT Kapal Berhasil diCopy! @BySyam</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+             ================
+           </script>
+  
+  <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans">
+
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="YC8032" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">Call Sing Kapal Berhasil diCopy! @BySyam</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+================================================
+  
+        <style>
+  html, {
+  height: 100%; 
+  width: 100%; 
+  margin: 0;
+}
+  {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.text-wrap {
+  position: relative;
+  background-color: #eee;
+  padding: 2em;
+}
+
+textarea {
+  min-width: 20vw;
+  max-width: 80vw;
+  min-height: 200px;
+  max-height: 80vh;
+  padding: 0.8em 1em;
+  font-size: 1em;
+  
+}
+textarea::-webkit-scrollbar {
+    width: 4px;
+}
+textarea::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+textarea::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+textarea::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+
+.clipboard.icon {
+  position: absolute;
+    top: 2.3em;
+    right: 2.5em;
+  margin-top: 4px;
+  margin-left: 4px;
+  width: 11px;
+  height: 13px;
+  border: solid 1px #333333;
+  border-top: none;
+  border-radius: 1px; 
+  cursor: pointer;
+}
+.clipboard.icon:before {
+  top: -1px;
+  left: 2px;
+  width: 5px;
+  height: 1px;
+  border: solid 1px #333333;
+  border-radius: 1px; 
+}
+.clipboard.icon:after {
+  width: 3px;
+  height: 1px;
+  background-color: #333333;
+  box-shadow: 8px 0 0 0 #333333; 
+}
+
+.icon:before, .icon:after {
+  content: '';
+  position: absolute;
+  display: block;
+}
+</style>
+<script>
+  document.getElementById('copyToClipboard-a').addEventListener('click', function() {
+  
+  var text = document.getElementById('textA');
+  text.select();
+  document.execCommand('copy');
+
+})
+  </script>
+
+<p>
+<style>
+.as-tooltip {
+  cursor: help;
+  position: relative;
+  display: inline-block;
+  left: 3px;
+  top: 0;
+}
+.as-tooltip:hover .as-tooltip__info {
+  visibility: visible;
+}
+.as-tooltip__info {
+  font-size: 0.875rem;
+  border-radius: 12px;
+  visibility: hidden;
+  display: inline-block;
+  cursor: auto;
+  width: 150px;
+  padding: 0.75rem 1rem;
+  color: #fff;
+  background: #121212;
+  position: absolute;
+  margin-top: 8px;
+  z-index: 2;
+  word-wrap: break-word;
+  text-align: left;
+}
+.as-tooltip__info--top {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.as-tooltip__info--top::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #121212;
+}
+
+.as-copy-text em {
+  text-transform: capitalize;
+}
+.as-copy-text input {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-right: 1rem;
+  padding: 0.5rem 1rem;
+}
+
+.no-tooltip {
+  display: none;
+}
+
+.as-button-icon {
+  --icon-url: url("https://burst.shopify.com/photos/laptop-from-above?c=coffee");
+  position: relative;
+  margin-right: 1.5rem;
+}
+.as-button-icon::before {
+  content: var(--icon-url);
+  margin-left: 0.5rem;
+  position: absolute;
+  transition: all 1s;
+}
+</style>
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <!-- Contoh 5 -->
+                    <p style="border:3px solid Yellow;"  class="h5 mb-3"><strong>"KLM.SUMBER RIZKY 02"</strong></p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="KLM.SUMBER RIZKY 02" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">Nama Kapal Berhasil diCopy!</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+  
+$(function () {
+  $('.as-button-copy').click(function (e) {
+    e.preventDefault();
+    var $this = $(this);
+    var copy_text = $this.parent().find('input');
+    var dummy = copy_text.select();
+    document.execCommand('copy');
+
+    $('.as-copy-text input').css({ 'backgroundColor': 'white', 'color': 'green' });
+    $('.no-tooltip').hide();
+
+    $this.parent().find('input').css({ 'backgroundColor': 'green', 'color': 'white', 'border': 'green' });
+    $this.parents('.as-copy-wrapper').find('.no-tooltip').show();
+    setTimeout(function () {
+      $this.parents('.as-copy-wrapper').find('.no-tooltip').hide();
+    }, 3000);
+  });
+});
+//# sourceURL=pen.js
+       
+           </script>
+  
+  <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans">
+
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="GT.68/21" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">GT Kapal Berhasil diCopy! @BySyam</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+             ================
+           </script>
+  
+  <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans">
+
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="YC8033" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">Call Sing Kapal Berhasil diCopy! @BySyam</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+        =========================================================*
+          
+          <style>
+  html, {
+  height: 100%; 
+  width: 100%; 
+  margin: 0;
+}
+  {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.text-wrap {
+  position: relative;
+  background-color: #eee;
+  padding: 2em;
+}
+
+textarea {
+  min-width: 20vw;
+  max-width: 80vw;
+  min-height: 200px;
+  max-height: 80vh;
+  padding: 0.8em 1em;
+  font-size: 1em;
+  
+}
+textarea::-webkit-scrollbar {
+    width: 4px;
+}
+textarea::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+textarea::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+textarea::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+
+.clipboard.icon {
+  position: absolute;
+    top: 2.3em;
+    right: 2.5em;
+  margin-top: 4px;
+  margin-left: 4px;
+  width: 11px;
+  height: 13px;
+  border: solid 1px #333333;
+  border-top: none;
+  border-radius: 1px; 
+  cursor: pointer;
+}
+.clipboard.icon:before {
+  top: -1px;
+  left: 2px;
+  width: 5px;
+  height: 1px;
+  border: solid 1px #333333;
+  border-radius: 1px; 
+}
+.clipboard.icon:after {
+  width: 3px;
+  height: 1px;
+  background-color: #333333;
+  box-shadow: 8px 0 0 0 #333333; 
+}
+
+.icon:before, .icon:after {
+  content: '';
+  position: absolute;
+  display: block;
+}
+</style>
+<script>
+  document.getElementById('copyToClipboard-a').addEventListener('click', function() {
+  
+  var text = document.getElementById('textA');
+  text.select();
+  document.execCommand('copy');
+
+})
+  </script>
+
+<p>
+<style>
+.as-tooltip {
+  cursor: help;
+  position: relative;
+  display: inline-block;
+  left: 3px;
+  top: 0;
+}
+.as-tooltip:hover .as-tooltip__info {
+  visibility: visible;
+}
+.as-tooltip__info {
+  font-size: 0.875rem;
+  border-radius: 12px;
+  visibility: hidden;
+  display: inline-block;
+  cursor: auto;
+  width: 150px;
+  padding: 0.75rem 1rem;
+  color: #fff;
+  background: #121212;
+  position: absolute;
+  margin-top: 8px;
+  z-index: 2;
+  word-wrap: break-word;
+  text-align: left;
+}
+.as-tooltip__info--top {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.as-tooltip__info--top::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #121212;
+}
+
+.as-copy-text em {
+  text-transform: capitalize;
+}
+.as-copy-text input {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-right: 1rem;
+  padding: 0.5rem 1rem;
+}
+
+.no-tooltip {
+  display: none;
+}
+
+.as-button-icon {
+  --icon-url: url("https://burst.shopify.com/photos/laptop-from-above?c=coffee");
+  position: relative;
+  margin-right: 1.5rem;
+}
+.as-button-icon::before {
+  content: var(--icon-url);
+  margin-left: 0.5rem;
+  position: absolute;
+  transition: all 1s;
+}
+</style>
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <!-- Contoh 5 -->
+                    <p style="border:3px solid Red;" class="h5 mb-3"><strong>"KLM.SUMBER REZKY A"</strong></p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="KLM.SUMBER REZKY A" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">Nama Kapal Berhasil diCopy!</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+  
+$(function () {
+  $('.as-button-copy').click(function (e) {
+    e.preventDefault();
+    var $this = $(this);
+    var copy_text = $this.parent().find('input');
+    var dummy = copy_text.select();
+    document.execCommand('copy');
+
+    $('.as-copy-text input').css({ 'backgroundColor': 'white', 'color': 'green' });
+    $('.no-tooltip').hide();
+
+    $this.parent().find('input').css({ 'backgroundColor': 'green', 'color': 'white', 'border': 'green' });
+    $this.parents('.as-copy-wrapper').find('.no-tooltip').show();
+    setTimeout(function () {
+      $this.parents('.as-copy-wrapper').find('.no-tooltip').hide();
+    }, 3000);
+  });
+});
+//# sourceURL=pen.js
+       
+           </script>
+  
+  <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans">
+
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="GT.83/25" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">GT Kapal Berhasil diCopy! @BySyam</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+             ================
+           </script>
+  
+  <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans">
+
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="YC8040" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">Call Sing Kapal Berhasil diCopy! @BySyam</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+        
+        ======================================================*
+          <style>
+  html, {
+  height: 100%; 
+  width: 100%; 
+  margin: 0;
+}
+  {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.text-wrap {
+  position: relative;
+  background-color: #eee;
+  padding: 2em;
+}
+
+textarea {
+  min-width: 20vw;
+  max-width: 80vw;
+  min-height: 200px;
+  max-height: 80vh;
+  padding: 0.8em 1em;
+  font-size: 1em;
+  
+}
+textarea::-webkit-scrollbar {
+    width: 4px;
+}
+textarea::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+textarea::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+textarea::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+
+.clipboard.icon {
+  position: absolute;
+    top: 2.3em;
+    right: 2.5em;
+  margin-top: 4px;
+  margin-left: 4px;
+  width: 11px;
+  height: 13px;
+  border: solid 1px #333333;
+  border-top: none;
+  border-radius: 1px; 
+  cursor: pointer;
+}
+.clipboard.icon:before {
+  top: -1px;
+  left: 2px;
+  width: 5px;
+  height: 1px;
+  border: solid 1px #333333;
+  border-radius: 1px; 
+}
+.clipboard.icon:after {
+  width: 3px;
+  height: 1px;
+  background-color: #333333;
+  box-shadow: 8px 0 0 0 #333333; 
+}
+
+.icon:before, .icon:after {
+  content: '';
+  position: absolute;
+  display: block;
+}
+</style>
+<script>
+  document.getElementById('copyToClipboard-a').addEventListener('click', function() {
+  
+  var text = document.getElementById('textA');
+  text.select();
+  document.execCommand('copy');
+
+})
+  </script>
+
+<p>
+<style>
+.as-tooltip {
+  cursor: help;
+  position: relative;
+  display: inline-block;
+  left: 3px;
+  top: 0;
+}
+.as-tooltip:hover .as-tooltip__info {
+  visibility: visible;
+}
+.as-tooltip__info {
+  font-size: 0.875rem;
+  border-radius: 12px;
+  visibility: hidden;
+  display: inline-block;
+  cursor: auto;
+  width: 150px;
+  padding: 0.75rem 1rem;
+  color: #fff;
+  background: #121212;
+  position: absolute;
+  margin-top: 8px;
+  z-index: 2;
+  word-wrap: break-word;
+  text-align: left;
+}
+.as-tooltip__info--top {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.as-tooltip__info--top::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #121212;
+}
+
+.as-copy-text em {
+  text-transform: capitalize;
+}
+.as-copy-text input {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-right: 1rem;
+  padding: 0.5rem 1rem;
+}
+
+.no-tooltip {
+  display: none;
+}
+
+.as-button-icon {
+  --icon-url: url("https://burst.shopify.com/photos/laptop-from-above?c=coffee");
+  position: relative;
+  margin-right: 1.5rem;
+}
+.as-button-icon::before {
+  content: var(--icon-url);
+  margin-left: 0.5rem;
+  position: absolute;
+  transition: all 1s;
+}
+</style>
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <!-- Contoh 5 -->
+                    <p style="border:3px solid Black;" class="h5 mb-3"><strong>"KLM.BERKAH BUAH"</strong></p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="KLM.BERKAH BUAH" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">Nama Kapal Berhasil diCopy!</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+  
+$(function () {
+  $('.as-button-copy').click(function (e) {
+    e.preventDefault();
+    var $this = $(this);
+    var copy_text = $this.parent().find('input');
+    var dummy = copy_text.select();
+    document.execCommand('copy');
+
+    $('.as-copy-text input').css({ 'backgroundColor': 'white', 'color': 'green' });
+    $('.no-tooltip').hide();
+
+    $this.parent().find('input').css({ 'backgroundColor': 'green', 'color': 'white', 'border': 'green' });
+    $this.parents('.as-copy-wrapper').find('.no-tooltip').show();
+    setTimeout(function () {
+      $this.parents('.as-copy-wrapper').find('.no-tooltip').hide();
+    }, 3000);
+  });
+});
+//# sourceURL=pen.js
+       
+           </script>
+  
+  <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans">
+
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="GT.22 " readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">GT Kapal Berhasil diCopy! @BySyam</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+             ================
+           </script>
+  
+  <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans">
+
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="-" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">Call Sing Kapal Berhasil diCopy! @BySyam</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+          ======================================================*
+          <style>
+  html, {
+  height: 100%; 
+  width: 100%; 
+  margin: 0;
+}
+  {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.text-wrap {
+  position: relative;
+  background-color: #eee;
+  padding: 2em;
+}
+
+textarea {
+  min-width: 20vw;
+  max-width: 80vw;
+  min-height: 200px;
+  max-height: 80vh;
+  padding: 0.8em 1em;
+  font-size: 1em;
+  
+}
+textarea::-webkit-scrollbar {
+    width: 4px;
+}
+textarea::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+textarea::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+textarea::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+
+.clipboard.icon {
+  position: absolute;
+    top: 2.3em;
+    right: 2.5em;
+  margin-top: 4px;
+  margin-left: 4px;
+  width: 11px;
+  height: 13px;
+  border: solid 1px #333333;
+  border-top: none;
+  border-radius: 1px; 
+  cursor: pointer;
+}
+.clipboard.icon:before {
+  top: -1px;
+  left: 2px;
+  width: 5px;
+  height: 1px;
+  border: solid 1px #333333;
+  border-radius: 1px; 
+}
+.clipboard.icon:after {
+  width: 3px;
+  height: 1px;
+  background-color: #333333;
+  box-shadow: 8px 0 0 0 #333333; 
+}
+
+.icon:before, .icon:after {
+  content: '';
+  position: absolute;
+  display: block;
+}
+</style>
+<script>
+  document.getElementById('copyToClipboard-a').addEventListener('click', function() {
+  
+  var text = document.getElementById('textA');
+  text.select();
+  document.execCommand('copy');
+
+})
+  </script>
+
+<p>
+<style>
+.as-tooltip {
+  cursor: help;
+  position: relative;
+  display: inline-block;
+  left: 3px;
+  top: 0;
+}
+.as-tooltip:hover .as-tooltip__info {
+  visibility: visible;
+}
+.as-tooltip__info {
+  font-size: 0.875rem;
+  border-radius: 12px;
+  visibility: hidden;
+  display: inline-block;
+  cursor: auto;
+  width: 150px;
+  padding: 0.75rem 1rem;
+  color: #fff;
+  background: #121212;
+  position: absolute;
+  margin-top: 8px;
+  z-index: 2;
+  word-wrap: break-word;
+  text-align: left;
+}
+.as-tooltip__info--top {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.as-tooltip__info--top::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #121212;
+}
+
+.as-copy-text em {
+  text-transform: capitalize;
+}
+.as-copy-text input {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-right: 1rem;
+  padding: 0.5rem 1rem;
+}
+
+.no-tooltip {
+  display: none;
+}
+
+.as-button-icon {
+  --icon-url: url("https://burst.shopify.com/photos/laptop-from-above?c=coffee");
+  position: relative;
+  margin-right: 1.5rem;
+}
+.as-button-icon::before {
+  content: var(--icon-url);
+  margin-left: 0.5rem;
+  position: absolute;
+  transition: all 1s;
+}
+</style>
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <!-- Contoh 5 -->
+                    <p style="border:3px solid purple;" class="h5 mb-3"><strong>"KLM.ADI RAHMATULLAH PUTRA"</strong></p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="KLM.ADI RAHMATULLAH PUTRA" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">Nama Kapal Berhasil diCopy!</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+  
+$(function () {
+  $('.as-button-copy').click(function (e) {
+    e.preventDefault();
+    var $this = $(this);
+    var copy_text = $this.parent().find('input');
+    var dummy = copy_text.select();
+    document.execCommand('copy');
+
+    $('.as-copy-text input').css({ 'backgroundColor': 'white', 'color': 'green' });
+    $('.no-tooltip').hide();
+
+    $this.parent().find('input').css({ 'backgroundColor': 'green', 'color': 'white', 'border': 'green' });
+    $this.parents('.as-copy-wrapper').find('.no-tooltip').show();
+    setTimeout(function () {
+      $this.parents('.as-copy-wrapper').find('.no-tooltip').hide();
+    }, 3000);
+  });
+});
+//# sourceURL=pen.js
+       
+           </script>
+  
+  <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans">
+
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="GT.93 No.199/LLy" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">GT Kapal Berhasil diCopy! @BySyam</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+             ================
+           </script>
+  
+  <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans">
+
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="-" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">Call Sing Kapal Berhasil diCopy! @BySyam</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+        
+        ======================================================*
+          ======================================================*
+          <style>
+  html, {
+  height: 100%; 
+  width: 100%; 
+  margin: 0;
+}
+  {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.text-wrap {
+  position: relative;
+  background-color: #eee;
+  padding: 2em;
+}
+
+textarea {
+  min-width: 20vw;
+  max-width: 80vw;
+  min-height: 200px;
+  max-height: 80vh;
+  padding: 0.8em 1em;
+  font-size: 1em;
+  
+}
+textarea::-webkit-scrollbar {
+    width: 4px;
+}
+textarea::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+textarea::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+textarea::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+
+.clipboard.icon {
+  position: absolute;
+    top: 2.3em;
+    right: 2.5em;
+  margin-top: 4px;
+  margin-left: 4px;
+  width: 11px;
+  height: 13px;
+  border: solid 1px #333333;
+  border-top: none;
+  border-radius: 1px; 
+  cursor: pointer;
+}
+.clipboard.icon:before {
+  top: -1px;
+  left: 2px;
+  width: 5px;
+  height: 1px;
+  border: solid 1px #333333;
+  border-radius: 1px; 
+}
+.clipboard.icon:after {
+  width: 3px;
+  height: 1px;
+  background-color: #333333;
+  box-shadow: 8px 0 0 0 #333333; 
+}
+
+.icon:before, .icon:after {
+  content: '';
+  position: absolute;
+  display: block;
+}
+</style>
+<script>
+  document.getElementById('copyToClipboard-a').addEventListener('click', function() {
+  
+  var text = document.getElementById('textA');
+  text.select();
+  document.execCommand('copy');
+
+})
+  </script>
+
+<p>
+<style>
+.as-tooltip {
+  cursor: help;
+  position: relative;
+  display: inline-block;
+  left: 3px;
+  top: 0;
+}
+.as-tooltip:hover .as-tooltip__info {
+  visibility: visible;
+}
+.as-tooltip__info {
+  font-size: 0.875rem;
+  border-radius: 12px;
+  visibility: hidden;
+  display: inline-block;
+  cursor: auto;
+  width: 150px;
+  padding: 0.75rem 1rem;
+  color: #fff;
+  background: #121212;
+  position: absolute;
+  margin-top: 8px;
+  z-index: 2;
+  word-wrap: break-word;
+  text-align: left;
+}
+.as-tooltip__info--top {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.as-tooltip__info--top::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #121212;
+}
+
+.as-copy-text em {
+  text-transform: capitalize;
+}
+.as-copy-text input {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-right: 1rem;
+  padding: 0.5rem 1rem;
+}
+
+.no-tooltip {
+  display: none;
+}
+
+.as-button-icon {
+  --icon-url: url("https://burst.shopify.com/photos/laptop-from-above?c=coffee");
+  position: relative;
+  margin-right: 1.5rem;
+}
+.as-button-icon::before {
+  content: var(--icon-url);
+  margin-left: 0.5rem;
+  position: absolute;
+  transition: all 1s;
+}
+</style>
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <!-- Contoh 5 -->
+                    <p style="border:3px solid green;" class="h5 mb-3"><strong>"KLM.SUMBER REZKY B"</strong></p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="KLM.SUMBER REZKY B" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">Nama Kapal Berhasil diCopy!</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+  
+$(function () {
+  $('.as-button-copy').click(function (e) {
+    e.preventDefault();
+    var $this = $(this);
+    var copy_text = $this.parent().find('input');
+    var dummy = copy_text.select();
+    document.execCommand('copy');
+
+    $('.as-copy-text input').css({ 'backgroundColor': 'white', 'color': 'green' });
+    $('.no-tooltip').hide();
+
+    $this.parent().find('input').css({ 'backgroundColor': 'green', 'color': 'white', 'border': 'green' });
+    $this.parents('.as-copy-wrapper').find('.no-tooltip').show();
+    setTimeout(function () {
+      $this.parents('.as-copy-wrapper').find('.no-tooltip').hide();
+    }, 3000);
+  });
+});
+//# sourceURL=pen.js
+       
+           </script>
+  
+  <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans">
+
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="GT.96/29" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">GT Kapal Berhasil diCopy! @BySyam</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+             ================
+           </script>
+  
+  <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans">
+
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="-" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">Call Sing Kapal Berhasil diCopy! @BySyam</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+        
+        ======================================================*
+          ======================================================*
+          <style>
+  html, {
+  height: 100%; 
+  width: 100%; 
+  margin: 0;
+}
+  {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.text-wrap {
+  position: relative;
+  background-color: #eee;
+  padding: 2em;
+}
+
+textarea {
+  min-width: 20vw;
+  max-width: 80vw;
+  min-height: 200px;
+  max-height: 80vh;
+  padding: 0.8em 1em;
+  font-size: 1em;
+  
+}
+textarea::-webkit-scrollbar {
+    width: 4px;
+}
+textarea::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+textarea::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+textarea::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+
+.clipboard.icon {
+  position: absolute;
+    top: 2.3em;
+    right: 2.5em;
+  margin-top: 4px;
+  margin-left: 4px;
+  width: 11px;
+  height: 13px;
+  border: solid 1px #333333;
+  border-top: none;
+  border-radius: 1px; 
+  cursor: pointer;
+}
+.clipboard.icon:before {
+  top: -1px;
+  left: 2px;
+  width: 5px;
+  height: 1px;
+  border: solid 1px #333333;
+  border-radius: 1px; 
+}
+.clipboard.icon:after {
+  width: 3px;
+  height: 1px;
+  background-color: #333333;
+  box-shadow: 8px 0 0 0 #333333; 
+}
+
+.icon:before, .icon:after {
+  content: '';
+  position: absolute;
+  display: block;
+}
+</style>
+<script>
+  document.getElementById('copyToClipboard-a').addEventListener('click', function() {
+  
+  var text = document.getElementById('textA');
+  text.select();
+  document.execCommand('copy');
+
+})
+  </script>
+
+<p>
+<style>
+.as-tooltip {
+  cursor: help;
+  position: relative;
+  display: inline-block;
+  left: 3px;
+  top: 0;
+}
+.as-tooltip:hover .as-tooltip__info {
+  visibility: visible;
+}
+.as-tooltip__info {
+  font-size: 0.875rem;
+  border-radius: 12px;
+  visibility: hidden;
+  display: inline-block;
+  cursor: auto;
+  width: 150px;
+  padding: 0.75rem 1rem;
+  color: #fff;
+  background: #121212;
+  position: absolute;
+  margin-top: 8px;
+  z-index: 2;
+  word-wrap: break-word;
+  text-align: left;
+}
+.as-tooltip__info--top {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.as-tooltip__info--top::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #121212;
+}
+
+.as-copy-text em {
+  text-transform: capitalize;
+}
+.as-copy-text input {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-right: 1rem;
+  padding: 0.5rem 1rem;
+}
+
+.no-tooltip {
+  display: none;
+}
+
+.as-button-icon {
+  --icon-url: url("https://burst.shopify.com/photos/laptop-from-above?c=coffee");
+  position: relative;
+  margin-right: 1.5rem;
+}
+.as-button-icon::before {
+  content: var(--icon-url);
+  margin-left: 0.5rem;
+  position: absolute;
+  transition: all 1s;
+}
+</style>
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <!-- Contoh 5 -->
+                    <p style="border:3px solid Brown;" class="h5 mb-3"><strong>"KLM.QUDRAT ILAHI"</strong></p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="KLM.QUDRAT ILAHI" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">Nama Kapal Berhasil diCopy!</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+  
+$(function () {
+  $('.as-button-copy').click(function (e) {
+    e.preventDefault();
+    var $this = $(this);
+    var copy_text = $this.parent().find('input');
+    var dummy = copy_text.select();
+    document.execCommand('copy');
+
+    $('.as-copy-text input').css({ 'backgroundColor': 'white', 'color': 'green' });
+    $('.no-tooltip').hide();
+
+    $this.parent().find('input').css({ 'backgroundColor': 'green', 'color': 'white', 'border': 'green' });
+    $this.parents('.as-copy-wrapper').find('.no-tooltip').show();
+    setTimeout(function () {
+      $this.parents('.as-copy-wrapper').find('.no-tooltip').hide();
+    }, 3000);
+  });
+});
+//# sourceURL=pen.js
+       
+           </script>
+  
+  <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans">
+
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="GT.40/12" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">GT Kapal Berhasil diCopy! @BySyam</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+             ================
+           </script>
+  
+  <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans">
+
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="YC7521" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">Call Sing Kapal Berhasil diCopy! @BySyam</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+        
+        ======================================================*
+          ======================================================*
+          <style>
+  html, {
+  height: 100%; 
+  width: 100%; 
+  margin: 0;
+}
+  {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.text-wrap {
+  position: relative;
+  background-color: #eee;
+  padding: 2em;
+}
+
+textarea {
+  min-width: 20vw;
+  max-width: 80vw;
+  min-height: 200px;
+  max-height: 80vh;
+  padding: 0.8em 1em;
+  font-size: 1em;
+  
+}
+textarea::-webkit-scrollbar {
+    width: 4px;
+}
+textarea::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+textarea::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+textarea::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+
+.clipboard.icon {
+  position: absolute;
+    top: 2.3em;
+    right: 2.5em;
+  margin-top: 4px;
+  margin-left: 4px;
+  width: 11px;
+  height: 13px;
+  border: solid 1px #333333;
+  border-top: none;
+  border-radius: 1px; 
+  cursor: pointer;
+}
+.clipboard.icon:before {
+  top: -1px;
+  left: 2px;
+  width: 5px;
+  height: 1px;
+  border: solid 1px #333333;
+  border-radius: 1px; 
+}
+.clipboard.icon:after {
+  width: 3px;
+  height: 1px;
+  background-color: #333333;
+  box-shadow: 8px 0 0 0 #333333; 
+}
+
+.icon:before, .icon:after {
+  content: '';
+  position: absolute;
+  display: block;
+}
+</style>
+<script>
+  document.getElementById('copyToClipboard-a').addEventListener('click', function() {
+  
+  var text = document.getElementById('textA');
+  text.select();
+  document.execCommand('copy');
+
+})
+  </script>
+
+<p>
+<style>
+.as-tooltip {
+  cursor: help;
+  position: relative;
+  display: inline-block;
+  left: 3px;
+  top: 0;
+}
+.as-tooltip:hover .as-tooltip__info {
+  visibility: visible;
+}
+.as-tooltip__info {
+  font-size: 0.875rem;
+  border-radius: 12px;
+  visibility: hidden;
+  display: inline-block;
+  cursor: auto;
+  width: 150px;
+  padding: 0.75rem 1rem;
+  color: #fff;
+  background: #121212;
+  position: absolute;
+  margin-top: 8px;
+  z-index: 2;
+  word-wrap: break-word;
+  text-align: left;
+}
+.as-tooltip__info--top {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.as-tooltip__info--top::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #121212;
+}
+
+.as-copy-text em {
+  text-transform: capitalize;
+}
+.as-copy-text input {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-right: 1rem;
+  padding: 0.5rem 1rem;
+}
+
+.no-tooltip {
+  display: none;
+}
+
+.as-button-icon {
+  --icon-url: url("https://burst.shopify.com/photos/laptop-from-above?c=coffee");
+  position: relative;
+  margin-right: 1.5rem;
+}
+.as-button-icon::before {
+  content: var(--icon-url);
+  margin-left: 0.5rem;
+  position: absolute;
+  transition: all 1s;
+}
+</style>
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <!-- Contoh 5 -->
+                    <p style="border:3px solid Grey;" class="h5 mb-3"><strong>"KLM.PUTRA TUNGGAL 64"</strong></p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="KLM.PUTRA TUNGGAL 64" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">Nama Kapal Berhasil diCopy!</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+  
+$(function () {
+  $('.as-button-copy').click(function (e) {
+    e.preventDefault();
+    var $this = $(this);
+    var copy_text = $this.parent().find('input');
+    var dummy = copy_text.select();
+    document.execCommand('copy');
+
+    $('.as-copy-text input').css({ 'backgroundColor': 'white', 'color': 'green' });
+    $('.no-tooltip').hide();
+
+    $this.parent().find('input').css({ 'backgroundColor': 'green', 'color': 'white', 'border': 'green' });
+    $this.parents('.as-copy-wrapper').find('.no-tooltip').show();
+    setTimeout(function () {
+      $this.parents('.as-copy-wrapper').find('.no-tooltip').hide();
+    }, 3000);
+  });
+});
+//# sourceURL=pen.js
+       
+           </script>
+  
+  <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans">
+
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="GT.26/8" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">GT Kapal Berhasil diCopy! @BySyam</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+             ================
+           </script>
+  
+  <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans">
+
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="YB7296" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">Call Sing Kapal Berhasil diCopy! @BySyam</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+        
+        ======================================================*
+          ======================================================*
+          <style>
+  html, {
+  height: 100%; 
+  width: 100%; 
+  margin: 0;
+}
+  {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.text-wrap {
+  position: relative;
+  background-color: #eee;
+  padding: 2em;
+}
+
+textarea {
+  min-width: 20vw;
+  max-width: 80vw;
+  min-height: 200px;
+  max-height: 80vh;
+  padding: 0.8em 1em;
+  font-size: 1em;
+  
+}
+textarea::-webkit-scrollbar {
+    width: 4px;
+}
+textarea::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+textarea::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+textarea::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+
+.clipboard.icon {
+  position: absolute;
+    top: 2.3em;
+    right: 2.5em;
+  margin-top: 4px;
+  margin-left: 4px;
+  width: 11px;
+  height: 13px;
+  border: solid 1px #333333;
+  border-top: none;
+  border-radius: 1px; 
+  cursor: pointer;
+}
+.clipboard.icon:before {
+  top: -1px;
+  left: 2px;
+  width: 5px;
+  height: 1px;
+  border: solid 1px #333333;
+  border-radius: 1px; 
+}
+.clipboard.icon:after {
+  width: 3px;
+  height: 1px;
+  background-color: #333333;
+  box-shadow: 8px 0 0 0 #333333; 
+}
+
+.icon:before, .icon:after {
+  content: '';
+  position: absolute;
+  display: block;
+}
+</style>
+<script>
+  document.getElementById('copyToClipboard-a').addEventListener('click', function() {
+  
+  var text = document.getElementById('textA');
+  text.select();
+  document.execCommand('copy');
+
+})
+  </script>
+
+<p>
+<style>
+.as-tooltip {
+  cursor: help;
+  position: relative;
+  display: inline-block;
+  left: 3px;
+  top: 0;
+}
+.as-tooltip:hover .as-tooltip__info {
+  visibility: visible;
+}
+.as-tooltip__info {
+  font-size: 0.875rem;
+  border-radius: 12px;
+  visibility: hidden;
+  display: inline-block;
+  cursor: auto;
+  width: 150px;
+  padding: 0.75rem 1rem;
+  color: #fff;
+  background: #121212;
+  position: absolute;
+  margin-top: 8px;
+  z-index: 2;
+  word-wrap: break-word;
+  text-align: left;
+}
+.as-tooltip__info--top {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.as-tooltip__info--top::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #121212;
+}
+
+.as-copy-text em {
+  text-transform: capitalize;
+}
+.as-copy-text input {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-right: 1rem;
+  padding: 0.5rem 1rem;
+}
+
+.no-tooltip {
+  display: none;
+}
+
+.as-button-icon {
+  --icon-url: url("https://burst.shopify.com/photos/laptop-from-above?c=coffee");
+  position: relative;
+  margin-right: 1.5rem;
+}
+.as-button-icon::before {
+  content: var(--icon-url);
+  margin-left: 0.5rem;
+  position: absolute;
+  transition: all 1s;
+}
+</style>
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <!-- Contoh 5 -->
+                    <p style="border:3px solid orange;" class="h5 mb-3"><strong>"KLM.FIRDAH JAYA 03"</strong></p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="KLM.FIRDAH JAYA 03" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">Nama Kapal Berhasil diCopy!</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+  
+$(function () {
+  $('.as-button-copy').click(function (e) {
+    e.preventDefault();
+    var $this = $(this);
+    var copy_text = $this.parent().find('input');
+    var dummy = copy_text.select();
+    document.execCommand('copy');
+
+    $('.as-copy-text input').css({ 'backgroundColor': 'white', 'color': 'green' });
+    $('.no-tooltip').hide();
+
+    $this.parent().find('input').css({ 'backgroundColor': 'green', 'color': 'white', 'border': 'green' });
+    $this.parents('.as-copy-wrapper').find('.no-tooltip').show();
+    setTimeout(function () {
+      $this.parents('.as-copy-wrapper').find('.no-tooltip').hide();
+    }, 3000);
+  });
+});
+//# sourceURL=pen.js
+       
+           </script>
+  
+  <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans">
+
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="GT.30/9" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">GT Kapal Berhasil diCopy! @BySyam</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+             ================
+           </script>
+  
+  <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans">
+
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="YB7293" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">Call Sing Kapal Berhasil diCopy! @BySyam</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+        
+        ======================================================*
+          ======================================================*
+          <style>
+  html, {
+  height: 100%; 
+  width: 100%; 
+  margin: 0;
+}
+  {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.text-wrap {
+  position: relative;
+  background-color: #eee;
+  padding: 2em;
+}
+
+textarea {
+  min-width: 20vw;
+  max-width: 80vw;
+  min-height: 200px;
+  max-height: 80vh;
+  padding: 0.8em 1em;
+  font-size: 1em;
+  
+}
+textarea::-webkit-scrollbar {
+    width: 4px;
+}
+textarea::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+textarea::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+textarea::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+
+.clipboard.icon {
+  position: absolute;
+    top: 2.3em;
+    right: 2.5em;
+  margin-top: 4px;
+  margin-left: 4px;
+  width: 11px;
+  height: 13px;
+  border: solid 1px #333333;
+  border-top: none;
+  border-radius: 1px; 
+  cursor: pointer;
+}
+.clipboard.icon:before {
+  top: -1px;
+  left: 2px;
+  width: 5px;
+  height: 1px;
+  border: solid 1px #333333;
+  border-radius: 1px; 
+}
+.clipboard.icon:after {
+  width: 3px;
+  height: 1px;
+  background-color: #333333;
+  box-shadow: 8px 0 0 0 #333333; 
+}
+
+.icon:before, .icon:after {
+  content: '';
+  position: absolute;
+  display: block;
+}
+</style>
+<script>
+  document.getElementById('copyToClipboard-a').addEventListener('click', function() {
+  
+  var text = document.getElementById('textA');
+  text.select();
+  document.execCommand('copy');
+
+})
+  </script>
+
+<p>
+<style>
+.as-tooltip {
+  cursor: help;
+  position: relative;
+  display: inline-block;
+  left: 3px;
+  top: 0;
+}
+.as-tooltip:hover .as-tooltip__info {
+  visibility: visible;
+}
+.as-tooltip__info {
+  font-size: 0.875rem;
+  border-radius: 12px;
+  visibility: hidden;
+  display: inline-block;
+  cursor: auto;
+  width: 150px;
+  padding: 0.75rem 1rem;
+  color: #fff;
+  background: #121212;
+  position: absolute;
+  margin-top: 8px;
+  z-index: 2;
+  word-wrap: break-word;
+  text-align: left;
+}
+.as-tooltip__info--top {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.as-tooltip__info--top::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #121212;
+}
+
+.as-copy-text em {
+  text-transform: capitalize;
+}
+.as-copy-text input {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-right: 1rem;
+  padding: 0.5rem 1rem;
+}
+
+.no-tooltip {
+  display: none;
+}
+
+.as-button-icon {
+  --icon-url: url("https://burst.shopify.com/photos/laptop-from-above?c=coffee");
+  position: relative;
+  margin-right: 1.5rem;
+}
+.as-button-icon::before {
+  content: var(--icon-url);
+  margin-left: 0.5rem;
+  position: absolute;
+  transition: all 1s;
+}
+</style>
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <!-- Contoh 5 -->
+                    <p style="border:3px solid blue;" class="h5 mb-3"><strong>"KLM.SYUKRAN 3 "</strong></p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="KLM.SYUKRAN 3" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">Nama Kapal Berhasil diCopy!</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+  
+$(function () {
+  $('.as-button-copy').click(function (e) {
+    e.preventDefault();
+    var $this = $(this);
+    var copy_text = $this.parent().find('input');
+    var dummy = copy_text.select();
+    document.execCommand('copy');
+
+    $('.as-copy-text input').css({ 'backgroundColor': 'white', 'color': 'green' });
+    $('.no-tooltip').hide();
+
+    $this.parent().find('input').css({ 'backgroundColor': 'green', 'color': 'white', 'border': 'green' });
+    $this.parents('.as-copy-wrapper').find('.no-tooltip').show();
+    setTimeout(function () {
+      $this.parents('.as-copy-wrapper').find('.no-tooltip').hide();
+    }, 3000);
+  });
+});
+//# sourceURL=pen.js
+       
+           </script>
+  
+  <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans">
+
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="GT.30/9" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">GT Kapal Berhasil diCopy! @BySyam</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+             ================
+           </script>
+  
+  <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans">
+
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="-" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">Call Sing Kapal Berhasil diCopy! @BySyam</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+        
+        ======================================================*
+          ======================================================*
+          <style>
+  html, {
+  height: 100%; 
+  width: 100%; 
+  margin: 0;
+}
+  {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.text-wrap {
+  position: relative;
+  background-color: #eee;
+  padding: 2em;
+}
+
+textarea {
+  min-width: 20vw;
+  max-width: 80vw;
+  min-height: 200px;
+  max-height: 80vh;
+  padding: 0.8em 1em;
+  font-size: 1em;
+  
+}
+textarea::-webkit-scrollbar {
+    width: 4px;
+}
+textarea::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+textarea::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+textarea::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+
+.clipboard.icon {
+  position: absolute;
+    top: 2.3em;
+    right: 2.5em;
+  margin-top: 4px;
+  margin-left: 4px;
+  width: 11px;
+  height: 13px;
+  border: solid 1px #333333;
+  border-top: none;
+  border-radius: 1px; 
+  cursor: pointer;
+}
+.clipboard.icon:before {
+  top: -1px;
+  left: 2px;
+  width: 5px;
+  height: 1px;
+  border: solid 1px #333333;
+  border-radius: 1px; 
+}
+.clipboard.icon:after {
+  width: 3px;
+  height: 1px;
+  background-color: #333333;
+  box-shadow: 8px 0 0 0 #333333; 
+}
+
+.icon:before, .icon:after {
+  content: '';
+  position: absolute;
+  display: block;
+}
+</style>
+<script>
+  document.getElementById('copyToClipboard-a').addEventListener('click', function() {
+  
+  var text = document.getElementById('textA');
+  text.select();
+  document.execCommand('copy');
+
+})
+  </script>
+
+<p>
+<style>
+.as-tooltip {
+  cursor: help;
+  position: relative;
+  display: inline-block;
+  left: 3px;
+  top: 0;
+}
+.as-tooltip:hover .as-tooltip__info {
+  visibility: visible;
+}
+.as-tooltip__info {
+  font-size: 0.875rem;
+  border-radius: 12px;
+  visibility: hidden;
+  display: inline-block;
+  cursor: auto;
+  width: 150px;
+  padding: 0.75rem 1rem;
+  color: #fff;
+  background: #121212;
+  position: absolute;
+  margin-top: 8px;
+  z-index: 2;
+  word-wrap: break-word;
+  text-align: left;
+}
+.as-tooltip__info--top {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.as-tooltip__info--top::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #121212;
+}
+
+.as-copy-text em {
+  text-transform: capitalize;
+}
+.as-copy-text input {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-right: 1rem;
+  padding: 0.5rem 1rem;
+}
+
+.no-tooltip {
+  display: none;
+}
+
+.as-button-icon {
+  --icon-url: url("https://burst.shopify.com/photos/laptop-from-above?c=coffee");
+  position: relative;
+  margin-right: 1.5rem;
+}
+.as-button-icon::before {
+  content: var(--icon-url);
+  margin-left: 0.5rem;
+  position: absolute;
+  transition: all 1s;
+}
+</style>
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <!-- Contoh 5 -->
+                    <p style="border:3px solid orange;" class="h5 mb-3"><strong>"KLM.SYUKRAN 03"</strong></p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="KLM.SYUKRAN 03" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">Nama Kapal Berhasil diCopy!</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+  
+$(function () {
+  $('.as-button-copy').click(function (e) {
+    e.preventDefault();
+    var $this = $(this);
+    var copy_text = $this.parent().find('input');
+    var dummy = copy_text.select();
+    document.execCommand('copy');
+
+    $('.as-copy-text input').css({ 'backgroundColor': 'white', 'color': 'green' });
+    $('.no-tooltip').hide();
+
+    $this.parent().find('input').css({ 'backgroundColor': 'green', 'color': 'white', 'border': 'green' });
+    $this.parents('.as-copy-wrapper').find('.no-tooltip').show();
+    setTimeout(function () {
+      $this.parents('.as-copy-wrapper').find('.no-tooltip').hide();
+    }, 3000);
+  });
+});
+//# sourceURL=pen.js
+       
+           </script>
+  
+  <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans">
+
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="GT.32/10" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">GT Kapal Berhasil diCopy! @BySyam</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+             ================
+           </script>
+  
+  <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans">
+
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="YB7291" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">Call Sing Kapal Berhasil diCopy! @BySyam</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+        
+        ======================================================*
+          ======================================================*
+          <style>
+  html, {
+  height: 100%; 
+  width: 100%; 
+  margin: 0;
+}
+  {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.text-wrap {
+  position: relative;
+  background-color: #eee;
+  padding: 2em;
+}
+
+textarea {
+  min-width: 20vw;
+  max-width: 80vw;
+  min-height: 200px;
+  max-height: 80vh;
+  padding: 0.8em 1em;
+  font-size: 1em;
+  
+}
+textarea::-webkit-scrollbar {
+    width: 4px;
+}
+textarea::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+textarea::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+textarea::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+
+.clipboard.icon {
+  position: absolute;
+    top: 2.3em;
+    right: 2.5em;
+  margin-top: 4px;
+  margin-left: 4px;
+  width: 11px;
+  height: 13px;
+  border: solid 1px #333333;
+  border-top: none;
+  border-radius: 1px; 
+  cursor: pointer;
+}
+.clipboard.icon:before {
+  top: -1px;
+  left: 2px;
+  width: 5px;
+  height: 1px;
+  border: solid 1px #333333;
+  border-radius: 1px; 
+}
+.clipboard.icon:after {
+  width: 3px;
+  height: 1px;
+  background-color: #333333;
+  box-shadow: 8px 0 0 0 #333333; 
+}
+
+.icon:before, .icon:after {
+  content: '';
+  position: absolute;
+  display: block;
+}
+</style>
+<script>
+  document.getElementById('copyToClipboard-a').addEventListener('click', function() {
+  
+  var text = document.getElementById('textA');
+  text.select();
+  document.execCommand('copy');
+
+})
+  </script>
+
+<p>
+<style>
+.as-tooltip {
+  cursor: help;
+  position: relative;
+  display: inline-block;
+  left: 3px;
+  top: 0;
+}
+.as-tooltip:hover .as-tooltip__info {
+  visibility: visible;
+}
+.as-tooltip__info {
+  font-size: 0.875rem;
+  border-radius: 12px;
+  visibility: hidden;
+  display: inline-block;
+  cursor: auto;
+  width: 150px;
+  padding: 0.75rem 1rem;
+  color: #fff;
+  background: #121212;
+  position: absolute;
+  margin-top: 8px;
+  z-index: 2;
+  word-wrap: break-word;
+  text-align: left;
+}
+.as-tooltip__info--top {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.as-tooltip__info--top::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #121212;
+}
+
+.as-copy-text em {
+  text-transform: capitalize;
+}
+.as-copy-text input {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-right: 1rem;
+  padding: 0.5rem 1rem;
+}
+
+.no-tooltip {
+  display: none;
+}
+
+.as-button-icon {
+  --icon-url: url("https://burst.shopify.com/photos/laptop-from-above?c=coffee");
+  position: relative;
+  margin-right: 1.5rem;
+}
+.as-button-icon::before {
+  content: var(--icon-url);
+  margin-left: 0.5rem;
+  position: absolute;
+  transition: all 1s;
+}
+</style>
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <!-- Contoh 5 -->
+                    <p style="border:3px solid orange;" class="h5 mb-3"><strong>"KLM.BUNGA RIZKA"</strong></p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="KLM.BUNGA RIZKA" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">Nama Kapal Berhasil diCopy!</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+  
+$(function () {
+  $('.as-button-copy').click(function (e) {
+    e.preventDefault();
+    var $this = $(this);
+    var copy_text = $this.parent().find('input');
+    var dummy = copy_text.select();
+    document.execCommand('copy');
+
+    $('.as-copy-text input').css({ 'backgroundColor': 'white', 'color': 'green' });
+    $('.no-tooltip').hide();
+
+    $this.parent().find('input').css({ 'backgroundColor': 'green', 'color': 'white', 'border': 'green' });
+    $this.parents('.as-copy-wrapper').find('.no-tooltip').show();
+    setTimeout(function () {
+      $this.parents('.as-copy-wrapper').find('.no-tooltip').hide();
+    }, 3000);
+  });
+});
+//# sourceURL=pen.js
+       
+           </script>
+  
+  <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans">
+
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="-" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">GT Kapal Berhasil diCopy! @BySyam</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+             ================
+           </script>
+  
+  <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans">
+
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="-" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">Call Sing Kapal Berhasil diCopy! @BySyam</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+        
+        ======================================================*
+          ======================================================*
+          <style>
+  html, {
+  height: 100%; 
+  width: 100%; 
+  margin: 0;
+}
+  {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.text-wrap {
+  position: relative;
+  background-color: #eee;
+  padding: 2em;
+}
+
+textarea {
+  min-width: 20vw;
+  max-width: 80vw;
+  min-height: 200px;
+  max-height: 80vh;
+  padding: 0.8em 1em;
+  font-size: 1em;
+  
+}
+textarea::-webkit-scrollbar {
+    width: 4px;
+}
+textarea::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+textarea::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+textarea::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+
+.clipboard.icon {
+  position: absolute;
+    top: 2.3em;
+    right: 2.5em;
+  margin-top: 4px;
+  margin-left: 4px;
+  width: 11px;
+  height: 13px;
+  border: solid 1px #333333;
+  border-top: none;
+  border-radius: 1px; 
+  cursor: pointer;
+}
+.clipboard.icon:before {
+  top: -1px;
+  left: 2px;
+  width: 5px;
+  height: 1px;
+  border: solid 1px #333333;
+  border-radius: 1px; 
+}
+.clipboard.icon:after {
+  width: 3px;
+  height: 1px;
+  background-color: #333333;
+  box-shadow: 8px 0 0 0 #333333; 
+}
+
+.icon:before, .icon:after {
+  content: '';
+  position: absolute;
+  display: block;
+}
+</style>
+<script>
+  document.getElementById('copyToClipboard-a').addEventListener('click', function() {
+  
+  var text = document.getElementById('textA');
+  text.select();
+  document.execCommand('copy');
+
+})
+  </script>
+
+<p>
+<style>
+.as-tooltip {
+  cursor: help;
+  position: relative;
+  display: inline-block;
+  left: 3px;
+  top: 0;
+}
+.as-tooltip:hover .as-tooltip__info {
+  visibility: visible;
+}
+.as-tooltip__info {
+  font-size: 0.875rem;
+  border-radius: 12px;
+  visibility: hidden;
+  display: inline-block;
+  cursor: auto;
+  width: 150px;
+  padding: 0.75rem 1rem;
+  color: #fff;
+  background: #121212;
+  position: absolute;
+  margin-top: 8px;
+  z-index: 2;
+  word-wrap: break-word;
+  text-align: left;
+}
+.as-tooltip__info--top {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.as-tooltip__info--top::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #121212;
+}
+
+.as-copy-text em {
+  text-transform: capitalize;
+}
+.as-copy-text input {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-right: 1rem;
+  padding: 0.5rem 1rem;
+}
+
+.no-tooltip {
+  display: none;
+}
+
+.as-button-icon {
+  --icon-url: url("https://burst.shopify.com/photos/laptop-from-above?c=coffee");
+  position: relative;
+  margin-right: 1.5rem;
+}
+.as-button-icon::before {
+  content: var(--icon-url);
+  margin-left: 0.5rem;
+  position: absolute;
+  transition: all 1s;
+}
+</style>
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <!-- Contoh 5 -->
+                    <p style="border:3px solid orange;" class="h5 mb-3"><strong>"KLM.SURYA UTAMA 77"</strong></p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="KLM.SURYA UTAMA 77" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">Nama Kapal Berhasil diCopy!</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+  
+$(function () {
+  $('.as-button-copy').click(function (e) {
+    e.preventDefault();
+    var $this = $(this);
+    var copy_text = $this.parent().find('input');
+    var dummy = copy_text.select();
+    document.execCommand('copy');
+
+    $('.as-copy-text input').css({ 'backgroundColor': 'white', 'color': 'green' });
+    $('.no-tooltip').hide();
+
+    $this.parent().find('input').css({ 'backgroundColor': 'green', 'color': 'white', 'border': 'green' });
+    $this.parents('.as-copy-wrapper').find('.no-tooltip').show();
+    setTimeout(function () {
+      $this.parents('.as-copy-wrapper').find('.no-tooltip').hide();
+    }, 3000);
+  });
+});
+//# sourceURL=pen.js
+       
+           </script>
+  
+  <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans">
+
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="GT.29/9." readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">GT Kapal Berhasil diCopy! @BySyam</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+             ================
+           </script>
+  
+  <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans">
+
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="YB8202" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">Call Sing Kapal Berhasil diCopy! @BySyam</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+        
+        ======================================================*
+          ======================================================*
+          <style>
+  html, {
+  height: 100%; 
+  width: 100%; 
+  margin: 0;
+}
+  {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.text-wrap {
+  position: relative;
+  background-color: #eee;
+  padding: 2em;
+}
+
+textarea {
+  min-width: 20vw;
+  max-width: 80vw;
+  min-height: 200px;
+  max-height: 80vh;
+  padding: 0.8em 1em;
+  font-size: 1em;
+  
+}
+textarea::-webkit-scrollbar {
+    width: 4px;
+}
+textarea::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+textarea::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+textarea::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+
+.clipboard.icon {
+  position: absolute;
+    top: 2.3em;
+    right: 2.5em;
+  margin-top: 4px;
+  margin-left: 4px;
+  width: 11px;
+  height: 13px;
+  border: solid 1px #333333;
+  border-top: none;
+  border-radius: 1px; 
+  cursor: pointer;
+}
+.clipboard.icon:before {
+  top: -1px;
+  left: 2px;
+  width: 5px;
+  height: 1px;
+  border: solid 1px #333333;
+  border-radius: 1px; 
+}
+.clipboard.icon:after {
+  width: 3px;
+  height: 1px;
+  background-color: #333333;
+  box-shadow: 8px 0 0 0 #333333; 
+}
+
+.icon:before, .icon:after {
+  content: '';
+  position: absolute;
+  display: block;
+}
+</style>
+<script>
+  document.getElementById('copyToClipboard-a').addEventListener('click', function() {
+  
+  var text = document.getElementById('textA');
+  text.select();
+  document.execCommand('copy');
+
+})
+  </script>
+
+<p>
+<style>
+.as-tooltip {
+  cursor: help;
+  position: relative;
+  display: inline-block;
+  left: 3px;
+  top: 0;
+}
+.as-tooltip:hover .as-tooltip__info {
+  visibility: visible;
+}
+.as-tooltip__info {
+  font-size: 0.875rem;
+  border-radius: 12px;
+  visibility: hidden;
+  display: inline-block;
+  cursor: auto;
+  width: 150px;
+  padding: 0.75rem 1rem;
+  color: #fff;
+  background: #121212;
+  position: absolute;
+  margin-top: 8px;
+  z-index: 2;
+  word-wrap: break-word;
+  text-align: left;
+}
+.as-tooltip__info--top {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.as-tooltip__info--top::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #121212;
+}
+
+.as-copy-text em {
+  text-transform: capitalize;
+}
+.as-copy-text input {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-right: 1rem;
+  padding: 0.5rem 1rem;
+}
+
+.no-tooltip {
+  display: none;
+}
+
+.as-button-icon {
+  --icon-url: url("https://burst.shopify.com/photos/laptop-from-above?c=coffee");
+  position: relative;
+  margin-right: 1.5rem;
+}
+.as-button-icon::before {
+  content: var(--icon-url);
+  margin-left: 0.5rem;
+  position: absolute;
+  transition: all 1s;
+}
+</style>
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <!-- Contoh 5 -->
+                    <p style="border:3px solid orange;" class="h5 mb-3"><strong>"KLM.MARHABAN 02"</strong></p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="KLM.MARHABAN 02" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">Nama Kapal Berhasil diCopy!</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+  
+$(function () {
+  $('.as-button-copy').click(function (e) {
+    e.preventDefault();
+    var $this = $(this);
+    var copy_text = $this.parent().find('input');
+    var dummy = copy_text.select();
+    document.execCommand('copy');
+
+    $('.as-copy-text input').css({ 'backgroundColor': 'white', 'color': 'green' });
+    $('.no-tooltip').hide();
+
+    $this.parent().find('input').css({ 'backgroundColor': 'green', 'color': 'white', 'border': 'green' });
+    $this.parents('.as-copy-wrapper').find('.no-tooltip').show();
+    setTimeout(function () {
+      $this.parents('.as-copy-wrapper').find('.no-tooltip').hide();
+    }, 3000);
+  });
+});
+//# sourceURL=pen.js
+       
+           </script>
+  
+  <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans">
+
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="GT.40/12" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">GT Kapal Berhasil diCopy! @BySyam</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+             ================
+           </script>
+  
+  <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans">
+
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="-" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">Call Sing Kapal Berhasil diCopy! @BySyam</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+        
+        ======================================================*
+          ======================================================*
+          <style>
+  html, {
+  height: 100%; 
+  width: 100%; 
+  margin: 0;
+}
+  {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.text-wrap {
+  position: relative;
+  background-color: #eee;
+  padding: 2em;
+}
+
+textarea {
+  min-width: 20vw;
+  max-width: 80vw;
+  min-height: 200px;
+  max-height: 80vh;
+  padding: 0.8em 1em;
+  font-size: 1em;
+  
+}
+textarea::-webkit-scrollbar {
+    width: 4px;
+}
+textarea::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+textarea::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+textarea::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+
+.clipboard.icon {
+  position: absolute;
+    top: 2.3em;
+    right: 2.5em;
+  margin-top: 4px;
+  margin-left: 4px;
+  width: 11px;
+  height: 13px;
+  border: solid 1px #333333;
+  border-top: none;
+  border-radius: 1px; 
+  cursor: pointer;
+}
+.clipboard.icon:before {
+  top: -1px;
+  left: 2px;
+  width: 5px;
+  height: 1px;
+  border: solid 1px #333333;
+  border-radius: 1px; 
+}
+.clipboard.icon:after {
+  width: 3px;
+  height: 1px;
+  background-color: #333333;
+  box-shadow: 8px 0 0 0 #333333; 
+}
+
+.icon:before, .icon:after {
+  content: '';
+  position: absolute;
+  display: block;
+}
+</style>
+<script>
+  document.getElementById('copyToClipboard-a').addEventListener('click', function() {
+  
+  var text = document.getElementById('textA');
+  text.select();
+  document.execCommand('copy');
+
+})
+  </script>
+
+<p>
+<style>
+.as-tooltip {
+  cursor: help;
+  position: relative;
+  display: inline-block;
+  left: 3px;
+  top: 0;
+}
+.as-tooltip:hover .as-tooltip__info {
+  visibility: visible;
+}
+.as-tooltip__info {
+  font-size: 0.875rem;
+  border-radius: 12px;
+  visibility: hidden;
+  display: inline-block;
+  cursor: auto;
+  width: 150px;
+  padding: 0.75rem 1rem;
+  color: #fff;
+  background: #121212;
+  position: absolute;
+  margin-top: 8px;
+  z-index: 2;
+  word-wrap: break-word;
+  text-align: left;
+}
+.as-tooltip__info--top {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.as-tooltip__info--top::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #121212;
+}
+
+.as-copy-text em {
+  text-transform: capitalize;
+}
+.as-copy-text input {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-right: 1rem;
+  padding: 0.5rem 1rem;
+}
+
+.no-tooltip {
+  display: none;
+}
+
+.as-button-icon {
+  --icon-url: url("https://burst.shopify.com/photos/laptop-from-above?c=coffee");
+  position: relative;
+  margin-right: 1.5rem;
+}
+.as-button-icon::before {
+  content: var(--icon-url);
+  margin-left: 0.5rem;
+  position: absolute;
+  transition: all 1s;
+}
+</style>
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <!-- Contoh 5 -->
+                    <p style="border:3px solid orange;" class="h5 mb-3"><strong>"KLM.BERKAT SABAR 05"</strong></p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="KLM.BERKAT SABAR 05" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">Nama Kapal Berhasil diCopy!</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+  
+$(function () {
+  $('.as-button-copy').click(function (e) {
+    e.preventDefault();
+    var $this = $(this);
+    var copy_text = $this.parent().find('input');
+    var dummy = copy_text.select();
+    document.execCommand('copy');
+
+    $('.as-copy-text input').css({ 'backgroundColor': 'white', 'color': 'green' });
+    $('.no-tooltip').hide();
+
+    $this.parent().find('input').css({ 'backgroundColor': 'green', 'color': 'white', 'border': 'green' });
+    $this.parents('.as-copy-wrapper').find('.no-tooltip').show();
+    setTimeout(function () {
+      $this.parents('.as-copy-wrapper').find('.no-tooltip').hide();
+    }, 3000);
+  });
+});
+//# sourceURL=pen.js
+       
+           </script>
+  
+  <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans">
+
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="GT.40/12" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">GT Kapal Berhasil diCopy! @BySyam</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+             ================
+           </script>
+  
+  <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans">
+
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="-" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">Call Sing Kapal Berhasil diCopy! @BySyam</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+        
+        ======================================================*
+          ======================================================*
+          <style>
+  html, {
+  height: 100%; 
+  width: 100%; 
+  margin: 0;
+}
+  {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.text-wrap {
+  position: relative;
+  background-color: #eee;
+  padding: 2em;
+}
+
+textarea {
+  min-width: 20vw;
+  max-width: 80vw;
+  min-height: 200px;
+  max-height: 80vh;
+  padding: 0.8em 1em;
+  font-size: 1em;
+  
+}
+textarea::-webkit-scrollbar {
+    width: 4px;
+}
+textarea::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+textarea::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+textarea::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+
+.clipboard.icon {
+  position: absolute;
+    top: 2.3em;
+    right: 2.5em;
+  margin-top: 4px;
+  margin-left: 4px;
+  width: 11px;
+  height: 13px;
+  border: solid 1px #333333;
+  border-top: none;
+  border-radius: 1px; 
+  cursor: pointer;
+}
+.clipboard.icon:before {
+  top: -1px;
+  left: 2px;
+  width: 5px;
+  height: 1px;
+  border: solid 1px #333333;
+  border-radius: 1px; 
+}
+.clipboard.icon:after {
+  width: 3px;
+  height: 1px;
+  background-color: #333333;
+  box-shadow: 8px 0 0 0 #333333; 
+}
+
+.icon:before, .icon:after {
+  content: '';
+  position: absolute;
+  display: block;
+}
+</style>
+<script>
+  document.getElementById('copyToClipboard-a').addEventListener('click', function() {
+  
+  var text = document.getElementById('textA');
+  text.select();
+  document.execCommand('copy');
+
+})
+  </script>
+
+<p>
+<style>
+.as-tooltip {
+  cursor: help;
+  position: relative;
+  display: inline-block;
+  left: 3px;
+  top: 0;
+}
+.as-tooltip:hover .as-tooltip__info {
+  visibility: visible;
+}
+.as-tooltip__info {
+  font-size: 0.875rem;
+  border-radius: 12px;
+  visibility: hidden;
+  display: inline-block;
+  cursor: auto;
+  width: 150px;
+  padding: 0.75rem 1rem;
+  color: #fff;
+  background: #121212;
+  position: absolute;
+  margin-top: 8px;
+  z-index: 2;
+  word-wrap: break-word;
+  text-align: left;
+}
+.as-tooltip__info--top {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.as-tooltip__info--top::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #121212;
+}
+
+.as-copy-text em {
+  text-transform: capitalize;
+}
+.as-copy-text input {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-right: 1rem;
+  padding: 0.5rem 1rem;
+}
+
+.no-tooltip {
+  display: none;
+}
+
+.as-button-icon {
+  --icon-url: url("https://burst.shopify.com/photos/laptop-from-above?c=coffee");
+  position: relative;
+  margin-right: 1.5rem;
+}
+.as-button-icon::before {
+  content: var(--icon-url);
+  margin-left: 0.5rem;
+  position: absolute;
+  transition: all 1s;
+}
+</style>
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <!-- Contoh 5 -->
+                    <p style="border:3px solid orange;" class="h5 mb-3"><strong>"KLM.ANUGERAH ILAHI 05"</strong></p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="KLM.ANUGERAH ILAHI 05" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">Nama Kapal Berhasil diCopy!</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+  
+$(function () {
+  $('.as-button-copy').click(function (e) {
+    e.preventDefault();
+    var $this = $(this);
+    var copy_text = $this.parent().find('input');
+    var dummy = copy_text.select();
+    document.execCommand('copy');
+
+    $('.as-copy-text input').css({ 'backgroundColor': 'white', 'color': 'green' });
+    $('.no-tooltip').hide();
+
+    $this.parent().find('input').css({ 'backgroundColor': 'green', 'color': 'white', 'border': 'green' });
+    $this.parents('.as-copy-wrapper').find('.no-tooltip').show();
+    setTimeout(function () {
+      $this.parents('.as-copy-wrapper').find('.no-tooltip').hide();
+    }, 3000);
+  });
+});
+//# sourceURL=pen.js
+       
+           </script>
+  
+  <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans">
+
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="GT.57/18" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">GT Kapal Berhasil diCopy! @BySyam</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+             ================
+           </script>
+  
+  <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans">
+
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="YC8034" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">Call Sing Kapal Berhasil diCopy! @BySyam</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+        
+        ======================================================*
+          ======================================================*
+          <style>
+  html, {
+  height: 100%; 
+  width: 100%; 
+  margin: 0;
+}
+  {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.text-wrap {
+  position: relative;
+  background-color: #eee;
+  padding: 2em;
+}
+
+textarea {
+  min-width: 20vw;
+  max-width: 80vw;
+  min-height: 200px;
+  max-height: 80vh;
+  padding: 0.8em 1em;
+  font-size: 1em;
+  
+}
+textarea::-webkit-scrollbar {
+    width: 4px;
+}
+textarea::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+textarea::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+textarea::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+
+.clipboard.icon {
+  position: absolute;
+    top: 2.3em;
+    right: 2.5em;
+  margin-top: 4px;
+  margin-left: 4px;
+  width: 11px;
+  height: 13px;
+  border: solid 1px #333333;
+  border-top: none;
+  border-radius: 1px; 
+  cursor: pointer;
+}
+.clipboard.icon:before {
+  top: -1px;
+  left: 2px;
+  width: 5px;
+  height: 1px;
+  border: solid 1px #333333;
+  border-radius: 1px; 
+}
+.clipboard.icon:after {
+  width: 3px;
+  height: 1px;
+  background-color: #333333;
+  box-shadow: 8px 0 0 0 #333333; 
+}
+
+.icon:before, .icon:after {
+  content: '';
+  position: absolute;
+  display: block;
+}
+</style>
+<script>
+  document.getElementById('copyToClipboard-a').addEventListener('click', function() {
+  
+  var text = document.getElementById('textA');
+  text.select();
+  document.execCommand('copy');
+
+})
+  </script>
+
+<p>
+<style>
+.as-tooltip {
+  cursor: help;
+  position: relative;
+  display: inline-block;
+  left: 3px;
+  top: 0;
+}
+.as-tooltip:hover .as-tooltip__info {
+  visibility: visible;
+}
+.as-tooltip__info {
+  font-size: 0.875rem;
+  border-radius: 12px;
+  visibility: hidden;
+  display: inline-block;
+  cursor: auto;
+  width: 150px;
+  padding: 0.75rem 1rem;
+  color: #fff;
+  background: #121212;
+  position: absolute;
+  margin-top: 8px;
+  z-index: 2;
+  word-wrap: break-word;
+  text-align: left;
+}
+.as-tooltip__info--top {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.as-tooltip__info--top::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #121212;
+}
+
+.as-copy-text em {
+  text-transform: capitalize;
+}
+.as-copy-text input {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-right: 1rem;
+  padding: 0.5rem 1rem;
+}
+
+.no-tooltip {
+  display: none;
+}
+
+.as-button-icon {
+  --icon-url: url("https://burst.shopify.com/photos/laptop-from-above?c=coffee");
+  position: relative;
+  margin-right: 1.5rem;
+}
+.as-button-icon::before {
+  content: var(--icon-url);
+  margin-left: 0.5rem;
+  position: absolute;
+  transition: all 1s;
+}
+</style>
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <!-- Contoh 5 -->
+                    <p style="border:3px solid orange;" class="h5 mb-3"><strong>"KLM.ANUGERAH ILAHI 45"</strong></p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="KLM.ANUGERAH ILAHI 45" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">Nama Kapal Berhasil diCopy!</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+  
+$(function () {
+  $('.as-button-copy').click(function (e) {
+    e.preventDefault();
+    var $this = $(this);
+    var copy_text = $this.parent().find('input');
+    var dummy = copy_text.select();
+    document.execCommand('copy');
+
+    $('.as-copy-text input').css({ 'backgroundColor': 'white', 'color': 'green' });
+    $('.no-tooltip').hide();
+
+    $this.parent().find('input').css({ 'backgroundColor': 'green', 'color': 'white', 'border': 'green' });
+    $this.parents('.as-copy-wrapper').find('.no-tooltip').show();
+    setTimeout(function () {
+      $this.parents('.as-copy-wrapper').find('.no-tooltip').hide();
+    }, 3000);
+  });
+});
+//# sourceURL=pen.js
+       
+           </script>
+  
+  <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans">
+
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="GT.72/22" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">GT Kapal Berhasil diCopy! @BySyam</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+             ================
+           </script>
+  
+  <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans">
+
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="-" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">Call Sing Kapal Berhasil diCopy! @BySyam</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+        </center>
+        ======================================================*
+          ======================================================*
+          <style>
+  html, {
+  height: 100%; 
+  width: 100%; 
+  margin: 0;
+}
+  {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.text-wrap {
+  position: relative;
+  background-color: #eee;
+  padding: 2em;
+}
+
+textarea {
+  min-width: 20vw;
+  max-width: 80vw;
+  min-height: 200px;
+  max-height: 80vh;
+  padding: 0.8em 1em;
+  font-size: 1em;
+  
+}
+textarea::-webkit-scrollbar {
+    width: 4px;
+}
+textarea::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+textarea::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+textarea::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+
+.clipboard.icon {
+  position: absolute;
+    top: 2.3em;
+    right: 2.5em;
+  margin-top: 4px;
+  margin-left: 4px;
+  width: 11px;
+  height: 13px;
+  border: solid 1px #333333;
+  border-top: none;
+  border-radius: 1px; 
+  cursor: pointer;
+}
+.clipboard.icon:before {
+  top: -1px;
+  left: 2px;
+  width: 5px;
+  height: 1px;
+  border: solid 1px #333333;
+  border-radius: 1px; 
+}
+.clipboard.icon:after {
+  width: 3px;
+  height: 1px;
+  background-color: #333333;
+  box-shadow: 8px 0 0 0 #333333; 
+}
+
+.icon:before, .icon:after {
+  content: '';
+  position: absolute;
+  display: block;
+}
+</style>
+<script>
+  document.getElementById('copyToClipboard-a').addEventListener('click', function() {
+  
+  var text = document.getElementById('textA');
+  text.select();
+  document.execCommand('copy');
+
+})
+  </script>
+
+<p>
+<style>
+.as-tooltip {
+  cursor: help;
+  position: relative;
+  display: inline-block;
+  left: 3px;
+  top: 0;
+}
+.as-tooltip:hover .as-tooltip__info {
+  visibility: visible;
+}
+.as-tooltip__info {
+  font-size: 0.875rem;
+  border-radius: 12px;
+  visibility: hidden;
+  display: inline-block;
+  cursor: auto;
+  width: 150px;
+  padding: 0.75rem 1rem;
+  color: #fff;
+  background: #121212;
+  position: absolute;
+  margin-top: 8px;
+  z-index: 2;
+  word-wrap: break-word;
+  text-align: left;
+}
+.as-tooltip__info--top {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.as-tooltip__info--top::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: #121212;
+}
+
+.as-copy-text em {
+  text-transform: capitalize;
+}
+.as-copy-text input {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-right: 1rem;
+  padding: 0.5rem 1rem;
+}
+
+.no-tooltip {
+  display: none;
+}
+
+.as-button-icon {
+  --icon-url: url("https://burst.shopify.com/photos/laptop-from-above?c=coffee");
+  position: relative;
+  margin-right: 1.5rem;
+}
+.as-button-icon::before {
+  content: var(--icon-url);
+  margin-left: 0.5rem;
+  position: absolute;
+  transition: all 1s;
+}
+</style>
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <!-- Contoh 5 -->
+                    <p style="border:3px solid orange;" class="h5 mb-3"><strong>"KLM.BERKAH ILAHI 99"</strong></p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="KLM.BERKAH ILAHI 99" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">Nama Kapal Berhasil diCopy!</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+  
+$(function () {
+  $('.as-button-copy').click(function (e) {
+    e.preventDefault();
+    var $this = $(this);
+    var copy_text = $this.parent().find('input');
+    var dummy = copy_text.select();
+    document.execCommand('copy');
+
+    $('.as-copy-text input').css({ 'backgroundColor': 'white', 'color': 'green' });
+    $('.no-tooltip').hide();
+
+    $this.parent().find('input').css({ 'backgroundColor': 'green', 'color': 'white', 'border': 'green' });
+    $this.parents('.as-copy-wrapper').find('.no-tooltip').show();
+    setTimeout(function () {
+      $this.parents('.as-copy-wrapper').find('.no-tooltip').hide();
+    }, 3000);
+  });
+});
+//# sourceURL=pen.js
+       
+           </script>
+  
+  <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans">
+
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="GT/NT. 32/10" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">GT Kapal Berhasil diCopy! @BySyam</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+             ================
+           </script>
+  
+  <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans">
+
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="-" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">Call Sing Kapal Berhasil diCopy! @BySyam</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+        </center>
+        ======================================================*
+        $(function () {
+  $('.as-button-copy').click(function (e) {
+    e.preventDefault();
+    var $this = $(this);
+    var copy_text = $this.parent().find('input');
+    var dummy = copy_text.select();
+    document.execCommand('copy');
+
+    $('.as-copy-text input').css({ 'backgroundColor': 'white', 'color': 'green' });
+    $('.no-tooltip').hide();
+
+    $this.parent().find('input').css({ 'backgroundColor': 'green', 'color': 'white', 'border': 'green' });
+    $this.parents('.as-copy-wrapper').find('.no-tooltip').show();
+    setTimeout(function () {
+      $this.parents('.as-copy-wrapper').find('.no-tooltip').hide();
+    }, 3000);
+  });
+});
+//# sourceURL=pen.js
+       
+           </script>
+  
+  <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans">
+
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="-" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">nama Kapal Berhasil diCopy! @BySyam</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+
+        $(function () {
+  $('.as-button-copy').click(function (e) {
+    e.preventDefault();
+    var $this = $(this);
+    var copy_text = $this.parent().find('input');
+    var dummy = copy_text.select();
+    document.execCommand('copy');
+
+    $('.as-copy-text input').css({ 'backgroundColor': 'white', 'color': 'green' });
+    $('.no-tooltip').hide();
+
+    $this.parent().find('input').css({ 'backgroundColor': 'green', 'color': 'white', 'border': 'green' });
+    $this.parents('.as-copy-wrapper').find('.no-tooltip').show();
+    setTimeout(function () {
+      $this.parents('.as-copy-wrapper').find('.no-tooltip').hide();
+    }, 3000);
+  });
+});
+//# sourceURL=pen.js
+       
+           </script>
+  
+  <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans">
+
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="-" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">GT Kapal Berhasil diCopy! @BySyam</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+
+        $(function () {
+  $('.as-button-copy').click(function (e) {
+    e.preventDefault();
+    var $this = $(this);
+    var copy_text = $this.parent().find('input');
+    var dummy = copy_text.select();
+    document.execCommand('copy');
+
+    $('.as-copy-text input').css({ 'backgroundColor': 'white', 'color': 'green' });
+    $('.no-tooltip').hide();
+
+    $this.parent().find('input').css({ 'backgroundColor': 'green', 'color': 'white', 'border': 'green' });
+    $this.parents('.as-copy-wrapper').find('.no-tooltip').show();
+    setTimeout(function () {
+      $this.parents('.as-copy-wrapper').find('.no-tooltip').hide();
+    }, 3000);
+  });
+});
+//# sourceURL=pen.js
+       
+           </script>
+  
+  <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans">
+
+	<section class="postion-relative">
+        <div class="container m-5">
+            <h1 class="mb-4 h3"></h1>
+            <div class="row justify-contents-center">
+                <div class="col-md-4 border border-info border-end-0 p-3">
+
+                    <p>
+                    <div class="as-copy-wrapper d-flex gap-3">
+                        <span class="as-copy-text">
+                            <input type="text" value="-" readonly="" style="background-color: green; color: white; border: green;">
+                        </span>
+                        <button class="as-button-copy btn btn-dark"> <em class="fas fa-copy"></em> Copy</button>
+						<div class="no-tooltip mt-2" style="display: none;">
+							<span class="text-success">GT Kapal Berhasil diCopy! @BySyam</span>
+                          
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.min.js"></script>
+      <script id="rendered-js">
+         
+         
+        <div class="greetings">
+  <svg class="it i-face-smile" viewBox="0 0 24 24"><path d="M9 9h.01M15 9h.01M8 14q4 4 8 0"></path><circle cx="12" cy="12" r="10"></circle></svg>
+</div>

@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice - Syam Digital</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .invoice-shadow { box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        
+        @page {
+            size: legal portrait;
+            margin: 0.5in;
+        }
+        
+        @media print {
+            .no-print { display: none !important; }
+            * {
+                -webkit-print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+            body { 
+                background: white !important; 
+                margin: 0 !important;
+                padding: 0 !important;
+                font-size: 11px !important;
+                line-height: 1.3 !important;
+            }
+            .print-container {
+                width: 100% !important;
+                max-width: none !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                height: 100vh !important;
+                display: flex !important;
+                flex-direction: column !important;
+            }
+            .header-section {
+                background: linear-gradient(135deg, #1e40af 0%, #7c3aed 100%) !important;
+                color: white !important;
+                padding: 16px !important;
+                margin-bottom: 12px !important;
+            }
+            .content-section {
+                flex: 1 !important;
+                padding: 0 16px !important;
+            }
+            .text-xs { font-size: 9px !important; }
+            .text-sm { font-size: 10px !important; }
+            .text-base { font-size: 11px !important; }
+            .text-lg { font-size: 12px !important; }
+            .text-xl { font-size: 14px !important; }
+            .text-2xl { font-size: 16px !important; }
+            .text-3xl { font-size: 18px !important; }
+            .mb-1 { margin-bottom: 2px !important; }
+            .mb-2 { margin-bottom: 4px !important; }
+            .mb-3 { margin-bottom: 6px !important; }
+            .mb-4 { margin-bottom: 8px !important; }
+            .mb-6 { margin-bottom: 12px !important; }
+            .mt-2 { margin-top: 4px !important; }
+            .mt-3 { margin-top: 6px !important; }
+            .mt-4 { margin-top: 8px !important; }
+            .p-2 { padding: 4px !important; }
+            .p-3 { padding: 6px !important; }
+            .p-4 { padding: 8px !important; }
+            .px-2 { padding-left: 4px !important; padding-right: 4px !important; }
+            .px-3 { padding-left: 6px !important; padding-right: 6px !important; }
+            .py-1 { padding-top: 2px !important; padding-bottom: 2px !important; }
+            .py-2 { padding-top: 4px !important; padding-bottom: 4px !important; }
+            .gap-2 { gap: 4px !important; }
+            .gap-3 { gap: 6px !important; }
+            .gap-4 { gap: 8px !important; }
+            .space-y-1 > * + * { margin-top: 2px !important; }
+            .space-y-2 > * + * { margin-top: 4px !important; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 py-4">
+    <div class="print-container max-w-4xl mx-auto px-4">
+        <!-- Invoice Container -->
+        <div class="bg-white rounded-lg invoice-shadow overflow-hidden">
+            <!-- Header -->
+            <div class="header-section bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-white rounded-lg p-2 flex items-center justify-center">
+                            <div class="w-8 h-8 bg-blue-600 rounded flex items-center justify-center">
+                                <span class="text-white font-bold text-sm">SD</span>
+                            </div>
+                        </div>
+                        <div>
+                            <h1 class="text-2xl font-bold">Syam Digital</h1>
+                            <p class="text-sm opacity-90">Digital Solutions & Services</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <h2 class="text-xl font-bold">INVOICE</h2>
+                        <p class="text-sm font-mono" id="invoiceNumber">#INV-2024-001</p>
+                        <p class="text-xs opacity-90">Tanggal: <span id="headerDate">15 Jan 2024</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Section -->
+            <div class="content-section p-4">
+                <!-- Company & Client Info -->
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <h3 class="text-sm font-semibold text-gray-800 mb-2">Dari:</h3>
+                        <div class="text-xs text-gray-600 space-y-1">
+                            <p class="font-medium text-gray-800">Syam Digital</p>
+                            <p>Jl. Digital Street No. 123</p>
+                            <p>Jakarta Selatan, 12345</p>
+                            <p>Indonesia</p>
+                            <p class="mt-2"><span class="font-medium">Email:</span> info@syamdigital.com</p>
+                            <p><span class="font-medium">Phone:</span> +62 812-3456-7890</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <h3 class="text-sm font-semibold text-gray-800 mb-2">Kepada:</h3>
+                        <div class="text-xs text-gray-600 space-y-1">
+                            <p class="font-medium text-gray-800">PT. Contoh Client</p>
+                            <p>Jl. Client Avenue No. 456</p>
+                            <p>Jakarta Pusat, 10110</p>
+                            <p>Indonesia</p>
+                            <p class="mt-2"><span class="font-medium">Contact:</span> client@example.com</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Invoice Info -->
+                <div class="grid grid-cols-3 gap-3 mb-4 p-3 bg-gray-50 rounded">
+                    <div>
+                        <p class="text-xs text-gray-500 uppercase">Tanggal Invoice</p>
+                        <p class="text-sm font-semibold text-gray-800" id="invoiceDate">15 Januari 2024</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500 uppercase">Jatuh Tempo</p>
+                        <p class="text-sm font-semibold text-gray-800" id="dueDate">15 Februari 2024</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-500 uppercase">Status</p>
+                        <span class="inline-block px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-800 rounded">
+                            Pending
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Items Table -->
+                <div class="mb-4">
+                    <table class="w-full text-xs">
+                        <thead>
+                            <tr class="border-b border-gray-300">
+                                <th class="text-left py-2 px-1 font-semibold text-gray-800">Deskripsi</th>
+                                <th class="text-center py-2 px-1 font-semibold text-gray-800 w-12">Qty</th>
+                                <th class="text-right py-2 px-1 font-semibold text-gray-800 w-20">Harga</th>
+                                <th class="text-right py-2 px-1 font-semibold text-gray-800 w-20">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="itemsTable">
+                            <tr class="border-b border-gray-100">
+                                <td class="py-2 px-1">
+                                    <p class="font-medium text-gray-800">Website Development</p>
+                                    <p class="text-xs text-gray-500">Pembuatan website company profile responsive</p>
+                                </td>
+                                <td class="text-center py-2 px-1 text-gray-600">1</td>
+                                <td class="text-right py-2 px-1 text-gray-600">Rp 5.000.000</td>
+                                <td class="text-right py-2 px-1 font-medium text-gray-800">Rp 5.000.000</td>
+                            </tr>
+                            <tr class="border-b border-gray-100">
+                                <td class="py-2 px-1">
+                                    <p class="font-medium text-gray-800">SEO Optimization</p>
+                                    <p class="text-xs text-gray-500">Optimasi SEO untuk 3 bulan</p>
+                                </td>
+                                <td class="text-center py-2 px-1 text-gray-600">3</td>
+                                <td class="text-right py-2 px-1 text-gray-600">Rp 1.500.000</td>
+                                <td class="text-right py-2 px-1 font-medium text-gray-800">Rp 4.500.000</td>
+                            </tr>
+                            <tr class="border-b border-gray-100">
+                                <td class="py-2 px-1">
+                                    <p class="font-medium text-gray-800">Social Media Management</p>
+                                    <p class="text-xs text-gray-500">Pengelolaan media sosial selama 1 bulan</p>
+                                </td>
+                                <td class="text-center py-2 px-1 text-gray-600">1</td>
+                                <td class="text-right py-2 px-1 text-gray-600">Rp 2.000.000</td>
+                                <td class="text-right py-2 px-1 font-medium text-gray-800">Rp 2.000.000</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Totals -->
+                <div class="flex justify-end mb-4">
+                    <div class="w-1/2">
+                        <div class="text-xs space-y-1">
+                            <div class="flex justify-between py-1">
+                                <span class="text-gray-600">Subtotal:</span>
+                                <span class="font-medium text-gray-800" id="subtotal">Rp 11.500.000</span>
+                            </div>
+                            <div class="flex justify-between py-1">
+                                <span class="text-gray-600">PPN (11%):</span>
+                                <span class="font-medium text-gray-800" id="tax">Rp 1.265.000</span>
+                            </div>
+                            <div class="border-t border-gray-300 pt-2">
+                                <div class="flex justify-between">
+                                    <span class="text-sm font-semibold text-gray-800">Total:</span>
+                                    <span class="text-sm font-bold text-blue-600" id="total">Rp 12.765.000</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Info & Notes -->
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div class="p-3 bg-blue-50 rounded">
+                        <h4 class="text-xs font-semibold text-gray-800 mb-2">Informasi Pembayaran</h4>
+                        <div class="text-xs text-gray-600 space-y-1">
+                            <p><span class="font-medium">Bank:</span> Bank Central Asia (BCA)</p>
+                            <p><span class="font-medium">No. Rekening:</span> 1234567890</p>
+                            <p><span class="font-medium">Atas Nama:</span> Syam Digital</p>
+                        </div>
+                    </div>
+                    <div class="p-3 bg-gray-50 rounded">
+                        <h4 class="text-xs font-semibold text-gray-800 mb-2">Catatan</h4>
+                        <p class="text-xs text-gray-600">
+                            Terima kasih atas kepercayaan Anda. Mohon lakukan pembayaran sesuai jatuh tempo.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="bg-gray-100 px-4 py-2 text-center text-xs text-gray-500">
+                <p>Invoice ini dibuat secara otomatis oleh sistem Syam Digital</p>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="mt-6 flex flex-wrap justify-center gap-4 no-print">
+            <button onclick="toggleEditMode()" 
+                    id="editBtn"
+                    class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-medium transition-colors">
+                ✏️ Edit Invoice
+            </button>
+            <button onclick="window.print()" 
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors">
+                🖨️ Print Invoice
+            </button>
+            <button onclick="downloadPDF()" 
+                    class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium transition-colors">
+                📄 Download PDF
+            </button>
+        </div>
+
+        <!-- Edit Panel -->
+        <div id="editPanel" class="mt-8 bg-white rounded-lg invoice-shadow p-6 hidden no-print">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">Edit Invoice</h2>
+                <button onclick="closeEditPanel()" class="text-gray-500 hover:text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Company Info -->
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Informasi Perusahaan</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Nama Perusahaan</label>
+                                <input type="text" id="companyName" value="Syam Digital" 
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Alamat</label>
+                                <textarea id="companyAddress" rows="3" 
+                                          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">Jl. Digital Street No. 123
+Jakarta Selatan, 12345
+Indonesia</textarea>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                                    <input type="email" id="companyEmail" value="info@syamdigital.com" 
+                                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Telepon</label>
+                                    <input type="text" id="companyPhone" value="+62 812-3456-7890" 
+                                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Client Info -->
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Informasi Client</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Nama Client</label>
+                                <input type="text" id="clientName" value="PT. Contoh Client" 
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Alamat Client</label>
+                                <textarea id="clientAddress" rows="3" 
+                                          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">Jl. Client Avenue No. 456
+Jakarta Pusat, 10110
+Indonesia</textarea>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Email Client</label>
+                                <input type="email" id="clientEmail" value="client@example.com" 
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Invoice Details -->
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Detail Invoice</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Nomor Invoice</label>
+                                <input type="text" id="invoiceNumber" value="#INV-2024-001" 
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Tanggal Invoice</label>
+                                    <input type="date" id="invoiceDateInput" 
+                                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Jatuh Tempo</label>
+                                    <input type="date" id="dueDateInput" 
+                                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                                <select id="invoiceStatus" 
+                                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    <option value="pending">Pending</option>
+                                    <option value="paid">Paid</option>
+                                    <option value="overdue">Overdue</option>
+                                    <option value="cancelled">Cancelled</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Info -->
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Informasi Pembayaran</h3>
+                        <div class="space-y-4">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Bank</label>
+                                    <input type="text" id="bankName" value="Bank Central Asia (BCA)" 
+                                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">No. Rekening</label>
+                                    <input type="text" id="accountNumber" value="1234567890" 
+                                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Atas Nama</label>
+                                <input type="text" id="accountName" value="Syam Digital" 
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notes -->
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Catatan</h3>
+                        <textarea id="invoiceNotes" rows="4" 
+                                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">Terima kasih atas kepercayaan Anda kepada Syam Digital. Mohon lakukan pembayaran sesuai dengan tanggal jatuh tempo. Untuk pertanyaan terkait invoice ini, silakan hubungi kami di info@syamdigital.com</textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Items Section -->
+            <div class="mt-8">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-semibold text-gray-800">Item Invoice</h3>
+                    <button onclick="addNewItem()" 
+                            class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                        + Tambah Item
+                    </button>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <div id="editItemsContainer" class="space-y-4">
+                        <!-- Items will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Save Button -->
+            <div class="mt-8 flex justify-end space-x-4">
+                <button onclick="cancelEdit()" 
+                        class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-lg font-medium transition-colors">
+                    Batal
+                </button>
+                <button onclick="saveChanges()" 
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors">
+                    💾 Simpan Perubahan
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let invoiceItems = [
+            {
+                description: 'Website Development',
+                detail: 'Pembuatan website company profile responsive',
+                quantity: 1,
+                price: 5000000
+            },
+            {
+                description: 'SEO Optimization',
+                detail: 'Optimasi SEO untuk 3 bulan',
+                quantity: 3,
+                price: 1500000
+            },
+            {
+                description: 'Social Media Management',
+                detail: 'Pengelolaan media sosial selama 1 bulan',
+                quantity: 1,
+                price: 2000000
+            }
+        ];
+
+        // Update dates to current date
+        function updateDates() {
+            const today = new Date();
+            const dueDate = new Date(today);
+            dueDate.setDate(today.getDate() + 30);
+            
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const shortOptions = { year: 'numeric', month: 'short', day: 'numeric' };
+            
+            document.getElementById('invoiceDate').textContent = today.toLocaleDateString('id-ID', options);
+            document.getElementById('dueDate').textContent = dueDate.toLocaleDateString('id-ID', options);
+            document.getElementById('headerDate').textContent = today.toLocaleDateString('id-ID', shortOptions);
+            
+            // Set input values
+            document.getElementById('invoiceDateInput').value = today.toISOString().split('T')[0];
+            document.getElementById('dueDateInput').value = dueDate.toISOString().split('T')[0];
+        }
+
+        // Calculate totals
+        function calculateTotals() {
+            let subtotal = 0;
+            
+            invoiceItems.forEach(item => {
+                subtotal += item.quantity * item.price;
+            });
+            
+            const tax = Math.round(subtotal * 0.11);
+            const total = subtotal + tax;
+            
+            document.getElementById('subtotal').textContent = 'Rp ' + subtotal.toLocaleString('id-ID');
+            document.getElementById('tax').textContent = 'Rp ' + tax.toLocaleString('id-ID');
+            document.getElementById('total').textContent = 'Rp ' + total.toLocaleString('id-ID');
+        }
+
+        // Toggle edit mode
+        function toggleEditMode() {
+            const editPanel = document.getElementById('editPanel');
+            const editBtn = document.getElementById('editBtn');
+            
+            if (editPanel.classList.contains('hidden')) {
+                editPanel.classList.remove('hidden');
+                editBtn.textContent = '❌ Tutup Edit';
+                editBtn.classList.remove('bg-purple-600', 'hover:bg-purple-700');
+                editBtn.classList.add('bg-red-600', 'hover:bg-red-700');
+                populateEditForm();
+                populateEditItems();
+            } else {
+                closeEditPanel();
+            }
+        }
+
+        // Close edit panel
+        function closeEditPanel() {
+            const editPanel = document.getElementById('editPanel');
+            const editBtn = document.getElementById('editBtn');
+            
+            editPanel.classList.add('hidden');
+            editBtn.textContent = '✏️ Edit Invoice';
+            editBtn.classList.remove('bg-red-600', 'hover:bg-red-700');
+            editBtn.classList.add('bg-purple-600', 'hover:bg-purple-700');
+        }
+
+        // Populate edit form with current data
+        function populateEditForm() {
+            // Company info
+            document.getElementById('companyName').value = document.querySelector('.text-3xl.font-bold').textContent;
+            
+            // Invoice details
+            document.getElementById('invoiceNumber').value = document.querySelector('.text-blue-100').textContent;
+        }
+
+        // Populate edit items
+        function populateEditItems() {
+            const container = document.getElementById('editItemsContainer');
+            container.innerHTML = '';
+            
+            invoiceItems.forEach((item, index) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'bg-gray-50 p-4 rounded-lg border';
+                itemDiv.innerHTML = `
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
+                        <div class="md:col-span-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Deskripsi</label>
+                            <input type="text" value="${item.description}" 
+                                   onchange="updateItem(${index}, 'description', this.value)"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <div class="md:col-span-3">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Detail</label>
+                            <input type="text" value="${item.detail}" 
+                                   onchange="updateItem(${index}, 'detail', this.value)"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Qty</label>
+                            <input type="number" value="${item.quantity}" min="1"
+                                   onchange="updateItem(${index}, 'quantity', parseInt(this.value))"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Harga</label>
+                            <input type="number" value="${item.price}" min="0"
+                                   onchange="updateItem(${index}, 'price', parseInt(this.value))"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <div class="md:col-span-1">
+                            <button onclick="removeItem(${index})" 
+                                    class="w-full bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-lg transition-colors">
+                                🗑️
+                            </button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(itemDiv);
+            });
+        }
+
+        // Update item
+        function updateItem(index, field, value) {
+            invoiceItems[index][field] = value;
+            updateInvoiceDisplay();
+        }
+
+        // Remove item
+        function removeItem(index) {
+            if (invoiceItems.length > 1) {
+                invoiceItems.splice(index, 1);
+                populateEditItems();
+                updateInvoiceDisplay();
+            } else {
+                alert('Invoice harus memiliki minimal 1 item');
+            }
+        }
+
+        // Add new item
+        function addNewItem() {
+            invoiceItems.push({
+                description: 'Item Baru',
+                detail: 'Deskripsi item baru',
+                quantity: 1,
+                price: 0
+            });
+            populateEditItems();
+        }
+
+        // Update invoice display
+        function updateInvoiceDisplay() {
+            const tbody = document.getElementById('itemsTable');
+            tbody.innerHTML = '';
+            
+            invoiceItems.forEach(item => {
+                const row = document.createElement('tr');
+                row.className = 'border-b border-gray-100';
+                row.innerHTML = `
+                    <td class="py-4 px-2">
+                        <div>
+                            <p class="font-medium text-gray-800">${item.description}</p>
+                            <p class="text-sm text-gray-500">${item.detail}</p>
+                        </div>
+                    </td>
+                    <td class="text-center py-4 px-2 text-gray-600">${item.quantity}</td>
+                    <td class="text-right py-4 px-2 text-gray-600">Rp ${item.price.toLocaleString('id-ID')}</td>
+                    <td class="text-right py-4 px-2 font-medium text-gray-800">Rp ${(item.quantity * item.price).toLocaleString('id-ID')}</td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            calculateTotals();
+        }
+
+        // Save changes
+        function saveChanges() {
+            // Update company info
+            document.querySelector('.text-3xl.font-bold').textContent = document.getElementById('companyName').value;
+            document.querySelector('.text-blue-100').textContent = document.getElementById('invoiceNumber').value;
+            
+            // Update company address
+            const companyAddressLines = document.getElementById('companyAddress').value.split('\n');
+            const companyAddressElements = document.querySelectorAll('.text-gray-600 p');
+            companyAddressLines.forEach((line, index) => {
+                if (companyAddressElements[index + 1]) {
+                    companyAddressElements[index + 1].textContent = line;
+                }
+            });
+            
+            // Update company contact
+            const emailElement = document.querySelector('.text-gray-600 p:nth-of-type(5)');
+            if (emailElement) {
+                emailElement.innerHTML = `<span class="font-medium">Email:</span> ${document.getElementById('companyEmail').value}<br><span class="font-medium">Phone:</span> ${document.getElementById('companyPhone').value}`;
+            }
+            
+            // Update client info
+            const clientNameElement = document.querySelector('.text-gray-600 .font-medium.text-gray-800');
+            if (clientNameElement) {
+                clientNameElement.textContent = document.getElementById('clientName').value;
+            }
+            
+            // Update dates
+            const invoiceDate = new Date(document.getElementById('invoiceDateInput').value);
+            const dueDate = new Date(document.getElementById('dueDateInput').value);
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            
+            document.getElementById('invoiceDate').textContent = invoiceDate.toLocaleDateString('id-ID', options);
+            document.getElementById('dueDate').textContent = dueDate.toLocaleDateString('id-ID', options);
+            
+            // Update status
+            const statusElement = document.querySelector('.inline-block.px-3.py-1');
+            const status = document.getElementById('invoiceStatus').value;
+            statusElement.textContent = status.charAt(0).toUpperCase() + status.slice(1);
+            
+            // Update status color
+            statusElement.className = 'inline-block px-3 py-1 text-sm font-medium rounded-full';
+            switch(status) {
+                case 'paid':
+                    statusElement.classList.add('bg-green-100', 'text-green-800');
+                    break;
+                case 'overdue':
+                    statusElement.classList.add('bg-red-100', 'text-red-800');
+                    break;
+                case 'cancelled':
+                    statusElement.classList.add('bg-gray-100', 'text-gray-800');
+                    break;
+                default:
+                    statusElement.classList.add('bg-yellow-100', 'text-yellow-800');
+            }
+            
+            // Update payment info
+            const paymentElements = document.querySelectorAll('.grid.grid-cols-1.md\\:grid-cols-2.gap-4.text-sm.text-gray-600 p');
+            if (paymentElements.length >= 3) {
+                paymentElements[0].innerHTML = `<span class="font-medium">Bank:</span> ${document.getElementById('bankName').value}`;
+                paymentElements[1].innerHTML = `<span class="font-medium">No. Rekening:</span> ${document.getElementById('accountNumber').value}`;
+                paymentElements[2].innerHTML = `<span class="font-medium">Atas Nama:</span> ${document.getElementById('accountName').value}`;
+            }
+            
+            // Update notes
+            const notesElement = document.querySelector('.text-sm.text-gray-600');
+            if (notesElement) {
+                notesElement.textContent = document.getElementById('invoiceNotes').value;
+            }
+            
+            // Update items display
+            updateInvoiceDisplay();
+            
+            // Close edit panel
+            closeEditPanel();
+            
+            // Show success message
+            alert('✅ Invoice berhasil diperbarui!');
+        }
+
+        // Cancel edit
+        function cancelEdit() {
+            if (confirm('Apakah Anda yakin ingin membatalkan perubahan?')) {
+                closeEditPanel();
+            }
+        }
+
+        // Download PDF function (demo)
+        function downloadPDF() {
+            alert('Fitur download PDF akan tersedia setelah integrasi dengan sistem backend. Untuk saat ini, Anda dapat menggunakan Print dan pilih "Save as PDF".');
+        }
+
+        // Initialize
+        updateDates();
+        calculateTotals();
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97a5d383377d6141',t:'MTc1NzA3NjM1Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

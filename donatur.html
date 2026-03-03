@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flip Book 3D - Seperti Buku Asli</title>
+    <style>
+        body {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            min-height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        html {
+            height: 100%;
+        }
+
+        .book-container {
+            perspective: 1200px;
+            width: 90%;
+            max-width: 800px;
+            height: 80%;
+            min-height: 500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .book {
+            position: relative;
+            width: 600px;
+            height: 400px;
+            transform-style: preserve-3d;
+            display: flex;
+        }
+
+        .book-spine {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            width: 8px;
+            height: 100%;
+            background: linear-gradient(to right, #654321, #8b4513, #654321);
+            transform: translateX(-50%);
+            z-index: 100;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        .page-half {
+            width: 50%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+        }
+
+        .page-half.left {
+            transform-origin: right center;
+        }
+
+        .page-half.right {
+            transform-origin: left center;
+        }
+
+        .page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: white;
+            border: 2px solid #ddd;
+            transform-style: preserve-3d;
+            transition: transform 0.8s ease-in-out;
+            backface-visibility: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .page.left-page {
+            border-radius: 10px 0 0 10px;
+            border-right: 1px solid #ccc;
+        }
+
+        .page.right-page {
+            border-radius: 0 10px 10px 0;
+            border-left: 1px solid #ccc;
+        }
+
+        .page-content {
+            padding: 30px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            box-sizing: border-box;
+            transform-origin: center center;
+            transition: transform 0.3s ease;
+            cursor: zoom-in;
+        }
+
+        .page-content.zoomed {
+            transform: scale(1.5);
+            cursor: zoom-out;
+            overflow: auto;
+        }
+
+        .page-half.flipping {
+            animation: pageFlip 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        .page-half.flipped {
+            transform: rotateY(-180deg);
+        }
+
+        @keyframes pageFlip {
+            0% {
+                transform: rotateY(0deg) rotateX(0deg);
+                box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            }
+            25% {
+                transform: rotateY(-45deg) rotateX(5deg) translateZ(20px);
+                box-shadow: -10px 10px 25px rgba(0,0,0,0.4);
+            }
+            50% {
+                transform: rotateY(-90deg) rotateX(10deg) translateZ(30px);
+                box-shadow: -20px 15px 35px rgba(0,0,0,0.5);
+            }
+            75% {
+                transform: rotateY(-135deg) rotateX(5deg) translateZ(20px);
+                box-shadow: -15px 10px 25px rgba(0,0,0,0.4);
+            }
+            100% {
+                transform: rotateY(-180deg) rotateX(0deg);
+                box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            }
+        }
+
+        @keyframes pageFlipBack {
+            0% {
+                transform: rotateY(-180deg) rotateX(0deg);
+                box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            }
+            25% {
+                transform: rotateY(-135deg) rotateX(-5deg) translateZ(20px);
+                box-shadow: 10px 10px 25px rgba(0,0,0,0.4);
+            }
+            50% {
+                transform: rotateY(-90deg) rotateX(-10deg) translateZ(30px);
+                box-shadow: 20px 15px 35px rgba(0,0,0,0.5);
+            }
+            75% {
+                transform: rotateY(-45deg) rotateX(-5deg) translateZ(20px);
+                box-shadow: 15px 10px 25px rgba(0,0,0,0.4);
+            }
+            100% {
+                transform: rotateY(0deg) rotateX(0deg);
+                box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            }
+        }
+
+        .page-half.flipping-back {
+            animation: pageFlipBack 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        .page-content {
+            text-align: center;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .page-title {
+            font-size: clamp(1.3rem, 3.5vw, 2rem);
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-weight: bold;
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.3;
+        }
+
+        .page-text {
+            font-size: clamp(0.8rem, 2vw, 1rem);
+            line-height: 1.5;
+            color: #555;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .page-illustration {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            margin: 20px auto;
+            animation: pulse 2s ease-in-out infinite;
+            box-shadow: 0 10px 30px rgba(52, 152, 219, 0.3);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .page-number {
+            position: absolute;
+            bottom: 20px;
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            font-weight: bold;
+        }
+
+        .page-number.left {
+            left: 20px;
+        }
+
+        .page-number.right {
+            right: 20px;
+        }
+
+        .cover {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            border-radius: 10px 0 0 10px;
+        }
+
+        .cover.back {
+            background: linear-gradient(135deg, #27ae60, #229954);
+            border-radius: 0 10px 10px 0;
+        }
+
+        .cover-title {
+            font-size: clamp(1.2rem, 3.5vw, 2rem);
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+
+        .cover-subtitle {
+            font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+            opacity: 0.9;
+            margin-bottom: 25px;
+        }
+
+        .cover-decoration {
+            width: 150px;
+            height: 150px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            margin: 20px auto;
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .page-half:hover {
+            transform: scale(1.02);
+            transition: transform 0.3s ease;
+        }
+
+        .page-half.left:hover {
+            transform-origin: right center;
+        }
+
+        .page-half.right:hover {
+            transform-origin: left center;
+        }
+
+        .page-indicator {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: rgba(255,255,255,0.95);
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            color: #2c3e50;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+
+        .zoom-controls {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 5px;
+            z-index: 200;
+        }
+
+        .zoom-btn {
+            width: 30px;
+            height: 30px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(52, 152, 219, 0.9);
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .zoom-btn:hover {
+            background: rgba(52, 152, 219, 1);
+            transform: scale(1.1);
+        }
+
+        .zoom-btn:active {
+            transform: scale(0.95);
+        }
+
+        .zoom-btn.zoom-out {
+            background: rgba(231, 76, 60, 0.9);
+        }
+
+        .zoom-btn.zoom-out:hover {
+            background: rgba(231, 76, 60, 1);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal.show {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: modalFadeIn 0.3s ease-out;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 90%;
+            max-height: 90%;
+            width: 800px;
+            height: 600px;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            color: #aaa;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            color: #e74c3c;
+            background: rgba(231, 76, 60, 0.1);
+        }
+
+        .modal-page-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .modal-page-content img {
+            max-width: 100%;
+            max-height: 70%;
+            object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-page-content .page-title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .modal-page-content .page-text {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            max-width: 600px;
+        }
+
+        .modal-page-content .page-illustration {
+            width: 200px;
+            height: 200px;
+            font-size: 5rem;
+            margin: 30px auto;
+        }
+
+        .modal-page-content .cover-decoration {
+            width: 250px;
+            height: 250px;
+            font-size: 6rem;
+            margin: 30px auto;
+        }
+
+        .modal-page-content .cover-title {
+            font-size: 3rem;
+            margin-bottom: 25px;
+        }
+
+        .modal-page-content .cover-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .modal-content {
+                width: 95%;
+                height: 85%;
+                padding: 20px;
+            }
+
+            .modal-page-content .page-title {
+                font-size: 2rem;
+            }
+
+            .modal-page-content .page-text {
+                font-size: 1rem;
+            }
+
+            .modal-page-content .page-illustration {
+                width: 150px;
+                height: 150px;
+                font-size: 4rem;
+                margin: 20px auto;
+            }
+
+            .modal-page-content .cover-decoration {
+                width: 180px;
+                height: 180px;
+                font-size: 4.5rem;
+                margin: 20px auto;
+            }
+
+            .modal-page-content .cover-title {
+                font-size: 2.2rem;
+                margin-bottom: 20px;
+            }
+
+            .modal-page-content .cover-subtitle {
+                font-size: 1.2rem;
+                margin-bottom: 25px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .book-container {
+                width: 95%;
+                height: 90%;
+                min-height: 450px;
+                padding: 10px;
+            }
+            
+            .book {
+                width: 100%;
+                max-width: 500px;
+                height: 350px;
+            }
+            
+            .page-content {
+                padding: 20px;
+            }
+            
+            .page-illustration {
+                width: 80px;
+                height: 80px;
+                font-size: 2rem;
+                margin: 15px auto;
+            }
+            
+            .cover-decoration {
+                width: 100px;
+                height: 100px;
+                font-size: 2.5rem;
+                margin: 15px auto;
+            }
+            
+            .page-indicator {
+                top: 15px;
+                right: 15px;
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .page-title {
+                margin-bottom: 15px;
+            }
+            
+            .page-text {
+                margin-bottom: 12px;
+                font-size: clamp(0.75rem, 1.8vw, 0.9rem);
+            }
+            
+            .cover-title {
+                margin-bottom: 15px;
+            }
+            
+            .cover-subtitle {
+                margin-bottom: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 5px;
+            }
+            
+            .book-container {
+                width: 100%;
+                height: 85%;
+                min-height: 400px;
+                padding: 5px;
+            }
+            
+            .book {
+                width: 100%;
+                max-width: 380px;
+                height: 280px;
+            }
+            
+            .page-content {
+                padding: 15px;
+            }
+            
+            .page-illustration {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+                margin: 10px auto;
+            }
+            
+            .cover-decoration {
+                width: 80px;
+                height: 80px;
+                font-size: 2rem;
+                margin: 10px auto;
+            }
+            
+            .page-indicator {
+                top: 10px;
+                right: 10px;
+                padding: 6px 12px;
+                font-size: 0.8rem;
+            }
+            
+            .page-title {
+                margin-bottom: 10px;
+            }
+            
+            .page-text {
+                margin-bottom: 10px;
+                font-size: clamp(0.7rem, 2.2vw, 0.85rem);
+                line-height: 1.4;
+            }
+            
+            .cover-title {
+                margin-bottom: 10px;
+            }
+            
+            .cover-subtitle {
+                margin-bottom: 15px;
+            }
+            
+            .page-number {
+                bottom: 10px;
+                font-size: 0.8rem;
+            }
+            
+            .page-number.left {
+                left: 10px;
+            }
+            
+            .page-number.right {
+                right: 10px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .book {
+                height: 250px;
+            }
+            
+            .page-content {
+                padding: 12px;
+            }
+            
+            .page-illustration {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+                margin: 8px auto;
+            }
+            
+            .cover-decoration {
+                width: 70px;
+                height: 70px;
+                font-size: 1.8rem;
+                margin: 8px auto;
+            }
+            
+            .page-text {
+                font-size: clamp(0.7rem, 3vw, 0.85rem);
+                line-height: 1.3;
+            }
+        }
+
+        /* Orientasi landscape untuk mobile */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .book-container {
+                height: 95%;
+                min-height: 300px;
+            }
+            
+            .book {
+                height: 250px;
+            }
+            
+            .page-content {
+                padding: 15px;
+            }
+            
+            .page-illustration, .cover-decoration {
+                margin: 8px auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-indicator" id="pageIndicator">
+        Halaman 1 dari 6
+    </div>
+
+    <div class="book-container">
+        <div class="book" id="book">
+            <div class="book-spine"></div>
+            
+            <!-- Sisi Kiri Buku -->
+            <div class="page-half left" id="leftHalf" onclick="handlePageClick(event, 'left')" style="cursor: pointer;">
+                <div class="page left-page" id="leftPage">
+                    <div class="zoom-controls">
+                        <button class="zoom-btn" onclick="zoomPage(event, 'left', 'in')" title="Lihat Detail">🔍</button>
+                    </div>
+                    <div class="page-content" id="leftContent">
+                        <div class="cover-decoration">📖</div>
+                        <h1 class="cover-title" style="background: linear-gradient(45deg, #e74c3c, #c0392b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Daftar Nama Donatur MTQ TK.KAB DONGGALA</h1>
+                        <p class="cover-subtitle">Musabaqah Tilawatil Qur'an Tingkat Kabupaten</p>
+                        <div class="page-number left">1</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sisi Kanan Buku -->
+            <div class="page-half right" id="rightHalf" onclick="handlePageClick(event, 'right')" style="cursor: pointer;">
+                <div class="page right-page" id="rightPage">
+                    <div class="zoom-controls">
+                        <button class="zoom-btn" onclick="zoomPage(event, 'right', 'in')" title="Lihat Detail">🔍</button>
+                    </div>
+                    <div class="page-content" id="rightContent">
+                        <div class="page-illustration">🌟</div>
+                        <h2 class="page-title" style="background: linear-gradient(45deg, #f39c12, #e67e22); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Selamat Datang</h2>
+                        <p class="page-text">Selamat datang di flip book digital yang meniru pengalaman membaca buku fisik! Dengan animasi 3D yang realistis, Anda dapat merasakan sensasi membalik halaman seperti buku sungguhan.</p>
+                        <div class="page-number right">2</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal untuk zoom halaman -->
+    <div id="pageModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal()">&times;</span>
+            <div id="modalPageContent" class="modal-page-content">
+                <!-- Konten halaman akan dimuat di sini -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentPage = 1;
+        const totalPages = 5;
+        let isFlipping = false;
+        
+        const pages = [
+            {
+                left: { content: `<div class="cover-decoration">📖</div><h1 class="cover-title" style="background: linear-gradient(45deg, #e74c3c, #c0392b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Daftar Nama Donatur MTQ TK.KAB DONGGALA</h1><p class="cover-subtitle">Musabaqah Tilawatil Qur'an Tingkat Kabupaten</p>`, number: 1 },
+                right: { content: `<h2 class="page-title" style="background: linear-gradient(45deg, #e74c3c, #c0392b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 20px;">DAFTAR DONATUR</h2><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1760262441/DUSUN-I_mrnxwe.png" alt="Daftar Donatur Dusun I" style="width: 100%; height: auto; max-height: 250px; object-fit: contain; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);" onerror="this.src=''; this.alt='Gambar gagal dimuat'; this.style.display='none';">`, number: 2 }
+            },
+            {
+                left: { content: `<div class="page-illustration">📚</div><h2 class="page-title" style="background: linear-gradient(45deg, #3498db, #2980b9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Teknologi Modern</h2><p class="page-text">Menggunakan CSS3 Transform dan JavaScript untuk menciptakan efek 3D yang memukau. Setiap halaman berputar dengan sumbu yang realistis, memberikan pengalaman visual yang menawan.</p>`, number: 3 },
+                right: { content: `<div class="page-illustration">🎨</div><h2 class="page-title" style="background: linear-gradient(45deg, #9b59b6, #8e44ad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Desain Responsif</h2><p class="page-text">Flip book ini dirancang untuk bekerja sempurna di semua perangkat. Dari desktop hingga smartphone, pengalaman membaca tetap optimal dengan tata letak yang menyesuaikan ukuran layar.</p>`, number: 4 }
+            },
+            {
+                left: { content: `<div class="page-illustration">⚡</div><h2 class="page-title" style="background: linear-gradient(45deg, #1abc9c, #16a085); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Fitur Interaktif</h2><p class="page-text">Dilengkapi dengan kontrol navigasi yang intuitif, indikator halaman real-time, dan dukungan gesture swipe untuk perangkat mobile. Pengalaman membaca yang benar-benar interaktif!</p>`, number: 5 },
+                right: { content: `<div class="cover-decoration">🎉</div><h1 class="cover-title" style="background: linear-gradient(45deg, #27ae60, #229954); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Terima Kasih</h1><p class="cover-subtitle">Semoga Anda menikmati pengalaman flip book ini!</p>`, number: 6 }
+            }
+        ];
+        
+        function zoomPage(event, side, action) {
+            event.stopPropagation();
+            
+            if (action === 'in') {
+                openModal(side);
+            }
+        }
+
+        function openModal(side) {
+            const modal = document.getElementById('pageModal');
+            const modalContent = document.getElementById('modalPageContent');
+            const currentContent = document.getElementById(side + 'Content');
+            
+            // Salin konten halaman ke modal
+            modalContent.innerHTML = currentContent.innerHTML;
+            
+            // Hapus nomor halaman dari modal
+            const pageNumber = modalContent.querySelector('.page-number');
+            if (pageNumber) {
+                pageNumber.remove();
+            }
+            
+            // Tampilkan modal
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('pageModal');
+            modal.classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Tutup modal ketika klik di luar konten
+        window.onclick = function(event) {
+            const modal = document.getElementById('pageModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Tutup modal dengan tombol ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+        
+        function handlePageClick(event, side) {
+            // Jika ada elemen yang sedang di-zoom, jangan navigasi
+            const leftContent = document.getElementById('leftContent');
+            const rightContent = document.getElementById('rightContent');
+            
+            if (leftContent.classList.contains('zoomed') || rightContent.classList.contains('zoomed')) {
+                return;
+            }
+            
+            if (side === 'left') {
+                previousPage();
+            } else {
+                nextPage();
+            }
+        }
+
+        function updatePageContent() {
+            const pageIndex = Math.floor((currentPage - 1) / 2);
+            const pageData = pages[pageIndex];
+            
+            if (pageData) {
+                const leftContent = document.getElementById('leftContent');
+                const rightContent = document.getElementById('rightContent');
+                
+                // Reset zoom state saat ganti halaman
+                leftContent.classList.remove('zoomed');
+                rightContent.classList.remove('zoomed');
+                
+                if (currentPage % 2 === 1) {
+                    // Halaman ganjil - tampilkan left dan right
+                    leftContent.innerHTML = pageData.left.content + `<div class="page-number left">${pageData.left.number}</div>`;
+                    rightContent.innerHTML = pageData.right.content + `<div class="page-number right">${pageData.right.number}</div>`;
+                } else {
+                    // Halaman genap - tampilkan right dari page sebelumnya dan left dari page berikutnya
+                    if (pages[pageIndex + 1]) {
+                        leftContent.innerHTML = pageData.right.content + `<div class="page-number left">${pageData.right.number}</div>`;
+                        rightContent.innerHTML = pages[pageIndex + 1].left.content + `<div class="page-number right">${pages[pageIndex + 1].left.number}</div>`;
+                    }
+                }
+                
+                // Remove any existing zoom event listeners
+                leftContent.onclick = null;
+                rightContent.onclick = null;
+            }
+        }
+        
+        function updatePageDisplay() {
+            // Update indikator halaman
+            document.getElementById('pageIndicator').textContent = `Halaman ${currentPage} dari ${totalPages}`;
+            
+            // Update cursor untuk halaman
+            const leftHalf = document.getElementById('leftHalf');
+            const rightHalf = document.getElementById('rightHalf');
+            
+            if (currentPage === 1) {
+                leftHalf.style.cursor = 'not-allowed';
+                leftHalf.style.opacity = '0.7';
+            } else {
+                leftHalf.style.cursor = 'pointer';
+                leftHalf.style.opacity = '1';
+            }
+            
+            if (currentPage === totalPages) {
+                rightHalf.style.cursor = 'not-allowed';
+                rightHalf.style.opacity = '0.7';
+            } else {
+                rightHalf.style.cursor = 'pointer';
+                rightHalf.style.opacity = '1';
+            }
+            
+            updatePageContent();
+        }
+        
+        function nextPage() {
+            if (currentPage < totalPages && !isFlipping) {
+                isFlipping = true;
+                
+                const leftHalf = document.getElementById('leftHalf');
+                
+                // Mulai animasi flip
+                leftHalf.classList.add('flipping');
+                
+                // Update konten di tengah animasi
+                setTimeout(() => {
+                    currentPage++;
+                    updatePageContent();
+                }, 600);
+                
+                // Selesaikan animasi
+                setTimeout(() => {
+                    leftHalf.classList.remove('flipping');
+                    leftHalf.classList.add('flipped');
+                    isFlipping = false;
+                    updatePageDisplay();
+                }, 1200);
+                
+                // Reset untuk animasi berikutnya
+                setTimeout(() => {
+                    leftHalf.classList.remove('flipped');
+                }, 1300);
+            }
+        }
+        
+        function previousPage() {
+            if (currentPage > 1 && !isFlipping) {
+                isFlipping = true;
+                
+                const leftHalf = document.getElementById('leftHalf');
+                
+                // Set posisi awal untuk animasi mundur
+                leftHalf.classList.add('flipped');
+                
+                setTimeout(() => {
+                    // Mulai animasi flip back
+                    leftHalf.classList.remove('flipped');
+                    leftHalf.classList.add('flipping-back');
+                    
+                    // Update konten di tengah animasi
+                    setTimeout(() => {
+                        currentPage--;
+                        updatePageContent();
+                    }, 600);
+                    
+                    // Selesaikan animasi
+                    setTimeout(() => {
+                        leftHalf.classList.remove('flipping-back');
+                        isFlipping = false;
+                        updatePageDisplay();
+                    }, 1200);
+                }, 50);
+            }
+        }
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextPage();
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                previousPage();
+            }
+        });
+        
+        // Touch/swipe support untuk mobile
+        let startX = 0;
+        let endX = 0;
+        
+        document.addEventListener('touchstart', function(e) {
+            startX = e.touches[0].clientX;
+        });
+        
+        document.addEventListener('touchend', function(e) {
+            endX = e.changedTouches[0].clientX;
+            handleSwipe();
+        });
+        
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diff = startX - endX;
+            
+            if (Math.abs(diff) > swipeThreshold && !isFlipping) {
+                if (diff > 0) {
+                    // Swipe left - next page
+                    nextPage();
+                } else {
+                    // Swipe right - previous page
+                    previousPage();
+                }
+            }
+        }
+        
+        // Initialize
+        updatePageDisplay();
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98d5cc619388f8e6',t:'MTc2MDI2MzczMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

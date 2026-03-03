@@ -1,0 +1,797 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pencarian Pagu Dana Desa Donggala 2026</title>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/dpr2vc3b0/image/upload/v1767107096/logo_donggala-fix-2025_napiej.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    
+    .gradient-bg {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #0c4a6e 100%);
+    }
+    
+    .card-glass {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+    }
+    
+    .search-glow:focus {
+      box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.3);
+    }
+    
+    .table-row-hover:hover {
+      background: linear-gradient(90deg, rgba(14, 165, 233, 0.1) 0%, rgba(14, 165, 233, 0.05) 100%);
+    }
+    
+    .animate-fade-in {
+      animation: fadeIn 0.5s ease-out forwards;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .stat-card {
+      background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: #94a3b8;
+      border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: #64748b;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full gradient-bg">
+  <div id="app-container" class="h-full overflow-auto"><!-- Header Section -->
+   <header class="py-8 px-4 text-center">
+    <div class="max-w-4xl mx-auto animate-fade-in">
+     <div class="flex justify-center items-center gap-4 mb-4"><img src="https://res.cloudinary.com/dpr2vc3b0/image/upload/v1767107096/logo_donggala-fix-2025_napiej.png" alt="Logo Kabupaten Donggala" class="w-16 h-16 md:w-20 md:h-20 object-contain" onerror="this.src=''; this.alt='Logo tidak dapat dimuat'; this.style.display='none';"> <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1767107507/SYAM_DIGITAL_ADMIN_dt6quc.jpg" alt="Admin Syam Digital" class="w-16 h-16 md:w-20 md:h-20 object-cover rounded-full border-3 border-white/30 shadow-lg" onerror="this.src=''; this.alt='Foto tidak dapat dimuat'; this.style.display='none';">
+     </div>
+     <h1 id="app-title" class="text-3xl md:text-4xl font-extrabold text-white mb-2 tracking-tight">PAGU DANA DESA</h1>
+     <h2 id="app-subtitle" class="text-xl md:text-2xl font-semibold text-sky-300 mb-2">KABUPATEN DONGGALA</h2>
+     <p class="text-sky-200 text-lg font-medium">Tahun Anggaran 2026</p>
+    </div>
+   </header><!-- Stats Section -->
+   <section class="px-4 pb-6">
+    <div class="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+     <div class="stat-card rounded-xl p-4 text-center animate-fade-in" style="animation-delay: 0.1s">
+      <p class="text-sky-300 text-xs md:text-sm font-medium mb-1">Total Kecamatan</p>
+      <p id="stat-kecamatan" class="text-2xl md:text-3xl font-bold text-white">5</p>
+     </div>
+     <div class="stat-card rounded-xl p-4 text-center animate-fade-in" style="animation-delay: 0.2s">
+      <p class="text-sky-300 text-xs md:text-sm font-medium mb-1">Total Desa</p>
+      <p id="stat-desa" class="text-2xl md:text-3xl font-bold text-white">50</p>
+     </div>
+     <div class="stat-card rounded-xl p-4 text-center animate-fade-in" style="animation-delay: 0.3s">
+      <p class="text-sky-300 text-xs md:text-sm font-medium mb-1">Total Pagu</p>
+      <p id="stat-total" class="text-lg md:text-xl font-bold text-emerald-400">Rp 15,7 M</p>
+     </div>
+     <div class="stat-card rounded-xl p-4 text-center animate-fade-in" style="animation-delay: 0.4s">
+      <p class="text-sky-300 text-xs md:text-sm font-medium mb-1">Rata-rata/Desa</p>
+      <p id="stat-avg" class="text-lg md:text-xl font-bold text-amber-400">Rp 314 Jt</p>
+     </div>
+    </div>
+   </section><!-- Search Section -->
+   <section class="px-4 pb-6">
+    <div class="max-w-4xl mx-auto">
+     <div class="card-glass rounded-2xl p-4 md:p-6 shadow-2xl animate-fade-in" style="animation-delay: 0.5s">
+      <div class="flex flex-col md:flex-row gap-3"><!-- Search Input -->
+       <div class="flex-1 relative"><label for="search-input" class="sr-only">Cari nama desa atau kecamatan</label>
+        <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg><input type="text" id="search-input" placeholder="Cari nama desa atau kecamatan..." class="w-full pl-12 pr-4 py-3 md:py-4 rounded-xl border-2 border-slate-200 focus:border-sky-500 focus:outline-none search-glow transition-all text-slate-700 font-medium">
+       </div><!-- Search Button --> <button id="search-btn" class="px-6 py-3 md:py-4 bg-gradient-to-r from-sky-500 to-sky-600 hover:from-sky-600 hover:to-sky-700 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center gap-2">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg><span class="hidden md:inline">Cari</span> </button> <!-- Filter Dropdown -->
+       <div class="md:w-56"><label for="kecamatan-filter" class="sr-only">Filter Kecamatan</label> <select id="kecamatan-filter" class="w-full px-4 py-3 md:py-4 rounded-xl border-2 border-slate-200 focus:border-sky-500 focus:outline-none search-glow transition-all text-slate-700 font-medium bg-white cursor-pointer"> <option value="">Semua Kecamatan</option> </select>
+       </div>
+      </div><!-- Quick Info -->
+      <div class="mt-4 flex items-center justify-between text-sm">
+       <p id="result-count" class="text-slate-600 font-medium">Menampilkan <span class="text-sky-600 font-bold">50</span> desa</p><button id="reset-btn" class="text-sky-600 hover:text-sky-700 font-semibold flex items-center gap-1 transition-colors">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+        </svg> Reset </button>
+      </div>
+     </div>
+    </div>
+   </section><!-- Table Section -->
+   <main class="px-4 pb-8">
+    <div class="max-w-6xl mx-auto">
+     <div class="card-glass rounded-2xl shadow-2xl overflow-hidden animate-fade-in" style="animation-delay: 0.6s">
+      <div class="overflow-x-auto">
+       <table class="w-full">
+        <thead>
+         <tr class="bg-gradient-to-r from-slate-800 to-slate-700">
+          <th class="px-3 py-4 text-left text-xs md:text-sm font-bold text-white uppercase tracking-wider">No</th>
+          <th class="px-3 py-4 text-left text-xs md:text-sm font-bold text-white uppercase tracking-wider">Kecamatan</th>
+          <th class="px-3 py-4 text-left text-xs md:text-sm font-bold text-white uppercase tracking-wider">Desa</th>
+          <th class="px-3 py-4 text-center text-xs md:text-sm font-bold text-white uppercase tracking-wider">Kode Desa</th>
+          <th class="px-3 py-4 text-right text-xs md:text-sm font-bold text-white uppercase tracking-wider">Dana Desa (Rp)</th>
+         </tr>
+        </thead>
+        <tbody id="data-table" class="divide-y divide-slate-100"><!-- Data will be populated here -->
+        </tbody>
+       </table>
+      </div><!-- Empty State -->
+      <div id="empty-state" class="hidden py-16 text-center">
+       <svg class="w-16 h-16 mx-auto text-slate-300 mb-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+       </svg>
+       <p class="text-slate-500 font-medium text-lg">Tidak ada data ditemukan</p>
+       <p class="text-slate-400 text-sm mt-1">Coba ubah kata kunci pencarian</p>
+      </div>
+     </div><!-- Data Source Info -->
+     <div class="mt-4 text-center">
+      <p class="text-sky-300/80 text-xs">📊 Data bersumber dari DPMD Kabupaten Donggala</p>
+     </div>
+    </div>
+   </main><!-- Modal Rincian Desa -->
+   <div id="detail-modal" class="fixed inset-0 z-50 hidden"><!-- Backdrop -->
+    <div id="modal-backdrop" class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div><!-- Modal Content -->
+    <div class="absolute inset-0 flex items-center justify-center p-4">
+     <div id="modal-content" class="relative bg-white rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden transform scale-95 opacity-0 transition-all duration-300"><!-- Modal Header with Gradient -->
+      <div class="bg-gradient-to-r from-sky-500 via-sky-600 to-emerald-500 p-6 text-white relative overflow-hidden">
+       <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+       <div class="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full translate-y-1/2 -translate-x-1/2"></div><button id="close-modal" class="absolute top-4 right-4 w-10 h-10 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-colors z-10 cursor-pointer">
+        <svg class="w-6 h-6 pointer-events-none" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg></button>
+       <div class="relative">
+        <div class="flex items-center gap-3 mb-3">
+         <div class="w-14 h-14 bg-white rounded-xl flex items-center justify-center p-1.5 shadow-lg"><img src="https://res.cloudinary.com/dpr2vc3b0/image/upload/v1767107096/logo_donggala-fix-2025_napiej.png" alt="Logo Kabupaten Donggala" class="w-full h-full object-contain" onerror="this.src=''; this.alt='Logo'; this.style.display='none';">
+         </div><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1767107507/SYAM_DIGITAL_ADMIN_dt6quc.jpg" alt="Admin Syam Digital" class="w-14 h-14 object-cover rounded-full border-2 border-white/50 shadow-lg" onerror="this.src=''; this.alt='Foto'; this.style.display='none';">
+         <div>
+          <p class="text-white/80 text-sm font-medium">Rincian Dana Desa</p>
+          <h3 id="modal-desa-name" class="text-2xl font-bold">Nama Desa</h3>
+         </div>
+        </div>
+       </div>
+      </div><!-- Modal Body -->
+      <div class="p-6"><!-- Info Cards -->
+       <div class="space-y-4"><!-- Kecamatan -->
+        <div class="flex items-center gap-4 p-4 bg-slate-50 rounded-xl">
+         <div class="w-12 h-12 bg-sky-100 rounded-xl flex items-center justify-center flex-shrink-0">
+          <svg class="w-6 h-6 text-sky-600" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+          </svg>
+         </div>
+         <div>
+          <p class="text-slate-500 text-sm font-medium">Kecamatan</p>
+          <p id="modal-kecamatan" class="text-slate-800 text-lg font-bold">-</p>
+         </div>
+        </div><!-- Kode Desa -->
+        <div class="flex items-center gap-4 p-4 bg-slate-50 rounded-xl">
+         <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center flex-shrink-0">
+          <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
+          </svg>
+         </div>
+         <div>
+          <p class="text-slate-500 text-sm font-medium">Kode Desa</p>
+          <p id="modal-kode" class="text-slate-800 text-lg font-bold font-mono">-</p>
+         </div>
+        </div><!-- Pagu Dana Desa -->
+        <div class="flex items-center gap-4 p-4 bg-gradient-to-r from-emerald-50 to-green-50 rounded-xl border-2 border-emerald-200">
+         <div class="w-12 h-12 bg-emerald-500 rounded-xl flex items-center justify-center flex-shrink-0">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+         </div>
+         <div class="flex-1">
+          <p class="text-emerald-600 text-sm font-medium">Pagu Dana Desa TA 2026</p>
+          <p id="modal-pagu" class="text-emerald-700 text-2xl font-extrabold">Rp 0</p>
+         </div><button id="copy-pagu-btn" onclick="copyPagu()" class="w-10 h-10 bg-emerald-100 hover:bg-emerald-200 rounded-lg flex items-center justify-center transition-colors group" title="Salin Pagu">
+          <svg id="copy-icon" class="w-5 h-5 text-emerald-600 group-hover:text-emerald-700" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+          </svg>
+          <svg id="check-icon" class="w-5 h-5 text-emerald-600 hidden" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg></button>
+        </div>
+       </div><!-- Action Buttons -->
+       <div class="mt-6 flex flex-col gap-3">
+        <div class="flex gap-3"><button id="modal-close-btn" class="flex-1 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl transition-colors"> Tutup </button> <button id="modal-view-table" class="flex-1 py-3 bg-gradient-to-r from-sky-500 to-sky-600 hover:from-sky-600 hover:to-sky-700 text-white font-semibold rounded-xl transition-all shadow-lg hover:shadow-xl"> Lihat di Tabel </button>
+        </div><button id="modal-share-wa" class="w-full py-3 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold rounded-xl transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
+         <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+         </svg> Bagikan ke WhatsApp </button>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div><!-- Toast Notification -->
+   <div id="toast-notification" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[60] transform transition-all duration-300 translate-y-20 opacity-0 pointer-events-none">
+    <div class="bg-slate-800 text-white px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3">
+     <div class="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center flex-shrink-0">
+      <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+      </svg>
+     </div><span id="toast-message" class="font-medium text-sm">Teks berhasil disalin!</span>
+    </div>
+   </div><!-- Footer -->
+   <footer class="py-6 px-4 text-center border-t border-white/10">
+    <p class="text-sky-300 text-sm">© 2026 Pemerintah Kabupaten Donggala</p>
+    <p class="text-sky-400/60 text-xs mt-1">Dinas Pemberdayaan Masyarakat dan Desa</p>
+   </footer>
+  </div>
+  <script>
+    // Data Dana Desa Kabupaten Donggala TA 2026 - Sumber Resmi
+    const dataDesa = [
+      { kecamatan: "Rio Pakava", desa: "Pantolobete", kode: "7203042001", pagu: 336034000 },
+      { kecamatan: "Rio Pakava", desa: "Bonemarawa", kode: "7203042002", pagu: 367183000 },
+      { kecamatan: "Rio Pakava", desa: "Tinauka", kode: "7203042003", pagu: 328706000 },
+      { kecamatan: "Rio Pakava", desa: "Lalundu", kode: "7203042004", pagu: 373456000 },
+      { kecamatan: "Rio Pakava", desa: "Towiora", kode: "7203042005", pagu: 298593000 },
+      { kecamatan: "Rio Pakava", desa: "Minti Makmur", kode: "7203042006", pagu: 321876000 },
+      { kecamatan: "Rio Pakava", desa: "Polanto Jaya", kode: "7203042007", pagu: 322466000 },
+      { kecamatan: "Rio Pakava", desa: "Polando Jaya", kode: "7203042008", pagu: 249216000 },
+      { kecamatan: "Rio Pakava", desa: "Rio Mukti", kode: "7203042009", pagu: 283928000 },
+      { kecamatan: "Rio Pakava", desa: "Panca Mukti", kode: "7203042010", pagu: 261560000 },
+      { kecamatan: "Rio Pakava", desa: "Ngovi", kode: "7203042012", pagu: 324107000 },
+      { kecamatan: "Rio Pakava", desa: "Bukit Indah", kode: "7203042013", pagu: 242096000 },
+      { kecamatan: "Rio Pakava", desa: "Mbulawa", kode: "7203042014", pagu: 293893000 },
+      { kecamatan: "Rio Pakava", desa: "Pakava", kode: "7203042015", pagu: 518956000 },
+      { kecamatan: "Dampelas", desa: "Kambayang", kode: "7203062001", pagu: 260447000 },
+      { kecamatan: "Dampelas", desa: "Talaga", kode: "7203062002", pagu: 337207000 },
+      { kecamatan: "Dampelas", desa: "Sabang", kode: "7203062003", pagu: 288310000 },
+      { kecamatan: "Dampelas", desa: "Sioyong", kode: "7203062004", pagu: 355159000 },
+      { kecamatan: "Dampelas", desa: "Pani'i", kode: "7203062005", pagu: 336976000 },
+      { kecamatan: "Dampelas", desa: "Ponggerang", kode: "7203062006", pagu: 373456000 },
+      { kecamatan: "Dampelas", desa: "Rerang", kode: "7203062007", pagu: 373456000 },
+      { kecamatan: "Dampelas", desa: "Budi Mukti", kode: "7203062009", pagu: 286745000 },
+      { kecamatan: "Dampelas", desa: "Lembah Mukti", kode: "7203062010", pagu: 310348000 },
+      { kecamatan: "Dampelas", desa: "Malonas", kode: "7203062011", pagu: 373456000 },
+      { kecamatan: "Dampelas", desa: "Parisan Agung", kode: "7203062013", pagu: 308616000 },
+      { kecamatan: "Dampelas", desa: "Karya Mukti", kode: "7203062014", pagu: 373456000 },
+      { kecamatan: "Dampelas", desa: "Long", kode: "7203062015", pagu: 277994000 },
+      { kecamatan: "Banawa", desa: "Loli Oge", kode: "7203082012", pagu: 306015000 },
+      { kecamatan: "Banawa", desa: "Loli Tasiburi", kode: "7203082013", pagu: 373456000 },
+      { kecamatan: "Banawa", desa: "Loli Pesua", kode: "7203082029", pagu: 299615000 },
+      { kecamatan: "Banawa", desa: "Loli Dondo", kode: "7203082030", pagu: 292463000 },
+      { kecamatan: "Banawa", desa: "Loli Saluran", kode: "7203082031", pagu: 326809000 },
+      { kecamatan: "Labuan", desa: "Labuan", kode: "7203092001", pagu: 290381000 },
+      { kecamatan: "Labuan", desa: "Labuan Salumbone", kode: "7203092008", pagu: 365339000 },
+      { kecamatan: "Labuan", desa: "Labuan Panimba", kode: "7203092009", pagu: 340416000 },
+      { kecamatan: "Labuan", desa: "Labuan Lelea", kode: "7203092010", pagu: 371410000 },
+      { kecamatan: "Labuan", desa: "Labuan Kungguma", kode: "7203092011", pagu: 343508000 },
+      { kecamatan: "Labuan", desa: "Labuan Toposo", kode: "7203092012", pagu: 373456000 },
+      { kecamatan: "Labuan", desa: "Labuan Lumbubaka", kode: "7203092013", pagu: 272110000 },
+      { kecamatan: "Sindue", desa: "Dalaka", kode: "7203102001", pagu: 327017000 },
+      { kecamatan: "Sindue", desa: "Lero", kode: "7203102002", pagu: 304357000 },
+      { kecamatan: "Sindue", desa: "Taripa", kode: "7203102003", pagu: 266079000 },
+      { kecamatan: "Sindue", desa: "Sumari", kode: "7203102004", pagu: 253326000 },
+      { kecamatan: "Sindue", desa: "Toaya", kode: "7203102005", pagu: 373456000 },
+      { kecamatan: "Sindue", desa: "Masaingi", kode: "7203102006", pagu: 254827000 },
+      { kecamatan: "Sindue", desa: "Marana", kode: "7203102007", pagu: 262215000 },
+      { kecamatan: "Sindue", desa: "Enu", kode: "7203102008", pagu: 315334000 },
+      { kecamatan: "Sindue", desa: "Lero Tatari", kode: "7203102016", pagu: 300843000 },
+      { kecamatan: "Sindue", desa: "Toaya Vunta", kode: "7203102017", pagu: 313604000 },
+      { kecamatan: "Sindue", desa: "Gumbasa", kode: "7203102018", pagu: 289925000 },
+      { kecamatan: "Sindue", desa: "Ape Maliko", kode: "7203102019", pagu: 296467000 },
+      { kecamatan: "Sindue", desa: "Kavaya", kode: "7203102020", pagu: 267173000 },
+      { kecamatan: "Sirenja", desa: "Ombo", kode: "7203112001", pagu: 295542000 },
+      { kecamatan: "Sirenja", desa: "Tondo", kode: "7203112002", pagu: 296031000 },
+      { kecamatan: "Sirenja", desa: "Jonooge", kode: "7203112003", pagu: 264755000 },
+      { kecamatan: "Sirenja", desa: "Dampal", kode: "7203112004", pagu: 238935000 },
+      { kecamatan: "Sirenja", desa: "Sipi", kode: "7203112005", pagu: 350569000 },
+      { kecamatan: "Sirenja", desa: "Tanjung Padang", kode: "7203112006", pagu: 290705000 },
+      { kecamatan: "Sirenja", desa: "Balintuma", kode: "7203112007", pagu: 297295000 },
+      { kecamatan: "Sirenja", desa: "Sibado", kode: "7203112008", pagu: 344599000 },
+      { kecamatan: "Sirenja", desa: "Tompe", kode: "7203112009", pagu: 291915000 },
+      { kecamatan: "Sirenja", desa: "Lompio", kode: "7203112010", pagu: 263700000 },
+      { kecamatan: "Sirenja", desa: "Lende", kode: "7203112011", pagu: 285641000 },
+      { kecamatan: "Sirenja", desa: "Lende Tovea", kode: "7203112012", pagu: 292628000 },
+      { kecamatan: "Sirenja", desa: "Ujumbou", kode: "7203112013", pagu: 303307000 },
+      { kecamatan: "Balaesang", desa: "Labean", kode: "7203122006", pagu: 373456000 },
+      { kecamatan: "Balaesang", desa: "Lombonga", kode: "7203122007", pagu: 315632000 },
+      { kecamatan: "Balaesang", desa: "Meli", kode: "7203122008", pagu: 316195000 },
+      { kecamatan: "Balaesang", desa: "Tambu", kode: "7203122009", pagu: 359612000 },
+      { kecamatan: "Balaesang", desa: "Siweli", kode: "7203122010", pagu: 373456000 },
+      { kecamatan: "Balaesang", desa: "Sibualong", kode: "7203122011", pagu: 271758000 },
+      { kecamatan: "Balaesang", desa: "Sibayu", kode: "7203122012", pagu: 361714000 },
+      { kecamatan: "Balaesang", desa: "Malino", kode: "7203122015", pagu: 269350000 },
+      { kecamatan: "Balaesang", desa: "Mapane Tambu", kode: "7203122016", pagu: 243514000 },
+      { kecamatan: "Balaesang", desa: "Tovia Tambu", kode: "7203122017", pagu: 322474000 },
+      { kecamatan: "Balaesang", desa: "Sipure", kode: "7203122019", pagu: 254965000 },
+      { kecamatan: "Balaesang", desa: "Kampung Baru Sibayu", kode: "7203122020", pagu: 255706000 },
+      { kecamatan: "Balaesang", desa: "Simagaya", kode: "7203122021", pagu: 311643000 },
+      { kecamatan: "Sojol", desa: "Balukang", kode: "7203142001", pagu: 332543000 },
+      { kecamatan: "Sojol", desa: "Siwalempu", kode: "7203142002", pagu: 373456000 },
+      { kecamatan: "Sojol", desa: "Siboang", kode: "7203142003", pagu: 373456000 },
+      { kecamatan: "Sojol", desa: "Tonggolobibi", kode: "7203142004", pagu: 373456000 },
+      { kecamatan: "Sojol", desa: "Bou", kode: "7203142005", pagu: 373456000 },
+      { kecamatan: "Sojol", desa: "Samalili", kode: "7203142011", pagu: 342581000 },
+      { kecamatan: "Sojol", desa: "Bukit Harapan", kode: "7203142012", pagu: 260759000 },
+      { kecamatan: "Sojol", desa: "Pangalasiang", kode: "7203142013", pagu: 373456000 },
+      { kecamatan: "Sojol", desa: "Balukang II", kode: "7203142014", pagu: 333328000 },
+      { kecamatan: "Banawa Selatan", desa: "Mbuwu", kode: "7203182001", pagu: 311580000 },
+      { kecamatan: "Banawa Selatan", desa: "Salumpaku", kode: "7203182002", pagu: 276168000 },
+      { kecamatan: "Banawa Selatan", desa: "Watatu", kode: "7203182003", pagu: 329522000 },
+      { kecamatan: "Banawa Selatan", desa: "Surumana", kode: "7203182004", pagu: 277266000 },
+      { kecamatan: "Banawa Selatan", desa: "Lalombi", kode: "7203182005", pagu: 301132000 },
+      { kecamatan: "Banawa Selatan", desa: "Tanamea", kode: "7203182006", pagu: 373456000 },
+      { kecamatan: "Banawa Selatan", desa: "Bambarimi", kode: "7203182007", pagu: 256830000 },
+      { kecamatan: "Banawa Selatan", desa: "Salungkaenu", kode: "7203182008", pagu: 313459000 },
+      { kecamatan: "Banawa Selatan", desa: "Lumbumamara", kode: "7203182009", pagu: 334639000 },
+      { kecamatan: "Banawa Selatan", desa: "Tolongano", kode: "7203182010", pagu: 315509000 },
+      { kecamatan: "Banawa Selatan", desa: "Tosale", kode: "7203182011", pagu: 347344000 },
+      { kecamatan: "Banawa Selatan", desa: "Lumbu Tarombo", kode: "7203182012", pagu: 373456000 },
+      { kecamatan: "Banawa Selatan", desa: "Lumbulama", kode: "7203182013", pagu: 351073000 },
+      { kecamatan: "Banawa Selatan", desa: "Ongulara", kode: "7203182014", pagu: 323308000 },
+      { kecamatan: "Banawa Selatan", desa: "Malino", kode: "7203182015", pagu: 326898000 },
+      { kecamatan: "Banawa Selatan", desa: "Lembasada", kode: "7203182016", pagu: 323957000 },
+      { kecamatan: "Banawa Selatan", desa: "Sarombaya", kode: "7203182017", pagu: 280089000 },
+      { kecamatan: "Banawa Selatan", desa: "Salusumpu", kode: "7203182018", pagu: 253067000 },
+      { kecamatan: "Banawa Selatan", desa: "Tanampulu", kode: "7203182019", pagu: 253410000 },
+      { kecamatan: "Tanantovea", desa: "Wani Satu", kode: "7203192001", pagu: 373456000 },
+      { kecamatan: "Tanantovea", desa: "Wani Dua", kode: "7203192002", pagu: 277816000 },
+      { kecamatan: "Tanantovea", desa: "Nupa Bomba", kode: "7203192003", pagu: 373456000 },
+      { kecamatan: "Tanantovea", desa: "Wombo", kode: "7203192004", pagu: 252511000 },
+      { kecamatan: "Tanantovea", desa: "Guntarano", kode: "7203192005", pagu: 293622000 },
+      { kecamatan: "Tanantovea", desa: "Bale", kode: "7203192006", pagu: 322460000 },
+      { kecamatan: "Tanantovea", desa: "Wombo Mpanau", kode: "7203192007", pagu: 255078000 },
+      { kecamatan: "Tanantovea", desa: "Wombo Kalonggo", kode: "7203192008", pagu: 272116000 },
+      { kecamatan: "Tanantovea", desa: "Wani Tiga", kode: "7203192009", pagu: 223601000 },
+      { kecamatan: "Tanantovea", desa: "Wani Lumbumpetigo", kode: "7203192010", pagu: 258416000 },
+      { kecamatan: "Pinembani", desa: "Palintuma", kode: "7203212001", pagu: 518956000 },
+      { kecamatan: "Pinembani", desa: "Gimpubia", kode: "7203212002", pagu: 280581000 },
+      { kecamatan: "Pinembani", desa: "Dangara'a", kode: "7203212003", pagu: 440449000 },
+      { kecamatan: "Pinembani", desa: "Bambakanini", kode: "7203212004", pagu: 495561000 },
+      { kecamatan: "Pinembani", desa: "Bambakaenu", kode: "7203212005", pagu: 518956000 },
+      { kecamatan: "Pinembani", desa: "Tomodo", kode: "7203212006", pagu: 286738000 },
+      { kecamatan: "Pinembani", desa: "Kanagalongga", kode: "7203212007", pagu: 492120000 },
+      { kecamatan: "Pinembani", desa: "Karavia", kode: "7203212008", pagu: 518956000 },
+      { kecamatan: "Pinembani", desa: "Tavanggeli", kode: "7203212009", pagu: 433270000 },
+      { kecamatan: "Sindue Tombusabora", desa: "Tibo", kode: "7203242001", pagu: 334195000 },
+      { kecamatan: "Sindue Tombusabora", desa: "Kaliburu", kode: "7203242002", pagu: 328732000 },
+      { kecamatan: "Sindue Tombusabora", desa: "Batusuya", kode: "7203242003", pagu: 325733000 },
+      { kecamatan: "Sindue Tombusabora", desa: "Saloya", kode: "7203242004", pagu: 350310000 },
+      { kecamatan: "Sindue Tombusabora", desa: "Batusuya Go'o", kode: "7203242005", pagu: 301395000 },
+      { kecamatan: "Sindue Tombusabora", desa: "Kaliburu Kata", kode: "7203242006", pagu: 278091000 },
+      { kecamatan: "Sindue Tobata", desa: "Sikara Tobata", kode: "7203252001", pagu: 337239000 },
+      { kecamatan: "Sindue Tobata", desa: "Alindau", kode: "7203252002", pagu: 358430000 },
+      { kecamatan: "Sindue Tobata", desa: "Oti", kode: "7203252003", pagu: 322451000 },
+      { kecamatan: "Sindue Tobata", desa: "Tamarenja", kode: "7203252004", pagu: 261375000 },
+      { kecamatan: "Sindue Tobata", desa: "Sipeso", kode: "7203252005", pagu: 279994000 },
+      { kecamatan: "Sindue Tobata", desa: "Sindosa", kode: "7203252006", pagu: 275512000 },
+      { kecamatan: "Balaesang Tanjung", desa: "Powelua", kode: "7203272001", pagu: 373456000 },
+      { kecamatan: "Balaesang Tanjung", desa: "Lumbudolo", kode: "7203272002", pagu: 237750000 },
+      { kecamatan: "Balaesang Tanjung", desa: "Kola-Kola", kode: "7203272003", pagu: 352607000 },
+      { kecamatan: "Balaesang Tanjung", desa: "Limboro", kode: "7203272004", pagu: 364373000 },
+      { kecamatan: "Balaesang Tanjung", desa: "Towale", kode: "7203272005", pagu: 300463000 },
+      { kecamatan: "Balaesang Tanjung", desa: "Salubomba", kode: "7203272006", pagu: 373456000 },
+      { kecamatan: "Balaesang Tanjung", desa: "Mekar Baru", kode: "7203272007", pagu: 317910000 },
+      { kecamatan: "Balaesang Tanjung", desa: "Lampo", kode: "7203272008", pagu: 258884000 },
+      { kecamatan: "Sojol Utara", desa: "Ogoamas I", kode: "7203302001", pagu: 335413000 },
+      { kecamatan: "Sojol Utara", desa: "Ogoamas II", kode: "7203302002", pagu: 342450000 },
+      { kecamatan: "Sojol Utara", desa: "Lenju", kode: "7203302003", pagu: 258786000 },
+      { kecamatan: "Sojol Utara", desa: "Pesik", kode: "7203302004", pagu: 259278000 },
+      { kecamatan: "Sojol Utara", desa: "Bengkoli", kode: "7203302005", pagu: 257183000 },
+      { kecamatan: "Dampelas Sojol", desa: "Walandano", kode: "7203312001", pagu: 309363000 },
+      { kecamatan: "Dampelas Sojol", desa: "Malei", kode: "7203312002", pagu: 290109000 },
+      { kecamatan: "Dampelas Sojol", desa: "Kamonji", kode: "7203312003", pagu: 288369000 },
+      { kecamatan: "Dampelas Sojol", desa: "Ketong", kode: "7203312004", pagu: 330248000 },
+      { kecamatan: "Dampelas Sojol", desa: "Rano", kode: "7203312005", pagu: 341150000 },
+      { kecamatan: "Dampelas Sojol", desa: "Pomolulu", kode: "7203312006", pagu: 355697000 },
+      { kecamatan: "Dampelas Sojol", desa: "Palau", kode: "7203312007", pagu: 298343000 },
+      { kecamatan: "Dampelas Sojol", desa: "Manimbaya", kode: "7203312008", pagu: 290889000 }
+    ];
+
+    // Default configuration
+    const defaultConfig = {
+      app_title: "PAGU DANA DESA",
+      subtitle: "KABUPATEN DONGGALA",
+      background_color: "#0f172a",
+      surface_color: "#ffffff",
+      text_color: "#334155",
+      primary_action_color: "#0ea5e9",
+      secondary_action_color: "#64748b",
+      font_family: "Plus Jakarta Sans",
+      font_size: 16
+    };
+
+    let config = { ...defaultConfig };
+    let filteredData = [...dataDesa];
+
+    // Format currency
+    function formatRupiah(amount) {
+      return new Intl.NumberFormat('id-ID').format(amount);
+    }
+
+    // Get unique kecamatan list
+    function getKecamatanList() {
+      const kecamatanSet = new Set(dataDesa.map(item => item.kecamatan));
+      return Array.from(kecamatanSet).sort();
+    }
+
+    // Populate kecamatan filter
+    function populateKecamatanFilter() {
+      const select = document.getElementById('kecamatan-filter');
+      const kecamatanList = getKecamatanList();
+      
+      kecamatanList.forEach(kecamatan => {
+        const option = document.createElement('option');
+        option.value = kecamatan;
+        option.textContent = kecamatan;
+        select.appendChild(option);
+      });
+    }
+
+    // Render table
+    function renderTable(data) {
+      const tbody = document.getElementById('data-table');
+      const emptyState = document.getElementById('empty-state');
+      const resultCount = document.getElementById('result-count');
+      
+      if (data.length === 0) {
+        tbody.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        resultCount.innerHTML = `Menampilkan <span class="text-sky-600 font-bold">0</span> desa`;
+        return;
+      }
+      
+      emptyState.classList.add('hidden');
+      resultCount.innerHTML = `Menampilkan <span class="text-sky-600 font-bold">${data.length}</span> desa`;
+      
+      tbody.innerHTML = data.map((item, index) => `
+        <tr class="table-row-hover transition-colors">
+          <td class="px-3 py-3 text-sm text-slate-600 font-medium">${index + 1}</td>
+          <td class="px-3 py-3">
+            <span class="inline-flex items-center px-2.5 py-1 rounded-lg bg-sky-50 text-sky-700 text-xs md:text-sm font-semibold">
+              ${item.kecamatan}
+            </span>
+          </td>
+          <td class="px-3 py-3 text-sm text-slate-800 font-semibold">
+            <button onclick="showModalByKode('${item.kode}')" class="text-sky-600 hover:text-sky-800 hover:underline cursor-pointer transition-colors font-bold text-left">
+              ${item.desa}
+            </button>
+          </td>
+          <td class="px-3 py-3 text-center">
+            <span class="text-xs md:text-sm text-slate-500 font-mono">${item.kode}</span>
+          </td>
+          <td class="px-3 py-3 text-right">
+            <span class="text-sm md:text-base font-bold text-emerald-600">Rp ${formatRupiah(item.pagu)}</span>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    // Filter data
+    function filterData() {
+      const searchTerm = document.getElementById('search-input').value.toLowerCase();
+      const selectedKecamatan = document.getElementById('kecamatan-filter').value;
+      
+      filteredData = dataDesa.filter(item => {
+        const matchSearch = item.desa.toLowerCase().includes(searchTerm) || 
+                           item.kecamatan.toLowerCase().includes(searchTerm) ||
+                           item.kode.includes(searchTerm);
+        const matchKecamatan = !selectedKecamatan || item.kecamatan === selectedKecamatan;
+        return matchSearch && matchKecamatan;
+      });
+      
+      renderTable(filteredData);
+      updateFilteredStats();
+    }
+
+    // Update statistics
+    function updateStats() {
+      const kecamatanSet = new Set(dataDesa.map(item => item.kecamatan));
+      const totalPagu = dataDesa.reduce((sum, item) => sum + item.pagu, 0);
+      const avgPagu = totalPagu / dataDesa.length;
+      
+      document.getElementById('stat-kecamatan').textContent = kecamatanSet.size;
+      document.getElementById('stat-desa').textContent = dataDesa.length;
+      
+      if (totalPagu >= 1000000000) {
+        document.getElementById('stat-total').textContent = `Rp ${(totalPagu / 1000000000).toFixed(1)} M`;
+      } else {
+        document.getElementById('stat-total').textContent = `Rp ${(totalPagu / 1000000).toFixed(0)} Jt`;
+      }
+      
+      document.getElementById('stat-avg').textContent = `Rp ${(avgPagu / 1000000).toFixed(0)} Jt`;
+    }
+    
+    // Update filtered statistics
+    function updateFilteredStats() {
+      const kecamatanSet = new Set(filteredData.map(item => item.kecamatan));
+      const totalPagu = filteredData.reduce((sum, item) => sum + item.pagu, 0);
+      const avgPagu = filteredData.length > 0 ? totalPagu / filteredData.length : 0;
+      
+      document.getElementById('stat-kecamatan').textContent = kecamatanSet.size;
+      document.getElementById('stat-desa').textContent = filteredData.length;
+      
+      if (totalPagu >= 1000000000) {
+        document.getElementById('stat-total').textContent = `Rp ${(totalPagu / 1000000000).toFixed(1)} M`;
+      } else {
+        document.getElementById('stat-total').textContent = `Rp ${(totalPagu / 1000000).toFixed(0)} Jt`;
+      }
+      
+      if (avgPagu > 0) {
+        document.getElementById('stat-avg').textContent = `Rp ${(avgPagu / 1000000).toFixed(0)} Jt`;
+      } else {
+        document.getElementById('stat-avg').textContent = `Rp 0`;
+      }
+    }
+
+    // Reset filters
+    function resetFilters() {
+      document.getElementById('search-input').value = '';
+      document.getElementById('kecamatan-filter').value = '';
+      filteredData = [...dataDesa];
+      renderTable(filteredData);
+      updateStats();
+    }
+
+    // Apply config to UI
+    async function onConfigChange(cfg) {
+      const fontFamily = cfg.font_family || defaultConfig.font_family;
+      const fontSize = cfg.font_size || defaultConfig.font_size;
+      
+      document.getElementById('app-title').textContent = cfg.app_title || defaultConfig.app_title;
+      document.getElementById('app-subtitle').textContent = cfg.subtitle || defaultConfig.subtitle;
+      
+      document.body.style.fontFamily = `${fontFamily}, sans-serif`;
+      document.getElementById('app-title').style.fontSize = `${fontSize * 2}px`;
+      document.getElementById('app-subtitle').style.fontSize = `${fontSize * 1.5}px`;
+    }
+
+    // Initialize SDK
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities: (cfg) => ({
+          recolorables: [
+            {
+              get: () => cfg.background_color || defaultConfig.background_color,
+              set: (value) => {
+                cfg.background_color = value;
+                window.elementSdk.setConfig({ background_color: value });
+              }
+            },
+            {
+              get: () => cfg.surface_color || defaultConfig.surface_color,
+              set: (value) => {
+                cfg.surface_color = value;
+                window.elementSdk.setConfig({ surface_color: value });
+              }
+            },
+            {
+              get: () => cfg.text_color || defaultConfig.text_color,
+              set: (value) => {
+                cfg.text_color = value;
+                window.elementSdk.setConfig({ text_color: value });
+              }
+            },
+            {
+              get: () => cfg.primary_action_color || defaultConfig.primary_action_color,
+              set: (value) => {
+                cfg.primary_action_color = value;
+                window.elementSdk.setConfig({ primary_action_color: value });
+              }
+            },
+            {
+              get: () => cfg.secondary_action_color || defaultConfig.secondary_action_color,
+              set: (value) => {
+                cfg.secondary_action_color = value;
+                window.elementSdk.setConfig({ secondary_action_color: value });
+              }
+            }
+          ],
+          borderables: [],
+          fontEditable: {
+            get: () => cfg.font_family || defaultConfig.font_family,
+            set: (value) => {
+              cfg.font_family = value;
+              window.elementSdk.setConfig({ font_family: value });
+            }
+          },
+          fontSizeable: {
+            get: () => cfg.font_size || defaultConfig.font_size,
+            set: (value) => {
+              cfg.font_size = value;
+              window.elementSdk.setConfig({ font_size: value });
+            }
+          }
+        }),
+        mapToEditPanelValues: (cfg) => new Map([
+          ["app_title", cfg.app_title || defaultConfig.app_title],
+          ["subtitle", cfg.subtitle || defaultConfig.subtitle]
+        ])
+      });
+    }
+
+    // Modal functions
+    function showModalByKode(kode) {
+      const desaData = dataDesa.find(item => item.kode === kode);
+      if (desaData) {
+        showModal(desaData);
+      }
+    }
+    
+    function showModal(desaData) {
+      const modal = document.getElementById('detail-modal');
+      const modalContent = document.getElementById('modal-content');
+      
+      // Fill modal data
+      document.getElementById('modal-desa-name').textContent = desaData.desa;
+      document.getElementById('modal-kecamatan').textContent = desaData.kecamatan;
+      document.getElementById('modal-kode').textContent = desaData.kode;
+      document.getElementById('modal-pagu').textContent = `Rp ${formatRupiah(desaData.pagu)}`;
+      
+      // Show modal with animation
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+      
+      setTimeout(() => {
+        modalContent.classList.remove('scale-95', 'opacity-0');
+        modalContent.classList.add('scale-100', 'opacity-100');
+      }, 10);
+    }
+    
+    function hideModal() {
+      const modal = document.getElementById('detail-modal');
+      const modalContent = document.getElementById('modal-content');
+      
+      modalContent.classList.remove('scale-100', 'opacity-100');
+      modalContent.classList.add('scale-95', 'opacity-0');
+      
+      setTimeout(() => {
+        modal.classList.add('hidden');
+        document.body.style.overflow = '';
+      }, 300);
+    }
+    
+    function searchAndShowModal() {
+      const searchTerm = document.getElementById('search-input').value.trim().toLowerCase();
+      
+      if (!searchTerm) {
+        return;
+      }
+      
+      // Find exact or closest match
+      const exactMatch = dataDesa.find(item => 
+        item.desa.toLowerCase() === searchTerm
+      );
+      
+      if (exactMatch) {
+        showModal(exactMatch);
+        return;
+      }
+      
+      // Find partial match
+      const partialMatch = dataDesa.find(item => 
+        item.desa.toLowerCase().includes(searchTerm) ||
+        searchTerm.includes(item.desa.toLowerCase())
+      );
+      
+      if (partialMatch) {
+        showModal(partialMatch);
+        return;
+      }
+      
+      // If no match found, show first filtered result if any
+      if (filteredData.length > 0) {
+        showModal(filteredData[0]);
+      }
+    }
+    
+    function viewInTable() {
+      const desaName = document.getElementById('modal-desa-name').textContent;
+      hideModal();
+      
+      // Set search input and filter
+      document.getElementById('search-input').value = desaName;
+      filterData();
+      
+      // Scroll to table
+      document.getElementById('data-table').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    // Event listeners
+    document.getElementById('search-input').addEventListener('input', filterData);
+    document.getElementById('search-input').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        searchAndShowModal();
+      }
+    });
+    document.getElementById('search-btn').addEventListener('click', searchAndShowModal);
+    document.getElementById('kecamatan-filter').addEventListener('change', filterData);
+    document.getElementById('reset-btn').addEventListener('click', resetFilters);
+    
+    // Show toast notification
+    function showToast(message) {
+      const toast = document.getElementById('toast-notification');
+      const toastMessage = document.getElementById('toast-message');
+      
+      toastMessage.textContent = message;
+      toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+      toast.classList.add('translate-y-0', 'opacity-100');
+      
+      // Hide after 3 seconds
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
+      }, 3000);
+    }
+    
+    // Copy Pagu to clipboard
+    function copyPagu() {
+      const paguText = document.getElementById('modal-pagu').textContent;
+      const desaName = document.getElementById('modal-desa-name').textContent;
+      const textToCopy = `Pagu Dana Desa ${desaName} TA 2026: ${paguText}`;
+      
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        // Show success feedback on button
+        const copyIcon = document.getElementById('copy-icon');
+        const checkIcon = document.getElementById('check-icon');
+        
+        copyIcon.classList.add('hidden');
+        checkIcon.classList.remove('hidden');
+        
+        // Show toast notification
+        showToast(`Pagu Desa ${desaName} berhasil disalin!`);
+        
+        // Reset icon after 2 seconds
+        setTimeout(() => {
+          copyIcon.classList.remove('hidden');
+          checkIcon.classList.add('hidden');
+        }, 2000);
+      });
+    }
+    
+    // Share to WhatsApp
+    function shareToWhatsApp() {
+      const desaName = document.getElementById('modal-desa-name').textContent;
+      const kecamatan = document.getElementById('modal-kecamatan').textContent;
+      const kode = document.getElementById('modal-kode').textContent;
+      const pagu = document.getElementById('modal-pagu').textContent;
+      
+      const message = `📊 *PAGU DANA DESA TA 2026*
+━━━━━━━━━━━━━━━━━━
+🏘️ *Desa:* ${desaName}
+🏛️ *Kecamatan:* ${kecamatan}
+🔢 *Kode Desa:* ${kode}
+💰 *Pagu Dana Desa:* ${pagu}
+━━━━━━━━━━━━━━━━━━
+📍 Kabupaten Donggala
+📅 Sumber: DPMD Kab. Donggala
+
+🔗 Info selengkapnya:
+https://syam.digital/danadesa2026`;
+      
+      const encodedMessage = encodeURIComponent(message);
+      const whatsappUrl = `https://wa.me/?text=${encodedMessage}`;
+      window.open(whatsappUrl, '_blank');
+    }
+    
+    // Modal event listeners
+    document.getElementById('close-modal').addEventListener('click', hideModal);
+    document.getElementById('modal-backdrop').addEventListener('click', hideModal);
+    document.getElementById('modal-close-btn').addEventListener('click', hideModal);
+    document.getElementById('modal-view-table').addEventListener('click', viewInTable);
+    document.getElementById('modal-share-wa').addEventListener('click', shareToWhatsApp);
+
+    // Initialize app
+    populateKecamatanFilter();
+    updateStats();
+    renderTable(dataDesa);
+    onConfigChange(config);
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b696b4b7093f87a',t:'MTc2NzE4MDM1Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

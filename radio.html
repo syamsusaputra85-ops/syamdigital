@@ -1,0 +1,1917 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Professional Radio Playlist</title>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1767425380/syam-digital-01_i5zfka.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&amp;family=Orbitron:wght@400;700;900&amp;display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      box-sizing: border-box;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0a0a15 0%, #1a1a3e 25%, #0d0d2b 50%, #2d1b4e 75%, #0f0a1f 100%) !important;
+      background-attachment: fixed !important;
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .neon-glow {
+      box-shadow: 0 0 20px rgba(138, 43, 226, 0.3), 0 0 40px rgba(138, 43, 226, 0.1);
+    }
+
+    .equalizer-bar {
+      animation: equalize 0.5s ease-in-out infinite alternate;
+    }
+
+    .equalizer-bar:nth-child(1) { animation-delay: 0s; }
+    .equalizer-bar:nth-child(2) { animation-delay: 0.1s; }
+    .equalizer-bar:nth-child(3) { animation-delay: 0.2s; }
+    .equalizer-bar:nth-child(4) { animation-delay: 0.3s; }
+    .equalizer-bar:nth-child(5) { animation-delay: 0.4s; }
+
+    @keyframes equalize {
+      0% { height: 4px; }
+      100% { height: 20px; }
+    }
+
+    .pulse-ring {
+      animation: pulse-ring 2s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
+    }
+
+    @keyframes pulse-ring {
+      0% { transform: scale(0.8); opacity: 1; }
+      50% { transform: scale(1.1); opacity: 0.5; }
+      100% { transform: scale(0.8); opacity: 1; }
+    }
+
+    .station-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(138, 43, 226, 0.2);
+    }
+
+    .station-card {
+      transition: all 0.3s ease;
+    }
+
+    .playing-indicator {
+      display: none;
+    }
+
+    .station-card.active .playing-indicator {
+      display: flex;
+    }
+
+    audio::-webkit-media-controls-panel {
+      background: linear-gradient(135deg, rgba(138, 43, 226, 0.3), rgba(30, 30, 74, 0.8));
+    }
+
+    audio::-webkit-media-controls-play-button,
+    audio::-webkit-media-controls-mute-button {
+      filter: invert(1);
+    }
+
+    .scroll-container::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .scroll-container::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+    }
+
+    .scroll-container::-webkit-scrollbar-thumb {
+      background: linear-gradient(135deg, #8a2be2, #ff6b6b);
+      border-radius: 10px;
+    }
+
+    .live-badge {
+      animation: blink 1.5s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .floating {
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .music-wave {
+      display: flex;
+      align-items: flex-end;
+      gap: 3px;
+      height: 24px;
+    }
+
+    .wave-bar {
+      width: 4px;
+      background: linear-gradient(to top, #8a2be2, #ff6b6b);
+      border-radius: 2px;
+      animation: wave 0.6s ease-in-out infinite;
+    }
+
+    .wave-bar:nth-child(1) { animation-delay: 0s; height: 8px; }
+    .wave-bar:nth-child(2) { animation-delay: 0.1s; height: 16px; }
+    .wave-bar:nth-child(3) { animation-delay: 0.2s; height: 12px; }
+    .wave-bar:nth-child(4) { animation-delay: 0.3s; height: 20px; }
+    .wave-bar:nth-child(5) { animation-delay: 0.4s; height: 10px; }
+
+    @keyframes wave {
+      0%, 100% { transform: scaleY(1); }
+      50% { transform: scaleY(0.5); }
+    }
+
+    .volume-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 12px;
+      background: linear-gradient(to right, rgba(138, 43, 226, 0.3), rgba(255, 107, 107, 0.3));
+      border-radius: 6px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .volume-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 24px;
+      height: 24px;
+      background: linear-gradient(135deg, #8a2be2, #ff6b6b);
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(138, 43, 226, 0.6);
+      transition: all 0.2s;
+    }
+
+    .volume-slider::-webkit-slider-thumb:hover {
+      width: 28px;
+      height: 28px;
+      box-shadow: 0 0 25px rgba(138, 43, 226, 0.8);
+    }
+
+    .volume-slider::-moz-range-thumb {
+      width: 24px;
+      height: 24px;
+      background: linear-gradient(135deg, #8a2be2, #ff6b6b);
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(138, 43, 226, 0.6);
+      border: none;
+      transition: all 0.2s;
+    }
+
+    .volume-slider::-moz-range-thumb:hover {
+      width: 28px;
+      height: 28px;
+      box-shadow: 0 0 25px rgba(138, 43, 226, 0.8);
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, #8a2be2, #9945ff);
+      color: white;
+    }
+
+    .favorite-btn.active svg {
+      fill: #ff6b6b;
+      stroke: #ff6b6b;
+    }
+
+    .volume-bar-active {
+      background: linear-gradient(to top, #8a2be2, #ff6b6b) !important;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full text-white overflow-auto scroll-container">
+  <div class="min-h-full w-full"><!-- Header -->
+   <header class="relative overflow-hidden py-8 px-4">
+    <div class="absolute inset-0 bg-gradient-to-r from-purple-900/30 via-transparent to-pink-900/30"></div>
+    <div class="relative z-10 max-w-4xl mx-auto text-center">
+     <div class="floating inline-block mb-4">
+      <div class="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-purple-600 to-pink-500 flex items-center justify-center neon-glow">
+       <svg class="w-10 h-10" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path>
+       </svg>
+      </div>
+     </div>
+     <h1 id="page-title" class="text-4xl md:text-5xl font-bold mb-2" style="font-family: 'Orbitron', sans-serif;">RADIO STREAMING</h1>
+     <p class="text-gray-400 text-lg">Professional Playlist Player</p>
+     <div class="flex justify-center items-center gap-2 mt-4"><span class="live-badge inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-500/20 border border-red-500/50"> <span class="w-2 h-2 bg-red-500 rounded-full"></span> <span class="text-red-400 text-sm font-medium">LIVE</span> </span>
+     </div>
+    </div>
+   </header><!-- Navigation Tabs -->
+   <nav class="max-w-4xl mx-auto px-4 mb-6">
+    <div class="glass-card rounded-2xl p-2 flex gap-2"><button class="tab-btn active flex-1 py-3 px-4 rounded-xl font-semibold transition-all duration-300" data-tab="radio" style="font-family: 'Poppins', sans-serif;"> 📻 Radio Streaming </button> <button class="tab-btn flex-1 py-3 px-4 rounded-xl font-semibold transition-all duration-300 hover:bg-white/10" data-tab="music" style="font-family: 'Poppins', sans-serif;"> 🎵 Music Player </button> <button class="tab-btn flex-1 py-3 px-4 rounded-xl font-semibold transition-all duration-300 hover:bg-white/10" data-tab="favorites" style="font-family: 'Poppins', sans-serif;"> 💛 Favorites </button>
+    </div>
+   </nav><!-- Main Content -->
+   <main class="max-w-4xl mx-auto px-4 pb-8"><!-- Radio Tab -->
+    <section id="radio-tab" class="tab-content">
+     <h2 id="section-radio-title" class="text-2xl font-bold mb-6 flex items-center gap-3" style="font-family: 'Orbitron', sans-serif;"><span class="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-600 to-pink-500 flex items-center justify-center">📻</span> Streaming Radio</h2>
+     <div class="space-y-4" id="radio-stations"><!-- RRI Pro 3 -->
+      <div class="station-card glass-card rounded-2xl p-4 cursor-pointer" data-station="rri">
+       <div class="flex items-center gap-4">
+        <div class="relative"><img src="https://www.rri.co.id/assets/v2/img/pro3.png" alt="RRI Pro 3" class="w-16 h-16 rounded-xl object-contain bg-white/10 p-2" loading="lazy" onerror="this.style.background='linear-gradient(135deg, #8a2be2, #ff6b6b)'; this.alt='RRI';">
+         <div class="playing-indicator absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
+          <div class="music-wave" style="transform: scale(0.5);">
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+          </div>
+         </div>
+        </div>
+        <div class="flex-1">
+         <h3 class="font-bold text-lg" style="font-family: 'Poppins', sans-serif;">RRI Pro 3 FM</h3>
+         <p class="text-gray-400 text-sm">Jakarta - News &amp; Information</p>
+         <div class="flex items-center gap-2 mt-1"><span class="text-xs px-2 py-0.5 rounded-full bg-purple-500/30 text-purple-300">88.4 FM</span> <span class="text-xs px-2 py-0.5 rounded-full bg-green-500/30 text-green-300">Online</span>
+         </div>
+        </div>
+        <div class="flex items-center gap-3"><button class="favorite-btn p-2 rounded-full hover:bg-white/10 transition-colors" data-station="rri">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+          </svg></button> <button class="play-btn w-12 h-12 rounded-full bg-gradient-to-br from-purple-600 to-pink-500 flex items-center justify-center hover:scale-110 transition-transform neon-glow">
+          <svg class="w-6 h-6 play-icon" fill="currentColor" viewbox="0 0 24 24"><path d="M8 5v14l11-7z"></path>
+          </svg>
+          <svg class="w-6 h-6 pause-icon hidden" fill="currentColor" viewbox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"></path>
+          </svg></button>
+        </div>
+       </div>
+       <audio class="hidden" preload="none" src="https://stream-node0.rri.co.id/streaming/14/9014/kbrn.mp3"></audio><img class="equalizer-gif hidden absolute -bottom-2 -right-2 w-20 h-20 object-contain drop-shadow-lg" src="https://cdn.instant.audio/images/equalizer.gif" alt="Equalizer" loading="lazy" onerror="this.style.display='none';">
+      </div><!-- Elshinta -->
+      <div class="station-card glass-card rounded-2xl p-4 cursor-pointer" data-station="elshinta">
+       <div class="flex items-center gap-4">
+        <div class="relative"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716529508/elshinta_brapvj.png" alt="Elshinta" class="w-16 h-16 rounded-xl object-contain bg-white/10 p-2" loading="lazy" onerror="this.style.background='linear-gradient(135deg, #ff6b6b, #ffa500)'; this.alt='Elshinta';">
+         <div class="playing-indicator absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
+          <div class="music-wave" style="transform: scale(0.5);">
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+          </div>
+         </div>
+        </div>
+        <div class="flex-1">
+         <h3 class="font-bold text-lg" style="font-family: 'Poppins', sans-serif;">Elshinta FM</h3>
+         <p class="text-gray-400 text-sm">Jakarta - News Radio</p>
+         <div class="flex items-center gap-2 mt-1"><span class="text-xs px-2 py-0.5 rounded-full bg-orange-500/30 text-orange-300">90.0 FM</span> <span class="text-xs px-2 py-0.5 rounded-full bg-green-500/30 text-green-300">Online</span>
+         </div>
+        </div>
+        <div class="flex items-center gap-3"><button class="favorite-btn p-2 rounded-full hover:bg-white/10 transition-colors" data-station="elshinta">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+          </svg></button> <button class="play-btn w-12 h-12 rounded-full bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center hover:scale-110 transition-transform">
+          <svg class="w-6 h-6 play-icon" fill="currentColor" viewbox="0 0 24 24"><path d="M8 5v14l11-7z"></path>
+          </svg>
+          <svg class="w-6 h-6 pause-icon hidden" fill="currentColor" viewbox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"></path>
+          </svg></button>
+        </div>
+       </div>
+       <audio class="hidden" preload="none" src="https://stream-ssl.arenastreaming.com:8000/jakarta"></audio>
+      </div><!-- Ardan -->
+      <div class="station-card glass-card rounded-2xl p-4 cursor-pointer" data-station="ardan">
+       <div class="flex items-center gap-4">
+        <div class="relative"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716537649/ardan_logo_nkcfrt.png" alt="Ardan" class="w-16 h-16 rounded-xl object-contain bg-white/10 p-2" loading="lazy" onerror="this.style.background='linear-gradient(135deg, #ec4899, #f97316)'; this.alt='Ardan';">
+         <div class="playing-indicator absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
+          <div class="music-wave" style="transform: scale(0.5);">
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+          </div>
+         </div>
+        </div>
+        <div class="flex-1">
+         <h3 class="font-bold text-lg" style="font-family: 'Poppins', sans-serif;">Ardan Radio</h3>
+         <p class="text-gray-400 text-sm">Indonesia - Music &amp; Entertainment</p>
+         <div class="flex items-center gap-2 mt-1"><span class="text-xs px-2 py-0.5 rounded-full bg-pink-500/30 text-pink-300">Online Stream</span> <span class="text-xs px-2 py-0.5 rounded-full bg-green-500/30 text-green-300">Online</span>
+         </div>
+        </div>
+        <div class="flex items-center gap-3"><button class="favorite-btn p-2 rounded-full hover:bg-white/10 transition-colors" data-station="ardan">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+          </svg></button> <button class="play-btn w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 to-orange-500 flex items-center justify-center hover:scale-110 transition-transform">
+          <svg class="w-6 h-6 play-icon" fill="currentColor" viewbox="0 0 24 24"><path d="M8 5v14l11-7z"></path>
+          </svg>
+          <svg class="w-6 h-6 pause-icon hidden" fill="currentColor" viewbox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"></path>
+          </svg></button>
+        </div>
+       </div>
+       <audio class="hidden" preload="none" src="https://n09.rcs.revma.com/1q762wy5a9hvv.m4a"></audio>
+      </div><!-- Dahlia FM -->
+      <div class="station-card glass-card rounded-2xl p-4 cursor-pointer" data-station="dahlia">
+       <div class="flex items-center gap-4">
+        <div class="relative"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716537257/dahliah_logo_zd61qq.png" alt="Dahlia FM" class="w-16 h-16 rounded-xl object-contain bg-white/10 p-2" loading="lazy" onerror="this.style.background='linear-gradient(135deg, #f472b6, #d946ef)'; this.alt='Dahlia';">
+         <div class="playing-indicator absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
+          <div class="music-wave" style="transform: scale(0.5);">
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+          </div>
+         </div>
+        </div>
+        <div class="flex-1">
+         <h3 class="font-bold text-lg" style="font-family: 'Poppins', sans-serif;">Dahlia FM</h3>
+         <p class="text-gray-400 text-sm">Bandung - Local Radio</p>
+         <div class="flex items-center gap-2 mt-1"><span class="text-xs px-2 py-0.5 rounded-full bg-purple-500/30 text-purple-300">102.4 FM</span> <span class="text-xs px-2 py-0.5 rounded-full bg-green-500/30 text-green-300">Online</span>
+         </div>
+        </div>
+        <div class="flex items-center gap-3"><button class="favorite-btn p-2 rounded-full hover:bg-white/10 transition-colors" data-station="dahlia">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+          </svg></button> <button class="play-btn w-12 h-12 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center hover:scale-110 transition-transform">
+          <svg class="w-6 h-6 play-icon" fill="currentColor" viewbox="0 0 24 24"><path d="M8 5v14l11-7z"></path>
+          </svg>
+          <svg class="w-6 h-6 pause-icon hidden" fill="currentColor" viewbox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"></path>
+          </svg></button>
+        </div>
+       </div>
+       <audio class="hidden" preload="none" src="https://svara-stream.radioddns.net:8443/bandung_dahliafm"></audio>
+      </div><!-- Suara Surabaya -->
+      <div class="station-card glass-card rounded-2xl p-4 cursor-pointer" data-station="suara-surabaya">
+       <div class="flex items-center gap-4">
+        <div class="relative"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716536506/suara_surabaya_ackptk.png" alt="Suara Surabaya" class="w-16 h-16 rounded-xl object-contain bg-white/10 p-2" loading="lazy" onerror="this.style.background='linear-gradient(135deg, #3b82f6, #1d4ed8)'; this.alt='Suara Surabaya';">
+         <div class="playing-indicator absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
+          <div class="music-wave" style="transform: scale(0.5);">
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+          </div>
+         </div>
+        </div>
+        <div class="flex-1">
+         <h3 class="font-bold text-lg" style="font-family: 'Poppins', sans-serif;">Suara Surabaya</h3>
+         <p class="text-gray-400 text-sm">Surabaya - Music &amp; Talk</p>
+         <div class="flex items-center gap-2 mt-1"><span class="text-xs px-2 py-0.5 rounded-full bg-blue-500/30 text-blue-300">92.4 FM</span> <span class="text-xs px-2 py-0.5 rounded-full bg-green-500/30 text-green-300">Online</span>
+         </div>
+        </div>
+        <div class="flex items-center gap-3"><button class="favorite-btn p-2 rounded-full hover:bg-white/10 transition-colors" data-station="suara-surabaya">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+          </svg></button> <button class="play-btn w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center hover:scale-110 transition-transform">
+          <svg class="w-6 h-6 play-icon" fill="currentColor" viewbox="0 0 24 24"><path d="M8 5v14l11-7z"></path>
+          </svg>
+          <svg class="w-6 h-6 pause-icon hidden" fill="currentColor" viewbox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"></path>
+          </svg></button>
+        </div>
+       </div>
+       <audio class="hidden" preload="none" src="https://c5.siar.us:8000/stream"></audio>
+      </div><!-- iRadio -->
+      <div class="station-card glass-card rounded-2xl p-4 cursor-pointer" data-station="iradio">
+       <div class="flex items-center gap-4">
+        <div class="relative"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716619617/iradio_r5ywto.png" alt="iRadio" class="w-16 h-16 rounded-xl object-contain bg-white/10 p-2" loading="lazy" onerror="this.style.background='linear-gradient(135deg, #06b6d4, #0891b2)'; this.alt='iRadio';">
+         <div class="playing-indicator absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
+          <div class="music-wave" style="transform: scale(0.5);">
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+          </div>
+         </div>
+        </div>
+        <div class="flex-1">
+         <h3 class="font-bold text-lg" style="font-family: 'Poppins', sans-serif;">iRadio FM</h3>
+         <p class="text-gray-400 text-sm">Indonesia - Modern Music</p>
+         <div class="flex items-center gap-2 mt-1"><span class="text-xs px-2 py-0.5 rounded-full bg-cyan-500/30 text-cyan-300">Online Stream</span> <span class="text-xs px-2 py-0.5 rounded-full bg-green-500/30 text-green-300">Online</span>
+         </div>
+        </div>
+        <div class="flex items-center gap-3"><button class="favorite-btn p-2 rounded-full hover:bg-white/10 transition-colors" data-station="iradio">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+          </svg></button> <button class="play-btn w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center hover:scale-110 transition-transform">
+          <svg class="w-6 h-6 play-icon" fill="currentColor" viewbox="0 0 24 24"><path d="M8 5v14l11-7z"></path>
+          </svg>
+          <svg class="w-6 h-6 pause-icon hidden" fill="currentColor" viewbox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"></path>
+          </svg></button>
+        </div>
+       </div>
+       <audio class="hidden" preload="none" src="https://stream.radiojar.com/4ywdgup3bnzuv"></audio>
+      </div><!-- Gajah Mada FM -->
+      <div class="station-card glass-card rounded-2xl p-4 cursor-pointer" data-station="gajahmada">
+       <div class="flex items-center gap-4">
+        <div class="relative"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716542005/logo-GAJAHMADA-1536x285_p7wmtm.png" alt="Gajah Mada FM" class="w-16 h-16 rounded-xl object-contain bg-white/10 p-2" loading="lazy" onerror="this.style.background='linear-gradient(135deg, #dc2626, #991b1b)'; this.alt='Gajah Mada';">
+         <div class="playing-indicator absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
+          <div class="music-wave" style="transform: scale(0.5);">
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+          </div>
+         </div>
+        </div>
+        <div class="flex-1">
+         <h3 class="font-bold text-lg" style="font-family: 'Poppins', sans-serif;">Gajah Mada FM</h3>
+         <p class="text-gray-400 text-sm">Jakarta - Top 40 Hits</p>
+         <div class="flex items-center gap-2 mt-1"><span class="text-xs px-2 py-0.5 rounded-full bg-red-500/30 text-red-300">88.9 FM</span> <span class="text-xs px-2 py-0.5 rounded-full bg-green-500/30 text-green-300">Online</span>
+         </div>
+        </div>
+        <div class="flex items-center gap-3"><button class="favorite-btn p-2 rounded-full hover:bg-white/10 transition-colors" data-station="gajahmada">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+          </svg></button> <button class="play-btn w-12 h-12 rounded-full bg-gradient-to-br from-red-500 to-rose-600 flex items-center justify-center hover:scale-110 transition-transform neon-glow">
+          <svg class="w-6 h-6 play-icon" fill="currentColor" viewbox="0 0 24 24"><path d="M8 5v14l11-7z"></path>
+          </svg>
+          <svg class="w-6 h-6 pause-icon hidden" fill="currentColor" viewbox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"></path>
+          </svg></button>
+        </div>
+       </div>
+       <audio class="hidden" preload="none" src="https://gajahmadafm.co.id/wp-content/uploads/2024/04/RONY-PARULIAN-ANDI-RIANTO-SEPENUH-HATI-2024.mp3"></audio>
+      </div><!-- Sonar FM -->
+      <div class="station-card glass-card rounded-2xl p-4 cursor-pointer" data-station="sonar">
+       <div class="flex items-center gap-4">
+        <div class="relative"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716542990/logo_bgznce.png" alt="Sonar FM" class="w-16 h-16 rounded-xl object-contain bg-white/10 p-2" loading="lazy" onerror="this.style.background='linear-gradient(135deg, #0ea5e9, #0284c7)'; this.alt='Sonar';">
+         <div class="playing-indicator absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
+          <div class="music-wave" style="transform: scale(0.5);">
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+          </div>
+         </div>
+        </div>
+        <div class="flex-1">
+         <h3 class="font-bold text-lg" style="font-family: 'Poppins', sans-serif;">Sonar FM</h3>
+         <p class="text-gray-400 text-sm">Indonesia - Pop Music</p>
+         <div class="flex items-center gap-2 mt-1"><span class="text-xs px-2 py-0.5 rounded-full bg-sky-500/30 text-sky-300">99.0 FM</span> <span class="text-xs px-2 py-0.5 rounded-full bg-green-500/30 text-green-300">Online</span>
+         </div>
+        </div>
+        <div class="flex items-center gap-3"><button class="favorite-btn p-2 rounded-full hover:bg-white/10 transition-colors" data-station="sonar">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+          </svg></button> <button class="play-btn w-12 h-12 rounded-full bg-gradient-to-br from-sky-500 to-blue-600 flex items-center justify-center hover:scale-110 transition-transform neon-glow">
+          <svg class="w-6 h-6 play-icon" fill="currentColor" viewbox="0 0 24 24"><path d="M8 5v14l11-7z"></path>
+          </svg>
+          <svg class="w-6 h-6 pause-icon hidden" fill="currentColor" viewbox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"></path>
+          </svg></button>
+        </div>
+       </div>
+       <audio class="hidden" preload="none" src="https://i.klikhost.com/9006/stream"></audio>
+      </div><!-- GISS Radio -->
+      <div class="station-card glass-card rounded-2xl p-4 cursor-pointer" data-station="giss">
+       <div class="flex items-center gap-4">
+        <div class="relative"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716544993/giss_logo_ffflpa.jpg" alt="GISS Radio" class="w-16 h-16 rounded-xl object-contain bg-white/10 p-2" loading="lazy" onerror="this.style.background='linear-gradient(135deg, #f59e0b, #d97706)'; this.alt='GISS';">
+         <div class="playing-indicator absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
+          <div class="music-wave" style="transform: scale(0.5);">
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+          </div>
+         </div>
+        </div>
+        <div class="flex-1">
+         <h3 class="font-bold text-lg" style="font-family: 'Poppins', sans-serif;">GISS Radio</h3>
+         <p class="text-gray-400 text-sm">Indonesia - Contemporary Hits</p>
+         <div class="flex items-center gap-2 mt-1"><span class="text-xs px-2 py-0.5 rounded-full bg-amber-500/30 text-amber-300">Online Stream</span> <span class="text-xs px-2 py-0.5 rounded-full bg-green-500/30 text-green-300">Online</span>
+         </div>
+        </div>
+        <div class="flex items-center gap-3"><button class="favorite-btn p-2 rounded-full hover:bg-white/10 transition-colors" data-station="giss">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+          </svg></button> <button class="play-btn w-12 h-12 rounded-full bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center hover:scale-110 transition-transform neon-glow">
+          <svg class="w-6 h-6 play-icon" fill="currentColor" viewbox="0 0 24 24"><path d="M8 5v14l11-7z"></path>
+          </svg>
+          <svg class="w-6 h-6 pause-icon hidden" fill="currentColor" viewbox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"></path>
+          </svg></button>
+        </div>
+       </div>
+       <audio class="hidden" preload="none" src="https://pu.klikhost.com:7038/stream"></audio>
+      </div><!-- City Radio -->
+      <div class="station-card glass-card rounded-2xl p-4 cursor-pointer" data-station="city">
+       <div class="flex items-center gap-4">
+        <div class="relative"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716555137/city_logo_web_lvt1ua.png" alt="City Radio" class="w-16 h-16 rounded-xl object-contain bg-white/10 p-2" loading="lazy" onerror="this.style.background='linear-gradient(135deg, #06b6d4, #0891b2)'; this.alt='City';">
+         <div class="playing-indicator absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
+          <div class="music-wave" style="transform: scale(0.5);">
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+          </div>
+         </div>
+        </div>
+        <div class="flex-1">
+         <h3 class="font-bold text-lg" style="font-family: 'Poppins', sans-serif;">City Radio</h3>
+         <p class="text-gray-400 text-sm">Indonesia - Urban Beats</p>
+         <div class="flex items-center gap-2 mt-1"><span class="text-xs px-2 py-0.5 rounded-full bg-cyan-500/30 text-cyan-300">Online Stream</span> <span class="text-xs px-2 py-0.5 rounded-full bg-green-500/30 text-green-300">Online</span>
+         </div>
+        </div>
+        <div class="flex items-center gap-3"><button class="favorite-btn p-2 rounded-full hover:bg-white/10 transition-colors" data-station="city">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+          </svg></button> <button class="play-btn w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500 to-teal-600 flex items-center justify-center hover:scale-110 transition-transform neon-glow">
+          <svg class="w-6 h-6 play-icon" fill="currentColor" viewbox="0 0 24 24"><path d="M8 5v14l11-7z"></path>
+          </svg>
+          <svg class="w-6 h-6 pause-icon hidden" fill="currentColor" viewbox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"></path>
+          </svg></button>
+        </div>
+       </div>
+       <audio class="hidden" preload="none" src="https://live.cityradio.id/cityradio.ogg"></audio>
+      </div><!-- City Radio Mandarin -->
+      <div class="station-card glass-card rounded-2xl p-4 cursor-pointer" data-station="city-mandarin">
+       <div class="flex items-center gap-4">
+        <div class="relative"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716555137/city_logo_web_lvt1ua.png" alt="City Radio Mandarin" class="w-16 h-16 rounded-xl object-contain bg-white/10 p-2" loading="lazy" onerror="this.style.background='linear-gradient(135deg, #ec4899, #f43f5e)'; this.alt='City Mandarin';">
+         <div class="playing-indicator absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
+          <div class="music-wave" style="transform: scale(0.5);">
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+          </div>
+         </div>
+        </div>
+        <div class="flex-1">
+         <h3 class="font-bold text-lg" style="font-family: 'Poppins', sans-serif;">City Radio Mandarin</h3>
+         <p class="text-gray-400 text-sm">Jakarta - Chinese Music</p>
+         <div class="flex items-center gap-2 mt-1"><span class="text-xs px-2 py-0.5 rounded-full bg-rose-500/30 text-rose-300">Mandarin</span> <span class="text-xs px-2 py-0.5 rounded-full bg-green-500/30 text-green-300">Online</span>
+         </div>
+        </div>
+        <div class="flex items-center gap-3"><button class="favorite-btn p-2 rounded-full hover:bg-white/10 transition-colors" data-station="city-mandarin">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+          </svg></button> <button class="play-btn w-12 h-12 rounded-full bg-gradient-to-br from-rose-500 to-pink-600 flex items-center justify-center hover:scale-110 transition-transform neon-glow">
+          <svg class="w-6 h-6 play-icon" fill="currentColor" viewbox="0 0 24 24"><path d="M8 5v14l11-7z"></path>
+          </svg>
+          <svg class="w-6 h-6 pause-icon hidden" fill="currentColor" viewbox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"></path>
+          </svg></button>
+        </div>
+       </div>
+       <audio class="hidden" preload="none" src="https://live.cityradio.id/cr-mandarin.ogg"></audio>
+      </div><!-- Stiker Radio -->
+      <div class="station-card glass-card rounded-2xl p-4 cursor-pointer" data-station="stiker">
+       <div class="flex items-center gap-4">
+        <div class="relative"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716560633/stiker_zfazea.png" alt="Stiker Radio" class="w-16 h-16 rounded-xl object-contain bg-white/10 p-2" loading="lazy" onerror="this.style.background='linear-gradient(135deg, #8b5cf6, #a78bfa)'; this.alt='Stiker';">
+         <div class="playing-indicator absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
+          <div class="music-wave" style="transform: scale(0.5);">
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+          </div>
+         </div>
+        </div>
+        <div class="flex-1">
+         <h3 class="font-bold text-lg" style="font-family: 'Poppins', sans-serif;">Stiker Radio</h3>
+         <p class="text-gray-400 text-sm">Indonesia - Music Streaming</p>
+         <div class="flex items-center gap-2 mt-1"><span class="text-xs px-2 py-0.5 rounded-full bg-purple-500/30 text-purple-300">Online Stream</span> <span class="text-xs px-2 py-0.5 rounded-full bg-green-500/30 text-green-300">Online</span>
+         </div>
+        </div>
+        <div class="flex items-center gap-3"><button class="favorite-btn p-2 rounded-full hover:bg-white/10 transition-colors" data-station="stiker">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+          </svg></button> <button class="play-btn w-12 h-12 rounded-full bg-gradient-to-br from-purple-600 to-violet-600 flex items-center justify-center hover:scale-110 transition-transform neon-glow">
+          <svg class="w-6 h-6 play-icon" fill="currentColor" viewbox="0 0 24 24"><path d="M8 5v14l11-7z"></path>
+          </svg>
+          <svg class="w-6 h-6 pause-icon hidden" fill="currentColor" viewbox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"></path>
+          </svg></button>
+        </div>
+       </div>
+       <audio class="hidden" preload="none" src="https://void.idserverhost.com:8026/stream?type=.mp3"></audio>
+      </div><!-- Klite FM -->
+      <div class="station-card glass-card rounded-2xl p-4 cursor-pointer" data-station="klite">
+       <div class="flex items-center gap-4">
+        <div class="relative"><img src="https://radiodns.org/wp-content/themes/radiodns/assets/img/optimised/open-graph-logo.png" alt="Klite FM" class="w-16 h-16 rounded-xl object-contain bg-white/10 p-2" loading="lazy" onerror="this.style.background='linear-gradient(135deg, #06b6d4, #0284c7)'; this.alt='Klite';">
+         <div class="playing-indicator absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
+          <div class="music-wave" style="transform: scale(0.5);">
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+          </div>
+         </div>
+        </div>
+        <div class="flex-1">
+         <h3 class="font-bold text-lg" style="font-family: 'Poppins', sans-serif;">Klite FM</h3>
+         <p class="text-gray-400 text-sm">Bandung - Contemporary Radio</p>
+         <div class="flex items-center gap-2 mt-1"><span class="text-xs px-2 py-0.5 rounded-full bg-sky-500/30 text-sky-300">104.5 FM</span> <span class="text-xs px-2 py-0.5 rounded-full bg-green-500/30 text-green-300">Online</span>
+         </div>
+        </div>
+        <div class="flex items-center gap-3"><button class="favorite-btn p-2 rounded-full hover:bg-white/10 transition-colors" data-station="klite">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+          </svg></button> <button class="play-btn w-12 h-12 rounded-full bg-gradient-to-br from-sky-500 to-cyan-600 flex items-center justify-center hover:scale-110 transition-transform neon-glow">
+          <svg class="w-6 h-6 play-icon" fill="currentColor" viewbox="0 0 24 24"><path d="M8 5v14l11-7z"></path>
+          </svg>
+          <svg class="w-6 h-6 pause-icon hidden" fill="currentColor" viewbox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"></path>
+          </svg></button>
+        </div>
+       </div>
+       <audio class="hidden" preload="none" src="https://svara-stream.radioddns.net:8443/bandung_klitefm_acc"></audio>
+      </div><!-- Papeja FM -->
+      <div class="station-card glass-card rounded-2xl p-4 cursor-pointer" data-station="papeja">
+       <div class="flex items-center gap-4">
+        <div class="relative"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716628564/papeja_upmp1f.png" alt="Papeja FM" class="w-16 h-16 rounded-xl object-contain bg-white/10 p-2" loading="lazy" onerror="this.style.background='linear-gradient(135deg, #f59e0b, #f97316)'; this.alt='Papeja';">
+         <div class="playing-indicator absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
+          <div class="music-wave" style="transform: scale(0.5);">
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+          </div>
+         </div>
+        </div>
+        <div class="flex-1">
+         <h3 class="font-bold text-lg" style="font-family: 'Poppins', sans-serif;">Papeja FM</h3>
+         <p class="text-gray-400 text-sm">Indonesia - Music Entertainment</p>
+         <div class="flex items-center gap-2 mt-1"><span class="text-xs px-2 py-0.5 rounded-full bg-amber-500/30 text-amber-300">Online Stream</span> <span class="text-xs px-2 py-0.5 rounded-full bg-green-500/30 text-green-300">Online</span>
+         </div>
+        </div>
+        <div class="flex items-center gap-3"><button class="favorite-btn p-2 rounded-full hover:bg-white/10 transition-colors" data-station="papeja">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+          </svg></button> <button class="play-btn w-12 h-12 rounded-full bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center hover:scale-110 transition-transform neon-glow">
+          <svg class="w-6 h-6 play-icon" fill="currentColor" viewbox="0 0 24 24"><path d="M8 5v14l11-7z"></path>
+          </svg>
+          <svg class="w-6 h-6 pause-icon hidden" fill="currentColor" viewbox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"></path>
+          </svg></button>
+        </div>
+       </div>
+       <audio class="hidden" preload="none" src="https://rise.citrafm.com/papejafm"></audio>
+      </div><!-- Bahana FM -->
+      <div class="station-card glass-card rounded-2xl p-4 cursor-pointer" data-station="bahana">
+       <div class="flex items-center gap-4">
+        <div class="relative"><img src="http://www.bahanafmngawi.com/wp-content/uploads/2022/01/B-544X180-300x99.png" alt="Bahana FM" class="w-16 h-16 rounded-xl object-contain bg-white/10 p-2" loading="lazy" onerror="this.style.background='linear-gradient(135deg, #ec4899, #f43f5e)'; this.alt='Bahana';">
+         <div class="playing-indicator absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
+          <div class="music-wave" style="transform: scale(0.5);">
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+          </div>
+         </div>
+        </div>
+        <div class="flex-1">
+         <h3 class="font-bold text-lg" style="font-family: 'Poppins', sans-serif;">Bahana FM</h3>
+         <p class="text-gray-400 text-sm">Ngawi - Community Radio</p>
+         <div class="flex items-center gap-2 mt-1"><span class="text-xs px-2 py-0.5 rounded-full bg-rose-500/30 text-rose-300">Local</span> <span class="text-xs px-2 py-0.5 rounded-full bg-green-500/30 text-green-300">Online</span>
+         </div>
+        </div>
+        <div class="flex items-center gap-3"><button class="favorite-btn p-2 rounded-full hover:bg-white/10 transition-colors" data-station="bahana">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+          </svg></button> <button class="play-btn w-12 h-12 rounded-full bg-gradient-to-br from-rose-500 to-pink-600 flex items-center justify-center hover:scale-110 transition-transform neon-glow">
+          <svg class="w-6 h-6 play-icon" fill="currentColor" viewbox="0 0 24 24"><path d="M8 5v14l11-7z"></path>
+          </svg>
+          <svg class="w-6 h-6 pause-icon hidden" fill="currentColor" viewbox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"></path>
+          </svg></button>
+        </div>
+       </div>
+       <audio class="hidden" preload="none" src="https://radiocast.my.id/proxy/bahanafm/live"></audio>
+      </div><!-- Zeno FM -->
+      <div class="station-card glass-card rounded-2xl p-4 cursor-pointer" data-station="zeno">
+       <div class="flex items-center gap-4">
+        <div class="relative">
+         <div class="w-16 h-16 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center"><span class="text-3xl">🌍</span>
+         </div>
+         <div class="playing-indicator absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
+          <div class="music-wave" style="transform: scale(0.5);">
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+          </div>
+         </div>
+        </div>
+        <div class="flex-1">
+         <h3 class="font-bold text-lg" style="font-family: 'Poppins', sans-serif;">Zeno FM</h3>
+         <p class="text-gray-400 text-sm">International - Global Streaming</p>
+         <div class="flex items-center gap-2 mt-1"><span class="text-xs px-2 py-0.5 rounded-full bg-indigo-500/30 text-indigo-300">Worldwide</span> <span class="text-xs px-2 py-0.5 rounded-full bg-green-500/30 text-green-300">Online</span>
+         </div>
+        </div>
+        <div class="flex items-center gap-3"><button class="favorite-btn p-2 rounded-full hover:bg-white/10 transition-colors" data-station="zeno">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+          </svg></button> <button class="play-btn w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center hover:scale-110 transition-transform neon-glow">
+          <svg class="w-6 h-6 play-icon" fill="currentColor" viewbox="0 0 24 24"><path d="M8 5v14l11-7z"></path>
+          </svg>
+          <svg class="w-6 h-6 pause-icon hidden" fill="currentColor" viewbox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"></path>
+          </svg></button>
+        </div>
+       </div>
+       <audio class="hidden" preload="none" src="https://node-08.zeno.fm/z1bs88ttrfhvv"></audio>
+      </div><!-- Rock Station -->
+      <div class="station-card glass-card rounded-2xl p-4 cursor-pointer" data-station="rock">
+       <div class="flex items-center gap-4">
+        <div class="relative"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716640886/logo_3_cyidhn.png" alt="Rock Station" class="w-16 h-16 rounded-xl object-contain bg-white/10 p-2" loading="lazy" onerror="this.style.background='linear-gradient(135deg, #dc2626, #991b1b)'; this.alt='Rock';">
+         <div class="playing-indicator absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
+          <div class="music-wave" style="transform: scale(0.5);">
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+          </div>
+         </div>
+        </div>
+        <div class="flex-1">
+         <h3 class="font-bold text-lg" style="font-family: 'Poppins', sans-serif;">Rock Station</h3>
+         <p class="text-gray-400 text-sm">Cloudmu - Rock &amp; Metal</p>
+         <div class="flex items-center gap-2 mt-1"><span class="text-xs px-2 py-0.5 rounded-full bg-red-500/30 text-red-300">Rock</span> <span class="text-xs px-2 py-0.5 rounded-full bg-green-500/30 text-green-300">Online</span>
+         </div>
+        </div>
+        <div class="flex items-center gap-3"><button class="favorite-btn p-2 rounded-full hover:bg-white/10 transition-colors" data-station="rock">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+          </svg></button> <button class="play-btn w-12 h-12 rounded-full bg-gradient-to-br from-red-600 to-rose-600 flex items-center justify-center hover:scale-110 transition-transform neon-glow">
+          <svg class="w-6 h-6 play-icon" fill="currentColor" viewbox="0 0 24 24"><path d="M8 5v14l11-7z"></path>
+          </svg>
+          <svg class="w-6 h-6 pause-icon hidden" fill="currentColor" viewbox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"></path>
+          </svg></button>
+        </div>
+       </div>
+       <audio class="hidden" preload="none" src="http://s1.cloudmu.id:8030/radio.mp3"></audio>
+      </div><!-- Pasuruan Radio -->
+      <div class="station-card glass-card rounded-2xl p-4 cursor-pointer" data-station="pasuruan">
+       <div class="flex items-center gap-4">
+        <div class="relative"><img src="https://radio.pasuruankab.go.id/storage/file_media/88a7150ce4acd3cb0237eccf8ae13436.jpg" alt="Pasuruan Radio" class="w-16 h-16 rounded-xl object-contain bg-white/10 p-2" loading="lazy" onerror="this.style.background='linear-gradient(135deg, #059669, #047857)'; this.alt='Pasuruan';">
+         <div class="playing-indicator absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
+          <div class="music-wave" style="transform: scale(0.5);">
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+          </div>
+         </div>
+        </div>
+        <div class="flex-1">
+         <h3 class="font-bold text-lg" style="font-family: 'Poppins', sans-serif;">Pasuruan Radio</h3>
+         <p class="text-gray-400 text-sm">Pasuruan - Local Community</p>
+         <div class="flex items-center gap-2 mt-1"><span class="text-xs px-2 py-0.5 rounded-full bg-green-500/30 text-green-300">Local</span> <span class="text-xs px-2 py-0.5 rounded-full bg-green-500/30 text-green-300">Online</span>
+         </div>
+        </div>
+        <div class="flex items-center gap-3"><button class="favorite-btn p-2 rounded-full hover:bg-white/10 transition-colors" data-station="pasuruan">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+          </svg></button> <button class="play-btn w-12 h-12 rounded-full bg-gradient-to-br from-emerald-500 to-green-600 flex items-center justify-center hover:scale-110 transition-transform neon-glow">
+          <svg class="w-6 h-6 play-icon" fill="currentColor" viewbox="0 0 24 24"><path d="M8 5v14l11-7z"></path>
+          </svg>
+          <svg class="w-6 h-6 pause-icon hidden" fill="currentColor" viewbox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"></path>
+          </svg></button>
+        </div>
+       </div>
+       <audio class="hidden" preload="none" src="https://radiostream.pasuruankab.go.id/?type=https"></audio>
+      </div><!-- Telstar Radio -->
+      <div class="station-card glass-card rounded-2xl p-4 cursor-pointer" data-station="telstar">
+       <div class="flex items-center gap-4">
+        <div class="relative"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716685578/telstar_esvhbs.png" alt="Telstar" class="w-16 h-16 rounded-xl object-contain bg-white/10 p-2" loading="lazy" onerror="this.style.background='linear-gradient(135deg, #2563eb, #1d4ed8)'; this.alt='Telstar';">
+         <div class="playing-indicator absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
+          <div class="music-wave" style="transform: scale(0.5);">
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+          </div>
+         </div>
+        </div>
+        <div class="flex-1">
+         <h3 class="font-bold text-lg" style="font-family: 'Poppins', sans-serif;">Telstar Radio</h3>
+         <p class="text-gray-400 text-sm">Vinhost Media - Premium Stream</p>
+         <div class="flex items-center gap-2 mt-1"><span class="text-xs px-2 py-0.5 rounded-full bg-blue-500/30 text-blue-300">Premium</span> <span class="text-xs px-2 py-0.5 rounded-full bg-green-500/30 text-green-300">Online</span>
+         </div>
+        </div>
+        <div class="flex items-center gap-3"><button class="favorite-btn p-2 rounded-full hover:bg-white/10 transition-colors" data-station="telstar">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+          </svg></button> <button class="play-btn w-12 h-12 rounded-full bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center hover:scale-110 transition-transform neon-glow">
+          <svg class="w-6 h-6 play-icon" fill="currentColor" viewbox="0 0 24 24"><path d="M8 5v14l11-7z"></path>
+          </svg>
+          <svg class="w-6 h-6 pause-icon hidden" fill="currentColor" viewbox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"></path>
+          </svg></button>
+        </div>
+       </div>
+       <audio class="hidden" preload="none" src="http://s3.vinhostmedia.com:8040/"></audio>
+      </div><!-- RPK FM -->
+      <div class="station-card glass-card rounded-2xl p-4 cursor-pointer" data-station="rpk">
+       <div class="flex items-center gap-4">
+        <div class="relative">
+         <div class="w-16 h-16 rounded-xl bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center"><span class="text-3xl">🎙️</span>
+         </div>
+         <div class="playing-indicator absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
+          <div class="music-wave" style="transform: scale(0.5);">
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+          </div>
+         </div>
+        </div>
+        <div class="flex-1">
+         <h3 class="font-bold text-lg" style="font-family: 'Poppins', sans-serif;">RPK FM</h3>
+         <p class="text-gray-400 text-sm">Classy Net Radio - Sophisticated</p>
+         <div class="flex items-center gap-2 mt-1"><span class="text-xs px-2 py-0.5 rounded-full bg-pink-500/30 text-pink-300">Classy</span> <span class="text-xs px-2 py-0.5 rounded-full bg-green-500/30 text-green-300">Online</span>
+         </div>
+        </div>
+        <div class="flex items-center gap-3"><button class="favorite-btn p-2 rounded-full hover:bg-white/10 transition-colors" data-station="rpk">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+          </svg></button> <button class="play-btn w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center hover:scale-110 transition-transform neon-glow">
+          <svg class="w-6 h-6 play-icon" fill="currentColor" viewbox="0 0 24 24"><path d="M8 5v14l11-7z"></path>
+          </svg>
+          <svg class="w-6 h-6 pause-icon hidden" fill="currentColor" viewbox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"></path>
+          </svg></button>
+        </div>
+       </div>
+       <audio class="hidden" preload="none" src="https://streaming.classynetradio.com:8040/rpkfm"></audio>
+      </div><!-- Zeno Alt Stream -->
+      <div class="station-card glass-card rounded-2xl p-4 cursor-pointer" data-station="zeno-alt">
+       <div class="flex items-center gap-4">
+        <div class="relative">
+         <div class="w-16 h-16 rounded-xl bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center"><span class="text-3xl">🎵</span>
+         </div>
+         <div class="playing-indicator absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
+          <div class="music-wave" style="transform: scale(0.5);">
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+          </div>
+         </div>
+        </div>
+        <div class="flex-1">
+         <h3 class="font-bold text-lg" style="font-family: 'Poppins', sans-serif;">Zeno Premium</h3>
+         <p class="text-gray-400 text-sm">International - Music Selection</p>
+         <div class="flex items-center gap-2 mt-1"><span class="text-xs px-2 py-0.5 rounded-full bg-violet-500/30 text-violet-300">Premium</span> <span class="text-xs px-2 py-0.5 rounded-full bg-green-500/30 text-green-300">Online</span>
+         </div>
+        </div>
+        <div class="flex items-center gap-3"><button class="favorite-btn p-2 rounded-full hover:bg-white/10 transition-colors" data-station="zeno-alt">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+          </svg></button> <button class="play-btn w-12 h-12 rounded-full bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center hover:scale-110 transition-transform neon-glow">
+          <svg class="w-6 h-6 play-icon" fill="currentColor" viewbox="0 0 24 24"><path d="M8 5v14l11-7z"></path>
+          </svg>
+          <svg class="w-6 h-6 pause-icon hidden" fill="currentColor" viewbox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"></path>
+          </svg></button>
+        </div>
+       </div>
+       <audio class="hidden" preload="none" src="https://stream.zeno.fm/9ur46pyc7ehvv"></audio>
+      </div>
+     </div>
+    </section><!-- Music Tab -->
+    <section id="music-tab" class="tab-content hidden">
+     <h2 id="section-music-title" class="text-2xl font-bold mb-6 flex items-center gap-3" style="font-family: 'Orbitron', sans-serif;"><span class="w-10 h-10 rounded-lg bg-gradient-to-br from-pink-500 to-purple-600 flex items-center justify-center">🎵</span> Music Player</h2>
+     <div class="space-y-4" id="music-tracks"><!-- Track 1 - Shut Down -->
+      <div class="station-card glass-card rounded-2xl p-4" data-track="track1">
+       <div class="flex items-center gap-4">
+        <div class="relative">
+         <div class="w-16 h-16 rounded-xl bg-gradient-to-br from-pink-500 to-red-500 flex items-center justify-center"><span class="text-3xl">🎤</span>
+         </div>
+         <div class="playing-indicator absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
+          <div class="music-wave" style="transform: scale(0.5);">
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+          </div>
+         </div>
+        </div>
+        <div class="flex-1">
+         <h3 class="font-bold text-lg" style="font-family: 'Poppins', sans-serif;">Shut Down</h3>
+         <p class="text-gray-400 text-sm">BLACKPINK</p>
+         <div class="flex items-center gap-2 mt-1"><span class="text-xs px-2 py-0.5 rounded-full bg-pink-500/30 text-pink-300">K-Pop</span> <span class="text-xs text-gray-500">3:23</span>
+         </div>
+        </div>
+        <div class="flex items-center gap-3"><button class="favorite-btn p-2 rounded-full hover:bg-white/10 transition-colors" data-track="track1">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+          </svg></button> <button class="play-btn w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 to-red-500 flex items-center justify-center hover:scale-110 transition-transform neon-glow">
+          <svg class="w-6 h-6 play-icon" fill="currentColor" viewbox="0 0 24 24"><path d="M8 5v14l11-7z"></path>
+          </svg>
+          <svg class="w-6 h-6 pause-icon hidden" fill="currentColor" viewbox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"></path>
+          </svg></button>
+        </div>
+       </div>
+       <audio class="hidden" preload="none" src="https://www.motionradiofm.com/media/file/musik/1670841346_BLACKPINK_-_Shut_Down.mp3"></audio>
+      </div><!-- Track 2 - SNAP -->
+      <div class="station-card glass-card rounded-2xl p-4" data-track="track2">
+       <div class="flex items-center gap-4">
+        <div class="relative">
+         <div class="w-16 h-16 rounded-xl bg-gradient-to-br from-orange-500 to-yellow-500 flex items-center justify-center"><span class="text-3xl">🎤</span>
+         </div>
+         <div class="playing-indicator absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
+          <div class="music-wave" style="transform: scale(0.5);">
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+          </div>
+         </div>
+        </div>
+        <div class="flex-1">
+         <h3 class="font-bold text-lg" style="font-family: 'Poppins', sans-serif;">SNAP</h3>
+         <p class="text-gray-400 text-sm">Rosa Linn</p>
+         <div class="flex items-center gap-2 mt-1"><span class="text-xs px-2 py-0.5 rounded-full bg-orange-500/30 text-orange-300">Pop</span> <span class="text-xs text-gray-500">2:49</span>
+         </div>
+        </div>
+        <div class="flex items-center gap-3"><button class="favorite-btn p-2 rounded-full hover:bg-white/10 transition-colors" data-track="track2">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+          </svg></button> <button class="play-btn w-12 h-12 rounded-full bg-gradient-to-br from-orange-500 to-yellow-500 flex items-center justify-center hover:scale-110 transition-transform neon-glow">
+          <svg class="w-6 h-6 play-icon" fill="currentColor" viewbox="0 0 24 24"><path d="M8 5v14l11-7z"></path>
+          </svg>
+          <svg class="w-6 h-6 pause-icon hidden" fill="currentColor" viewbox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"></path>
+          </svg></button>
+        </div>
+       </div>
+       <audio class="hidden" preload="none" src="https://www.motionradiofm.com/media/file/musik/1670841582_Rosa_Linn_-_SNAP.mp3"></audio>
+      </div><!-- Track 3 - Bad Habit -->
+      <div class="station-card glass-card rounded-2xl p-4" data-track="track3">
+       <div class="flex items-center gap-4">
+        <div class="relative">
+         <div class="w-16 h-16 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center"><span class="text-3xl">🎤</span>
+         </div>
+         <div class="playing-indicator absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
+          <div class="music-wave" style="transform: scale(0.5);">
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+          </div>
+         </div>
+        </div>
+        <div class="flex-1">
+         <h3 class="font-bold text-lg" style="font-family: 'Poppins', sans-serif;">Bad Habit</h3>
+         <p class="text-gray-400 text-sm">Steve Lacy</p>
+         <div class="flex items-center gap-2 mt-1"><span class="text-xs px-2 py-0.5 rounded-full bg-blue-500/30 text-blue-300">R&amp;B/Soul</span> <span class="text-xs text-gray-500">2:19</span>
+         </div>
+        </div>
+        <div class="flex items-center gap-3"><button class="favorite-btn p-2 rounded-full hover:bg-white/10 transition-colors" data-track="track3">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+          </svg></button> <button class="play-btn w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center hover:scale-110 transition-transform neon-glow">
+          <svg class="w-6 h-6 play-icon" fill="currentColor" viewbox="0 0 24 24"><path d="M8 5v14l11-7z"></path>
+          </svg>
+          <svg class="w-6 h-6 pause-icon hidden" fill="currentColor" viewbox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"></path>
+          </svg></button>
+        </div>
+       </div>
+       <audio class="hidden" preload="none" src="https://www.motionradiofm.com/media/file/musik/1670844476_Steve_Lacy_-_Bad_Habit.mp3"></audio>
+      </div><!-- Track 4 - Pink Venom -->
+      <div class="station-card glass-card rounded-2xl p-4" data-track="track4">
+       <div class="flex items-center gap-4">
+        <div class="relative">
+         <div class="w-16 h-16 rounded-xl bg-gradient-to-br from-rose-500 to-purple-500 flex items-center justify-center"><span class="text-3xl">💛</span>
+         </div>
+         <div class="playing-indicator absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
+          <div class="music-wave" style="transform: scale(0.5);">
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+          </div>
+         </div>
+        </div>
+        <div class="flex-1">
+         <h3 class="font-bold text-lg" style="font-family: 'Poppins', sans-serif;">Pink Venom</h3>
+         <p class="text-gray-400 text-sm">BLACKPINK</p>
+         <div class="flex items-center gap-2 mt-1"><span class="text-xs px-2 py-0.5 rounded-full bg-rose-500/30 text-rose-300">K-Pop</span> <span class="text-xs text-gray-500">3:02</span>
+         </div>
+        </div>
+        <div class="flex items-center gap-3"><button class="favorite-btn p-2 rounded-full hover:bg-white/10 transition-colors" data-track="track4">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+          </svg></button> <button class="play-btn w-12 h-12 rounded-full bg-gradient-to-br from-rose-500 to-purple-500 flex items-center justify-center hover:scale-110 transition-transform neon-glow">
+          <svg class="w-6 h-6 play-icon" fill="currentColor" viewbox="0 0 24 24"><path d="M8 5v14l11-7z"></path>
+          </svg>
+          <svg class="w-6 h-6 pause-icon hidden" fill="currentColor" viewbox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"></path>
+          </svg></button>
+        </div>
+       </div>
+       <audio class="hidden" preload="none" src="https://www.motionradiofm.com/media/file/musik/1670840606_BLACKPINK_-_Pink_Venom.mp3"></audio>
+      </div><!-- Track 5 - I Like You -->
+      <div class="station-card glass-card rounded-2xl p-4" data-track="track5">
+       <div class="flex items-center gap-4">
+        <div class="relative">
+         <div class="w-16 h-16 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center"><span class="text-3xl">🎤</span>
+         </div>
+         <div class="playing-indicator absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
+          <div class="music-wave" style="transform: scale(0.5);">
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+          </div>
+         </div>
+        </div>
+        <div class="flex-1">
+         <h3 class="font-bold text-lg" style="font-family: 'Poppins', sans-serif;">I Like You (Remix)</h3>
+         <p class="text-gray-400 text-sm">Post Malone feat. Doja Cat</p>
+         <div class="flex items-center gap-2 mt-1"><span class="text-xs px-2 py-0.5 rounded-full bg-amber-500/30 text-amber-300">Hip-Hop/Pop</span> <span class="text-xs text-gray-500">3:45</span>
+         </div>
+        </div>
+        <div class="flex items-center gap-3"><button class="favorite-btn p-2 rounded-full hover:bg-white/10 transition-colors" data-track="track5">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+          </svg></button> <button class="play-btn w-12 h-12 rounded-full bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center hover:scale-110 transition-transform neon-glow">
+          <svg class="w-6 h-6 play-icon" fill="currentColor" viewbox="0 0 24 24"><path d="M8 5v14l11-7z"></path>
+          </svg>
+          <svg class="w-6 h-6 pause-icon hidden" fill="currentColor" viewbox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"></path>
+          </svg></button>
+        </div>
+       </div>
+       <audio class="hidden" preload="none" src="https://www.motionradiofm.com/media/file/musik/1670842225_Post_Malone_Feat._Doja_Cat_-_I_Like_You.mp3"></audio>
+      </div><!-- Track 6 - Unholy -->
+      <div class="station-card glass-card rounded-2xl p-4" data-track="track6">
+       <div class="flex items-center gap-4">
+        <div class="relative"><img src="https://res.cloudinary.com/dgxi6vjcj/image/upload/v1716531341/mosion_z02clk.png" alt="Unholy" class="w-16 h-16 rounded-xl object-contain bg-white/10 p-2" loading="lazy" onerror="this.style.background='linear-gradient(135deg, #6366f1, #8b5cf6)'; this.alt='Unholy';">
+         <div class="playing-indicator absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
+          <div class="music-wave" style="transform: scale(0.5);">
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+          </div>
+         </div>
+        </div>
+        <div class="flex-1">
+         <h3 class="font-bold text-lg" style="font-family: 'Poppins', sans-serif;">Unholy</h3>
+         <p class="text-gray-400 text-sm">Sam Smith, Kim Petras</p>
+         <div class="flex items-center gap-2 mt-1"><span class="text-xs px-2 py-0.5 rounded-full bg-indigo-500/30 text-indigo-300">Pop</span> <span class="text-xs text-gray-500">3:34</span>
+         </div>
+        </div>
+        <div class="flex items-center gap-3"><button class="favorite-btn p-2 rounded-full hover:bg-white/10 transition-colors" data-track="track6">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+          </svg></button> <button class="play-btn w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center hover:scale-110 transition-transform neon-glow">
+          <svg class="w-6 h-6 play-icon" fill="currentColor" viewbox="0 0 24 24"><path d="M8 5v14l11-7z"></path>
+          </svg>
+          <svg class="w-6 h-6 pause-icon hidden" fill="currentColor" viewbox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"></path>
+          </svg></button>
+        </div>
+       </div>
+       <audio class="hidden" preload="none" src="https://www.motionradiofm.com/media/file/musik/1670845004_Sam_Smith,_Kim_Petras_-_Unholy.mp3"></audio>
+      </div><!-- Track 7 - Fall In Love Alone -->
+      <div class="station-card glass-card rounded-2xl p-4" data-track="track7">
+       <div class="flex items-center gap-4">
+        <div class="relative">
+         <div class="w-16 h-16 rounded-xl bg-gradient-to-br from-red-500 to-pink-500 flex items-center justify-center"><span class="text-3xl">🎤</span>
+         </div>
+         <div class="playing-indicator absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
+          <div class="music-wave" style="transform: scale(0.5);">
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+          </div>
+         </div>
+        </div>
+        <div class="flex-1">
+         <h3 class="font-bold text-lg" style="font-family: 'Poppins', sans-serif;">Fall In Love Alone</h3>
+         <p class="text-gray-400 text-sm">Stacey Ryan</p>
+         <div class="flex items-center gap-2 mt-1"><span class="text-xs px-2 py-0.5 rounded-full bg-red-500/30 text-red-300">Pop/Ballad</span> <span class="text-xs text-gray-500">3:18</span>
+         </div>
+        </div>
+        <div class="flex items-center gap-3"><button class="favorite-btn p-2 rounded-full hover:bg-white/10 transition-colors" data-track="track7">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+          </svg></button> <button class="play-btn w-12 h-12 rounded-full bg-gradient-to-br from-red-500 to-pink-500 flex items-center justify-center hover:scale-110 transition-transform neon-glow">
+          <svg class="w-6 h-6 play-icon" fill="currentColor" viewbox="0 0 24 24"><path d="M8 5v14l11-7z"></path>
+          </svg>
+          <svg class="w-6 h-6 pause-icon hidden" fill="currentColor" viewbox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"></path>
+          </svg></button>
+        </div>
+       </div>
+       <audio class="hidden" preload="none" src="https://www.motionradiofm.com/media/file/musik/1670845147_Stacey_Ryan_-_Fall_In_Love_Alone.mp3"></audio>
+      </div><!-- Track 8 - Sepenuh Hati -->
+      <div class="station-card glass-card rounded-2xl p-4" data-track="track8">
+       <div class="flex items-center gap-4">
+        <div class="relative">
+         <div class="w-16 h-16 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center"><span class="text-3xl">🎤</span>
+         </div>
+         <div class="playing-indicator absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
+          <div class="music-wave" style="transform: scale(0.5);">
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+          </div>
+         </div>
+        </div>
+        <div class="flex-1">
+         <h3 class="font-bold text-lg" style="font-family: 'Poppins', sans-serif;">Sepenuh Hati</h3>
+         <p class="text-gray-400 text-sm">Rony Parulian &amp; Andi Rianto</p>
+         <div class="flex items-center gap-2 mt-1"><span class="text-xs px-2 py-0.5 rounded-full bg-violet-500/30 text-violet-300">Ballad</span> <span class="text-xs text-gray-500">4:12</span>
+         </div>
+        </div>
+        <div class="flex items-center gap-3"><button class="favorite-btn p-2 rounded-full hover:bg-white/10 transition-colors" data-track="track8">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+          </svg></button> <button class="play-btn w-12 h-12 rounded-full bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center hover:scale-110 transition-transform neon-glow">
+          <svg class="w-6 h-6 play-icon" fill="currentColor" viewbox="0 0 24 24"><path d="M8 5v14l11-7z"></path>
+          </svg>
+          <svg class="w-6 h-6 pause-icon hidden" fill="currentColor" viewbox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"></path>
+          </svg></button>
+        </div>
+       </div>
+       <audio class="hidden" preload="none" src="https://gajahmadafm.co.id/wp-content/uploads/2024/04/RONY-PARULIAN-ANDI-RIANTO-SEPENUH-HATI-2024.mp3"></audio>
+      </div><!-- Track 9 - Obsessed -->
+      <div class="station-card glass-card rounded-2xl p-4" data-track="track9">
+       <div class="flex items-center gap-4">
+        <div class="relative">
+         <div class="w-16 h-16 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center"><span class="text-3xl">🎤</span>
+         </div>
+         <div class="playing-indicator absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
+          <div class="music-wave" style="transform: scale(0.5);">
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+          </div>
+         </div>
+        </div>
+        <div class="flex-1">
+         <h3 class="font-bold text-lg" style="font-family: 'Poppins', sans-serif;">Obsessed</h3>
+         <p class="text-gray-400 text-sm">Olivia Rodrigo</p>
+         <div class="flex items-center gap-2 mt-1"><span class="text-xs px-2 py-0.5 rounded-full bg-emerald-500/30 text-emerald-300">Pop</span> <span class="text-xs text-gray-500">3:41</span>
+         </div>
+        </div>
+        <div class="flex items-center gap-3"><button class="favorite-btn p-2 rounded-full hover:bg-white/10 transition-colors" data-track="track9">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+          </svg></button> <button class="play-btn w-12 h-12 rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center hover:scale-110 transition-transform neon-glow">
+          <svg class="w-6 h-6 play-icon" fill="currentColor" viewbox="0 0 24 24"><path d="M8 5v14l11-7z"></path>
+          </svg>
+          <svg class="w-6 h-6 pause-icon hidden" fill="currentColor" viewbox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"></path>
+          </svg></button>
+        </div>
+       </div>
+       <audio class="hidden" preload="none" src="https://gajahmadafm.co.id/wp-content/uploads/2024/04/OLIVIA-RODRIGO-OBSESSED-2024.mp3"></audio>
+      </div><!-- Track 10 - Too Much of a Good Thing -->
+      <div class="station-card glass-card rounded-2xl p-4" data-track="track10">
+       <div class="flex items-center gap-4">
+        <div class="relative">
+         <div class="w-16 h-16 rounded-xl bg-gradient-to-br from-fuchsia-500 to-pink-600 flex items-center justify-center"><span class="text-3xl">🎤</span>
+         </div>
+         <div class="playing-indicator absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
+          <div class="music-wave" style="transform: scale(0.5);">
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+           <div class="wave-bar"></div>
+          </div>
+         </div>
+        </div>
+        <div class="flex-1">
+         <h3 class="font-bold text-lg" style="font-family: 'Poppins', sans-serif;">Too Much of a Good Thing</h3>
+         <p class="text-gray-400 text-sm">NIKI</p>
+         <div class="flex items-center gap-2 mt-1"><span class="text-xs px-2 py-0.5 rounded-full bg-fuchsia-500/30 text-fuchsia-300">Pop/Soul</span> <span class="text-xs text-gray-500">3:28</span>
+         </div>
+        </div>
+        <div class="flex items-center gap-3"><button class="favorite-btn p-2 rounded-full hover:bg-white/10 transition-colors" data-track="track10">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+          </svg></button> <button class="play-btn w-12 h-12 rounded-full bg-gradient-to-br from-fuchsia-500 to-pink-600 flex items-center justify-center hover:scale-110 transition-transform neon-glow">
+          <svg class="w-6 h-6 play-icon" fill="currentColor" viewbox="0 0 24 24"><path d="M8 5v14l11-7z"></path>
+          </svg>
+          <svg class="w-6 h-6 pause-icon hidden" fill="currentColor" viewbox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"></path>
+          </svg></button>
+        </div>
+       </div>
+       <audio class="hidden" preload="none" src="https://gajahmadafm.co.id/wp-content/uploads/2024/05/NIKI-TOO-MUCH-OF-A-GOOD-THING-2024.mp3"></audio>
+      </div>
+     </div><!-- Music Player - Centered and Always Visible -->
+     <div id="now-playing" class="mt-8 glass-card rounded-2xl p-8 max-w-2xl mx-auto"><!-- Album Art with Equalizer -->
+      <div class="mb-6 flex justify-center relative">
+       <div id="music-album-art" class="w-40 h-40 rounded-3xl bg-gradient-to-br from-purple-600 to-pink-500 flex items-center justify-center text-7xl shadow-2xl">
+        🎵
+       </div><img src="https://cdn.instant.audio/images/equalizer.gif" alt="Equalizer" class="absolute -bottom-2 -right-2 w-24 h-24 object-contain drop-shadow-lg" loading="lazy" onerror="this.style.display='none';">
+      </div><!-- Song Info -->
+      <div class="text-center mb-8">
+       <p class="text-gray-400 text-sm">Now Playing</p>
+       <h3 id="now-playing-title" class="text-3xl font-bold mt-2" style="font-family: 'Poppins', sans-serif;">-</h3>
+       <p id="now-playing-artist" class="text-gray-400 text-lg mt-1">-</p>
+      </div><!-- Progress Bar -->
+      <div class="mb-6">
+       <div class="flex justify-between text-xs text-gray-400 mb-2"><span id="current-time">0:00</span> <span id="duration">0:00</span>
+       </div>
+       <div class="h-2 bg-white/10 rounded-full overflow-hidden cursor-pointer" id="progress-bar">
+        <div id="progress" class="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full" style="width: 0%"></div>
+       </div>
+      </div><!-- Controls -->
+      <div class="flex items-center justify-center gap-8 mb-8"><button id="prev-btn" class="p-3 rounded-full hover:bg-white/10 transition-colors">
+        <svg class="w-7 h-7" fill="currentColor" viewbox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"></path>
+        </svg></button> <button id="main-play-btn" class="w-20 h-20 rounded-full bg-gradient-to-br from-purple-600 to-pink-500 flex items-center justify-center hover:scale-110 transition-transform neon-glow">
+        <svg class="w-10 h-10 main-play-icon" fill="currentColor" viewbox="0 0 24 24"><path d="M8 5v14l11-7z"></path>
+        </svg>
+        <svg class="w-10 h-10 main-pause-icon hidden" fill="currentColor" viewbox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"></path>
+        </svg></button> <button id="next-btn" class="p-3 rounded-full hover:bg-white/10 transition-colors">
+        <svg class="w-7 h-7" fill="currentColor" viewbox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"></path>
+        </svg></button>
+      </div><!-- Volume Control -->
+      <div class="bg-gradient-to-r from-purple-900/60 to-pink-900/60 rounded-2xl p-6 border-2 border-purple-400/60 neon-glow">
+       <p class="text-center font-bold text-white mb-4 flex items-center justify-center gap-2">
+        <svg class="w-6 h-6 text-purple-300" fill="currentColor" viewbox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3z"></path>
+        </svg> 🔊 VOLUME</p>
+       <div class="flex items-center gap-3 mb-4">
+        <svg class="w-8 h-8 text-purple-300 flex-shrink-0" fill="currentColor" viewbox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3z"></path>
+        </svg><input type="range" id="volume-slider" class="volume-slider flex-1" min="0" max="100" value="80"> <span id="volume-value" class="text-2xl font-bold bg-gradient-to-r from-purple-300 to-pink-300 bg-clip-text text-transparent min-w-16 text-right">80%</span>
+       </div><!-- Volume Level Indicator Bars -->
+       <div class="flex items-center justify-center gap-2"><span class="text-xs text-gray-400">Min</span>
+        <div id="volume-bars" class="flex gap-1.5 flex-1 justify-center">
+         <div class="w-2 h-4 bg-gray-600 rounded-full"></div>
+         <div class="w-2 h-5 bg-gray-500 rounded-full"></div>
+         <div class="w-2 h-6 bg-purple-400 rounded-full"></div>
+         <div class="w-2 h-5 bg-gray-500 rounded-full"></div>
+         <div class="w-2 h-4 bg-gray-600 rounded-full"></div>
+        </div><span class="text-xs text-gray-400">Max</span>
+       </div>
+      </div>
+     </div>
+    </section><!-- Favorites Tab -->
+    <section id="favorites-tab" class="tab-content hidden">
+     <h2 class="text-2xl font-bold mb-6 flex items-center gap-3" style="font-family: 'Orbitron', sans-serif;"><span class="w-10 h-10 rounded-lg bg-gradient-to-br from-red-500 to-pink-500 flex items-center justify-center">❤️</span> Favorites</h2>
+     <div id="favorites-list" class="space-y-4">
+      <div class="glass-card rounded-2xl p-8 text-center"><span class="text-6xl mb-4 block">💫</span>
+       <p class="text-gray-400">No favorites yet</p>
+       <p class="text-gray-500 text-sm mt-2">Click the heart icon to add stations or tracks to your favorites</p>
+      </div>
+     </div>
+    </section>
+   </main><!-- Footer -->
+   <footer class="glass-card border-t border-white/10 py-6 px-4 mt-auto">
+    <div class="max-w-4xl mx-auto text-center">
+     <p class="text-gray-400 text-sm" style="font-family: 'Poppins', sans-serif;">🎧 Professional Radio &amp; Music Player</p>
+     <p class="text-gray-500 text-xs mt-2">Powered by Streaming Technology</p>
+    </div>
+   </footer>
+  </div><!-- Modal Player Overlay -->
+  <div id="player-modal-overlay" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4"></div><!-- Modal Player -->
+  <div id="player-modal" class="fixed inset-0 hidden z-50 flex items-center justify-center p-4">
+   <div class="glass-card rounded-3xl p-6 w-full max-w-2xl border-2 border-purple-400/50 neon-glow relative max-h-full overflow-y-auto" style="transform-origin: center;"><!-- Close Button --> <button id="modal-close-btn" class="sticky top-4 right-4 float-right p-2 hover:bg-white/10 rounded-full transition-colors">
+     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+     </svg></button>
+    <div class="pr-10"><!-- Player Section -->
+     <div class="mb-8 pb-8 border-b border-white/10"><!-- Album Art with Equalizer -->
+      <div class="mb-6 flex justify-center relative">
+       <div id="modal-album-art" class="w-32 h-32 rounded-2xl bg-gradient-to-br from-purple-600 to-pink-500 flex items-center justify-center text-6xl shadow-2xl">
+        🎵
+       </div><img src="https://cdn.instant.audio/images/equalizer.gif" alt="Equalizer" class="absolute -bottom-1 -right-1 w-16 h-16 object-contain drop-shadow-lg" loading="lazy" onerror="this.style.display='none';">
+      </div><!-- Song Info -->
+      <div class="text-center mb-8">
+       <h2 id="modal-title" class="text-2xl font-bold mb-2" style="font-family: 'Poppins', sans-serif;">Song Title</h2>
+       <p id="modal-artist" class="text-gray-400">Artist Name</p>
+      </div><!-- Progress Bar -->
+      <div class="mb-6">
+       <div class="flex justify-between text-xs text-gray-400 mb-2"><span id="modal-current-time">0:00</span> <span id="modal-duration">0:00</span>
+       </div>
+       <div class="h-2 bg-white/10 rounded-full overflow-hidden cursor-pointer" id="modal-progress-bar">
+        <div id="modal-progress" class="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full" style="width: 0%"></div>
+       </div>
+      </div><!-- Playback Controls -->
+      <div class="flex items-center justify-center gap-8 mb-8"><button id="modal-prev-btn" class="p-3 hover:bg-white/10 rounded-full transition-colors">
+        <svg class="w-6 h-6" fill="currentColor" viewbox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"></path>
+        </svg></button> <button id="modal-play-btn" class="w-20 h-20 rounded-full bg-gradient-to-br from-purple-600 to-pink-500 flex items-center justify-center hover:scale-110 transition-transform neon-glow">
+        <svg class="w-10 h-10 modal-play-icon" fill="currentColor" viewbox="0 0 24 24"><path d="M8 5v14l11-7z"></path>
+        </svg>
+        <svg class="w-10 h-10 modal-pause-icon hidden" fill="currentColor" viewbox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"></path>
+        </svg></button> <button id="modal-next-btn" class="p-3 hover:bg-white/10 rounded-full transition-colors">
+        <svg class="w-6 h-6" fill="currentColor" viewbox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"></path>
+        </svg></button>
+      </div><!-- Volume Control -->
+      <div class="bg-gradient-to-r from-purple-900/60 to-pink-900/60 rounded-2xl p-6 border-2 border-purple-400/60">
+       <p class="text-center font-bold text-white mb-4 flex items-center justify-center gap-2">
+        <svg class="w-6 h-6 text-purple-300" fill="currentColor" viewbox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3z"></path>
+        </svg> 🔊 VOLUME</p>
+       <div class="flex items-center gap-3 mb-4">
+        <svg class="w-8 h-8 text-purple-300 flex-shrink-0" fill="currentColor" viewbox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3z"></path>
+        </svg><input type="range" id="modal-volume-slider" class="volume-slider flex-1" min="0" max="100" value="80"> <span id="modal-volume-value" class="text-2xl font-bold bg-gradient-to-r from-purple-300 to-pink-300 bg-clip-text text-transparent min-w-16 text-right">80%</span>
+       </div><!-- Volume Level Indicator Bars -->
+       <div class="flex items-center justify-center gap-2"><span class="text-xs text-gray-400">Min</span>
+        <div id="modal-volume-bars" class="flex gap-1.5 flex-1 justify-center">
+         <div class="w-2 h-4 bg-gray-600 rounded-full"></div>
+         <div class="w-2 h-5 bg-gray-500 rounded-full"></div>
+         <div class="w-2 h-6 bg-purple-400 rounded-full"></div>
+         <div class="w-2 h-5 bg-gray-500 rounded-full"></div>
+         <div class="w-2 h-4 bg-gray-600 rounded-full"></div>
+        </div><span class="text-xs text-gray-400">Max</span>
+       </div>
+      </div>
+     </div><!-- Station List Section -->
+     <div>
+      <h3 class="text-xl font-bold mb-4 flex items-center gap-2" style="font-family: 'Poppins', sans-serif;"><span class="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-600 to-pink-500 flex items-center justify-center text-sm">📻</span> Ganti Saluran</h3><!-- Search --> <input type="text" id="modal-station-search" placeholder="Cari saluran..." class="w-full mb-4 px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500" style="font-family: 'Poppins', sans-serif;"> <!-- Stations List -->
+      <div id="modal-stations-list" class="space-y-2 max-h-64 overflow-y-auto"><!-- Populated by JavaScript -->
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+  <script>
+    // Default configuration
+    const defaultConfig = {
+      page_title: 'RADIO STREAMING',
+      section_radio: 'Streaming Radio',
+      section_music: 'Music Player',
+      primary_color: '#8a2be2',
+      secondary_color: '#ff6b6b',
+      background_color: '#0a0a15',
+      text_color: '#ffffff',
+      accent_color: '#9945ff',
+      font_family: 'Poppins',
+      font_size: 16
+    };
+
+    let config = { ...defaultConfig };
+    let currentAudio = null;
+    let currentCard = null;
+    let favorites = [];
+
+    // Initialize Element SDK
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange: async (newConfig) => {
+          config = { ...defaultConfig, ...newConfig };
+          applyConfig();
+        },
+        mapToCapabilities: (cfg) => ({
+          recolorables: [
+            {
+              get: () => cfg.primary_color || defaultConfig.primary_color,
+              set: (value) => {
+                cfg.primary_color = value;
+                window.elementSdk.setConfig({ primary_color: value });
+              }
+            },
+            {
+              get: () => cfg.secondary_color || defaultConfig.secondary_color,
+              set: (value) => {
+                cfg.secondary_color = value;
+                window.elementSdk.setConfig({ secondary_color: value });
+              }
+            },
+            {
+              get: () => cfg.background_color || defaultConfig.background_color,
+              set: (value) => {
+                cfg.background_color = value;
+                window.elementSdk.setConfig({ background_color: value });
+              }
+            },
+            {
+              get: () => cfg.text_color || defaultConfig.text_color,
+              set: (value) => {
+                cfg.text_color = value;
+                window.elementSdk.setConfig({ text_color: value });
+              }
+            },
+            {
+              get: () => cfg.accent_color || defaultConfig.accent_color,
+              set: (value) => {
+                cfg.accent_color = value;
+                window.elementSdk.setConfig({ accent_color: value });
+              }
+            }
+          ],
+          borderables: [],
+          fontEditable: {
+            get: () => cfg.font_family || defaultConfig.font_family,
+            set: (value) => {
+              cfg.font_family = value;
+              window.elementSdk.setConfig({ font_family: value });
+            }
+          },
+          fontSizeable: {
+            get: () => cfg.font_size || defaultConfig.font_size,
+            set: (value) => {
+              cfg.font_size = value;
+              window.elementSdk.setConfig({ font_size: value });
+            }
+          }
+        }),
+        mapToEditPanelValues: (cfg) => new Map([
+          ['page_title', cfg.page_title || defaultConfig.page_title],
+          ['section_radio', cfg.section_radio || defaultConfig.section_radio],
+          ['section_music', cfg.section_music || defaultConfig.section_music]
+        ])
+      });
+    }
+
+    function applyConfig() {
+      const pageTitle = document.getElementById('page-title');
+      const radioTitle = document.getElementById('section-radio-title');
+      const musicTitle = document.getElementById('section-music-title');
+      
+      if (pageTitle) {
+        pageTitle.textContent = config.page_title || defaultConfig.page_title;
+        pageTitle.style.color = config.text_color || defaultConfig.text_color;
+      }
+      
+      if (radioTitle) {
+        radioTitle.lastChild.textContent = config.section_radio || defaultConfig.section_radio;
+      }
+      
+      if (musicTitle) {
+        musicTitle.lastChild.textContent = config.section_music || defaultConfig.section_music;
+      }
+
+      // Apply text color
+      document.body.style.color = config.text_color || defaultConfig.text_color;
+
+      // Apply font
+      const fontFamily = config.font_family || defaultConfig.font_family;
+      document.querySelectorAll('h3, p, button, span').forEach(el => {
+        if (!el.style.fontFamily?.includes('Orbitron')) {
+          el.style.fontFamily = `${fontFamily}, sans-serif`;
+        }
+      });
+
+      // Apply font size
+      const baseSize = config.font_size || defaultConfig.font_size;
+      document.body.style.fontSize = `${baseSize}px`;
+
+      // Apply accent colors to buttons
+      document.querySelectorAll('.play-btn').forEach(btn => {
+        btn.style.background = `linear-gradient(135deg, ${config.primary_color || defaultConfig.primary_color}, ${config.secondary_color || defaultConfig.secondary_color})`;
+      });
+    }
+
+    // Tab Navigation
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tabId = btn.dataset.tab;
+        
+        // Update active tab button
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        // Show corresponding tab content
+        document.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
+        document.getElementById(`${tabId}-tab`).classList.remove('hidden');
+        
+        // Show music player when Music tab is clicked
+        if (tabId === 'music') {
+          document.getElementById('now-playing').classList.remove('hidden');
+        }
+      });
+    });
+
+    // Play/Pause functionality
+    function setupPlayButtons() {
+      document.querySelectorAll('.play-btn').forEach(playBtn => {
+        const card = playBtn.closest('.station-card, [data-track]');
+        const audio = card?.querySelector('audio');
+        
+        if (!playBtn || !audio || !card) return;
+        
+        // Remove old listener
+        playBtn.onclick = null;
+        
+        // Simple direct click handler
+        playBtn.onclick = function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          
+          // Stop other audio
+          if (currentAudio && currentAudio !== audio) {
+            currentAudio.pause();
+            if (currentCard) {
+              resetCardButtons(currentCard);
+              currentCard.classList.remove('active');
+              // Hide previous equalizer
+              const prevEqualizer = currentCard.querySelector('.equalizer-gif');
+              if (prevEqualizer) prevEqualizer.classList.add('hidden');
+            }
+          }
+          
+          // Toggle audio
+          if (audio.paused) {
+            audio.play().catch(err => {
+              console.error('Play error:', err.message);
+            });
+            card.classList.add('active');
+            updateButtonIcons(playBtn, true);
+            currentAudio = audio;
+            currentCard = card;
+            updateNowPlaying(card);
+            
+            // Show equalizer
+            const equalizer = card.querySelector('.equalizer-gif');
+            if (equalizer) equalizer.classList.remove('hidden');
+            
+            openPlayerModal(card); // BUKA MODAL
+          } else {
+            audio.pause();
+            card.classList.remove('active');
+            updateButtonIcons(playBtn, false);
+            
+            // Hide equalizer
+            const equalizer = card.querySelector('.equalizer-gif');
+            if (equalizer) equalizer.classList.add('hidden');
+          }
+        };
+        
+        // Audio ended
+        audio.onended = function() {
+          card.classList.remove('active');
+          updateButtonIcons(playBtn, false);
+        };
+        
+        // Time update
+        audio.ontimeupdate = function() {
+          if (currentAudio === audio && audio.duration > 0) {
+            const progress = (audio.currentTime / audio.duration) * 100;
+            const progressEl = document.getElementById('progress');
+            if (progressEl) progressEl.style.width = progress + '%';
+            const modalProgressEl = document.getElementById('modal-progress');
+            if (modalProgressEl) modalProgressEl.style.width = progress + '%';
+            
+            const timeEl = document.getElementById('current-time');
+            const durEl = document.getElementById('duration');
+            const modalTimeEl = document.getElementById('modal-current-time');
+            const modalDurEl = document.getElementById('modal-duration');
+            
+            if (timeEl) timeEl.textContent = formatTime(audio.currentTime);
+            if (durEl) durEl.textContent = formatTime(audio.duration);
+            if (modalTimeEl) modalTimeEl.textContent = formatTime(audio.currentTime);
+            if (modalDurEl) modalDurEl.textContent = formatTime(audio.duration);
+          }
+        };
+      });
+    }
+
+    // Buka Player Modal
+    function openPlayerModal(card) {
+      const modal = document.getElementById('player-modal');
+      const overlay = document.getElementById('player-modal-overlay');
+      const title = card.querySelector('h3')?.textContent || 'Unknown';
+      const artist = card.querySelector('p')?.textContent || 'Unknown';
+
+      document.getElementById('modal-title').textContent = title;
+      document.getElementById('modal-artist').textContent = artist;
+      
+      modal.classList.remove('hidden');
+      overlay.classList.remove('hidden');
+
+      // Populate station list
+      populateModalStationList();
+
+      // Update modal play button icon
+      if (currentAudio && !currentAudio.paused) {
+        document.querySelector('.modal-play-icon').classList.add('hidden');
+        document.querySelector('.modal-pause-icon').classList.remove('hidden');
+      }
+    }
+
+    // Populate Station List in Modal
+    function populateModalStationList() {
+      const stationsList = document.getElementById('modal-stations-list');
+      const allStations = document.querySelectorAll('#radio-tab .station-card');
+      
+      stationsList.innerHTML = '';
+      
+      allStations.forEach(station => {
+        const title = station.querySelector('h3')?.textContent || 'Unknown';
+        const description = station.querySelector('p')?.textContent || '';
+        const stationId = station.dataset.station;
+        const audio = station.querySelector('audio');
+        
+        const stationBtn = document.createElement('button');
+        stationBtn.className = 'w-full text-left px-4 py-3 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-400/50 transition-all duration-200 group';
+        stationBtn.innerHTML = `
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-sm flex-shrink-0 group-hover:scale-110 transition-transform">
+              📻
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="font-semibold text-white truncate" style="font-family: 'Poppins', sans-serif;">${title}</p>
+              <p class="text-xs text-gray-400 truncate">${description}</p>
+            </div>
+            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-purple-600 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z"></path>
+              </svg>
+            </div>
+          </div>
+        `;
+        
+        stationBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          
+          // Stop current audio
+          if (currentAudio && currentAudio !== audio) {
+            currentAudio.pause();
+            if (currentCard) {
+              resetCardButtons(currentCard);
+              currentCard.classList.remove('active');
+            }
+          }
+          
+          // Play selected station
+          if (audio) {
+            audio.play().catch(err => {
+              console.error('Play error:', err.message);
+            });
+            station.classList.add('active');
+            updateButtonIcons(station.querySelector('.play-btn'), true);
+            currentAudio = audio;
+            currentCard = station;
+            
+            // Update modal display
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-artist').textContent = description;
+            
+            // Update play buttons in modal
+            const modalPlayIcon = document.querySelector('.modal-play-icon');
+            const modalPauseIcon = document.querySelector('.modal-pause-icon');
+            modalPlayIcon.classList.add('hidden');
+            modalPauseIcon.classList.remove('hidden');
+          }
+        });
+        
+        stationsList.appendChild(stationBtn);
+      });
+    }
+
+    // Station Search in Modal
+    document.getElementById('modal-station-search')?.addEventListener('input', (e) => {
+      const searchTerm = e.target.value.toLowerCase();
+      const stationBtns = document.querySelectorAll('#modal-stations-list button');
+      
+      stationBtns.forEach(btn => {
+        const text = btn.textContent.toLowerCase();
+        if (text.includes(searchTerm)) {
+          btn.style.display = 'block';
+        } else {
+          btn.style.display = 'none';
+        }
+      });
+    });
+
+    // Tutup Player Modal
+    function closePlayerModal() {
+      const modal = document.getElementById('player-modal');
+      const overlay = document.getElementById('player-modal-overlay');
+      modal.classList.add('hidden');
+      overlay.classList.add('hidden');
+    }
+    
+    function updateButtonIcons(btn, isPlaying) {
+      const playIcon = btn.querySelector('.play-icon');
+      const pauseIcon = btn.querySelector('.pause-icon');
+      if (isPlaying) {
+        if (playIcon) playIcon.style.display = 'none';
+        if (pauseIcon) pauseIcon.style.display = 'block';
+      } else {
+        if (playIcon) playIcon.style.display = 'block';
+        if (pauseIcon) pauseIcon.style.display = 'none';
+      }
+    }
+    
+    function resetCardButtons(card) {
+      const playBtn = card.querySelector('.play-btn');
+      if (playBtn) updateButtonIcons(playBtn, false);
+    }
+
+    function updateNowPlaying(card) {
+      const nowPlaying = document.getElementById('now-playing');
+      const title = card.querySelector('h3')?.textContent || 'Unknown';
+      const artist = card.querySelector('p')?.textContent || 'Unknown';
+      
+      document.getElementById('now-playing-title').textContent = title;
+      document.getElementById('now-playing-artist').textContent = artist;
+      nowPlaying.classList.remove('hidden');
+
+      // Update main play button
+      const mainPlayBtn = document.getElementById('main-play-btn');
+      mainPlayBtn.querySelector('.main-play-icon').classList.add('hidden');
+      mainPlayBtn.querySelector('.main-pause-icon').classList.remove('hidden');
+    }
+
+    function formatTime(seconds) {
+      if (isNaN(seconds)) return '0:00';
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${mins}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    // Main play button
+    document.getElementById('main-play-btn')?.addEventListener('click', () => {
+      if (currentAudio) {
+        const mainPlayIcon = document.querySelector('.main-play-icon');
+        const mainPauseIcon = document.querySelector('.main-pause-icon');
+        
+        if (currentAudio.paused) {
+          currentAudio.play();
+          mainPlayIcon.classList.add('hidden');
+          mainPauseIcon.classList.remove('hidden');
+          if (currentCard) {
+            currentCard.classList.add('active');
+            currentCard.querySelector('.play-icon').classList.add('hidden');
+            currentCard.querySelector('.pause-icon').classList.remove('hidden');
+          }
+        } else {
+          currentAudio.pause();
+          mainPlayIcon.classList.remove('hidden');
+          mainPauseIcon.classList.add('hidden');
+          if (currentCard) {
+            currentCard.classList.remove('active');
+            currentCard.querySelector('.play-icon').classList.remove('hidden');
+            currentCard.querySelector('.pause-icon').classList.add('hidden');
+          }
+        }
+      }
+    });
+
+    // Progress bar click
+    document.getElementById('progress-bar')?.addEventListener('click', (e) => {
+      if (currentAudio) {
+        const rect = e.target.getBoundingClientRect();
+        const percent = (e.clientX - rect.left) / rect.width;
+        currentAudio.currentTime = percent * currentAudio.duration;
+      }
+    });
+
+    // Volume control - DENGAN VISUALISASI
+    document.getElementById('volume-slider')?.addEventListener('input', (e) => {
+      const volumePercent = e.target.value;
+      const volume = volumePercent / 100;
+      
+      // Update display
+      const volumeValue = document.getElementById('volume-value');
+      if (volumeValue) {
+        volumeValue.textContent = volumePercent + '%';
+      }
+      
+      // Update volume bars
+      const volumeBars = document.getElementById('volume-bars');
+      if (volumeBars) {
+        const bars = volumeBars.querySelectorAll('div');
+        bars.forEach((bar, index) => {
+          const barPercent = ((index + 1) / bars.length) * 100;
+          if (volumePercent >= barPercent) {
+            bar.classList.add('volume-bar-active');
+          } else {
+            bar.classList.remove('volume-bar-active');
+          }
+        });
+      }
+      
+      // Apply to all audio
+      document.querySelectorAll('audio').forEach(audio => {
+        audio.volume = volume;
+      });
+    });
+
+    // Favorites functionality
+    document.querySelectorAll('.favorite-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        btn.classList.toggle('active');
+        
+        const stationId = btn.dataset.station || btn.dataset.track;
+        const card = btn.closest('.station-card, [data-track]');
+        
+        if (btn.classList.contains('active')) {
+          const favoriteData = {
+            id: stationId,
+            name: card.querySelector('h3')?.textContent || 'Unknown',
+            description: card.querySelector('p')?.textContent || '',
+            html: card.outerHTML
+          };
+          
+          if (!favorites.find(f => f.id === stationId)) {
+            favorites.push(favoriteData);
+          }
+        } else {
+          favorites = favorites.filter(f => f.id !== stationId);
+        }
+        
+        updateFavoritesList();
+      });
+    });
+
+    function updateFavoritesList() {
+      const favoritesList = document.getElementById('favorites-list');
+      
+      if (favorites.length === 0) {
+        favoritesList.innerHTML = `
+          <div class="glass-card rounded-2xl p-8 text-center">
+            <span class="text-6xl mb-4 block">💫</span>
+            <p class="text-gray-400">No favorites yet</p>
+            <p class="text-gray-500 text-sm mt-2">Click the heart icon to add stations or tracks to your favorites</p>
+          </div>
+        `;
+      } else {
+        favoritesList.innerHTML = favorites.map(fav => fav.html).join('');
+        setupPlayButtons();
+      }
+    }
+
+    // Initialize
+    setupPlayButtons();
+    applyConfig();
+
+    // Modal Close Button
+    document.getElementById('modal-close-btn')?.addEventListener('click', closePlayerModal);
+    document.getElementById('player-modal-overlay')?.addEventListener('click', closePlayerModal);
+
+    // Modal Play Button
+    document.getElementById('modal-play-btn')?.addEventListener('click', () => {
+      if (currentAudio) {
+        const modalPlayIcon = document.querySelector('.modal-play-icon');
+        const modalPauseIcon = document.querySelector('.modal-pause-icon');
+        
+        if (currentAudio.paused) {
+          currentAudio.play();
+          modalPlayIcon.classList.add('hidden');
+          modalPauseIcon.classList.remove('hidden');
+          if (currentCard) {
+            currentCard.classList.add('active');
+            currentCard.querySelector('.play-icon').classList.add('hidden');
+            currentCard.querySelector('.pause-icon').classList.remove('hidden');
+          }
+        } else {
+          currentAudio.pause();
+          modalPlayIcon.classList.remove('hidden');
+          modalPauseIcon.classList.add('hidden');
+          if (currentCard) {
+            currentCard.classList.remove('active');
+            currentCard.querySelector('.play-icon').classList.remove('hidden');
+            currentCard.querySelector('.pause-icon').classList.add('hidden');
+          }
+        }
+      }
+    });
+
+    // Previous Button
+    document.getElementById('prev-btn')?.addEventListener('click', () => {
+      const allTracks = document.querySelectorAll('#music-tab .station-card');
+      if (allTracks.length === 0) return;
+      
+      let currentIndex = -1;
+      allTracks.forEach((track, index) => {
+        if (track === currentCard) currentIndex = index;
+      });
+      
+      let prevIndex = currentIndex - 1;
+      if (prevIndex < 0) prevIndex = allTracks.length - 1;
+      
+      const prevTrack = allTracks[prevIndex];
+      if (prevTrack) {
+        prevTrack.querySelector('.play-btn').click();
+      }
+    });
+
+    // Next Button
+    document.getElementById('next-btn')?.addEventListener('click', () => {
+      const allTracks = document.querySelectorAll('#music-tab .station-card');
+      if (allTracks.length === 0) return;
+      
+      let currentIndex = -1;
+      allTracks.forEach((track, index) => {
+        if (track === currentCard) currentIndex = index;
+      });
+      
+      let nextIndex = currentIndex + 1;
+      if (nextIndex >= allTracks.length) nextIndex = 0;
+      
+      const nextTrack = allTracks[nextIndex];
+      if (nextTrack) {
+        nextTrack.querySelector('.play-btn').click();
+      }
+    });
+
+    // Modal Previous Button
+    document.getElementById('modal-prev-btn')?.addEventListener('click', () => {
+      const allTracks = document.querySelectorAll('#music-tab .station-card');
+      if (allTracks.length === 0) return;
+      
+      let currentIndex = -1;
+      allTracks.forEach((track, index) => {
+        if (track === currentCard) currentIndex = index;
+      });
+      
+      let prevIndex = currentIndex - 1;
+      if (prevIndex < 0) prevIndex = allTracks.length - 1;
+      
+      const prevTrack = allTracks[prevIndex];
+      if (prevTrack) {
+        prevTrack.querySelector('.play-btn').click();
+      }
+    });
+
+    // Modal Next Button
+    document.getElementById('modal-next-btn')?.addEventListener('click', () => {
+      const allTracks = document.querySelectorAll('#music-tab .station-card');
+      if (allTracks.length === 0) return;
+      
+      let currentIndex = -1;
+      allTracks.forEach((track, index) => {
+        if (track === currentCard) currentIndex = index;
+      });
+      
+      let nextIndex = currentIndex + 1;
+      if (nextIndex >= allTracks.length) nextIndex = 0;
+      
+      const nextTrack = allTracks[nextIndex];
+      if (nextTrack) {
+        nextTrack.querySelector('.play-btn').click();
+      }
+    });
+
+    // Modal Progress Bar
+    document.getElementById('modal-progress-bar')?.addEventListener('click', (e) => {
+      if (currentAudio) {
+        const rect = e.target.getBoundingClientRect();
+        const percent = (e.clientX - rect.left) / rect.width;
+        currentAudio.currentTime = percent * currentAudio.duration;
+      }
+    });
+
+    // Modal Volume Control
+    document.getElementById('modal-volume-slider')?.addEventListener('input', (e) => {
+      const volumePercent = e.target.value;
+      const volume = volumePercent / 100;
+      
+      const volumeValue = document.getElementById('modal-volume-value');
+      if (volumeValue) {
+        volumeValue.textContent = volumePercent + '%';
+      }
+      
+      const volumeBars = document.getElementById('modal-volume-bars');
+      if (volumeBars) {
+        const bars = volumeBars.querySelectorAll('div');
+        bars.forEach((bar, index) => {
+          const barPercent = ((index + 1) / bars.length) * 100;
+          if (volumePercent >= barPercent) {
+            bar.classList.add('volume-bar-active');
+          } else {
+            bar.classList.remove('volume-bar-active');
+          }
+        });
+      }
+      
+      document.querySelectorAll('audio').forEach(audio => {
+        audio.volume = volume;
+      });
+      
+      // Update main volume slider too
+      const mainSlider = document.getElementById('volume-slider');
+      if (mainSlider) mainSlider.value = volumePercent;
+    });
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9cbe222f5268f87d',t:'MTc3MDc1MzAwNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

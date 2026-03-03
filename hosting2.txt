@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan Membuat Website WordPress</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .progress-bar {
+            background: rgba(255,255,255,0.2);
+            height: 8px;
+            border-radius: 4px;
+            margin: 30px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 4px;
+        }
+        
+        .steps-container {
+            display: grid;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .step {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            opacity: 0.7;
+            transform: scale(0.98);
+        }
+        
+        .step.active {
+            opacity: 1;
+            transform: scale(1);
+            border: 2px solid #667eea;
+        }
+        
+        .step.completed {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .step-number {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-right: 20px;
+        }
+        
+        .step.completed .step-number {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+        }
+        
+        .step-title {
+            font-size: 1.5rem;
+            color: #333;
+            font-weight: 600;
+        }
+        
+        .step-content {
+            color: #666;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+        
+        .step-content ul {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+        
+        .step-content li {
+            margin: 8px 0;
+        }
+        
+        .highlight {
+            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #f8f9ff;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+        
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        .checklist {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #667eea;
+        }
+        
+        .checklist h4 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            cursor: pointer;
+        }
+        
+        .checklist-item input[type="checkbox"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+        
+        .checklist-item label {
+            cursor: pointer;
+            color: #666;
+        }
+        
+        .checklist-item.completed label {
+            text-decoration: line-through;
+            color: #999;
+        }
+        
+        .tips-box {
+            background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .tips-box h4 {
+            color: #2d3436;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .tips-box p {
+            color: #2d3436;
+            font-size: 0.95rem;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        .current-step {
+            background: rgba(255,255,255,0.1);
+            padding: 15px 25px;
+            border-radius: 25px;
+            color: white;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            margin-bottom: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .step {
+                padding: 20px;
+            }
+            
+            .step-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .step-number {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .navigation {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Panduan Membuat Website WordPress</h1>
+            <p>Ikuti langkah-langkah ini untuk membuat website impian Anda</p>
+        </div>
+        
+        <div class="current-step">
+            <strong>Langkah Saat Ini:</strong> <span id="current-step-text">Persiapan Awal</span>
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        
+        <div class="steps-container">
+            <!-- Step 1: Persiapan -->
+            <div class="step active" id="step-1">
+                <div class="step-header">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Persiapan Awal</div>
+                </div>
+                <div class="step-content">
+                    <p>Sebelum memulai, pastikan Anda sudah menyiapkan hal-hal berikut:</p>
+                    
+                    <div class="checklist">
+                        <h4>📋 Checklist Persiapan</h4>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="prep-1">
+                            <label for="prep-1">Tentukan nama domain yang diinginkan</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="prep-2">
+                            <label for="prep-2">Siapkan budget untuk hosting (mulai Rp 20.000/bulan)</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="prep-3">
+                            <label for="prep-3">Tentukan jenis website (blog, toko online, portofolio, dll)</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="prep-4">
+                            <label for="prep-4">Siapkan email untuk registrasi</label>
+                        </div>
+                    </div>
+                    
+                    <div class="tips-box">
+                        <h4>💡 Tips Memilih Domain</h4>
+                        <p>Pilih nama domain yang mudah diingat, pendek, dan sesuai dengan brand Anda. Hindari tanda hubung dan angka jika memungkinkan.</p>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="nextStep(1)">Saya Sudah Siap ✓</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Step 2: Pilih Hosting -->
+            <div class="step" id="step-2">
+                <div class="step-header">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Pilih Penyedia Hosting</div>
+                </div>
+                <div class="step-content">
+                    <p>Pilih penyedia hosting yang terpercaya dan sesuai budget:</p>
+                    
+                    <div class="checklist">
+                        <h4>🏆 Rekomendasi Hosting Indonesia</h4>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="host-1">
+                            <label for="host-1"><strong>Hostinger</strong> - Mulai Rp 20.000/bulan (Pemula)</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="host-2">
+                            <label for="host-2"><strong>Niagahoster</strong> - Mulai Rp 25.000/bulan (Populer)</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="host-3">
+                            <label for="host-3"><strong>Dewaweb</strong> - Mulai Rp 30.000/bulan (Premium)</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="host-4">
+                            <label for="host-4"><strong>Jagoan Hosting</strong> - Mulai Rp 15.000/bulan (Budget)</label>
+                        </div>
+                    </div>
+                    
+                    <div class="tips-box">
+                        <h4>⚡ Yang Perlu Diperhatikan</h4>
+                        <p>Pastikan hosting mendukung PHP 7.4+, MySQL, SSL gratis, dan memiliki uptime minimal 99.9%. Baca review pengguna sebelum memutuskan.</p>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn btn-secondary" onclick="prevStep(2)">← Kembali</button>
+                        <button class="btn btn-primary" onclick="nextStep(2)">Sudah Pilih Hosting ✓</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Step 3: Beli Hosting -->
+            <div class="step" id="step-3">
+                <div class="step-header">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Beli Hosting & Domain</div>
+                </div>
+                <div class="step-content">
+                    <p>Proses pembelian hosting dan domain:</p>
+                    
+                    <div class="checklist">
+                        <h4>🛒 Langkah Pembelian</h4>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="buy-1">
+                            <label for="buy-1">Kunjungi website penyedia hosting pilihan</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="buy-2">
+                            <label for="buy-2">Pilih paket hosting (Shared Hosting untuk pemula)</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="buy-3">
+                            <label for="buy-3">Cek ketersediaan domain yang diinginkan</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="buy-4">
+                            <label for="buy-4">Lengkapi data pribadi dengan benar</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="buy-5">
+                            <label for="buy-5">Lakukan pembayaran</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="buy-6">
+                            <label for="buy-6">Simpan email konfirmasi dengan detail akun</label>
+                        </div>
+                    </div>
+                    
+                    <div class="tips-box">
+                        <h4>💳 Tips Pembayaran</h4>
+                        <p>Banyak hosting menawarkan diskon untuk pembayaran tahunan. Pertimbangkan untuk membeli 1 tahun sekaligus untuk menghemat biaya.</p>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn btn-secondary" onclick="prevStep(3)">← Kembali</button>
+                        <button class="btn btn-primary" onclick="nextStep(3)">Hosting Sudah Dibeli ✓</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Step 4: Install WordPress -->
+            <div class="step" id="step-4">
+                <div class="step-header">
+                    <div class="step-number">4</div>
+                    <div class="step-title">Install WordPress</div>
+                </div>
+                <div class="step-content">
+                    <p>Sekarang saatnya menginstall WordPress di hosting Anda:</p>
+                    
+                    <div class="checklist">
+                        <h4>⚙️ Proses Instalasi</h4>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="install-1">
+                            <label for="install-1">Login ke cPanel hosting (cek email untuk detail login)</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="install-2">
+                            <label for="install-2">Cari menu "WordPress" atau "Softaculous"</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="install-3">
+                            <label for="install-3">Klik "Install Now" pada WordPress</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="install-4">
+                            <label for="install-4">Pilih domain untuk instalasi</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="install-5">
+                            <label for="install-5">Isi Site Name, Description, Username Admin, dan Password</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="install-6">
+                            <label for="install-6">Klik "Install" dan tunggu proses selesai</label>
+                        </div>
+                    </div>
+                    
+                    <div class="tips-box">
+                        <h4>🔐 Keamanan Admin</h4>
+                        <p>Jangan gunakan username "admin". Pilih username unik dan password yang kuat (minimal 12 karakter dengan kombinasi huruf, angka, dan simbol).</p>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn btn-secondary" onclick="prevStep(4)">← Kembali</button>
+                        <button class="btn btn-primary" onclick="nextStep(4)">WordPress Terinstall ✓</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Step 5: Setup Awal -->
+            <div class="step" id="step-5">
+                <div class="step-header">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Setup Awal WordPress</div>
+                </div>
+                <div class="step-content">
+                    <p>Konfigurasi dasar untuk website WordPress Anda:</p>
+                    
+                    <div class="checklist">
+                        <h4>🎨 Pengaturan Dasar</h4>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="setup-1">
+                            <label for="setup-1">Login ke wp-admin (namadomainanda.com/wp-admin)</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="setup-2">
+                            <label for="setup-2">Settings → General: Atur Site Title dan Tagline</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="setup-3">
+                            <label for="setup-3">Settings → Permalinks: Pilih "Post name"</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="setup-4">
+                            <label for="setup-4">Appearance → Themes: Pilih tema yang sesuai</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="setup-5">
+                            <label for="setup-5">Plugins: Install Yoast SEO dan Wordfence Security</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="setup-6">
+                            <label for="setup-6">Hapus konten default (Hello World post, Sample Page)</label>
+                        </div>
+                    </div>
+                    
+                    <div class="tips-box">
+                        <h4>🎯 Plugin Wajib</h4>
+                        <p>Install plugin essential: Yoast SEO (optimasi), Wordfence (keamanan), UpdraftPlus (backup), dan WP Rocket (kecepatan).</p>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn btn-secondary" onclick="prevStep(5)">← Kembali</button>
+                        <button class="btn btn-primary" onclick="nextStep(5)">Setup Selesai ✓</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Step 6: Konten Pertama -->
+            <div class="step" id="step-6">
+                <div class="step-header">
+                    <div class="step-number">6</div>
+                    <div class="step-title">Buat Konten Pertama</div>
+                </div>
+                <div class="step-content">
+                    <p>Saatnya membuat konten untuk website Anda:</p>
+                    
+                    <div class="checklist">
+                        <h4>📝 Konten Dasar</h4>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="content-1">
+                            <label for="content-1">Buat halaman "About" (Tentang Kami)</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="content-2">
+                            <label for="content-2">Buat halaman "Contact" (Kontak)</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="content-3">
+                            <label for="content-3">Buat halaman "Privacy Policy"</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="content-4">
+                            <label for="content-4">Tulis artikel/post pertama</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="content-5">
+                            <label for="content-5">Atur menu navigasi (Appearance → Menus)</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="content-6">
+                            <label for="content-6">Upload logo dan favicon</label>
+                        </div>
+                    </div>
+                    
+                    <div class="tips-box">
+                        <h4>✍️ Tips Konten</h4>
+                        <p>Tulis konten yang bermanfaat untuk pengunjung. Gunakan heading (H1, H2, H3) untuk struktur yang baik dan mudah dibaca.</p>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn btn-secondary" onclick="prevStep(6)">← Kembali</button>
+                        <button class="btn btn-primary" onclick="completeGuide()">Website Siap! 🎉</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="navigation">
+            <button class="btn btn-secondary" id="prev-btn" onclick="prevStep()" style="display: none;">← Langkah Sebelumnya</button>
+            <button class="btn btn-primary" id="next-btn" onclick="nextStep()" style="display: none;">Langkah Selanjutnya →</button>
+        </div>
+    </div>
+    
+    <script>
+        let currentStep = 1;
+        const totalSteps = 6;
+        
+        const stepTitles = {
+            1: "Persiapan Awal",
+            2: "Pilih Penyedia Hosting", 
+            3: "Beli Hosting & Domain",
+            4: "Install WordPress",
+            5: "Setup Awal WordPress",
+            6: "Buat Konten Pertama"
+        };
+        
+        function updateProgress() {
+            const progress = ((currentStep - 1) / (totalSteps - 1)) * 100;
+            document.getElementById('progress-fill').style.width = progress + '%';
+            document.getElementById('current-step-text').textContent = stepTitles[currentStep];
+        }
+        
+        function showStep(stepNumber) {
+            // Hide all steps
+            for (let i = 1; i <= totalSteps; i++) {
+                const step = document.getElementById(`step-${i}`);
+                step.classList.remove('active', 'completed');
+                
+                if (i < stepNumber) {
+                    step.classList.add('completed');
+                } else if (i === stepNumber) {
+                    step.classList.add('active');
+                }
+            }
+            
+            updateProgress();
+        }
+        
+        function nextStep(stepNumber) {
+            if (stepNumber) {
+                currentStep = stepNumber + 1;
+            } else {
+                currentStep++;
+            }
+            
+            if (currentStep <= totalSteps) {
+                showStep(currentStep);
+            }
+        }
+        
+        function prevStep(stepNumber) {
+            if (stepNumber) {
+                currentStep = stepNumber - 1;
+            } else {
+                currentStep--;
+            }
+            
+            if (currentStep >= 1) {
+                showStep(currentStep);
+            }
+        }
+        
+        function completeGuide() {
+            alert('🎉 Selamat! Website WordPress Anda sudah siap digunakan!\n\nSelanjutnya:\n• Buat konten berkualitas secara rutin\n• Promosikan website di media sosial\n• Monitor performa dengan Google Analytics\n• Backup website secara berkala');
+            
+            // Mark all steps as completed
+            for (let i = 1; i <= totalSteps; i++) {
+                document.getElementById(`step-${i}`).classList.add('completed');
+            }
+            
+            document.getElementById('progress-fill').style.width = '100%';
+            document.getElementById('current-step-text').textContent = 'Website Selesai! 🎉';
+        }
+        
+        // Handle checkbox interactions
+        document.addEventListener('change', function(e) {
+            if (e.target.type === 'checkbox') {
+                const item = e.target.closest('.checklist-item');
+                if (e.target.checked) {
+                    item.classList.add('completed');
+                } else {
+                    item.classList.remove('completed');
+                }
+            }
+        });
+        
+        // Initialize
+        showStep(currentStep);
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97d05614377ffd25',t:'MTc1NzUyMjEwMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

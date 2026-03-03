@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1763356194/Lambang_Kabupaten_Donggala_1_cvywgs.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Signature Verification</title>
+    <!-- Memanggil Library jsPDF -->
+    <script src="https://cdnjs.cloudflare.com"></script>
+    <style>
+        :root {
+            --primary: #00c853;
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: #f8fafc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .verification-card {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            border: 1px solid rgba(255,255,255,0.1);
+            overflow: hidden;
+        }
+
+        /* Animasi Scan */
+        .scan-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to bottom, transparent, var(--primary), transparent);
+            box-shadow: 0 0 15px var(--primary);
+            animation: scan 3s ease-in-out infinite;
+        }
+
+        @keyframes scan {
+            0%, 100% { top: 0%; }
+            50% { top: 100%; }
+        }
+
+        .status-icon {
+            background: rgba(0, 200, 83, 0.1);
+            color: var(--primary);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            margin: 0 auto 1.5rem;
+            border: 2px solid var(--primary);
+        }
+
+        .details {
+            background: rgba(15, 23, 42, 0.5);
+            padding: 1.2rem;
+            border-radius: 12px;
+            text-align: left;
+            font-size: 0.85rem;
+            margin: 1.5rem 0;
+        }
+
+        .details div {
+            margin-bottom: 0.6rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .btn-download {
+            background: var(--primary);
+            color: white;
+            padding: 14px;
+            border-radius: 12px;
+            border: none;
+            width: 100%;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: 0.3s;
+        }
+
+        .btn-download:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 200, 83, 0.4);
+
+        }
+    
+  .button-keren {
+  background-color: #4CAF50; /* Warna dasar */
+  color: white;
+  padding: 15px 25px;
+  text-decoration: none;
+  border-radius: 30px; /* Sudut tumpul */
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  display: inline-block;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+}
+
+.button-keren:hover {
+  background-color: #45a049;
+  transform: translateY(-3px); /* Efek terangkat */
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+}
+.card-post {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  transition: 0.4s;
+  border: 1px solid #eee;
+}
+
+.card-post:hover {
+  transform: scale(1.05); /* Sedikit membesar */
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+</style>
+
+
+</head>
+<body>
+
+<div class="verification-card">
+    <div class="scan-line"></div>
+    <div class="status-icon">✓</div>
+    <h2>Verifikasi Berhasil</h2>
+    <p style="color: #94a3b8; font-size: 0.9rem;">Dokumen ini telah ditandatangani secara digital dan sah secara hukum.</p>
+    
+    <div class="details" id="print-area">
+        <div><span>Penandatangan:</span> <b id="nama">SYAMSUDDIN</b></div>
+        <div><span>ID Dokumen:</span> <b id="docid">#CERT-99210B</b></div>
+        <div><span>Waktu:</span> <b id="waktu">17 Feb 2026, 10:45 WITA</b></div>
+    </div>
+
+    <a href="https://syam.digital/syamsuddin.pdf"><button class="button-keren" onclick="generatePDF()">
+        <svg width="20" height="20" fill="white" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+        Unduh Sertifikat PDF
+    </button></a>
+</div>
+
+<script>
+    function generatePDF() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        // Ambil data dari elemen HTML
+        const nama = document.getElementById('nama').innerText;
+        const docid = document.getElementById('docid').innerText;
+        const waktu = document.getElementById('waktu').innerText;
+
+        // Desain PDF
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(18);
+        doc.text("SERTIFIKAT VERIFIKASI DIGITAL", 105, 40, { align: "center" });
+
+        doc.setDrawColor(0, 200, 83);
+        doc.line(20, 45, 190, 45);
+
+        doc.setFontSize(12);
+        doc.setFont("helvetica", "normal");
+        doc.text("Dokumen ini menyatakan bahwa tanda tangan elektronik pada:", 20, 60);
+        
+        doc.text("ID Dokumen: " + docid, 20, 75);
+        doc.text("Nama Penandatangan: " + nama, 20, 85);
+        doc.text("Tanggal Verifikasi: " + waktu, 20, 95);
+        
+        doc.setFont("helvetica", "italic");
+        doc.text("Status: TERVERIFIKASI & SAH", 20, 110);
+
+        // Footer Metadata
+        doc.setFontSize(10);
+        doc.setTextColor(150);
+        doc.text("Dihasilkan secara otomatis oleh Sistem Keamanan Digital", 105, 280, { align: "center" });
+
+        // Proses Unduh
+        doc.save(`Sertifikat_${docid}.pdf`);
+    }
+</script>
+
+</body>
+</html>

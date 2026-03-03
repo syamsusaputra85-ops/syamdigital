@@ -1,0 +1,1054 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panduan Penggunaan - Pencarian Data Penduduk</title>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/dpr2vc3b0/image/upload/v1767107096/logo_donggala-fix-2025_napiej.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    .gradient-bg {
+      background: linear-gradient(135deg, #8B0000 0%, #4a0000 50%, #1a1a1a 100%);
+    }
+    
+    .card-gradient {
+      background: linear-gradient(135deg, rgba(139, 0, 0, 0.1) 0%, rgba(26, 26, 26, 0.3) 100%);
+      backdrop-filter: blur(10px);
+    }
+    
+    .gold-accent {
+      color: #FFD700;
+    }
+    
+    .section-card {
+      background: linear-gradient(135deg, rgba(139, 0, 0, 0.2) 0%, rgba(26, 26, 26, 0.4) 100%);
+      border: 1px solid rgba(255, 215, 0, 0.2);
+      transition: all 0.3s ease;
+    }
+    
+    .section-card:hover {
+      border-color: #FFD700;
+      box-shadow: 0 8px 30px rgba(255, 215, 0, 0.2);
+      transform: translateY(-2px);
+    }
+    
+    .step-number {
+      background: linear-gradient(135deg, #8B0000 0%, #FFD700 100%);
+      color: #1a1a1a;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+    }
+    
+    .feature-box {
+      background: rgba(26, 26, 26, 0.6);
+      border: 2px solid rgba(255, 215, 0, 0.3);
+      border-radius: 0.75rem;
+      padding: 1rem;
+      transition: all 0.3s ease;
+    }
+    
+    .feature-box:hover {
+      border-color: #FFD700;
+      background: rgba(139, 0, 0, 0.3);
+    }
+    
+    .tip-box {
+      background: rgba(255, 215, 0, 0.1);
+      border-left: 4px solid #FFD700;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+    
+    .warning-box {
+      background: rgba(255, 0, 0, 0.1);
+      border-left: 4px solid #ff4444;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+    
+    .code-box {
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      border-radius: 0.5rem;
+      padding: 1rem;
+      font-family: 'Courier New', monospace;
+      color: #FFD700;
+      overflow-x: auto;
+    }
+    
+    .nav-link {
+      color: #FFD700;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+      font-size: 0.875rem;
+    }
+    
+    .nav-link:hover {
+      background: rgba(255, 215, 0, 0.1);
+      border-color: #FFD700;
+    }
+    
+    .back-to-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, #8B0000 0%, #FFD700 100%);
+      border: 3px solid #FFD700;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
+      z-index: 1000;
+      opacity: 0;
+      transform: translateY(100px);
+      transition: all 0.3s ease;
+      pointer-events: none;
+    }
+    
+    .back-to-top.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: all;
+    }
+    
+    .back-to-top:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(255, 215, 0, 0.6);
+    }
+    
+    .screenshot-placeholder {
+      background: rgba(26, 26, 26, 0.5);
+      border: 2px dashed rgba(255, 215, 0, 0.3);
+      border-radius: 0.75rem;
+      padding: 3rem;
+      text-align: center;
+      color: #FFD700;
+    }
+    
+    @media (max-width: 768px) {
+      .step-number {
+        width: 32px;
+        height: 32px;
+        font-size: 1rem;
+      }
+      
+      .back-to-top {
+        width: 48px;
+        height: 48px;
+        bottom: 1rem;
+        right: 1rem;
+        font-size: 1.25rem;
+      }
+      
+      .nav-link {
+        padding: 0.375rem 0.75rem;
+        font-size: 0.75rem;
+      }
+      
+      .feature-box {
+        padding: 0.75rem;
+      }
+      
+      .tip-box, .warning-box {
+        padding: 0.75rem;
+        margin: 0.75rem 0;
+      }
+      
+      .code-box {
+        padding: 0.75rem;
+        font-size: 0.7rem;
+      }
+      
+      .screenshot-placeholder {
+        padding: 2rem 1rem;
+        font-size: 0.875rem;
+      }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full">
+  <div class="w-full h-full overflow-auto gradient-bg">
+   <div class="min-h-full py-4 md:py-8 px-3 md:px-4">
+    <div class="max-w-5xl mx-auto"><!-- Header -->
+     <header class="text-center mb-6 md:mb-12">
+      <div class="flex flex-col md:flex-row items-center justify-center gap-3 md:gap-4 mb-4"><img src="https://res.cloudinary.com/dpr2vc3b0/image/upload/v1767107096/logo_donggala-fix-2025_napiej.png" alt="Logo Donggala" class="w-16 h-16 md:w-20 md:h-20 object-contain" style="filter: drop-shadow(0 4px 12px rgba(255, 215, 0, 0.3));">
+       <h1 class="text-2xl md:text-5xl font-bold text-white">📖 Panduan Penggunaan</h1>
+      </div>
+      <div class="h-1 w-32 mx-auto bg-gradient-to-r from-transparent via-yellow-400 to-transparent mb-4"></div>
+      <p class="text-gray-300 text-sm md:text-lg">Aplikasi Pencarian Data Penduduk</p>
+     </header><!-- Quick Navigation -->
+     <nav class="card-gradient rounded-xl md:rounded-2xl p-4 md:p-6 mb-4 md:mb-8 border border-gray-700">
+      <h2 class="text-yellow-400 font-bold text-base md:text-xl mb-3 md:mb-4">🧭 Navigasi Cepat</h2>
+      <div class="flex flex-wrap gap-2 md:gap-3"><a href="#intro" class="nav-link">📱 Pengenalan</a> <a href="#login" class="nav-link">🔐 Login</a> <a href="#fitur" class="nav-link">✨ Fitur Utama</a> <a href="#pencarian" class="nav-link">🔍 Pencarian</a> <a href="#filter" class="nav-link">🏘️ Filter Dusun</a> <a href="#detail" class="nav-link">📋 Lihat Detail</a> <a href="#export" class="nav-link">📄 Export PDF</a> <a href="#whatsapp" class="nav-link">📱 WhatsApp</a> <a href="#tips" class="nav-link">💡 Tips</a> <a href="#faq" class="nav-link">❓ FAQ</a>
+      </div>
+     </nav><!-- 1. Pengenalan Aplikasi -->
+     <section id="intro" class="section-card rounded-xl md:rounded-2xl p-4 md:p-8 mb-4 md:mb-6">
+      <h2 class="text-yellow-400 font-bold text-xl md:text-3xl mb-4 md:mb-6">📱 Pengenalan Aplikasi</h2>
+      <div class="space-y-4 text-gray-200">
+       <p class="text-sm md:text-lg leading-relaxed">Aplikasi <strong class="text-yellow-400">Pencarian Data Penduduk</strong> adalah sistem informasi berbasis web yang dirancang untuk memudahkan pengelolaan dan pencarian data penduduk secara digital. Aplikasi ini menyediakan antarmuka yang user-friendly dengan berbagai fitur pencarian canggih.</p>
+       <div class="tip-box">
+        <div class="flex items-start gap-3"><span class="text-xl md:text-2xl">💡</span>
+         <div>
+          <h4 class="font-bold text-yellow-400 mb-2 text-sm md:text-base">Keunggulan Aplikasi:</h4>
+          <ul class="list-disc list-inside space-y-1 text-gray-300 text-xs md:text-sm">
+           <li>Akses cepat ke data penduduk dari mana saja</li>
+           <li>Pencarian multi-kriteria (nama, NIK, alamat)</li>
+           <li>Filter berdasarkan dusun</li>
+           <li>Export data ke format PDF</li>
+           <li>Berbagi data via WhatsApp</li>
+           <li>Tampilan responsif untuk semua perangkat</li>
+           <li>Sistem keamanan dengan password admin</li>
+          </ul>
+         </div>
+        </div>
+       </div>
+       <div class="feature-box">
+        <h4 class="font-bold text-yellow-400 mb-3 text-sm md:text-base">🎯 Siapa yang Menggunakan Aplikasi Ini?</h4>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+         <div class="text-center">
+          <div class="text-2xl md:text-3xl mb-2">
+           👨‍💼
+          </div>
+          <div class="text-xs md:text-sm text-gray-300">
+           Administrator Desa
+          </div>
+         </div>
+         <div class="text-center">
+          <div class="text-2xl md:text-3xl mb-2">
+           👮
+          </div>
+          <div class="text-xs md:text-sm text-gray-300">
+           Petugas RT/RW
+          </div>
+         </div>
+         <div class="text-center">
+          <div class="text-2xl md:text-3xl mb-2">
+           📊
+          </div>
+          <div class="text-xs md:text-sm text-gray-300">
+           Pengelola Data
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+     </section><!-- 2. Login ke Aplikasi -->
+     <section id="login" class="section-card rounded-xl md:rounded-2xl p-4 md:p-8 mb-4 md:mb-6">
+      <h2 class="text-yellow-400 font-bold text-xl md:text-3xl mb-4 md:mb-6">🔐 Login ke Aplikasi</h2>
+      <div class="space-y-4 md:space-y-6">
+       <div class="flex items-start gap-3 md:gap-4">
+        <div class="step-number">
+         1
+        </div>
+        <div class="flex-1">
+         <h3 class="text-white font-bold text-base md:text-xl mb-2">Buka Aplikasi</h3>
+         <p class="text-gray-300 mb-3 text-xs md:text-base">Akses aplikasi melalui browser web Anda (Chrome, Firefox, Safari, atau Edge).</p>
+         <div class="screenshot-placeholder">
+          <div class="text-4xl md:text-6xl mb-2">
+           🖥️
+          </div>
+          <p class="text-xs md:text-base">Halaman Login Aplikasi</p>
+         </div>
+        </div>
+       </div>
+       <div class="flex items-start gap-3 md:gap-4">
+        <div class="step-number">
+         2
+        </div>
+        <div class="flex-1">
+         <h3 class="text-white font-bold text-base md:text-xl mb-2">Masukkan Password</h3>
+         <p class="text-gray-300 mb-3 text-xs md:text-base">Ketik password admin yang telah diberikan ke dalam kolom password.</p>
+         <div class="feature-box">
+          <p class="text-xs md:text-sm text-gray-300 mb-2">💡 <strong class="text-yellow-400">Tips:</strong></p>
+          <ul class="text-xs md:text-sm text-gray-400 space-y-1 ml-4 md:ml-6 list-disc">
+           <li>Gunakan tombol mata (👁️) untuk melihat/menyembunyikan password</li>
+           <li>Password bersifat case-sensitive (huruf besar/kecil berbeda)</li>
+           <li>Pastikan tidak ada spasi sebelum atau sesudah password</li>
+          </ul>
+         </div>
+        </div>
+       </div>
+       <div class="flex items-start gap-3 md:gap-4">
+        <div class="step-number">
+         3
+        </div>
+        <div class="flex-1">
+         <h3 class="text-white font-bold text-base md:text-xl mb-2">Klik Tombol Login</h3>
+         <p class="text-gray-300 mb-3 text-xs md:text-base">Tekan tombol <strong class="text-yellow-400">"🔐 Login"</strong> atau tekan Enter pada keyboard.</p>
+        </div>
+       </div>
+       <div class="flex items-start gap-3 md:gap-4">
+        <div class="step-number">
+         4
+        </div>
+        <div class="flex-1">
+         <h3 class="text-white font-bold text-base md:text-xl mb-2">Akses Berhasil</h3>
+         <p class="text-gray-300 mb-3 text-xs md:text-base">Jika password benar, Anda akan diarahkan ke halaman utama aplikasi dan melihat pesan sukses.</p>
+        </div>
+       </div>
+       <div class="warning-box">
+        <div class="flex items-start gap-3"><span class="text-xl md:text-2xl">⚠️</span>
+         <div>
+          <h4 class="font-bold text-red-400 mb-2 text-sm md:text-base">Catatan Keamanan:</h4>
+          <ul class="text-xs md:text-sm text-gray-300 space-y-1">
+           <li>• Jangan bagikan password ke pihak yang tidak berwenang</li>
+           <li>• Logout setelah selesai menggunakan aplikasi</li>
+           <li>• Ganti password secara berkala untuk keamanan</li>
+           <li>• Jika lupa password, hubungi administrator sistem</li>
+          </ul>
+         </div>
+        </div>
+       </div>
+      </div>
+     </section><!-- 3. Fitur Utama -->
+     <section id="fitur" class="section-card rounded-xl md:rounded-2xl p-4 md:p-8 mb-4 md:mb-6">
+      <h2 class="text-yellow-400 font-bold text-xl md:text-3xl mb-4 md:mb-6">✨ Fitur-Fitur Utama</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+       <div class="feature-box">
+        <div class="flex items-center gap-3 mb-3"><span class="text-2xl md:text-3xl">🔍</span>
+         <h3 class="text-white font-bold text-sm md:text-lg">Pencarian Data</h3>
+        </div>
+        <p class="text-gray-300 text-xs md:text-sm">Cari data penduduk berdasarkan nama, NIK, alamat, atau informasi lainnya dengan sistem pencarian real-time.</p>
+       </div>
+       <div class="feature-box">
+        <div class="flex items-center gap-3 mb-3"><span class="text-2xl md:text-3xl">🏘️</span>
+         <h3 class="text-white font-bold text-sm md:text-lg">Filter Dusun</h3>
+        </div>
+        <p class="text-gray-300 text-xs md:text-sm">Filter data berdasarkan dusun tertentu untuk mempermudah pencarian data per wilayah.</p>
+       </div>
+       <div class="feature-box">
+        <div class="flex items-center gap-3 mb-3"><span class="text-2xl md:text-3xl">📋</span>
+         <h3 class="text-white font-bold text-sm md:text-lg">Detail Lengkap</h3>
+        </div>
+        <p class="text-gray-300 text-xs md:text-sm">Lihat informasi lengkap penduduk termasuk foto, identitas, data kelahiran, dan informasi keluarga.</p>
+       </div>
+       <div class="feature-box">
+        <div class="flex items-center gap-3 mb-3"><span class="text-2xl md:text-3xl">📄</span>
+         <h3 class="text-white font-bold text-sm md:text-lg">Export PDF</h3>
+        </div>
+        <p class="text-gray-300 text-xs md:text-sm">Export data ke format PDF untuk laporan atau dokumentasi, bisa per dusun atau keseluruhan.</p>
+       </div>
+       <div class="feature-box">
+        <div class="flex items-center gap-3 mb-3"><span class="text-2xl md:text-3xl">📱</span>
+         <h3 class="text-white font-bold text-sm md:text-lg">Bagikan WhatsApp</h3>
+        </div>
+        <p class="text-gray-300 text-xs md:text-sm">Bagikan data penduduk secara langsung melalui WhatsApp dalam format yang rapi dan terstruktur.</p>
+       </div>
+       <div class="feature-box">
+        <div class="flex items-center gap-3 mb-3"><span class="text-2xl md:text-3xl">📊</span>
+         <h3 class="text-white font-bold text-sm md:text-lg">Statistik Real-time</h3>
+        </div>
+        <p class="text-gray-300 text-xs md:text-sm">Lihat jumlah total data dan data yang ditampilkan secara real-time berdasarkan filter yang aktif.</p>
+       </div>
+       <div class="feature-box">
+        <div class="flex items-center gap-3 mb-3"><span class="text-2xl md:text-3xl">📋</span>
+         <h3 class="text-white font-bold text-sm md:text-lg">Salin Data</h3>
+        </div>
+        <p class="text-gray-300 text-xs md:text-sm">Salin NIK atau No. KK dengan sekali klik untuk memudahkan penggunaan di aplikasi lain.</p>
+       </div>
+       <div class="feature-box">
+        <div class="flex items-center gap-3 mb-3"><span class="text-2xl md:text-3xl">📊</span>
+         <h3 class="text-white font-bold text-sm md:text-lg">Akses Spreadsheet</h3>
+        </div>
+        <p class="text-gray-300 text-xs md:text-sm">Akses langsung ke Google Spreadsheet sumber data untuk melihat atau mengedit data secara manual.</p>
+       </div>
+      </div>
+     </section><!-- 4. Cara Mencari Data -->
+     <section id="pencarian" class="section-card rounded-xl md:rounded-2xl p-4 md:p-8 mb-4 md:mb-6">
+      <h2 class="text-yellow-400 font-bold text-xl md:text-3xl mb-4 md:mb-6">🔍 Cara Mencari Data Penduduk</h2>
+      <div class="space-y-4 md:space-y-6">
+       <div class="flex items-start gap-3 md:gap-4">
+        <div class="step-number">
+         1
+        </div>
+        <div class="flex-1">
+         <h3 class="text-white font-bold text-base md:text-xl mb-2">Ketik Kata Kunci</h3>
+         <p class="text-gray-300 mb-3 text-xs md:text-base">Masukkan kata kunci pencarian di kolom pencarian. Anda bisa mencari berdasarkan:</p>
+         <div class="feature-box">
+          <ul class="space-y-2 text-gray-300 text-xs md:text-sm">
+           <li>👤 <strong class="text-yellow-400">Nama:</strong> "Ahmad", "Fatimah", dll</li>
+           <li>🆔 <strong class="text-yellow-400">NIK:</strong> 16 digit nomor induk</li>
+           <li>👨‍👩‍👧‍👦 <strong class="text-yellow-400">No. KK:</strong> Nomor Kartu Keluarga</li>
+           <li>🏠 <strong class="text-yellow-400">Alamat:</strong> Nama jalan, gang, RT/RW</li>
+           <li>🏘️ <strong class="text-yellow-400">Dusun:</strong> Nama dusun</li>
+          </ul>
+         </div>
+        </div>
+       </div>
+       <div class="flex items-start gap-3 md:gap-4">
+        <div class="step-number">
+         2
+        </div>
+        <div class="flex-1">
+         <h3 class="text-white font-bold text-base md:text-xl mb-2">Klik Tombol Cari (Opsional)</h3>
+         <p class="text-gray-300 mb-3 text-xs md:text-base">Tekan tombol <strong class="text-yellow-400">"🔍 Cari"</strong> atau cukup ketik dan aplikasi akan mencari otomatis.</p>
+         <div class="tip-box">
+          <p class="text-xs md:text-sm text-gray-300">💡 <strong class="text-yellow-400">Tips Pencarian:</strong> Aplikasi akan otomatis mencari saat Anda mengetik (Auto-search). Tidak perlu tekan tombol cari setiap kali!</p>
+         </div>
+        </div>
+       </div>
+       <div class="flex items-start gap-3 md:gap-4">
+        <div class="step-number">
+         3
+        </div>
+        <div class="flex-1">
+         <h3 class="text-white font-bold text-base md:text-xl mb-2">Lihat Hasil Pencarian</h3>
+         <p class="text-gray-300 mb-3 text-xs md:text-base">Hasil pencarian akan ditampilkan dalam bentuk kartu data dengan informasi ringkas.</p>
+         <div class="feature-box">
+          <p class="text-xs md:text-sm text-gray-300 mb-2">📊 <strong class="text-yellow-400">Informasi yang ditampilkan:</strong></p>
+          <ul class="text-xs md:text-sm text-gray-400 space-y-1 ml-4 md:ml-6 list-disc">
+           <li>Foto penduduk (jika tersedia)</li>
+           <li>Nama lengkap dan NIK</li>
+           <li>Data identitas utama (KK, jenis kelamin, tempat lahir, dll)</li>
+           <li>Nomor urut data</li>
+          </ul>
+         </div>
+        </div>
+       </div>
+       <div class="flex items-start gap-3 md:gap-4">
+        <div class="step-number">
+         4
+        </div>
+        <div class="flex-1">
+         <h3 class="text-white font-bold text-base md:text-xl mb-2">Klik untuk Lihat Detail</h3>
+         <p class="text-gray-300 mb-3 text-xs md:text-base">Klik pada kartu data untuk membuka modal detail lengkap penduduk.</p>
+        </div>
+       </div>
+       <div class="warning-box">
+        <div class="flex items-start gap-3"><span class="text-xl md:text-2xl">💡</span>
+         <div>
+          <h4 class="font-bold text-yellow-400 mb-2 text-sm md:text-base">Tips Pencarian Efektif:</h4>
+          <ul class="text-xs md:text-sm text-gray-300 space-y-1">
+           <li>• Gunakan kata kunci spesifik untuk hasil lebih akurat</li>
+           <li>• Tidak perlu menulis kata kunci lengkap (sebagian kata juga bisa)</li>
+           <li>• Pencarian tidak case-sensitive (huruf besar/kecil sama saja)</li>
+           <li>• Kombinasikan dengan filter dusun untuk hasil lebih fokus</li>
+           <li>• Hapus kata kunci untuk menampilkan semua data kembali</li>
+          </ul>
+         </div>
+        </div>
+       </div>
+      </div>
+     </section><!-- 5. Filter Berdasarkan Dusun -->
+     <section id="filter" class="section-card rounded-xl md:rounded-2xl p-4 md:p-8 mb-4 md:mb-6">
+      <h2 class="text-yellow-400 font-bold text-xl md:text-3xl mb-4 md:mb-6">🏘️ Filter Berdasarkan Dusun</h2>
+      <div class="space-y-4 md:space-y-6">
+       <p class="text-gray-300 text-sm md:text-lg">Filter dusun memudahkan Anda untuk melihat data penduduk per wilayah tertentu tanpa perlu mencari manual.</p>
+       <div class="flex items-start gap-3 md:gap-4">
+        <div class="step-number">
+         1
+        </div>
+        <div class="flex-1">
+         <h3 class="text-white font-bold text-base md:text-xl mb-2">Temukan Bagian Filter Dusun</h3>
+         <p class="text-gray-300 mb-3 text-xs md:text-base">Di bagian atas halaman, Anda akan melihat deretan tombol dusun dengan ikon 🏘️</p>
+         <div class="screenshot-placeholder">
+          <div class="text-4xl md:text-6xl mb-2">
+           🏘️
+          </div>
+          <p class="text-xs md:text-base">Tombol Filter: Semua Dusun | Dusun A | Dusun B | Dusun C</p>
+         </div>
+        </div>
+       </div>
+       <div class="flex items-start gap-3 md:gap-4">
+        <div class="step-number">
+         2
+        </div>
+        <div class="flex-1">
+         <h3 class="text-white font-bold text-base md:text-xl mb-2">Pilih Dusun</h3>
+         <p class="text-gray-300 mb-3 text-xs md:text-base">Klik salah satu tombol dusun untuk memfilter data. Tombol yang aktif akan berubah warna menjadi merah-emas.</p>
+         <div class="feature-box">
+          <p class="text-xs md:text-sm text-gray-300 mb-2">🎯 <strong class="text-yellow-400">Jenis Filter:</strong></p>
+          <ul class="text-xs md:text-sm text-gray-400 space-y-1 ml-4 md:ml-6 list-disc">
+           <li><strong>Semua Dusun:</strong> Menampilkan seluruh data penduduk</li>
+           <li><strong>Dusun Tertentu:</strong> Hanya menampilkan data dari dusun yang dipilih</li>
+          </ul>
+         </div>
+        </div>
+       </div>
+       <div class="flex items-start gap-3 md:gap-4">
+        <div class="step-number">
+         3
+        </div>
+        <div class="flex-1">
+         <h3 class="text-white font-bold text-base md:text-xl mb-2">Lihat Statistik</h3>
+         <p class="text-gray-300 mb-3 text-xs md:text-base">Badge statistik akan menunjukkan nama dusun yang aktif dan jumlah data yang ditampilkan.</p>
+         <div class="tip-box">
+          <p class="text-xs md:text-sm text-gray-300">📊 <strong class="text-yellow-400">Badge Statistik:</strong></p>
+          <ul class="text-xs md:text-sm text-gray-400 space-y-1 mt-2">
+           <li>• <strong>Total:</strong> Jumlah seluruh data di database</li>
+           <li>• <strong>Ditampilkan:</strong> Jumlah data sesuai filter aktif</li>
+           <li>• <strong>Dusun:</strong> Nama dusun yang sedang difilter</li>
+          </ul>
+         </div>
+        </div>
+       </div>
+       <div class="flex items-start gap-3 md:gap-4">
+        <div class="step-number">
+         4
+        </div>
+        <div class="flex-1">
+         <h3 class="text-white font-bold text-base md:text-xl mb-2">Kombinasi dengan Pencarian</h3>
+         <p class="text-gray-300 mb-3 text-xs md:text-base">Anda bisa mengkombinasikan filter dusun dengan pencarian kata kunci untuk hasil yang lebih spesifik.</p>
+         <div class="code-box">
+          <p class="text-xs md:text-sm mb-2">Contoh Penggunaan:</p>
+          <p class="text-xs">1. Pilih "Dusun A"</p>
+          <p class="text-xs">2. Ketik "Ahmad" di kolom pencarian</p>
+          <p class="text-xs">→ Hasil: Semua data dengan nama "Ahmad" di Dusun A</p>
+         </div>
+        </div>
+       </div>
+       <div class="flex items-start gap-3 md:gap-4">
+        <div class="step-number">
+         5
+        </div>
+        <div class="flex-1">
+         <h3 class="text-white font-bold text-base md:text-xl mb-2">Reset Filter</h3>
+         <p class="text-gray-300 mb-3 text-xs md:text-base">Untuk kembali melihat semua data, klik tombol <strong class="text-yellow-400">"🏘️ Semua Dusun"</strong></p>
+        </div>
+       </div>
+      </div>
+     </section><!-- 6. Melihat Detail Data -->
+     <section id="detail" class="section-card rounded-xl md:rounded-2xl p-4 md:p-8 mb-4 md:mb-6">
+      <h2 class="text-yellow-400 font-bold text-xl md:text-3xl mb-4 md:mb-6">📋 Melihat Detail Data Penduduk</h2>
+      <div class="space-y-4 md:space-y-6">
+       <div class="flex items-start gap-3 md:gap-4">
+        <div class="step-number">
+         1
+        </div>
+        <div class="flex-1">
+         <h3 class="text-white font-bold text-base md:text-xl mb-2">Klik Kartu Data</h3>
+         <p class="text-gray-300 mb-3 text-xs md:text-base">Klik pada kartu data penduduk yang ingin Anda lihat detailnya. Kartu akan menampilkan teks "Klik untuk lihat detail lengkap 👁️"</p>
+        </div>
+       </div>
+       <div class="flex items-start gap-3 md:gap-4">
+        <div class="step-number">
+         2
+        </div>
+        <div class="flex-1">
+         <h3 class="text-white font-bold text-base md:text-xl mb-2">Modal Detail Terbuka</h3>
+         <p class="text-gray-300 mb-3 text-xs md:text-base">Jendela popup (modal) akan muncul menampilkan informasi lengkap yang terbagi dalam beberapa bagian:</p>
+         <div class="space-y-3 mt-4">
+          <div class="feature-box">
+           <h4 class="font-bold text-yellow-400 mb-2 text-sm md:text-base">👤 Data Identitas</h4>
+           <p class="text-xs md:text-sm text-gray-300">Foto, Nama Lengkap, NIK, No. KK, Jenis Kelamin</p>
+           <div class="tip-box mt-2">
+            <p class="text-xs text-gray-300">💡 Tombol "📋 Salin" tersedia untuk menyalin NIK dan No. KK dengan cepat</p>
+           </div>
+          </div>
+          <div class="feature-box">
+           <h4 class="font-bold text-yellow-400 mb-2 text-sm md:text-base">🎂 Data Kelahiran</h4>
+           <p class="text-xs md:text-sm text-gray-300">Tempat Lahir, Tanggal Lahir, Agama, Umur</p>
+          </div>
+          <div class="feature-box">
+           <h4 class="font-bold text-yellow-400 mb-2 text-sm md:text-base">🏠 Alamat &amp; Lokasi</h4>
+           <p class="text-xs md:text-sm text-gray-300">Dusun, Suku, Alamat Lengkap</p>
+          </div>
+          <div class="feature-box">
+           <h4 class="font-bold text-yellow-400 mb-2 text-sm md:text-base">ℹ️ Informasi Lainnya</h4>
+           <p class="text-xs md:text-sm text-gray-300">Pendidikan, Pekerjaan, Status Kawin, Kewarganegaraan, Status</p>
+          </div>
+          <div class="feature-box">
+           <h4 class="font-bold text-yellow-400 mb-2 text-sm md:text-base">👪 Data Orang Tua</h4>
+           <p class="text-xs md:text-sm text-gray-300">Nama Ayah, NIK Ayah, Nama Ibu, NIK Ibu (jika tersedia)</p>
+          </div>
+         </div>
+        </div>
+       </div>
+       <div class="flex items-start gap-3 md:gap-4">
+        <div class="step-number">
+         3
+        </div>
+        <div class="flex-1">
+         <h3 class="text-white font-bold text-base md:text-xl mb-2">Fitur dalam Modal Detail</h3>
+         <div class="space-y-3">
+          <div class="feature-box">
+           <div class="flex items-center gap-2 mb-2"><span>📋</span>
+            <h4 class="font-bold text-yellow-400 text-sm md:text-base">Salin NIK / No. KK</h4>
+           </div>
+           <p class="text-xs md:text-sm text-gray-300">Klik tombol "📋 Salin" di samping NIK atau No. KK untuk menyalin ke clipboard. Notifikasi akan muncul saat berhasil.</p>
+          </div>
+          <div class="feature-box">
+           <div class="flex items-center gap-2 mb-2"><span>📱</span>
+            <h4 class="font-bold text-yellow-400 text-sm md:text-base">Bagikan ke WhatsApp</h4>
+           </div>
+           <p class="text-xs md:text-sm text-gray-300">Klik tombol "📱 Bagikan ke WhatsApp" di bagian bawah modal untuk membagikan data dalam format terstruktur.</p>
+          </div>
+          <div class="feature-box">
+           <div class="flex items-center gap-2 mb-2"><span>👨‍💼</span>
+            <h4 class="font-bold text-yellow-400 text-sm md:text-base">Info Administrator</h4>
+           </div>
+           <p class="text-xs md:text-sm text-gray-300">Bagian footer menampilkan informasi administrator (Syam Digital) yang mengelola data.</p>
+          </div>
+         </div>
+        </div>
+       </div>
+       <div class="flex items-start gap-3 md:gap-4">
+        <div class="step-number">
+         4
+        </div>
+        <div class="flex-1">
+         <h3 class="text-white font-bold text-base md:text-xl mb-2">Tutup Modal</h3>
+         <p class="text-gray-300 mb-3 text-xs md:text-base">Untuk menutup modal detail, Anda bisa:</p>
+         <ul class="text-gray-300 space-y-2 ml-4 md:ml-6 list-disc text-xs md:text-sm">
+          <li>Klik tombol <strong class="text-yellow-400">×</strong> di pojok kanan atas</li>
+          <li>Klik di area gelap di luar modal</li>
+          <li>Tekan tombol <strong class="text-yellow-400">ESC</strong> pada keyboard</li>
+         </ul>
+        </div>
+       </div>
+      </div>
+     </section><!-- 7. Export ke PDF -->
+     <section id="export" class="section-card rounded-xl md:rounded-2xl p-4 md:p-8 mb-4 md:mb-6">
+      <h2 class="text-yellow-400 font-bold text-xl md:text-3xl mb-4 md:mb-6">📄 Export Data ke PDF</h2>
+      <div class="space-y-4 md:space-y-6">
+       <p class="text-gray-300 text-sm md:text-lg">Fitur export PDF memungkinkan Anda mencetak atau menyimpan data penduduk dalam format dokumen PDF yang rapi dan profesional.</p>
+       <div class="flex items-start gap-3 md:gap-4">
+        <div class="step-number">
+         1
+        </div>
+        <div class="flex-1">
+         <h3 class="text-white font-bold text-base md:text-xl mb-2">Klik Tombol Export PDF</h3>
+         <p class="text-gray-300 mb-3 text-xs md:text-base">Temukan dan klik tombol <strong class="text-yellow-400">"📄 Export PDF"</strong> di bagian atas halaman (di samping tombol "📊 Buka Spreadsheet")</p>
+        </div>
+       </div>
+       <div class="flex items-start gap-3 md:gap-4">
+        <div class="step-number">
+         2
+        </div>
+        <div class="flex-1">
+         <h3 class="text-white font-bold text-base md:text-xl mb-2">Pilih Opsi Export</h3>
+         <p class="text-gray-300 mb-3 text-xs md:text-base">Menu popup akan muncul dengan pilihan data yang ingin di-export:</p>
+         <div class="space-y-3 mt-4">
+          <div class="feature-box">
+           <div class="flex items-center justify-between flex-wrap gap-2">
+            <div class="flex items-center gap-2"><span>🏘️</span> <span class="text-yellow-400 font-bold text-sm md:text-base">Semua Dusun</span>
+            </div>
+            <div class="bg-yellow-400 text-gray-900 px-2 md:px-3 py-1 rounded-full text-xs md:text-sm font-bold">
+             xxx data
+            </div>
+           </div>
+           <p class="text-xs text-gray-400 mt-2">Export seluruh data penduduk dari semua dusun</p>
+          </div>
+          <div class="feature-box">
+           <div class="flex items-center justify-between flex-wrap gap-2">
+            <div class="flex items-center gap-2"><span>🏘️</span> <span class="text-yellow-400 font-bold text-sm md:text-base">Dusun A</span>
+            </div>
+            <div class="bg-yellow-400 text-gray-900 px-2 md:px-3 py-1 rounded-full text-xs md:text-sm font-bold">
+             xx data
+            </div>
+           </div>
+           <p class="text-xs text-gray-400 mt-2">Export hanya data dari Dusun A</p>
+          </div>
+          <p class="text-xs md:text-sm text-gray-400 italic">... dan seterusnya untuk setiap dusun yang tersedia</p>
+         </div>
+        </div>
+       </div>
+       <div class="flex items-start gap-3 md:gap-4">
+        <div class="step-number">
+         3
+        </div>
+        <div class="flex-1">
+         <h3 class="text-white font-bold text-base md:text-xl mb-2">Klik Opsi yang Diinginkan</h3>
+         <p class="text-gray-300 mb-3 text-xs md:text-base">Pilih salah satu opsi dengan mengklik. Tombol akan berubah menjadi <strong class="text-yellow-400">"⏳ Membuat PDF..."</strong></p>
+        </div>
+       </div>
+       <div class="flex items-start gap-3 md:gap-4">
+        <div class="step-number">
+         4
+        </div>
+        <div class="flex-1">
+         <h3 class="text-white font-bold text-base md:text-xl mb-2">PDF Otomatis Terunduh</h3>
+         <p class="text-gray-300 mb-3 text-xs md:text-base">File PDF akan otomatis dibuat dan terunduh ke perangkat Anda dengan format nama:</p>
+         <div class="code-box">
+          <p class="text-xs">Data_Penduduk_Semua_[timestamp].pdf</p>
+          <p class="text-xs">atau</p>
+          <p class="text-xs">Data_Penduduk_[NamaDusun]_[timestamp].pdf</p>
+         </div>
+        </div>
+       </div>
+       <div class="tip-box">
+        <div class="flex items-start gap-3"><span class="text-xl md:text-2xl">📋</span>
+         <div>
+          <h4 class="font-bold text-yellow-400 mb-2 text-sm md:text-base">Isi PDF yang Di-Export:</h4>
+          <ul class="text-xs md:text-sm text-gray-300 space-y-1">
+           <li>• <strong>Header:</strong> Judul laporan dan tanggal export</li>
+           <li>• <strong>Statistik:</strong> Total jumlah data yang di-export</li>
+           <li>• <strong>Tabel Data:</strong> No, Nama, NIK, Jenis Kelamin, Tempat Lahir, Tanggal Lahir, Dusun, Alamat</li>
+           <li>• <strong>Footer:</strong> Nomor halaman di setiap lembar</li>
+           <li>• <strong>Format:</strong> Ukuran kertas A4 dengan orientasi Portrait</li>
+          </ul>
+         </div>
+        </div>
+       </div>
+       <div class="warning-box">
+        <div class="flex items-start gap-3"><span class="text-xl md:text-2xl">⚠️</span>
+         <div>
+          <h4 class="font-bold text-red-400 mb-2 text-sm md:text-base">Catatan Penting:</h4>
+          <ul class="text-xs md:text-sm text-gray-300 space-y-1">
+           <li>• Pastikan browser Anda mengizinkan download otomatis</li>
+           <li>• Proses pembuatan PDF mungkin membutuhkan waktu untuk data yang besar</li>
+           <li>• File PDF dapat langsung dibuka, dicetak, atau dibagikan</li>
+           <li>• Untuk data sangat besar, pertimbangkan export per dusun</li>
+          </ul>
+         </div>
+        </div>
+       </div>
+      </div>
+     </section><!-- 8. Bagikan ke WhatsApp -->
+     <section id="whatsapp" class="section-card rounded-xl md:rounded-2xl p-4 md:p-8 mb-4 md:mb-6">
+      <h2 class="text-yellow-400 font-bold text-xl md:text-3xl mb-4 md:mb-6">📱 Bagikan Data ke WhatsApp</h2>
+      <div class="space-y-4 md:space-y-6">
+       <p class="text-gray-300 text-sm md:text-lg">Fitur berbagi ke WhatsApp memudahkan Anda untuk mengirim data penduduk dengan format yang rapi dan profesional.</p>
+       <div class="flex items-start gap-3 md:gap-4">
+        <div class="step-number">
+         1
+        </div>
+        <div class="flex-1">
+         <h3 class="text-white font-bold text-base md:text-xl mb-2">Buka Detail Data</h3>
+         <p class="text-gray-300 mb-3 text-xs md:text-base">Klik kartu data penduduk yang ingin dibagikan untuk membuka modal detail lengkap.</p>
+        </div>
+       </div>
+       <div class="flex items-start gap-3 md:gap-4">
+        <div class="step-number">
+         2
+        </div>
+        <div class="flex-1">
+         <h3 class="text-white font-bold text-base md:text-xl mb-2">Klik Tombol WhatsApp</h3>
+         <p class="text-gray-300 mb-3 text-xs md:text-base">Di bagian bawah modal, klik tombol hijau <strong class="text-green-400">"📱 Bagikan ke WhatsApp"</strong></p>
+        </div>
+       </div>
+       <div class="flex items-start gap-3 md:gap-4">
+        <div class="step-number">
+         3
+        </div>
+        <div class="flex-1">
+         <h3 class="text-white font-bold text-base md:text-xl mb-2">WhatsApp Terbuka Otomatis</h3>
+         <p class="text-gray-300 mb-3 text-xs md:text-base">Aplikasi WhatsApp (Web atau Mobile) akan terbuka dengan pesan yang sudah terformat rapi:</p>
+         <div class="code-box text-xs">
+          <pre class="whitespace-pre-wrap">━━━━━━━━━━━━━━━━━━━━━
+*DATA PENDUDUK*
+━━━━━━━━━━━━━━━━━━━━━
+
+*IDENTITAS*
+• Nama: [Nama Lengkap]
+• NIK: [16 digit]
+• No. KK: [16 digit]
+• Jenis Kelamin: [L/P]
+• TTL: [Tempat, Tanggal]
+
+*LOKASI*
+• Dusun: [Nama Dusun]
+• Alamat: [Alamat Lengkap]
+
+*DATA LAINNYA*
+• Agama: [Agama]
+• Pekerjaan: [Pekerjaan]
+• Pendidikan: [Pendidikan]
+
+━━━━━━━━━━━━━━━━━━━━━
+_Data dikelola oleh Syam Digital_
+
+*Info Selengkapnya:*
+https://syam.digital/appdemo</pre>
+         </div>
+        </div>
+       </div>
+       <div class="flex items-start gap-3 md:gap-4">
+        <div class="step-number">
+         4
+        </div>
+        <div class="flex-1">
+         <h3 class="text-white font-bold text-base md:text-xl mb-2">Pilih Kontak atau Grup</h3>
+         <p class="text-gray-300 mb-3 text-xs md:text-base">Pilih kontak atau grup WhatsApp yang ingin Anda kirimi data, lalu tekan tombol kirim.</p>
+        </div>
+       </div>
+       <div class="tip-box">
+        <div class="flex items-start gap-3"><span class="text-xl md:text-2xl">💡</span>
+         <div>
+          <h4 class="font-bold text-yellow-400 mb-2 text-sm md:text-base">Keuntungan Format WhatsApp:</h4>
+          <ul class="text-xs md:text-sm text-gray-300 space-y-1">
+           <li>✅ Format terstruktur dan mudah dibaca</li>
+           <li>✅ Menggunakan emoji untuk visualisasi lebih baik</li>
+           <li>✅ Informasi lengkap dalam satu pesan</li>
+           <li>✅ Dapat langsung di-copy atau di-forward</li>
+           <li>✅ Termasuk link untuk informasi lebih lanjut</li>
+          </ul>
+         </div>
+        </div>
+       </div>
+       <div class="feature-box">
+        <h4 class="font-bold text-yellow-400 mb-3 text-sm md:text-base">📱 Dua Cara Mengakses WhatsApp:</h4>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+         <div>
+          <h5 class="text-white font-semibold mb-2 text-sm">1️⃣ Dari Modal Detail</h5>
+          <p class="text-xs md:text-sm text-gray-300">Bagikan data lengkap satu penduduk dengan format terstruktur</p>
+         </div>
+         <div>
+          <h5 class="text-white font-semibold mb-2 text-sm">2️⃣ Dari Header (Admin)</h5>
+          <p class="text-xs md:text-sm text-gray-300">Hubungi admin Syam Digital untuk pertanyaan atau bantuan</p>
+         </div>
+        </div>
+       </div>
+      </div>
+     </section><!-- 9. Tips & Trik -->
+     <section id="tips" class="section-card rounded-xl md:rounded-2xl p-4 md:p-8 mb-4 md:mb-6">
+      <h2 class="text-yellow-400 font-bold text-xl md:text-3xl mb-4 md:mb-6">💡 Tips &amp; Trik Penggunaan</h2>
+      <div class="space-y-3 md:space-y-4">
+       <div class="feature-box">
+        <div class="flex items-start gap-3"><span class="text-xl md:text-2xl">🚀</span>
+         <div>
+          <h3 class="text-white font-bold mb-2 text-sm md:text-base">Pencarian Cepat</h3>
+          <p class="text-xs md:text-sm text-gray-300">Gunakan fitur auto-search dengan mengetik langsung tanpa perlu klik tombol cari. Aplikasi akan memproses pencarian secara otomatis.</p>
+         </div>
+        </div>
+       </div>
+       <div class="feature-box">
+        <div class="flex items-start gap-3"><span class="text-xl md:text-2xl">🎯</span>
+         <div>
+          <h3 class="text-white font-bold mb-2 text-sm md:text-base">Kombinasi Filter</h3>
+          <p class="text-xs md:text-sm text-gray-300">Maksimalkan hasil dengan menggabungkan filter dusun dan pencarian kata kunci. Contoh: Filter "Dusun A" + cari "Ahmad".</p>
+         </div>
+        </div>
+       </div>
+       <div class="feature-box">
+        <div class="flex items-start gap-3"><span class="text-xl md:text-2xl">⚡</span>
+         <div>
+          <h3 class="text-white font-bold mb-2 text-sm md:text-base">Keyboard Shortcuts</h3>
+          <p class="text-xs md:text-sm text-gray-300">Tekan Enter di kolom pencarian untuk memulai pencarian. Tekan ESC untuk menutup modal detail.</p>
+         </div>
+        </div>
+       </div>
+       <div class="feature-box">
+        <div class="flex items-start gap-3"><span class="text-xl md:text-2xl">📋</span>
+         <div>
+          <h3 class="text-white font-bold mb-2 text-sm md:text-base">Salin Data Cepat</h3>
+          <p class="text-xs md:text-sm text-gray-300">Gunakan tombol "Salin" untuk NIK dan No. KK agar tidak perlu menulis ulang saat mengisi formulir lain.</p>
+         </div>
+        </div>
+       </div>
+       <div class="feature-box">
+        <div class="flex items-start gap-3"><span class="text-xl md:text-2xl">📱</span>
+         <div>
+          <h3 class="text-white font-bold mb-2 text-sm md:text-base">Responsif di Mobile</h3>
+          <p class="text-xs md:text-sm text-gray-300">Aplikasi dapat diakses dari smartphone. Semua fitur tetap berfungsi dengan baik di layar kecil.</p>
+         </div>
+        </div>
+       </div>
+       <div class="feature-box">
+        <div class="flex items-start gap-3"><span class="text-xl md:text-2xl">🔄</span>
+         <div>
+          <h3 class="text-white font-bold mb-2 text-sm md:text-base">Refresh Data</h3>
+          <p class="text-xs md:text-sm text-gray-300">Jika ada update data di Google Spreadsheet, refresh halaman browser (F5) untuk memuat data terbaru.</p>
+         </div>
+        </div>
+       </div>
+       <div class="feature-box">
+        <div class="flex items-start gap-3"><span class="text-xl md:text-2xl">⬆️</span>
+         <div>
+          <h3 class="text-white font-bold mb-2 text-sm md:text-base">Scroll to Top</h3>
+          <p class="text-xs md:text-sm text-gray-300">Gunakan tombol panah di pojok kanan bawah untuk cepat kembali ke atas halaman setelah scroll panjang.</p>
+         </div>
+        </div>
+       </div>
+       <div class="feature-box">
+        <div class="flex items-start gap-3"><span class="text-xl md:text-2xl">📊</span>
+         <div>
+          <h3 class="text-white font-bold mb-2 text-sm md:text-base">Perhatikan Statistik</h3>
+          <p class="text-xs md:text-sm text-gray-300">Badge statistik real-time membantu Anda memantau jumlah data yang ditampilkan vs total data.</p>
+         </div>
+        </div>
+       </div>
+       <div class="feature-box">
+        <div class="flex items-start gap-3"><span class="text-xl md:text-2xl">🎨</span>
+         <div>
+          <h3 class="text-white font-bold mb-2 text-sm md:text-base">Hover Effects</h3>
+          <p class="text-xs md:text-sm text-gray-300">Arahkan kursor ke tombol dan kartu untuk melihat efek interaktif yang membantu navigasi.</p>
+         </div>
+        </div>
+       </div>
+       <div class="feature-box">
+        <div class="flex items-start gap-3"><span class="text-xl md:text-2xl">🔗</span>
+         <div>
+          <h3 class="text-white font-bold mb-2 text-sm md:text-base">Akses Langsung ke Spreadsheet</h3>
+          <p class="text-xs md:text-sm text-gray-300">Klik tombol "📊 Buka Spreadsheet" untuk melihat atau mengedit data langsung di Google Sheets.</p>
+         </div>
+        </div>
+       </div>
+      </div>
+     </section><!-- 10. FAQ -->
+     <section id="faq" class="section-card rounded-xl md:rounded-2xl p-4 md:p-8 mb-4 md:mb-6">
+      <h2 class="text-yellow-400 font-bold text-xl md:text-3xl mb-4 md:mb-6">❓ Pertanyaan yang Sering Diajukan (FAQ)</h2>
+      <div class="space-y-3 md:space-y-4">
+       <div class="feature-box">
+        <h3 class="text-white font-bold mb-2 text-sm md:text-base">🔐 Bagaimana jika saya lupa password?</h3>
+        <p class="text-xs md:text-sm text-gray-300">Hubungi administrator sistem (Syam Digital) melalui tombol WhatsApp di header aplikasi untuk mendapatkan bantuan reset password.</p>
+       </div>
+       <div class="feature-box">
+        <h3 class="text-white font-bold mb-2 text-sm md:text-base">🔄 Kenapa data tidak update setelah diedit di Spreadsheet?</h3>
+        <p class="text-xs md:text-sm text-gray-300">Setelah mengedit data di Google Spreadsheet, refresh halaman aplikasi (tekan F5 atau Ctrl+R) untuk memuat data terbaru.</p>
+       </div>
+       <div class="feature-box">
+        <h3 class="text-white font-bold mb-2 text-sm md:text-base">📷 Kenapa foto tidak muncul?</h3>
+        <p class="text-xs md:text-sm text-gray-300">Pastikan URL foto di Spreadsheet valid dan dapat diakses. Foto dari Google Drive harus memiliki izin akses publik. Jika foto tetap tidak muncul, akan ditampilkan placeholder icon.</p>
+       </div>
+       <div class="feature-box">
+        <h3 class="text-white font-bold mb-2 text-sm md:text-base">🔍 Kenapa hasil pencarian tidak ada padahal data ada?</h3>
+        <p class="text-xs md:text-sm text-gray-300">Periksa apakah filter dusun aktif. Jika ya, data mungkin berada di dusun lain. Klik "Semua Dusun" untuk mencari di seluruh data.</p>
+       </div>
+       <div class="feature-box">
+        <h3 class="text-white font-bold mb-2 text-sm md:text-base">📱 Apakah bisa diakses dari HP?</h3>
+        <p class="text-xs md:text-sm text-gray-300">Ya, aplikasi fully responsive dan dapat diakses dari smartphone Android maupun iOS melalui browser (Chrome, Safari, Firefox).</p>
+       </div>
+       <div class="feature-box">
+        <h3 class="text-white font-bold mb-2 text-sm md:text-base">📄 Berapa lama waktu untuk export PDF data besar?</h3>
+        <p class="text-xs md:text-sm text-gray-300">Waktu export tergantung jumlah data dan spesifikasi perangkat. Untuk ratusan data mungkin membutuhkan 5-10 detik. Untuk ribuan data bisa lebih lama.</p>
+       </div>
+       <div class="feature-box">
+        <h3 class="text-white font-bold mb-2 text-sm md:text-base">💾 Apakah data tersimpan di perangkat saya?</h3>
+        <p class="text-xs md:text-sm text-gray-300">Tidak, semua data tersimpan di Google Spreadsheet cloud. Aplikasi hanya menampilkan data dari sumber tersebut secara real-time.</p>
+       </div>
+       <div class="feature-box">
+        <h3 class="text-white font-bold mb-2 text-sm md:text-base">🌐 Apakah perlu koneksi internet?</h3>
+        <p class="text-xs md:text-sm text-gray-300">Ya, koneksi internet diperlukan untuk mengakses data dari Google Spreadsheet dan menggunakan semua fitur aplikasi.</p>
+       </div>
+       <div class="feature-box">
+        <h3 class="text-white font-bold mb-2 text-sm md:text-base">🔒 Seberapa aman data penduduk?</h3>
+        <p class="text-xs md:text-sm text-gray-300">Aplikasi dilindungi dengan password admin. Hanya pengguna yang memiliki password yang dapat mengakses data. Google Spreadsheet juga memiliki sistem keamanan tersendiri.</p>
+       </div>
+       <div class="feature-box">
+        <h3 class="text-white font-bold mb-2 text-sm md:text-base">✏️ Bagaimana cara menambah atau mengedit data?</h3>
+        <p class="text-xs md:text-sm text-gray-300">Klik tombol "📊 Buka Spreadsheet" untuk mengakses Google Sheets. Di sana Anda bisa menambah, mengedit, atau menghapus data langsung.</p>
+       </div>
+       <div class="feature-box">
+        <h3 class="text-white font-bold mb-2 text-sm md:text-base">📊 Berapa maksimal data yang bisa ditampilkan?</h3>
+        <p class="text-xs md:text-sm text-gray-300">Aplikasi dapat menampilkan ribuan data dengan performa baik. Namun untuk pengalaman terbaik, gunakan filter dusun dan pencarian untuk membatasi hasil.</p>
+       </div>
+       <div class="feature-box">
+        <h3 class="text-white font-bold mb-2 text-sm md:text-base">🎨 Apakah tampilan bisa diubah?</h3>
+        <p class="text-xs md:text-sm text-gray-300">Tampilan sudah dioptimalkan untuk pengalaman terbaik. Jika ada permintaan khusus, hubungi developer (Syam Digital) untuk kustomisasi.</p>
+       </div>
+      </div>
+     </section><!-- Contact Support -->
+     <section class="section-card rounded-xl md:rounded-2xl p-4 md:p-8 mb-4 md:mb-6">
+      <h2 class="text-yellow-400 font-bold text-xl md:text-3xl mb-4 md:mb-6">📞 Butuh Bantuan Lebih Lanjut?</h2>
+      <div class="space-y-4">
+       <p class="text-gray-300 text-sm md:text-lg">Jika Anda masih memiliki pertanyaan atau mengalami kendala, jangan ragu untuk menghubungi tim support kami:</p>
+       <div class="feature-box">
+        <div class="flex items-center justify-between flex-wrap gap-4">
+         <div class="flex items-center gap-3 md:gap-4"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1767107507/SYAM_DIGITAL_ADMIN_dt6quc.jpg" alt="Admin Syam Digital" class="w-12 h-12 md:w-16 md:h-16 rounded-full object-cover border-2 border-yellow-400">
+          <div>
+           <h3 class="text-white font-bold text-base md:text-lg">Syam Digital</h3>
+           <p class="text-gray-400 text-xs md:text-sm">Administrator &amp; Developer</p>
+           <p class="text-yellow-400 text-xs md:text-sm break-all">📧 syamsusaputra85@gmail.com</p>
+          </div>
+         </div><a href="https://wa.me/" target="_blank" rel="noopener noreferrer" style="background: #25D366; border: 2px solid #25D366; color: white; padding: 0.625rem 1.25rem; border-radius: 0.75rem; font-weight: bold; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.3s ease; font-size: 0.875rem;" onmouseover="this.style.background='#128C7E'; this.style.transform='translateY(-2px)'" onmouseout="this.style.background='#25D366'; this.style.transform='translateY(0)'"> 📱 Hubungi via WhatsApp </a>
+        </div>
+       </div>
+       <div class="tip-box">
+        <div class="flex items-start gap-3"><span class="text-xl md:text-2xl">💡</span>
+         <div>
+          <h4 class="font-bold text-yellow-400 mb-2 text-sm md:text-base">Informasi Saat Menghubungi Support:</h4>
+          <ul class="text-xs md:text-sm text-gray-300 space-y-1">
+           <li>• Jelaskan masalah yang Anda alami dengan detail</li>
+           <li>• Sebutkan browser yang Anda gunakan (Chrome, Firefox, dll)</li>
+           <li>• Screenshot error atau masalah sangat membantu</li>
+           <li>• Berikan informasi langkah yang sudah Anda coba</li>
+          </ul>
+         </div>
+        </div>
+       </div>
+      </div>
+     </section><!-- Footer -->
+     <footer class="text-center py-6 md:py-8">
+      <div class="h-1 w-32 mx-auto bg-gradient-to-r from-transparent via-yellow-400 to-transparent mb-4"></div>
+      <p class="text-gray-400 mb-2 text-sm md:text-base">© 2025 Aplikasi Pencarian Data Penduduk</p>
+      <p class="text-gray-500 text-xs md:text-sm">Dikembangkan oleh <span class="text-yellow-400 font-semibold">Syam Digital</span></p>
+      <div class="flex items-center justify-center gap-4 mt-4"><img src="https://res.cloudinary.com/dpr2vc3b0/image/upload/v1767107096/logo_donggala-fix-2025_napiej.png" alt="Logo" class="w-10 h-10 md:w-12 md:h-12 object-contain opacity-50">
+      </div>
+     </footer>
+    </div>
+   </div>
+  </div><!-- Back to Top Button --> <button id="back-to-top" class="back-to-top" title="Kembali ke atas"> ⬆️ </button>
+  <script>
+    // Smooth scroll for navigation links
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = link.getAttribute('href').substring(1);
+        const targetElement = document.getElementById(targetId);
+        
+        if (targetElement) {
+          targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // Back to top button functionality
+    const backToTopBtn = document.getElementById('back-to-top');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        backToTopBtn.classList.add('show');
+      } else {
+        backToTopBtn.classList.remove('show');
+      }
+    });
+
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+
+    // Highlight current section in navigation
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    window.addEventListener('scroll', () => {
+      let current = '';
+      
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.clientHeight;
+        if (window.scrollY >= (sectionTop - 100)) {
+          current = section.getAttribute('id');
+        }
+      });
+
+      navLinks.forEach(link => {
+        link.style.background = '';
+        link.style.borderColor = 'transparent';
+        if (link.getAttribute('href').substring(1) === current) {
+          link.style.background = 'rgba(255, 215, 0, 0.1)';
+          link.style.borderColor = '#FFD700';
+        }
+      });
+    });
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b81a94f5141893c',t:'MTc2NzQzNDU1NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

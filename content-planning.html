@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1757245484/SYAMDIGITAL-LOGO-2025_mmpllg.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Planning - Syam Digital Blog Strategy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .content-card {
+            transition: all 0.3s ease;
+        }
+        
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        
+        .priority-high {
+            border-left: 4px solid #ef4444;
+        }
+        
+        .priority-medium {
+            border-left: 4px solid #f59e0b;
+        }
+        
+        .priority-low {
+            border-left: 4px solid #10b981;
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="gradient-bg text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Back to Home Button -->
+            <div class="mb-8">
+                <a href="https://www.syam.digital/" class="inline-flex items-center bg-white bg-opacity-20 hover:bg-opacity-30 text-white px-6 py-3 rounded-lg font-semibold transition duration-300 group">
+                    <i class="fas fa-arrow-left mr-2 group-hover:-translate-x-1 transition duration-300"></i>
+                    Kembali ke Beranda
+                </a>
+            </div>
+            
+            <div class="text-center">
+                <div class="inline-block px-4 py-2 bg-white bg-opacity-20 rounded-full text-sm font-semibold mb-6">
+                    📝 CONTENT STRATEGY DASHBOARD
+                </div>
+                <h1 class="text-4xl md:text-5xl font-bold mb-6">Perencanaan Konten Blog 🚀</h1>
+                <p class="text-xl mb-8 opacity-90 max-w-3xl mx-auto">
+                    Strategic content planning untuk meningkatkan traffic, engagement, dan monetization! 
+                    Dari trending topics sampai evergreen content yang menghasilkan! 💰
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button onclick="showContentCalendar()" class="bg-white text-purple-600 px-8 py-4 rounded-lg font-bold hover:bg-gray-100 transition duration-300">
+                        📅 Content Calendar
+                    </button>
+                    <button onclick="showTopicIdeas()" class="border-2 border-white text-white px-8 py-4 rounded-lg font-bold hover:bg-white hover:text-purple-600 transition duration-300">
+                        💡 Topic Generator
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Content Pipeline -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">🔥 Content Pipeline</h2>
+                <p class="text-xl text-gray-600">Artikel yang sedang dalam proses dan siap publish</p>
+            </div>
+            
+            <div class="grid lg:grid-cols-3 gap-8">
+                <!-- In Progress -->
+                <div class="bg-yellow-50 p-6 rounded-lg border-2 border-yellow-200">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-yellow-500 rounded-full flex items-center justify-center mr-3">
+                            <i class="fas fa-edit text-white"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800">In Progress</h3>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-white p-4 rounded-lg shadow-sm priority-high">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-sm font-semibold text-red-600">HIGH PRIORITY</span>
+                                <span class="text-sm text-gray-500">80% done</span>
+                            </div>
+                            <h4 class="font-semibold text-gray-800 mb-2">5 Canva Pro Templates yang Bikin Client WOW ✨</h4>
+                            <p class="text-sm text-gray-600 mb-3">Template premium pilihan + tips customize untuk impress clients</p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full">Tutorial</span>
+                                <button onclick="continueWriting('canva-templates')" class="text-yellow-600 hover:text-yellow-800 text-sm font-semibold">
+                                    Continue Writing →
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-lg shadow-sm priority-medium">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-sm font-semibold text-orange-600">MEDIUM</span>
+                                <span class="text-sm text-gray-500">60% done</span>
+                            </div>
+                            <h4 class="font-semibold text-gray-800 mb-2">Setup Website Portfolio Gratis dengan Netlify 🚀</h4>
+                            <p class="text-sm text-gray-600 mb-3">Complete guide dari zero sampai live dengan domain custom</p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">Guide</span>
+                                <button onclick="continueWriting('netlify-guide')" class="text-orange-600 hover:text-orange-800 text-sm font-semibold">
+                                    Continue Writing →
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ready to Publish -->
+                <div class="bg-green-50 p-6 rounded-lg border-2 border-green-200">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center mr-3">
+                            <i class="fas fa-check text-white"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800">Ready to Publish</h3>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-white p-4 rounded-lg shadow-sm border-l-4 border-green-500">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-sm font-semibold text-green-600">READY!</span>
+                                <span class="text-sm text-gray-500">100% done</span>
+                            </div>
+                            <h4 class="font-semibold text-gray-800 mb-2">Canva Pro vs Free: Worth It Gak Sih? 🤔</h4>
+                            <p class="text-sm text-gray-600 mb-3">Review honest setelah 6 bulan pakai + ROI analysis</p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded-full">Review</span>
+                                <button onclick="publishArticle('canva-review')" class="bg-green-500 text-white px-4 py-2 rounded text-sm font-semibold hover:bg-green-600 transition duration-300">
+                                    🚀 Publish Now
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="bg-gray-100 p-4 rounded-lg opacity-75">
+                            <p class="text-center text-gray-500 text-sm">
+                                <i class="fas fa-plus-circle mr-2"></i>
+                                Slot untuk artikel berikutnya
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ideas & Planning -->
+                <div class="bg-blue-50 p-6 rounded-lg border-2 border-blue-200">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center mr-3">
+                            <i class="fas fa-lightbulb text-white"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800">Ideas & Planning</h3>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-white p-4 rounded-lg shadow-sm priority-high">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-sm font-semibold text-red-600">TRENDING</span>
+                                <span class="text-sm text-gray-500">Research phase</span>
+                            </div>
+                            <h4 class="font-semibold text-gray-800 mb-2">AI Tools untuk Designer: Game Changer atau Hype? 🤖</h4>
+                            <p class="text-sm text-gray-600 mb-3">Review ChatGPT, Midjourney, dan tools AI lainnya untuk design workflow</p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs bg-red-100 text-red-800 px-2 py-1 rounded-full">Hot Topic</span>
+                                <button onclick="startResearch('ai-tools')" class="text-blue-600 hover:text-blue-800 text-sm font-semibold">
+                                    Start Research →
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-lg shadow-sm priority-medium">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-sm font-semibold text-orange-600">EVERGREEN</span>
+                                <span class="text-sm text-gray-500">Outline ready</span>
+                            </div>
+                            <h4 class="font-semibold text-gray-800 mb-2">Freelancer Pemula: Dari 0 ke 10 Juta/Bulan 💰</h4>
+                            <p class="text-sm text-gray-600 mb-3">Step-by-step guide untuk mulai freelancing dan scale income</p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">Money Guide</span>
+                                <button onclick="startWriting('freelancer-guide')" class="text-blue-600 hover:text-blue-800 text-sm font-semibold">
+                                    Start Writing →
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Content Strategy -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">📊 Content Strategy</h2>
+                <p class="text-xl text-gray-600">Data-driven approach untuk maksimalkan engagement dan monetization</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                <!-- Publishing Schedule -->
+                <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+                    <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-calendar text-white text-xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-gray-800 mb-2">Publishing Schedule</h3>
+                    <div class="text-2xl font-bold text-purple-600 mb-1">2x/week</div>
+                    <p class="text-sm text-gray-600">Selasa & Jumat</p>
+                </div>
+
+                <!-- Content Mix -->
+                <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+                    <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-chart-pie text-white text-xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-gray-800 mb-2">Content Mix</h3>
+                    <div class="text-sm text-gray-600">
+                        <div>40% Tutorials</div>
+                        <div>30% Reviews</div>
+                        <div>30% Guides</div>
+                    </div>
+                </div>
+
+                <!-- Target Traffic -->
+                <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+                    <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-users text-white text-xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-gray-800 mb-2">Monthly Target</h3>
+                    <div class="text-2xl font-bold text-blue-600 mb-1">10K</div>
+                    <p class="text-sm text-gray-600">unique visitors</p>
+                </div>
+
+                <!-- Revenue Goal -->
+                <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+                    <div class="w-12 h-12 bg-yellow-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-dollar-sign text-white text-xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-gray-800 mb-2">Revenue Goal</h3>
+                    <div class="text-2xl font-bold text-yellow-600 mb-1">Rp 5jt</div>
+                    <p class="text-sm text-gray-600">from content</p>
+                </div>
+            </div>
+
+            <!-- Content Categories -->
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- High-Performing Content -->
+                <div class="bg-white p-8 rounded-lg shadow-lg">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-fire text-white text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800">High-Performing Topics</h3>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="p-4 bg-red-50 rounded-lg">
+                            <h4 class="font-semibold text-gray-800 mb-2">🔥 Canva Pro Reviews & Tips</h4>
+                            <p class="text-sm text-gray-600 mb-2">Avg. 5K views, 15% conversion to affiliate</p>
+                            <div class="text-xs text-red-600 font-semibold">PRIORITY: Buat lebih banyak!</div>
+                        </div>
+                        <div class="p-4 bg-red-50 rounded-lg">
+                            <h4 class="font-semibold text-gray-800 mb-2">💰 Monetization Guides</h4>
+                            <p class="text-sm text-gray-600 mb-2">Avg. 3K views, 25% email signup</p>
+                            <div class="text-xs text-red-600 font-semibold">PRIORITY: Weekly series!</div>
+                        </div>
+                        <div class="p-4 bg-red-50 rounded-lg">
+                            <h4 class="font-semibold text-gray-800 mb-2">🚀 Step-by-Step Tutorials</h4>
+                            <p class="text-sm text-gray-600 mb-2">Avg. 4K views, high engagement</p>
+                            <div class="text-xs text-red-600 font-semibold">PRIORITY: Video + blog combo</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trending Opportunities -->
+                <div class="bg-white p-8 rounded-lg shadow-lg">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-trending-up text-white text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800">Trending Opportunities</h3>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="p-4 bg-orange-50 rounded-lg">
+                            <h4 class="font-semibold text-gray-800 mb-2">🤖 AI Tools for Designers</h4>
+                            <p class="text-sm text-gray-600 mb-2">Search volume: 50K/month, low competition</p>
+                            <div class="text-xs text-orange-600 font-semibold">OPPORTUNITY: First mover advantage</div>
+                        </div>
+                        <div class="p-4 bg-orange-50 rounded-lg">
+                            <h4 class="font-semibold text-gray-800 mb-2">📱 Mobile-First Design</h4>
+                            <p class="text-sm text-gray-600 mb-2">Growing trend, perfect for tutorials</p>
+                            <div class="text-xs text-orange-600 font-semibold">OPPORTUNITY: Underserved niche</div>
+                        </div>
+                        <div class="p-4 bg-orange-50 rounded-lg">
+                            <h4 class="font-semibold text-gray-800 mb-2">💼 Remote Work Setup</h4>
+                            <p class="text-sm text-gray-600 mb-2">Evergreen topic with affiliate potential</p>
+                            <div class="text-xs text-orange-600 font-semibold">OPPORTUNITY: High monetization</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Content Calendar -->
+                <div class="bg-white p-8 rounded-lg shadow-lg">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mr-4">
+                            <i class="fas fa-calendar-alt text-white text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800">Next 2 Weeks</h3>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="p-4 bg-green-50 rounded-lg">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-sm font-semibold text-green-600">SELASA, 19 DEC</span>
+                                <span class="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded-full">Review</span>
+                            </div>
+                            <h4 class="font-semibold text-gray-800">Canva Pro vs Free Review</h4>
+                        </div>
+                        <div class="p-4 bg-green-50 rounded-lg">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-sm font-semibold text-green-600">JUMAT, 22 DEC</span>
+                                <span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full">Tutorial</span>
+                            </div>
+                            <h4 class="font-semibold text-gray-800">5 Canva Pro Templates</h4>
+                        </div>
+                        <div class="p-4 bg-gray-50 rounded-lg">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-sm font-semibold text-gray-600">SELASA, 26 DEC</span>
+                                <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">Guide</span>
+                            </div>
+                            <h4 class="font-semibold text-gray-800">Netlify Setup Guide</h4>
+                        </div>
+                        <div class="p-4 bg-gray-50 rounded-lg">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-sm font-semibold text-gray-600">JUMAT, 29 DEC</span>
+                                <span class="text-xs bg-red-100 text-red-800 px-2 py-1 rounded-full">Hot Topic</span>
+                            </div>
+                            <h4 class="font-semibold text-gray-800">AI Tools Review</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Content Ideas Generator -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">💡 Content Ideas Generator</h2>
+                <p class="text-xl text-gray-600">Never run out of content ideas again!</p>
+            </div>
+            
+            <div class="max-w-4xl mx-auto">
+                <!-- Topic Categories -->
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
+                    <button onclick="generateIdeas('canva')" class="p-6 bg-purple-50 hover:bg-purple-100 rounded-lg text-center transition duration-300 border-2 border-transparent hover:border-purple-200">
+                        <i class="fas fa-crown text-purple-500 text-2xl mb-3"></i>
+                        <div class="font-semibold text-gray-800">Canva Pro</div>
+                        <div class="text-sm text-gray-600">Templates, tips, reviews</div>
+                    </button>
+                    <button onclick="generateIdeas('webdev')" class="p-6 bg-blue-50 hover:bg-blue-100 rounded-lg text-center transition duration-300 border-2 border-transparent hover:border-blue-200">
+                        <i class="fas fa-code text-blue-500 text-2xl mb-3"></i>
+                        <div class="font-semibold text-gray-800">Web Development</div>
+                        <div class="text-sm text-gray-600">Tutorials, tools, guides</div>
+                    </button>
+                    <button onclick="generateIdeas('money')" class="p-6 bg-green-50 hover:bg-green-100 rounded-lg text-center transition duration-300 border-2 border-transparent hover:border-green-200">
+                        <i class="fas fa-dollar-sign text-green-500 text-2xl mb-3"></i>
+                        <div class="font-semibold text-gray-800">Monetization</div>
+                        <div class="text-sm text-gray-600">Freelancing, passive income</div>
+                    </button>
+                    <button onclick="generateIdeas('trending')" class="p-6 bg-red-50 hover:bg-red-100 rounded-lg text-center transition duration-300 border-2 border-transparent hover:border-red-200">
+                        <i class="fas fa-fire text-red-500 text-2xl mb-3"></i>
+                        <div class="font-semibold text-gray-800">Trending</div>
+                        <div class="text-sm text-gray-600">AI, new tools, hot topics</div>
+                    </button>
+                </div>
+
+                <!-- Generated Ideas Display -->
+                <div id="generated-ideas" class="bg-gray-50 p-8 rounded-lg shadow-lg hidden">
+                    <h3 class="text-xl font-bold text-gray-800 mb-6">🎯 Generated Content Ideas</h3>
+                    <div id="ideas-list" class="space-y-4">
+                        <!-- Ideas will be populated here -->
+                    </div>
+                    <div class="text-center mt-8">
+                        <button onclick="generateMoreIdeas()" class="bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700 transition duration-300">
+                            🔄 Generate More Ideas
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Action Plan -->
+    <section class="py-20 bg-gradient-to-r from-purple-500 to-pink-500 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl font-bold mb-6">🚀 Ready to Execute Your Content Strategy?</h2>
+            <p class="text-xl mb-8 opacity-90 max-w-3xl mx-auto">
+                Consistent content creation is the key to building your audience and income. 
+                Start with one article this week and build momentum! 💪
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button onclick="startWritingToday()" class="bg-white text-purple-600 px-8 py-4 rounded-lg font-bold hover:bg-gray-100 transition duration-300">
+                    ✍️ Start Writing Today
+                </button>
+                <button onclick="setupContentCalendar()" class="border-2 border-white text-white px-8 py-4 rounded-lg font-bold hover:bg-white hover:text-purple-600 transition duration-300">
+                    📅 Setup Content Calendar
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Content Ideas Database
+        const contentIdeas = {
+            canva: [
+                "10 Canva Pro Templates yang Wajib Punya Designer 🎨",
+                "Canva Pro vs Adobe: Mana yang Lebih Worth It? 💰",
+                "Cara Bikin Brand Kit Professional di Canva Pro ✨",
+                "5 Fitur Canva Pro yang Jarang Dipakai (Tapi Powerful!) 🔥",
+                "Template Instagram Story yang Bikin Engagement Naik 📈",
+                "Canva Pro untuk Pemula: Complete Setup Guide 🚀",
+                "Cara Monetize Skill Canva Pro (Dari 0 ke 10 Juta) 💸",
+                "Canva Pro Shortcuts yang Bikin Kerja 10x Lebih Cepat ⚡",
+                "Review Jujur: 6 Bulan Pakai Canva Pro 📊",
+                "Canva Pro Animation: Cara Bikin Motion Graphics Keren 🎬"
+            ],
+            webdev: [
+                "Website Portfolio Gratis dengan Netlify + Custom Domain 🌐",
+                "5 CSS Tricks yang Bikin Website Terlihat Professional ✨",
+                "Responsive Design: Mobile-First vs Desktop-First 📱",
+                "Speed Optimization: Dari 5 Detik ke 1 Detik Loading ⚡",
+                "HTML Semantic: Kenapa Penting untuk SEO? 🔍",
+                "JavaScript untuk Designer: Yang Perlu Kamu Tahu 💻",
+                "Hosting Gratis vs Berbayar: Mana yang Tepat? 💰",
+                "Website Accessibility: Design untuk Semua Orang ♿",
+                "Git & GitHub untuk Designer: Complete Beginner Guide 📚",
+                "Progressive Web App: Website yang Terasa seperti App 📲"
+            ],
+            money: [
+                "Freelancer Pemula: Dari 0 ke 10 Juta per Bulan 💰",
+                "5 Passive Income Stream untuk Designer 🏦",
+                "Cara Pricing Service Design yang Profitable 💸",
+                "Client Hunting: Dimana Cari Client yang Bayar Mahal? 🎯",
+                "Affiliate Marketing untuk Designer: Complete Guide 🤝",
+                "Bikin Online Course dari Skill Design Kamu 🎓",
+                "Dropshipping Template: Bisnis Tanpa Modal Besar 📦",
+                "Personal Branding: Jadi Designer yang Dikenal 🌟",
+                "Investasi untuk Freelancer: Kelola Uang dengan Bijak 📈",
+                "Scaling Design Business: Dari Freelancer ke Agency 🏢"
+            ],
+            trending: [
+                "AI Tools untuk Designer: Game Changer atau Hype? 🤖",
+                "ChatGPT untuk Design Workflow: Tips & Tricks 💬",
+                "Midjourney vs DALL-E: Mana yang Terbaik? 🎨",
+                "No-Code Tools: Bikin Website Tanpa Coding 🚫💻",
+                "NFT Design: Peluang atau Bubble? 🖼️",
+                "Remote Work Setup: Home Office yang Produktif 🏠",
+                "Design Trends 2024: Yang Perlu Kamu Tahu 📅",
+                "Sustainable Design: Eco-Friendly Digital Design 🌱",
+                "Voice UI Design: Masa Depan Interface 🗣️",
+                "AR/VR Design: Skill Baru yang Wajib Dipelajari 🥽"
+            ]
+        };
+
+        let currentCategory = '';
+
+        function generateIdeas(category) {
+            currentCategory = category;
+            const ideas = contentIdeas[category];
+            const shuffled = ideas.sort(() => 0.5 - Math.random());
+            const selected = shuffled.slice(0, 5);
+            
+            displayIdeas(selected, category);
+        }
+
+        function displayIdeas(ideas, category) {
+            const container = document.getElementById('generated-ideas');
+            const listContainer = document.getElementById('ideas-list');
+            
+            const categoryNames = {
+                canva: 'Canva Pro',
+                webdev: 'Web Development', 
+                money: 'Monetization',
+                trending: 'Trending Topics'
+            };
+            
+            listContainer.innerHTML = '';
+            
+            ideas.forEach((idea, index) => {
+                const ideaElement = document.createElement('div');
+                ideaElement.className = 'content-card bg-white p-6 rounded-lg shadow-sm border-l-4 border-purple-500';
+                ideaElement.innerHTML = `
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-sm font-semibold text-purple-600">${categoryNames[category].toUpperCase()}</span>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">High Potential</span>
+                            <button onclick="selectIdea('${idea}')" class="text-purple-600 hover:text-purple-800 text-sm font-semibold">
+                                Select →
+                            </button>
+                        </div>
+                    </div>
+                    <h4 class="font-semibold text-gray-800 mb-2">${idea}</h4>
+                    <div class="flex items-center justify-between text-sm text-gray-600">
+                        <span>📊 Est. 3-5K views</span>
+                        <span>⏱️ 2-3 hours to write</span>
+                        <span>💰 High monetization potential</span>
+                    </div>
+                `;
+                listContainer.appendChild(ideaElement);
+            });
+            
+            container.classList.remove('hidden');
+            container.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function generateMoreIdeas() {
+            if (currentCategory) {
+                generateIdeas(currentCategory);
+            }
+        }
+
+        function selectIdea(idea) {
+            alert(`🎯 GREAT CHOICE!
+
+Selected Article: "${idea}"
+
+📝 NEXT STEPS:
+1. Research keywords and competition
+2. Create detailed outline (5-7 main points)
+3. Write compelling introduction
+4. Add practical examples and screenshots
+5. Include clear call-to-action
+6. Optimize for SEO
+
+💡 WRITING TIPS:
+• Start with a hook that grabs attention
+• Use bullet points and subheadings
+• Include personal experience and insights
+• Add actionable tips readers can implement
+• End with next steps or related articles
+
+⏰ ESTIMATED TIME:
+• Research: 30 minutes
+• Outline: 30 minutes  
+• Writing: 2-3 hours
+• Editing: 30 minutes
+• SEO optimization: 30 minutes
+
+Ready to start writing? Let's create content that converts! 🚀`);
+        }
+
+        function continueWriting(article) {
+            const articles = {
+                'canva-templates': {
+                    title: '5 Canva Pro Templates yang Bikin Client WOW ✨',
+                    progress: '80%',
+                    nextSteps: 'Add screenshots, create download links, write conclusion'
+                },
+                'netlify-guide': {
+                    title: 'Setup Website Portfolio Gratis dengan Netlify 🚀', 
+                    progress: '60%',
+                    nextSteps: 'Complete custom domain section, add troubleshooting tips'
+                }
+            };
+            
+            const articleInfo = articles[article];
+            alert(`📝 CONTINUE WRITING
+
+Article: "${articleInfo.title}"
+Progress: ${articleInfo.progress}
+
+🎯 NEXT STEPS:
+${articleInfo.nextSteps}
+
+💡 WRITING MOMENTUM TIPS:
+• Set timer for 25 minutes (Pomodoro technique)
+• Write first, edit later
+• Don't aim for perfection in first draft
+• Focus on providing value to readers
+• Take breaks every hour
+
+📊 CURRENT STATUS:
+• Word count target: 1500-2000 words
+• Images needed: 5-8 screenshots
+• SEO keywords: Already researched
+• Monetization: Affiliate links ready
+
+Ready to finish this article? You're almost there! 💪`);
+        }
+
+        function startResearch(topic) {
+            const topics = {
+                'ai-tools': {
+                    title: 'AI Tools untuk Designer: Game Changer atau Hype? 🤖',
+                    keywords: 'AI design tools, ChatGPT for designers, Midjourney review',
+                    competition: 'Medium - good opportunity'
+                }
+            };
+            
+            const topicInfo = topics[topic];
+            alert(`🔍 RESEARCH PHASE
+
+Topic: "${topicInfo.title}"
+
+📊 KEYWORD RESEARCH:
+Primary: ${topicInfo.keywords}
+Competition: ${topicInfo.competition}
+Search Volume: 15K/month
+
+🎯 RESEARCH CHECKLIST:
+□ Test 5-7 AI tools personally
+□ Compare features and pricing
+□ Create before/after examples
+□ Interview other designers
+□ Check competitor articles
+□ Gather screenshots and demos
+
+📝 ARTICLE STRUCTURE:
+1. Hook: Personal AI experience
+2. Tool comparison matrix
+3. Practical use cases
+4. Pros and cons analysis
+5. ROI calculation
+6. Future predictions
+7. Actionable recommendations
+
+⏰ RESEARCH TIME: 2-3 hours
+📅 TARGET PUBLISH: Next week
+
+Start researching now? This could be your viral article! 🚀`);
+        }
+
+        function startWriting(article) {
+            alert(`✍️ START WRITING SESSION
+
+Article: "Freelancer Pemula: Dari 0 ke 10 Juta/Bulan 💰"
+
+📝 WRITING PLAN:
+• Target: 2000 words
+• Time needed: 3-4 hours
+• Structure: Problem → Solution → Action Steps
+
+🎯 OUTLINE READY:
+1. Introduction: Why freelancing?
+2. Mindset shift yang diperlukan
+3. Skill assessment dan development
+4. Platform dan tools yang dibutuhkan
+5. Pricing strategy yang profitable
+6. Client acquisition methods
+7. Scaling dari 1 juta ke 10 juta
+8. Common mistakes to avoid
+9. Action plan 30 hari
+10. Conclusion dengan CTA
+
+💡 WRITING TIPS:
+• Start with personal story
+• Use specific numbers and examples
+• Include screenshots of earnings
+• Add client testimonials
+• Create downloadable checklist
+
+Ready to start your writing session? Set that timer and let's go! ⏰`);
+        }
+
+        function publishArticle(article) {
+            alert(`🚀 PUBLISH ARTICLE
+
+"Canva Pro vs Free: Worth It Gak Sih? 🤔"
+
+✅ PRE-PUBLISH CHECKLIST:
+□ Proofread for typos and grammar
+□ Check all links work properly
+□ Optimize images (compress, alt text)
+□ Add meta description and title
+□ Include social sharing buttons
+□ Set up email capture
+□ Add related articles section
+□ Test mobile responsiveness
+
+📊 SEO OPTIMIZATION:
+□ Primary keyword in title and H1
+□ Meta description under 160 characters
+□ Internal links to other articles
+□ External links to authority sites
+□ Image alt text optimized
+□ URL slug optimized
+
+📱 SOCIAL MEDIA PLAN:
+□ Create Instagram carousel
+□ Write LinkedIn post
+□ Share in Facebook groups
+□ Tweet with relevant hashtags
+□ Add to Pinterest boards
+
+💰 MONETIZATION SETUP:
+□ Affiliate links properly disclosed
+□ Email opt-in forms added
+□ Related product recommendations
+□ CTA for consultation/services
+
+Ready to publish and start earning? Let's go live! 🎉`);
+        }
+
+        function showContentCalendar() {
+            alert(`📅 CONTENT CALENDAR OVERVIEW
+
+🗓️ DECEMBER 2024:
+• 19 Dec (Selasa): Canva Pro Review [READY]
+• 22 Dec (Jumat): 5 Canva Templates [80% DONE]
+• 26 Dec (Selasa): Netlify Guide [60% DONE]
+• 29 Dec (Jumat): AI Tools Review [RESEARCH PHASE]
+
+🗓️ JANUARY 2025:
+• 2 Jan: Freelancer Guide [OUTLINE READY]
+• 5 Jan: Mobile-First Design [IDEA STAGE]
+• 9 Jan: Monetization Case Study [PLANNING]
+• 12 Jan: Design Trends 2025 [RESEARCH]
+
+📊 CONTENT METRICS TARGET:
+• 2 articles per week
+• 1500-2000 words each
+• 5-8 images per article
+• 1 affiliate link per article
+• 1 email opt-in per article
+
+🎯 MONTHLY GOALS:
+• 8 articles published
+• 10K unique visitors
+• 500 email subscribers
+• Rp 2jt affiliate income
+• 5 consultation bookings
+
+Want to setup automated reminders? 📱`);
+        }
+
+        function showTopicIdeas() {
+            alert(`💡 TOPIC IDEA GENERATOR
+
+🔥 TRENDING TOPICS (High Priority):
+• AI Tools untuk Designer
+• Remote Work Setup 2024
+• No-Code Website Builders
+• Sustainable Design Practices
+• Voice UI Design Basics
+
+📈 EVERGREEN CONTENT (Steady Traffic):
+• Canva Pro tutorials dan tips
+• Web development basics
+• Freelancing dan monetization
+• Design portfolio building
+• Client management strategies
+
+💰 HIGH-MONETIZATION POTENTIAL:
+• Tool reviews dengan affiliate links
+• Course creation guides
+• Business setup tutorials
+• Investment dan financial planning
+• Premium template showcases
+
+🎯 CONTENT GAPS TO FILL:
+• Video content (YouTube channel?)
+• Interactive tutorials
+• Case studies dengan real numbers
+• Interview dengan successful designers
+• Behind-the-scenes content
+
+📊 KEYWORD RESEARCH TOOLS:
+• Google Keyword Planner
+• Ubersuggest
+• AnswerThePublic
+• Google Trends
+• Competitor analysis
+
+Ready to dominate your niche? Pick a topic and start writing! 🚀`);
+        }
+
+        function startWritingToday() {
+            alert(`✍️ START WRITING TODAY!
+
+🎯 TODAY'S WRITING GOAL:
+Write your next article in 3 hours!
+
+⏰ WRITING SCHEDULE:
+• 30 min: Choose topic + create outline
+• 2 hours: Write first draft (don't edit!)
+• 30 min: Quick review + publish
+
+🔥 RECOMMENDED TOPICS FOR TODAY:
+1. "5 Canva Pro Templates yang Bikin Client WOW" (80% done)
+2. "AI Tools untuk Designer: Worth It?" (trending topic)
+3. "Freelancer Income: 0 ke 10 Juta" (high conversion)
+
+💡 WRITING HACKS:
+• Use Pomodoro technique (25 min focus)
+• Write like you're talking to a friend
+• Don't aim for perfection, aim for done
+• Include personal stories and examples
+• End with clear call-to-action
+
+📱 TOOLS YOU NEED:
+• Google Docs (auto-save)
+• Grammarly (grammar check)
+• Canva (create featured image)
+• Timer app (stay focused)
+
+Ready to write your next viral article? Let's do this! 🚀
+
+Which topic will you choose?`);
+        }
+
+        function setupContentCalendar() {
+            alert(`📅 SETUP CONTENT CALENDAR
+
+🗓️ CALENDAR SYSTEM OPTIONS:
+
+1. GOOGLE CALENDAR (Recommended)
+• Create "Blog Content" calendar
+• Set recurring events for publish dates
+• Add reminders 3 days before deadline
+• Color code by content type
+
+2. NOTION TEMPLATE
+• Content pipeline dashboard
+• Idea bank with status tracking
+• SEO keyword research tracker
+• Performance analytics
+
+3. TRELLO BOARD
+• Lists: Ideas → Research → Writing → Review → Published
+• Cards for each article with checklists
+• Due dates and team collaboration
+• Automation with Butler
+
+📊 CONTENT SCHEDULE TEMPLATE:
+
+WEEKLY RHYTHM:
+• Monday: Research + outline new article
+• Tuesday: Write first draft
+• Wednesday: Edit + optimize for SEO
+• Thursday: Create graphics + social posts
+• Friday: Publish + promote on social media
+• Weekend: Engage with comments + plan next week
+
+🎯 MONTHLY THEMES:
+• January: New Year, Goal Setting
+• February: Valentine's, Love for Design
+• March: Spring Cleaning, Website Refresh
+• April: Easter, Rebirth, New Projects
+
+Ready to setup your content system? Choose your preferred tool! 🛠️`);
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97a237b9b4e86045',t:'MTc1NzAzODUxNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

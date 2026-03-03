@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9909022753190669"
+     crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Syam Digital</title>
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1757245484/SYAMDIGITAL-LOGO-2025_mmpllg.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .mega-menu {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+        
+        .mega-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .mega-menu-link {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .mega-menu-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+        
+        .mega-menu-link:hover::before {
+            left: 100%;
+        }
+        
+        .category-icon {
+            transition: transform 0.3s ease;
+        }
+        
+        .mega-menu-item:hover .category-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+        
+        @keyframes bounce-subtle {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-3px);
+            }
+            60% {
+                transform: translateY(-2px);
+            }
+        }
+        
+        .animate-bounce-subtle {
+            animation: bounce-subtle 2s infinite;
+        }
+        
+        @keyframes gradient-x {
+            0%, 100% {
+                background-size: 200% 200%;
+                background-position: left center;
+            }
+            50% {
+                background-size: 200% 200%;
+                background-position: right center;
+            }
+        }
+        
+        .animate-gradient-x {
+            background-size: 200% 200%;
+            animation: gradient-x 3s ease infinite;
+        }
+        
+        @keyframes rainbow-text {
+            0% { background-position: 0% 50%; }
+            25% { background-position: 100% 50%; }
+            50% { background-position: 100% 50%; }
+            75% { background-position: 0% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .rainbow-text {
+            background: linear-gradient(
+                45deg,
+                #ff0000,
+                #ff7f00,
+                #ffff00,
+                #00ff00,
+                #0000ff,
+                #4b0082,
+                #9400d3,
+                #ff0000
+            );
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: rainbow-text 3s ease-in-out infinite;
+        }
+        
+        .rainbow-text:hover {
+            animation-duration: 1s;
+            transform: scale(1.05);
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+        }
+        
+        .text-brand-container:hover .animate-bounce-subtle {
+            animation-duration: 0.8s;
+        }
+        
+        .group:hover .animate-bounce-subtle {
+            animation-play-state: running;
+        }
+    </style>
+</head>
+<div class="gcse-search"></div>
+<body class="bg-gray-900 min-h-screen">
+    <!-- Navigation Header -->
+    <nav class="bg-gradient-to-r from-gray-900 via-red-900 to-black shadow-2xl border-b border-red-800/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center group cursor-pointer">
+                    <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1757245484/SYAMDIGITAL-LOGO-2025_mmpllg.png" 
+                         alt="Syam Digital Logo" 
+                         class="h-10 w-auto mr-4 transition-all duration-500 hover:scale-110 hover:rotate-3 group-hover:drop-shadow-lg"
+                         onerror="this.style.display='none';">
+                    
+                    <!-- Brand Text - Rainbow Animation -->
+                    <div class="text-2xl font-bold rainbow-text transition-all duration-300 select-none cursor-pointer">
+                        Syam Digital
+                    </div>
+                </div>
+                
+                <!-- Menu Items -->
+                <div class="hidden md:block">
+                    <div class="ml-4 flex items-baseline space-x-6">
+                        <a href="https://syam.digital/" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                            Home
+                        </a>
+                        
+                        <!-- Mega Menu Trigger -->
+                        <div class="relative">
+                            <button id="mega-menu-trigger" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center">
+                                Layanan
+                                <svg class="ml-1 w-4 h-4 transition-transform duration-200" id="dropdown-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </button>
+                            
+                            <!-- Mega Menu Content -->
+                            <div id="mega-menu-content" class="mega-menu absolute top-full left-1/2 transform -translate-x-1/2 w-screen max-w-4xl bg-gradient-to-br from-gray-900 via-red-900/20 to-black shadow-2xl rounded-xl mt-2 p-6 border border-red-800/30 backdrop-blur-lg z-50">
+                                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                                    
+                                    <!-- Aplikasi Ready -->
+                                    <div class="mega-menu-item animate-fade-in-up" style="animation-delay: 0.1s;">
+                                        <div class="flex items-center mb-4">
+                                            <div class="category-icon bg-gradient-to-r from-green-400 to-blue-500 p-2 rounded-lg mr-3">
+                                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                                                </svg>
+                                            </div>
+                                            <h3 class="text-base font-bold bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">
+                                                Aplikasi Ready
+                                            </h3>
+                                        </div>
+                                        <ul class="space-y-2">
+                                            <li>
+                                                <a href="https://syam.digital/app" target="_blank" class="mega-menu-link text-gray-300 hover:text-green-400 transition-all duration-300 block p-1.5 rounded-lg hover:bg-gray-800/50 text-sm">
+                                                    <div class="flex items-center">
+                                                        <span class="w-1.5 h-1.5 bg-green-400 rounded-full mr-2"></span>
+                                                        Aplikasi Mobile
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="https://syam.digital/demo" target="_blank" class="mega-menu-link text-gray-300 hover:text-green-400 transition-all duration-300 block p-1.5 rounded-lg hover:bg-gray-800/50 text-sm">
+                                                    <div class="flex items-center">
+                                                        <span class="w-1.5 h-1.5 bg-green-400 rounded-full mr-2"></span>
+                                                        Demo Aplikasi
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="https://syam.digital/content-planning" target="_blank" class="mega-menu-link text-gray-300 hover:text-green-400 transition-all duration-300 block p-1.5 rounded-lg hover:bg-gray-800/50 text-sm">
+                                                    <div class="flex items-center">
+                                                        <span class="w-1.5 h-1.5 bg-green-400 rounded-full mr-2"></span>
+                                                        Content Planning
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="https://syam.digital/global" target="_blank" class="mega-menu-link text-gray-300 hover:text-green-400 transition-all duration-300 block p-1.5 rounded-lg hover:bg-gray-800/50 text-sm">
+                                                    <div class="flex items-center">
+                                                        <span class="w-1.5 h-1.5 bg-green-400 rounded-full mr-2"></span>
+                                                        Global Services
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="https://syam.digital/notebook" target="_blank" class="mega-menu-link text-gray-300 hover:text-green-400 transition-all duration-300 block p-1.5 rounded-lg hover:bg-gray-800/50 text-sm">
+                                                    <div class="flex items-center">
+                                                        <span class="w-1.5 h-1.5 bg-green-400 rounded-full mr-2"></span>
+                                                        Notebook
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <!-- Developer Tools -->
+                                    <div class="mega-menu-item animate-fade-in-up" style="animation-delay: 0.2s;">
+                                        <div class="flex items-center mb-4">
+                                            <div class="category-icon bg-gradient-to-r from-yellow-400 to-orange-500 p-2 rounded-lg mr-3">
+                                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                                                </svg>
+                                            </div>
+                                            <h3 class="text-base font-bold bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent">
+                                                Developer Tools
+                                            </h3>
+                                        </div>
+                                        <ul class="space-y-2">
+                                            <li>
+                                                <a href="https://syam.digital/pdf" target="_blank" class="mega-menu-link text-gray-300 hover:text-yellow-400 transition-all duration-300 block p-1.5 rounded-lg hover:bg-gray-800/50 text-sm">
+                                                    <div class="flex items-center">
+                                                        <span class="w-1.5 h-1.5 bg-yellow-400 rounded-full mr-2"></span>
+                                                       PDF
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="https://syam.digital/bukukas" target="_blank" class="mega-menu-link text-gray-300 hover:text-yellow-400 transition-all duration-300 block p-1.5 rounded-lg hover:bg-gray-800/50 text-sm">
+                                                    <div class="flex items-center">
+                                                        <span class="w-1.5 h-1.5 bg-yellow-400 rounded-full mr-2"></span>
+                                                        Buku Kas
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="https://ptk.karantinaindonesia.go.id/#/" target="_blank" class="mega-menu-link text-gray-300 hover:text-yellow-400 transition-all duration-300 block p-1.5 rounded-lg hover:bg-gray-800/50 text-sm">
+                                                    <div class="flex items-center">
+                                                        <span class="w-1.5 h-1.5 bg-yellow-400 rounded-full mr-2"></span>
+                                                        PTK Online
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="https://docs.google.com/spreadsheets/d/1OamG3QpgpgzMuwHOFF3LHSoxZ9eXAU_3iVgkjCcILrw/edit?gid=1635739351#gid=1635739351" target="_blank" class="mega-menu-link text-gray-300 hover:text-yellow-400 transition-all duration-300 block p-1.5 rounded-lg hover:bg-gray-800/50 text-sm">
+                                                    <div class="flex items-center">
+                                                        <span class="w-1.5 h-1.5 bg-yellow-400 rounded-full mr-2"></span>
+                                                        Permohonan
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="https://syam-pdf.netlify.app/" target="_blank" class="mega-menu-link text-gray-300 hover:text-yellow-400 transition-all duration-300 block p-1.5 rounded-lg hover:bg-gray-800/50 text-sm">
+                                                    <div class="flex items-center">
+                                                        <span class="w-1.5 h-1.5 bg-yellow-400 rounded-full mr-2"></span>
+                                                       Viewer PDF
+                                                    </div>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="https://syam.digital/nama-kapal" target="_blank" class="mega-menu-link text-gray-300 hover:text-yellow-400 transition-all duration-300 block p-1.5 rounded-lg hover:bg-gray-800/50 text-sm">
+                                                    <div class="flex items-center">
+                                                        <span class="w-1.5 h-1.5 bg-yellow-400 rounded-full mr-2"></span>
+                                                        Nama Kapal
+                                                    </div>
+                                                </a>
+                                            </li>
+                                             <li>
+                                                <a href="https://syam.digital/bulan" target="_blank" class="mega-menu-link text-gray-300 hover:text-yellow-400 transition-all duration-300 block p-1.5 rounded-lg hover:bg-gray-800/50 text-sm">
+                                                    <div class="flex items-center">
+                                                        <span class="w-1.5 h-1.5 bg-yellow-400 rounded-full mr-2"></span>
+                                                        Nama Bulan
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    
+
+                                    
+                                    <!-- Featured Section -->
+                                    <div class="mega-menu-item animate-fade-in-up" style="animation-delay: 0.4s;">
+                                        <div class="bg-gradient-to-br from-red-900/30 to-yellow-900/30 p-4 rounded-xl border border-red-800/30">
+                                            <div class="flex items-center mb-3">
+                                                <div class="bg-gradient-to-r from-red-400 to-yellow-400 p-2 rounded-lg mr-3">
+                                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                                    </svg>
+                                                </div>
+                                                <h3 class="text-base font-bold bg-gradient-to-r from-red-400 to-yellow-400 bg-clip-text text-transparent">
+                                                    Featured
+                                                </h3>
+                                            </div>
+                                            <p class="text-gray-300 text-xs mb-3">
+                                                Dapatkan akses ke semua layanan premium dengan diskon hingga 50%
+                                            </p>
+                                            <a href="https://syam.digital/app" target="_blank" class="inline-flex items-center px-3 py-1.5 bg-gradient-to-r from-red-500 to-yellow-500 text-white rounded-lg hover:from-red-600 hover:to-yellow-600 transition-all duration-300 text-xs font-medium">
+                                                Mulai Sekarang
+                                                <svg class="ml-1 w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                                                </svg>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Featured Section -->
+                                <div class="mt-6 bg-gradient-to-br from-red-900/30 to-yellow-900/30 p-4 rounded-xl border border-red-800/30">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <div class="flex items-center">
+                                            <div class="bg-gradient-to-r from-red-400 to-yellow-400 p-2 rounded-lg mr-3">
+                                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                                </svg>
+                                            </div>
+                                            <div>
+                                                <h3 class="text-base font-bold bg-gradient-to-r from-red-400 to-yellow-400 bg-clip-text text-transparent">
+                                                    Paket Lengkap
+                                                </h3>
+                                                <p class="text-gray-400 text-xs">Semua layanan dalam satu paket</p>
+                                            </div>
+                                        </div>
+                                        <div class="bg-gradient-to-r from-red-500 to-yellow-500 text-white text-xs px-2 py-1 rounded-full font-medium">
+                                            HEMAT 50%
+                                        </div>
+                                    </div>
+                                    <a href="https://syam.digital/paket-lengkap" target="_blank" class="block w-full bg-gradient-to-r from-red-500 to-yellow-500 text-white text-center py-2 rounded-lg font-medium hover:from-red-600 hover:to-yellow-600 transition-all duration-300 transform hover:scale-105">
+                                        Lihat Paket Lengkap
+                                    </a>
+                                </div>
+                                
+                                <!-- Bottom Section -->
+                                <div class="mt-6 pt-4 border-t border-gray-700/50">
+                                    <div class="flex justify-between items-center">
+                                        <div class="text-xs text-gray-400">
+                                            Butuh bantuan? <a href="https://syam.digital/contak" target="_blank" class="text-red-400 hover:text-red-300 transition-colors">Hubungi Support</a>
+                                        </div>
+                                        <div class="flex space-x-3">
+                                            <a href="https://syam.digital/all" target="_blank" class="text-gray-400 hover:text-white transition-colors">
+                                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                                    <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                                                </svg>
+                                            </a>
+                                            <a href="https://syam.digital/all" target="_blank" class="text-gray-400 hover:text-white transition-colors">
+                                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                                    <path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/>
+                                                </svg>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Cool Dropdown Menu -->
+                        <div class="relative">
+                            <button id="cool-dropdown-trigger" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 flex items-center group">
+                                <span class="mr-2">🚀</span>
+                                Explore
+                                <svg class="ml-1 w-4 h-4 transition-all duration-300 group-hover:rotate-180" id="cool-dropdown-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </button>
+                            
+                            <!-- Cool Dropdown Content -->
+                            <div id="cool-dropdown-content" class="opacity-0 invisible transform scale-95 transition-all duration-300 absolute top-full right-0 w-80 bg-gradient-to-br from-gray-900 via-purple-900/30 to-black shadow-2xl rounded-2xl mt-2 p-6 border border-purple-500/30 backdrop-blur-lg z-40">
+                                <!-- Header with animated icon -->
+                                <div class="flex items-center mb-6 pb-4 border-b border-purple-500/20">
+                                    <div class="bg-gradient-to-r from-purple-500 to-pink-500 p-3 rounded-xl mr-4 animate-pulse">
+                                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                                            Quick Actions
+                                        </h3>
+                                        <p class="text-gray-400 text-xs">Akses cepat ke fitur populer</p>
+                                    </div>
+                                </div>
+                                
+                                <!-- Menu Items with Icons and Descriptions -->
+                                <div class="space-y-3">
+                                    <a href="https://syam.digital/button" target="_blank" class="group flex items-center p-3 rounded-xl hover:bg-gradient-to-r hover:from-purple-900/30 hover:to-pink-900/30 transition-all duration-300 border border-transparent hover:border-purple-500/30">
+                                        <div class="bg-gradient-to-r from-blue-500 to-cyan-500 p-2 rounded-lg mr-4 group-hover:scale-110 transition-transform">
+                                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                                            </svg>
+                                        </div>
+                                        <div class="flex-1">
+                                            <div class="text-white font-medium group-hover:text-purple-300 transition-colors">Button</div>
+                                            <div class="text-gray-400 text-xs">Daftar Link Syam Digital</div>
+                                        </div>
+                                        <svg class="w-4 h-4 text-gray-400 group-hover:text-purple-400 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                        </svg>
+                                    </a>
+                                    
+                                    <a href="https://syam.digital/all" target="_blank" class="group flex items-center p-3 rounded-xl hover:bg-gradient-to-r hover:from-purple-900/30 hover:to-pink-900/30 transition-all duration-300 border border-transparent hover:border-purple-500/30">
+                                        <div class="bg-gradient-to-r from-green-500 to-emerald-500 p-2 rounded-lg mr-4 group-hover:scale-110 transition-transform">
+                                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" allstroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                                            </svg>
+                                        </div>
+                                        <div class="flex-1">
+                                            <div class="text-white font-medium group-hover:text-purple-300 transition-colors">Link Aplikasi</div>
+                                            <div class="text-gray-400 text-xs">Lihat Semua Link Aplikasi</div>
+                                        </div>
+                                        <svg class="w-4 h-4 text-gray-400 group-hover:text-purple-400 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                        </svg>
+                                    </a>
+                                    
+                                    <a href="https://syam.digital/settings" target="_blank" class="group flex items-center p-3 rounded-xl hover:bg-gradient-to-r hover:from-purple-900/30 hover:to-pink-900/30 transition-all duration-300 border border-transparent hover:border-purple-500/30">
+                                        <div class="bg-gradient-to-r from-orange-500 to-red-500 p-2 rounded-lg mr-4 group-hover:scale-110 transition-transform">
+                                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                            </svg>
+                                        </div>
+                                        <div class="flex-1">
+                                            <div class="text-white font-medium group-hover:text-purple-300 transition-colors">Settings</div>
+                                            <div class="text-gray-400 text-xs">Konfigurasi akun</div>
+                                        </div>
+                                        <svg class="w-4 h-4 text-gray-400 group-hover:text-purple-400 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                        </svg>
+                                    </a>
+                                </div>
+                                
+                                <!-- Separator -->
+                                <div class="border-t border-purple-500/20 my-4"></div>
+                                
+                                <!-- Special Action Button -->
+                                <div class="bg-gradient-to-r from-purple-600/20 to-pink-600/20 p-4 rounded-xl border border-purple-500/30">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <div class="flex items-center">
+                                            <span class="text-2xl mr-2">⚡</span>
+                                            <div>
+                                                <div class="text-white font-medium text-sm">Pro Features</div>
+                                                <div class="text-gray-400 text-xs">Upgrade sekarang!</div>
+                                            </div>
+                                        </div>
+                                        <div class="bg-gradient-to-r from-purple-500 to-pink-500 text-white text-xs px-2 py-1 rounded-full font-medium">
+                                            NEW
+                                        </div>
+                                    </div>
+                                    <a href="https://syam.digital/upgrade" target="_blank" class="block w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white text-center py-2 rounded-lg font-medium hover:from-purple-600 hover:to-pink-600 transition-all duration-300 transform hover:scale-105">
+                                        Upgrade Now
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Filter Data App Dropdown -->
+                        <div class="relative">
+                            <button id="filter-app-trigger" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-all duration-300 flex items-center group">
+                                <span class="mr-2">🏛️</span>
+                                Aplikasi Keren
+                                <svg class="ml-1 w-4 h-4 transition-all duration-300 group-hover:rotate-180" id="filter-app-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </button>
+                            
+                            <!-- Filter Data App Dropdown Content -->
+                            <div id="filter-app-content" class="opacity-0 invisible transform scale-95 transition-all duration-300 absolute top-full right-0 w-96 bg-gradient-to-br from-gray-900 via-green-900/30 to-black shadow-2xl rounded-2xl mt-2 p-6 border border-green-500/30 backdrop-blur-lg z-40">
+                                <!-- Header -->
+                                <div class="flex items-center mb-6 pb-4 border-b border-green-500/20">
+                                    <div class="bg-gradient-to-r from-green-500 to-emerald-500 p-3 rounded-xl mr-4 animate-pulse">
+                                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-bold bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">
+                                            Solusi Digital Desa
+                                        </h3>
+                                        <p class="text-gray-400 text-xs">Aplikasi manajemen data desa modern</p>
+                                    </div>
+                                </div>
+                                
+                                <!-- Menu Items -->
+                                <div class="space-y-3">
+                                    <a href="https://syam.digital/filter-data-penduduk" target="_blank" class="group flex items-center p-3 rounded-xl hover:bg-gradient-to-r hover:from-green-900/30 hover:to-emerald-900/30 transition-all duration-300 border border-transparent hover:border-green-500/30">
+                                        <div class="bg-gradient-to-r from-blue-500 to-cyan-500 p-2 rounded-lg mr-4 group-hover:scale-110 transition-transform">
+                                            <span class="text-white text-lg">📊</span>
+                                        </div>
+                                        <div class="flex-1">
+                                            <div class="text-white font-medium group-hover:text-green-300 transition-colors">Filter Data Penduduk</div>
+                                            <div class="text-gray-400 text-xs">Kelola data demografi desa</div>
+                                        </div>
+                                        <svg class="w-4 h-4 text-gray-400 group-hover:text-green-400 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                        </svg>
+                                    </a>
+                                    
+                                    <a href="https://syam.digital/pencarian-data-warga" target="_blank" class="group flex items-center p-3 rounded-xl hover:bg-gradient-to-r hover:from-green-900/30 hover:to-emerald-900/30 transition-all duration-300 border border-transparent hover:border-green-500/30">
+                                        <div class="bg-gradient-to-r from-purple-500 to-pink-500 p-2 rounded-lg mr-4 group-hover:scale-110 transition-transform">
+                                            <span class="text-white text-lg">🔍</span>
+                                        </div>
+                                        <div class="flex-1">
+                                            <div class="text-white font-medium group-hover:text-green-300 transition-colors">Pencarian Data Warga</div>
+                                            <div class="text-gray-400 text-xs">Cari informasi warga dengan cepat</div>
+                                        </div>
+                                        <svg class="w-4 h-4 text-gray-400 group-hover:text-green-400 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                        </svg>
+                                    </a>
+                                    
+                                    <a href="https://syam.digital/kader-posyandu" target="_blank" class="group flex items-center p-3 rounded-xl hover:bg-gradient-to-r hover:from-green-900/30 hover:to-emerald-900/30 transition-all duration-300 border border-transparent hover:border-green-500/30">
+                                        <div class="bg-gradient-to-r from-red-500 to-orange-500 p-2 rounded-lg mr-4 group-hover:scale-110 transition-transform">
+                                            <span class="text-white text-lg">👩‍⚕️</span>
+                                        </div>
+                                        <div class="flex-1">
+                                            <div class="text-white font-medium group-hover:text-green-300 transition-colors">Kader Posyandu</div>
+                                            <div class="text-gray-400 text-xs">Manajemen kesehatan masyarakat</div>
+                                        </div>
+                                        <svg class="w-4 h-4 text-gray-400 group-hover:text-green-400 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                        </svg>
+                                    </a>
+                                    
+                                    <a href="https://syam.digital/manajemen-surat" target="_blank" class="group flex items-center p-3 rounded-xl hover:bg-gradient-to-r hover:from-green-900/30 hover:to-emerald-900/30 transition-all duration-300 border border-transparent hover:border-green-500/30">
+                                        <div class="bg-gradient-to-r from-yellow-500 to-orange-500 p-2 rounded-lg mr-4 group-hover:scale-110 transition-transform">
+                                            <span class="text-white text-lg">📨</span>
+                                        </div>
+                                        <div class="flex-1">
+                                            <div class="text-white font-medium group-hover:text-green-300 transition-colors">Manajemen Surat</div>
+                                            <div class="text-gray-400 text-xs">Sistem surat menyurat digital</div>
+                                        </div>
+                                        <svg class="w-4 h-4 text-gray-400 group-hover:text-green-400 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                        </svg>
+                                    </a>
+                                </div>
+                                
+                                <!-- Separator -->
+                                <div class="border-t border-green-500/20 my-4"></div>
+                                
+                                <!-- Special Action Button -->
+                                <div class="bg-gradient-to-r from-green-600/20 to-emerald-600/20 p-4 rounded-xl border border-green-500/30">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <div class="flex items-center">
+                                            <span class="text-2xl mr-2">🏛️</span>
+                                            <div>
+                                                <div class="text-white font-medium text-sm">Daftar Aplikasi Modern</div>
+                                                <div class="text-gray-400 text-xs">Semua fitur dalam satu aplikasi</div>
+                                            </div>
+                                        </div>
+                                        <div class="bg-gradient-to-r from-green-500 to-emerald-500 text-white text-xs px-2 py-1 rounded-full font-medium">
+                                            POPULER
+                                        </div>
+                                    </div>
+                                    <a href="https://syam.digital/demo2" target="_blank" class="block w-full bg-gradient-to-r from-green-500 to-emerald-500 text-white text-center py-2 rounded-lg font-medium hover:from-green-600 hover:to-emerald-600 transition-all duration-300 transform hover:scale-105">
+                                        Lihat Paket Lengkap
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <a href="#" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                            About
+                        </a>
+                        <a href="https://syam.digital/contak" target="_blank" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                            Contact
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button class="text-gray-300 hover:text-white">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+            <h1 class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-red-400 to-yellow-400 bg-clip-text text-transparent mb-6">
+                <span id="typewriter-text"></span>
+                <span id="cursor" class="animate-pulse">|</span>
+            </h1>
+            <p class="text-gray-300 text-lg md:text-xl mb-8 max-w-3xl mx-auto leading-relaxed">
+                Pesan Aplikasi apa saja sesuai kebutuhan. Deploy website statis, serverless functions, dan aplikasi web dengan mudah dan cepat.
+            </p>
+            
+            <!-- CTA Buttons -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <a href="https://syam.digital/promo" target="_blank" class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-red-500 to-yellow-500 text-white rounded-xl hover:from-red-600 hover:to-yellow-600 transition-all duration-300 text-lg font-semibold transform hover:scale-105 shadow-lg hover:shadow-xl">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                    </svg>
+                    Lihat Aplikasi Promo
+                </a>
+                
+                <a href="https://syam.digital/button" target="_blank" class="inline-flex items-center px-8 py-4 bg-transparent border-2 border-gray-600 text-gray-300 rounded-xl hover:border-red-400 hover:text-red-400 transition-all duration-300 text-lg font-semibold transform hover:scale-105">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                    </svg>
+                    Lihat Aplikasi Lengkap
+                </a>
+            </div>
+            
+            <!-- Feature Cards -->
+            <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <!-- Card 1: Deploy Instant -->
+                <div class="group relative bg-gradient-to-br from-gray-900/80 via-red-900/20 to-black backdrop-blur-lg rounded-2xl p-8 border border-red-800/30 hover:border-red-500/50 transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 shadow-xl hover:shadow-2xl">
+                    <!-- Glow Effect -->
+                    <div class="absolute inset-0 bg-gradient-to-r from-red-500/10 to-yellow-500/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    
+                    <!-- Icon -->
+                    <div class="relative mb-6">
+                        <div class="w-16 h-16 bg-gradient-to-r from-red-500 to-yellow-500 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                            </svg>
+                        </div>
+                        <!-- Floating particles -->
+                        <div class="absolute -top-1 -right-1 w-3 h-3 bg-yellow-400 rounded-full animate-ping"></div>
+                        <div class="absolute -bottom-1 -left-1 w-2 h-2 bg-red-400 rounded-full animate-pulse"></div>
+                    </div>
+                    
+                    <!-- Content -->
+                    <div class="relative">
+                        <h3 class="text-2xl font-bold text-white mb-4 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-red-400 group-hover:to-yellow-400 group-hover:bg-clip-text transition-all duration-300">
+                            Deploy Instant
+                        </h3>
+                        <p class="text-gray-300 mb-6 leading-relaxed">
+                            Deploy aplikasi dalam hitungan detik dengan teknologi edge computing terdepan. Zero downtime guaranteed.
+                        </p>
+                        
+                        <!-- Stats -->
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-red-400">< 30s</div>
+                                <div class="text-xs text-gray-400">Deploy Time</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-yellow-400">99.9%</div>
+                                <div class="text-xs text-gray-400">Uptime</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-green-400">24/7</div>
+                                <div class="text-xs text-gray-400">Support</div>
+                            </div>
+                        </div>
+                        
+                        <!-- CTA Button -->
+                        <button class="w-full bg-gradient-to-r from-red-500/20 to-yellow-500/20 border border-red-500/30 text-red-400 py-3 rounded-xl hover:from-red-500 hover:to-yellow-500 hover:text-white transition-all duration-300 font-medium group-hover:shadow-lg">
+                            Mulai Deploy
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Card 2: Serverless Functions -->
+                <div class="group relative bg-gradient-to-br from-gray-900/80 via-blue-900/20 to-black backdrop-blur-lg rounded-2xl p-8 border border-blue-800/30 hover:border-blue-500/50 transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 shadow-xl hover:shadow-2xl">
+                    <!-- Glow Effect -->
+                    <div class="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-cyan-500/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    
+                    <!-- Icon -->
+                    <div class="relative mb-6">
+                        <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                            </svg>
+                        </div>
+                        <!-- Floating particles -->
+                        <div class="absolute -top-1 -right-1 w-3 h-3 bg-cyan-400 rounded-full animate-ping"></div>
+                        <div class="absolute -bottom-1 -left-1 w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
+                    </div>
+                    
+                    <!-- Content -->
+                    <div class="relative">
+                        <h3 class="text-2xl font-bold text-white mb-4 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-blue-400 group-hover:to-cyan-400 group-hover:bg-clip-text transition-all duration-300">
+                            Serverless Functions
+                        </h3>
+                        <p class="text-gray-300 mb-6 leading-relaxed">
+                            Jalankan kode backend tanpa server. Auto-scaling, pay-per-use, dan performa tinggi untuk semua kebutuhan.
+                        </p>
+                        
+                        <!-- Features List -->
+                        <div class="space-y-3 mb-6">
+                            <div class="flex items-center text-sm">
+                                <div class="w-2 h-2 bg-blue-400 rounded-full mr-3"></div>
+                                <span class="text-gray-300">Auto Scaling</span>
+                            </div>
+                            <div class="flex items-center text-sm">
+                                <div class="w-2 h-2 bg-cyan-400 rounded-full mr-3"></div>
+                                <span class="text-gray-300">Multiple Runtimes</span>
+                            </div>
+                            <div class="flex items-center text-sm">
+                                <div class="w-2 h-2 bg-green-400 rounded-full mr-3"></div>
+                                <span class="text-gray-300">Global Edge Network</span>
+                            </div>
+                        </div>
+                        
+                        <!-- CTA Button -->
+                        <button class="w-full bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border border-blue-500/30 text-blue-400 py-3 rounded-xl hover:from-blue-500 hover:to-cyan-500 hover:text-white transition-all duration-300 font-medium group-hover:shadow-lg">
+                            Explore Functions
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Card 3: Analytics & Monitoring -->
+                <div class="group relative bg-gradient-to-br from-gray-900/80 via-purple-900/20 to-black backdrop-blur-lg rounded-2xl p-8 border border-purple-800/30 hover:border-purple-500/50 transition-all duration-500 transform hover:scale-105 hover:-translate-y-2 shadow-xl hover:shadow-2xl">
+                    <!-- Glow Effect -->
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    
+                    <!-- Icon -->
+                    <div class="relative mb-6">
+                        <div class="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                            </svg>
+                        </div>
+                        <!-- Floating particles -->
+                        <div class="absolute -top-1 -right-1 w-3 h-3 bg-pink-400 rounded-full animate-ping"></div>
+                        <div class="absolute -bottom-1 -left-1 w-2 h-2 bg-purple-400 rounded-full animate-pulse"></div>
+                    </div>
+                    
+                    <!-- Content -->
+                    <div class="relative">
+                        <h3 class="text-2xl font-bold text-white mb-4 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-purple-400 group-hover:to-pink-400 group-hover:bg-clip-text transition-all duration-300">
+                            Analytics & Monitoring
+                        </h3>
+                        <p class="text-gray-300 mb-6 leading-relaxed">
+                            Dashboard real-time untuk monitoring performa aplikasi. Insights mendalam dengan visualisasi yang powerful.
+                        </p>
+                        
+                        <!-- Mini Chart Visualization -->
+                        <div class="mb-6">
+                            <div class="flex items-end justify-between h-16 bg-gradient-to-t from-purple-900/30 to-transparent rounded-lg p-3">
+                                <div class="w-2 bg-gradient-to-t from-purple-500 to-purple-300 rounded-full" style="height: 60%"></div>
+                                <div class="w-2 bg-gradient-to-t from-purple-500 to-purple-300 rounded-full" style="height: 80%"></div>
+                                <div class="w-2 bg-gradient-to-t from-purple-500 to-purple-300 rounded-full" style="height: 40%"></div>
+                                <div class="w-2 bg-gradient-to-t from-purple-500 to-purple-300 rounded-full" style="height: 90%"></div>
+                                <div class="w-2 bg-gradient-to-t from-purple-500 to-purple-300 rounded-full" style="height: 70%"></div>
+                                <div class="w-2 bg-gradient-to-t from-purple-500 to-purple-300 rounded-full" style="height: 100%"></div>
+                                <div class="w-2 bg-gradient-to-t from-purple-500 to-purple-300 rounded-full" style="height: 85%"></div>
+                            </div>
+                            <div class="text-center mt-2">
+                                <span class="text-xs text-gray-400">Real-time Performance</span>
+                            </div>
+                        </div>
+                        
+                        <!-- CTA Button -->
+                        <button class="w-full bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 text-purple-400 py-3 rounded-xl hover:from-purple-500 hover:to-pink-500 hover:text-white transition-all duration-300 font-medium group-hover:shadow-lg">
+                            View Analytics
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gradient-to-br from-gray-900 via-black to-gray-900 border-t border-red-800/30 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                
+                <!-- Brand Section -->
+                <div class="col-span-1 md:col-span-1">
+                    <div class="flex items-center mb-4">
+                        <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1757245484/SYAMDIGITAL-LOGO-2025_mmpllg.png" 
+                             alt="Syam Digital Logo" 
+                             class="h-8 w-auto mr-3 transition-all duration-300 hover:scale-110"
+                             onerror="this.style.display='none';">
+                        <div class="text-xl font-bold rainbow-text">
+                            Syam Digital
+                        </div>
+                    </div>
+                    <div class="text-red-400 font-medium mb-3">syam.digital</div>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Platform hosting modern untuk developer masa depan.
+                    </p>
+                </div>
+                
+                <!-- Produk -->
+                <div>
+                    <h3 class="text-white font-semibold mb-4 text-lg">Produk</h3>
+                    <ul class="space-y-3">
+                        <li>
+                            <a href="https://syam.digital/static-sites" target="_blank" class="text-gray-400 hover:text-red-400 transition-colors duration-300 text-sm flex items-center group">
+                                <span class="w-1.5 h-1.5 bg-red-400 rounded-full mr-3 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                                Static Sites
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://syam.digital/functions" target="_blank" class="text-gray-400 hover:text-red-400 transition-colors duration-300 text-sm flex items-center group">
+                                <span class="w-1.5 h-1.5 bg-red-400 rounded-full mr-3 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                                Functions
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://syam.digital/forms" target="_blank" class="text-gray-400 hover:text-red-400 transition-colors duration-300 text-sm flex items-center group">
+                                <span class="w-1.5 h-1.5 bg-red-400 rounded-full mr-3 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                                Forms
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Sumber Daya -->
+                <div>
+                    <h3 class="text-white font-semibold mb-4 text-lg">Sumber Daya</h3>
+                    <ul class="space-y-3">
+                        <li>
+                            <a href="https://syam.digital/docs" target="_blank" class="text-gray-400 hover:text-red-400 transition-colors duration-300 text-sm flex items-center group">
+                                <span class="w-1.5 h-1.5 bg-red-400 rounded-full mr-3 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                                Dokumentasi
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://syam.digital/tutorial" target="_blank" class="text-gray-400 hover:text-red-400 transition-colors duration-300 text-sm flex items-center group">
+                                <span class="w-1.5 h-1.5 bg-red-400 rounded-full mr-3 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                                Tutorial
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://syam.digital/blog" target="_blank" class="text-gray-400 hover:text-red-400 transition-colors duration-300 text-sm flex items-center group">
+                                <span class="w-1.5 h-1.5 bg-red-400 rounded-full mr-3 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                                Blog
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Perusahaan -->
+                <div>
+                    <h3 class="text-white font-semibold mb-4 text-lg">Perusahaan</h3>
+                    <ul class="space-y-3">
+                        <li>
+                            <a href="https://syam.digital/tentang" target="_blank" class="text-gray-400 hover:text-red-400 transition-colors duration-300 text-sm flex items-center group">
+                                <span class="w-1.5 h-1.5 bg-red-400 rounded-full mr-3 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                                Tentang
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://syam.digital/karir" target="_blank" class="text-gray-400 hover:text-red-400 transition-colors duration-300 text-sm flex items-center group">
+                                <span class="w-1.5 h-1.5 bg-red-400 rounded-full mr-3 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                                Karir
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://syam.digital/contak" target="_blank" class="text-gray-400 hover:text-red-400 transition-colors duration-300 text-sm flex items-center group">
+                                <span class="w-1.5 h-1.5 bg-red-400 rounded-full mr-3 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                                Kontak
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Bottom Section -->
+            <div class="mt-12 pt-8 border-t border-gray-800">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <div class="text-gray-400 text-sm mb-4 md:mb-0">
+                        © 2024 Syam.Digital. Semua hak cipta dilindungi.
+                    </div>
+                    
+                    <!-- Social Media Icons -->
+                    <div class="flex space-x-6">
+                        <a href="https://twitter.com/syamdigital" target="_blank" class="text-gray-400 hover:text-red-400 transition-colors duration-300 transform hover:scale-110">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                            </svg>
+                        </a>
+                        <a href="https://github.com/syamdigital" target="_blank" class="text-gray-400 hover:text-red-400 transition-colors duration-300 transform hover:scale-110">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                        </a>
+                        <a href="https://linkedin.com/company/syamdigital" target="_blank" class="text-gray-400 hover:text-red-400 transition-colors duration-300 transform hover:scale-110">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                        </a>
+                        <a href="https://instagram.com/syamdigital" target="_blank" class="text-gray-400 hover:text-red-400 transition-colors duration-300 transform hover:scale-110">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Floating WhatsApp Button -->
+    <div class="fixed bottom-6 right-6 z-50">
+        <a href="https://wa.me/6285150531572" target="_blank" class="group flex items-center bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white rounded-full shadow-2xl hover:shadow-green-500/25 transition-all duration-300 transform hover:scale-110 animate-bounce-subtle">
+            <!-- WhatsApp Icon -->
+            <div class="flex items-center justify-center w-14 h-14 rounded-full">
+                <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+                </svg>
+            </div>
+            
+            <!-- Tooltip Text (Hidden by default, shows on hover) -->
+            <div class="absolute right-full mr-3 px-3 py-2 bg-gray-900 text-white text-sm rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 whitespace-nowrap shadow-lg">
+                Chat via WhatsApp
+                <!-- Arrow pointing to button -->
+                <div class="absolute top-1/2 -right-1 transform -translate-y-1/2 w-2 h-2 bg-gray-900 rotate-45"></div>
+            </div>
+        </a>
+        
+        <!-- Floating notification dot -->
+        <div class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full flex items-center justify-center animate-pulse">
+            <span class="text-white text-xs font-bold">!</span>
+        </div>
+    </div>
+    
+    <script>
+        // Mega Menu Functionality
+        const megaMenuTrigger = document.getElementById('mega-menu-trigger');
+        const megaMenuContent = document.getElementById('mega-menu-content');
+        const dropdownArrow = document.getElementById('dropdown-arrow');
+        
+        let isMenuOpen = false;
+        let hoverTimeout;
+        
+        // Show mega menu on hover
+        megaMenuTrigger.addEventListener('mouseenter', () => {
+            clearTimeout(hoverTimeout);
+            showMegaMenu();
+        });
+        
+        // Keep menu open when hovering over content
+        megaMenuContent.addEventListener('mouseenter', () => {
+            clearTimeout(hoverTimeout);
+        });
+        
+        // Hide menu when leaving trigger
+        megaMenuTrigger.addEventListener('mouseleave', () => {
+            hoverTimeout = setTimeout(hideMegaMenu, 300);
+        });
+        
+        // Hide menu when leaving content
+        megaMenuContent.addEventListener('mouseleave', () => {
+            hoverTimeout = setTimeout(hideMegaMenu, 300);
+        });
+        
+        // Click functionality
+        megaMenuTrigger.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (isMenuOpen) {
+                hideMegaMenu();
+            } else {
+                showMegaMenu();
+            }
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!megaMenuTrigger.contains(e.target) && !megaMenuContent.contains(e.target)) {
+                hideMegaMenu();
+            }
+        });
+        
+        // Close menu on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                hideMegaMenu();
+            }
+        });
+        
+        function showMegaMenu() {
+            isMenuOpen = true;
+            megaMenuContent.classList.add('active');
+            dropdownArrow.style.transform = 'rotate(180deg)';
+            
+            // Add staggered animation to menu items
+            const menuItems = document.querySelectorAll('.mega-menu-item');
+            menuItems.forEach((item, index) => {
+                item.style.animationDelay = `${(index + 1) * 0.1}s`;
+                item.classList.add('animate-fade-in-up');
+            });
+        }
+        
+        function hideMegaMenu() {
+            isMenuOpen = false;
+            megaMenuContent.classList.remove('active');
+            dropdownArrow.style.transform = 'rotate(0deg)';
+        }
+        
+        // Add smooth scroll behavior for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Add loading state for external links
+        document.querySelectorAll('a[target="_blank"]').forEach(link => {
+            link.addEventListener('click', function() {
+                const originalText = this.innerHTML;
+                this.innerHTML = originalText + ' <span class="text-xs">(Loading...)</span>';
+                
+                setTimeout(() => {
+                    this.innerHTML = originalText;
+                }, 2000);
+            });
+        });
+        
+        // Cool Dropdown Functionality
+        const coolDropdownTrigger = document.getElementById('cool-dropdown-trigger');
+        const coolDropdownContent = document.getElementById('cool-dropdown-content');
+        const coolDropdownArrow = document.getElementById('cool-dropdown-arrow');
+        
+        let isCoolDropdownOpen = false;
+        let coolDropdownTimeout;
+        
+        // Show dropdown on hover
+        coolDropdownTrigger.addEventListener('mouseenter', () => {
+            clearTimeout(coolDropdownTimeout);
+            showCoolDropdown();
+        });
+        
+        // Keep dropdown open when hovering over content
+        coolDropdownContent.addEventListener('mouseenter', () => {
+            clearTimeout(coolDropdownTimeout);
+        });
+        
+        // Hide dropdown when leaving trigger
+        coolDropdownTrigger.addEventListener('mouseleave', () => {
+            coolDropdownTimeout = setTimeout(hideCoolDropdown, 200);
+        });
+        
+        // Hide dropdown when leaving content
+        coolDropdownContent.addEventListener('mouseleave', () => {
+            coolDropdownTimeout = setTimeout(hideCoolDropdown, 200);
+        });
+        
+        // Click functionality
+        coolDropdownTrigger.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (isCoolDropdownOpen) {
+                hideCoolDropdown();
+            } else {
+                showCoolDropdown();
+            }
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!coolDropdownTrigger.contains(e.target) && !coolDropdownContent.contains(e.target)) {
+                hideCoolDropdown();
+            }
+        });
+        
+        function showCoolDropdown() {
+            isCoolDropdownOpen = true;
+            coolDropdownContent.classList.remove('opacity-0', 'invisible', 'scale-95');
+            coolDropdownContent.classList.add('opacity-100', 'visible', 'scale-100');
+            coolDropdownArrow.style.transform = 'rotate(180deg)';
+        }
+        
+        function hideCoolDropdown() {
+            isCoolDropdownOpen = false;
+            coolDropdownContent.classList.add('opacity-0', 'invisible', 'scale-95');
+            coolDropdownContent.classList.remove('opacity-100', 'visible', 'scale-100');
+            coolDropdownArrow.style.transform = 'rotate(0deg)';
+        }
+        
+        // Filter Data App Dropdown Functionality
+        const filterAppTrigger = document.getElementById('filter-app-trigger');
+        const filterAppContent = document.getElementById('filter-app-content');
+        const filterAppArrow = document.getElementById('filter-app-arrow');
+        
+        let isFilterAppOpen = false;
+        let filterAppTimeout;
+        
+        // Show dropdown on hover
+        filterAppTrigger.addEventListener('mouseenter', () => {
+            clearTimeout(filterAppTimeout);
+            showFilterApp();
+        });
+        
+        // Keep dropdown open when hovering over content
+        filterAppContent.addEventListener('mouseenter', () => {
+            clearTimeout(filterAppTimeout);
+        });
+        
+        // Hide dropdown when leaving trigger
+        filterAppTrigger.addEventListener('mouseleave', () => {
+            filterAppTimeout = setTimeout(hideFilterApp, 200);
+        });
+        
+        // Hide dropdown when leaving content
+        filterAppContent.addEventListener('mouseleave', () => {
+            filterAppTimeout = setTimeout(hideFilterApp, 200);
+        });
+        
+        // Click functionality
+        filterAppTrigger.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (isFilterAppOpen) {
+                hideFilterApp();
+            } else {
+                showFilterApp();
+            }
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!filterAppTrigger.contains(e.target) && !filterAppContent.contains(e.target)) {
+                hideFilterApp();
+            }
+        });
+        
+        function showFilterApp() {
+            isFilterAppOpen = true;
+            filterAppContent.classList.remove('opacity-0', 'invisible', 'scale-95');
+            filterAppContent.classList.add('opacity-100', 'visible', 'scale-100');
+            filterAppArrow.style.transform = 'rotate(180deg)';
+        }
+        
+        function hideFilterApp() {
+            isFilterAppOpen = false;
+            filterAppContent.classList.add('opacity-0', 'invisible', 'scale-95');
+            filterAppContent.classList.remove('opacity-100', 'visible', 'scale-100');
+            filterAppArrow.style.transform = 'rotate(0deg)';
+        }
+        
+        // Typewriter Animation
+        const typewriterText = document.getElementById('typewriter-text');
+        const cursor = document.getElementById('cursor');
+        const texts = [
+            'Syam Digital Penyedia Aplikasi',
+            'Platform Hosting Modern',
+            'Solusi Digital Terdepan',
+            'Deploy Aplikasi Instant'
+        ];
+        
+        let textIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        let typeSpeed = 100;
+        let deleteSpeed = 50;
+        let pauseTime = 2000;
+        
+        function typeWriter() {
+            const currentText = texts[textIndex];
+            
+            if (isDeleting) {
+                // Deleting characters
+                typewriterText.textContent = currentText.substring(0, charIndex - 1);
+                charIndex--;
+                
+                if (charIndex === 0) {
+                    isDeleting = false;
+                    textIndex = (textIndex + 1) % texts.length;
+                    setTimeout(typeWriter, 500);
+                    return;
+                }
+                
+                setTimeout(typeWriter, deleteSpeed);
+            } else {
+                // Typing characters
+                typewriterText.textContent = currentText.substring(0, charIndex + 1);
+                charIndex++;
+                
+                if (charIndex === currentText.length) {
+                    // Pause before deleting
+                    setTimeout(() => {
+                        isDeleting = true;
+                        typeWriter();
+                    }, pauseTime);
+                    return;
+                }
+                
+                setTimeout(typeWriter, typeSpeed);
+            }
+        }
+        
+        // Start typewriter animation when page loads
+        window.addEventListener('load', () => {
+            setTimeout(typeWriter, 1000);
+        });
+        
+        // Enhanced cursor blinking
+        setInterval(() => {
+            cursor.style.opacity = cursor.style.opacity === '0' ? '1' : '0';
+        }, 500);
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97c53e3b42dffd6d',t:'MTc1NzQwNTc4Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
+<script async src="https://cse.google.com/cse.js?cx=e4c237a80056843c6">
+</script>

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor Nota</title>
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1757245484/SYAMDIGITAL-LOGO-2025_mmpllg.png">
+    <link rel="shortcut icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1757245484/SYAMDIGITAL-LOGO-2025_mmpllg.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @media print {
+            .no-print { display: none !important; }
+            .print-area { 
+                width: 100% !important; 
+                max-width: none !important;
+                margin: 0 !important;
+                padding: 20px !important;
+            }
+        }
+        
+        .dotted-line {
+            border-bottom: 1px dotted #666;
+            min-height: 20px;
+        }
+        
+        input[type="text"], input[type="number"] {
+            background: transparent;
+            border: none;
+            outline: none;
+            width: 100%;
+        }
+        
+        input[type="text"]:focus, input[type="number"]:focus {
+            background: #f0f9ff;
+            border-radius: 2px;
+        }
+        
+        .editable-cell {
+            padding: 4px;
+            min-height: 24px;
+        }
+        
+        .table-border {
+            border: 1px solid #333;
+        }
+        
+        .table-border td, .table-border th {
+            border: 1px solid #333;
+            padding: 8px;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-4">
+    <div class="max-w-4xl mx-auto">
+        <!-- Controls -->
+        <div class="no-print mb-6 bg-white p-4 rounded-lg shadow">
+            <h1 class="text-2xl font-bold mb-4 text-gray-800">Editor Nota</h1>
+            <div class="flex gap-4 flex-wrap">
+                <button onclick="addRow()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
+                    Tambah Baris
+                </button>
+                <button onclick="removeLastRow()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded">
+                    Hapus Baris
+                </button>
+                <button onclick="clearAll()" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded">
+                    Bersihkan Semua
+                </button>
+                <button onclick="window.print()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded">
+                    Cetak Nota
+                </button>
+                <a href="https://syam.digital/" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded inline-block">
+                    Kembali ke Home
+                </a>
+            </div>
+        </div>
+
+        <!-- Invoice -->
+        <div class="print-area bg-white p-8 shadow-lg" style="font-family: 'Courier New', monospace;">
+            <!-- Header -->
+            <div class="mb-8">
+                <!-- Company Name - Centered -->
+                <div class="text-center mb-6">
+                    <div class="dotted-line">
+                        <input type="text" placeholder="Nama Toko/Perusahaan" class="text-center font-bold">
+                    </div>
+                </div>
+                
+                <!-- Customer Info - Right aligned -->
+                <div class="text-right">
+                    <div class="flex justify-end items-start">
+                        <span class="mr-4">Kepada</span>
+                        <div style="width: 300px;">
+                            <div class="dotted-line mb-1">
+                                <input type="text" placeholder="Nama Pelanggan" class="text-right">
+                            </div>
+                            <div class="dotted-line mb-1">
+                                <input type="text" placeholder="Alamat Baris 1" class="text-right">
+                            </div>
+                            <div class="dotted-line">
+                                <input type="text" placeholder="Alamat Baris 2" class="text-right">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Invoice Number -->
+            <div class="mb-6">
+                <span class="font-bold">NOTA NO. </span>
+                <span class="dotted-line inline-block" style="width: 200px;">
+                    <input type="text" placeholder="Nomor Nota" style="width: 180px;">
+                </span>
+            </div>
+
+            <!-- Table -->
+            <table class="w-full table-border mb-6">
+                <thead>
+                    <tr class="bg-gray-50">
+                        <th class="text-center" style="width: 15%;">BANYAKNYA</th>
+                        <th class="text-center" style="width: 45%;">NAMA BARANG</th>
+                        <th class="text-center" style="width: 20%;">HARGA</th>
+                        <th class="text-center" style="width: 20%;">JUMLAH</th>
+                    </tr>
+                </thead>
+                <tbody id="itemsTable">
+                    <!-- Rows will be added here -->
+                </tbody>
+            </table>
+
+            <!-- Total -->
+            <div class="text-right mb-8">
+                <span class="font-bold">Jumlah Rp. </span>
+                <span class="dotted-line inline-block" style="width: 200px;">
+                    <input type="text" id="totalAmount" placeholder="0" class="text-right font-bold" readonly>
+                </span>
+            </div>
+
+            <!-- Footer -->
+            <div class="flex justify-between mt-16">
+                <div class="text-center">
+                    <div class="mb-16">Tanda Terima</div>
+                    <div class="dotted-line" style="width: 200px;"></div>
+                </div>
+                <div class="text-center">
+                    <div class="mb-16">Hormat Kami,</div>
+                    <div class="dotted-line" style="width: 200px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let rowCount = 0;
+
+        function addRow() {
+            const tbody = document.getElementById('itemsTable');
+            const row = document.createElement('tr');
+            rowCount++;
+            
+            row.innerHTML = `
+                <td class="editable-cell text-center">
+                    <input type="text" id="qty_${rowCount}" onchange="calculateRowTotal(${rowCount})">
+                </td>
+                <td class="editable-cell">
+                    <input type="text" id="item_${rowCount}">
+                </td>
+                <td class="editable-cell text-right">
+                    <input type="text" placeholder="0" onchange="calculateRowTotal(${rowCount})" id="price_${rowCount}" class="text-right" oninput="formatRupiah(this)">
+                </td>
+                <td class="editable-cell text-right">
+                    <input type="text" placeholder="0" id="total_${rowCount}" onchange="calculateGrandTotal()" class="text-right" oninput="formatRupiah(this)">
+                </td>
+            `;
+            
+            tbody.appendChild(row);
+        }
+
+        function removeLastRow() {
+            const tbody = document.getElementById('itemsTable');
+            if (tbody.children.length > 0) {
+                tbody.removeChild(tbody.lastChild);
+                calculateGrandTotal();
+            }
+        }
+
+        function formatRupiah(input) {
+            let value = input.value.replace(/[^\d]/g, '');
+            if (value) {
+                value = parseInt(value).toLocaleString('id-ID');
+                input.value = value;
+            }
+        }
+
+        function parseRupiah(value) {
+            return parseFloat(value.replace(/[^\d]/g, '')) || 0;
+        }
+
+        function calculateRowTotal(rowId) {
+            const qtyInput = document.getElementById(`qty_${rowId}`).value;
+            const priceInput = document.getElementById(`price_${rowId}`).value;
+            
+            // Extract number from quantity (e.g., "24 zak" becomes 24)
+            const qtyNumber = parseFloat(qtyInput) || 0;
+            const price = parseRupiah(priceInput);
+            const total = qtyNumber * price;
+            
+            if (total > 0) {
+                document.getElementById(`total_${rowId}`).value = total.toLocaleString('id-ID');
+            }
+            calculateGrandTotal();
+        }
+
+        function calculateGrandTotal() {
+            let grandTotal = 0;
+            const tbody = document.getElementById('itemsTable');
+            
+            for (let i = 1; i <= rowCount; i++) {
+                const totalInput = document.getElementById(`total_${i}`);
+                if (totalInput && totalInput.value) {
+                    const totalValue = parseRupiah(totalInput.value);
+                    grandTotal += totalValue;
+                }
+            }
+            
+            document.getElementById('totalAmount').value = grandTotal.toLocaleString('id-ID');
+        }
+
+        function clearAll() {
+            if (confirm('Apakah Anda yakin ingin menghapus semua data?')) {
+                document.getElementById('itemsTable').innerHTML = '';
+                document.getElementById('totalAmount').value = '';
+                
+                // Clear all input fields
+                const inputs = document.querySelectorAll('input[type="text"], input[type="number"]');
+                inputs.forEach(input => {
+                    if (!input.readOnly) {
+                        input.value = '';
+                    }
+                });
+                
+                rowCount = 0;
+            }
+        }
+
+        // Initialize with 5 empty rows
+        for (let i = 0; i < 5; i++) {
+            addRow();
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98118903d789926c',t:'MTc1ODIwNTc2My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

@@ -1,0 +1,1102 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KDMP WANI LUMBUMPETIGO</title>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1766755543/logo_kopdes_wani_lumbumpetigo-fix_i8ryfc.png">
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    .gradient-text {
+      background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .card-hover {
+      transition: all 0.3s ease;
+    }
+    
+    .card-hover:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(139, 0, 0, 0.3);
+    }
+    
+    .nav-link {
+      position: relative;
+      transition: color 0.3s ease;
+    }
+    
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -4px;
+      left: 0;
+      transition: width 0.3s ease;
+    }
+    
+    .nav-link:hover::after {
+      width: 100%;
+    }
+    
+    .smooth-scroll {
+      scroll-behavior: smooth;
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.8s ease-out forwards;
+    }
+    
+    .mobile-menu {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+    
+    .mobile-menu.active {
+      max-height: 600px;
+    }
+    
+    #back-to-top-btn {
+      position: fixed;
+      bottom: 100px;
+      right: 30px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: #8B0000;
+      color: #ffd700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      z-index: 1000;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      transform: scale(0.5);
+      visibility: hidden;
+    }
+    
+    #back-to-top-btn.show {
+      opacity: 1;
+      transform: scale(1);
+      visibility: visible;
+    }
+    
+    #back-to-top-btn:hover {
+      transform: scale(1.15);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7);
+    }
+    
+    @media (max-width: 768px) {
+      #back-to-top-btn {
+        bottom: 80px;
+        right: 20px;
+        width: 50px;
+        height: 50px;
+      }
+    }
+    
+    .running-text-container {
+      overflow: hidden;
+      background: linear-gradient(135deg, #8B0000 0%, #2d0000 100%);
+      padding: 16px 0;
+      position: relative;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    @media (max-width: 768px) {
+      .running-text-container {
+        padding: 12px 0;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .running-text-container {
+        padding: 10px 0;
+      }
+    }
+    
+    .running-text {
+      display: inline-block;
+      white-space: nowrap;
+      animation: scroll-text 25s linear infinite;
+      font-weight: 600;
+      font-size: 1.5rem;
+      background: linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+      letter-spacing: 2px;
+    }
+    
+    @media (max-width: 768px) {
+      .running-text {
+        font-size: 1rem;
+        letter-spacing: 1px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .running-text {
+        font-size: 0.875rem;
+        letter-spacing: 0.5px;
+      }
+    }
+    
+    @keyframes scroll-text {
+      0% {
+        transform: translateX(100%);
+      }
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+    
+    .running-text-container::before,
+    .running-text-container::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      width: 100px;
+      height: 100%;
+      z-index: 2;
+    }
+    
+    .running-text-container::before {
+      left: 0;
+      background: linear-gradient(to right, #8B0000, transparent);
+    }
+    
+    .running-text-container::after {
+      right: 0;
+      background: linear-gradient(to left, #2d0000, transparent);
+    }
+    
+    .whatsapp-button {
+      position: fixed;
+      bottom: 30px;
+      left: 30px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: #25D366;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 1000;
+      box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+    }
+    
+    .whatsapp-button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6);
+    }
+    
+    @media (max-width: 768px) {
+      .whatsapp-button {
+        bottom: 20px;
+        left: 20px;
+        width: 50px;
+        height: 50px;
+      }
+    }
+    
+    .slide {
+      display: none;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    
+    .slide.active {
+      display: block;
+    }
+    
+    .fade-slide {
+      animation-duration: 1s;
+      animation-timing-function: ease-in-out;
+    }
+    
+    .dot.active {
+      background-color: white !important;
+      opacity: 1 !important;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full smooth-scroll">
+  <div id="app-wrapper" class="w-full h-full overflow-auto"><!-- Navigation -->
+   <nav id="navbar" class="fixed w-full top-0 z-50 transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+     <div class="flex justify-between items-center h-20">
+      <div class="flex items-center space-x-2"><img id="nav-logo" src="https://res.cloudinary.com/di8stbg60/image/upload/v1766755543/logo_kopdes_wani_lumbumpetigo-fix_i8ryfc.png" alt="Logo KDMP WANI LUMBUMPETIGO" class="w-12 h-12 object-contain" onerror="this.src=''; this.alt='Logo gagal dimuat'; this.style.display='none';">
+       <div>
+        <div id="nav-title" class="font-bold text-xl"></div>
+        <div id="nav-tagline" class="text-xs opacity-80"></div>
+       </div>
+      </div><!-- Desktop Menu -->
+      <div class="hidden md:flex space-x-8"><a href="#home" class="nav-link font-medium">Beranda</a> <a href="#about" class="nav-link font-medium">Tentang</a> <a href="#program-merah-putih" class="nav-link font-medium">Program</a> <a href="#structure" class="nav-link font-medium">Struktur</a> <a href="#services" class="nav-link font-medium">Layanan</a> <a href="#gallery" class="nav-link font-medium">Galeri</a> <a href="#documents" class="nav-link font-medium">Dokumen</a> <a href="#contact" class="nav-link font-medium">Kontak</a>
+      </div><!-- Mobile Menu Button --> <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg">
+       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+       </svg></button>
+     </div><!-- Mobile Menu -->
+     <div id="mobile-menu" class="mobile-menu md:hidden">
+      <div class="py-4 space-y-3"><a href="#home" class="block py-2 px-4 rounded-lg font-medium mobile-menu-link">Beranda</a> <a href="#about" class="block py-2 px-4 rounded-lg font-medium mobile-menu-link">Tentang</a> <a href="#program-merah-putih" class="block py-2 px-4 rounded-lg font-medium mobile-menu-link">Program</a> <a href="#structure" class="block py-2 px-4 rounded-lg font-medium mobile-menu-link">Struktur</a> <a href="#services" class="block py-2 px-4 rounded-lg font-medium mobile-menu-link">Layanan</a> <a href="#gallery" class="block py-2 px-4 rounded-lg font-medium mobile-menu-link">Galeri</a> <a href="#documents" class="block py-2 px-4 rounded-lg font-medium mobile-menu-link">Dokumen</a> <a href="#contact" class="block py-2 px-4 rounded-lg font-medium mobile-menu-link">Kontak</a>
+      </div>
+     </div>
+    </div>
+   </nav><!-- Hero Section -->
+   <section id="home" class="min-h-screen flex items-center justify-center px-4 pt-32">
+    <div class="max-w-7xl mx-auto text-center fade-in"><!-- Running Text -->
+     <div class="running-text-container max-w-4xl mx-auto mb-6 rounded-2xl">
+      <div class="running-text">
+       ⭐ KOPERASI DESA MERAH PUTIH WANI LUMBUMPETIGO ⭐ MEMBANGUN EKONOMI DESA YANG MANDIRI DAN SEJAHTERA ⭐ BERGABUNGLAH BERSAMA KAMI ⭐
+      </div>
+     </div><!-- Image Slideshow -->
+     <div class="relative w-full max-w-4xl mx-auto mb-12 rounded-2xl overflow-hidden shadow-2xl" style="height: 400px;">
+      <style>
+            @media (max-width: 768px) {
+              .slideshow-container {
+                height: 300px !important;
+              }
+            }
+            @media (max-width: 480px) {
+              .slideshow-container {
+                height: 250px !important;
+              }
+            }
+          </style>
+      <div class="slideshow-container w-full h-full relative">
+       <div class="slide fade-slide active"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1766766244/dok50_1_awcqnt.webp" alt="Kegiatan KDMP 1" class="w-full h-full object-cover" onerror="this.src=''; this.alt='Foto gagal dimuat'; this.style.display='none';">
+       </div>
+       <div class="slide fade-slide"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1766766243/dok4_bqi5wx.webp" alt="Kegiatan KDMP 2" class="w-full h-full object-cover" onerror="this.src=''; this.alt='Foto gagal dimuat'; this.style.display='none';">
+       </div>
+       <div class="slide fade-slide"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1766766243/dok6_qozvse.webp" alt="Kegiatan KDMP 3" class="w-full h-full object-cover" onerror="this.src=''; this.alt='Foto gagal dimuat'; this.style.display='none';">
+       </div>
+       <div class="slide fade-slide"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1766766242/dok1_c0o0fn.webp" alt="Kegiatan KDMP 4" class="w-full h-full object-cover" onerror="this.src=''; this.alt='Foto gagal dimuat'; this.style.display='none';">
+       </div>
+       <div class="slide fade-slide"><img src="https://res.cloudinary.com/dpr2vc3b0/image/upload/v1766823315/KDMP-WLPTG-min_ca7dax.png" alt="Kegiatan KDMP 5" class="w-full h-full object-cover" onerror="this.src=''; this.alt='Foto gagal dimuat'; this.style.display='none';">
+       </div><!-- Navigation Arrows --> <button class="slide-prev absolute left-2 md:left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white w-8 h-8 md:w-12 md:h-12 rounded-full flex items-center justify-center hover:bg-opacity-75 transition-all duration-300 z-10">
+        <svg class="w-4 h-4 md:w-6 md:h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg></button> <button class="slide-next absolute right-2 md:right-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white w-8 h-8 md:w-12 md:h-12 rounded-full flex items-center justify-center hover:bg-opacity-75 transition-all duration-300 z-10">
+        <svg class="w-4 h-4 md:w-6 md:h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg></button> <!-- Dots Indicator -->
+       <div class="absolute bottom-2 md:bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 md:space-x-3 z-10"><span class="dot w-2 h-2 md:w-3 md:h-3 rounded-full bg-white bg-opacity-50 cursor-pointer hover:bg-opacity-100 transition-all duration-300" data-slide="0"></span> <span class="dot w-2 h-2 md:w-3 md:h-3 rounded-full bg-white bg-opacity-50 cursor-pointer hover:bg-opacity-100 transition-all duration-300" data-slide="1"></span> <span class="dot w-2 h-2 md:w-3 md:h-3 rounded-full bg-white bg-opacity-50 cursor-pointer hover:bg-opacity-100 transition-all duration-300" data-slide="2"></span> <span class="dot w-2 h-2 md:w-3 md:h-3 rounded-full bg-white bg-opacity-50 cursor-pointer hover:bg-opacity-100 transition-all duration-300" data-slide="3"></span> <span class="dot w-2 h-2 md:w-3 md:h-3 rounded-full bg-white bg-opacity-50 cursor-pointer hover:bg-opacity-100 transition-all duration-300" data-slide="4"></span>
+       </div>
+      </div>
+     </div>
+     <h1 id="hero-title" class="text-5xl md:text-7xl font-bold mb-6 gradient-text"></h1>
+     <p id="hero-description" class="text-lg md:text-xl mb-8 max-w-2xl mx-auto opacity-90"></p><button id="cta-button" class="px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 hover:scale-105 shadow-lg"></button> <!-- Leadership Quotes Section -->
+     <div class="mt-16 max-w-6xl mx-auto">
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+       <div class="rounded-2xl p-8 shadow-2xl" style="background-color: rgba(45, 0, 0, 0.6); backdrop-filter: blur(10px);"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1766764754/presiden_sddng4.webp" alt="Presiden Prabowo Subianto" class="w-32 h-32 md:w-40 md:h-40 rounded-full mx-auto mb-6 object-cover border-4 shadow-lg" style="border-color: #ffd700;" onerror="this.src=''; this.alt='Foto tidak tersedia'; this.style.display='none';">
+        <blockquote class="text-base md:text-lg italic mb-4 leading-relaxed">
+         "Koperasi adalah alatnya orang lemah, alatnya bangsa yang lemah. Tapi kalau bersatu, mereka jadi kekuatan. Dari ekonomi lemah menjadi ekonomi yang kuat. Itulah konsep koperasi."
+        </blockquote>
+        <p class="font-semibold text-base md:text-lg" style="color: #ffd700;">- Presiden Prabowo Subianto</p>
+       </div>
+       <div class="rounded-2xl p-8 shadow-2xl" style="background-color: rgba(45, 0, 0, 0.6); backdrop-filter: blur(10px);"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1766764754/menkopangan_tjlsmj.webp" alt="Menteri Koordinator Bidang Pangan" class="w-32 h-32 md:w-40 md:h-40 rounded-full mx-auto mb-6 object-cover border-4 shadow-lg" style="border-color: #ffd700;" onerror="this.src=''; this.alt='Foto tidak tersedia'; this.style.display='none';">
+        <blockquote class="text-base md:text-lg italic mb-4 leading-relaxed">
+         "Kopdes/Kel Merah Putih: Bangun Koperasi Desa, Indonesia Jaya"
+        </blockquote>
+        <p class="font-semibold text-base md:text-lg" style="color: #ffd700;">- Menteri Koordinator Bidang Pangan Zulkifli Hasan</p>
+       </div>
+       <div class="rounded-2xl p-8 shadow-2xl" style="background-color: rgba(45, 0, 0, 0.6); backdrop-filter: blur(10px);"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1766764755/menkop_j3ciud.webp" alt="Menteri Koperasi" class="w-32 h-32 md:w-40 md:h-40 rounded-full mx-auto mb-6 object-cover border-4 shadow-lg" style="border-color: #ffd700;" onerror="this.src=''; this.alt='Foto tidak tersedia'; this.style.display='none';">
+        <blockquote class="text-base md:text-lg italic mb-4 leading-relaxed">
+         "Koperasi Desa/Kelurahan Merah Putih ini akan menghidupkan kembali semangat ekonomi kerakyatan, selaras dengan nilai yang terkandung dalam Pasal 33 UU 1945"
+        </blockquote>
+        <p class="font-semibold text-base md:text-lg" style="color: #ffd700;">- Menteri Koperasi Ferry Juliantono</p>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- About Section -->
+   <section id="about" class="py-20 px-4">
+    <div class="max-w-7xl mx-auto">
+     <h2 id="about-title" class="text-4xl md:text-5xl font-bold text-center mb-12"></h2>
+     <div class="grid md:grid-cols-2 gap-12 items-center">
+      <div class="rounded-2xl p-8 shadow-xl"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1766767464/LOGO_KDMP_rhyrvm.jpg" alt="Logo KDMP WANI LUMBUMPETIGO" class="w-full h-auto rounded-lg object-contain" onerror="this.src=''; this.alt='Logo gagal dimuat'; this.style.display='none';">
+      </div>
+      <div>
+       <p id="about-description" class="text-lg leading-relaxed mb-6"></p>
+       <div class="space-y-4">
+        <div class="flex items-start space-x-3">
+         <div class="text-2xl">
+          ✓
+         </div>
+         <div>
+          <h3 class="font-semibold text-lg mb-1">Anggota Berdaya</h3>
+          <p class="opacity-80">Meningkatkan kesejahteraan dan kapasitas ekonomi anggota koperasi</p>
+         </div>
+        </div>
+        <div class="flex items-start space-x-3">
+         <div class="text-2xl">
+          ✓
+         </div>
+         <div>
+          <h3 class="font-semibold text-lg mb-1">Gotong Royong</h3>
+          <p class="opacity-80">Menguatkan nilai kekeluargaan dan kerja sama antar anggota</p>
+         </div>
+        </div>
+        <div class="flex items-start space-x-3">
+         <div class="text-2xl">
+          ��
+         </div>
+         <div>
+          <h3 class="font-semibold text-lg mb-1">Ekonomi Desa</h3>
+          <p class="opacity-80">Mengembangkan ekonomi desa yang mandiri dan berkelanjutan</p>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Program Koperasi Merah Putih Section -->
+   <section id="program-merah-putih" class="py-20 px-4">
+    <div class="max-w-7xl mx-auto">
+     <div class="text-center mb-12">
+      <div class="flex justify-center mb-6"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1766767591/primerCoopyear-default_pvaheg.png" alt="Logo Primer Koperasi" class="w-48 h-auto md:w-64 object-contain" onerror="this.src=''; this.alt='Logo gagal dimuat'; this.style.display='none';">
+      </div>
+      <h2 class="text-4xl md:text-5xl font-bold mb-4">Program Koperasi Merah Putih</h2>
+      <p class="text-lg opacity-90 mb-2">Instruksi Presiden Nomor 9 Tahun 2025</p>
+      <p class="opacity-80 max-w-3xl mx-auto">Program strategis pemerintah Indonesia untuk memberdayakan ekonomi masyarakat desa dan kelurahan melalui pembentukan koperasi skala besar yang menjadi motor penggerak ekonomi kerakyatan</p>
+     </div><!-- Tujuan Utama -->
+     <div class="mb-16">
+      <h3 class="text-3xl font-bold text-center mb-8">Tujuan Utama Program</h3>
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+       <div class="rounded-xl p-6 shadow-lg card-hover text-center">
+        <div class="text-5xl mb-4">
+         🏛️
+        </div>
+        <h4 class="font-bold text-lg mb-2">Pemberdayaan Ekonomi Rakyat</h4>
+        <p class="opacity-80 text-sm">Membangun kemandirian ekonomi desa dengan memanfaatkan potensi lokal</p>
+       </div>
+       <div class="rounded-xl p-6 shadow-lg card-hover text-center">
+        <div class="text-5xl mb-4">
+         🔗
+        </div>
+        <h4 class="font-bold text-lg mb-2">Memotong Rantai Pasok</h4>
+        <p class="opacity-80 text-sm">Mengurangi peran tengkulak dan memastikan harga yang adil bagi petani/nelayan</p>
+       </div>
+       <div class="rounded-xl p-6 shadow-lg card-hover text-center">
+        <div class="text-5xl mb-4">
+         🏥
+        </div>
+        <h4 class="font-bold text-lg mb-2">Penyediaan Layanan</h4>
+        <p class="opacity-80 text-sm">Fasilitas cold storage, apotek desa, toko saprotan, dan layanan keuangan</p>
+       </div>
+       <div class="rounded-xl p-6 shadow-lg card-hover text-center">
+        <div class="text-5xl mb-4">
+         💪
+        </div>
+        <h4 class="font-bold text-lg mb-2">Memperkuat Struktur Ekonomi</h4>
+        <p class="opacity-80 text-sm">Membentuk kekuatan ekonomi komunal yang dikelola oleh dan untuk masyarakat</p>
+       </div>
+      </div>
+     </div><!-- Pendanaan & Fasilitas -->
+     <div class="grid md:grid-cols-2 gap-8 mb-12">
+      <div class="rounded-2xl p-8 shadow-xl">
+       <h3 class="text-2xl font-bold mb-6 flex items-center"><span class="text-4xl mr-3">💰</span> Mekanisme Pendanaan</h3>
+       <div class="space-y-4">
+        <div class="flex items-start space-x-3">
+         <div class="text-xl mt-1">
+          ✓
+         </div>
+         <div>
+          <p class="font-semibold">Pinjaman hingga Rp3 Miliar</p>
+          <p class="opacity-80 text-sm">Dengan bunga 6% per tahun dari bank Himbara (BRI, BNI, Mandiri, BSI)</p>
+         </div>
+        </div>
+        <div class="flex items-start space-x-3">
+         <div class="text-xl mt-1">
+          ✓
+         </div>
+         <div>
+          <p class="font-semibold">Sumber Dana APBN</p>
+          <p class="opacity-80 text-sm">Berasal dari Saldo Anggaran Lebih (SAL) APBN</p>
+         </div>
+        </div>
+        <div class="flex items-start space-x-3">
+         <div class="text-xl mt-1">
+          ✓
+         </div>
+         <div>
+          <p class="font-semibold">Jaminan Fleksibel</p>
+          <p class="opacity-80 text-sm">Hingga 30% dana desa dapat digunakan sebagai jaminan terakhir</p>
+         </div>
+        </div>
+        <div class="flex items-start space-x-3">
+         <div class="text-xl mt-1">
+          ✓
+         </div>
+         <div>
+          <p class="font-semibold">Melibatkan 18 Kementerian/Lembaga</p>
+          <p class="opacity-80 text-sm">Koordinasi lintas sektor untuk kesuksesan program</p>
+         </div>
+        </div>
+       </div>
+      </div>
+      <div class="rounded-2xl p-8 shadow-xl">
+       <h3 class="text-2xl font-bold mb-6 flex items-center"><span class="text-4xl mr-3">🏪</span> Layanan Komprehensif</h3>
+       <div class="space-y-4">
+        <div class="flex items-start space-x-3">
+         <div class="text-xl mt-1">
+          🌾
+         </div>
+         <div>
+          <p class="font-semibold">Layanan Pertanian</p>
+          <p class="opacity-80 text-sm">Toko saprotan, penyimpanan hasil panen, dan cold storage</p>
+         </div>
+        </div>
+        <div class="flex items-start space-x-3">
+         <div class="text-xl mt-1">
+          💊
+         </div>
+         <div>
+          <p class="font-semibold">Layanan Kesehatan</p>
+          <p class="opacity-80 text-sm">Apotek desa dan klinik kesehatan untuk masyarakat</p>
+         </div>
+        </div>
+        <div class="flex items-start space-x-3">
+         <div class="text-xl mt-1">
+          💳
+         </div>
+         <div>
+          <p class="font-semibold">Layanan Keuangan</p>
+          <p class="opacity-80 text-sm">Simpan pinjam dengan bunga terjangkau untuk anggota</p>
+         </div>
+        </div>
+        <div class="flex items-start space-x-3">
+         <div class="text-xl mt-1">
+          🚚
+         </div>
+         <div>
+          <p class="font-semibold">Layanan Logistik</p>
+          <p class="opacity-80 text-sm">Distribusi dan transportasi hasil pertanian/nelayan</p>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div><!-- Dampak yang Diharapkan -->
+     <div class="rounded-2xl p-8 md:p-12 shadow-2xl text-center">
+      <h3 class="text-3xl font-bold mb-6">Dampak yang Diharapkan</h3>
+      <div class="grid md:grid-cols-3 gap-8">
+       <div>
+        <div class="text-5xl mb-3">
+         ��
+        </div>
+        <h4 class="font-bold text-lg mb-2">Kemandirian Ekonomi</h4>
+        <p class="opacity-80">Kesejahteraan masyarakat pedesaan meningkat melalui ekonomi yang mandiri</p>
+       </div>
+       <div>
+        <div class="text-5xl mb-3">
+         🌾
+        </div>
+        <h4 class="font-bold text-lg mb-2">Ketahanan Pangan</h4>
+        <p class="opacity-80">Ketahanan pangan desa lebih kuat dengan sistem distribusi yang efektif</p>
+       </div>
+       <div>
+        <div class="text-5xl mb-3">
+         ⚖️
+        </div>
+        <h4 class="font-bold text-lg mb-2">Keadilan Sosial</h4>
+        <p class="opacity-80">Keadilan sosial terwujud melalui pemerataan ekonomi di tingkat akar rumput</p>
+       </div>
+      </div>
+      <div class="mt-8 pt-8 border-t">
+       <p class="text-lg font-semibold mb-2">Target Nasional</p>
+       <p class="text-3xl font-bold gradient-text mb-2">75.000 - 80.000 Koperasi</p>
+       <p class="opacity-80">Di seluruh desa dan kelurahan Indonesia</p>
+      </div>
+     </div>
+    </div>
+   </section><!-- Structure Section -->
+   <section id="structure" class="py-20 px-4">
+    <div class="max-w-7xl mx-auto">
+     <h2 class="text-4xl md:text-5xl font-bold text-center mb-4">Struktur Organisasi</h2>
+     <p class="text-center opacity-80 mb-12">Susunan Pengurus dan Pengawas KDMP WANI LUMBUMPETIGO Periode 2025 - 2030</p>
+     <div class="rounded-2xl p-8 shadow-xl"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1766757554/struktur-kopersai-desa-merah-putih-wani-lumbumpetigo_judusc.png" alt="Struktur Organisasi KDMP WANI LUMBUMPETIGO" class="w-full h-auto rounded-lg" onerror="this.src=''; this.alt='Gambar struktur organisasi gagal dimuat'; this.style.display='none';">
+     </div>
+    </div>
+   </section><!-- Services Section -->
+   <section id="services" class="py-20 px-4">
+    <div class="max-w-7xl mx-auto">
+     <h2 class="text-4xl md:text-5xl font-bold text-center mb-4">Layanan Kami</h2>
+     <p class="text-center opacity-80 mb-12 max-w-2xl mx-auto">Berbagai layanan untuk mendukung kemajuan petani dan masyarakat desa</p>
+     <div class="grid md:grid-cols-3 gap-8">
+      <div class="rounded-2xl p-8 shadow-xl card-hover">
+       <div class="text-5xl mb-4">
+        💰
+       </div>
+       <h3 class="text-2xl font-bold mb-3">Simpan Pinjam</h3>
+       <p class="opacity-80 leading-relaxed">Layanan simpan pinjam untuk membantu anggota mengembangkan usaha dan memenuhi kebutuhan dengan bunga kompetitif</p>
+      </div>
+      <div class="rounded-2xl p-8 shadow-xl card-hover">
+       <div class="text-5xl mb-4">
+        🏪
+       </div>
+       <h3 class="text-2xl font-bold mb-3">Unit Usaha</h3>
+       <p class="opacity-80 leading-relaxed">Mengelola berbagai unit usaha untuk meningkatkan pendapatan koperasi dan kesejahteraan anggota</p>
+      </div>
+      <div class="rounded-2xl p-8 shadow-xl card-hover">
+       <div class="text-5xl mb-4">
+        📚
+       </div>
+       <h3 class="text-2xl font-bold mb-3">Pendidikan &amp; Pelatihan</h3>
+       <p class="opacity-80 leading-relaxed">Program edukasi koperasi dan kewirausahaan untuk meningkatkan kapasitas anggota dalam mengelola usaha</p>
+      </div>
+     </div>
+    </div>
+   </section><!-- Gallery Section -->
+   <section id="gallery" class="py-20 px-4">
+    <div class="max-w-7xl mx-auto">
+     <h2 class="text-4xl md:text-5xl font-bold text-center mb-4">Galeri Kegiatan</h2>
+     <p class="text-center opacity-80 mb-12">Dokumentasi kegiatan dan pencapaian kami</p>
+     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="rounded-xl overflow-hidden shadow-lg card-hover h-48"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1766766243/dok4_bqi5wx.webp" alt="Kegiatan KDMP WANI LUMBUMPETIGO" class="w-full h-full object-cover" onerror="this.src=''; this.alt='Foto gagal dimuat'; this.style.display='none';">
+      </div>
+      <div class="rounded-xl overflow-hidden shadow-lg card-hover h-48"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1766766243/dok6_qozvse.webp" alt="Kegiatan KDMP WANI LUMBUMPETIGO" class="w-full h-full object-cover" onerror="this.src=''; this.alt='Foto gagal dimuat'; this.style.display='none';">
+      </div>
+      <div class="rounded-xl overflow-hidden shadow-lg card-hover h-48"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1766766244/dok50_1_awcqnt.webp" alt="Kegiatan KDMP WANI LUMBUMPETIGO" class="w-full h-full object-cover" onerror="this.src=''; this.alt='Foto gagal dimuat'; this.style.display='none';">
+      </div>
+      <div class="rounded-xl overflow-hidden shadow-lg card-hover h-48"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1766766242/dok1_c0o0fn.webp" alt="Kegiatan KDMP WANI LUMBUMPETIGO" class="w-full h-full object-cover" onerror="this.src=''; this.alt='Foto gagal dimuat'; this.style.display='none';">
+      </div>
+     </div>
+    </div>
+   </section><!-- Documents Section -->
+   <section id="documents" class="py-20 px-4">
+    <div class="max-w-7xl mx-auto">
+     <h2 class="text-4xl md:text-5xl font-bold text-center mb-4">Dokumen</h2>
+     <p class="text-center opacity-80 mb-12">Dokumen resmi dan informasi penting koperasi</p>
+     <div class="space-y-8">
+      <div class="rounded-2xl p-4 md:p-8 shadow-2xl">
+       <h3 class="text-2xl font-bold text-center mb-6">BERITA ACARA PENDIRIAN KOPDES MERAH PUTIH 2025</h3>
+       <div class="aspect-video w-full max-w-4xl mx-auto"><iframe src="https://drive.google.com/file/d/1Gu8ypjC3OIMPmFMM3dKKrzJnBxUdAFwf/preview" class="w-full h-full rounded-lg" allow="autoplay" style="border: none; min-height: 480px;"> </iframe>
+       </div>
+      </div>
+      <div class="rounded-2xl p-4 md:p-8 shadow-2xl">
+       <h3 class="text-2xl font-bold text-center mb-6">AKTA KOPERASI DESA MERAH PUTIH DESA WANI LUMBUMPETIGO 2025</h3>
+       <div class="aspect-video w-full max-w-4xl mx-auto"><iframe src="https://drive.google.com/file/d/1kkiCXDD8epG1hQBZr6JJM5m4SpOZM5Hk/preview" class="w-full h-full rounded-lg" allow="autoplay" style="border: none; min-height: 480px;"> </iframe>
+       </div>
+      </div>
+      <div class="rounded-2xl p-4 md:p-8 shadow-2xl">
+       <h3 class="text-2xl font-bold text-center mb-6">BERITA ACARA MUSDESUS KOPDES</h3>
+       <div class="aspect-video w-full max-w-4xl mx-auto"><iframe src="https://drive.google.com/file/d/1PpDvAaLFhjkOqy5oZpPX7bzbuBIh_eH4/preview" class="w-full h-full rounded-lg" allow="autoplay" style="border: none; min-height: 480px;"> </iframe>
+       </div>
+      </div>
+      <div class="rounded-2xl p-4 md:p-8 shadow-2xl">
+       <h3 class="text-2xl font-bold text-center mb-6">NPWP KOPDES</h3>
+       <div class="aspect-video w-full max-w-4xl mx-auto"><iframe src="https://drive.google.com/file/d/10ZJTAi2hQd-R5Vm9yBgrzm4XLN6LH6o-/preview" class="w-full h-full rounded-lg" allow="autoplay" style="border: none; min-height: 480px;"> </iframe>
+       </div>
+      </div>
+      <div class="rounded-2xl p-4 md:p-8 shadow-2xl">
+       <h3 class="text-2xl font-bold text-center mb-6">AHU KDMP WANI LUMBUMPETIGO</h3>
+       <div class="aspect-video w-full max-w-4xl mx-auto"><iframe src="https://drive.google.com/file/d/1oE7NVgc1vxOLQ-iybJg61CQeXgaU1luZ/preview" class="w-full h-full rounded-lg" allow="autoplay" style="border: none; min-height: 480px;"> </iframe>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Contact Section -->
+   <section id="contact" class="py-20 px-4">
+    <div class="max-w-4xl mx-auto">
+     <h2 id="contact-title" class="text-4xl md:text-5xl font-bold text-center mb-12"></h2>
+     <div class="rounded-2xl p-8 md:p-12 shadow-2xl">
+      <form id="contact-form" class="space-y-6">
+       <div class="grid md:grid-cols-2 gap-6">
+        <div><label for="name" class="block mb-2 font-medium">Nama</label> <input type="text" id="name" required class="w-full px-4 py-3 rounded-lg border-2 transition-all duration-300 focus:outline-none focus:ring-2">
+        </div>
+        <div><label for="email" class="block mb-2 font-medium">Email</label> <input type="email" id="email" required class="w-full px-4 py-3 rounded-lg border-2 transition-all duration-300 focus:outline-none focus:ring-2">
+        </div>
+       </div>
+       <div><label for="message" class="block mb-2 font-medium">Pesan</label> <textarea id="message" rows="5" required class="w-full px-4 py-3 rounded-lg border-2 transition-all duration-300 focus:outline-none focus:ring-2"></textarea>
+       </div><button type="submit" id="submit-button" class="w-full py-4 rounded-lg font-semibold text-lg transition-all duration-300 hover:scale-105 shadow-lg"> Kirim Pesan </button>
+       <div id="form-message" class="hidden p-4 rounded-lg text-center font-medium"></div>
+      </form>
+     </div>
+    </div>
+   </section><!-- Back to Top Button --> <button id="back-to-top-btn" aria-label="Kembali ke atas">
+    <svg class="w-7 h-7" style="width: 28px; height: 28px;" fill="none" stroke="currentColor" viewbox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+    </svg><style>
+        @media (max-width: 768px) {
+          #back-to-top-btn svg {
+            width: 24px !important;
+            height: 24px !important;
+          }
+        }
+      </style></button> <!-- WhatsApp Button --> <a href="https://wa.me/6281234567890?text=Halo,%20saya%20ingin%20bertanya%20tentang%20KDMP%20WANI%20LUMBUMPETIGO" target="_blank" rel="noopener noreferrer" class="whatsapp-button" aria-label="Hubungi via WhatsApp">
+    <svg class="w-8 h-8 md:w-8 md:h-8" style="width: 32px; height: 32px;" fill="white" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+    </svg><style>
+        @media (max-width: 768px) {
+          .whatsapp-button svg {
+            width: 28px !important;
+            height: 28px !important;
+          }
+        }
+      </style></a> <!-- Footer -->
+   <footer class="py-12 px-4">
+    <div class="max-w-7xl mx-auto">
+     <div class="grid md:grid-cols-3 gap-8 mb-8">
+      <div>
+       <h3 class="font-bold text-xl mb-4 gradient-text">Koperasi Desa Merah Putih WANI LUMBUMPETIGO</h3>
+       <p class="opacity-80">Kec.Tanantovea, Kab.Donggala Sulteng 94342</p>
+       <p class="opacity-80 mt-2">Membangun kesejahteraan masyarakat desa melalui pemberdayaan dan gotong royong</p>
+      </div>
+      <div>
+       <h4 class="font-semibold mb-4">Tautan Cepat</h4>
+       <div class="space-y-2"><a href="#home" class="block opacity-80 hover:opacity-100 transition-opacity">Beranda</a> <a href="#about" class="block opacity-80 hover:opacity-100 transition-opacity">Tentang</a> <a href="#program-merah-putih" class="block opacity-80 hover:opacity-100 transition-opacity">Program</a> <a href="#structure" class="block opacity-80 hover:opacity-100 transition-opacity">Struktur</a> <a href="#services" class="block opacity-80 hover:opacity-100 transition-opacity">Layanan</a> <a href="#documents" class="block opacity-80 hover:opacity-100 transition-opacity">Dokumen</a> <a href="#contact" class="block opacity-80 hover:opacity-100 transition-opacity">Kontak</a>
+       </div>
+      </div>
+      <div>
+       <h4 class="font-semibold mb-4">Hubungi Kami</h4>
+       <div class="space-y-2 opacity-80">
+        <p>📧 info@kdmpwani.id</p>
+        <p>📱 +62 xxx xxxx xxxx</p>
+        <p>📍 Kec.Tanantovea, Kab.Donggala Sulteng 94342</p>
+       </div>
+      </div>
+     </div>
+     <div class="border-t pt-8 text-center opacity-80">
+      <p id="footer-text"></p>
+     </div>
+    </div>
+   </footer>
+  </div>
+  <script>
+    const defaultConfig = {
+      background_color: '#1a0000',
+      surface_color: '#2d0000',
+      text_color: '#f5f5f5',
+      primary_action_color: '#8B0000',
+      secondary_action_color: '#ffd700',
+      font_family: 'Poppins',
+      font_size: 16,
+      site_title: 'Koperasi Desa Merah Putih WANI LUMBUMPETIGO',
+      tagline: 'Kec.Tanantovea, Kab.Donggala Sulteng 94342',
+      hero_title: 'Bergabunglah Bersama Kami',
+      hero_description: 'Membangun masa depan ekonomi desa yang lebih baik melalui kerja sama, inovasi, dan pemberdayaan masyarakat dalam naungan Koperasi Desa Merah Putih',
+      cta_button_text: 'Hubungi Kami',
+      about_title: 'Tentang Kami',
+      about_description: 'Koperasi Desa Merah Putih (KDMP) WANI LUMBUMPETIGO adalah koperasi yang berdedikasi untuk meningkatkan kesejahteraan anggota dan mengembangkan perekonomian desa. Kami percaya bahwa melalui kolaborasi dan semangat gotong royong, kita dapat menciptakan perubahan positif yang berkelanjutan untuk seluruh masyarakat.',
+      contact_title: 'Hubungi Kami',
+      footer_text: '�� 2024 Koperasi Desa Merah Putih WANI LUMBUMPETIGO. Semua hak dilindungi.'
+    };
+
+    async function onConfigChange(config) {
+      const baseSize = config.font_size || defaultConfig.font_size;
+      const customFont = config.font_family || defaultConfig.font_family;
+      const baseFontStack = 'sans-serif';
+      const fontFamily = `${customFont}, ${baseFontStack}`;
+      
+      const bgColor = config.background_color || defaultConfig.background_color;
+      const surfaceColor = config.surface_color || defaultConfig.surface_color;
+      const textColor = config.text_color || defaultConfig.text_color;
+      const primaryColor = config.primary_action_color || defaultConfig.primary_action_color;
+      const secondaryColor = config.secondary_action_color || defaultConfig.secondary_action_color;
+      
+      document.body.style.fontFamily = fontFamily;
+      document.getElementById('app-wrapper').style.backgroundColor = bgColor;
+      document.getElementById('app-wrapper').style.color = textColor;
+      
+      const navbar = document.getElementById('navbar');
+      navbar.style.backgroundColor = surfaceColor;
+      navbar.style.color = textColor;
+      
+      const navLinks = document.querySelectorAll('.nav-link, .mobile-menu-link');
+      navLinks.forEach(link => {
+        link.style.color = textColor;
+      });
+      
+      const style = document.createElement('style');
+      style.textContent = `.nav-link::after { background-color: ${secondaryColor}; }`;
+      document.head.appendChild(style);
+      
+      document.getElementById('mobile-menu-btn').style.color = textColor;
+      document.getElementById('mobile-menu').style.backgroundColor = surfaceColor;
+      
+      const homeSection = document.getElementById('home');
+      homeSection.style.backgroundColor = bgColor;
+      homeSection.style.color = textColor;
+      
+      const ctaButton = document.getElementById('cta-button');
+      ctaButton.style.backgroundColor = primaryColor;
+      ctaButton.style.color = secondaryColor;
+      
+      const aboutSection = document.getElementById('about');
+      aboutSection.style.backgroundColor = surfaceColor;
+      aboutSection.style.color = textColor;
+      
+      document.querySelectorAll('#about .rounded-2xl').forEach(card => {
+        card.style.backgroundColor = bgColor;
+        card.style.color = textColor;
+      });
+      
+      const programSection = document.getElementById('program-merah-putih');
+      programSection.style.backgroundColor = bgColor;
+      programSection.style.color = textColor;
+      
+      document.querySelectorAll('#program-merah-putih .rounded-xl, #program-merah-putih .rounded-2xl').forEach(card => {
+        card.style.backgroundColor = surfaceColor;
+        card.style.color = textColor;
+      });
+      
+      const structureSection = document.getElementById('structure');
+      structureSection.style.backgroundColor = surfaceColor;
+      structureSection.style.color = textColor;
+      
+      document.querySelector('#structure .rounded-2xl').style.backgroundColor = bgColor;
+      document.querySelector('#structure .rounded-2xl').style.color = textColor;
+      
+      const servicesSection = document.getElementById('services');
+      servicesSection.style.backgroundColor = bgColor;
+      servicesSection.style.color = textColor;
+      
+      document.querySelectorAll('#services .card-hover').forEach(card => {
+        card.style.backgroundColor = surfaceColor;
+        card.style.color = textColor;
+      });
+      
+      const gallerySection = document.getElementById('gallery');
+      gallerySection.style.backgroundColor = surfaceColor;
+      gallerySection.style.color = textColor;
+      
+      const documentsSection = document.getElementById('documents');
+      documentsSection.style.backgroundColor = bgColor;
+      documentsSection.style.color = textColor;
+      
+      const docCards = document.querySelectorAll('#documents .space-y-8 > div');
+      docCards.forEach(card => {
+        card.style.backgroundColor = surfaceColor;
+        card.style.color = textColor;
+      });
+      
+      const contactSection = document.getElementById('contact');
+      contactSection.style.backgroundColor = surfaceColor;
+      contactSection.style.color = textColor;
+      
+      document.querySelector('#contact .rounded-2xl').style.backgroundColor = bgColor;
+      document.querySelector('#contact .rounded-2xl').style.color = textColor;
+      
+      const inputs = document.querySelectorAll('input, textarea');
+      inputs.forEach(input => {
+        input.style.backgroundColor = surfaceColor;
+        input.style.color = textColor;
+        input.style.borderColor = primaryColor;
+      });
+      
+      const submitButton = document.getElementById('submit-button');
+      submitButton.style.backgroundColor = primaryColor;
+      submitButton.style.color = secondaryColor;
+      
+      const footer = document.querySelector('footer');
+      footer.style.backgroundColor = bgColor;
+      footer.style.color = textColor;
+      
+      const backToTopBtn = document.getElementById('back-to-top-btn');
+      backToTopBtn.style.backgroundColor = primaryColor;
+      backToTopBtn.style.color = secondaryColor;
+      
+      const runningTextContainer = document.querySelector('.running-text-container');
+      if (runningTextContainer) {
+        runningTextContainer.style.background = `linear-gradient(135deg, ${primaryColor} 0%, ${surfaceColor} 100%)`;
+      }
+      
+      document.getElementById('nav-title').textContent = config.site_title || defaultConfig.site_title;
+      document.getElementById('nav-tagline').textContent = config.tagline || defaultConfig.tagline;
+      document.getElementById('hero-title').textContent = config.hero_title || defaultConfig.hero_title;
+      document.getElementById('hero-description').textContent = config.hero_description || defaultConfig.hero_description;
+      document.getElementById('cta-button').textContent = config.cta_button_text || defaultConfig.cta_button_text;
+      document.getElementById('about-title').textContent = config.about_title || defaultConfig.about_title;
+      document.getElementById('about-description').textContent = config.about_description || defaultConfig.about_description;
+      document.getElementById('contact-title').textContent = config.contact_title || defaultConfig.contact_title;
+      document.getElementById('footer-text').textContent = config.footer_text || defaultConfig.footer_text;
+      
+      document.body.style.fontSize = `${baseSize}px`;
+      document.querySelectorAll('h1').forEach(el => el.style.fontSize = `${baseSize * 3}px`);
+      document.querySelectorAll('h2').forEach(el => el.style.fontSize = `${baseSize * 2.5}px`);
+      document.querySelectorAll('h3').forEach(el => el.style.fontSize = `${baseSize * 1.5}px`);
+      document.querySelectorAll('h4').forEach(el => el.style.fontSize = `${baseSize * 1.25}px`);
+      document.querySelectorAll('p, a, button, input, textarea, label').forEach(el => el.style.fontSize = `${baseSize}px`);
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [
+          {
+            get: () => config.background_color || defaultConfig.background_color,
+            set: (value) => {
+              config.background_color = value;
+              window.elementSdk.setConfig({ background_color: value });
+            }
+          },
+          {
+            get: () => config.surface_color || defaultConfig.surface_color,
+            set: (value) => {
+              config.surface_color = value;
+              window.elementSdk.setConfig({ surface_color: value });
+            }
+          },
+          {
+            get: () => config.text_color || defaultConfig.text_color,
+            set: (value) => {
+              config.text_color = value;
+              window.elementSdk.setConfig({ text_color: value });
+            }
+          },
+          {
+            get: () => config.primary_action_color || defaultConfig.primary_action_color,
+            set: (value) => {
+              config.primary_action_color = value;
+              window.elementSdk.setConfig({ primary_action_color: value });
+            }
+          },
+          {
+            get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
+            set: (value) => {
+              config.secondary_action_color = value;
+              window.elementSdk.setConfig({ secondary_action_color: value });
+            }
+          }
+        ],
+        borderables: [],
+        fontEditable: {
+          get: () => config.font_family || defaultConfig.font_family,
+          set: (value) => {
+            config.font_family = value;
+            window.elementSdk.setConfig({ font_family: value });
+          }
+        },
+        fontSizeable: {
+          get: () => config.font_size || defaultConfig.font_size,
+          set: (value) => {
+            config.font_size = value;
+            window.elementSdk.setConfig({ font_size: value });
+          }
+        }
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ['site_title', config.site_title || defaultConfig.site_title],
+        ['tagline', config.tagline || defaultConfig.tagline],
+        ['hero_title', config.hero_title || defaultConfig.hero_title],
+        ['hero_description', config.hero_description || defaultConfig.hero_description],
+        ['cta_button_text', config.cta_button_text || defaultConfig.cta_button_text],
+        ['about_title', config.about_title || defaultConfig.about_title],
+        ['about_description', config.about_description || defaultConfig.about_description],
+        ['contact_title', config.contact_title || defaultConfig.contact_title],
+        ['footer_text', config.footer_text || defaultConfig.footer_text]
+      ]);
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+
+    onConfigChange(defaultConfig);
+
+    // Script untuk tombol Back to Top dengan ID yang unik
+    const backToTopButton = document.getElementById('back-to-top-btn');
+    const appWrapper = document.getElementById('app-wrapper');
+    
+    // Fungsi untuk menampilkan/menyembunyikan tombol
+    function toggleBackToTopButton() {
+      if (appWrapper.scrollTop > 300) {
+        backToTopButton.classList.add('show');
+      } else {
+        backToTopButton.classList.remove('show');
+      }
+    }
+    
+    // Event listener untuk scroll pada app-wrapper
+    appWrapper.addEventListener('scroll', toggleBackToTopButton);
+    
+    // Event listener untuk klik tombol
+    backToTopButton.addEventListener('click', function() {
+      appWrapper.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const mobileLinks = document.querySelectorAll('.mobile-menu-link');
+      
+      mobileMenuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('active');
+      });
+      
+      mobileLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          mobileMenu.classList.remove('active');
+        });
+      });
+      
+      const ctaButton = document.getElementById('cta-button');
+      ctaButton.addEventListener('click', () => {
+        document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+      });
+      
+      const contactForm = document.getElementById('contact-form');
+      const formMessage = document.getElementById('form-message');
+      
+      contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const submitButton = document.getElementById('submit-button');
+        submitButton.disabled = true;
+        submitButton.textContent = 'Mengirim...';
+        
+        setTimeout(() => {
+          formMessage.textContent = 'Terima kasih! Pesan Anda telah terkirim.';
+          formMessage.style.backgroundColor = window.elementSdk?.config?.primary_action_color || defaultConfig.primary_action_color;
+          formMessage.style.color = window.elementSdk?.config?.secondary_action_color || defaultConfig.secondary_action_color;
+          formMessage.classList.remove('hidden');
+          
+          contactForm.reset();
+          submitButton.disabled = false;
+          submitButton.textContent = 'Kirim Pesan';
+          
+          setTimeout(() => {
+            formMessage.classList.add('hidden');
+          }, 5000);
+        }, 1000);
+      });
+      
+      const navbar = document.getElementById('navbar');
+      appWrapper.addEventListener('scroll', () => {
+        if (appWrapper.scrollTop > 50) {
+          navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.3)';
+        } else {
+          navbar.style.boxShadow = 'none';
+        }
+      });
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+          }
+        });
+      }, { threshold: 0.1 });
+      
+      document.querySelectorAll('section').forEach(section => {
+        section.style.opacity = '0';
+        section.style.transform = 'translateY(20px)';
+        section.style.transition = 'all 0.8s ease-out';
+        observer.observe(section);
+      });
+      
+      // Slideshow functionality
+      let currentSlide = 0;
+      const slides = document.querySelectorAll('.slide');
+      const dots = document.querySelectorAll('.dot');
+      const prevBtn = document.querySelector('.slide-prev');
+      const nextBtn = document.querySelector('.slide-next');
+      let slideInterval;
+      
+      function showSlide(index) {
+        slides.forEach(slide => slide.classList.remove('active'));
+        dots.forEach(dot => dot.classList.remove('active'));
+        
+        if (index >= slides.length) {
+          currentSlide = 0;
+        } else if (index < 0) {
+          currentSlide = slides.length - 1;
+        } else {
+          currentSlide = index;
+        }
+        
+        slides[currentSlide].classList.add('active');
+        dots[currentSlide].classList.add('active');
+      }
+      
+      function nextSlide() {
+        showSlide(currentSlide + 1);
+      }
+      
+      function prevSlide() {
+        showSlide(currentSlide - 1);
+      }
+      
+      function startSlideshow() {
+        slideInterval = setInterval(nextSlide, 4000);
+      }
+      
+      function stopSlideshow() {
+        clearInterval(slideInterval);
+      }
+      
+      prevBtn.addEventListener('click', () => {
+        prevSlide();
+        stopSlideshow();
+        startSlideshow();
+      });
+      
+      nextBtn.addEventListener('click', () => {
+        nextSlide();
+        stopSlideshow();
+        startSlideshow();
+      });
+      
+      dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+          showSlide(index);
+          stopSlideshow();
+          startSlideshow();
+        });
+      });
+      
+      showSlide(0);
+      startSlideshow();
+    });
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b49040960af1ecc',t:'MTc2Njg0MDU4My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

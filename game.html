@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Syam Digital - Game Pencocokan Memori</title>
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1757245484/SYAMDIGITAL-LOGO-2025_mmpllg.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            box-sizing: border-box;
+        }
+        
+        .card {
+            perspective: 1000px;
+            cursor: pointer;
+        }
+        
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .card-back {
+            transform: rotateY(180deg);
+        }
+        
+        .matched {
+            opacity: 0.7;
+            transform: scale(0.95);
+        }
+        
+        .pulse {
+            animation: pulse 0.5s ease-in-out;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .shake {
+            animation: shake 0.6s ease-in-out;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-8px); }
+            20%, 40%, 60%, 80% { transform: translateX(8px); }
+        }
+        
+        .question-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transform: translateY(10px);
+            opacity: 0;
+            animation: slideIn 0.5s ease-out forwards;
+        }
+        
+        @keyframes slideIn {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .animated-gradient-text {
+            background: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #f5576c, #4facfe, #00f2fe);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 3s ease-in-out infinite;
+        }
+        
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        
+        .floating-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            opacity: 0;
+            animation: floatMessage 2s ease-in-out;
+        }
+        
+        @keyframes floatMessage {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.8);
+            }
+            20% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.1);
+            }
+            80% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.9);
+            }
+        }
+        
+        .firework {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 999;
+        }
+        
+        .firework-particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            animation: explode 1.5s ease-out forwards;
+        }
+        
+        @keyframes explode {
+            0% {
+                opacity: 1;
+                transform: scale(0);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+        }
+        
+        .celebration-stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 998;
+        }
+        
+        .star {
+            position: absolute;
+            font-size: 20px;
+            animation: starFall 2s ease-out forwards;
+        }
+        
+        @keyframes starFallLeft {
+            0% {
+                opacity: 1;
+                transform: translateX(-100px) translateY(-20px) rotate(0deg) scale(0);
+            }
+            50% {
+                opacity: 1;
+                transform: translateX(100px) translateY(20px) rotate(180deg) scale(1.2);
+            }
+            100% {
+                opacity: 0;
+                transform: translateX(200px) translateY(60px) rotate(360deg) scale(0.5);
+            }
+        }
+        
+        @keyframes starFallRight {
+            0% {
+                opacity: 1;
+                transform: translateX(100px) translateY(-20px) rotate(0deg) scale(0);
+            }
+            50% {
+                opacity: 1;
+                transform: translateX(-100px) translateY(20px) rotate(-180deg) scale(1.2);
+            }
+            100% {
+                opacity: 0;
+                transform: translateX(-200px) translateY(60px) rotate(-360deg) scale(0.5);
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4" style="background: #00ff00;">
+    <div class="max-w-6xl mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <div class="flex items-center justify-center gap-4 mb-4">
+                <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1757245484/SYAMDIGITAL-LOGO-2025_mmpllg.png" alt="Syam Digital Logo" class="w-16 h-16 object-contain drop-shadow-lg" onerror="this.src=''; this.alt='Logo gagal dimuat'; this.style.display='none';">
+                <a href="https://syam.digital/" target="_blank" rel="noopener noreferrer" class="text-4xl font-bold drop-shadow-lg animated-gradient-text hover:scale-105 transition-transform duration-300">Syam Digital</a>
+            </div>
+            <p class="text-white/90 text-lg px-4 py-2 rounded-lg" style="background: #0000ff;">Game Pencocokan Memori untuk Rapat yang Lebih Seru!</p>
+        </div>
+        
+        <!-- Game Stats -->
+        <div class="flex justify-center gap-6 mb-6">
+            <div class="backdrop-blur-lg rounded-xl px-6 py-3 text-white shadow-xl" style="background: #800000; border: 1px solid rgba(255,255,255,0.2);">
+                <span class="font-semibold">Langkah: </span>
+                <span id="moves" class="font-bold text-yellow-300">0</span>
+            </div>
+            <div class="backdrop-blur-lg rounded-xl px-6 py-3 text-white shadow-xl" style="background: #800000; border: 1px solid rgba(255,255,255,0.2);">
+                <span class="font-semibold">Pasangan: </span>
+                <span id="matches" class="font-bold text-green-300">0/11</span>
+            </div>
+            <div class="backdrop-blur-lg rounded-xl px-6 py-3 text-white shadow-xl" style="background: #800000; border: 1px solid rgba(255,255,255,0.2);">
+                <span class="font-semibold">Waktu: </span>
+                <span id="timer" class="font-bold text-blue-300">00:00</span>
+            </div>
+        </div>
+        
+        <!-- Game Board -->
+        <div class="grid grid-cols-6 gap-3 max-w-4xl mx-auto mb-8" id="gameBoard">
+            <!-- Cards will be generated here -->
+        </div>
+        
+        <!-- Control Buttons -->
+        <div class="text-center mb-8">
+            <button id="resetBtn" class="px-8 py-4 rounded-xl font-bold text-white shadow-xl mr-4 transform hover:scale-105 transition-all duration-300" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);">
+                🔄 Mulai Ulang
+            </button>
+            <button id="questionBtn" class="px-8 py-4 rounded-xl font-bold text-white shadow-xl transform hover:scale-105 transition-all duration-300" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); box-shadow: 0 10px 20px rgba(240, 147, 251, 0.4);">
+                💬 Pertanyaan Tim
+            </button>
+        </div>
+        
+        <!-- Question Modal -->
+        <div id="questionModal" class="fixed inset-0 backdrop-blur-md hidden items-center justify-center z-50" style="background: rgba(0,0,0,0.6);">
+            <div class="text-white p-8 rounded-2xl max-w-md mx-4 text-center shadow-2xl backdrop-blur-lg border border-white/20" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%);">
+                <h3 class="text-3xl font-bold mb-6 drop-shadow-lg">💭 Pertanyaan Pembuka</h3>
+                <p id="questionText" class="text-lg mb-8 leading-relaxed drop-shadow-sm"></p>
+                <button id="nextQuestionBtn" class="px-6 py-3 rounded-xl font-bold mr-3 transform hover:scale-105 transition-all duration-300 shadow-lg" style="background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); color: #667eea;">
+                    Pertanyaan Lain
+                </button>
+                <button id="closeQuestionBtn" class="px-6 py-3 rounded-xl font-bold text-white transform hover:scale-105 transition-all duration-300 shadow-lg" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                    Tutup
+                </button>
+            </div>
+        </div>
+        
+        <!-- Win Modal -->
+        <div id="winModal" class="fixed inset-0 backdrop-blur-md hidden items-center justify-center z-50" style="background: rgba(0,0,0,0.6);">
+            <div class="p-10 rounded-2xl max-w-md mx-4 text-center shadow-2xl backdrop-blur-lg border border-white/30" style="background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);">
+                <h3 class="text-4xl font-bold mb-6 drop-shadow-lg" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">🎉 Selamat!</h3>
+                <p class="text-gray-700 mb-3 text-lg">Anda menyelesaikan game dalam:</p>
+                <p class="text-3xl font-bold mb-3 drop-shadow-sm" id="finalTime" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></p>
+                <p class="text-gray-700 mb-8 text-lg">dengan <span id="finalMoves" class="font-bold" style="color: #667eea;"></span> langkah</p>
+                <button id="playAgainBtn" class="px-8 py-4 rounded-xl font-bold text-white transform hover:scale-105 transition-all duration-300 shadow-xl" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);">
+                    Main Lagi
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class MemoryGame {
+            constructor() {
+                this.emojis = ['💼', '☕', '💻', '📊', '🎯', '💡', '📝', '🤝', '⚡', 'https://res.cloudinary.com/di8stbg60/image/upload/v1751214851/SYAM-DIGITAL_qp3cfw.png', 'https://res.cloudinary.com/di8stbg60/image/upload/v1757245484/SYAMDIGITAL-LOGO-2025_mmpllg.png'];
+                this.cards = [];
+                this.flippedCards = [];
+                this.matches = 0;
+                this.moves = 0;
+                this.startTime = null;
+                this.timerInterval = null;
+                this.questions = [
+                    "Emoji apa yang paling menggambarkan pagi hari Anda?",
+                    "Jika Anda bisa menjadi emoji apa pun selama seminggu, emoji mana yang akan Anda pilih?",
+                    "Emoji mana yang menggambarkan mood Anda saat deadline mendekat?",
+                    "Keterampilan kerja apa yang ingin Anda kembangkan?",
+                    "Apa pencapaian terbesar Anda bulan ini?",
+                    "Jika bisa menambah satu fitur di kantor, apa itu?",
+                    "Emoji mana yang menggambarkan tim kita?",
+                    "Apa yang membuat Anda paling bersemangat di pekerjaan?",
+                    "Jika Anda bisa bertukar peran dengan siapa pun selama sehari, siapa itu?",
+                    "Emoji apa yang menggambarkan akhir pekan ideal Anda?"
+                ];
+                this.currentQuestionIndex = 0;
+                
+                this.initGame();
+                this.bindEvents();
+            }
+            
+            initGame() {
+                this.createCards();
+                this.shuffleCards();
+                this.renderCards();
+                this.resetStats();
+            }
+            
+            createCards() {
+                this.cards = [];
+                this.emojis.forEach(emoji => {
+                    this.cards.push({ emoji, id: Math.random() });
+                    this.cards.push({ emoji, id: Math.random() });
+                });
+            }
+            
+            shuffleCards() {
+                for (let i = this.cards.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [this.cards[i], this.cards[j]] = [this.cards[j], this.cards[i]];
+                }
+            }
+            
+            renderCards() {
+                const gameBoard = document.getElementById('gameBoard');
+                gameBoard.innerHTML = '';
+                
+                this.cards.forEach((card, index) => {
+                    const cardElement = document.createElement('div');
+                    cardElement.className = 'card h-24 w-full';
+                    cardElement.dataset.index = index;
+                    
+                    cardElement.innerHTML = `
+                        <div class="card-inner h-full">
+                            <div class="card-front shadow-xl" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.1);">
+                                <span class="text-white text-2xl font-bold drop-shadow-lg">?</span>
+                            </div>
+                            <div class="card-back shadow-xl" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 50%, #4facfe 100%); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.1);">
+                                ${card.emoji.startsWith('http') ? 
+                                    `<img src="${card.emoji}" alt="Logo" class="w-12 h-12 object-contain rounded" onerror="this.src=''; this.alt='Gambar gagal dimuat'; this.style.display='none';">` : 
+                                    `<span class="text-4xl">${card.emoji}</span>`
+                                }
+                            </div>
+                        </div>
+                    `;
+                    
+                    cardElement.addEventListener('click', () => this.flipCard(index));
+                    gameBoard.appendChild(cardElement);
+                });
+            }
+            
+            flipCard(index) {
+                if (this.flippedCards.length >= 2) return;
+                
+                const cardElement = document.querySelector(`[data-index="${index}"]`);
+                if (cardElement.classList.contains('flipped') || cardElement.classList.contains('matched')) return;
+                
+                if (!this.startTime) {
+                    this.startTimer();
+                }
+                
+                cardElement.classList.add('flipped');
+                this.flippedCards.push(index);
+                
+                if (this.flippedCards.length === 2) {
+                    this.moves++;
+                    document.getElementById('moves').textContent = this.moves;
+                    
+                    setTimeout(() => this.checkMatch(), 1000);
+                }
+            }
+            
+            checkMatch() {
+                const [first, second] = this.flippedCards;
+                const firstCard = this.cards[first];
+                const secondCard = this.cards[second];
+                
+                if (firstCard.emoji === secondCard.emoji) {
+                    // Match found - show success message and celebration
+                    this.showFloatingMessage('Bagus Anda Benar,,Semangat..!!', 'success');
+                    this.createCelebrationEffect();
+                    
+                    const firstElement = document.querySelector(`[data-index="${first}"]`);
+                    const secondElement = document.querySelector(`[data-index="${second}"]`);
+                    
+                    firstElement.classList.add('matched', 'pulse');
+                    secondElement.classList.add('matched', 'pulse');
+                    
+                    this.matches++;
+                    document.getElementById('matches').textContent = `${this.matches}/11`;
+                    
+                    if (this.matches === 11) {
+                        setTimeout(() => this.showWinModal(), 500);
+                    }
+                } else {
+                    // No match - show floating message and shake effect
+                    this.showFloatingMessage('Coba Lagi', 'error');
+                    
+                    const firstElement = document.querySelector(`[data-index="${first}"]`);
+                    const secondElement = document.querySelector(`[data-index="${second}"]`);
+                    
+                    // Add shake effect before flipping back
+                    firstElement.classList.add('shake');
+                    secondElement.classList.add('shake');
+                    
+                    setTimeout(() => {
+                        firstElement.classList.remove('flipped', 'shake');
+                        secondElement.classList.remove('flipped', 'shake');
+                    }, 600);
+                }
+                
+                this.flippedCards = [];
+            }
+            
+            showFloatingMessage(message, type = 'error') {
+                const messageElement = document.createElement('div');
+                messageElement.className = 'floating-message px-8 py-4 rounded-2xl font-bold text-white text-xl shadow-2xl backdrop-blur-lg border border-white/20';
+                
+                if (type === 'success') {
+                    messageElement.style.background = 'linear-gradient(135deg, rgba(34, 197, 94, 0.9) 0%, rgba(22, 163, 74, 0.9) 100%)';
+                } else {
+                    messageElement.style.background = 'linear-gradient(135deg, rgba(239, 68, 68, 0.9) 0%, rgba(220, 38, 38, 0.9) 100%)';
+                }
+                
+                messageElement.textContent = message;
+                
+                document.body.appendChild(messageElement);
+                
+                setTimeout(() => {
+                    document.body.removeChild(messageElement);
+                }, 2000);
+            }
+            
+            createCelebrationEffect() {
+                // Create fireworks
+                this.createFireworks();
+                
+                // Create falling stars
+                this.createFallingStars();
+            }
+            
+            createFireworks() {
+                const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#ffeaa7', '#dda0dd', '#98d8c8'];
+                
+                for (let i = 0; i < 3; i++) {
+                    setTimeout(() => {
+                        const x = Math.random() * window.innerWidth;
+                        const y = Math.random() * (window.innerHeight * 0.6) + window.innerHeight * 0.2;
+                        
+                        for (let j = 0; j < 12; j++) {
+                            const particle = document.createElement('div');
+                            particle.className = 'firework-particle';
+                            particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                            particle.style.left = x + 'px';
+                            particle.style.top = y + 'px';
+                            
+                            const angle = (j * 30) * Math.PI / 180;
+                            const distance = 50 + Math.random() * 50;
+                            const finalX = x + Math.cos(angle) * distance;
+                            const finalY = y + Math.sin(angle) * distance;
+                            
+                            particle.style.setProperty('--final-x', finalX + 'px');
+                            particle.style.setProperty('--final-y', finalY + 'px');
+                            
+                            particle.style.animation = `explode 1.5s ease-out forwards`;
+                            particle.style.transform = `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px)`;
+                            
+                            document.body.appendChild(particle);
+                            
+                            setTimeout(() => {
+                                if (document.body.contains(particle)) {
+                                    document.body.removeChild(particle);
+                                }
+                            }, 1500);
+                        }
+                    }, i * 200);
+                }
+            }
+            
+            createFallingStars() {
+                const stars = ['⭐', '✨', '🌟', '💫', '⚡', '🎉', '🎊'];
+                
+                // Stars from left side
+                for (let i = 0; i < 8; i++) {
+                    setTimeout(() => {
+                        const star = document.createElement('div');
+                        star.className = 'star';
+                        star.textContent = stars[Math.floor(Math.random() * stars.length)];
+                        star.style.left = '0px';
+                        star.style.top = Math.random() * (window.innerHeight * 0.6) + window.innerHeight * 0.2 + 'px';
+                        star.style.animation = `starFallLeft 2s ease-out forwards`;
+                        star.style.animationDelay = Math.random() * 0.5 + 's';
+                        
+                        document.body.appendChild(star);
+                        
+                        setTimeout(() => {
+                            if (document.body.contains(star)) {
+                                document.body.removeChild(star);
+                            }
+                        }, 2500);
+                    }, i * 100);
+                }
+                
+                // Stars from right side
+                for (let i = 0; i < 8; i++) {
+                    setTimeout(() => {
+                        const star = document.createElement('div');
+                        star.className = 'star';
+                        star.textContent = stars[Math.floor(Math.random() * stars.length)];
+                        star.style.right = '0px';
+                        star.style.top = Math.random() * (window.innerHeight * 0.6) + window.innerHeight * 0.2 + 'px';
+                        star.style.animation = `starFallRight 2s ease-out forwards`;
+                        star.style.animationDelay = Math.random() * 0.5 + 's';
+                        
+                        document.body.appendChild(star);
+                        
+                        setTimeout(() => {
+                            if (document.body.contains(star)) {
+                                document.body.removeChild(star);
+                            }
+                        }, 2500);
+                    }, i * 120);
+                }
+            }
+            
+            startTimer() {
+                this.startTime = Date.now();
+                this.timerInterval = setInterval(() => {
+                    const elapsed = Date.now() - this.startTime;
+                    const minutes = Math.floor(elapsed / 60000);
+                    const seconds = Math.floor((elapsed % 60000) / 1000);
+                    document.getElementById('timer').textContent = 
+                        `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                }, 1000);
+            }
+            
+            resetStats() {
+                this.matches = 0;
+                this.moves = 0;
+                this.flippedCards = [];
+                this.startTime = null;
+                
+                if (this.timerInterval) {
+                    clearInterval(this.timerInterval);
+                    this.timerInterval = null;
+                }
+                
+                document.getElementById('moves').textContent = '0';
+                document.getElementById('matches').textContent = '0/11';
+                document.getElementById('timer').textContent = '00:00';
+            }
+            
+            showWinModal() {
+                if (this.timerInterval) {
+                    clearInterval(this.timerInterval);
+                }
+                
+                const elapsed = Date.now() - this.startTime;
+                const minutes = Math.floor(elapsed / 60000);
+                const seconds = Math.floor((elapsed % 60000) / 1000);
+                const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                document.getElementById('finalTime').textContent = timeString;
+                document.getElementById('finalMoves').textContent = this.moves;
+                document.getElementById('winModal').classList.remove('hidden');
+                document.getElementById('winModal').classList.add('flex');
+            }
+            
+            showQuestion() {
+                const question = this.questions[this.currentQuestionIndex];
+                document.getElementById('questionText').textContent = question;
+                document.getElementById('questionModal').classList.remove('hidden');
+                document.getElementById('questionModal').classList.add('flex');
+            }
+            
+            nextQuestion() {
+                this.currentQuestionIndex = (this.currentQuestionIndex + 1) % this.questions.length;
+                const question = this.questions[this.currentQuestionIndex];
+                document.getElementById('questionText').textContent = question;
+            }
+            
+            bindEvents() {
+                document.getElementById('resetBtn').addEventListener('click', () => {
+                    this.initGame();
+                });
+                
+                document.getElementById('questionBtn').addEventListener('click', () => {
+                    this.showQuestion();
+                });
+                
+                document.getElementById('nextQuestionBtn').addEventListener('click', () => {
+                    this.nextQuestion();
+                });
+                
+                document.getElementById('closeQuestionBtn').addEventListener('click', () => {
+                    document.getElementById('questionModal').classList.add('hidden');
+                    document.getElementById('questionModal').classList.remove('flex');
+                });
+                
+                document.getElementById('playAgainBtn').addEventListener('click', () => {
+                    document.getElementById('winModal').classList.add('hidden');
+                    document.getElementById('winModal').classList.remove('flex');
+                    this.initGame();
+                });
+            }
+        }
+        
+        // Initialize game when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new MemoryGame();
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'985b07bad5599cf3',t:'MTc1ODk3NjQxNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

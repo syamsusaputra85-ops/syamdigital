@@ -1,0 +1,813 @@
+<!doctype html>
+<html lang="id">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panduan NIB Koperasi OSS</title>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1763107556/logo_kopdes_wani_lumbumpetigo-fix_gavecf.png">
+  <link rel="shortcut icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1763107556/logo_kopdes_wani_lumbumpetigo-fix_gavecf.png">
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+        body {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100%;
+            color: #2d3748;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            padding: 15px;
+            background: linear-gradient(135deg, #f7fafc, #edf2f7);
+            border-radius: 15px;
+            border: 2px solid #e2e8f0;
+        }
+
+        .admin-photo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #4299e1;
+            margin-right: 15px;
+            box-shadow: 0 4px 10px rgba(66, 153, 225, 0.3);
+        }
+
+        .admin-fallback {
+            margin-right: 15px;
+        }
+
+        .admin-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4299e1, #3182ce);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            border: 3px solid #4299e1;
+            box-shadow: 0 4px 10px rgba(66, 153, 225, 0.3);
+        }
+
+        .admin-info {
+            text-align: left;
+        }
+
+        .admin-name {
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #2d3748;
+        }
+
+        .admin-title {
+            margin: 5px 0 0 0;
+            font-size: 0.95rem;
+            color: #4a5568;
+            font-weight: 500;
+        }
+
+        .main-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .title-logo {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            background: white;
+            padding: 5px;
+        }
+
+        .title-logo-fallback {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #4299e1, #3182ce);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .oss-logo-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .oss-logo {
+            width: 120px;
+            height: auto;
+            max-height: 80px;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.1));
+        }
+
+        .oss-logo-fallback {
+            width: 120px;
+            height: 80px;
+            background: linear-gradient(135deg, #e53e3e, #c53030);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin: 0 auto;
+            box-shadow: 0 4px 15px rgba(229, 62, 62, 0.3);
+        }
+
+        .title-text {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: #4a5568;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+
+        .emoji-highlight {
+            font-size: 1.5em;
+            margin: 0 5px;
+        }
+
+        .steps-container {
+            display: grid;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .step-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #4299e1;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .step-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .step-number {
+            background: linear-gradient(135deg, #4299e1, #3182ce);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-right: 15px;
+            box-shadow: 0 4px 10px rgba(66, 153, 225, 0.3);
+        }
+
+        .step-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #2d3748;
+            flex: 1;
+        }
+
+        .step-content {
+            line-height: 1.8;
+        }
+
+        .step-list {
+            list-style: none;
+            padding: 0;
+            margin: 15px 0;
+        }
+
+        .step-list li {
+            padding: 8px 0;
+            padding-left: 30px;
+            position: relative;
+            color: #4a5568;
+        }
+
+        .step-list li:before {
+            content: "🔹";
+            position: absolute;
+            left: 0;
+            color: #4299e1;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #fed7d7, #feb2b2);
+            border: 1px solid #fc8181;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .highlight-box h4 {
+            margin: 0 0 10px 0;
+            color: #c53030;
+            font-weight: 600;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #bee3f8, #90cdf4);
+            border: 1px solid #4299e1;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .info-box h4 {
+            margin: 0 0 10px 0;
+            color: #2b6cb0;
+            font-weight: 600;
+        }
+
+        .success-box {
+            background: linear-gradient(135deg, #c6f6d5, #9ae6b4);
+            border: 1px solid #48bb78;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .success-box h3 {
+            margin: 0 0 10px 0;
+            color: #2f855a;
+            font-weight: 700;
+        }
+
+        .footer {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer-text {
+            color: #4a5568;
+            font-size: 1rem;
+            margin: 0 0 25px 0;
+        }
+
+        .share-section {
+            border-top: 2px solid #e2e8f0;
+            padding-top: 25px;
+            margin-top: 20px;
+        }
+
+        .whatsapp-share-btn {
+            background: linear-gradient(135deg, #25d366, #128c7e);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .whatsapp-share-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
+            background: linear-gradient(135deg, #128c7e, #25d366);
+        }
+
+        .whatsapp-share-btn:active {
+            transform: translateY(0);
+        }
+
+        .whatsapp-icon {
+            font-size: 1.3em;
+        }
+
+        .progress-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            z-index: 1000;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #4299e1, #3182ce);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .main-title {
+                font-size: 1.5rem;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .title-text {
+                min-width: auto;
+            }
+
+            .subtitle {
+                font-size: 1.1rem;
+            }
+
+            .step-card {
+                padding: 20px;
+            }
+
+            .step-title {
+                font-size: 1.2rem;
+            }
+
+            .admin-profile {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .admin-photo, .admin-avatar {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+
+            .admin-info {
+                text-align: center;
+            }
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="progress-indicator">
+   <div class="progress-bar" id="progressBar"></div>
+  </div>
+  <div class="container">
+   <header class="header">
+    <div class="admin-profile"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1759537862/Syamdigital-agency-creatif_lpanrg.png" alt="Syam Digital Admin" class="admin-photo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+     <div class="admin-fallback" style="display: none;">
+      <div class="admin-avatar">
+       👨‍💼
+      </div>
+     </div>
+     <div class="admin-info">
+      <h3 class="admin-name">ADMIN</h3>
+      <p class="admin-title">Syam Digital</p>
+     </div>
+    </div>
+    <div class="oss-logo-container"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1763109870/oss-logo_m1ffph.svg" alt="Logo OSS" class="oss-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+     <div class="oss-logo-fallback" style="display: none;">
+      🏛️
+     </div>
+    </div>
+    <h1 class="main-title" id="mainTitle"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1763107556/logo_kopdes_wani_lumbumpetigo-fix_gavecf.png" alt="Logo Koperasi" class="title-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+     <div class="title-logo-fallback" style="display: none;">
+      🏢
+     </div>
+     <div class="title-text"><span class="emoji-highlight">📍</span> LANGKAH-LANGKAH PENGURUSAN NIB <span class="emoji-highlight">🔥</span>
+     </div></h1>
+    <p class="subtitle" id="subtitle">Panduan Pendaftaran Hak Akses &amp; Perizinan Berusaha Koperasi di OSS</p>
+    <div style="background: linear-gradient(135deg, #ffd89b, #19547b); color: white; padding: 15px; border-radius: 10px; font-weight: 600;"><span class="emoji-highlight">💡</span> Dikenal sebagai "LANGKA TANO" - Panduan Lengkap &amp; Mudah Diikuti
+    </div>
+   </header>
+   <main class="steps-container">
+    <article class="step-card">
+     <div class="step-header">
+      <div class="step-number">
+       1
+      </div>
+      <h2 class="step-title">Pendaftaran Akun OSS</h2>
+     </div>
+     <div class="step-content">
+      <ul class="step-list">
+       <li>Buka laman <strong>oss.go.id</strong></li>
+       <li>Pilih <strong>Daftar</strong> untuk membuat akun baru</li>
+       <li>Masukkan email perusahaan, lakukan verifikasi kode yang dikirim ke email</li>
+       <li>Buat kata sandi dengan ketentuan (minimal 8 karakter, huruf, angka, simbol)</li>
+       <li>Setelah selesai, akun berhasil dibuat dan dapat digunakan untuk login</li>
+      </ul>
+     </div>
+    </article>
+    <article class="step-card">
+     <div class="step-header">
+      <div class="step-number">
+       2
+      </div>
+      <h2 class="step-title">Melengkapi Profil Pelaku Usaha (Koperasi)</h2>
+     </div>
+     <div class="step-content">
+      <div class="highlight-box">
+       <h4>Data yang wajib diisi:</h4>
+       <ul class="step-list">
+        <li>Nomor Induk Koperasi (NIK/No. Badan Hukum) dari <strong>nik.depkop.go.id</strong></li>
+        <li>Nama koperasi sesuai AHU</li>
+        <li>NPWP Badan Usaha</li>
+        <li>Nomor SK Pengesahan terakhir dari AHU Kemenkumham</li>
+        <li>Nomor ponsel dan data salah satu pengurus (NIK, nama, jabatan, alamat lengkap)</li>
+       </ul>
+      </div>
+     </div>
+    </article>
+    <article class="step-card">
+     <div class="step-header">
+      <div class="step-number">
+       3
+      </div>
+      <h2 class="step-title">Masuk ke Sistem OSS</h2>
+     </div>
+     <div class="step-content">
+      <ul class="step-list">
+       <li>Login menggunakan email/ponsel/username dan password yang telah dibuat</li>
+      </ul>
+     </div>
+    </article>
+    <article class="step-card">
+     <div class="step-header">
+      <div class="step-number">
+       4
+      </div>
+      <h2 class="step-title">Mengajukan Permohonan Perizinan Baru</h2>
+     </div>
+     <div class="step-content">
+      <p>Pada menu <strong>Perizinan Berusaha → Permohonan Baru</strong>, sistem akan menampilkan data koperasi secara otomatis dari AHU:</p>
+      <ul class="step-list">
+       <li>Nama koperasi</li>
+       <li>Nomor Induk Koperasi</li>
+       <li>Jenis dan bentuk koperasi</li>
+       <li>Status badan hukum</li>
+       <li>Wilayah keanggotaan</li>
+       <li>Pola pengelolaan</li>
+      </ul>
+      <div class="info-box">
+       <h4>💡 Tips:</h4>
+       <p>Jika ada perubahan data, gunakan tombol <strong>Tarik Data AHU</strong></p>
+      </div>
+     </div>
+    </article>
+    <article class="step-card">
+     <div class="step-header">
+      <div class="step-number">
+       5
+      </div>
+      <h2 class="step-title">Melengkapi Data Badan Usaha</h2>
+     </div>
+     <div class="step-content">
+      <div class="highlight-box">
+       <h4>Data yang perlu dilengkapi:</h4>
+       <ul class="step-list">
+        <li>Alamat lengkap</li>
+        <li>RT/RW, kode pos</li>
+        <li>Email koperasi</li>
+        <li>NPWP koperasi</li>
+        <li>Nomor telepon</li>
+        <li>Modal koperasi (simpanan pokok, wajib, hibah)</li>
+       </ul>
+      </div>
+      <p><strong>Sistem juga menampilkan:</strong></p>
+      <ul class="step-list">
+       <li>Data dasar pembentukan</li>
+       <li>Data pengurus &amp; pengawas</li>
+       <li>Maksud dan tujuan koperasi (dapat ditambah/edit/hapus)</li>
+      </ul>
+     </div>
+    </article>
+    <article class="step-card">
+     <div class="step-header">
+      <div class="step-number">
+       6
+      </div>
+      <h2 class="step-title">Mengisi Bidang Usaha</h2>
+     </div>
+     <div class="step-content">
+      <ul class="step-list">
+       <li>Pilih <strong>KBLI</strong> berdasarkan kegiatan koperasi</li>
+       <li>Tentukan jenis kegiatan: utama, pendukung, cabang, dll</li>
+       <li>Sistem akan mengisi uraian otomatis sesuai KBLI</li>
+       <li>Cek KBLI melalui menu informasi OSS</li>
+      </ul>
+     </div>
+    </article>
+    <article class="step-card">
+     <div class="step-header">
+      <div class="step-number">
+       7
+      </div>
+      <h2 class="step-title">Mengisi Data Usaha Berdasarkan Lokasi</h2>
+     </div>
+     <div class="step-content">
+      <p><strong>Pemilihan lokasi meliputi:</strong></p>
+      <ul class="step-list">
+       <li>Daratan</li>
+       <li>Laut</li>
+       <li>Hutan</li>
+      </ul>
+      <div class="info-box">
+       <h4>Setiap lokasi memiliki formulir berbeda seperti:</h4>
+       <ul class="step-list">
+        <li>Alamat usaha lengkap</li>
+        <li>Luas lahan</li>
+        <li>Koordinat (latitude/longitude)</li>
+        <li>NPWP cabang (jika ada)</li>
+        <li>Status kegiatan (sudah berjalan/belum)</li>
+       </ul>
+      </div>
+      <p><strong>Sistem juga menghitung:</strong></p>
+      <ul class="step-list">
+       <li>Skala usaha</li>
+       <li>Tingkat risiko (Rendah / Menengah Rendah)</li>
+      </ul>
+     </div>
+    </article>
+    <article class="step-card">
+     <div class="step-header">
+      <div class="step-number">
+       8
+      </div>
+      <h2 class="step-title">Melengkapi Informasi Tambahan</h2>
+     </div>
+     <div class="step-content">
+      <ul class="step-list">
+       <li>Produk/Jasa yang dihasilkan</li>
+       <li>Kapasitas produksi</li>
+       <li>SNI (jika KBLI tertentu)</li>
+       <li>Sertifikasi Halal (jika terkait produk)</li>
+       <li>Data tenaga kerja</li>
+       <li>Aktivitas impor (jika ada)</li>
+       <li>Nomor BPJS (opsional—perizinan tetap bisa diproses)</li>
+       <li>Nomor WLKP (jika ada)</li>
+      </ul>
+     </div>
+    </article>
+    <article class="step-card">
+     <div class="step-header">
+      <div class="step-number">
+       9
+      </div>
+      <h2 class="step-title">Persetujuan Lingkungan (Jika KBLI Tertentu)</h2>
+     </div>
+     <div class="step-content">
+      <p>Jika kegiatan usaha masuk kategori wajib:</p>
+      <ul class="step-list">
+       <li><strong>SPPL, UKL/UPL, atau AMDAL</strong></li>
+       <li>Jika sudah punya dokumen: unggah</li>
+       <li>Jika belum: jawab parameter lingkungan sesuai kegiatan</li>
+      </ul>
+     </div>
+    </article>
+    <article class="step-card">
+     <div class="step-header">
+      <div class="step-number">
+       10
+      </div>
+      <h2 class="step-title">Pernyataan Mandiri</h2>
+     </div>
+     <div class="step-content">
+      <p>Pelaku usaha wajib mencentang seluruh pernyataan seperti:</p>
+      <ul class="step-list">
+       <li>K3L</li>
+       <li>Kesanggupan memenuhi standar usaha</li>
+       <li>Komitmen lingkungan (jika wajib)</li>
+       <li>Komitmen SNI/Halal (jika relevan)</li>
+      </ul>
+     </div>
+    </article>
+    <article class="step-card">
+     <div class="step-header">
+      <div class="step-number">
+       11
+      </div>
+      <h2 class="step-title">Penerbitan Perizinan Berusaha</h2>
+     </div>
+     <div class="step-content">
+      <p>Setelah semua data lengkap dan disetujui:</p>
+      <ul class="step-list">
+       <li>Klik <strong>Terbitkan Perizinan Berusaha</strong></li>
+       <li>Sistem akan menghasilkan:</li>
+      </ul>
+      <div class="success-box">
+       <h3>🎉 Hasil Penerbitan</h3>
+       <div class="info-box">
+        <h4>Risiko Rendah</h4>
+        <ul class="step-list">
+         <li><strong>NIB</strong> (Nomor Induk Berusaha)</li>
+         <li>Pernyataan Mandiri</li>
+        </ul>
+       </div>
+       <div class="info-box">
+        <h4>Risiko Menengah Rendah</h4>
+        <ul class="step-list">
+         <li><strong>NIB</strong></li>
+         <li>Sertifikat Standar</li>
+         <li>Dokumen lingkungan (PKPLH/SKKL jika ada)</li>
+         <li>Pernyataan Mandiri</li>
+        </ul>
+       </div>
+       <p><strong>Semua dokumen dapat:</strong></p>
+       <ul class="step-list">
+        <li>Dilihat</li>
+        <li>Diunduh</li>
+        <li>Dicetak</li>
+       </ul>
+      </div>
+     </div>
+    </article>
+   </main>
+   <footer class="footer">
+    <p class="footer-text" id="footerText">Panduan ini membantu koperasi mendapatkan NIB dengan mudah dan sistematis. Pastikan semua dokumen sudah disiapkan sebelum memulai proses pendaftaran.</p>
+    <div class="share-section">
+     <h3 style="color: #2d3748; margin-bottom: 15px; font-size: 1.2rem;"><span class="emoji-highlight">📤</span> Bagikan Panduan Ini</h3><button class="whatsapp-share-btn" onclick="shareToWhatsApp()"> <span class="whatsapp-icon">📱</span> Bagikan ke WhatsApp </button>
+    </div>
+   </footer>
+  </div>
+  <script>
+        // Configuration object for editable features
+        const defaultConfig = {
+            main_title: "LANGKAH-LANGKAH PENGURUSAN NIB",
+            subtitle: "Panduan Pendaftaran Hak Akses & Perizinan Berusaha Koperasi di OSS",
+            footer_text: "Panduan ini membantu koperasi mendapatkan NIB dengan mudah dan sistematis. Pastikan semua dokumen sudah disiapkan sebelum memulai proses pendaftaran."
+        };
+
+        // Progress bar functionality
+        function updateProgressBar() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / scrollHeight) * 100;
+            
+            const progressBar = document.getElementById('progressBar');
+            if (progressBar) {
+                progressBar.style.width = scrollPercent + '%';
+            }
+        }
+
+        // Smooth scrolling for better UX
+        function addSmoothScrolling() {
+            const stepCards = document.querySelectorAll('.step-card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+
+            stepCards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(card);
+            });
+        }
+
+        // Element SDK implementation
+        async function onConfigChange(config) {
+            const mainTitleElement = document.getElementById('mainTitle');
+            const subtitleElement = document.getElementById('subtitle');
+            const footerTextElement = document.getElementById('footerText');
+
+            if (mainTitleElement) {
+                const titleText = config.main_title || defaultConfig.main_title;
+                const titleParts = titleText.split('NIB');
+                const titleTextDiv = mainTitleElement.querySelector('.title-text');
+                
+                if (titleTextDiv) {
+                    if (titleParts.length > 1) {
+                        titleTextDiv.innerHTML = `
+                            <span class="emoji-highlight">📍</span>
+                            ${titleParts[0]}NIB${titleParts[1]}
+                            <span class="emoji-highlight">🔥</span>
+                        `;
+                    } else {
+                        titleTextDiv.innerHTML = `
+                            <span class="emoji-highlight">📍</span>
+                            ${titleText}
+                            <span class="emoji-highlight">🔥</span>
+                        `;
+                    }
+                }
+            }
+
+            if (subtitleElement) {
+                subtitleElement.textContent = config.subtitle || defaultConfig.subtitle;
+            }
+
+            if (footerTextElement) {
+                footerTextElement.textContent = config.footer_text || defaultConfig.footer_text;
+            }
+        }
+
+        function mapToCapabilities(config) {
+            return {
+                recolorables: [],
+                borderables: [],
+                fontEditable: undefined,
+                fontSizeable: undefined
+            };
+        }
+
+        function mapToEditPanelValues(config) {
+            return new Map([
+                ["main_title", config.main_title || defaultConfig.main_title],
+                ["subtitle", config.subtitle || defaultConfig.subtitle],
+                ["footer_text", config.footer_text || defaultConfig.footer_text]
+            ]);
+        }
+
+        // WhatsApp share function
+        function shareToWhatsApp() {
+            const titleElement = document.getElementById('mainTitle');
+            const titleTextDiv = titleElement.querySelector('.title-text');
+            const title = titleTextDiv ? titleTextDiv.textContent.trim() : 'LANGKAH-LANGKAH PENGURUSAN NIB';
+            const subtitle = document.getElementById('subtitle').textContent.trim();
+            
+            const message = `🔥 *${title}* 🔥\n\n${subtitle}\n\n📋 *11 Langkah Lengkap:*\n\n1️⃣ Pendaftaran Akun OSS\n2️⃣ Melengkapi Profil Pelaku Usaha\n3️⃣ Masuk ke Sistem OSS\n4️⃣ Mengajukan Permohonan Perizinan Baru\n5️⃣ Melengkapi Data Badan Usaha\n6️⃣ Mengisi Bidang Usaha\n7️⃣ Mengisi Data Usaha Berdasarkan Lokasi\n8️⃣ Melengkapi Informasi Tambahan\n9️⃣ Persetujuan Lingkungan\n🔟 Pernyataan Mandiri\n1️⃣1️⃣ Penerbitan Perizinan Berusaha\n\n✅ Panduan lengkap untuk mendapatkan NIB koperasi!\n\n📱 Bagikan ke rekan-rekan koperasi lainnya!\n\n🌐 *Info selengkapnya:* https://syam.digital/nib`;
+            
+            const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+        }
+
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize Element SDK
+            if (window.elementSdk) {
+                window.elementSdk.init({
+                    defaultConfig: defaultConfig,
+                    onConfigChange: onConfigChange,
+                    mapToCapabilities: mapToCapabilities,
+                    mapToEditPanelValues: mapToEditPanelValues
+                });
+            }
+
+            // Add event listeners
+            window.addEventListener('scroll', updateProgressBar);
+            
+            // Initialize smooth scrolling animations
+            addSmoothScrolling();
+            
+            // Initial progress bar update
+            updateProgressBar();
+        });
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99e53f9be12faedc',t:'MTc2MzExMDA5Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

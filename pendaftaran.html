@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pencarian Data Calon Tenaga Ahli - Kabupaten Donggala</title>
+    <link rel="icon" type="image/x-icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1757245484/SYAMDIGITAL-LOGO-2025_mmpllg.png">
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1757245484/SYAMDIGITAL-LOGO-2025_mmpllg.png">
+    <link rel="shortcut icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1757245484/SYAMDIGITAL-LOGO-2025_mmpllg.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            box-sizing: border-box;
+        }
+        .loading {
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .status-memenuhi {
+            color: #16a34a !important;
+            background-color: #dcfce7 !important;
+            border-color: #16a34a !important;
+            animation: blinkGreen 1.5s infinite;
+            font-weight: bold;
+        }
+        .status-tidak-memenuhi {
+            color: #ff0000 !important;
+            background-color: #fef2f2 !important;
+            border-color: #ff0000 !important;
+            animation: blinkRed 1.5s infinite;
+            font-weight: bold;
+        }
+        @keyframes blinkGreen {
+            0%, 50% { opacity: 1; }
+            25%, 75% { opacity: 0.6; }
+        }
+        @keyframes blinkRed {
+            0%, 50% { opacity: 1; }
+            25%, 75% { opacity: 0.6; }
+        }
+        .gradient-text {
+            background: linear-gradient(-45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57, #ff9ff3, #54a0ff);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 3s ease infinite;
+            font-weight: bold;
+        }
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Admin Section -->
+        <div class="text-center mb-6">
+            <div class="flex flex-col items-center">
+                <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1759537862/Syamdigital-agency-creatif_lpanrg.png" 
+                     alt="Admin Syam Digital" 
+                     class="w-20 h-20 rounded-full object-cover border-4 border-blue-200 shadow-lg mb-3"
+                     onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
+                <div class="text-sm text-gray-600 mb-1">ADMIN</div>
+                <div class="text-lg gradient-text">Syam Digital</div>
+            </div>
+        </div>
+
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">
+                Pencarian Data Calon Tenaga Ahli
+            </h1>
+            <p class="text-lg text-gray-600 mb-1">
+                Pendamping Desa dan Pendamping Lokal Desa
+            </p>
+            <p class="text-md text-blue-600 font-semibold mb-4">
+                Kabupaten Donggala
+            </p>
+            <a href="https://docs.google.com/spreadsheets/d/1Lefm47blHQdIkbOD17IPpVUmQ5PReHhVgGjd8rdDewY/edit?usp=sharing" 
+               target="_blank" 
+               rel="noopener noreferrer"
+               class="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium transition-colors duration-200 shadow-md hover:shadow-lg">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M19.5 3H4.5C3.12 3 2 4.12 2 5.5v13C2 19.88 3.12 21 4.5 21h15c1.38 0 2.5-1.12 2.5-2.5v-13C22 4.12 20.88 3 19.5 3zM19 18H5V6h14v12zM7 8h2v2H7V8zm0 3h2v2H7v-2zm0 3h2v2H7v-2zm3-6h7v2h-7V8zm0 3h7v2h-7v-2zm0 3h7v2h-7v-2z"/>
+                </svg>
+                Lihat Data Lengkap
+            </a>
+        </div>
+
+        <!-- Search Section -->
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <div>
+                    <label for="namaDropdown" class="block text-sm font-medium text-gray-700 mb-2">
+                        Pilih Nama
+                    </label>
+                    <select 
+                        id="namaDropdown" 
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    >
+                        <option value="">-- Pilih Nama --</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="searchInput" class="block text-sm font-medium text-gray-700 mb-2">
+                        Atau Cari Manual
+                    </label>
+                    <input 
+                        type="text" 
+                        id="searchInput" 
+                        placeholder="Nama, alamat, jabatan, atau NIK..."
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    >
+                </div>
+                <div class="flex items-end">
+                    <button 
+                        id="searchBtn"
+                        class="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center gap-2"
+                    >
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                        Cari
+                    </button>
+                </div>
+            </div>
+
+            <!-- Filter Options -->
+            <div class="flex flex-wrap gap-3">
+                <select id="jabatanFilter" class="px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                    <option value="">Semua Jabatan</option>
+                    <option value="Tenaga Ahli">Tenaga Ahli</option>
+                    <option value="Pendamping Desa">Pendamping Desa</option>
+                    <option value="Pendamping Lokal">Pendamping Lokal</option>
+                </select>
+                <select id="statusFilter" class="px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                    <option value="">Semua Status</option>
+                    <option value="Aktif">Aktif</option>
+                    <option value="Tidak Aktif">Tidak Aktif</option>
+                    <option value="Pending">Pending</option>
+                </select>
+                <button id="clearBtn" class="px-4 py-2 text-gray-600 hover:text-gray-800 text-sm">
+                    Reset Filter
+                </button>
+            </div>
+        </div>
+
+        <!-- Loading Indicator -->
+        <div id="loadingIndicator" class="hidden text-center py-8">
+            <div class="loading w-8 h-8 border-4 border-blue-200 border-t-blue-600 rounded-full mx-auto mb-4"></div>
+            <p class="text-gray-600">Memuat data...</p>
+        </div>
+
+        <!-- Results Section -->
+        <div id="resultsSection" class="hidden">
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-semibold text-gray-800">Hasil Pencarian</h2>
+                    <span id="resultCount" class="text-sm text-gray-600 bg-gray-100 px-3 py-1 rounded-full"></span>
+                </div>
+                <div id="resultsContainer" class="space-y-4"></div>
+            </div>
+        </div>
+
+        <!-- No Results -->
+        <div id="noResults" class="hidden text-center py-12">
+            <div class="text-gray-400 mb-4">
+                <svg class="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6-4h6m2 5.291A7.962 7.962 0 0112 15c-2.34 0-4.29-1.009-5.824-2.562M15 9.75a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+            </div>
+            <h3 class="text-lg font-medium text-gray-600 mb-2">Tidak ada data ditemukan</h3>
+            <p class="text-gray-500">Coba gunakan kata kunci yang berbeda atau periksa ejaan</p>
+        </div>
+
+        <!-- Error Message -->
+        <div id="errorMessage" class="hidden bg-red-50 border border-red-200 rounded-lg p-4 text-center">
+            <div class="text-red-400 mb-2">
+                <svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+            </div>
+            <p class="text-red-700 font-medium">Gagal memuat data</p>
+            <p class="text-red-600 text-sm mt-1">Periksa koneksi internet atau coba lagi nanti</p>
+        </div>
+
+        <!-- Instructions -->
+        <div class="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <ul class="text-sm text-blue-700 space-y-1">
+                <li>• Klik Nama untuk Melihat secara Detail</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="candidateModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto transform transition-all duration-300 scale-95 opacity-0" id="modalContent">
+            <!-- Modal Header -->
+            <div class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-6 rounded-t-2xl">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h2 id="modalNama" class="text-2xl font-bold mb-2"></h2>
+                        <p class="text-blue-100 text-sm">Detail Informasi Kandidat</p>
+                    </div>
+                    <button id="closeModal" class="text-white hover:text-gray-200 transition-colors duration-200">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-6">
+                <!-- Status Badge -->
+                <div class="mb-6">
+                    <span id="modalStatus" class="inline-block px-4 py-2 rounded-full text-sm font-medium"></span>
+                </div>
+
+                <!-- Information Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Personal Information -->
+                    <div class="space-y-4">
+                        <h3 class="text-lg font-semibold text-gray-800 border-b border-gray-200 pb-2">
+                            <svg class="w-5 h-5 inline-block mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                            </svg>
+                            Informasi Pribadi
+                        </h3>
+                        
+                        <div class="space-y-3">
+                            <div id="modalAlamatContainer" class="hidden">
+                                <label class="block text-sm font-medium text-gray-600">Alamat</label>
+                                <p id="modalAlamat" class="text-gray-800 bg-gray-50 p-3 rounded-lg"></p>
+                            </div>
+                            
+                            <div id="modalNikContainer" class="hidden">
+                                <label class="block text-sm font-medium text-gray-600">NIK</label>
+                                <p id="modalNik" class="text-gray-800 bg-gray-50 p-3 rounded-lg font-mono"></p>
+                            </div>
+                            
+                            <div id="modalTglLahirContainer" class="hidden">
+                                <label class="block text-sm font-medium text-gray-600">Tanggal Lahir</label>
+                                <p id="modalTglLahir" class="text-gray-800 bg-gray-50 p-3 rounded-lg"></p>
+                            </div>
+                            
+                            <div id="modalUmurContainer" class="hidden">
+                                <label class="block text-sm font-medium text-gray-600">Umur</label>
+                                <p id="modalUmur" class="text-gray-800 bg-gray-50 p-3 rounded-lg"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Professional Information -->
+                    <div class="space-y-4">
+                        <h3 class="text-lg font-semibold text-gray-800 border-b border-gray-200 pb-2">
+                            <svg class="w-5 h-5 inline-block mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 012 2v6a2 2 0 01-2 2H8a2 2 0 01-2-2V8a2 2 0 012-2V6"></path>
+                            </svg>
+                            Informasi Profesional
+                        </h3>
+                        
+                        <div class="space-y-3">
+                            <div id="modalJabatanContainer" class="hidden">
+                                <label class="block text-sm font-medium text-gray-600">Jabatan yang Dilamar</label>
+                                <div id="modalJabatan" class="bg-blue-50 border border-blue-200 p-4 rounded-lg">
+                                    <p class="text-blue-800 font-medium"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="mt-8 flex justify-end space-x-3 pt-6 border-t border-gray-200">
+                    <button id="shareWhatsAppBtn" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-medium transition-colors duration-200 flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.785"/>
+                        </svg>
+                        Bagikan
+                    </button>
+                    <button id="printBtn" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-medium transition-colors duration-200 flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+                        </svg>
+                        Cetak
+                    </button>
+                    <button id="closeModalBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors duration-200">
+                        Tutup
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let allData = [];
+        const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQZ5bdzpVAg4sF0PrQDK5ssGwyhyrR3Z5zRSSvCq7NPNwIEJKJMhNvVbohppbnHH_MmU36AHDcfm0Ob/pub?gid=1703143858&single=true&output=csv';
+
+        // DOM Elements
+        const namaDropdown = document.getElementById('namaDropdown');
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const jabatanFilter = document.getElementById('jabatanFilter');
+        const statusFilter = document.getElementById('statusFilter');
+        const clearBtn = document.getElementById('clearBtn');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const resultsSection = document.getElementById('resultsSection');
+        const resultsContainer = document.getElementById('resultsContainer');
+        const resultCount = document.getElementById('resultCount');
+        const noResults = document.getElementById('noResults');
+        const errorMessage = document.getElementById('errorMessage');
+
+        // Load data from Google Sheets
+        async function loadData() {
+            try {
+                showLoading();
+                const response = await fetch(SHEET_URL);
+                const csvText = await response.text();
+                
+                // Parse CSV data with better handling for quoted fields
+                const rows = [];
+                const lines = csvText.split('\n');
+                
+                for (let line of lines) {
+                    if (!line.trim()) continue;
+                    
+                    const row = [];
+                    let current = '';
+                    let inQuotes = false;
+                    
+                    for (let i = 0; i < line.length; i++) {
+                        const char = line[i];
+                        
+                        if (char === '"') {
+                            inQuotes = !inQuotes;
+                        } else if (char === ',' && !inQuotes) {
+                            row.push(current.trim());
+                            current = '';
+                        } else {
+                            current += char;
+                        }
+                    }
+                    row.push(current.trim());
+                    rows.push(row);
+                }
+                
+                // Skip header row and convert to objects
+                const headers = rows[0].map(h => h.replace(/"/g, '').trim());
+                console.log('Headers found:', headers);
+                
+                allData = rows.slice(1).filter(row => row.length > 1 && row[0]).map(row => {
+                    const obj = {};
+                    headers.forEach((header, index) => {
+                        obj[header] = (row[index] || '').replace(/"/g, '').trim();
+                    });
+                    return obj;
+                });
+
+                hideLoading();
+                populateNamaDropdown();
+                console.log('Data loaded:', allData.length, 'records');
+                console.log('Sample data:', allData[0]);
+                
+            } catch (error) {
+                console.error('Error loading data:', error);
+                hideLoading();
+                showError();
+            }
+        }
+
+        // Populate nama dropdown with unique names from data
+        function populateNamaDropdown() {
+            const names = [...new Set(allData.map(item => item['NAMA']).filter(name => name))].sort();
+            
+            namaDropdown.innerHTML = '<option value="">-- Pilih Nama --</option>';
+            names.forEach(name => {
+                const option = document.createElement('option');
+                option.value = name;
+                option.textContent = name;
+                namaDropdown.appendChild(option);
+            });
+        }
+
+        // Search function
+        function performSearch() {
+            const selectedNama = namaDropdown.value;
+            const query = searchInput.value.toLowerCase().trim();
+            const jabatanFilterValue = jabatanFilter.value;
+            const statusFilterValue = statusFilter.value;
+            
+            if (!selectedNama && !query && !jabatanFilterValue && !statusFilterValue) {
+                hideAllSections();
+                return;
+            }
+
+            let filteredData = allData;
+
+            // Apply nama dropdown filter (exact match)
+            if (selectedNama) {
+                filteredData = filteredData.filter(item => {
+                    return item['NAMA'] === selectedNama;
+                });
+            }
+
+            // Apply text search (only if no nama selected)
+            if (query && !selectedNama) {
+                filteredData = filteredData.filter(item => {
+                    return Object.values(item).some(value => 
+                        value.toString().toLowerCase().includes(query)
+                    );
+                });
+            }
+
+            // Apply jabatan filter
+            if (jabatanFilterValue) {
+                filteredData = filteredData.filter(item => {
+                    const jabatan = item['JABATAN YANG DILAMAR'] || '';
+                    return jabatan.toLowerCase().includes(jabatanFilterValue.toLowerCase());
+                });
+            }
+
+            // Apply status filter
+            if (statusFilterValue) {
+                filteredData = filteredData.filter(item => {
+                    const status = item['STATUS'] || '';
+                    return status.toLowerCase().includes(statusFilterValue.toLowerCase());
+                });
+            }
+
+            displayResults(filteredData);
+        }
+
+        // Display search results
+        function displayResults(data) {
+            hideAllSections();
+            
+            if (data.length === 0) {
+                noResults.classList.remove('hidden');
+                return;
+            }
+
+            resultsSection.classList.remove('hidden');
+            resultCount.textContent = `${data.length} hasil ditemukan`;
+            
+            resultsContainer.innerHTML = data.map(item => {
+                const nama = item['NAMA'] || 'Nama tidak tersedia';
+                const alamat = item['ALAMAT'] || '';
+                const nik = item['NIK'] || '';
+                const jabatan = item['JABATAN YANG DILAMAR'] || '';
+                const tglLahir = item['TGL LAHIR'] || '';
+                const umur = item['UMUR'] || '';
+                const status = item['STATUS'] || '';
+                
+                return `
+                    <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow duration-200">
+                        <div class="flex flex-col md:flex-row md:justify-between md:items-start gap-3">
+                            <div class="flex-1">
+                                <h3 class="font-semibold text-lg text-gray-800 mb-3 cursor-pointer hover:text-blue-600 transition-colors duration-200" onclick="openModal(${JSON.stringify(item).replace(/"/g, '&quot;')})">
+                                    ${nama}
+                                    <svg class="w-4 h-4 inline-block ml-2 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                </h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-gray-600">
+                                    ${alamat ? `<p><span class="font-medium text-gray-700">Alamat:</span> ${alamat}</p>` : ''}
+                                    ${nik ? `<p><span class="font-medium text-gray-700">NIK:</span> ${nik}</p>` : ''}
+                                    ${jabatan ? `<p><span class="font-medium text-gray-700">Jabatan:</span> ${jabatan}</p>` : ''}
+                                    ${tglLahir ? `<p><span class="font-medium text-gray-700">Tanggal Lahir:</span> ${tglLahir}</p>` : ''}
+                                    ${umur ? `<p><span class="font-medium text-gray-700">Umur:</span> ${umur} tahun</p>` : ''}
+                                </div>
+                            </div>
+                            <div class="flex-shrink-0 flex flex-col gap-2">
+                                ${jabatan ? `<span class="inline-block bg-blue-100 text-blue-800 text-xs font-medium px-3 py-1 rounded-full">${jabatan}</span>` : ''}
+                                ${status ? `<span class="inline-block ${getStatusColor(status)} text-xs font-medium px-3 py-1 rounded-full">${status}</span>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Get status color based on status value
+        function getStatusColor(status) {
+            const statusLower = status.toLowerCase();
+            if (statusLower.includes('aktif') && !statusLower.includes('tidak')) {
+                return 'bg-green-100 text-green-800';
+            } else if (statusLower.includes('tidak aktif')) {
+                return 'bg-red-100 text-red-800';
+            } else if (statusLower.includes('pending')) {
+                return 'bg-yellow-100 text-yellow-800';
+            } else {
+                return 'bg-gray-100 text-gray-800';
+            }
+        }
+
+        // Utility functions
+        function showLoading() {
+            hideAllSections();
+            loadingIndicator.classList.remove('hidden');
+        }
+
+        function hideLoading() {
+            loadingIndicator.classList.add('hidden');
+        }
+
+        function showError() {
+            hideAllSections();
+            errorMessage.classList.remove('hidden');
+        }
+
+        function hideAllSections() {
+            resultsSection.classList.add('hidden');
+            noResults.classList.add('hidden');
+            errorMessage.classList.add('hidden');
+            loadingIndicator.classList.add('hidden');
+        }
+
+        // Event listeners
+        searchBtn.addEventListener('click', performSearch);
+        
+        namaDropdown.addEventListener('change', () => {
+            if (namaDropdown.value) {
+                searchInput.value = ''; // Clear manual search when dropdown is used
+                performSearch();
+            }
+        });
+        
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+
+        searchInput.addEventListener('input', () => {
+            if (searchInput.value.trim()) {
+                namaDropdown.value = ''; // Clear dropdown when manual search is used
+            }
+        });
+
+        jabatanFilter.addEventListener('change', () => {
+            if (namaDropdown.value || searchInput.value.trim() || jabatanFilter.value || statusFilter.value) {
+                performSearch();
+            }
+        });
+
+        statusFilter.addEventListener('change', () => {
+            if (namaDropdown.value || searchInput.value.trim() || jabatanFilter.value || statusFilter.value) {
+                performSearch();
+            }
+        });
+
+        clearBtn.addEventListener('click', () => {
+            namaDropdown.value = '';
+            searchInput.value = '';
+            jabatanFilter.value = '';
+            statusFilter.value = '';
+            hideAllSections();
+        });
+
+        // Modal functionality
+        const candidateModal = document.getElementById('candidateModal');
+        const modalContent = document.getElementById('modalContent');
+        const closeModal = document.getElementById('closeModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const printBtn = document.getElementById('printBtn');
+        const shareWhatsAppBtn = document.getElementById('shareWhatsAppBtn');
+
+        function openModal(candidateData) {
+            // Populate modal with candidate data
+            document.getElementById('modalNama').textContent = candidateData['NAMA'] || 'Nama tidak tersedia';
+            
+            // Status
+            const status = candidateData['STATUS'] || '';
+            const statusElement = document.getElementById('modalStatus');
+            statusElement.textContent = status;
+            
+            // Apply special styling for specific status values
+            let statusClass = `inline-block px-4 py-2 rounded-full text-sm font-medium`;
+            if (status.toUpperCase().includes('TIDAK MEMENUHI SYARAT')) {
+                statusClass += ' status-tidak-memenuhi';
+            } else if (status.toUpperCase().includes('MEMENUHI SYARAT')) {
+                statusClass += ' status-memenuhi';
+            } else {
+                statusClass += ` ${getStatusColor(status)}`;
+            }
+            statusElement.className = statusClass;
+            
+            // Personal Information
+            populateModalField('modalAlamat', 'modalAlamatContainer', candidateData['ALAMAT']);
+            populateModalField('modalNik', 'modalNikContainer', candidateData['NIK']);
+            populateModalField('modalTglLahir', 'modalTglLahirContainer', candidateData['TGL LAHIR']);
+            populateModalField('modalUmur', 'modalUmurContainer', candidateData['UMUR'] ? candidateData['UMUR'] + ' tahun' : '');
+            
+            // Professional Information
+            const jabatan = candidateData['JABATAN YANG DILAMAR'] || '';
+            if (jabatan) {
+                document.getElementById('modalJabatan').querySelector('p').textContent = jabatan;
+                document.getElementById('modalJabatanContainer').classList.remove('hidden');
+            } else {
+                document.getElementById('modalJabatanContainer').classList.add('hidden');
+            }
+            
+            // Show modal with animation
+            candidateModal.classList.remove('hidden');
+            setTimeout(() => {
+                modalContent.classList.remove('scale-95', 'opacity-0');
+                modalContent.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function populateModalField(elementId, containerId, value) {
+            if (value && value.trim()) {
+                document.getElementById(elementId).textContent = value;
+                document.getElementById(containerId).classList.remove('hidden');
+            } else {
+                document.getElementById(containerId).classList.add('hidden');
+            }
+        }
+
+        function closeModalFunction() {
+            modalContent.classList.remove('scale-100', 'opacity-100');
+            modalContent.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                candidateModal.classList.add('hidden');
+            }, 300);
+        }
+
+        function shareToWhatsApp() {
+            const nama = document.getElementById('modalNama').textContent;
+            const status = document.getElementById('modalStatus').textContent;
+            const alamat = document.getElementById('modalAlamat').textContent || '-';
+            const nik = document.getElementById('modalNik').textContent || '-';
+            const tglLahir = document.getElementById('modalTglLahir').textContent || '-';
+            const umur = document.getElementById('modalUmur').textContent || '-';
+            const jabatan = document.getElementById('modalJabatan').querySelector('p').textContent || '-';
+            
+            const message = `📋 *DATA CALON TENAGA AHLI*
+🏛️ *Kabupaten Donggala*
+
+👤 *Nama:* ${nama}
+📊 *Status:* ${status}
+🏠 *Alamat:* ${alamat}
+🆔 *NIK:* ${nik}
+📅 *Tanggal Lahir:* ${tglLahir}
+🎂 *Umur:* ${umur}
+💼 *Jabatan yang Dilamar:* ${jabatan}
+
+---
+📱 Dibagikan dari Sistem Pencarian Data Calon Tenaga Ahli
+🔗 Admin: Syam Digital
+🌐 Info lebih lanjut: https://syam.digital/pendaftaran`;
+
+            const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+        }
+
+        function printCandidate() {
+            const nama = document.getElementById('modalNama').textContent;
+            const status = document.getElementById('modalStatus').textContent;
+            const alamat = document.getElementById('modalAlamat').textContent || '-';
+            const nik = document.getElementById('modalNik').textContent || '-';
+            const tglLahir = document.getElementById('modalTglLahir').textContent || '-';
+            const umur = document.getElementById('modalUmur').textContent || '-';
+            const jabatan = document.getElementById('modalJabatan').querySelector('p').textContent || '-';
+            
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Detail Kandidat - ${nama}</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; margin: 20px; }
+                        .header { background: linear-gradient(to right, #2563eb, #4f46e5); color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
+                        .info-section { margin-bottom: 20px; }
+                        .info-title { font-weight: bold; color: #374151; border-bottom: 2px solid #e5e7eb; padding-bottom: 5px; margin-bottom: 10px; }
+                        .info-item { margin-bottom: 8px; }
+                        .label { font-weight: bold; color: #6b7280; }
+                        .status { padding: 8px 16px; border-radius: 20px; display: inline-block; font-size: 12px; font-weight: bold; }
+                    </style>
+                </head>
+                <body>
+                    <div class="header">
+                        <h1>${nama}</h1>
+                        <p>Detail Informasi Kandidat</p>
+                    </div>
+                    
+                    <div class="info-section">
+                        <div class="status" style="background-color: #f3f4f6; color: #374151;">${status}</div>
+                    </div>
+                    
+                    <div class="info-section">
+                        <div class="info-title">Informasi Pribadi</div>
+                        <div class="info-item"><span class="label">Alamat:</span> ${alamat}</div>
+                        <div class="info-item"><span class="label">NIK:</span> ${nik}</div>
+                        <div class="info-item"><span class="label">Tanggal Lahir:</span> ${tglLahir}</div>
+                        <div class="info-item"><span class="label">Umur:</span> ${umur}</div>
+                    </div>
+                    
+                    <div class="info-section">
+                        <div class="info-title">Informasi Profesional</div>
+                        <div class="info-item"><span class="label">Jabatan yang Dilamar:</span> ${jabatan}</div>
+                    </div>
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+            printWindow.print();
+        }
+
+        // Modal event listeners
+        closeModal.addEventListener('click', closeModalFunction);
+        closeModalBtn.addEventListener('click', closeModalFunction);
+        printBtn.addEventListener('click', printCandidate);
+        shareWhatsAppBtn.addEventListener('click', shareToWhatsApp);
+        
+        // Close modal when clicking outside
+        candidateModal.addEventListener('click', (e) => {
+            if (e.target === candidateModal) {
+                closeModalFunction();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !candidateModal.classList.contains('hidden')) {
+                closeModalFunction();
+            }
+        });
+
+        // Load data when page loads
+        window.addEventListener('load', loadData);
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98914f7b84f30fad',t:'MTc1OTU0NTU4NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

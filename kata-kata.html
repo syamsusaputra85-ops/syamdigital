@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="id">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kata-Kata Sindiran Berkelas</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Georgia', serif;
+      width: 100%;
+      height: 100%;
+      overflow-x: hidden;
+    }
+
+    html {
+      height: 100%;
+    }
+
+    .poster-wrapper {
+      width: 100%;
+      min-height: 100%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .poster-container {
+      max-width: 900px;
+      width: 100%;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 50px;
+      animation: fadeInDown 1s ease-out;
+    }
+
+    .main-title {
+      font-size: 48px;
+      color: #ffffff;
+      margin: 0;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+
+    .subtitle {
+      font-size: 18px;
+      color: #f0e6ff;
+      margin-top: 10px;
+      font-style: italic;
+    }
+
+    .quotes-container {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+
+    .quote-card {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 30px 35px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.4s ease;
+      animation: fadeInUp 0.8s ease-out backwards;
+    }
+
+    .quote-card:nth-child(1) { animation-delay: 0.1s; }
+    .quote-card:nth-child(2) { animation-delay: 0.2s; }
+    .quote-card:nth-child(3) { animation-delay: 0.3s; }
+    .quote-card:nth-child(4) { animation-delay: 0.4s; }
+    .quote-card:nth-child(5) { animation-delay: 0.5s; }
+
+    .quote-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    }
+
+    .quote-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 6px;
+      height: 100%;
+      background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .quote-number {
+      position: absolute;
+      top: 15px;
+      right: 25px;
+      font-size: 60px;
+      font-weight: bold;
+      color: #f0f0f0;
+      opacity: 0.3;
+    }
+
+    .quote-text {
+      font-size: 20px;
+      line-height: 1.8;
+      color: #2d3748;
+      margin: 0;
+      position: relative;
+      z-index: 1;
+      font-style: italic;
+    }
+
+    .decorative-icon {
+      display: inline-block;
+      margin-right: 10px;
+      font-size: 24px;
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .quote-card.clicked {
+      animation: pulse 0.5s ease;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .main-title {
+        font-size: 32px;
+      }
+
+      .quote-text {
+        font-size: 18px;
+      }
+
+      .quote-card {
+        padding: 25px 30px;
+      }
+
+      .quote-number {
+        font-size: 50px;
+      }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="poster-wrapper">
+   <div class="poster-container">
+    <header class="header">
+     <h1 class="main-title" id="mainTitle">Sindiran Kata-Kata Berkelas</h1>
+     <p class="subtitle">✨ Kata-kata bijak penuh makna ✨</p>
+    </header>
+    <main class="quotes-container" id="quotesContainer">
+     <article class="quote-card" data-index="1"><span class="quote-number">1</span>
+      <p class="quote-text"><span class="decorative-icon">💎</span><span id="quote1">Berani kotor itu baik, tapi pura pura baik itu kotor.</span></p>
+     </article>
+     <article class="quote-card" data-index="2"><span class="quote-number">2</span>
+      <p class="quote-text"><span class="decorative-icon">👁️</span><span id="quote2">Apa gunanya mata kalo melihat orang dari telinga.</span></p>
+     </article>
+     <article class="quote-card" data-index="3"><span class="quote-number">3</span>
+      <p class="quote-text"><span class="decorative-icon">💬</span><span id="quote3">Mulut diciptakan didepan, supaya tidak berbicara di belakang.</span></p>
+     </article>
+     <article class="quote-card" data-index="4"><span class="quote-number">4</span>
+      <p class="quote-text"><span class="decorative-icon">✨</span><span id="quote4">Yang asli belum tentu murni, yang murni kadang tidak asli.</span></p>
+     </article>
+     <article class="quote-card" data-index="5"><span class="quote-number">5</span>
+      <p class="quote-text"><span class="decorative-icon">❤️</span><span id="quote5">Yang perhatian belum tentu pengertian, tapi yang pengertian sudah pasti perhatian.</span></p>
+     </article>
+    </main>
+   </div>
+  </div>
+  <script>
+    const defaultConfig = {
+      main_title: "Sindiran Kata-Kata Berkelas",
+      quote_1: "Berani kotor itu baik, tapi pura pura baik itu kotor.",
+      quote_2: "Apa gunanya mata kalo melihat orang dari telinga.",
+      quote_3: "Mulut diciptakan didepan, supaya tidak berbicara di belakang.",
+      quote_4: "Yang asli belum tentu murni, yang murni kadang tidak asli.",
+      quote_5: "Yang perhatian belum tentu pengertian, tapi yang pengertian sudah pasti perhatian.",
+      background_color: "#667eea",
+      card_color: "#ffffff",
+      text_color: "#2d3748",
+      accent_color: "#764ba2",
+      title_color: "#ffffff",
+      font_family: "Georgia",
+      font_size: 20
+    };
+
+    async function onConfigChange(config) {
+      const mainTitle = document.getElementById('mainTitle');
+      const quote1 = document.getElementById('quote1');
+      const quote2 = document.getElementById('quote2');
+      const quote3 = document.getElementById('quote3');
+      const quote4 = document.getElementById('quote4');
+      const quote5 = document.getElementById('quote5');
+
+      if (mainTitle) mainTitle.textContent = config.main_title || defaultConfig.main_title;
+      if (quote1) quote1.textContent = config.quote_1 || defaultConfig.quote_1;
+      if (quote2) quote2.textContent = config.quote_2 || defaultConfig.quote_2;
+      if (quote3) quote3.textContent = config.quote_3 || defaultConfig.quote_3;
+      if (quote4) quote4.textContent = config.quote_4 || defaultConfig.quote_4;
+      if (quote5) quote5.textContent = config.quote_5 || defaultConfig.quote_5;
+
+      const backgroundColor = config.background_color || defaultConfig.background_color;
+      const cardColor = config.card_color || defaultConfig.card_color;
+      const textColor = config.text_color || defaultConfig.text_color;
+      const accentColor = config.accent_color || defaultConfig.accent_color;
+      const titleColor = config.title_color || defaultConfig.title_color;
+      const fontFamily = config.font_family || defaultConfig.font_family;
+      const fontSize = config.font_size || defaultConfig.font_size;
+
+      const posterWrapper = document.querySelector('.poster-wrapper');
+      if (posterWrapper) {
+        posterWrapper.style.background = `linear-gradient(135deg, ${backgroundColor} 0%, ${accentColor} 100%)`;
+      }
+
+      const quoteCards = document.querySelectorAll('.quote-card');
+      quoteCards.forEach(card => {
+        card.style.backgroundColor = cardColor;
+      });
+
+      const quoteTexts = document.querySelectorAll('.quote-text');
+      quoteTexts.forEach(text => {
+        text.style.color = textColor;
+        text.style.fontFamily = `${fontFamily}, serif`;
+        text.style.fontSize = `${fontSize}px`;
+      });
+
+      if (mainTitle) {
+        mainTitle.style.color = titleColor;
+        mainTitle.style.fontFamily = `${fontFamily}, serif`;
+        mainTitle.style.fontSize = `${fontSize * 2.4}px`;
+      }
+
+      const subtitle = document.querySelector('.subtitle');
+      if (subtitle) {
+        subtitle.style.fontFamily = `${fontFamily}, serif`;
+        subtitle.style.fontSize = `${fontSize * 0.9}px`;
+      }
+
+      const accentBars = document.querySelectorAll('.quote-card::before');
+      const style = document.createElement('style');
+      style.textContent = `
+        .quote-card::before {
+          background: linear-gradient(180deg, ${backgroundColor} 0%, ${accentColor} 100%) !important;
+        }
+      `;
+      document.head.appendChild(style);
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [
+          {
+            get: () => config.background_color || defaultConfig.background_color,
+            set: (value) => {
+              config.background_color = value;
+              window.elementSdk.setConfig({ background_color: value });
+            }
+          },
+          {
+            get: () => config.card_color || defaultConfig.card_color,
+            set: (value) => {
+              config.card_color = value;
+              window.elementSdk.setConfig({ card_color: value });
+            }
+          },
+          {
+            get: () => config.text_color || defaultConfig.text_color,
+            set: (value) => {
+              config.text_color = value;
+              window.elementSdk.setConfig({ text_color: value });
+            }
+          },
+          {
+            get: () => config.accent_color || defaultConfig.accent_color,
+            set: (value) => {
+              config.accent_color = value;
+              window.elementSdk.setConfig({ accent_color: value });
+            }
+          },
+          {
+            get: () => config.title_color || defaultConfig.title_color,
+            set: (value) => {
+              config.title_color = value;
+              window.elementSdk.setConfig({ title_color: value });
+            }
+          }
+        ],
+        borderables: [],
+        fontEditable: {
+          get: () => config.font_family || defaultConfig.font_family,
+          set: (value) => {
+            config.font_family = value;
+            window.elementSdk.setConfig({ font_family: value });
+          }
+        },
+        fontSizeable: {
+          get: () => config.font_size || defaultConfig.font_size,
+          set: (value) => {
+            config.font_size = value;
+            window.elementSdk.setConfig({ font_size: value });
+          }
+        }
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ["main_title", config.main_title || defaultConfig.main_title],
+        ["quote_1", config.quote_1 || defaultConfig.quote_1],
+        ["quote_2", config.quote_2 || defaultConfig.quote_2],
+        ["quote_3", config.quote_3 || defaultConfig.quote_3],
+        ["quote_4", config.quote_4 || defaultConfig.quote_4],
+        ["quote_5", config.quote_5 || defaultConfig.quote_5]
+      ]);
+    }
+
+    // Add interactive click animation
+    document.addEventListener('DOMContentLoaded', () => {
+      const quoteCards = document.querySelectorAll('.quote-card');
+      
+      quoteCards.forEach(card => {
+        card.addEventListener('click', () => {
+          card.classList.add('clicked');
+          setTimeout(() => {
+            card.classList.remove('clicked');
+          }, 500);
+        });
+      });
+    });
+
+    // Initialize SDK
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9aa120e80084fd25',t:'MTc2NTA4MDE1Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

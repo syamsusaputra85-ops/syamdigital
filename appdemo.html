@@ -1,0 +1,1808 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pencarian Data Penduduk</title>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/dpr2vc3b0/image/upload/v1767107096/logo_donggala-fix-2025_napiej.png">
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    .gradient-bg {
+      background: linear-gradient(135deg, #8B0000 0%, #4a0000 50%, #1a1a1a 100%);
+    }
+    
+    .card-gradient {
+      background: linear-gradient(135deg, rgba(139, 0, 0, 0.1) 0%, rgba(26, 26, 26, 0.3) 100%);
+      backdrop-filter: blur(10px);
+    }
+    
+    .gold-accent {
+      color: #FFD700;
+    }
+    
+    .gold-border {
+      border-color: #FFD700;
+    }
+    
+    .hover-gold:hover {
+      background-color: rgba(255, 215, 0, 0.1);
+      border-color: #FFD700;
+    }
+    
+    .search-input {
+      background: rgba(26, 26, 26, 0.5);
+      border: 2px solid rgba(139, 0, 0, 0.3);
+      color: #FFD700;
+    }
+    
+    .search-input:focus {
+      outline: none;
+      border-color: #FFD700;
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+    }
+    
+    .search-input::placeholder {
+      color: rgba(255, 215, 0, 0.5);
+    }
+    
+    .data-card {
+      background: linear-gradient(135deg, rgba(139, 0, 0, 0.2) 0%, rgba(26, 26, 26, 0.4) 100%);
+      border: 1px solid rgba(255, 215, 0, 0.2);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .data-card:hover {
+      border-color: #FFD700;
+      box-shadow: 0 8px 30px rgba(255, 215, 0, 0.2);
+      transform: translateY(-4px);
+    }
+    
+    .loading-spinner {
+      border: 3px solid rgba(255, 215, 0, 0.3);
+      border-top: 3px solid #FFD700;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .stats-badge {
+      background: linear-gradient(135deg, #8B0000 0%, #FFD700 100%);
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      font-weight: 600;
+    }
+    
+    .filter-btn {
+      background: rgba(26, 26, 26, 0.5);
+      border: 2px solid rgba(139, 0, 0, 0.3);
+      color: #FFD700;
+      transition: all 0.3s ease;
+    }
+    
+    .filter-btn:hover {
+      background: rgba(139, 0, 0, 0.3);
+      border-color: #FFD700;
+    }
+    
+    .filter-btn.active {
+      background: linear-gradient(135deg, #8B0000 0%, #FFD700 100%);
+      border-color: #FFD700;
+      color: #1a1a1a;
+    }
+    
+    .dusun-filter-btn {
+      background: rgba(26, 26, 26, 0.6);
+      border: 2px solid rgba(139, 0, 0, 0.4);
+      color: #FFD700;
+      padding: 0.5rem 1rem;
+      border-radius: 0.75rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .dusun-filter-btn:hover {
+      background: rgba(139, 0, 0, 0.4);
+      border-color: #FFD700;
+      transform: translateY(-2px);
+    }
+    
+    .dusun-filter-btn.active {
+      background: linear-gradient(135deg, #8B0000 0%, #FFD700 100%);
+      border-color: #FFD700;
+      color: #1a1a1a;
+      font-weight: bold;
+    }
+    
+    .export-btn {
+      background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+      border: 2px solid #FFD700;
+      color: #1a1a1a;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.75rem;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+    }
+    
+    .export-btn:hover {
+      background: linear-gradient(135deg, #FFA500 0%, #FFD700 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
+    }
+    
+    .export-btn:disabled {
+      background: rgba(139, 0, 0, 0.3);
+      border-color: rgba(255, 215, 0, 0.3);
+      color: rgba(255, 215, 0, 0.5);
+      cursor: not-allowed;
+      transform: none;
+    }
+    
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      padding: 1rem;
+    }
+    
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+    
+    .modal-content {
+      background: #ffffff;
+      border: 3px solid #8B0000;
+      border-radius: 1rem;
+      max-width: 900px;
+      width: 100%;
+      max-height: 90%;
+      overflow-y: auto;
+      padding: 0;
+      transform: scale(0.9);
+      transition: transform 0.3s ease;
+      box-shadow: 0 20px 60px rgba(139, 0, 0, 0.4);
+    }
+    
+    .modal-overlay.active .modal-content {
+      transform: scale(1);
+    }
+    
+    .modal-close {
+      background: #ffffff;
+      border: none;
+      color: #8B0000;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: bold;
+    }
+    
+    .modal-close:hover {
+      background: #f0f0f0;
+      transform: rotate(90deg);
+    }
+    
+    .modal-header {
+      background: linear-gradient(135deg, #8B0000 0%, #a00000 100%);
+      padding: 2rem;
+      border-radius: 1rem 1rem 0 0;
+    }
+    
+    .modal-body {
+      padding: 2rem;
+      background: #ffffff;
+    }
+    
+    .detail-section {
+      background: #f8f9fa;
+      border: 2px solid #e9ecef;
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .detail-section-title {
+      color: #8B0000;
+      font-size: 1.25rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-bottom: 2px solid #8B0000;
+      padding-bottom: 0.5rem;
+    }
+    
+    .detail-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 0.75rem;
+    }
+    
+    .whatsapp-simple-btn {
+      background: #25D366;
+      border: 2px solid #25D366;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.75rem;
+      font-weight: bold;
+      font-size: 1rem;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .whatsapp-simple-btn:hover {
+      background: #128C7E;
+      transform: translateY(-2px);
+    }
+    
+    @media (max-width: 768px) {
+      .whatsapp-simple-btn {
+        padding: 0.625rem 1.25rem;
+        font-size: 0.875rem;
+      }
+      .detail-row {
+        grid-template-columns: 1fr;
+      }
+      .photo-identity-wrapper {
+        flex-direction: column !important;
+      }
+    }
+    
+    .detail-item {
+      background: #ffffff;
+      border-left: 4px solid #8B0000;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    
+    .detail-label {
+      color: #6c757d;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.25rem;
+      font-weight: 600;
+    }
+    
+    .detail-value {
+      color: #212529;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+    
+    .photo-container {
+      width: 120px;
+      height: 160px;
+      position: relative;
+      flex-shrink: 0;
+    }
+    
+    .photo-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border: 3px solid #8B0000;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 12px rgba(139, 0, 0, 0.3);
+    }
+    
+    .photo-placeholder {
+      width: 100%;
+      height: 100%;
+      background: #f8f9fa;
+      border: 3px solid #8B0000;
+      border-radius: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      padding: 1rem;
+    }
+    
+    .photo-identity-wrapper {
+      display: flex;
+      gap: 1.5rem;
+      align-items: flex-start;
+    }
+    
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: linear-gradient(135deg, #8B0000 0%, #FFD700 100%);
+      color: #1a1a1a;
+      padding: 1rem 1.5rem;
+      border-radius: 0.75rem;
+      border: 2px solid #FFD700;
+      font-weight: bold;
+      box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
+      z-index: 2000;
+      opacity: 0;
+      transform: translateY(100px);
+      transition: all 0.3s ease;
+      pointer-events: none;
+    }
+    
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: all;
+    }
+    
+    .scroll-to-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, #8B0000 0%, #FFD700 100%);
+      border: 3px solid #FFD700;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
+      z-index: 1500;
+      opacity: 0;
+      transform: translateY(100px);
+      transition: all 0.3s ease;
+      pointer-events: none;
+    }
+    
+    .scroll-to-top.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: all;
+    }
+    
+    .scroll-to-top:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(255, 215, 0, 0.6);
+    }
+    
+    .scroll-to-top:active {
+      transform: translateY(-2px);
+    }
+    
+    .pdf-menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      padding: 1rem;
+    }
+    
+    .pdf-menu-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+    
+    .pdf-menu-content {
+      background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+      border: 3px solid #FFD700;
+      border-radius: 1.5rem;
+      max-width: 600px;
+      width: 100%;
+      max-height: 80%;
+      overflow-y: auto;
+      padding: 0;
+      transform: scale(0.9);
+      transition: transform 0.3s ease;
+      box-shadow: 0 20px 60px rgba(255, 215, 0, 0.4);
+    }
+    
+    .pdf-menu-overlay.active .pdf-menu-content {
+      transform: scale(1);
+    }
+    
+    .pdf-menu-header {
+      background: linear-gradient(135deg, #8B0000 0%, #a00000 100%);
+      padding: 1.5rem;
+      border-radius: 1.5rem 1.5rem 0 0;
+      border-bottom: 2px solid #FFD700;
+    }
+    
+    .pdf-menu-body {
+      padding: 1.5rem;
+    }
+    
+    .pdf-menu-option {
+      background: rgba(139, 0, 0, 0.2);
+      border: 2px solid rgba(255, 215, 0, 0.3);
+      border-radius: 0.75rem;
+      padding: 1rem;
+      margin-bottom: 0.75rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .pdf-menu-option:hover {
+      border-color: #FFD700;
+      background: rgba(139, 0, 0, 0.4);
+      transform: translateX(4px);
+    }
+    
+    .pdf-menu-option-label {
+      color: #FFD700;
+      font-weight: bold;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .pdf-menu-option-count {
+      background: linear-gradient(135deg, #8B0000 0%, #FFD700 100%);
+      color: #1a1a1a;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      font-weight: bold;
+    }
+    
+    .pdf-menu-close {
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid rgba(255, 215, 0, 0.3);
+      color: #FFD700;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.75rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 100%;
+      margin-top: 1rem;
+    }
+    
+    .pdf-menu-close:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: #FFD700;
+    }
+    
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+      .gradient-bg {
+        padding: 1rem 0.5rem;
+      }
+      
+      #app-title {
+        font-size: 1.75rem !important;
+        line-height: 1.2;
+      }
+      
+      .card-gradient {
+        padding: 1rem !important;
+      }
+      
+      .search-input {
+        font-size: 1rem !important;
+        padding: 0.75rem !important;
+      }
+      
+      .filter-btn, .export-btn {
+        font-size: 0.875rem;
+        padding: 0.75rem 1rem !important;
+        width: 100%;
+      }
+      
+      .dusun-filter-btn {
+        font-size: 0.875rem;
+        padding: 0.5rem 0.75rem;
+        flex: 1 1 calc(50% - 0.5rem);
+        text-align: center;
+      }
+      
+      #dusun-filters {
+        gap: 0.5rem !important;
+      }
+      
+      .stats-badge {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.5rem;
+      }
+      
+      .data-card {
+        padding: 1rem !important;
+      }
+      
+      .data-card .text-xl {
+        font-size: 1.125rem !important;
+      }
+      
+      .data-card .text-4xl {
+        font-size: 2rem !important;
+      }
+      
+      .modal-content {
+        max-width: 95%;
+        max-height: 95%;
+        margin: 0.5rem;
+      }
+      
+      .modal-header {
+        padding: 1rem !important;
+      }
+      
+      .modal-header h2 {
+        font-size: 1.5rem !important;
+      }
+      
+      .modal-body {
+        padding: 1rem !important;
+      }
+      
+      .detail-section {
+        padding: 1rem !important;
+        margin-bottom: 1rem !important;
+      }
+      
+      .detail-section-title {
+        font-size: 1rem !important;
+      }
+      
+      .detail-item {
+        padding: 0.5rem !important;
+      }
+      
+      .detail-label {
+        font-size: 0.625rem !important;
+      }
+      
+      .detail-value {
+        font-size: 0.875rem !important;
+      }
+      
+      .photo-container {
+        width: 100px;
+        height: 133px;
+      }
+      
+      .modal-close {
+        width: 32px;
+        height: 32px;
+        font-size: 1.5rem;
+      }
+      
+      .scroll-to-top {
+        width: 48px;
+        height: 48px;
+        bottom: 1rem;
+        right: 1rem;
+        font-size: 1.25rem;
+      }
+      
+      .toast {
+        bottom: 1rem;
+        right: 1rem;
+        left: 1rem;
+        font-size: 0.875rem;
+        padding: 0.75rem 1rem;
+      }
+      
+      header img {
+        width: 60px !important;
+        height: 60px !important;
+      }
+      
+      .flex.items-center.justify-center.gap-3.mt-6 img {
+        width: 48px !important;
+        height: 48px !important;
+      }
+      
+      .flex.items-center.justify-center.gap-3.mt-6 .text-lg {
+        font-size: 1rem !important;
+      }
+      
+      .flex.items-center.justify-between.mb-4 {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 1rem;
+      }
+      
+      .flex.gap-3.flex-wrap {
+        width: 100%;
+        flex-direction: column;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      #app-title {
+        font-size: 1.5rem !important;
+      }
+      
+      .dusun-filter-btn {
+        flex: 1 1 100%;
+      }
+      
+      .detail-row {
+        grid-template-columns: 1fr !important;
+      }
+      
+      .stats-badge {
+        font-size: 0.7rem;
+      }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full"><!-- Login Screen -->
+  <div id="login-screen" class="w-full h-full overflow-auto gradient-bg flex items-center justify-center">
+   <div class="max-w-md w-full mx-4">
+    <div class="card-gradient rounded-2xl p-8 border-2 border-yellow-400" style="box-shadow: 0 20px 60px rgba(255, 215, 0, 0.3);">
+     <div class="text-center mb-8"><img src="https://res.cloudinary.com/dpr2vc3b0/image/upload/v1767107096/logo_donggala-fix-2025_napiej.png" alt="Logo Donggala" class="w-24 h-24 object-contain mx-auto mb-4" style="filter: drop-shadow(0 4px 12px rgba(255, 215, 0, 0.3));">
+      <h1 class="text-3xl font-bold text-white mb-2">Admin Login</h1>
+      <div class="h-1 w-20 mx-auto bg-gradient-to-r from-transparent via-yellow-400 to-transparent"></div>
+     </div>
+     <form id="login-form" class="space-y-6">
+      <div><label for="password-input" class="block text-yellow-400 font-semibold mb-2">Password Admin</label>
+       <div class="relative"><input type="password" id="password-input" class="search-input w-full px-4 py-3 pr-12 rounded-xl text-lg font-medium" placeholder="Masukkan password..." required> <button type="button" id="toggle-password" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-yellow-400 text-2xl hover:text-yellow-300 transition-colors" style="background: none; border: none; cursor: pointer; padding: 0.5rem;"> 👁️ </button>
+       </div>
+      </div>
+      <div id="login-error" class="hidden bg-red-900 bg-opacity-50 border border-red-500 text-red-200 px-4 py-3 rounded-xl text-center">
+       ❌ Password salah! Silakan coba lagi.
+      </div><button type="submit" id="login-btn" class="w-full export-btn justify-center py-3 text-lg"> 🔐 Login </button>
+     </form>
+     <div class="mt-6 text-center">
+      <div class="flex items-center justify-center gap-2 text-gray-400 text-sm"><span>👨‍💼</span> <span>Akses khusus Administrator</span>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div><!-- Main App (Hidden until login) -->
+  <div id="app-wrapper" class="w-full h-full overflow-auto gradient-bg" style="display: none;">
+   <div class="min-h-full py-8 px-4">
+    <div class="max-w-7xl mx-auto"><!-- Header -->
+     <header class="text-center mb-8">
+      <div class="flex items-center justify-center gap-4 mb-4"><img src="https://res.cloudinary.com/dpr2vc3b0/image/upload/v1767107096/logo_donggala-fix-2025_napiej.png" alt="Logo Donggala" class="w-20 h-20 object-contain" style="filter: drop-shadow(0 4px 12px rgba(255, 215, 0, 0.3));">
+       <h1 id="app-title" class="text-5xl font-bold text-white">Pencarian Data Penduduk</h1>
+      </div>
+      <div class="h-1 w-32 mx-auto bg-gradient-to-r from-transparent via-yellow-400 to-transparent mb-4"></div><!-- Admin Section -->
+      <div class="flex items-center justify-center gap-3 mt-6 flex-wrap">
+       <div class="flex items-center gap-3">
+        <div class="relative"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1767107507/SYAM_DIGITAL_ADMIN_dt6quc.jpg" alt="Admin Syam Digital" class="w-16 h-16 rounded-full object-cover border-3 border-yellow-400" style="box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);">
+         <div class="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-gray-900"></div>
+        </div>
+        <div class="text-left">
+         <p class="text-yellow-400 font-bold text-lg">Admin: Syam Digital</p>
+         <p class="text-gray-400 text-sm">Pengelola Data Penduduk</p>
+        </div>
+       </div><a href="https://wa.me/" target="_blank" rel="noopener noreferrer" class="whatsapp-simple-btn"> 📱 Pesan Sekarang </a>
+      </div>
+     </header><!-- Filter Dusun Section -->
+     <div class="card-gradient rounded-2xl p-6 mb-6 border border-gray-700">
+      <div class="flex items-center justify-between mb-4 flex-wrap gap-3">
+       <h3 class="text-yellow-400 font-bold text-xl">🏘️ Filter Per Dusun</h3>
+       <div class="flex gap-3 flex-wrap"><a href="https://docs.google.com/spreadsheets/d/1AXf_dPfHq4UEnJfxQTYQ7YfkEUol-NnBqeoUdoBIr5I/edit?usp=sharing" target="_blank" rel="noopener noreferrer" class="export-btn"> 📊 Buka Spreadsheet </a> <button id="export-pdf-btn" class="export-btn"> 📄 Export PDF </button>
+       </div>
+      </div>
+      <div id="dusun-filters" class="flex flex-wrap gap-3"></div>
+     </div><!-- Search Section -->
+     <div class="card-gradient rounded-2xl p-6 mb-8 border border-gray-700">
+      <div class="flex flex-col md:flex-row gap-4 items-center">
+       <div class="flex-1 w-full"><input type="text" id="search-input" class="search-input w-full px-6 py-4 rounded-xl text-lg font-medium" placeholder="Cari berdasarkan nama, NIK, atau alamat...">
+       </div><button id="search-btn" class="filter-btn px-8 py-4 rounded-xl font-semibold whitespace-nowrap"> 🔍 Cari </button>
+      </div><!-- Stats -->
+      <div class="flex flex-wrap gap-4 mt-6 justify-center">
+       <div class="stats-badge text-white">
+        Total: <span id="total-count">0</span> data
+       </div>
+       <div class="stats-badge text-white">
+        Ditampilkan: <span id="displayed-count">0</span> data
+       </div>
+       <div id="dusun-badge" class="stats-badge text-white" style="display: none;">
+        Dusun: <span id="selected-dusun">Semua</span>
+       </div>
+      </div>
+     </div><!-- Loading State -->
+     <div id="loading" class="hidden text-center py-12">
+      <div class="loading-spinner mx-auto"></div>
+      <p class="gold-accent mt-4 text-lg">Memuat data penduduk...</p>
+     </div><!-- Error State -->
+     <div id="error" class="hidden text-center py-12">
+      <div class="text-6xl mb-4">
+       ⚠️
+      </div>
+      <p class="text-red-400 text-lg mb-2">Gagal memuat data</p>
+      <p class="text-gray-400" id="error-message">Pastikan URL Google Sheets sudah benar dan dapat diakses</p>
+     </div><!-- No Results -->
+     <div id="no-results" class="hidden text-center py-12">
+      <div class="text-6xl mb-4">
+       🔍
+      </div>
+      <p id="no-results-message" class="gold-accent text-xl">Tidak ada data yang ditemukan</p>
+      <p class="text-gray-400 mt-2">Coba gunakan kata kunci yang berbeda</p>
+     </div><!-- Results Grid -->
+     <div id="results" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </div>
+   </div>
+  </div><!-- Modal Detail -->
+  <div id="detail-modal" class="modal-overlay">
+   <div class="modal-content">
+    <div class="modal-header">
+     <div class="flex justify-between items-start">
+      <div class="flex items-center gap-3"><img src="https://res.cloudinary.com/dpr2vc3b0/image/upload/v1767107096/logo_donggala-fix-2025_napiej.png" alt="Logo Donggala" class="w-16 h-16 object-contain" style="filter: drop-shadow(0 4px 12px rgba(255, 215, 0, 0.5));">
+       <div>
+        <h2 class="text-3xl font-bold text-white mb-2">📋 Rincian Data Penduduk</h2>
+        <p class="text-gray-200">Informasi lengkap data penduduk</p>
+       </div>
+      </div><button id="close-modal" class="modal-close">×</button>
+     </div>
+    </div>
+    <div class="modal-body" id="modal-detail-content"></div><!-- Admin Footer -->
+    <div class="modal-body" style="padding-top: 0; border-top: 2px solid #e9ecef;">
+     <div class="flex items-center justify-between gap-3 bg-gray-50 p-4 rounded-lg flex-wrap">
+      <div class="flex items-center gap-3"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1767107507/SYAM_DIGITAL_ADMIN_dt6quc.jpg" alt="Admin Syam Digital" class="w-12 h-12 rounded-full object-cover border-2 border-red-900" style="box-shadow: 0 4px 12px rgba(139, 0, 0, 0.3);">
+       <div class="text-left">
+        <p class="text-red-900 font-semibold text-sm">Dikelola oleh: Syam Digital</p>
+        <p class="text-gray-600 text-xs">Administrator Data Penduduk</p>
+       </div>
+      </div><button id="share-whatsapp-btn" class="whatsapp-simple-btn"> 📱 Bagikan ke WhatsApp </button>
+     </div>
+    </div>
+   </div>
+  </div><!-- Toast Notification -->
+  <div id="toast" class="toast"></div><!-- Scroll to Top Button --> <button id="scroll-to-top" class="scroll-to-top" title="Kembali ke atas"> ⬆️ </button> <!-- PDF Export Menu Modal -->
+  <div id="pdf-menu-overlay" class="pdf-menu-overlay">
+   <div class="pdf-menu-content">
+    <div class="pdf-menu-header">
+     <h2 class="text-white text-2xl font-bold mb-1">📄 Pilih Data untuk Export PDF</h2>
+     <p class="text-gray-200 text-sm">Pilih dusun yang ingin di-export ke PDF</p>
+    </div>
+    <div class="pdf-menu-body">
+     <div id="pdf-menu-options"></div><button id="close-pdf-menu" class="pdf-menu-close"> ✖️ Tutup </button>
+    </div>
+   </div>
+  </div>
+  <script>
+    // Configuration
+    const defaultConfig = {
+      app_title: "Pencarian Data Penduduk",
+      search_placeholder: "Cari berdasarkan nama, NIK, atau alamat...",
+      no_results_message: "Tidak ada data yang ditemukan",
+      primary_color: "#8B0000",
+      secondary_color: "#1a1a1a",
+      accent_color: "#FFD700",
+      text_color: "#ffffff",
+      card_background: "rgba(139, 0, 0, 0.2)",
+      font_family: "ui-sans-serif, system-ui, sans-serif",
+      font_size: 16
+    };
+
+    let allData = [];
+    let filteredData = [];
+    let selectedDusun = null;
+    let availableDusuns = [];
+    const ADMIN_PASSWORD = '7203192025';
+
+    // Toggle Password Visibility
+    document.getElementById('toggle-password').addEventListener('click', () => {
+      const passwordInput = document.getElementById('password-input');
+      const toggleBtn = document.getElementById('toggle-password');
+      
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        toggleBtn.textContent = '🙈';
+      } else {
+        passwordInput.type = 'password';
+        toggleBtn.textContent = '👁️';
+      }
+    });
+
+    // Handle Login
+    document.getElementById('login-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const passwordInput = document.getElementById('password-input');
+      const loginError = document.getElementById('login-error');
+      const loginScreen = document.getElementById('login-screen');
+      const appWrapper = document.getElementById('app-wrapper');
+      
+      if (passwordInput.value === ADMIN_PASSWORD) {
+        loginScreen.style.display = 'none';
+        appWrapper.style.display = 'block';
+        showToast('✅ Login berhasil! Selamat datang, Admin.');
+        // Load data after successful login
+        fetchData();
+      } else {
+        loginError.classList.remove('hidden');
+        passwordInput.value = '';
+        passwordInput.focus();
+        setTimeout(() => {
+          loginError.classList.add('hidden');
+        }, 3000);
+      }
+    });
+
+    // Initialize Element SDK
+    async function onConfigChange(config) {
+      const titleElement = document.getElementById('app-title');
+      const searchInput = document.getElementById('search-input');
+      const noResultsMessage = document.getElementById('no-results-message');
+      
+      if (titleElement) {
+        titleElement.textContent = config.app_title || defaultConfig.app_title;
+        titleElement.style.fontFamily = `${config.font_family || defaultConfig.font_family}, Arial, sans-serif`;
+        titleElement.style.fontSize = `${(config.font_size || defaultConfig.font_size) * 2.5}px`;
+      }
+      
+      if (searchInput) {
+        searchInput.placeholder = config.search_placeholder || defaultConfig.search_placeholder;
+        searchInput.style.fontFamily = `${config.font_family || defaultConfig.font_family}, Arial, sans-serif`;
+        searchInput.style.fontSize = `${(config.font_size || defaultConfig.font_size) * 1.125}px`;
+      }
+      
+      if (noResultsMessage) {
+        noResultsMessage.textContent = config.no_results_message || defaultConfig.no_results_message;
+        noResultsMessage.style.fontFamily = `${config.font_family || defaultConfig.font_family}, Arial, sans-serif`;
+        noResultsMessage.style.fontSize = `${(config.font_size || defaultConfig.font_size) * 1.25}px`;
+      }
+
+      // Update colors
+      document.documentElement.style.setProperty('--primary-color', config.primary_color || defaultConfig.primary_color);
+      document.documentElement.style.setProperty('--accent-color', config.accent_color || defaultConfig.accent_color);
+      
+      const wrapper = document.getElementById('app-wrapper');
+      if (wrapper) {
+        wrapper.style.background = `linear-gradient(135deg, ${config.primary_color || defaultConfig.primary_color} 0%, ${config.secondary_color || defaultConfig.secondary_color} 50%, ${config.secondary_color || defaultConfig.secondary_color} 100%)`;
+      }
+      
+      // Re-render data cards with new config
+      if (filteredData.length > 0) {
+        renderResults(filteredData);
+      }
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities: (config) => ({
+          recolorables: [
+            {
+              get: () => config.primary_color || defaultConfig.primary_color,
+              set: (value) => {
+                config.primary_color = value;
+                window.elementSdk.setConfig({ primary_color: value });
+              }
+            },
+            {
+              get: () => config.secondary_color || defaultConfig.secondary_color,
+              set: (value) => {
+                config.secondary_color = value;
+                window.elementSdk.setConfig({ secondary_color: value });
+              }
+            },
+            {
+              get: () => config.accent_color || defaultConfig.accent_color,
+              set: (value) => {
+                config.accent_color = value;
+                window.elementSdk.setConfig({ accent_color: value });
+              }
+            },
+            {
+              get: () => config.text_color || defaultConfig.text_color,
+              set: (value) => {
+                config.text_color = value;
+                window.elementSdk.setConfig({ text_color: value });
+              }
+            },
+            {
+              get: () => config.card_background || defaultConfig.card_background,
+              set: (value) => {
+                config.card_background = value;
+                window.elementSdk.setConfig({ card_background: value });
+              }
+            }
+          ],
+          borderables: [],
+          fontEditable: {
+            get: () => config.font_family || defaultConfig.font_family,
+            set: (value) => {
+              config.font_family = value;
+              window.elementSdk.setConfig({ font_family: value });
+            }
+          },
+          fontSizeable: {
+            get: () => config.font_size || defaultConfig.font_size,
+            set: (value) => {
+              config.font_size = value;
+              window.elementSdk.setConfig({ font_size: value });
+            }
+          }
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ["app_title", config.app_title || defaultConfig.app_title],
+          ["search_placeholder", config.search_placeholder || defaultConfig.search_placeholder],
+          ["no_results_message", config.no_results_message || defaultConfig.no_results_message]
+        ])
+      });
+    }
+
+    // Show toast notification
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    // Copy to clipboard function
+    function copyToClipboard(text, label) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast(`✅ ${label} berhasil disalin: ${text}`);
+        }).catch(err => {
+          showToast(`❌ Gagal menyalin ${label}`);
+        });
+      } else {
+        // Fallback for older browsers
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-999999px';
+        textArea.style.top = '-999999px';
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        try {
+          document.execCommand('copy');
+          showToast(`✅ ${label} berhasil disalin: ${text}`);
+        } catch (err) {
+          showToast(`❌ Gagal menyalin ${label}`);
+        }
+        textArea.remove();
+      }
+    }
+
+    // Helper function to check if value is a valid age (number)
+    function isValidAge(value) {
+      if (!value) return false;
+      const str = String(value).trim();
+      return /^\d+$/.test(str) && !str.includes('http') && !str.includes('drive.google') && !str.includes('.');
+    }
+
+    // Helper function to check if value should be displayed
+    function shouldDisplay(value) {
+      if (!value) return false;
+      const upperValue = value.toString().toUpperCase();
+      return upperValue !== 'KEPALA KELUARGA' && upperValue !== '-' && value.trim() !== '';
+    }
+
+    // Helper function to check if value is a valid suku
+    function isValidSuku(value) {
+      if (!value) return false;
+      const upperValue = value.toString().toUpperCase().trim();
+      return upperValue !== 'KEPALA KELUARGA' && upperValue !== '-' && value.trim() !== '';
+    }
+
+    // Helper function to check if value is a valid name
+    function isValidName(value) {
+      if (!value) return false;
+      const str = String(value).trim().toUpperCase();
+      const invalidPatterns = [
+        'JL.', 'JALAN', 'DUSUN', 'RT', 'RW', 'HTTP', 'DRIVE.GOOGLE',
+        'KEPALA KELUARGA', 'WWW.', '.COM', 'GANG', 'GG.', 'LORONG'
+      ];
+      return !invalidPatterns.some(pattern => str.includes(pattern)) && str !== '-';
+    }
+
+    // Helper function to check if value is a valid NIK
+    function isValidNIK(value) {
+      if (!value) return false;
+      const str = String(value).trim();
+      return /^\d{16}$/.test(str);
+    }
+
+    // Helper function to check if value is a valid status
+    function isValidStatus(value) {
+      if (!value) return false;
+      const str = String(value).trim();
+      return !/^\d+$/.test(str) && str !== '-' && str.toUpperCase() !== 'KEPALA KELUARGA';
+    }
+
+    // Fetch data from Google Sheets
+    async function fetchData() {
+      try {
+        // Show loading
+        document.getElementById('loading').classList.remove('hidden');
+        document.getElementById('error').classList.add('hidden');
+        document.getElementById('no-results').classList.add('hidden');
+        
+        const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRDRbOO_8X5rXANzc17Amh_8vfA6abCro7sQJ5kZvAGNVkrvIZeO4p7UXSSgHlCVOklH5HQyVAme212/pub?gid=0&single=true&output=csv';
+        
+        const response = await fetch(csvUrl);
+        
+        if (!response.ok) {
+          throw new Error('Gagal mengakses Google Sheets. Pastikan sheet sudah dipublikasikan.');
+        }
+        
+        const csvText = await response.text();
+        
+        if (!csvText || csvText.trim().length === 0) {
+          throw new Error('Data kosong dari Google Sheets');
+        }
+        
+        const lines = csvText.split('\n').filter(line => line.trim());
+        
+        if (lines.length < 2) {
+          throw new Error('Data tidak lengkap');
+        }
+        
+        const headers = parseCSVLine(lines[0]);
+        
+        if (headers.length === 0) {
+          throw new Error('Header tidak ditemukan');
+        }
+        
+        allData = [];
+        for (let i = 1; i < lines.length; i++) {
+          const values = parseCSVLine(lines[i]);
+          
+          if (values.length > 0) {
+            const obj = {};
+            let hasData = false;
+            
+            headers.forEach((header, index) => {
+              if (header && values[index] !== undefined) {
+                const trimmedValue = values[index].trim();
+                if (trimmedValue) {
+                  obj[header] = trimmedValue;
+                  hasData = true;
+                }
+              }
+            });
+            
+            if (hasData) {
+              allData.push(obj);
+            }
+          }
+        }
+        
+        if (allData.length === 0) {
+          throw new Error('Tidak ada data valid yang ditemukan');
+        }
+        
+        // Extract unique dusun values
+        const dusunSet = new Set();
+        allData.forEach(item => {
+          if (item.dusun && item.dusun.trim() !== '') {
+            dusunSet.add(item.dusun.trim());
+          }
+        });
+        availableDusuns = Array.from(dusunSet).sort();
+        
+        filteredData = [...allData];
+        
+        // Hide loading and show results
+        document.getElementById('loading').classList.add('hidden');
+        renderDusunFilters();
+        updateStats();
+        renderResults(filteredData);
+        
+        showToast(`✅ Berhasil memuat ${allData.length} data penduduk!`);
+        
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        document.getElementById('loading').classList.add('hidden');
+        document.getElementById('error').classList.remove('hidden');
+        document.getElementById('error-message').textContent = error.message || 'Gagal memuat data dari Google Sheets';
+      }
+    }
+    
+    // Parse CSV line
+    function parseCSVLine(line) {
+      const result = [];
+      let current = '';
+      let inQuotes = false;
+      
+      for (let i = 0; i < line.length; i++) {
+        const char = line[i];
+        
+        if (char === '"') {
+          if (inQuotes && line[i + 1] === '"') {
+            current += '"';
+            i++;
+          } else {
+            inQuotes = !inQuotes;
+          }
+        } else if (char === ',' && !inQuotes) {
+          result.push(current.trim());
+          current = '';
+        } else {
+          current += char;
+        }
+      }
+      
+      result.push(current.trim());
+      return result;
+    }
+
+    // Get photo URL
+    function getPhotoUrl(url) {
+      if (!url) return '';
+      
+      const cleanUrl = url.trim().replace(/^["']|["']$/g, '');
+      
+      if (cleanUrl.includes('cloudinary.com')) {
+        return cleanUrl;
+      }
+      
+      if (cleanUrl.includes('drive.google.com')) {
+        const match = cleanUrl.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+        if (match) {
+          const fileId = match[1].split('?')[0].split('&')[0].split('/')[0];
+          return `https://drive.google.com/uc?export=view&id=${fileId}`;
+        }
+      }
+      
+      return cleanUrl;
+    }
+
+    // Render dusun filters
+    function renderDusunFilters() {
+      const container = document.getElementById('dusun-filters');
+      
+      const allButton = document.createElement('button');
+      allButton.textContent = '🏘️ Semua Dusun';
+      allButton.className = 'dusun-filter-btn active';
+      allButton.onclick = () => selectDusun(null);
+      
+      container.innerHTML = '';
+      container.appendChild(allButton);
+      
+      availableDusuns.forEach(dusun => {
+        const button = document.createElement('button');
+        button.textContent = `🏘️ ${dusun}`;
+        button.className = 'dusun-filter-btn';
+        button.onclick = () => selectDusun(dusun);
+        container.appendChild(button);
+      });
+    }
+
+    // Select dusun filter
+    function selectDusun(dusun) {
+      selectedDusun = dusun;
+      
+      // Update button states
+      document.querySelectorAll('.dusun-filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      event.target.classList.add('active');
+      
+      // Update badge
+      const badge = document.getElementById('dusun-badge');
+      const selectedDusunSpan = document.getElementById('selected-dusun');
+      
+      if (dusun) {
+        badge.style.display = 'block';
+        selectedDusunSpan.textContent = dusun;
+      } else {
+        badge.style.display = 'none';
+      }
+      
+      // Apply filter
+      performSearch();
+    }
+
+    // Export to PDF
+    async function exportToPDF(dusunName = null) {
+      try {
+        const exportBtn = document.getElementById('export-pdf-btn');
+        const pdfMenuOverlay = document.getElementById('pdf-menu-overlay');
+        
+        // Close menu if open
+        if (pdfMenuOverlay) {
+          pdfMenuOverlay.classList.remove('active');
+        }
+        
+        exportBtn.disabled = true;
+        exportBtn.innerHTML = '⏳ Membuat PDF...';
+        
+        // Import jsPDF
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF('p', 'mm', 'a4');
+        
+        // Filter data based on dusun
+        let dataToExport = allData;
+        let title = 'Data Penduduk - Semua Dusun';
+        
+        if (dusunName) {
+          dataToExport = allData.filter(item => item.dusun === dusunName);
+          title = `Data Penduduk Dusun ${dusunName}`;
+        }
+        
+        // Title
+        doc.setFontSize(18);
+        doc.setFont(undefined, 'bold');
+        doc.text(title, 14, 20);
+        
+        // Date
+        doc.setFontSize(10);
+        doc.setFont(undefined, 'normal');
+        const date = new Date().toLocaleDateString('id-ID', { 
+          year: 'numeric', 
+          month: 'long', 
+          day: 'numeric' 
+        });
+        doc.text(`Tanggal: ${date}`, 14, 28);
+        
+        // Stats
+        doc.text(`Total Data: ${dataToExport.length}`, 14, 34);
+        
+        // Table data
+        const tableData = dataToExport.map((item, index) => [
+          index + 1,
+          item.nama || '-',
+          item.nik || '-',
+          item['Jenis Kelamin'] || '-',
+          item.tempatlahir || '-',
+          item.tanggallahir || '-',
+          item.dusun || '-',
+          item.alamat || '-'
+        ]);
+        
+        // Generate table
+        doc.autoTable({
+          startY: 40,
+          head: [['No', 'Nama', 'NIK', 'JK', 'Tempat Lahir', 'Tanggal Lahir', 'Dusun', 'Alamat']],
+          body: tableData,
+          theme: 'grid',
+          headStyles: {
+            fillColor: [139, 0, 0],
+            textColor: [255, 215, 0],
+            fontStyle: 'bold',
+            halign: 'center'
+          },
+          styles: {
+            fontSize: 8,
+            cellPadding: 2
+          },
+          columnStyles: {
+            0: { cellWidth: 10, halign: 'center' },
+            1: { cellWidth: 35 },
+            2: { cellWidth: 35 },
+            3: { cellWidth: 15, halign: 'center' },
+            4: { cellWidth: 25 },
+            5: { cellWidth: 25 },
+            6: { cellWidth: 20 },
+            7: { cellWidth: 30 }
+          },
+          alternateRowStyles: {
+            fillColor: [245, 245, 245]
+          }
+        });
+        
+        // Footer
+        const pageCount = doc.internal.getNumberOfPages();
+        for (let i = 1; i <= pageCount; i++) {
+          doc.setPage(i);
+          doc.setFontSize(8);
+          doc.text(
+            `Halaman ${i} dari ${pageCount}`,
+            doc.internal.pageSize.getWidth() / 2,
+            doc.internal.pageSize.getHeight() - 10,
+            { align: 'center' }
+          );
+        }
+        
+        // Save PDF
+        const filename = dusunName 
+          ? `Data_Penduduk_${dusunName.replace(/\s+/g, '_')}_${Date.now()}.pdf`
+          : `Data_Penduduk_Semua_${Date.now()}.pdf`;
+        
+        doc.save(filename);
+        
+        showToast('✅ PDF berhasil diunduh!');
+        
+      } catch (error) {
+        console.error('Error generating PDF:', error);
+        showToast('❌ Gagal membuat PDF');
+      } finally {
+        const exportBtn = document.getElementById('export-pdf-btn');
+        exportBtn.disabled = false;
+        exportBtn.innerHTML = '📄 Export PDF';
+      }
+    }
+
+    // Show PDF Menu
+    function showPDFMenu() {
+      const menuOverlay = document.getElementById('pdf-menu-overlay');
+      const menuOptions = document.getElementById('pdf-menu-options');
+      
+      // Build menu options
+      let optionsHTML = '';
+      
+      // Option for all data
+      const allDataCount = allData.length;
+      optionsHTML += `
+        <div class="pdf-menu-option" onclick="exportToPDF(null)">
+          <div class="pdf-menu-option-label">
+            <span>🏘️</span>
+            <span>Semua Dusun</span>
+          </div>
+          <div class="pdf-menu-option-count">${allDataCount} data</div>
+        </div>
+      `;
+      
+      // Options for each dusun
+      availableDusuns.forEach(dusun => {
+        const dusunCount = allData.filter(item => item.dusun === dusun).length;
+        optionsHTML += `
+          <div class="pdf-menu-option" onclick="exportToPDF('${dusun.replace(/'/g, "\\'")}')">
+            <div class="pdf-menu-option-label">
+              <span>🏘️</span>
+              <span>Dusun ${dusun}</span>
+            </div>
+            <div class="pdf-menu-option-count">${dusunCount} data</div>
+          </div>
+        `;
+      });
+      
+      menuOptions.innerHTML = optionsHTML;
+      menuOverlay.classList.add('active');
+    }
+
+    // Close PDF Menu
+    function closePDFMenu() {
+      const menuOverlay = document.getElementById('pdf-menu-overlay');
+      menuOverlay.classList.remove('active');
+    }
+
+    // Share to WhatsApp function
+    function shareToWhatsApp(item) {
+      const name = item.nama || 'Data Penduduk';
+      const nik = item.nik || '-';
+      const noKK = item.no_kk || '-';
+      const jk = item['Jenis Kelamin'] || '-';
+      const ttl = item.tempatlahir && item.tanggallahir ? `${item.tempatlahir}, ${item.tanggallahir}` : '-';
+      const dusun = item.dusun || '-';
+      const alamat = item.alamat || '-';
+      
+      let message = `━━━━━━━━━━━━━━━━━━━━━\n`;
+      message += `*DATA PENDUDUK*\n`;
+      message += `━━━━━━━━━━━━━━━━━━━━━\n\n`;
+      
+      message += `*IDENTITAS*\n`;
+      message += `• Nama: ${name}\n`;
+      message += `• NIK: ${nik}\n`;
+      message += `• No. KK: ${noKK}\n`;
+      message += `• Jenis Kelamin: ${jk}\n`;
+      message += `• TTL: ${ttl}\n\n`;
+      
+      message += `*LOKASI*\n`;
+      message += `• Dusun: ${dusun}\n`;
+      message += `• Alamat: ${alamat}\n\n`;
+      
+      if (item.agama || item.pekerjaan_id || item.pendidikan_kk_id) {
+        message += `*DATA LAINNYA*\n`;
+        if (item.agama) {
+          message += `• Agama: ${item.agama}\n`;
+        }
+        if (item.pekerjaan_id) {
+          message += `• Pekerjaan: ${item.pekerjaan_id}\n`;
+        }
+        if (item.pendidikan_kk_id) {
+          message += `• Pendidikan: ${item.pendidikan_kk_id}\n`;
+        }
+        message += `\n`;
+      }
+      
+      message += `━━━━━━━━━━━━━━━━━━━━━\n`;
+      message += `_Data dikelola oleh Syam Digital_\n\n`;
+      message += `*Info Selengkapnya:*\n`;
+      message += `https://syam.digital/appdemo`;
+      
+      const encodedMessage = encodeURIComponent(message);
+      const whatsappUrl = `https://wa.me/?text=${encodedMessage}`;
+      
+      window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+      showToast('📱 Membuka WhatsApp...');
+    }
+
+    // Show modal with detail data
+    function showDetailModal(item) {
+      const modal = document.getElementById('detail-modal');
+      const modalContent = document.getElementById('modal-detail-content');
+      
+      const config = window.elementSdk?.config || defaultConfig;
+      const baseSize = config.font_size || defaultConfig.font_size;
+      const fontFamily = `${config.font_family || defaultConfig.font_family}, Arial, sans-serif`;
+      
+      const photoUrl = getPhotoUrl(item.foto);
+      
+      modalContent.innerHTML = `
+        <!-- Identity Section with Photo -->
+        <div class="detail-section">
+          <div class="detail-section-title" style="font-family: ${fontFamily}">
+            <span>👤</span> Data Identitas
+          </div>
+          <div class="photo-identity-wrapper">
+            ${photoUrl ? `
+            <div class="photo-container">
+              <img 
+                src="${photoUrl}" 
+                alt="Foto ${item.nama || 'Penduduk'}" 
+                class="photo-img"
+                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+              >
+              <div class="photo-placeholder" style="display: none;">
+                <span style="font-size: 3rem;">👤</span>
+                <span style="color: #8B0000; font-size: 0.75rem; margin-top: 0.5rem;">Foto tidak tersedia</span>
+              </div>
+            </div>
+            ` : `
+            <div class="photo-container">
+              <div class="photo-placeholder">
+                <span style="font-size: 3rem;">👤</span>
+                <span style="color: #8B0000; font-size: 0.75rem; margin-top: 0.5rem;">Foto tidak tersedia</span>
+              </div>
+            </div>
+            `}
+            <div style="flex: 1;">
+              <div class="detail-row">
+                ${item.nama ? `<div class="detail-item"><div class="detail-label" style="font-family: ${fontFamily}; font-size: ${baseSize * 0.75}px">Nama Lengkap</div><div class="detail-value" style="font-family: ${fontFamily}; font-size: ${baseSize}px">${item.nama}</div></div>` : ''}
+                ${item.nik ? `<div class="detail-item">
+                  <div class="detail-label" style="font-family: ${fontFamily}; font-size: ${baseSize * 0.75}px">NIK</div>
+                  <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: space-between;">
+                    <div class="detail-value" style="font-family: ${fontFamily}; font-size: ${baseSize}px">${item.nik}</div>
+                    <button onclick="copyToClipboard('${item.nik}', 'NIK')" style="background: #8B0000; color: white; border: none; padding: 0.4rem 0.8rem; border-radius: 0.5rem; cursor: pointer; font-size: 0.75rem; font-weight: 600; transition: all 0.3s ease; flex-shrink: 0;" onmouseover="this.style.background='#a00000'" onmouseout="this.style.background='#8B0000'">
+                      📋 Salin
+                    </button>
+                  </div>
+                </div>` : ''}
+              </div>
+              <div class="detail-row">
+                ${item.no_kk ? `<div class="detail-item">
+                  <div class="detail-label" style="font-family: ${fontFamily}; font-size: ${baseSize * 0.75}px">No. KK</div>
+                  <div style="display: flex; align-items: center; gap: 0.5rem; justify-content: space-between;">
+                    <div class="detail-value" style="font-family: ${fontFamily}; font-size: ${baseSize}px">${item.no_kk}</div>
+                    <button onclick="copyToClipboard('${item.no_kk}', 'No. KK')" style="background: #8B0000; color: white; border: none; padding: 0.4rem 0.8rem; border-radius: 0.5rem; cursor: pointer; font-size: 0.75rem; font-weight: 600; transition: all 0.3s ease; flex-shrink: 0;" onmouseover="this.style.background='#a00000'" onmouseout="this.style.background='#8B0000'">
+                      📋 Salin
+                    </button>
+                  </div>
+                </div>` : ''}
+                ${item['Jenis Kelamin'] ? `<div class="detail-item"><div class="detail-label" style="font-family: ${fontFamily}; font-size: ${baseSize * 0.75}px">Jenis Kelamin</div><div class="detail-value" style="font-family: ${fontFamily}; font-size: ${baseSize}px">${item['Jenis Kelamin']}</div></div>` : ''}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Birth Info Section -->
+        <div class="detail-section">
+          <div class="detail-section-title" style="font-family: ${fontFamily}">
+            <span>🎂</span> Data Kelahiran
+          </div>
+          ${(item.tempatlahir && item.tanggallahir) ? `
+          <div class="detail-row">
+            <div class="detail-item" style="grid-column: 1 / -1;">
+              <div class="detail-label" style="font-family: ${fontFamily}; font-size: ${baseSize * 0.75}px">Tempat, Tanggal Lahir</div>
+              <div class="detail-value" style="font-family: ${fontFamily}; font-size: ${baseSize}px">${item.tempatlahir}, ${item.tanggallahir}</div>
+            </div>
+          </div>
+          ` : `
+          <div class="detail-row">
+            ${item.tempatlahir ? `<div class="detail-item"><div class="detail-label" style="font-family: ${fontFamily}; font-size: ${baseSize * 0.75}px">Tempat Lahir</div><div class="detail-value" style="font-family: ${fontFamily}; font-size: ${baseSize}px">${item.tempatlahir}</div></div>` : ''}
+            ${item.tanggallahir ? `<div class="detail-item"><div class="detail-label" style="font-family: ${fontFamily}; font-size: ${baseSize * 0.75}px">Tanggal Lahir</div><div class="detail-value" style="font-family: ${fontFamily}; font-size: ${baseSize}px">${item.tanggallahir}</div></div>` : ''}
+          </div>
+          `}
+          <div class="detail-row">
+            ${item.agama ? `<div class="detail-item"><div class="detail-label" style="font-family: ${fontFamily}; font-size: ${baseSize * 0.75}px">Agama</div><div class="detail-value" style="font-family: ${fontFamily}; font-size: ${baseSize}px">${item.agama}</div></div>` : ''}
+            ${item.Umur && isValidAge(item.Umur) ? `<div class="detail-item"><div class="detail-label" style="font-family: ${fontFamily}; font-size: ${baseSize * 0.75}px">Umur</div><div class="detail-value" style="font-family: ${fontFamily}; font-size: ${baseSize}px">${item.Umur} Tahun</div></div>` : ''}
+          </div>
+        </div>
+
+        <!-- Address Section -->
+        <div class="detail-section">
+          <div class="detail-section-title" style="font-family: ${fontFamily}">
+            <span>🏠</span> Alamat & Lokasi
+          </div>
+          <div class="detail-row">
+            ${item.dusun ? `<div class="detail-item"><div class="detail-label" style="font-family: ${fontFamily}; font-size: ${baseSize * 0.75}px">Dusun</div><div class="detail-value" style="font-family: ${fontFamily}; font-size: ${baseSize}px">${item.dusun}</div></div>` : ''}
+            ${item.suku && isValidSuku(item.suku) ? `<div class="detail-item"><div class="detail-label" style="font-family: ${fontFamily}; font-size: ${baseSize * 0.75}px">Suku</div><div class="detail-value" style="font-family: ${fontFamily}; font-size: ${baseSize}px">${item.suku}</div></div>` : ''}
+          </div>
+          ${shouldDisplay(item.alamat) ? `<div class="detail-row"><div class="detail-item" style="grid-column: 1 / -1;"><div class="detail-label" style="font-family: ${fontFamily}; font-size: ${baseSize * 0.75}px">Alamat Lengkap</div><div class="detail-value" style="font-family: ${fontFamily}; font-size: ${baseSize}px">${item.alamat}</div></div></div>` : ''}
+        </div>
+
+        <!-- Additional Info Section -->
+        <div class="detail-section">
+          <div class="detail-section-title" style="font-family: ${fontFamily}">
+            <span>ℹ️</span> Informasi Lainnya
+          </div>
+          <div class="detail-row">
+            ${item.pendidikan_kk_id ? `<div class="detail-item"><div class="detail-label" style="font-family: ${fontFamily}; font-size: ${baseSize * 0.75}px">Pendidikan</div><div class="detail-value" style="font-family: ${fontFamily}; font-size: ${baseSize}px">${item.pendidikan_kk_id}</div></div>` : ''}
+            ${item.pekerjaan_id ? `<div class="detail-item"><div class="detail-label" style="font-family: ${fontFamily}; font-size: ${baseSize * 0.75}px">Pekerjaan</div><div class="detail-value" style="font-family: ${fontFamily}; font-size: ${baseSize}px">${item.pekerjaan_id}</div></div>` : ''}
+          </div>
+          <div class="detail-row">
+            ${item.status_kawin ? `<div class="detail-item"><div class="detail-label" style="font-family: ${fontFamily}; font-size: ${baseSize * 0.75}px">Status Kawin</div><div class="detail-value" style="font-family: ${fontFamily}; font-size: ${baseSize}px">${item.status_kawin}</div></div>` : ''}
+            ${item.warganegara_id ? `<div class="detail-item"><div class="detail-label" style="font-family: ${fontFamily}; font-size: ${baseSize * 0.75}px">Kewarganegaraan</div><div class="detail-value" style="font-family: ${fontFamily}; font-size: ${baseSize}px">${item.warganegara_id}</div></div>` : ''}
+          </div>
+          ${item.status && isValidStatus(item.status) ? `<div class="detail-row"><div class="detail-item" style="grid-column: 1 / -1;"><div class="detail-label" style="font-family: ${fontFamily}; font-size: ${baseSize * 0.75}px">Status</div><div class="detail-value" style="font-family: ${fontFamily}; font-size: ${baseSize}px">${item.status}</div></div></div>` : ''}
+        </div>
+
+        <!-- Parent Info Section -->
+        ${(item['NIK Ayah'] || item['Nama Ayah'] || item['NIK Ibu'] || item['Nama Ibu']) ? `
+        <div class="detail-section">
+          <div class="detail-section-title" style="font-family: ${fontFamily}">
+            <span>👪</span> Data Orang Tua
+          </div>
+          <div class="detail-row">
+            ${item['Nama Ayah'] && isValidName(item['Nama Ayah']) ? `<div class="detail-item"><div class="detail-label" style="font-family: ${fontFamily}; font-size: ${baseSize * 0.75}px">Nama Ayah</div><div class="detail-value" style="font-family: ${fontFamily}; font-size: ${baseSize}px">${item['Nama Ayah']}</div></div>` : ''}
+            ${item['NIK Ayah'] && isValidNIK(item['NIK Ayah']) ? `<div class="detail-item"><div class="detail-label" style="font-family: ${fontFamily}; font-size: ${baseSize * 0.75}px">NIK Ayah</div><div class="detail-value" style="font-family: ${fontFamily}; font-size: ${baseSize}px">${item['NIK Ayah']}</div></div>` : ''}
+          </div>
+          <div class="detail-row">
+            ${item['Nama Ibu'] && isValidName(item['Nama Ibu']) ? `<div class="detail-item"><div class="detail-label" style="font-family: ${fontFamily}; font-size: ${baseSize * 0.75}px">Nama Ibu</div><div class="detail-value" style="font-family: ${fontFamily}; font-size: ${baseSize}px">${item['Nama Ibu']}</div></div>` : ''}
+            ${item['NIK Ibu'] && isValidNIK(item['NIK Ibu']) ? `<div class="detail-item"><div class="detail-label" style="font-family: ${fontFamily}; font-size: ${baseSize * 0.75}px">NIK Ibu</div><div class="detail-value" style="font-family: ${fontFamily}; font-size: ${baseSize}px">${item['NIK Ibu']}</div></div>` : ''}
+          </div>
+        </div>
+        ` : ''}
+      `;
+      
+      modal.classList.add('active');
+      
+      // Add WhatsApp button event listener
+      const whatsappBtn = document.getElementById('share-whatsapp-btn');
+      if (whatsappBtn) {
+        whatsappBtn.onclick = () => shareToWhatsApp(item);
+      }
+    }
+
+    // Close modal
+    function closeModal() {
+      const modal = document.getElementById('detail-modal');
+      modal.classList.remove('active');
+    }
+
+    // Search functionality
+    function performSearch() {
+      const query = document.getElementById('search-input').value.toLowerCase().trim();
+      
+      // Start with all data or filtered by dusun
+      let dataToFilter = allData;
+      
+      if (selectedDusun) {
+        dataToFilter = allData.filter(item => item.dusun === selectedDusun);
+      }
+      
+      // Apply search query
+      if (!query) {
+        filteredData = [...dataToFilter];
+      } else {
+        filteredData = dataToFilter.filter(item => {
+          return Object.values(item).some(value => 
+            String(value).toLowerCase().includes(query)
+          );
+        });
+      }
+      
+      updateStats();
+      renderResults(filteredData);
+    }
+
+    // Update statistics
+    function updateStats() {
+      document.getElementById('total-count').textContent = allData.length;
+      document.getElementById('displayed-count').textContent = filteredData.length;
+    }
+
+    // Render results
+    function renderResults(data) {
+      const resultsContainer = document.getElementById('results');
+      const noResults = document.getElementById('no-results');
+      
+      if (data.length === 0) {
+        resultsContainer.innerHTML = '';
+        noResults.classList.remove('hidden');
+        return;
+      }
+      
+      noResults.classList.add('hidden');
+      
+      const config = window.elementSdk?.config || defaultConfig;
+      const baseSize = config.font_size || defaultConfig.font_size;
+      const fontFamily = `${config.font_family || defaultConfig.font_family}, Arial, sans-serif`;
+      
+      resultsContainer.innerHTML = data.map((item, index) => {
+        const fieldMap = {
+          'nama': '👤 Nama Lengkap',
+          'nik': '🆔 NIK',
+          'no_kk': '👨‍👩‍👧‍👦 No. KK',
+          'Jenis Kelamin': '⚧ Jenis Kelamin',
+          'tempatlahir': '📍 Tempat Lahir',
+          'tanggallahir': '📅 Tanggal Lahir',
+          'agama': '🕌 Agama',
+          'dusun': '🏘️ Dusun',
+          'pendidikan_kk_id': '🎓 Pendidikan',
+          'pekerjaan_id': '💼 Pekerjaan',
+          'status_kawin': '💑 Status Kawin',
+          'warganegara_id': '🌍 Kewarganegaraan',
+          'status': '📋 Status',
+          'alamat': '🏠 Alamat',
+          'Umur': '🎂 Umur',
+          'suku': '🎭 Suku'
+        };
+        
+        const priorityFields = ['nama', 'nik', 'no_kk', 'Jenis Kelamin', 'tempatlahir', 'tanggallahir', 'agama', 'dusun'];
+        
+        const mainFields = [];
+        
+        Object.entries(item).forEach(([key, value]) => {
+          if (!value || key === 'foto') return;
+          
+          if (priorityFields.includes(key)) {
+            mainFields.push([key, value]);
+          }
+        });
+        
+        mainFields.sort((a, b) => priorityFields.indexOf(a[0]) - priorityFields.indexOf(b[0]));
+        
+        const renderField = ([key, value]) => {
+          const displayName = fieldMap[key] || key;
+          return `
+            <div class="border-l-2 border-yellow-500 pl-3">
+              <div class="text-gray-400 text-xs uppercase tracking-wide" style="font-family: ${fontFamily}; font-size: ${baseSize * 0.75}px">${displayName}</div>
+              <div class="text-white font-medium mt-1" style="font-family: ${fontFamily}; font-size: ${baseSize}px">${value}</div>
+            </div>
+          `;
+        };
+        
+        const cardPhotoUrl = getPhotoUrl(item.foto);
+        
+        return `
+          <div class="data-card rounded-xl p-6 transform transition-all duration-300" data-item='${JSON.stringify(item).replace(/'/g, "&apos;")}'>
+            <div class="flex items-center justify-between mb-4 pb-4 border-b border-yellow-500 border-opacity-30">
+              <div class="flex items-center gap-3">
+                ${cardPhotoUrl ? `
+                <div style="width: 50px; height: 50px; flex-shrink: 0;">
+                  <img 
+                    src="${cardPhotoUrl}" 
+                    alt="Foto ${item.nama || 'Penduduk'}" 
+                    style="width: 100%; height: 100%; object-fit: cover; border: 2px solid #FFD700; border-radius: 0.5rem;"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                  >
+                  <div style="width: 100%; height: 100%; background: rgba(139, 0, 0, 0.3); border: 2px solid #FFD700; border-radius: 0.5rem; display: none; align-items: center; justify-content: center; font-size: 1.5rem;">👤</div>
+                </div>
+                ` : `
+                <div class="text-4xl">👤</div>
+                `}
+                <div>
+                  <div class="text-yellow-400 font-bold text-xl" style="font-family: ${fontFamily}">${item.nama || 'Nama tidak tersedia'}</div>
+                  <div class="text-gray-400 text-sm" style="font-family: ${fontFamily}">${item.nik || '-'}</div>
+                </div>
+              </div>
+              <span class="stats-badge text-white">#${index + 1}</span>
+            </div>
+            
+            <div class="space-y-3 mb-4">
+              ${mainFields.slice(0, 4).map(renderField).join('')}
+            </div>
+            
+            <div class="text-center mt-4 pt-4 border-t border-yellow-500 border-opacity-20">
+              <span class="text-yellow-400 text-sm font-semibold">Klik untuk lihat detail lengkap 👁️</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+      
+      document.querySelectorAll('.data-card').forEach(card => {
+        card.addEventListener('click', () => {
+          const itemData = JSON.parse(card.getAttribute('data-item'));
+          showDetailModal(itemData);
+        });
+      });
+    }
+
+    // Event listeners
+    document.getElementById('search-btn').addEventListener('click', performSearch);
+    document.getElementById('search-input').addEventListener('keyup', (e) => {
+      if (e.key === 'Enter') {
+        performSearch();
+      }
+    });
+
+    document.getElementById('search-input').addEventListener('input', () => {
+      clearTimeout(window.searchTimeout);
+      window.searchTimeout = setTimeout(performSearch, 300);
+    });
+
+    document.getElementById('export-pdf-btn').addEventListener('click', showPDFMenu);
+    
+    document.getElementById('close-pdf-menu').addEventListener('click', closePDFMenu);
+    document.getElementById('pdf-menu-overlay').addEventListener('click', (e) => {
+      if (e.target.id === 'pdf-menu-overlay') {
+        closePDFMenu();
+      }
+    });
+
+    document.getElementById('close-modal').addEventListener('click', closeModal);
+    document.getElementById('detail-modal').addEventListener('click', (e) => {
+      if (e.target.id === 'detail-modal') {
+        closeModal();
+      }
+    });
+
+    // Scroll to Top Button
+    const scrollToTopBtn = document.getElementById('scroll-to-top');
+    const appWrapper = document.getElementById('app-wrapper');
+    
+    // Show/hide button based on scroll position
+    appWrapper.addEventListener('scroll', () => {
+      if (appWrapper.scrollTop > 300) {
+        scrollToTopBtn.classList.add('show');
+      } else {
+        scrollToTopBtn.classList.remove('show');
+      }
+    });
+    
+    // Scroll to top when clicked
+    scrollToTopBtn.addEventListener('click', () => {
+      appWrapper.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+
+    // Data will be loaded after successful login, not on page load
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b815338378dcde6',t:'MTc2NzQzMTAyOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

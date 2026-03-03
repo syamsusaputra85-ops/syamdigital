@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Viewer - Tampilan Menarik</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .pdf-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .pdf-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 25px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            position: relative;
+            min-height: 80px;
+        }
+
+        .pdf-title {
+            font-size: 24px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .pdf-title::before {
+            content: "📄";
+            font-size: 28px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .logo-text {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 3s ease-in-out infinite;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+            letter-spacing: 2px;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: logoFloat 2s ease-in-out infinite;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-icon::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: rotate(45deg);
+            animation: logoShine 3s linear infinite;
+        }
+
+        .logo-icon svg {
+            width: 28px;
+            height: 28px;
+            fill: white;
+            z-index: 2;
+            position: relative;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        @keyframes logoFloat {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-8px) rotate(5deg);
+            }
+        }
+
+        @keyframes logoShine {
+            0% {
+                transform: translateX(-100%) translateY(-100%) rotate(45deg);
+            }
+            100% {
+                transform: translateX(100%) translateY(100%) rotate(45deg);
+            }
+        }
+
+        .logo-subtitle {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+            letter-spacing: 1px;
+            margin-top: 2px;
+        }
+
+        .pdf-controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .control-btn {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .control-btn:hover {
+            background: rgba(255,255,255,0.3);
+            border-color: rgba(255,255,255,0.5);
+            transform: translateY(-2px);
+        }
+
+        .control-btn:disabled {
+            background: rgba(255,255,255,0.1);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .pdf-viewer {
+            padding: 30px;
+            background: #f8f9fa;
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .upload-area {
+            width: 100%;
+            max-width: 600px;
+            height: 300px;
+            border: 3px dashed #667eea;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+        }
+
+        .upload-area:hover {
+            border-color: #764ba2;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            transform: translateY(-5px);
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            color: #667eea;
+        }
+
+        .upload-text {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+            text-align: center;
+        }
+
+        .upload-subtext {
+            font-size: 14px;
+            color: #7f8c8d;
+            text-align: center;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .pdf-canvas-container {
+            width: 100%;
+            max-width: 1000px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            padding: 30px;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .pdf-canvas {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            max-width: 100%;
+            height: auto;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .navigation {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .nav-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .page-info {
+            background: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: 2px solid #ecf0f1;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .zoom-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .zoom-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .zoom-btn:hover {
+            background: #2980b9;
+            transform: scale(1.1);
+        }
+
+        .zoom-level {
+            background: white;
+            padding: 8px 15px;
+            border-radius: 8px;
+            border: 2px solid #ecf0f1;
+            font-weight: 600;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .file-info {
+            background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 100%);
+            border: 2px solid #27ae60;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            display: none;
+            align-items: center;
+            gap: 15px;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .file-icon {
+            font-size: 32px;
+        }
+
+        .file-details {
+            flex: 1;
+        }
+
+        .file-name {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .file-size {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .pdf-header {
+                flex-direction: column;
+                text-align: center;
+                padding: 20px 15px;
+            }
+
+            .pdf-title {
+                font-size: 18px;
+                order: 3;
+            }
+
+            .logo-container {
+                position: static;
+                transform: none;
+                order: 1;
+                margin-bottom: 10px;
+            }
+
+            .logo-text {
+                font-size: 24px;
+            }
+
+            .pdf-controls {
+                justify-content: center;
+                order: 2;
+                margin-bottom: 10px;
+            }
+
+            .navigation {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .pdf-viewer {
+                padding: 20px 15px;
+            }
+
+            .pdf-canvas-container {
+                padding: 10px;
+            }
+        }
+
+        .loading {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            padding: 40px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #ecf0f1;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .success-message {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .error-message {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .page-input {
+            width: 60px;
+            padding: 5px;
+            border: 2px solid #ecf0f1;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="pdf-container">
+        <div class="pdf-header">
+            <div class="pdf-title">
+                PDF Viewer Modern
+            </div>
+            
+            <div class="logo-container">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 2L2 7V17L12 22L22 17V7L12 2M12 4.44L19.55 8.5L12 12.56L4.45 8.5L12 4.44M4 10.95L11 15.35V19.65L4 15.25V10.95M20 10.95V15.25L13 19.65V15.35L20 10.95Z"/>
+                    </svg>
+                </div>
+                <div>
+                    <div class="logo-text">SYAM DIGITAL</div>
+                    <div class="logo-subtitle">PDF SOLUTIONS</div>
+                </div>
+            </div>
+            
+            <div class="pdf-controls">
+                <button class="control-btn" id="downloadBtn" onclick="downloadPDF()" disabled>
+                    📥 Download
+                </button>
+                <button class="control-btn" id="printBtn" onclick="printPDF()" disabled>
+                    🖨️ Print
+                </button>
+                <button class="control-btn" onclick="resetViewer()">
+                    🔄 Reset
+                </button>
+            </div>
+        </div>
+
+        <div class="pdf-viewer">
+            <div class="success-message" id="successMessage">
+                ✅ PDF berhasil dimuat!
+            </div>
+
+            <div class="error-message" id="errorMessage">
+                ❌ Terjadi kesalahan saat memuat PDF
+            </div>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <div>Memuat PDF...</div>
+            </div>
+
+            <div class="upload-area" id="uploadArea" onclick="document.getElementById('fileInput').click()">
+                <div class="upload-icon">📁</div>
+                <div class="upload-text">Klik untuk memilih file PDF</div>
+                <div class="upload-subtext">Atau drag & drop file PDF di sini<br>Format yang didukung: .pdf (maksimal 10MB)</div>
+                <input type="file" id="fileInput" class="file-input" accept=".pdf" onchange="loadPDF(event)">
+            </div>
+
+            <div class="file-info" id="fileInfo">
+                <div class="file-icon">📄</div>
+                <div class="file-details">
+                    <div class="file-name" id="fileName">document.pdf</div>
+                    <div class="file-size" id="fileSize">0 KB</div>
+                </div>
+            </div>
+
+            <div class="pdf-canvas-container" id="pdfCanvasContainer">
+                <canvas id="pdfCanvas" class="pdf-canvas"></canvas>
+            </div>
+
+            <div class="navigation" id="navigation" style="display: none;">
+                <button class="nav-btn" id="prevBtn" onclick="previousPage()">
+                    ← Sebelumnya
+                </button>
+                
+                <div class="page-info">
+                    <input type="number" id="pageInput" class="page-input" min="1" onchange="goToPage()" value="1">
+                    dari <span id="totalPages">1</span>
+                </div>
+                
+                <button class="nav-btn" id="nextBtn" onclick="nextPage()">
+                    Selanjutnya →
+                </button>
+                
+                <div class="zoom-controls">
+                    <button class="zoom-btn" onclick="zoomOut()">-</button>
+                    <div class="zoom-level" id="zoomLevel">100%</div>
+                    <button class="zoom-btn" onclick="zoomIn()">+</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Set PDF.js worker
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+        let currentPDF = null;
+        let currentPage = 1;
+        let totalPages = 1;
+        let zoomLevel = 1.0;
+        let currentFile = null;
+        let pdfDoc = null;
+
+        // Drag and drop functionality
+        const uploadArea = document.getElementById('uploadArea');
+        
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = '#764ba2';
+            uploadArea.style.background = 'linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%)';
+        });
+
+        uploadArea.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = '#667eea';
+            uploadArea.style.background = 'linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%)';
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = '#667eea';
+            uploadArea.style.background = 'linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%)';
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0 && files[0].type === 'application/pdf') {
+                loadPDFFile(files[0]);
+            } else {
+                showError('File harus berformat PDF!');
+            }
+        });
+
+        function loadPDF(event) {
+            const file = event.target.files[0];
+            if (file && file.type === 'application/pdf') {
+                if (file.size > 10 * 1024 * 1024) { // 10MB limit
+                    showError('File terlalu besar! Maksimal 10MB');
+                    return;
+                }
+                loadPDFFile(file);
+            } else {
+                showError('File harus berformat PDF!');
+            }
+        }
+
+        async function loadPDFFile(file) {
+            const loading = document.getElementById('loading');
+            const uploadArea = document.getElementById('uploadArea');
+            const pdfCanvasContainer = document.getElementById('pdfCanvasContainer');
+            const navigation = document.getElementById('navigation');
+            const fileInfo = document.getElementById('fileInfo');
+            const fileName = document.getElementById('fileName');
+            const fileSize = document.getElementById('fileSize');
+
+            currentFile = file;
+
+            // Show loading
+            loading.style.display = 'flex';
+            uploadArea.style.display = 'none';
+            hideMessages();
+
+            // Update file info
+            fileName.textContent = file.name;
+            fileSize.textContent = formatFileSize(file.size);
+
+            try {
+                // Read file as array buffer
+                const arrayBuffer = await file.arrayBuffer();
+                
+                // Load PDF document
+                pdfDoc = await pdfjsLib.getDocument(arrayBuffer).promise;
+                totalPages = pdfDoc.numPages;
+                currentPage = 1;
+
+                // Update UI
+                document.getElementById('totalPages').textContent = totalPages;
+                document.getElementById('pageInput').max = totalPages;
+                document.getElementById('pageInput').value = currentPage;
+
+                // Render first page
+                await renderPage(currentPage);
+
+                // Show PDF
+                loading.style.display = 'none';
+                fileInfo.style.display = 'flex';
+                pdfCanvasContainer.style.display = 'flex';
+                navigation.style.display = 'flex';
+                
+                // Enable control buttons
+                document.getElementById('downloadBtn').disabled = false;
+                document.getElementById('printBtn').disabled = false;
+                
+                updateNavigationButtons();
+                showSuccess('PDF berhasil dimuat! Total ' + totalPages + ' halaman');
+
+            } catch (error) {
+                console.error('Error loading PDF:', error);
+                loading.style.display = 'none';
+                uploadArea.style.display = 'flex';
+                showError('Gagal memuat PDF. File mungkin rusak atau tidak valid.');
+            }
+        }
+
+        async function renderPage(pageNum) {
+            try {
+                const page = await pdfDoc.getPage(pageNum);
+                const canvas = document.getElementById('pdfCanvas');
+                const ctx = canvas.getContext('2d');
+
+                // Calculate scale based on container width
+                const containerWidth = document.getElementById('pdfCanvasContainer').clientWidth - 60;
+                const viewport = page.getViewport({ scale: 1.0 });
+                const scale = Math.min(containerWidth / viewport.width, 2.0) * zoomLevel;
+                
+                const scaledViewport = page.getViewport({ scale: scale });
+
+                // Set canvas dimensions
+                canvas.height = scaledViewport.height;
+                canvas.width = scaledViewport.width;
+
+                // Render PDF page
+                const renderContext = {
+                    canvasContext: ctx,
+                    viewport: scaledViewport
+                };
+
+                await page.render(renderContext).promise;
+            } catch (error) {
+                console.error('Error rendering page:', error);
+                showError('Gagal menampilkan halaman PDF');
+            }
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function showSuccess(message) {
+            const successMessage = document.getElementById('successMessage');
+            successMessage.textContent = '✅ ' + message;
+            successMessage.style.display = 'flex';
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 4000);
+        }
+
+        function showError(message) {
+            const errorMessage = document.getElementById('errorMessage');
+            errorMessage.textContent = '❌ ' + message;
+            errorMessage.style.display = 'flex';
+            setTimeout(() => {
+                errorMessage.style.display = 'none';
+            }, 5000);
+        }
+
+        function hideMessages() {
+            document.getElementById('successMessage').style.display = 'none';
+            document.getElementById('errorMessage').style.display = 'none';
+        }
+
+        async function previousPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                document.getElementById('pageInput').value = currentPage;
+                await renderPage(currentPage);
+                updateNavigationButtons();
+            }
+        }
+
+        async function nextPage() {
+            if (currentPage < totalPages) {
+                currentPage++;
+                document.getElementById('pageInput').value = currentPage;
+                await renderPage(currentPage);
+                updateNavigationButtons();
+            }
+        }
+
+        async function goToPage() {
+            const pageInput = document.getElementById('pageInput');
+            const pageNum = parseInt(pageInput.value);
+            
+            if (pageNum >= 1 && pageNum <= totalPages) {
+                currentPage = pageNum;
+                await renderPage(currentPage);
+                updateNavigationButtons();
+            } else {
+                pageInput.value = currentPage;
+                showError('Nomor halaman tidak valid!');
+            }
+        }
+
+        function updateNavigationButtons() {
+            document.getElementById('prevBtn').disabled = currentPage === 1;
+            document.getElementById('nextBtn').disabled = currentPage === totalPages;
+        }
+
+        async function zoomIn() {
+            if (zoomLevel < 3.0) {
+                zoomLevel += 0.25;
+                updateZoom();
+                if (pdfDoc) {
+                    await renderPage(currentPage);
+                }
+            }
+        }
+
+        async function zoomOut() {
+            if (zoomLevel > 0.5) {
+                zoomLevel -= 0.25;
+                updateZoom();
+                if (pdfDoc) {
+                    await renderPage(currentPage);
+                }
+            }
+        }
+
+        function updateZoom() {
+            document.getElementById('zoomLevel').textContent = Math.round(zoomLevel * 100) + '%';
+        }
+
+        function downloadPDF() {
+            if (currentFile) {
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(currentFile);
+                link.download = currentFile.name;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                showSuccess('Download dimulai!');
+            }
+        }
+
+        function printPDF() {
+            if (currentFile) {
+                const fileURL = URL.createObjectURL(currentFile);
+                const printWindow = window.open(fileURL, '_blank');
+                if (printWindow) {
+                    printWindow.onload = () => {
+                        printWindow.print();
+                    };
+                    showSuccess('Membuka jendela print...');
+                } else {
+                    showError('Popup diblokir! Izinkan popup untuk print.');
+                }
+            }
+        }
+
+        function resetViewer() {
+            // Reset all variables
+            currentPDF = null;
+            currentFile = null;
+            currentPage = 1;
+            totalPages = 1;
+            zoomLevel = 1.0;
+            pdfDoc = null;
+            
+            // Reset UI
+            document.getElementById('uploadArea').style.display = 'flex';
+            document.getElementById('pdfCanvasContainer').style.display = 'none';
+            document.getElementById('fileInfo').style.display = 'none';
+            document.getElementById('navigation').style.display = 'none';
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('fileInput').value = '';
+            
+            // Reset canvas
+            const canvas = document.getElementById('pdfCanvas');
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Disable control buttons
+            document.getElementById('downloadBtn').disabled = true;
+            document.getElementById('printBtn').disabled = true;
+            
+            hideMessages();
+            updateZoom();
+            updateNavigationButtons();
+        }
+
+        // Initialize
+        updateNavigationButtons();
+        updateZoom();
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9853b4af52b2cdfe',t:'MTc1ODg5OTYxMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

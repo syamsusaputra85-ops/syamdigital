@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galeri Foto Portofolio</title>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1765500559/Syam_Digital_nvguw4.png">
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+    }
+    
+    .gallery-container {
+      height: 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+    
+    .photo-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .photo-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+    
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    
+    .photo-card:hover img {
+      transform: scale(1.1);
+    }
+    
+    .photo-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+      padding: 20px;
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+    }
+    
+    .photo-card:hover .photo-overlay {
+      transform: translateY(0);
+    }
+    
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 1000;
+      animation: fadeIn 0.3s ease;
+    }
+    
+    .modal.active {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    .modal-content {
+      max-width: 90%;
+      max-height: 90%;
+      animation: zoomIn 0.3s ease;
+    }
+    
+    @keyframes zoomIn {
+      from { transform: scale(0.8); }
+      to { transform: scale(1); }
+    }
+    
+    .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: white;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      transition: transform 0.2s ease;
+    }
+    
+    .close-btn:hover {
+      transform: rotate(90deg);
+    }
+    
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    button:disabled:hover {
+      opacity: 0.5;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full">
+  <div class="gallery-container w-full"><!-- Header -->
+   <header class="text-center py-16 px-6" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+    <div class="flex flex-col items-center"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1765500559/Syam_Digital_nvguw4.png" alt="Syam Digital Logo" class="w-32 h-32 object-contain mb-6 rounded-full bg-white p-2 shadow-lg" onerror="this.style.display='none';">
+     <h1 id="portfolioTitle" class="text-5xl font-bold text-white mb-4">Galeri Syam Digital</h1>
+     <p id="portfolioSubtitle" class="text-xl text-white opacity-90">Koleksi karya fotografi terbaik</p>
+    </div>
+   </header><!-- Gallery Grid -->
+   <main class="max-w-7xl mx-auto px-6 py-12"><!-- Page Navigation -->
+    <div class="flex justify-center items-center gap-4 mb-8"><button id="prevBtn" onclick="changePage(-1)" class="px-6 py-3 rounded-lg font-semibold text-white transition-all duration-300 hover:opacity-80" style="background-color: #764ba2;"> ← Sebelumnya </button> <span id="pageIndicator" class="text-xl font-bold" style="color: #667eea;">Halaman 1 dari 2</span> <button id="nextBtn" onclick="changePage(1)" class="px-6 py-3 rounded-lg font-semibold text-white transition-all duration-300 hover:opacity-80" style="background-color: #764ba2;"> Selanjutnya → </button>
+    </div>
+    <div id="galleryGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"><!-- Photos will be dynamically loaded here -->
+    </div>
+   </main><!-- Footer -->
+   <footer class="text-center py-8 px-6 mt-12" style="background-color: #667eea;">
+    <p id="footerText" class="text-white text-lg">© 2025 - copyright by Syam digital, Semua hak cipta dilindungi</p>
+   </footer>
+  </div><!-- Modal -->
+  <div id="photoModal" class="modal" onclick="closeModal()"><button class="close-btn" onclick="closeModal()">✕</button>
+   <div class="modal-content" onclick="event.stopPropagation()"><img id="modalImage" src="" alt="Full size photo">
+   </div>
+  </div>
+  <script>
+    const defaultConfig = {
+      portfolio_title: "Galeri Syam Digital",
+      portfolio_subtitle: "Koleksi karya fotografi terbaik",
+      footer_text: "© 2025 - copyright by Syam digital, Semua hak cipta dilindungi",
+      background_color: "#667eea",
+      surface_color: "#ffffff",
+      text_color: "#1f2937",
+      primary_action_color: "#764ba2",
+      secondary_action_color: "#8b5cf6",
+      font_family: "Arial",
+      font_size: 16
+    };
+
+    // Page 1 Photos
+    const page1Photos = [
+      { src: "https://res.cloudinary.com/dpr2vc3b0/image/upload/v1765586561/Gambar_WhatsApp_2025-12-12_pukul_18.29.24_5812e33f_ectid7.jpg", title: "Foto 1", category: "Koleksi Portofolio" },
+      { src: "https://res.cloudinary.com/dpr2vc3b0/image/upload/v1765586525/Gambar_WhatsApp_2025-12-12_pukul_17.55.07_7d0d8e4f_w5ah1k.jpg", title: "Foto 2", category: "Koleksi Portofolio" },
+      { src: "https://res.cloudinary.com/dpr2vc3b0/image/upload/v1765586525/Gambar_WhatsApp_2025-12-12_pukul_18.26.27_50a34f2e_owntua.jpg", title: "Foto 3", category: "Koleksi Portofolio" },
+      { src: "https://res.cloudinary.com/dpr2vc3b0/image/upload/v1765586525/Gambar_WhatsApp_2025-12-12_pukul_18.26.27_50a34f2e_owntua.jpg", title: "Foto 4", category: "Koleksi Portofolio" },
+      { src: "https://res.cloudinary.com/dpr2vc3b0/image/upload/v1765586525/Gambar_WhatsApp_2025-12-12_pukul_17.55.07_7d0d8e4f_w5ah1k.jpg", title: "Foto 5", category: "Koleksi Portofolio" },
+      { src: "https://res.cloudinary.com/dpr2vc3b0/image/upload/v1765586561/Gambar_WhatsApp_2025-12-12_pukul_18.29.24_5812e33f_ectid7.jpg", title: "Foto 6", category: "Koleksi Portofolio" },
+      { src: "https://res.cloudinary.com/dpr2vc3b0/image/upload/v1765586525/Gambar_WhatsApp_2025-12-12_pukul_17.55.07_7d0d8e4f_w5ah1k.jpg", title: "Foto 7", category: "Koleksi Portofolio" },
+      { src: "https://res.cloudinary.com/dpr2vc3b0/image/upload/v1765586525/Gambar_WhatsApp_2025-12-12_pukul_18.26.27_50a34f2e_owntua.jpg", title: "Foto 8", category: "Koleksi Portofolio" },
+      { src: "https://res.cloudinary.com/dpr2vc3b0/image/upload/v1765586561/Gambar_WhatsApp_2025-12-12_pukul_18.29.24_5812e33f_ectid7.jpg", title: "Foto 9", category: "Koleksi Portofolio" },
+      { src: "https://res.cloudinary.com/dpr2vc3b0/image/upload/v1765586525/Gambar_WhatsApp_2025-12-12_pukul_17.55.07_7d0d8e4f_w5ah1k.jpg", title: "Foto 10", category: "Koleksi Portofolio" },
+      { src: "https://res.cloudinary.com/dpr2vc3b0/image/upload/v1765586525/Gambar_WhatsApp_2025-12-12_pukul_18.26.27_50a34f2e_owntua.jpg", title: "Foto 11", category: "Koleksi Portofolio" },
+      { src: "https://res.cloudinary.com/dpr2vc3b0/image/upload/v1765586561/Gambar_WhatsApp_2025-12-12_pukul_18.29.24_5812e33f_ectid7.jpg", title: "Foto 12", category: "Koleksi Portofolio" }
+    ];
+
+    // Page 2 Photos
+    const page2Photos = [
+      { src: "https://res.cloudinary.com/dpr2vc3b0/image/upload/v1765587079/IMG-20251212-WA0042_bbf81s.jpg", title: "Foto 13", category: "Koleksi Portofolio" },
+      { src: "https://res.cloudinary.com/dpr2vc3b0/image/upload/v1765587078/IMG-20251212-WA0040_yupaag.jpg", title: "Foto 14", category: "Koleksi Portofolio" },
+      { src: "https://res.cloudinary.com/dpr2vc3b0/image/upload/v1765587078/IMG-20251212-WA0041_rxtn8o.jpg", title: "Foto 15", category: "Koleksi Portofolio" },
+      { src: "https://res.cloudinary.com/dpr2vc3b0/image/upload/v1765587078/IMG-20251212-WA0038_j90ytd.jpg", title: "Foto 16", category: "Koleksi Portofolio" },
+      { src: "https://res.cloudinary.com/dpr2vc3b0/image/upload/v1765587078/IMG-20251212-WA0037_iin8ak.jpg", title: "Foto 17", category: "Koleksi Portofolio" },
+      { src: "https://res.cloudinary.com/dpr2vc3b0/image/upload/v1765587078/IMG-20251212-WA0039_zacxy2.jpg", title: "Foto 18", category: "Koleksi Portofolio" },
+      { src: "https://res.cloudinary.com/dpr2vc3b0/image/upload/v1765587078/IMG-20251212-WA0036_wnwlkg.jpg", title: "Foto 19", category: "Koleksi Portofolio" },
+      { src: "https://res.cloudinary.com/dpr2vc3b0/image/upload/v1765587077/IMG-20251212-WA0034_d1a2wk.jpg", title: "Foto 20", category: "Koleksi Portofolio" }
+    ];
+
+    const allPages = [page1Photos, page2Photos];
+    let currentPage = 0;
+
+    function renderGallery() {
+      const galleryGrid = document.getElementById('galleryGrid');
+      const currentPhotos = allPages[currentPage];
+      
+      galleryGrid.innerHTML = '';
+      
+      currentPhotos.forEach((photo, index) => {
+        const photoCard = document.createElement('div');
+        photoCard.className = 'photo-card h-64';
+        photoCard.style.backgroundColor = '#f0f0f0';
+        photoCard.onclick = () => openModal(index);
+        
+        photoCard.innerHTML = `
+          <img src="${photo.src}" alt="${photo.title}" onerror="this.src=''; this.alt='Image failed to load'; this.style.display='none';">
+          <div class="photo-overlay">
+            <h3 class="text-white font-bold text-lg">${photo.title}</h3>
+            <p class="text-white opacity-80 text-sm">${photo.category}</p>
+          </div>
+        `;
+        
+        galleryGrid.appendChild(photoCard);
+      });
+      
+      // Update page indicator
+      document.getElementById('pageIndicator').textContent = `Halaman ${currentPage + 1} dari ${allPages.length}`;
+      
+      // Update button states
+      document.getElementById('prevBtn').disabled = currentPage === 0;
+      document.getElementById('nextBtn').disabled = currentPage === allPages.length - 1;
+      
+      // Scroll to top when changing pages
+      document.querySelector('.gallery-container').scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function changePage(direction) {
+      const newPage = currentPage + direction;
+      if (newPage >= 0 && newPage < allPages.length) {
+        currentPage = newPage;
+        renderGallery();
+      }
+    }
+
+    function openModal(index) {
+      const modal = document.getElementById('photoModal');
+      const modalImage = document.getElementById('modalImage');
+      const currentPhotos = allPages[currentPage];
+      
+      modalImage.src = currentPhotos[index].src;
+      modalImage.alt = currentPhotos[index].title;
+      modal.classList.add('active');
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('photoModal');
+      modal.classList.remove('active');
+    }
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeModal();
+      }
+    });
+
+    // Initialize gallery
+    renderGallery();
+
+    async function onConfigChange(config) {
+      const customFont = config.font_family || defaultConfig.font_family;
+      const baseSize = config.font_size || defaultConfig.font_size;
+      const baseFontStack = 'Arial, sans-serif';
+      
+      // Update text content
+      document.getElementById('portfolioTitle').textContent = config.portfolio_title || defaultConfig.portfolio_title;
+      document.getElementById('portfolioSubtitle').textContent = config.portfolio_subtitle || defaultConfig.portfolio_subtitle;
+      document.getElementById('footerText').textContent = config.footer_text || defaultConfig.footer_text;
+      
+      // Update colors
+      const bgColor = config.background_color || defaultConfig.background_color;
+      const surfaceColor = config.surface_color || defaultConfig.surface_color;
+      const textColor = config.text_color || defaultConfig.text_color;
+      const primaryColor = config.primary_action_color || defaultConfig.primary_action_color;
+      const secondaryColor = config.secondary_action_color || defaultConfig.secondary_action_color;
+      
+      const header = document.querySelector('header');
+      header.style.background = `linear-gradient(135deg, ${bgColor} 0%, ${primaryColor} 100%)`;
+      
+      const footer = document.querySelector('footer');
+      footer.style.backgroundColor = bgColor;
+      
+      document.querySelector('.gallery-container').style.backgroundColor = surfaceColor;
+      
+      // Update fonts
+      document.getElementById('portfolioTitle').style.fontFamily = `${customFont}, ${baseFontStack}`;
+      document.getElementById('portfolioTitle').style.fontSize = `${baseSize * 3.125}px`;
+      
+      document.getElementById('portfolioSubtitle').style.fontFamily = `${customFont}, ${baseFontStack}`;
+      document.getElementById('portfolioSubtitle').style.fontSize = `${baseSize * 1.25}px`;
+      
+      document.getElementById('footerText').style.fontFamily = `${customFont}, ${baseFontStack}`;
+      document.getElementById('footerText').style.fontSize = `${baseSize * 1.125}px`;
+      
+      // Update overlay text
+      const overlayTitles = document.querySelectorAll('.photo-overlay h3');
+      const overlayCategories = document.querySelectorAll('.photo-overlay p');
+      
+      overlayTitles.forEach(title => {
+        title.style.fontFamily = `${customFont}, ${baseFontStack}`;
+        title.style.fontSize = `${baseSize * 1.125}px`;
+      });
+      
+      overlayCategories.forEach(category => {
+        category.style.fontFamily = `${customFont}, ${baseFontStack}`;
+        category.style.fontSize = `${baseSize * 0.875}px`;
+      });
+      
+      // Update close button
+      const closeBtn = document.querySelector('.close-btn');
+      closeBtn.style.backgroundColor = primaryColor;
+      closeBtn.style.color = 'white';
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities: (config) => ({
+          recolorables: [
+            {
+              get: () => config.background_color || defaultConfig.background_color,
+              set: (value) => {
+                config.background_color = value;
+                window.elementSdk.setConfig({ background_color: value });
+              }
+            },
+            {
+              get: () => config.surface_color || defaultConfig.surface_color,
+              set: (value) => {
+                config.surface_color = value;
+                window.elementSdk.setConfig({ surface_color: value });
+              }
+            },
+            {
+              get: () => config.text_color || defaultConfig.text_color,
+              set: (value) => {
+                config.text_color = value;
+                window.elementSdk.setConfig({ text_color: value });
+              }
+            },
+            {
+              get: () => config.primary_action_color || defaultConfig.primary_action_color,
+              set: (value) => {
+                config.primary_action_color = value;
+                window.elementSdk.setConfig({ primary_action_color: value });
+              }
+            },
+            {
+              get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
+              set: (value) => {
+                config.secondary_action_color = value;
+                window.elementSdk.setConfig({ secondary_action_color: value });
+              }
+            }
+          ],
+          borderables: [],
+          fontEditable: {
+            get: () => config.font_family || defaultConfig.font_family,
+            set: (value) => {
+              config.font_family = value;
+              window.elementSdk.setConfig({ font_family: value });
+            }
+          },
+          fontSizeable: {
+            get: () => config.font_size || defaultConfig.font_size,
+            set: (value) => {
+              config.font_size = value;
+              window.elementSdk.setConfig({ font_size: value });
+            }
+          }
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ["portfolio_title", config.portfolio_title || defaultConfig.portfolio_title],
+          ["portfolio_subtitle", config.portfolio_subtitle || defaultConfig.portfolio_subtitle],
+          ["footer_text", config.footer_text || defaultConfig.footer_text]
+        ])
+      });
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9ad2b24a97a44dab',t:'MTc2NTU5OTkxNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

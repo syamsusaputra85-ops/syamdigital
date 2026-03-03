@@ -1,0 +1,792 @@
+<!doctype html>
+<html lang="id">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Undangan Penyaluran BLT Dana Desa Tahap II</title>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1757855384/Logo_donggala-removebg-preview_imrpgu.png">
+  <link rel="shortcut icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1757855384/Logo_donggala-removebg-preview_imrpgu.png">
+  <style>
+        body {
+            box-sizing: border-box;
+            font-family: 'Times New Roman', serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100%;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 2px solid #2c5aa0;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+        }
+        
+        .letterhead {
+            width: 100%;
+            max-width: 700px;
+            height: auto;
+            margin: 0 auto;
+            display: block;
+        }
+        
+        .fallback-header .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 15px;
+            background: #2c5aa0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .fallback-header h1 {
+            color: #2c5aa0;
+            margin: 0;
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .fallback-header h2 {
+            color: #666;
+            margin: 5px 0 0 0;
+            font-size: 14px;
+            font-weight: normal;
+        }
+        
+        .letter-info {
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+        
+        .letter-info div {
+            margin-bottom: 3px;
+        }
+        
+        .recipients {
+            margin: 25px 0;
+        }
+        
+        .recipients h3 {
+            margin-bottom: 15px;
+            color: #2c5aa0;
+            font-size: 14px;
+        }
+        
+        .recipients ol {
+            margin: 0;
+            padding-left: 20px;
+        }
+        
+        .recipients li {
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        
+        .content {
+            text-align: justify;
+            margin: 25px 0;
+            font-size: 14px;
+        }
+        
+        .event-details {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #2c5aa0;
+            margin: 20px 0;
+        }
+        
+        .event-details h3 {
+            color: #2c5aa0;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        .detail-row {
+            display: flex;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .detail-label {
+            font-weight: bold;
+            width: 120px;
+            color: #333;
+        }
+        
+        .detail-value {
+            flex: 1;
+            color: #555;
+        }
+        
+        .signature {
+            margin-top: 40px;
+            text-align: right;
+        }
+        
+        .signature-content {
+            display: inline-block;
+            text-align: center;
+            min-width: 250px;
+        }
+        
+        .signature-place {
+            margin-bottom: 60px;
+            font-size: 14px;
+        }
+        
+        .signature-area {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .qr-code {
+            width: 60px;
+            height: 60px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .signature-name {
+            font-weight: bold;
+            text-decoration: underline;
+            font-size: 14px;
+            color: #2c5aa0;
+        }
+        
+        .countdown-container {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: linear-gradient(135deg, #2c5aa0, #1e3d6f);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(44, 90, 160, 0.3);
+            text-align: center;
+            min-width: 200px;
+            z-index: 1000;
+        }
+        
+        .countdown-title {
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .countdown-timer {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 5px;
+        }
+        
+        .countdown-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 6px;
+            border-radius: 8px;
+            min-width: 35px;
+            text-align: center;
+        }
+        
+        .countdown-number {
+            font-size: 16px;
+            font-weight: bold;
+            display: block;
+            line-height: 1;
+        }
+        
+        .countdown-label {
+            font-size: 9px;
+            text-transform: uppercase;
+            margin-top: 2px;
+            opacity: 0.9;
+        }
+        
+        .countdown-event {
+            font-size: 10px;
+            margin-top: 8px;
+            opacity: 0.9;
+            font-style: italic;
+        }
+
+        .action-buttons {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .print-btn, .whatsapp-btn {
+            background: #2c5aa0;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            box-shadow: 0 4px 15px rgba(44, 90, 160, 0.3);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .whatsapp-btn {
+            background: #25D366;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+        }
+        
+        .print-btn:hover {
+            background: #1e3d6f;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(44, 90, 160, 0.4);
+        }
+        
+        .whatsapp-btn:hover {
+            background: #1da851;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+        }
+        
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                border: 1px solid #000;
+                margin: 0;
+                max-width: none;
+            }
+            .action-buttons {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 5px;
+            }
+            .container {
+                padding: 12px;
+                margin: 0;
+                border-radius: 5px;
+                border: 1px solid #2c5aa0;
+            }
+            .countdown-container {
+                position: static;
+                margin: 0 auto 10px;
+                max-width: 100%;
+                padding: 12px 15px;
+                border-radius: 10px;
+            }
+            .countdown-title {
+                font-size: 11px;
+                margin-bottom: 6px;
+            }
+            .countdown-timer {
+                gap: 6px;
+            }
+            .countdown-item {
+                padding: 6px 4px;
+                min-width: 30px;
+            }
+            .countdown-number {
+                font-size: 14px;
+            }
+            .countdown-label {
+                font-size: 8px;
+            }
+            .countdown-event {
+                font-size: 9px;
+                margin-top: 6px;
+            }
+            .action-buttons {
+                position: static;
+                flex-direction: row;
+                justify-content: center;
+                margin-bottom: 10px;
+                gap: 6px;
+            }
+            .print-btn, .whatsapp-btn {
+                flex: 1;
+                justify-content: center;
+                padding: 8px 12px;
+                font-size: 11px;
+                border-radius: 20px;
+            }
+            .header {
+                margin-bottom: 20px;
+                padding-bottom: 15px;
+            }
+            .letterhead {
+                max-width: 100%;
+            }
+            .letter-info {
+                font-size: 11px;
+                margin-bottom: 15px;
+            }
+            .letter-info div {
+                margin-bottom: 2px;
+            }
+            .recipients {
+                margin: 15px 0;
+            }
+            .recipients h3 {
+                font-size: 12px;
+                margin-bottom: 10px;
+            }
+            .recipients ol {
+                padding-left: 15px;
+            }
+            .recipients li {
+                font-size: 11px;
+                margin-bottom: 2px;
+                line-height: 1.4;
+            }
+            .content {
+                font-size: 11px;
+                margin: 15px 0;
+                line-height: 1.5;
+            }
+            .content p {
+                margin-bottom: 12px;
+            }
+            .event-details {
+                padding: 12px;
+                margin: 12px 0;
+                border-radius: 6px;
+            }
+            .event-details h3 {
+                font-size: 12px;
+                margin-bottom: 10px;
+            }
+            .detail-row {
+                font-size: 11px;
+                margin-bottom: 5px;
+                flex-direction: column;
+            }
+            .detail-label {
+                width: auto;
+                margin-bottom: 1px;
+                font-weight: bold;
+            }
+            .detail-value {
+                padding-left: 8px;
+            }
+            .signature {
+                margin-top: 25px;
+                text-align: center;
+            }
+            .signature-content {
+                min-width: auto;
+            }
+            .signature-place {
+                margin-bottom: 30px;
+                font-size: 11px;
+            }
+            .signature-area {
+                flex-direction: column;
+                gap: 8px;
+            }
+            .qr-code {
+                width: 45px;
+                height: 45px;
+            }
+            .signature-name {
+                font-size: 11px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 3px;
+            }
+            .container {
+                padding: 8px;
+                border-radius: 3px;
+            }
+            .countdown-container {
+                padding: 10px 12px;
+                border-radius: 8px;
+            }
+            .countdown-title {
+                font-size: 10px;
+                margin-bottom: 5px;
+            }
+            .countdown-timer {
+                gap: 4px;
+            }
+            .countdown-item {
+                padding: 5px 3px;
+                min-width: 28px;
+                border-radius: 6px;
+            }
+            .countdown-number {
+                font-size: 12px;
+            }
+            .countdown-label {
+                font-size: 7px;
+            }
+            .countdown-event {
+                font-size: 8px;
+                margin-top: 5px;
+            }
+            .action-buttons {
+                gap: 4px;
+                margin-bottom: 8px;
+            }
+            .print-btn, .whatsapp-btn {
+                padding: 6px 10px;
+                font-size: 10px;
+                border-radius: 15px;
+            }
+            .header {
+                margin-bottom: 15px;
+                padding-bottom: 10px;
+            }
+            .letter-info {
+                font-size: 10px;
+                margin-bottom: 12px;
+            }
+            .recipients {
+                margin: 12px 0;
+            }
+            .recipients h3 {
+                font-size: 11px;
+                margin-bottom: 8px;
+            }
+            .recipients ol {
+                padding-left: 12px;
+            }
+            .recipients li {
+                font-size: 10px;
+                margin-bottom: 1px;
+                line-height: 1.3;
+            }
+            .content {
+                font-size: 10px;
+                margin: 12px 0;
+                line-height: 1.4;
+            }
+            .content p {
+                margin-bottom: 10px;
+            }
+            .event-details {
+                padding: 10px;
+                margin: 10px 0;
+                border-radius: 5px;
+            }
+            .event-details h3 {
+                font-size: 11px;
+                margin-bottom: 8px;
+            }
+            .detail-row {
+                font-size: 10px;
+                margin-bottom: 4px;
+            }
+            .detail-label {
+                margin-bottom: 1px;
+            }
+            .detail-value {
+                padding-left: 6px;
+            }
+            .signature {
+                margin-top: 20px;
+            }
+            .signature-place {
+                margin-bottom: 25px;
+                font-size: 10px;
+            }
+            .signature-area {
+                gap: 6px;
+            }
+            .qr-code {
+                width: 40px;
+                height: 40px;
+            }
+            .signature-name {
+                font-size: 10px;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            body {
+                padding: 2px;
+            }
+            .container {
+                padding: 6px;
+            }
+            .countdown-container {
+                padding: 8px 10px;
+            }
+            .countdown-title {
+                font-size: 9px;
+            }
+            .countdown-item {
+                padding: 4px 2px;
+                min-width: 25px;
+            }
+            .countdown-number {
+                font-size: 11px;
+            }
+            .countdown-label {
+                font-size: 6px;
+            }
+            .countdown-event {
+                font-size: 7px;
+            }
+            .print-btn, .whatsapp-btn {
+                padding: 5px 8px;
+                font-size: 9px;
+            }
+            .letter-info {
+                font-size: 9px;
+            }
+            .recipients h3 {
+                font-size: 10px;
+            }
+            .recipients li {
+                font-size: 9px;
+            }
+            .content {
+                font-size: 9px;
+            }
+            .event-details {
+                padding: 8px;
+            }
+            .event-details h3 {
+                font-size: 10px;
+            }
+            .detail-row {
+                font-size: 9px;
+            }
+            .signature-place {
+                font-size: 9px;
+                margin-bottom: 20px;
+            }
+            .signature-name {
+                font-size: 9px;
+            }
+            .qr-code {
+                width: 35px;
+                height: 35px;
+            }
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="countdown-container">
+   <div class="countdown-title">
+    Waktu Menuju Penyaluran
+   </div>
+   <div class="countdown-timer">
+    <div class="countdown-item"><span class="countdown-number" id="days">00</span>
+     <div class="countdown-label">
+      Hari
+     </div>
+    </div>
+    <div class="countdown-item"><span class="countdown-number" id="hours">00</span>
+     <div class="countdown-label">
+      Jam
+     </div>
+    </div>
+    <div class="countdown-item"><span class="countdown-number" id="minutes">00</span>
+     <div class="countdown-label">
+      Menit
+     </div>
+    </div>
+    <div class="countdown-item"><span class="countdown-number" id="seconds">00</span>
+     <div class="countdown-label">
+      Detik
+     </div>
+    </div>
+   </div>
+   <div class="countdown-event">
+    BLT-DD Bulan November
+   </div>
+  </div>
+  <div class="action-buttons"><button class="print-btn" onclick="window.print()">🖨️ Cetak Undangan</button> <a href="#" class="whatsapp-btn" onclick="shareToWhatsApp()">📱 Bagikan ke WhatsApp</a>
+  </div>
+  <script>
+        // Countdown Timer
+        function updateCountdown() {
+            // Target date: November 7, 2025 at 09:00 WITA (UTC+8)
+            const targetDate = new Date('2025-11-07T09:00:00+08:00');
+            const now = new Date();
+            const difference = targetDate.getTime() - now.getTime();
+
+            if (difference > 0) {
+                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+                document.getElementById('days').textContent = days.toString().padStart(2, '0');
+                document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+                document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+                document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+            } else {
+                // Event has started or passed
+                document.getElementById('days').textContent = '00';
+                document.getElementById('hours').textContent = '00';
+                document.getElementById('minutes').textContent = '00';
+                document.getElementById('seconds').textContent = '00';
+                document.querySelector('.countdown-event').textContent = 'Acara Sedang Berlangsung!';
+            }
+        }
+
+        // Update countdown every second
+        setInterval(updateCountdown, 1000);
+        updateCountdown(); // Initial call
+
+        function shareToWhatsApp() {
+            const text = `*UNDANGAN PENYALURAN BLT DANA DESA TAHAP II*
+
+📋 *Nomor:* 408/Und-BLT/PEM-DWLP/XI/2025
+📄 *Hal:* Undangan Penyaluran BLT-DD TAHAP II
+
+🏛️ *Kepada Yth:*
+1. Camat Tanantovea
+2. Bhabinkamtibmas Desa Wani Lumbumpetigo
+3. Babinsa Desa Wani Lumbumpetigo
+4. Pendamping Desa (PD)
+5. Pendamping Lokal Desa (PLD)
+6. BPD Wani Lumbumpetigo
+
+📅 *Jadwal Kegiatan:*
+🗓️ Hari/Tanggal: Jum'at, 07 November 2025
+⏰ Jam: 09.00 WITA s/d Selesai
+📍 Tempat: KANTOR DESA WANI LUMBUMPETIGO
+
+Dalam rangka Penyaluran Bantuan Langsung Tunai Dana Desa (BLT-DD) Tahap II (Bulan November) Tahun Anggaran 2025.
+
+Kehadiran dan partisipasi Bapak/Ibu sangat kami harapkan.
+
+Terima kasih.
+
+*Kepala Desa Wani Lumbumpetigo*
+*AMIR RAMANG*
+
+🔗 Lihat undangan lengkap: https://syam.digital/blt`;
+            
+            const encodedText = encodeURIComponent(text);
+            const whatsappUrl = `https://wa.me/?text=${encodedText}`;
+            window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+        }
+    </script>
+  <div class="container">
+   <div class="header"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1755944441/KOP-DESA-FIX_p0ahsk.png" alt="Kop Surat Desa Wani Lumbumpetigo" class="letterhead" onerror="this.style.display='none'; document.querySelector('.fallback-header').style.display='block';">
+    <div class="fallback-header" style="display: none;">
+     <div class="logo">
+      WL
+     </div>
+     <h1>Pemerintah Desa Wani Lumbumpetigo</h1>
+     <h2>Kecamatan Tanantovea</h2>
+    </div>
+   </div>
+   <div class="letter-info">
+    <div>
+     <strong>Nomor</strong> : 408/Und-BLT/PEM-DWLP/XI/2025
+    </div>
+    <div>
+     <strong>Lamp</strong> : -
+    </div>
+    <div>
+     <strong>Hal</strong> : Undangan Penyaluran BLT-DD TAHAP II
+    </div>
+   </div>
+   <div class="recipients">
+    <h3>Kepada Yth,</h3>
+    <ol>
+     <li>Camat Tanantovea</li>
+     <li>Bhabinkamtibmas Desa Wani Lumbumpetigo</li>
+     <li>Babinsa Desa Wani Lumbumpetigo</li>
+     <li>Pendamping Desa (PD)</li>
+     <li>Pendamping Lokal Desa (PLD)</li>
+     <li>BPD Wani Lumbumpetigo</li>
+    </ol>
+   </div>
+   <div class="content">
+    <p><strong>Dengan Hormat,</strong></p>
+    <p>Salam Sejahtera kami sampaikan semoga Allah SWT senantiasa meridhoi segala aktifitas dan dedikasi kita semua.</p>
+    <p>Dalam rangka Penyaluran Bantuan Langsung Tunai Dana Desa (BLT-DD) Tahap II (Bulan November) Tahun Anggaran 2025. Dengan ini kami Pemerintah Desa Wani Lumbumpetigo Mengundang Bapak/Ibu Saudara (i) untuk hadir dalam Penyaluran Bantuan Langsung Tunai Dana Desa (BLT-DD) Tahun Anggaran 2025.</p>
+    <div class="event-details">
+     <h3>Yang Insya Allah akan dilaksanakan Pada:</h3>
+     <div class="detail-row">
+      <div class="detail-label">
+       Hari/Tanggal
+      </div>
+      <div class="detail-value">
+       : Jum'at, 07 November 2025
+      </div>
+     </div>
+     <div class="detail-row">
+      <div class="detail-label">
+       Jam
+      </div>
+      <div class="detail-value">
+       : 09.00 WITA s/d Selesai
+      </div>
+     </div>
+     <div class="detail-row">
+      <div class="detail-label">
+       Tempat
+      </div>
+      <div class="detail-value">
+       : KANTOR DESA WANI LUMBUMPETIGO
+      </div>
+     </div>
+    </div>
+    <p>Demikian undangan ini kami sampaikan, atas kehadiran dan Partisipasinya sangat kami Harapkan dan diucapkan terima kasih.</p>
+   </div>
+   <div class="signature">
+    <div class="signature-content">
+     <div class="signature-place">
+      Wani Lumbumpetigo, 06 November 2025
+     </div>
+     <div>
+      Kepala Desa Wani Lumbumpetigo
+     </div>
+     <div class="signature-area"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1760214774/ca8c8a3f-7c6f-49ea-b385-177467c940b2_mtna3u.png" alt="QR Code Verifikasi" class="qr-code" onerror="this.style.display='none';">
+      <div class="signature-name">
+       AMIR RAMANG
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99a15de2a58d9f92',t:'MTc2MjM5ODMwMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

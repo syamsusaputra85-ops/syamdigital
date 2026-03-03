@@ -1,0 +1,532 @@
+<!doctype html>
+<html lang="id">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daftar Bukti Transfer Sumbangan MTQ</title>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1757855384/Logo_donggala-removebg-preview_imrpgu.png">
+  <link rel="shortcut icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1757855384/Logo_donggala-removebg-preview_imrpgu.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+        body {
+            box-sizing: border-box;
+        }
+        .fade-in {
+            animation: fadeIn 0.6s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .hover-scale {
+            transition: transform 0.3s ease;
+        }
+        .hover-scale:hover {
+            transform: scale(1.02);
+        }
+        .print-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .print-button:hover {
+            background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+        }
+        .blink-gradient {
+            animation: blinkGradient 2s ease-in-out infinite;
+        }
+        @keyframes blinkGradient {
+            0%, 100% {
+                background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+                color: #92400e;
+            }
+            50% {
+                background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+                color: #ffffff;
+            }
+        }
+        .blink-warning {
+            animation: blinkWarning 1.5s ease-in-out infinite;
+        }
+        @keyframes blinkWarning {
+            0%, 100% {
+                color: #dc2626;
+                filter: drop-shadow(0 0 5px #dc2626);
+            }
+            50% {
+                color: #f97316;
+                filter: drop-shadow(0 0 8px #f97316);
+            }
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-full font-sans">
+  <div class="container mx-auto px-4 py-8 max-w-4xl"><!-- Header -->
+   <div class="text-center mb-6 sm:mb-8 fade-in">
+    <div class="bg-white rounded-lg shadow-lg p-4 sm:p-6 mb-4 sm:mb-6">
+     <div class="flex flex-col items-center mb-4"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1757855384/Logo_donggala-removebg-preview_imrpgu.png" alt="Logo Kabupaten Donggala" class="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 mb-3 object-contain" onerror="this.style.display='none';">
+     </div>
+     <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-800 mb-2">DAFTAR BUKTI TRANSFER</h1>
+     <h2 class="text-lg sm:text-xl font-semibold text-indigo-600 mb-1">SUMBANGAN MTQ KAB. DONGGALA</h2>
+     <p class="text-base sm:text-lg text-gray-600">PEMDES WANI LUMBUMPETIGO - TANANTOVEA - KABUPATEN DONGGALA</p>
+     <div class="mt-4 h-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full mx-auto w-24 sm:w-32"></div>
+    </div>
+   </div><!-- Summary Card -->
+   <div class="bg-white rounded-lg shadow-lg p-4 sm:p-6 mb-4 sm:mb-6 fade-in hover-scale">
+    <div class="flex items-center justify-between">
+     <div>
+      <h3 class="text-base sm:text-lg font-semibold text-gray-800">Total Bukti Transfer</h3>
+      <p class="text-2xl sm:text-3xl font-bold text-indigo-600">6 Dokumen</p>
+     </div>
+     <div class="bg-indigo-100 p-3 sm:p-4 rounded-full">
+      <svg class="w-6 h-6 sm:w-8 sm:h-8 text-indigo-600" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+      </svg>
+     </div>
+    </div>
+   </div><!-- Transfer Evidence List -->
+   <div class="space-y-6"><!-- Bukti Transfer 1 -->
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden fade-in hover-scale">
+     <div class="bg-gradient-to-r from-indigo-500 to-purple-600 text-white p-3 sm:p-4">
+      <h3 class="text-lg sm:text-xl font-semibold flex items-center">
+       <svg class="w-5 h-5 sm:w-6 sm:h-6 mr-2" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+       </svg> Bukti Transfer #1</h3>
+     </div>
+     <div class="p-4 sm:p-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+       <div class="order-2 lg:order-1">
+        <div class="space-y-3">
+         <div class="bg-blue-50 p-3 rounded-lg mb-4">
+          <p class="text-sm font-semibold text-blue-800 mb-1">Keterangan:</p>
+          <p class="text-sm sm:text-base text-blue-700">SUMBANGAN PEMDES WANI LUMBUMPETIGO SEBESAR Rp 1.000.000</p>
+         </div>
+         <div class="flex justify-between py-2 border-b border-gray-200"><span class="font-medium text-gray-600 text-sm sm:text-base">Status:</span> <span class="bg-green-100 text-green-800 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">Terverifikasi</span>
+         </div>
+         <div class="flex justify-between py-2 border-b border-gray-200"><span class="font-medium text-gray-600 text-sm sm:text-base">Tanggal Upload:</span> <span class="text-gray-800 text-sm sm:text-base" id="uploadDate1"></span>
+         </div>
+         <div class="flex justify-between py-2"><span class="font-medium text-gray-600 text-sm sm:text-base">Format:</span> <span class="text-gray-800 text-sm sm:text-base">JPG</span>
+         </div>
+        </div>
+       </div>
+       <div class="text-center order-1 lg:order-2"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1760244562/Bukti1_q7z92b.jpg" alt="Bukti Transfer 1" class="w-full max-w-sm sm:max-w-xs mx-auto rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer" onclick="openImageModal(this.src, 'Bukti Transfer #1')" onerror="this.src=''; this.alt='Gambar gagal dimuat'; this.style.display='none';">
+        <p class="text-xs sm:text-sm text-gray-500 mt-2">Klik untuk memperbesar</p>
+       </div>
+      </div>
+     </div>
+    </div><!-- Bukti Transfer 2 -->
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden fade-in hover-scale">
+     <div class="bg-gradient-to-r from-purple-500 to-pink-600 text-white p-3 sm:p-4">
+      <h3 class="text-lg sm:text-xl font-semibold flex items-center">
+       <svg class="w-5 h-5 sm:w-6 sm:h-6 mr-2" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+       </svg> Bukti Transfer #2</h3>
+     </div>
+     <div class="p-4 sm:p-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+       <div class="order-2 lg:order-1">
+        <div class="space-y-3">
+         <div class="bg-purple-50 p-3 rounded-lg mb-4">
+          <p class="text-sm font-semibold text-purple-800 mb-1">Keterangan:</p>
+          <p class="text-sm sm:text-base text-purple-700">SUMBANGAN WARGA DUSUN III (TIGA) WANI LUMBUMPETIGO SEBESAR Rp 500.000</p>
+         </div>
+         <div class="flex justify-between py-2 border-b border-gray-200"><span class="font-medium text-gray-600 text-sm sm:text-base">Status:</span> <span class="bg-green-100 text-green-800 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">Terverifikasi</span>
+         </div>
+         <div class="flex justify-between py-2 border-b border-gray-200"><span class="font-medium text-gray-600 text-sm sm:text-base">Tanggal Upload:</span> <span class="text-gray-800 text-sm sm:text-base" id="uploadDate2"></span>
+         </div>
+         <div class="flex justify-between py-2"><span class="font-medium text-gray-600 text-sm sm:text-base">Format:</span> <span class="text-gray-800 text-sm sm:text-base">JPG</span>
+         </div>
+        </div>
+       </div>
+       <div class="text-center order-1 lg:order-2"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1760244576/bukti2_j5fz5h.jpg" alt="Bukti Transfer 2" class="w-full max-w-sm sm:max-w-xs mx-auto rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer" onclick="openImageModal(this.src, 'Bukti Transfer #2')" onerror="this.src=''; this.alt='Gambar gagal dimuat'; this.style.display='none';">
+        <p class="text-xs sm:text-sm text-gray-500 mt-2">Klik untuk memperbesar</p>
+       </div>
+      </div>
+     </div>
+    </div><!-- Bukti Transfer 3 -->
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden fade-in hover-scale">
+     <div class="bg-gradient-to-r from-green-500 to-teal-600 text-white p-3 sm:p-4">
+      <h3 class="text-lg sm:text-xl font-semibold flex items-center">
+       <svg class="w-5 h-5 sm:w-6 sm:h-6 mr-2" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+       </svg> Bukti Transfer #3</h3>
+     </div>
+     <div class="p-4 sm:p-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+       <div class="order-2 lg:order-1">
+        <div class="space-y-3">
+         <div class="bg-green-50 p-3 rounded-lg mb-4">
+          <p class="text-sm font-semibold text-green-800 mb-1">Keterangan:</p>
+          <p class="text-sm sm:text-base text-green-700">SUMBANGAN WARGA DUSUN I (SATU) WANI LUMBUMPETIGO SEBESAR Rp 600.000</p>
+         </div>
+         <div class="flex justify-between py-2 border-b border-gray-200"><span class="font-medium text-gray-600 text-sm sm:text-base">Status:</span> <span class="bg-green-100 text-green-800 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">Terverifikasi</span>
+         </div>
+         <div class="flex justify-between py-2 border-b border-gray-200"><span class="font-medium text-gray-600 text-sm sm:text-base">Tanggal Upload:</span> <span class="text-gray-800 text-sm sm:text-base" id="uploadDate3"></span>
+         </div>
+         <div class="flex justify-between py-2"><span class="font-medium text-gray-600 text-sm sm:text-base">Format:</span> <span class="text-gray-800 text-sm sm:text-base">JPG</span>
+         </div>
+        </div>
+       </div>
+       <div class="text-center order-1 lg:order-2"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1760250164/bukti3_nfkmos.jpg" alt="Bukti Transfer 3" class="w-full max-w-sm sm:max-w-xs mx-auto rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer" onclick="openImageModal(this.src, 'Bukti Transfer #3')" onerror="this.src=''; this.alt='Gambar gagal dimuat'; this.style.display='none';">
+        <p class="text-xs sm:text-sm text-gray-500 mt-2">Klik untuk memperbesar</p>
+       </div>
+      </div>
+     </div>
+    </div><!-- Bukti Transfer 4 -->
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden fade-in hover-scale">
+     <div class="bg-gradient-to-r from-orange-500 to-red-600 text-white p-3 sm:p-4">
+      <h3 class="text-lg sm:text-xl font-semibold flex items-center">
+       <svg class="w-5 h-5 sm:w-6 sm:h-6 mr-2" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+       </svg> Bukti Transfer #4</h3>
+     </div>
+     <div class="p-4 sm:p-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+       <div class="order-2 lg:order-1">
+        <div class="space-y-3">
+         <div class="bg-orange-50 p-3 rounded-lg mb-4">
+          <p class="text-sm font-semibold text-orange-800 mb-1">Keterangan:</p>
+          <p class="text-sm sm:text-base text-orange-700">SUMBANGAN WARGA DUSUN II (DUA) WANI LUMBUMPETIGO SEBESAR Rp 950.000</p>
+         </div>
+         <div class="flex justify-between py-2 border-b border-gray-200"><span class="font-medium text-gray-600 text-sm sm:text-base">Status:</span> <span class="bg-green-100 text-green-800 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">Terverifikasi</span>
+         </div>
+         <div class="flex justify-between py-2 border-b border-gray-200"><span class="font-medium text-gray-600 text-sm sm:text-base">Tanggal Upload:</span> <span class="text-gray-800 text-sm sm:text-base" id="uploadDate4"></span>
+         </div>
+         <div class="flex justify-between py-2"><span class="font-medium text-gray-600 text-sm sm:text-base">Format:</span> <span class="text-gray-800 text-sm sm:text-base">JPG</span>
+         </div>
+        </div>
+       </div>
+       <div class="text-center order-1 lg:order-2"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1760327656/bukti4_nzde4l.jpg" alt="Bukti Transfer 4" class="w-full max-w-sm sm:max-w-xs mx-auto rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer" onclick="openImageModal(this.src, 'Bukti Transfer #4')" onerror="this.src=''; this.alt='Gambar gagal dimuat'; this.style.display='none';">
+        <p class="text-xs sm:text-sm text-gray-500 mt-2">Klik untuk memperbesar</p>
+       </div>
+      </div>
+     </div>
+    </div><!-- Bukti Transfer 5 -->
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden fade-in hover-scale">
+     <div class="bg-gradient-to-r from-cyan-500 to-blue-600 text-white p-3 sm:p-4">
+      <h3 class="text-lg sm:text-xl font-semibold flex items-center">
+       <svg class="w-5 h-5 sm:w-6 sm:h-6 mr-2" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+       </svg> Bukti Transfer #5</h3>
+     </div>
+     <div class="p-4 sm:p-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+       <div class="order-2 lg:order-1">
+        <div class="space-y-3">
+         <div class="bg-cyan-50 p-3 rounded-lg mb-4">
+          <p class="text-sm font-semibold text-cyan-800 mb-1">Keterangan:</p>
+          <p class="text-sm sm:text-base text-cyan-700">SUMBANGAN WARGA DUSUN III (TIGA) WANI LUMBUMPETIGO SEBESAR Rp 800.000</p>
+         </div>
+         <div class="flex justify-between py-2 border-b border-gray-200"><span class="font-medium text-gray-600 text-sm sm:text-base">Status:</span> <span class="bg-green-100 text-green-800 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">Terverifikasi</span>
+         </div>
+         <div class="flex justify-between py-2 border-b border-gray-200"><span class="font-medium text-gray-600 text-sm sm:text-base">Tanggal Upload:</span> <span class="text-gray-800 text-sm sm:text-base" id="uploadDate5"></span>
+         </div>
+         <div class="flex justify-between py-2"><span class="font-medium text-gray-600 text-sm sm:text-base">Format:</span> <span class="text-gray-800 text-sm sm:text-base">JPG</span>
+         </div>
+        </div>
+       </div>
+       <div class="text-center order-1 lg:order-2"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1760422510/Bukti5_spxjfh.jpg" alt="Bukti Transfer 5" class="w-full max-w-sm sm:max-w-xs mx-auto rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer" onclick="openImageModal(this.src, 'Bukti Transfer #5')" onerror="this.src=''; this.alt='Gambar gagal dimuat'; this.style.display='none';">
+        <p class="text-xs sm:text-sm text-gray-500 mt-2">Klik untuk memperbesar</p>
+       </div>
+      </div>
+     </div>
+    </div><!-- Bukti Transfer 6 -->
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden fade-in hover-scale">
+     <div class="bg-gradient-to-r from-teal-500 to-emerald-600 text-white p-3 sm:p-4">
+      <h3 class="text-lg sm:text-xl font-semibold flex items-center">
+       <svg class="w-5 h-5 sm:w-6 sm:h-6 mr-2" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+       </svg> Bukti Transfer #6</h3>
+     </div>
+     <div class="p-4 sm:p-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+       <div class="order-2 lg:order-1">
+        <div class="space-y-3">
+         <div class="bg-teal-50 p-3 rounded-lg mb-4">
+          <p class="text-sm font-semibold text-teal-800 mb-1">Keterangan:</p>
+          <p class="text-sm sm:text-base text-teal-700">SUMBANGAN WARGA DUSUN III (TIGA) WANI LUMBUMPETIGO SEBESAR Rp 650.000</p>
+         </div>
+         <div class="flex justify-between py-2 border-b border-gray-200"><span class="font-medium text-gray-600 text-sm sm:text-base">Status:</span> <span class="bg-green-100 text-green-800 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">Terverifikasi</span>
+         </div>
+         <div class="flex justify-between py-2 border-b border-gray-200"><span class="font-medium text-gray-600 text-sm sm:text-base">Tanggal Upload:</span> <span class="text-gray-800 text-sm sm:text-base" id="uploadDate6"></span>
+         </div>
+         <div class="flex justify-between py-2"><span class="font-medium text-gray-600 text-sm sm:text-base">Format:</span> <span class="text-gray-800 text-sm sm:text-base">JPG</span>
+         </div>
+        </div>
+       </div>
+       <div class="text-center order-1 lg:order-2"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1761522639/DUSUN-3_ecxz13.jpg" alt="Bukti Transfer 6" class="w-full max-w-sm sm:max-w-xs mx-auto rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 cursor-pointer" onclick="openImageModal(this.src, 'Bukti Transfer #6')" onerror="this.src=''; this.alt='Gambar gagal dimuat'; this.style.display='none';">
+        <p class="text-xs sm:text-sm text-gray-500 mt-2">Klik untuk memperbesar</p>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div><!-- Catatan -->
+   <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 sm:p-6 mb-6 sm:mb-8 fade-in">
+    <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
+     <div class="flex items-start">
+      <div class="flex-shrink-0">
+       <svg class="w-5 h-5 sm:w-6 sm:h-6 text-yellow-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+       </svg>
+      </div>
+      <div class="ml-3">
+       <h3 class="text-sm sm:text-base font-semibold text-yellow-800">Ucapan Terima Kasih Kepada Donatur</h3>
+       <p class="text-sm sm:text-base mt-1 px-3 py-2 rounded-lg font-semibold text-yellow-800 bg-yellow-100 border border-yellow-300">Kami mengucapkan terima kasih yang sebesar-besarnya atas partisipasi dan kontribusi Bapak/Ibu/Saudara dalam mendukung kegiatan MTQ Tingkat Kabupaten Donggala.</p>
+      </div>
+     </div>
+     <div class="bg-green-100 border border-green-300 rounded-lg p-3 sm:p-4 lg:min-w-fit">
+      <div class="flex items-center mb-2">
+       <svg class="w-5 h-5 sm:w-6 sm:h-6 text-green-600 mr-2" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+       </svg>
+       <h4 class="text-sm sm:text-base font-bold text-green-800">TOTAL SUMBANGAN</h4>
+      </div>
+      <p class="text-lg sm:text-xl font-bold text-green-700 mb-1">Rp 4.500.000</p>
+      <p class="text-xs sm:text-sm text-green-600 font-medium italic">"Empat Juta Lima Ratus Ribu Rupiah"</p>
+     </div>
+    </div>
+   </div><!-- Action Buttons -->
+   <div class="mt-6 sm:mt-8 text-center fade-in">
+    <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center"><button onclick="window.print()" class="print-button text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 text-sm sm:text-base">
+      <svg class="w-4 h-4 sm:w-5 sm:h-5 inline mr-2" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+      </svg> Cetak Daftar </button> <button onclick="shareToWhatsApp()" class="bg-green-500 hover:bg-green-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 text-sm sm:text-base">
+      <svg class="w-4 h-4 sm:w-5 sm:h-5 inline mr-2" fill="currentColor" viewbox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488" />
+      </svg> Bagikan ke WhatsApp </button> <button onclick="showThankYouPage()" class="bg-purple-500 hover:bg-purple-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 text-sm sm:text-base">
+      <svg class="w-4 h-4 sm:w-5 sm:h-5 inline mr-2" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+      </svg> Ucapan Terima Kasih </button>
+    </div>
+   </div><!-- Footer -->
+   <div class="mt-8 sm:mt-12 text-center text-gray-500 fade-in">
+    <p id="currentDate" class="text-xs sm:text-sm">Dokumen ini dibuat pada tanggal</p>
+    <p class="text-xs mt-1">PEMDES WANI LUMBUMPETIGO - TANANTOVEA - KABUPATEN DONGGALA</p>
+   </div>
+  </div><!-- Thank You Page -->
+  <div id="thankYouPage" class="fixed inset-0 bg-gradient-to-br from-purple-50 to-indigo-100 z-50 hidden overflow-y-auto">
+   <div class="container mx-auto px-4 py-8 max-w-4xl"><!-- Header -->
+    <div class="text-center mb-6 sm:mb-8 fade-in">
+     <div class="bg-white rounded-lg shadow-lg p-4 sm:p-6 mb-4 sm:mb-6">
+      <div class="flex flex-col items-center mb-4"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1757855384/Logo_donggala-removebg-preview_imrpgu.png" alt="Logo Kabupaten Donggala" class="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 mb-3 object-contain" onerror="this.style.display='none';">
+      </div>
+      <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-purple-800 mb-2">UCAPAN TERIMA KASIH</h1>
+      <h2 class="text-lg sm:text-xl font-semibold text-indigo-600 mb-1">MTQ TINGKAT KABUPATEN DONGGALA</h2>
+      <p class="text-base sm:text-lg text-gray-600">PEMDES WANI LUMBUMPETIGO - TANANTOVEA - KABUPATEN DONGGALA</p>
+      <div class="mt-4 h-1 bg-gradient-to-r from-purple-500 to-indigo-600 rounded-full mx-auto w-24 sm:w-32"></div>
+     </div>
+    </div><!-- Thank You Content -->
+    <div class="bg-white rounded-lg shadow-lg p-6 sm:p-8 mb-6 fade-in">
+     <div class="text-center mb-6">
+      <div class="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-purple-100 rounded-full mb-4">
+       <svg class="w-8 h-8 sm:w-10 sm:h-10 text-purple-600" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+       </svg>
+      </div>
+     </div>
+     <div class="prose prose-lg max-w-none text-gray-700 leading-relaxed">
+      <p class="text-base sm:text-lg mb-4"><strong>Kepada Yth. Donatur MTQ Tingkat Kabupaten Donggala,</strong></p>
+      <p class="text-base sm:text-lg mb-4 text-justify">Kami mengucapkan terima kasih yang sebesar-besarnya atas partisipasi dan kontribusi Bapak/Ibu/Saudara dalam mendukung kegiatan MTQ Tingkat Kabupaten Donggala. Dukungan Bapak/Ibu/Saudara sangat berarti bagi kami dan menjadi motivasi bagi kami untuk terus meningkatkan kualitas kegiatan keagamaan di Kabupaten Donggala.</p>
+      <div class="bg-gradient-to-r from-purple-50 to-indigo-50 p-4 sm:p-6 rounded-lg border-l-4 border-purple-500 mb-4">
+       <p class="text-base sm:text-lg font-semibold text-purple-800 text-center">"Semoga Allah SWT membalas kebaikan Bapak/Ibu/Saudara dengan pahala yang berlipat ganda."</p>
+      </div>
+      <p class="text-base sm:text-lg mb-6 text-justify">Terima kasih atas perhatian dan kontribusi Bapak/Ibu/Saudara.</p>
+     </div><!-- Signature Section -->
+     <div class="mt-8 pt-6 border-t border-gray-200">
+      <div class="text-right">
+       <p class="text-sm sm:text-base text-gray-600 mb-1">Hormat kami,</p>
+       <p class="text-base sm:text-lg font-semibold text-gray-800 mb-8">Panitia MTQ Kabupaten Donggala</p>
+       <p class="text-sm text-gray-500">PEMDES WANI LUMBUMPETIGO</p>
+       <p class="text-sm text-gray-500">TANANTOVEA - KABUPATEN DONGGALA</p>
+      </div>
+     </div>
+    </div><!-- Action Buttons -->
+    <div class="text-center fade-in">
+     <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center"><button onclick="hideThankYouPage()" class="bg-gray-500 hover:bg-gray-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 text-sm sm:text-base">
+       <svg class="w-4 h-4 sm:w-5 sm:h-5 inline mr-2" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+       </svg> Kembali ke Daftar </button> <button onclick="window.print()" class="print-button text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 text-sm sm:text-base">
+       <svg class="w-4 h-4 sm:w-5 sm:h-5 inline mr-2" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+       </svg> Cetak Ucapan </button> <button onclick="shareThankYouToWhatsApp()" class="bg-green-500 hover:bg-green-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 text-sm sm:text-base">
+       <svg class="w-4 h-4 sm:w-5 sm:h-5 inline mr-2" fill="currentColor" viewbox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488" />
+       </svg> Bagikan Ucapan </button>
+     </div>
+    </div><!-- Footer -->
+    <div class="mt-8 sm:mt-12 text-center text-gray-500 fade-in">
+     <p id="thankYouDate" class="text-xs sm:text-sm">Ucapan ini dibuat pada tanggal</p>
+     <p class="text-xs mt-1">PEMDES WANI LUMBUMPETIGO - TANANTOVEA - KABUPATEN DONGGALA</p>
+    </div>
+   </div>
+  </div><!-- Image Modal -->
+  <div id="imageModal" class="fixed inset-0 bg-black bg-opacity-75 z-50 hidden items-center justify-center p-2 sm:p-4">
+   <div class="relative max-w-full max-h-full w-full"><button onclick="closeImageModal()" class="absolute top-2 right-2 sm:top-4 sm:right-4 text-white bg-black bg-opacity-50 rounded-full p-2 hover:bg-opacity-75 transition-all z-10">
+     <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+     </svg></button> <img id="modalImage" src="" alt="" class="max-w-full max-h-full rounded-lg shadow-2xl mx-auto block">
+    <p id="modalTitle" class="text-white text-center mt-2 sm:mt-4 text-base sm:text-lg font-semibold px-4"></p>
+   </div>
+  </div>
+  <script>
+        function openImageModal(src, title) {
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            const modalTitle = document.getElementById('modalTitle');
+            
+            modalImage.src = src;
+            modalTitle.textContent = title;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeImageModal() {
+            const modal = document.getElementById('imageModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside the image
+        document.getElementById('imageModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeImageModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeImageModal();
+            }
+        });
+
+        // Share to WhatsApp function
+        function shareToWhatsApp() {
+            const currentDate = new Date().toLocaleDateString('id-ID', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            
+            const message = `📋 *DAFTAR BUKTI TRANSFER SUMBANGAN MTQ*
+🏛️ PEMDES WANI LUMBUMPETIGO - TANANTOVEA - KABUPATEN DONGGALA
+
+📊 *Total Bukti Transfer: 6 Dokumen*
+
+✅ *Bukti Transfer #1*
+💰 SUMBANGAN PEMDES WANI LUMBUMPETIGO SEBESAR Rp 1.000.000
+📅 Tanggal Upload: ${currentDate}
+✔️ Status: Terverifikasi
+
+✅ *Bukti Transfer #2*
+💰 SUMBANGAN WARGA DUSUN III (TIGA) WANI LUMBUMPETIGO SEBESAR Rp 500.000
+📅 Tanggal Upload: ${currentDate}
+✔️ Status: Terverifikasi
+
+✅ *Bukti Transfer #3*
+💰 SUMBANGAN WARGA DUSUN I (SATU) WANI LUMBUMPETIGO SEBESAR Rp 600.000
+📅 Tanggal Upload: ${currentDate}
+✔️ Status: Terverifikasi
+
+✅ *Bukti Transfer #4*
+💰 SUMBANGAN WARGA DUSUN II (DUA) WANI LUMBUMPETIGO SEBESAR Rp 950.000
+📅 Tanggal Upload: ${currentDate}
+✔️ Status: Terverifikasi
+
+✅ *Bukti Transfer #5*
+💰 SUMBANGAN WARGA DUSUN III (TIGA) WANI LUMBUMPETIGO SEBESAR Rp 800.000
+📅 Tanggal Upload: ${currentDate}
+✔️ Status: Terverifikasi
+
+✅ *Bukti Transfer #6*
+💰 SUMBANGAN WARGA DUSUN III (TIGA) WANI LUMBUMPETIGO SEBESAR Rp 650.000
+📅 Tanggal Upload: ${currentDate}
+✔️ Status: Terverifikasi
+
+💰 *TOTAL SUMBANGAN: Rp 4.500.000*
+
+🙏 *UCAPAN TERIMA KASIH:* Kami mengucapkan terima kasih yang sebesar-besarnya atas partisipasi dan kontribusi Bapak/Ibu/Saudara dalam mendukung kegiatan MTQ Tingkat Kabupaten Donggala.
+
+📄 Dokumen ini dibuat pada tanggal ${currentDate}
+
+ℹ️ *Info selengkapnya:* https://syam.digital/sumbangan`;
+
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappUrl = `https://wa.me/?text=${encodedMessage}`;
+            window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+        }
+
+        // Show Thank You Page
+        function showThankYouPage() {
+            const thankYouPage = document.getElementById('thankYouPage');
+            thankYouPage.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Hide Thank You Page
+        function hideThankYouPage() {
+            const thankYouPage = document.getElementById('thankYouPage');
+            thankYouPage.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Share Thank You to WhatsApp
+        function shareThankYouToWhatsApp() {
+            const currentDate = new Date().toLocaleDateString('id-ID', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            
+            const message = `🙏 *UCAPAN TERIMA KASIH*
+🏛️ MTQ TINGKAT KABUPATEN DONGGALA
+
+Kepada Yth. Donatur MTQ Tingkat Kabupaten Donggala,
+
+Kami mengucapkan terima kasih yang sebesar-besarnya atas partisipasi dan kontribusi Bapak/Ibu/Saudara dalam mendukung kegiatan MTQ Tingkat Kabupaten Donggala. 
+
+Dukungan Bapak/Ibu/Saudara sangat berarti bagi kami dan menjadi motivasi bagi kami untuk terus meningkatkan kualitas kegiatan keagamaan di Kabupaten Donggala.
+
+🤲 *"Semoga Allah SWT membalas kebaikan Bapak/Ibu/Saudara dengan pahala yang berlipat ganda."*
+
+Terima kasih atas perhatian dan kontribusi Bapak/Ibu/Saudara.
+
+Hormat kami,
+*Panitia MTQ Kabupaten Donggala*
+PEMDES WANI LUMBUMPETIGO - TANANTOVEA - KABUPATEN DONGGALA
+
+📄 Ucapan ini dibuat pada tanggal ${currentDate}
+
+ℹ️ *Info selengkapnya:* https://syam.digital/sumbangan`;
+
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappUrl = `https://wa.me/?text=${encodedMessage}`;
+            window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+        }
+
+        // Update current date in footer and upload dates
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentDate = new Date().toLocaleDateString('id-ID', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            
+            // Update footer date
+            const dateElement = document.getElementById('currentDate');
+            if (dateElement) {
+                dateElement.innerHTML = `Dokumen ini dibuat pada tanggal ${currentDate}`;
+            }
+            
+            // Update thank you date
+            const thankYouDateElement = document.getElementById('thankYouDate');
+            if (thankYouDateElement) {
+                thankYouDateElement.innerHTML = `Ucapan ini dibuat pada tanggal ${currentDate}`;
+            }
+            
+            // Update upload dates
+            const uploadDate1 = document.getElementById('uploadDate1');
+            const uploadDate2 = document.getElementById('uploadDate2');
+            const uploadDate3 = document.getElementById('uploadDate3');
+            const uploadDate4 = document.getElementById('uploadDate4');
+            
+            if (uploadDate1) uploadDate1.textContent = currentDate;
+            if (uploadDate2) uploadDate2.textContent = currentDate;
+            if (uploadDate3) uploadDate3.textContent = currentDate;
+            if (uploadDate4) uploadDate4.textContent = currentDate;
+            
+            const uploadDate5 = document.getElementById('uploadDate5');
+            if (uploadDate5) uploadDate5.textContent = currentDate;
+            
+            const uploadDate6 = document.getElementById('uploadDate6');
+            if (uploadDate6) uploadDate6.textContent = currentDate;
+        });
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'994e05592216ce82',t:'MTc2MTUyNDM1Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

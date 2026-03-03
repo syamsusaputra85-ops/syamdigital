@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan DNS Netlify - Lengkap & Interaktif</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .code-block {
+            background: #1a1a1a;
+            border-radius: 8px;
+            padding: 16px;
+            color: #f8f8f2;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+        .step-card {
+            transition: all 0.3s ease;
+            border-left: 4px solid #667eea;
+        }
+        .step-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .tab-button.active {
+            background: #667eea;
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="gradient-bg text-white py-12">
+        <div class="container mx-auto px-6">
+            <!-- Back to Home Link -->
+            <div class="mb-4">
+                <a href="https://syamweb.netlify.app/" 
+                   class="inline-flex items-center text-white/80 hover:text-white transition-colors group">
+                    <svg class="w-5 h-5 mr-2 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg>
+                    Kembali ke Beranda
+                </a>
+            </div>
+            
+            <h1 class="text-4xl font-bold mb-4">🌐 Panduan DNS Netlify</h1>
+            <p class="text-xl opacity-90">Pelajari cara mengonfigurasi DNS untuk proyek Netlify Anda dengan mudah</p>
+        </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <div class="container mx-auto px-6 -mt-6">
+        <div class="bg-white rounded-lg shadow-lg p-2 flex flex-wrap gap-2">
+            <button class="tab-button px-6 py-3 rounded-md font-medium transition-all active" onclick="showTab('overview')">
+                📋 Overview
+            </button>
+            <button class="tab-button px-6 py-3 rounded-md font-medium transition-all" onclick="showTab('setup')">
+                ⚙️ Setup DNS
+            </button>
+            <button class="tab-button px-6 py-3 rounded-md font-medium transition-all" onclick="showTab('custom-domain')">
+                🔗 Custom Domain
+            </button>
+            <button class="tab-button px-6 py-3 rounded-md font-medium transition-all" onclick="showTab('troubleshooting')">
+                🔧 Troubleshooting
+            </button>
+            <button class="tab-button px-6 py-3 rounded-md font-medium transition-all" onclick="showTab('pricing')">
+                💰 Pricing
+            </button>
+            <button class="tab-button px-6 py-3 rounded-md font-medium transition-all" onclick="showTab('favicon')">
+                🎨 Favicon
+            </button>
+            <button class="tab-button px-6 py-3 rounded-md font-medium transition-all" onclick="showTab('tools')">
+                🛠️ Tools
+            </button>
+        </div>
+    </div>
+
+    <!-- Content Sections -->
+    <div class="container mx-auto px-6 py-8">
+        
+        <!-- Overview Tab -->
+        <div id="overview" class="tab-content active">
+            <div class="grid md:grid-cols-2 gap-8 mb-8">
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h2 class="text-2xl font-bold mb-4 text-gray-800">🎯 Apa itu DNS?</h2>
+                    <p class="text-gray-600 mb-4">DNS (Domain Name System) adalah sistem yang menerjemahkan nama domain yang mudah diingat (seperti example.com) menjadi alamat IP yang dapat dipahami komputer.</p>
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <p class="text-sm text-blue-800"><strong>Contoh:</strong> Ketika Anda mengetik "google.com", DNS menerjemahkannya menjadi alamat IP seperti "172.217.14.206"</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h2 class="text-2xl font-bold mb-4 text-gray-800">🚀 Netlify & DNS</h2>
+                    <p class="text-gray-600 mb-4">Netlify menyediakan hosting gratis dengan subdomain otomatis, tetapi Anda juga bisa menggunakan domain custom dengan konfigurasi DNS yang tepat.</p>
+                    <div class="space-y-2">
+                        <div class="flex items-center">
+                            <span class="w-3 h-3 bg-green-500 rounded-full mr-3"></span>
+                            <span class="text-sm">Subdomain gratis: yoursite.netlify.app</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="w-3 h-3 bg-blue-500 rounded-full mr-3"></span>
+                            <span class="text-sm">Custom domain: yourdomain.com</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DNS Record Types -->
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+                <h2 class="text-2xl font-bold mb-6 text-gray-800">📝 Jenis-jenis DNS Record</h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                        <h3 class="font-bold text-lg mb-2 text-purple-600">A Record</h3>
+                        <p class="text-sm text-gray-600">Mengarahkan domain ke alamat IPv4</p>
+                        <div class="code-block mt-2 text-xs">example.com → 192.168.1.1</div>
+                    </div>
+                    <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                        <h3 class="font-bold text-lg mb-2 text-green-600">CNAME</h3>
+                        <p class="text-sm text-gray-600">Mengarahkan subdomain ke domain lain</p>
+                        <div class="code-block mt-2 text-xs">www → example.com</div>
+                    </div>
+                    <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                        <h3 class="font-bold text-lg mb-2 text-blue-600">MX Record</h3>
+                        <p class="text-sm text-gray-600">Untuk konfigurasi email server</p>
+                        <div class="code-block mt-2 text-xs">mail.example.com</div>
+                    </div>
+                    <div class="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                        <h3 class="font-bold text-lg mb-2 text-red-600">TXT Record</h3>
+                        <p class="text-sm text-gray-600">Untuk verifikasi dan konfigurasi</p>
+                        <div class="code-block mt-2 text-xs">SPF, DKIM, dll</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Setup DNS Tab -->
+        <div id="setup" class="tab-content">
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+                <h2 class="text-2xl font-bold mb-6 text-gray-800">⚙️ Langkah-langkah Setup DNS</h2>
+                
+                <div class="space-y-6">
+                    <div class="step-card bg-gray-50 p-6 rounded-lg">
+                        <div class="flex items-start">
+                            <div class="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-4 mt-1">1</div>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold mb-3">Deploy ke Netlify</h3>
+                                <p class="text-gray-600 mb-4">Pertama, deploy proyek Anda ke Netlify melalui Git atau drag & drop.</p>
+                                <div class="bg-white p-4 rounded border-l-4 border-blue-500">
+                                    <p class="text-sm"><strong>Tips:</strong> Pastikan build command dan publish directory sudah benar di pengaturan build.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-gray-50 p-6 rounded-lg">
+                        <div class="flex items-start">
+                            <div class="bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-4 mt-1">2</div>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold mb-3">Beli Domain</h3>
+                                <p class="text-gray-600 mb-4">Beli domain dari registrar seperti Namecheap, GoDaddy, atau Cloudflare.</p>
+                                <div class="grid md:grid-cols-3 gap-4 mt-4">
+                                    <div class="border rounded p-3 text-center">
+                                        <h4 class="font-bold">Namecheap</h4>
+                                        <p class="text-sm text-gray-600">Populer & murah</p>
+                                    </div>
+                                    <div class="border rounded p-3 text-center">
+                                        <h4 class="font-bold">Cloudflare</h4>
+                                        <p class="text-sm text-gray-600">DNS gratis</p>
+                                    </div>
+                                    <div class="border rounded p-3 text-center">
+                                        <h4 class="font-bold">GoDaddy</h4>
+                                        <p class="text-sm text-gray-600">Banyak pilihan</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-gray-50 p-6 rounded-lg">
+                        <div class="flex items-start">
+                            <div class="bg-purple-500 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-4 mt-1">3</div>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold mb-3">Konfigurasi DNS Records</h3>
+                                <p class="text-gray-600 mb-4">Tambahkan DNS records di panel kontrol domain Anda:</p>
+                                <div class="code-block">
+                                    <div class="mb-2"><strong>A Record:</strong></div>
+                                    <div>Name: @ (atau kosong)</div>
+                                    <div>Value: 75.2.60.5</div>
+                                    <div class="mt-4"><strong>CNAME Record:</strong></div>
+                                    <div>Name: www</div>
+                                    <div>Value: yourdomain.com</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Custom Domain Tab -->
+        <div id="custom-domain" class="tab-content">
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+                <h2 class="text-2xl font-bold mb-6 text-gray-800">🔗 Menambahkan Custom Domain</h2>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-bold mb-4">Di Dashboard Netlify:</h3>
+                        <ol class="space-y-3 text-gray-600">
+                            <li class="flex items-start">
+                                <span class="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">1</span>
+                                Masuk ke dashboard Netlify
+                            </li>
+                            <li class="flex items-start">
+                                <span class="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">2</span>
+                                Pilih site yang ingin dikonfigurasi
+                            </li>
+                            <li class="flex items-start">
+                                <span class="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">3</span>
+                                Klik "Domain settings"
+                            </li>
+                            <li class="flex items-start">
+                                <span class="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">4</span>
+                                Klik "Add custom domain"
+                            </li>
+                            <li class="flex items-start">
+                                <span class="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">5</span>
+                                Masukkan domain Anda
+                            </li>
+                        </ol>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-bold mb-4">Opsi Konfigurasi:</h3>
+                        <div class="space-y-4">
+                            <div class="border rounded-lg p-4">
+                                <h4 class="font-bold text-green-600 mb-2">✅ Netlify DNS (Recommended)</h4>
+                                <p class="text-sm text-gray-600">Biarkan Netlify mengelola DNS Anda. Mudah dan otomatis.</p>
+                            </div>
+                            <div class="border rounded-lg p-4">
+                                <h4 class="font-bold text-blue-600 mb-2">🔧 External DNS</h4>
+                                <p class="text-sm text-gray-600">Gunakan DNS provider lain seperti Cloudflare atau registrar domain.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                            <h4 class="font-bold text-yellow-800 mb-2">⚠️ Penting!</h4>
+                            <p class="text-sm text-yellow-700">Propagasi DNS bisa memakan waktu 24-48 jam. Bersabarlah!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SSL Certificate -->
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-2xl font-bold mb-4 text-gray-800">🔒 SSL Certificate</h2>
+                <p class="text-gray-600 mb-4">Netlify secara otomatis menyediakan SSL certificate gratis dari Let's Encrypt untuk semua domain.</p>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                        <h3 class="font-bold text-green-800 mb-2">✅ Otomatis</h3>
+                        <ul class="text-sm text-green-700 space-y-1">
+                            <li>• SSL gratis dari Let's Encrypt</li>
+                            <li>• Renewal otomatis</li>
+                            <li>• HTTPS redirect</li>
+                            <li>• Tidak perlu konfigurasi manual</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                        <h3 class="font-bold text-blue-800 mb-2">🔧 Custom Certificate</h3>
+                        <ul class="text-sm text-blue-700 space-y-1">
+                            <li>• Upload certificate sendiri</li>
+                            <li>• Untuk kebutuhan enterprise</li>
+                            <li>• Wildcard certificates</li>
+                            <li>• Extended validation</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Troubleshooting Tab -->
+        <div id="troubleshooting" class="tab-content">
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+                <h2 class="text-2xl font-bold mb-6 text-gray-800">🔧 Troubleshooting DNS</h2>
+                
+                <div class="space-y-6">
+                    <div class="border-l-4 border-red-500 bg-red-50 p-4 rounded">
+                        <h3 class="font-bold text-red-800 mb-2">❌ Domain tidak bisa diakses</h3>
+                        <p class="text-red-700 mb-3">Kemungkinan penyebab dan solusi:</p>
+                        <ul class="text-sm text-red-600 space-y-1 ml-4">
+                            <li>• Cek DNS records sudah benar (A record ke 75.2.60.5)</li>
+                            <li>• Tunggu propagasi DNS (24-48 jam)</li>
+                            <li>• Pastikan domain sudah ditambahkan di Netlify</li>
+                            <li>• Cek status domain tidak expired</li>
+                        </ul>
+                    </div>
+
+                    <div class="border-l-4 border-yellow-500 bg-yellow-50 p-4 rounded">
+                        <h3 class="font-bold text-yellow-800 mb-2">⚠️ SSL Certificate Error</h3>
+                        <p class="text-yellow-700 mb-3">Jika muncul warning SSL:</p>
+                        <ul class="text-sm text-yellow-600 space-y-1 ml-4">
+                            <li>• Tunggu beberapa menit setelah domain aktif</li>
+                            <li>• Cek di Netlify dashboard apakah SSL sudah provisioned</li>
+                            <li>• Pastikan DNS sudah propagasi dengan benar</li>
+                            <li>• Coba renew SSL certificate manual</li>
+                        </ul>
+                    </div>
+
+                    <div class="border-l-4 border-blue-500 bg-blue-50 p-4 rounded">
+                        <h3 class="font-bold text-blue-800 mb-2">🔄 Redirect Issues</h3>
+                        <p class="text-blue-700 mb-3">Masalah redirect www/non-www:</p>
+                        <ul class="text-sm text-blue-600 space-y-1 ml-4">
+                            <li>• Set primary domain di Netlify settings</li>
+                            <li>• Pastikan CNAME record www sudah benar</li>
+                            <li>• Cek _redirects file di root project</li>
+                            <li>• Gunakan netlify.toml untuk konfigurasi</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Common Commands -->
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-2xl font-bold mb-4 text-gray-800">💻 Command Line Tools</h2>
+                <p class="text-gray-600 mb-4">Perintah berguna untuk debugging DNS:</p>
+                
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div>
+                        <h3 class="font-bold mb-2">Cek DNS Records:</h3>
+                        <div class="code-block">
+                            <div>nslookup yourdomain.com</div>
+                            <div>dig yourdomain.com</div>
+                            <div>dig www.yourdomain.com</div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="font-bold mb-2">Cek SSL Certificate:</h3>
+                        <div class="code-block">
+                            <div>openssl s_client -connect yourdomain.com:443</div>
+                            <div>curl -I https://yourdomain.com</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pricing Tab -->
+        <div id="pricing" class="tab-content">
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+                <h2 class="text-2xl font-bold mb-6 text-gray-800">💰 Apakah Netlify Gratis Selamanya?</h2>
+                
+                <!-- Quick Answer -->
+                <div class="bg-green-50 border border-green-200 rounded-lg p-6 mb-8">
+                    <h3 class="text-xl font-bold text-green-800 mb-3">✅ Jawaban Singkat: YA!</h3>
+                    <p class="text-green-700 text-lg">Netlify memiliki paket gratis yang bisa digunakan selamanya untuk proyek personal dan small business dengan batasan tertentu.</p>
+                </div>
+
+                <!-- Free Plan Details -->
+                <div class="grid md:grid-cols-2 gap-8 mb-8">
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-6">
+                        <h3 class="text-xl font-bold text-blue-800 mb-4">🆓 Paket Gratis Termasuk:</h3>
+                        <ul class="space-y-2 text-blue-700">
+                            <li class="flex items-center">
+                                <span class="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
+                                100GB bandwidth per bulan
+                            </li>
+                            <li class="flex items-center">
+                                <span class="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
+                                300 build minutes per bulan
+                            </li>
+                            <li class="flex items-center">
+                                <span class="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
+                                Unlimited personal repositories
+                            </li>
+                            <li class="flex items-center">
+                                <span class="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
+                                SSL certificate gratis
+                            </li>
+                            <li class="flex items-center">
+                                <span class="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
+                                Custom domain support
+                            </li>
+                            <li class="flex items-center">
+                                <span class="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
+                                Deploy previews
+                            </li>
+                            <li class="flex items-center">
+                                <span class="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>
+                                Form handling (100 submissions/bulan)
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
+                        <h3 class="text-xl font-bold text-yellow-800 mb-4">⚠️ Batasan Paket Gratis:</h3>
+                        <ul class="space-y-2 text-yellow-700">
+                            <li class="flex items-center">
+                                <span class="w-2 h-2 bg-yellow-500 rounded-full mr-3"></span>
+                                Maksimal 500 sites per team
+                            </li>
+                            <li class="flex items-center">
+                                <span class="w-2 h-2 bg-yellow-500 rounded-full mr-3"></span>
+                                Build timeout 15 menit
+                            </li>
+                            <li class="flex items-center">
+                                <span class="w-2 h-2 bg-yellow-500 rounded-full mr-3"></span>
+                                Tidak ada serverless functions
+                            </li>
+                            <li class="flex items-center">
+                                <span class="w-2 h-2 bg-yellow-500 rounded-full mr-3"></span>
+                                Tidak ada analytics
+                            </li>
+                            <li class="flex items-center">
+                                <span class="w-2 h-2 bg-yellow-500 rounded-full mr-3"></span>
+                                Community support saja
+                            </li>
+                            <li class="flex items-center">
+                                <span class="w-2 h-2 bg-yellow-500 rounded-full mr-3"></span>
+                                Shared build resources
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Pricing Comparison -->
+                <div class="mb-8">
+                    <h3 class="text-xl font-bold mb-6 text-gray-800">📊 Perbandingan Paket</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full border-collapse border border-gray-300">
+                            <thead>
+                                <tr class="bg-gray-50">
+                                    <th class="border border-gray-300 px-4 py-3 text-left font-bold">Fitur</th>
+                                    <th class="border border-gray-300 px-4 py-3 text-center font-bold text-green-600">Starter (Gratis)</th>
+                                    <th class="border border-gray-300 px-4 py-3 text-center font-bold text-blue-600">Pro ($19/bulan)</th>
+                                    <th class="border border-gray-300 px-4 py-3 text-center font-bold text-purple-600">Business ($99/bulan)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="border border-gray-300 px-4 py-2 font-medium">Bandwidth</td>
+                                    <td class="border border-gray-300 px-4 py-2 text-center">100GB</td>
+                                    <td class="border border-gray-300 px-4 py-2 text-center">1TB</td>
+                                    <td class="border border-gray-300 px-4 py-2 text-center">2.5TB</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="border border-gray-300 px-4 py-2 font-medium">Build Minutes</td>
+                                    <td class="border border-gray-300 px-4 py-2 text-center">300/bulan</td>
+                                    <td class="border border-gray-300 px-4 py-2 text-center">25,000/bulan</td>
+                                    <td class="border border-gray-300 px-4 py-2 text-center">25,000/bulan</td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-gray-300 px-4 py-2 font-medium">Serverless Functions</td>
+                                    <td class="border border-gray-300 px-4 py-2 text-center">❌</td>
+                                    <td class="border border-gray-300 px-4 py-2 text-center">✅ 125K invocations</td>
+                                    <td class="border border-gray-300 px-4 py-2 text-center">✅ 2M invocations</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="border border-gray-300 px-4 py-2 font-medium">Form Submissions</td>
+                                    <td class="border border-gray-300 px-4 py-2 text-center">100/bulan</td>
+                                    <td class="border border-gray-300 px-4 py-2 text-center">1,000/bulan</td>
+                                    <td class="border border-gray-300 px-4 py-2 text-center">10,000/bulan</td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-gray-300 px-4 py-2 font-medium">Analytics</td>
+                                    <td class="border border-gray-300 px-4 py-2 text-center">❌</td>
+                                    <td class="border border-gray-300 px-4 py-2 text-center">✅</td>
+                                    <td class="border border-gray-300 px-4 py-2 text-center">✅ Advanced</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="border border-gray-300 px-4 py-2 font-medium">Support</td>
+                                    <td class="border border-gray-300 px-4 py-2 text-center">Community</td>
+                                    <td class="border border-gray-300 px-4 py-2 text-center">Email</td>
+                                    <td class="border border-gray-300 px-4 py-2 text-center">Priority</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- When to Upgrade -->
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-green-50 border border-green-200 rounded-lg p-6">
+                        <h3 class="text-xl font-bold text-green-800 mb-4">✅ Paket Gratis Cocok Untuk:</h3>
+                        <ul class="space-y-2 text-green-700">
+                            <li>• Portfolio personal</li>
+                            <li>• Blog sederhana</li>
+                            <li>• Landing page</li>
+                            <li>• Proyek pembelajaran</li>
+                            <li>• Prototype/MVP</li>
+                            <li>• Website dengan traffic rendah-menengah</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-orange-50 border border-orange-200 rounded-lg p-6">
+                        <h3 class="text-xl font-bold text-orange-800 mb-4">🚀 Upgrade Jika Butuh:</h3>
+                        <ul class="space-y-2 text-orange-700">
+                            <li>• Serverless functions (API)</li>
+                            <li>• Analytics mendalam</li>
+                            <li>• Form handling lebih banyak</li>
+                            <li>• Build time lebih cepat</li>
+                            <li>• Support prioritas</li>
+                            <li>• Traffic tinggi (>100GB/bulan)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tips Menghemat -->
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-2xl font-bold mb-4 text-gray-800">💡 Tips Mengoptimalkan Paket Gratis</h2>
+                
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="border rounded-lg p-4">
+                        <h3 class="font-bold text-blue-600 mb-2">🗜️ Optimasi Build</h3>
+                        <ul class="text-sm text-gray-600 space-y-1">
+                            <li>• Gunakan build cache</li>
+                            <li>• Optimasi dependencies</li>
+                            <li>• Skip unnecessary builds</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="border rounded-lg p-4">
+                        <h3 class="font-bold text-green-600 mb-2">📦 Optimasi Assets</h3>
+                        <ul class="text-sm text-gray-600 space-y-1">
+                            <li>• Compress images</li>
+                            <li>• Minify CSS/JS</li>
+                            <li>• Gunakan CDN untuk assets besar</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="border rounded-lg p-4">
+                        <h3 class="font-bold text-purple-600 mb-2">⚡ Monitoring Usage</h3>
+                        <ul class="text-sm text-gray-600 space-y-1">
+                            <li>• Cek bandwidth usage rutin</li>
+                            <li>• Monitor build minutes</li>
+                            <li>• Set up alerts jika perlu</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Favicon Tab -->
+        <div id="favicon" class="tab-content">
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+                <h2 class="text-2xl font-bold mb-6 text-gray-800">🎨 Cara Menambahkan Favicon di Netlify</h2>
+                
+                <!-- Quick Answer -->
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8">
+                    <h3 class="text-xl font-bold text-blue-800 mb-3">💡 Jawaban Singkat</h3>
+                    <p class="text-blue-700 text-lg">Tambahkan file favicon.ico di root folder proyek Anda, atau gunakan tag &lt;link&gt; di HTML untuk format lain seperti PNG/SVG.</p>
+                </div>
+
+                <!-- Step by Step -->
+                <div class="space-y-6 mb-8">
+                    <div class="step-card bg-gray-50 p-6 rounded-lg">
+                        <div class="flex items-start">
+                            <div class="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-4 mt-1">1</div>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold mb-3">Buat atau Siapkan Favicon</h3>
+                                <p class="text-gray-600 mb-4">Siapkan gambar favicon dalam berbagai format dan ukuran:</p>
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div class="border rounded p-3">
+                                        <h4 class="font-bold text-purple-600">favicon.ico</h4>
+                                        <p class="text-sm text-gray-600">16x16, 32x32, 48x48px</p>
+                                        <p class="text-xs text-gray-500">Format klasik, kompatibel semua browser</p>
+                                    </div>
+                                    <div class="border rounded p-3">
+                                        <h4 class="font-bold text-green-600">favicon.png</h4>
+                                        <p class="text-sm text-gray-600">32x32, 192x192px</p>
+                                        <p class="text-xs text-gray-500">Kualitas lebih baik, transparan</p>
+                                    </div>
+                                    <div class="border rounded p-3">
+                                        <h4 class="font-bold text-blue-600">favicon.svg</h4>
+                                        <p class="text-sm text-gray-600">Vector scalable</p>
+                                        <p class="text-xs text-gray-500">Modern, responsive, file kecil</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-gray-50 p-6 rounded-lg">
+                        <div class="flex items-start">
+                            <div class="bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-4 mt-1">2</div>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold mb-3">Upload ke Root Folder</h3>
+                                <p class="text-gray-600 mb-4">Letakkan file favicon di root folder proyek (sama level dengan index.html):</p>
+                                <div class="code-block">
+                                    <div>my-project/</div>
+                                    <div>├── index.html</div>
+                                    <div>├── favicon.ico  ← Letakkan di sini</div>
+                                    <div>├── favicon.png  ← Atau di sini</div>
+                                    <div>├── css/</div>
+                                    <div>└── js/</div>
+                                </div>
+                                <div class="bg-green-50 border border-green-200 rounded p-4 mt-4">
+                                    <p class="text-sm text-green-700"><strong>✅ Otomatis:</strong> Browser akan mencari favicon.ico di root secara otomatis!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-gray-50 p-6 rounded-lg">
+                        <div class="flex items-start">
+                            <div class="bg-purple-500 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-4 mt-1">3</div>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold mb-3">Tambahkan Tag HTML (Opsional)</h3>
+                                <p class="text-gray-600 mb-4">Untuk kontrol lebih baik, tambahkan tag link di &lt;head&gt; HTML:</p>
+                                <div class="code-block">
+                                    <div>&lt;head&gt;</div>
+                                    <div>  &lt;!-- Favicon klasik --&gt;</div>
+                                    <div>  &lt;link rel="icon" type="image/x-icon" href="/favicon.ico"&gt;</div>
+                                    <div>  </div>
+                                    <div>  &lt;!-- PNG favicon --&gt;</div>
+                                    <div>  &lt;link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"&gt;</div>
+                                    <div>  &lt;link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"&gt;</div>
+                                    <div>  </div>
+                                    <div>  &lt;!-- SVG favicon (modern) --&gt;</div>
+                                    <div>  &lt;link rel="icon" type="image/svg+xml" href="/favicon.svg"&gt;</div>
+                                    <div>  </div>
+                                    <div>  &lt;!-- Apple Touch Icon --&gt;</div>
+                                    <div>  &lt;link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"&gt;</div>
+                                    <div>&lt;/head&gt;</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-card bg-gray-50 p-6 rounded-lg">
+                        <div class="flex items-start">
+                            <div class="bg-orange-500 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-4 mt-1">4</div>
+                            <div class="flex-1">
+                                <h3 class="text-xl font-bold mb-3">Deploy ke Netlify</h3>
+                                <p class="text-gray-600 mb-4">Push perubahan ke Git atau upload ulang ke Netlify:</p>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div class="border rounded p-4">
+                                        <h4 class="font-bold text-blue-600 mb-2">📁 Drag & Drop</h4>
+                                        <ol class="text-sm text-gray-600 space-y-1">
+                                            <li>1. Buka Netlify dashboard</li>
+                                            <li>2. Drag folder proyek ke area deploy</li>
+                                            <li>3. Tunggu build selesai</li>
+                                        </ol>
+                                    </div>
+                                    <div class="border rounded p-4">
+                                        <h4 class="font-bold text-green-600 mb-2">🔄 Git Deploy</h4>
+                                        <ol class="text-sm text-gray-600 space-y-1">
+                                            <li>1. git add favicon.ico</li>
+                                            <li>2. git commit -m "Add favicon"</li>
+                                            <li>3. git push origin main</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Favicon Generator Tools -->
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+                <h2 class="text-2xl font-bold mb-4 text-gray-800">🛠️ Tools Pembuat Favicon</h2>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+                    <a href="https://favicon.io/" target="_blank" 
+                       class="block p-4 border rounded-lg hover:shadow-md transition-shadow">
+                        <h3 class="font-bold text-blue-600 mb-2">Favicon.io</h3>
+                        <p class="text-sm text-gray-600">Generator favicon dari text, emoji, atau gambar</p>
+                        <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded mt-2 inline-block">Gratis</span>
+                    </a>
+                    
+                    <a href="https://realfavicongenerator.net/" target="_blank" 
+                       class="block p-4 border rounded-lg hover:shadow-md transition-shadow">
+                        <h3 class="font-bold text-purple-600 mb-2">RealFaviconGenerator</h3>
+                        <p class="text-sm text-gray-600">Generator lengkap untuk semua platform</p>
+                        <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded mt-2 inline-block">Gratis</span>
+                    </a>
+                    
+                    <a href="https://www.canva.com/create/favicons/" target="_blank" 
+                       class="block p-4 border rounded-lg hover:shadow-md transition-shadow">
+                        <h3 class="font-bold text-orange-600 mb-2">Canva Favicon</h3>
+                        <p class="text-sm text-gray-600">Desain favicon dengan template siap pakai</p>
+                        <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded mt-2 inline-block">Freemium</span>
+                    </a>
+                </div>
+
+                <!-- Quick Favicon Generator -->
+                <div class="bg-gray-50 rounded-lg p-6">
+                    <h3 class="text-lg font-bold mb-4">⚡ Quick Emoji Favicon</h3>
+                    <p class="text-gray-600 mb-4">Buat favicon sederhana dari emoji:</p>
+                    
+                    <div class="flex gap-4 mb-4">
+                        <input type="text" id="emojiInput" placeholder="🚀" maxlength="2"
+                               class="w-20 px-3 py-2 border border-gray-300 rounded text-center text-2xl">
+                        <input type="color" id="bgColor" value="#ffffff" 
+                               class="w-16 h-10 border border-gray-300 rounded">
+                        <button onclick="generateEmojiFavicon()" 
+                                class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">
+                            Generate
+                        </button>
+                    </div>
+                    
+                    <div id="faviconPreview" class="hidden">
+                        <p class="text-sm text-gray-600 mb-2">Preview:</p>
+                        <canvas id="faviconCanvas" width="32" height="32" class="border rounded"></canvas>
+                        <button onclick="downloadFavicon()" 
+                                class="ml-4 px-3 py-1 bg-green-500 text-white text-sm rounded hover:bg-green-600 transition-colors">
+                            Download
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Troubleshooting -->
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-2xl font-bold mb-4 text-gray-800">🔧 Troubleshooting Favicon</h2>
+                
+                <div class="space-y-4">
+                    <div class="border-l-4 border-red-500 bg-red-50 p-4 rounded">
+                        <h3 class="font-bold text-red-800 mb-2">❌ Favicon tidak muncul</h3>
+                        <ul class="text-sm text-red-600 space-y-1 ml-4">
+                            <li>• Pastikan file favicon.ico ada di root folder</li>
+                            <li>• Cek nama file harus persis "favicon.ico"</li>
+                            <li>• Clear browser cache (Ctrl+F5)</li>
+                            <li>• Tunggu beberapa menit setelah deploy</li>
+                            <li>• Cek di browser incognito/private</li>
+                        </ul>
+                    </div>
+
+                    <div class="border-l-4 border-yellow-500 bg-yellow-50 p-4 rounded">
+                        <h3 class="font-bold text-yellow-800 mb-2">⚠️ Favicon blur atau pecah</h3>
+                        <ul class="text-sm text-yellow-600 space-y-1 ml-4">
+                            <li>• Gunakan ukuran yang tepat (16x16, 32x32px)</li>
+                            <li>• Pastikan gambar tidak di-resize paksa</li>
+                            <li>• Gunakan format PNG untuk kualitas lebih baik</li>
+                            <li>• Hindari detail terlalu kecil pada favicon</li>
+                        </ul>
+                    </div>
+
+                    <div class="border-l-4 border-blue-500 bg-blue-50 p-4 rounded">
+                        <h3 class="font-bold text-blue-800 mb-2">💡 Best Practices</h3>
+                        <ul class="text-sm text-blue-600 space-y-1 ml-4">
+                            <li>• Gunakan desain sederhana dan kontras tinggi</li>
+                            <li>• Test di berbagai browser dan device</li>
+                            <li>• Sediakan multiple ukuran untuk kompatibilitas</li>
+                            <li>• Gunakan SVG untuk favicon modern</li>
+                            <li>• Pertimbangkan dark mode dengan media query</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tools Tab -->
+        <div id="tools" class="tab-content">
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+                <h2 class="text-2xl font-bold mb-6 text-gray-800">🛠️ DNS Checker Tool</h2>
+                
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Masukkan domain untuk dicek:</label>
+                    <div class="flex gap-4">
+                        <input type="text" id="domainInput" placeholder="contoh: google.com" 
+                               class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        <button onclick="checkDNS()" 
+                                class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
+                            Cek DNS
+                        </button>
+                    </div>
+                </div>
+
+                <div id="dnsResults" class="hidden">
+                    <h3 class="text-lg font-bold mb-4">Hasil Pengecekan:</h3>
+                    <div id="resultsContent" class="space-y-4"></div>
+                </div>
+            </div>
+
+            <!-- Useful Links -->
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-2xl font-bold mb-4 text-gray-800">🔗 Link Berguna</h2>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <a href="https://www.whatsmydns.net/" target="_blank" 
+                       class="block p-4 border rounded-lg hover:shadow-md transition-shadow">
+                        <h3 class="font-bold text-blue-600 mb-2">What's My DNS</h3>
+                        <p class="text-sm text-gray-600">Cek propagasi DNS global</p>
+                    </a>
+                    
+                    <a href="https://dnschecker.org/" target="_blank" 
+                       class="block p-4 border rounded-lg hover:shadow-md transition-shadow">
+                        <h3 class="font-bold text-green-600 mb-2">DNS Checker</h3>
+                        <p class="text-sm text-gray-600">Tool lengkap untuk cek DNS</p>
+                    </a>
+                    
+                    <a href="https://www.ssllabs.com/ssltest/" target="_blank" 
+                       class="block p-4 border rounded-lg hover:shadow-md transition-shadow">
+                        <h3 class="font-bold text-purple-600 mb-2">SSL Labs</h3>
+                        <p class="text-sm text-gray-600">Test SSL certificate</p>
+                    </a>
+                    
+                    <a href="https://docs.netlify.com/domains-https/" target="_blank" 
+                       class="block p-4 border rounded-lg hover:shadow-md transition-shadow">
+                        <h3 class="font-bold text-orange-600 mb-2">Netlify Docs</h3>
+                        <p class="text-sm text-gray-600">Dokumentasi resmi</p>
+                    </a>
+                    
+                    <a href="https://www.cloudflare.com/learning/dns/what-is-dns/" target="_blank" 
+                       class="block p-4 border rounded-lg hover:shadow-md transition-shadow">
+                        <h3 class="font-bold text-blue-500 mb-2">Cloudflare Learning</h3>
+                        <p class="text-sm text-gray-600">Pelajari DNS lebih dalam</p>
+                    </a>
+                    
+                    <a href="https://mxtoolbox.com/" target="_blank" 
+                       class="block p-4 border rounded-lg hover:shadow-md transition-shadow">
+                        <h3 class="font-bold text-red-600 mb-2">MX Toolbox</h3>
+                        <p class="text-sm text-gray-600">Network diagnostic tools</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-12">
+        <div class="container mx-auto px-6 text-center">
+            <p class="mb-4">🌐 Panduan DNS Netlify - Dibuat dengan ❤️</p>
+            <p class="text-sm text-gray-400">Semoga panduan ini membantu Anda mengonfigurasi DNS dengan mudah!</p>
+        </div>
+    </footer>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+            
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => button.classList.remove('active'));
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+
+        function checkDNS() {
+            const domain = document.getElementById('domainInput').value.trim();
+            const resultsDiv = document.getElementById('dnsResults');
+            const contentDiv = document.getElementById('resultsContent');
+            
+            if (!domain) {
+                alert('Masukkan domain terlebih dahulu!');
+                return;
+            }
+            
+            // Show loading state
+            contentDiv.innerHTML = `
+                <div class="flex items-center justify-center py-8">
+                    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+                    <span class="ml-3">Mengecek DNS untuk ${domain}...</span>
+                </div>
+            `;
+            resultsDiv.classList.remove('hidden');
+            
+            // Simulate DNS check (in real app, you'd call actual DNS APIs)
+            setTimeout(() => {
+                const mockResults = [
+                    {
+                        type: 'A Record',
+                        status: 'success',
+                        value: '75.2.60.5',
+                        message: 'DNS record ditemukan dan mengarah ke Netlify'
+                    },
+                    {
+                        type: 'CNAME (www)',
+                        status: 'success',
+                        value: domain,
+                        message: 'Subdomain www dikonfigurasi dengan benar'
+                    },
+                    {
+                        type: 'SSL Certificate',
+                        status: 'success',
+                        value: 'Valid',
+                        message: 'SSL certificate aktif dan valid'
+                    },
+                    {
+                        type: 'Propagation',
+                        status: 'warning',
+                        value: 'Partial',
+                        message: 'DNS masih dalam proses propagasi di beberapa region'
+                    }
+                ];
+                
+                contentDiv.innerHTML = mockResults.map(result => `
+                    <div class="border rounded-lg p-4 ${result.status === 'success' ? 'border-green-200 bg-green-50' : 
+                                                      result.status === 'warning' ? 'border-yellow-200 bg-yellow-50' : 
+                                                      'border-red-200 bg-red-50'}">
+                        <div class="flex items-center justify-between mb-2">
+                            <h4 class="font-bold ${result.status === 'success' ? 'text-green-800' : 
+                                                  result.status === 'warning' ? 'text-yellow-800' : 
+                                                  'text-red-800'}">${result.type}</h4>
+                            <span class="text-sm font-medium ${result.status === 'success' ? 'text-green-600' : 
+                                                              result.status === 'warning' ? 'text-yellow-600' : 
+                                                              'text-red-600'}">${result.value}</span>
+                        </div>
+                        <p class="text-sm ${result.status === 'success' ? 'text-green-700' : 
+                                           result.status === 'warning' ? 'text-yellow-700' : 
+                                           'text-red-700'}">${result.message}</p>
+                    </div>
+                `).join('');
+            }, 2000);
+        }
+
+        function generateEmojiFavicon() {
+            const emoji = document.getElementById('emojiInput').value.trim();
+            const bgColor = document.getElementById('bgColor').value;
+            
+            if (!emoji) {
+                alert('Masukkan emoji terlebih dahulu!');
+                return;
+            }
+            
+            const canvas = document.getElementById('faviconCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, 32, 32);
+            
+            // Fill background
+            ctx.fillStyle = bgColor;
+            ctx.fillRect(0, 0, 32, 32);
+            
+            // Draw emoji
+            ctx.font = '20px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(emoji, 16, 16);
+            
+            // Show preview
+            document.getElementById('faviconPreview').classList.remove('hidden');
+        }
+        
+        function downloadFavicon() {
+            const canvas = document.getElementById('faviconCanvas');
+            
+            // Create download link
+            const link = document.createElement('a');
+            link.download = 'favicon.png';
+            link.href = canvas.toDataURL('image/png');
+            
+            // Trigger download
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Add some interactive animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate step cards on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            document.querySelectorAll('.step-card').forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(card);
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97a706ecd3d899a9',t:'MTc1NzA4ODk0NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

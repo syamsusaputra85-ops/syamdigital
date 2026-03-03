@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan Hosting WordPress</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .steps-container {
+            display: grid;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .step {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+        
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .step-number {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-right: 20px;
+        }
+        
+        .step-title {
+            font-size: 1.5rem;
+            color: #333;
+            font-weight: 600;
+        }
+        
+        .step-content {
+            color: #666;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+        
+        .step-content ul {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+        
+        .step-content li {
+            margin: 8px 0;
+        }
+        
+        .highlight {
+            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        
+        .tips-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-top: 30px;
+        }
+        
+        .tips-title {
+            color: #333;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .tips-icon {
+            font-size: 2rem;
+            margin-right: 15px;
+        }
+        
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .tip-card {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .tip-card h4 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .tip-card p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+        
+        .cta-section {
+            text-align: center;
+            margin-top: 40px;
+            padding: 30px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .cta-section h3 {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .cta-section p {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .step {
+                padding: 20px;
+            }
+            
+            .step-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .step-number {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+            
+            .tips-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Panduan Hosting WordPress</h1>
+            <p>Langkah mudah untuk memulai website WordPress Anda</p>
+        </div>
+        
+        <div class="steps-container">
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Pilih Penyedia Hosting</div>
+                </div>
+                <div class="step-content">
+                    <p>Pilih penyedia hosting yang mendukung WordPress. Beberapa pilihan populer:</p>
+                    <ul>
+                        <li><span class="highlight">Shared Hosting</span> - Cocok untuk pemula (Hostinger, Niagahoster)</li>
+                        <li><span class="highlight">WordPress Hosting</span> - Dioptimalkan khusus WordPress</li>
+                        <li><span class="highlight">VPS/Cloud</span> - Untuk website dengan traffic tinggi</li>
+                    </ul>
+                    <p>Pertimbangkan faktor seperti kecepatan, uptime, support, dan harga.</p>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Daftar & Beli Hosting</div>
+                </div>
+                <div class="step-content">
+                    <p>Proses pendaftaran hosting:</p>
+                    <ul>
+                        <li>Kunjungi website penyedia hosting</li>
+                        <li>Pilih paket hosting yang sesuai kebutuhan</li>
+                        <li>Daftarkan domain baru atau gunakan domain existing</li>
+                        <li>Lengkapi data pribadi dan lakukan pembayaran</li>
+                        <li>Cek email untuk <span class="highlight">detail akun hosting</span></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Install WordPress</div>
+                </div>
+                <div class="step-content">
+                    <p>Ada beberapa cara untuk menginstall WordPress:</p>
+                    <ul>
+                        <li><span class="highlight">Auto Installer</span> - Gunakan Softaculous/Fantastico di cPanel</li>
+                        <li><span class="highlight">Manual Install</span> - Download dari wordpress.org</li>
+                        <li><span class="highlight">One-Click Install</span> - Fitur dari hosting provider</li>
+                    </ul>
+                    <p>Kebanyakan hosting modern menyediakan instalasi WordPress dalam 1 klik.</p>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">4</div>
+                    <div class="step-title">Akses Dashboard WordPress</div>
+                </div>
+                <div class="step-content">
+                    <p>Setelah instalasi selesai:</p>
+                    <ul>
+                        <li>Buka <span class="highlight">namadomainanda.com/wp-admin</span></li>
+                        <li>Login dengan username dan password yang dibuat saat instalasi</li>
+                        <li>Anda akan masuk ke dashboard WordPress</li>
+                        <li>Mulai kustomisasi website Anda!</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-header">
+                    <div class="step-number">5</div>
+                    <div class="step-title">Konfigurasi Dasar</div>
+                </div>
+                <div class="step-content">
+                    <p>Pengaturan penting yang perlu dilakukan:</p>
+                    <ul>
+                        <li><span class="highlight">Settings > General</span> - Atur judul dan deskripsi site</li>
+                        <li><span class="highlight">Settings > Permalinks</span> - Pilih struktur URL yang SEO friendly</li>
+                        <li><span class="highlight">Appearance > Themes</span> - Pilih dan install tema</li>
+                        <li><span class="highlight">Plugins</span> - Install plugin essential (security, SEO, backup)</li>
+                        <li><span class="highlight">Users</span> - Buat akun admin yang aman</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tips-section">
+            <div class="tips-title">
+                <span class="tips-icon">💡</span>
+                Tips Penting
+            </div>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <h4>🔒 Keamanan</h4>
+                    <p>Selalu gunakan password yang kuat, install plugin security seperti Wordfence, dan lakukan backup rutin.</p>
+                </div>
+                <div class="tip-card">
+                    <h4>⚡ Performa</h4>
+                    <p>Gunakan plugin caching, optimasi gambar, dan pilih tema yang ringan untuk website yang cepat.</p>
+                </div>
+                <div class="tip-card">
+                    <h4>📱 Responsif</h4>
+                    <p>Pastikan tema yang dipilih mobile-friendly karena mayoritas pengunjung menggunakan smartphone.</p>
+                </div>
+                <div class="tip-card">
+                    <h4>🔍 SEO</h4>
+                    <p>Install plugin SEO seperti Yoast atau RankMath untuk optimasi mesin pencari.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h3>🎉 Selamat!</h3>
+            <p>Website WordPress Anda sudah siap digunakan. Mulai buat konten dan kembangkan website impian Anda!</p>
+        </div>
+    </div>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97d0476f3790fe84',t:'MTc1NzUyMTUwMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

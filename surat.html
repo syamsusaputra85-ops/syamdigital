@@ -1,0 +1,2371 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Aplikasi Manajemen Surat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .fade-in { animation: fadeIn 0.3s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .slide-up { animation: slideUp 0.3s ease-out; }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        
+        /* Fullscreen styles */
+        .fullscreen-active {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            z-index: 9999 !important;
+            background: white !important;
+        }
+        
+        .fullscreen-active body {
+            overflow: hidden;
+        }
+
+        /* Upload area styles */
+        .upload-area-dragover {
+            border-color: #3b82f6 !important;
+            background-color: #eff6ff !important;
+        }
+
+        /* Login page styles */
+        .login-bg {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 25%, #0f3460 50%, #533a71 75%, #8b2635 100%);
+        }
+        
+        .login-card {
+            backdrop-filter: blur(15px);
+            background: rgba(20, 20, 30, 0.85);
+            border: 1px solid rgba(139, 38, 53, 0.3);
+        }
+        
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+        
+        .shape {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .shape:nth-child(1) {
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .shape:nth-child(2) {
+            top: 20%;
+            right: 10%;
+            animation-delay: 2s;
+        }
+        
+        .shape:nth-child(3) {
+            bottom: 10%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="loginPage" class="min-h-screen login-bg flex items-center justify-center p-4 relative">
+        <!-- Floating Shapes Background -->
+        <div class="floating-shapes">
+            <div class="shape w-32 h-32 bg-white rounded-full"></div>
+            <div class="shape w-24 h-24 bg-blue-200 rounded-lg"></div>
+            <div class="shape w-16 h-16 bg-purple-200 rounded-full"></div>
+        </div>
+        
+        <div class="login-card w-full max-w-md rounded-2xl shadow-2xl p-8 relative z-10 fade-in">
+            <!-- Logo and Title -->
+            <div class="text-center mb-8">
+                <div class="bg-gradient-to-r from-red-900 to-red-700 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                    <i class="fas fa-envelope text-white text-2xl"></i>
+                </div>
+                <h1 class="text-2xl font-bold text-white mb-2">Manajemen Surat</h1>
+                <p class="text-gray-300">Masuk ke sistem administrasi surat</p>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm" class="space-y-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">
+                        <i class="fas fa-user mr-2 text-red-400"></i>Username
+                    </label>
+                    <input type="text" id="loginUsername" required 
+                           class="w-full px-4 py-3 bg-gray-800 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all duration-200 placeholder-gray-400"
+                           placeholder="Masukkan username">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">
+                        <i class="fas fa-lock mr-2 text-red-400"></i>Password
+                    </label>
+                    <div class="relative">
+                        <input type="password" id="loginPassword" required 
+                               class="w-full px-4 py-3 bg-gray-800 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all duration-200 pr-12 placeholder-gray-400"
+                               placeholder="Masukkan password">
+                        <button type="button" onclick="togglePasswordVisibility()" 
+                                class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-red-400">
+                            <i id="passwordToggleIcon" class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between">
+                    <label class="flex items-center">
+                        <input type="checkbox" id="rememberMe" class="rounded border-gray-600 bg-gray-800 text-red-600 focus:ring-red-500">
+                        <span class="ml-2 text-sm text-gray-300">Ingat saya</span>
+                    </label>
+                    <button type="button" onclick="showForgotPassword()" class="text-sm text-red-400 hover:text-red-300">
+                        Lupa password?
+                    </button>
+                </div>
+
+                <button type="submit" class="w-full bg-gradient-to-r from-red-900 to-red-700 hover:from-red-800 hover:to-red-600 text-white py-3 px-4 rounded-lg font-medium transition-all duration-200 flex items-center justify-center shadow-lg">
+                    <i class="fas fa-sign-in-alt mr-2"></i>
+                    Masuk
+                </button>
+            </form>
+
+
+
+            <!-- Footer -->
+            <div class="mt-8 text-center">
+                <p class="text-xs text-gray-400">
+                    © 2024 Syam Digital. Sistem Manajemen Surat
+                </p>
+                <div class="flex justify-center space-x-4 mt-2">
+                    <button onclick="showAbout()" class="text-xs text-gray-400 hover:text-red-400">Tentang</button>
+                    <button onclick="showHelp()" class="text-xs text-gray-400 hover:text-red-400">Bantuan</button>
+                    <button onclick="showContact()" class="text-xs text-gray-400 hover:text-red-400">Kontak</button>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- Main Application (Hidden initially) -->
+    <div id="mainApp" class="hidden">
+        <!-- Header -->
+        <header class="bg-gradient-to-r from-gray-900 via-gray-800 to-red-900 shadow-2xl border-b-4 border-red-700">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center py-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="bg-gradient-to-r from-red-900 to-red-700 p-2 rounded-lg shadow-lg">
+                            <i class="fas fa-envelope text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-2xl font-bold text-white">Manajemen Surat</h1>
+                            <p class="text-sm text-gray-300">Sistem Administrasi Surat Masuk & Keluar</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <button onclick="toggleFullscreen()" class="p-2 text-gray-300 hover:text-white hover:bg-red-800 rounded-lg transition-colors duration-200" title="Toggle Fullscreen">
+                            <i id="fullscreenIcon" class="fas fa-expand text-lg"></i>
+                        </button>
+                        <div class="text-right">
+                            <p class="text-sm font-medium text-white">Syam Digital</p>
+                            <p class="text-xs text-gray-300" id="currentDate"></p>
+                        </div>
+                        <div class="relative">
+                            <button onclick="toggleProfileDropdown()" class="flex items-center space-x-2 focus:outline-none">
+                                <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1751214851/SYAM-DIGITAL_qp3cfw.png" 
+                                     alt="Syam Digital" 
+                                     class="w-10 h-10 rounded-full object-cover border-2 border-red-500"
+                                     onerror="this.src=''; this.alt='Profile image failed to load'; this.className='w-10 h-10 bg-red-700 rounded-full flex items-center justify-center text-white'; this.innerHTML='<i class=\'fas fa-user\'></i>';">
+                                <i class="fas fa-chevron-down text-gray-300 text-sm"></i>
+                            </button>
+                            
+                            <!-- Profile Dropdown -->
+                            <div id="profileDropdown" class="absolute right-0 mt-2 w-64 bg-gray-800 rounded-lg shadow-xl border border-red-700 hidden z-50">
+                                <div class="p-4 border-b border-gray-700">
+                                    <div class="flex items-center space-x-3">
+                                        <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1751214851/SYAM-DIGITAL_qp3cfw.png" 
+                                             alt="Syam Digital" 
+                                             class="w-12 h-12 rounded-full object-cover border-2 border-red-500"
+                                             onerror="this.src=''; this.alt='Profile image failed to load'; this.className='w-12 h-12 bg-red-700 rounded-full flex items-center justify-center text-white'; this.innerHTML='<i class=\'fas fa-user text-lg\'></i>';">
+                                        <div>
+                                            <p class="font-semibold text-white">Syam Digital</p>
+                                            <p class="text-sm text-gray-300">Administrator</p>
+                                            <p class="text-xs text-green-400">● Online</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="py-2">
+                                    <button onclick="openProfileModal()" class="w-full text-left px-4 py-2 hover:bg-gray-700 flex items-center space-x-3 text-gray-300">
+                                        <i class="fas fa-user-edit text-red-400"></i>
+                                        <span>Edit Profil</span>
+                                    </button>
+                                    <button onclick="openSettingsModal()" class="w-full text-left px-4 py-2 hover:bg-gray-700 flex items-center space-x-3 text-gray-300">
+                                        <i class="fas fa-cog text-gray-400"></i>
+                                        <span>Pengaturan</span>
+                                    </button>
+                                    <button onclick="showActivityLog()" class="w-full text-left px-4 py-2 hover:bg-gray-700 flex items-center space-x-3 text-gray-300">
+                                        <i class="fas fa-history text-green-400"></i>
+                                        <span>Log Aktivitas</span>
+                                    </button>
+                                    <hr class="my-2 border-gray-700">
+                                    <button onclick="logout()" class="w-full text-left px-4 py-2 hover:bg-gray-700 flex items-center space-x-3 text-red-400">
+                                        <i class="fas fa-sign-out-alt"></i>
+                                        <span>Keluar</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-red-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- Navigation Tabs -->
+            <div class="bg-gray-800 rounded-xl shadow-2xl mb-8 overflow-hidden border border-red-800">
+                <div class="flex border-b border-gray-700">
+                    <button onclick="switchTab('masuk')" id="tabMasuk" class="flex-1 py-4 px-6 text-center font-medium transition-all duration-200 bg-gradient-to-r from-red-900 to-red-700 text-white">
+                        <i class="fas fa-inbox mr-2"></i>Surat Masuk
+                    </button>
+                    <button onclick="switchTab('keluar')" id="tabKeluar" class="flex-1 py-4 px-6 text-center font-medium transition-all duration-200 bg-gray-700 text-gray-300 hover:bg-gray-600">
+                        <i class="fas fa-paper-plane mr-2"></i>Surat Keluar
+                    </button>
+                </div>
+
+                <!-- Controls -->
+                <div class="p-6 bg-gray-700 border-b border-gray-600">
+                    <div class="flex flex-col lg:flex-row gap-4 items-center justify-between">
+                        <div class="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
+                            <div class="relative">
+                                <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                <input type="text" id="searchInput" placeholder="Cari surat..." 
+                                       class="pl-10 pr-4 py-2 bg-gray-800 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 w-full sm:w-64 placeholder-gray-400">
+                            </div>
+                            <select id="filterStatus" class="px-4 py-2 bg-gray-800 border border-gray-600 text-white rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500">
+                                <option value="">Semua Status</option>
+                                <option value="Belum Dibaca">Belum Dibaca</option>
+                                <option value="Sudah Dibaca">Sudah Dibaca</option>
+                                <option value="Diproses">Diproses</option>
+                                <option value="Selesai">Selesai</option>
+                            </select>
+                        </div>
+                        <button onclick="openModal()" class="bg-gradient-to-r from-red-900 to-red-700 hover:from-red-800 hover:to-red-600 text-white px-6 py-2 rounded-lg font-medium transition-all duration-200 flex items-center shadow-lg">
+                            <i class="fas fa-plus mr-2"></i>Tambah Surat
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Statistics Cards -->
+                <div class="p-6 bg-gray-800">
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                        <div class="bg-gradient-to-r from-gray-700 to-gray-600 p-4 rounded-lg text-white border border-red-800 shadow-lg">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-300 text-sm">Total Surat</p>
+                                    <p class="text-2xl font-bold" id="totalSurat">0</p>
+                                </div>
+                                <i class="fas fa-envelope text-red-400 text-2xl"></i>
+                            </div>
+                        </div>
+                        <div class="bg-gradient-to-r from-green-800 to-green-700 p-4 rounded-lg text-white border border-green-600 shadow-lg">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-green-200 text-sm">Sudah Dibaca</p>
+                                    <p class="text-2xl font-bold" id="sudahDibaca">0</p>
+                                </div>
+                                <i class="fas fa-check-circle text-green-300 text-2xl"></i>
+                            </div>
+                        </div>
+                        <div class="bg-gradient-to-r from-yellow-800 to-yellow-700 p-4 rounded-lg text-white border border-yellow-600 shadow-lg">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-yellow-200 text-sm">Diproses</p>
+                                    <p class="text-2xl font-bold" id="diproses">0</p>
+                                </div>
+                                <i class="fas fa-clock text-yellow-300 text-2xl"></i>
+                            </div>
+                        </div>
+                        <div class="bg-gradient-to-r from-red-900 to-red-800 p-4 rounded-lg text-white border border-red-600 shadow-lg">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-red-200 text-sm">Belum Dibaca</p>
+                                    <p class="text-2xl font-bold" id="belumDibaca">0</p>
+                                </div>
+                                <i class="fas fa-exclamation-circle text-red-300 text-2xl"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Table -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full border-collapse border border-gray-400">
+                            <thead>
+                                <tr class="bg-gradient-to-r from-blue-900 to-blue-800 border-b border-blue-700">
+                                    <th class="text-left py-3 px-4 font-medium text-white border border-blue-600">No</th>
+                                    <th class="text-left py-3 px-4 font-medium text-white border border-blue-600">Tanggal</th>
+                                    <th class="text-left py-3 px-4 font-medium text-white border border-blue-600">No. Surat</th>
+                                    <th class="text-left py-3 px-4 font-medium text-white border border-blue-600">Pengirim/Tujuan</th>
+                                    <th class="text-left py-3 px-4 font-medium text-white border border-blue-600">Perihal</th>
+                                    <th class="text-left py-3 px-4 font-medium text-white border border-blue-600">File</th>
+                                    <th class="text-left py-3 px-4 font-medium text-white border border-blue-600">Status</th>
+                                    <th class="text-left py-3 px-4 font-medium text-white border border-blue-600">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="suratTable">
+                                <!-- Data akan diisi oleh JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- Modal Form -->
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto slide-up">
+            <div class="p-6 border-b">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-xl font-bold text-gray-900" id="modalTitle">Tambah Surat Masuk</h3>
+                    <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600 text-2xl">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <form id="suratForm" class="p-6 space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Tanggal</label>
+                        <input type="date" id="tanggal" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Nomor Surat</label>
+                        <input type="text" id="noSurat" required placeholder="Contoh: 001/DIR/2024" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2" id="labelPengirim">Pengirim</label>
+                    <input type="text" id="pengirim" required placeholder="Nama pengirim/instansi" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Perihal</label>
+                    <input type="text" id="perihal" required placeholder="Perihal surat" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Keterangan</label>
+                    <textarea id="keterangan" rows="3" placeholder="Keterangan tambahan (opsional)" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                    <select id="status" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        <option value="Belum Dibaca">Belum Dibaca</option>
+                        <option value="Sudah Dibaca">Sudah Dibaca</option>
+                        <option value="Diproses">Diproses</option>
+                        <option value="Selesai">Selesai</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Upload File Surat</label>
+                    <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-400 transition-colors duration-200" id="uploadArea">
+                        <input type="file" id="fileUpload" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" class="hidden" onchange="handleFileUpload(event)">
+                        <div id="uploadContent">
+                            <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-2"></i>
+                            <p class="text-gray-600 mb-2">Klik untuk upload atau drag & drop file</p>
+                            <p class="text-sm text-gray-500">Mendukung: PDF, DOC, DOCX, JPG, PNG (Max: 5MB)</p>
+                            <button type="button" onclick="document.getElementById('fileUpload').click()" class="mt-3 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-200">
+                                <i class="fas fa-upload mr-2"></i>Pilih File
+                            </button>
+                        </div>
+                        <div id="filePreview" class="hidden">
+                            <div class="flex items-center justify-center space-x-3 p-3 bg-green-50 rounded-lg">
+                                <i class="fas fa-file text-green-500 text-2xl" id="fileIcon"></i>
+                                <div class="flex-1 text-left">
+                                    <p class="font-medium text-green-800" id="fileName"></p>
+                                    <p class="text-sm text-green-600" id="fileSize"></p>
+                                </div>
+                                <button type="button" onclick="removeFile()" class="text-red-500 hover:text-red-700">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-end space-x-3 pt-4">
+                    <button type="button" onclick="closeModal()" class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+                        Batal
+                    </button>
+                    <button type="submit" class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-200">
+                        Simpan
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Detail Modal -->
+    <div id="detailModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto slide-up">
+            <div class="p-6 border-b">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-xl font-bold text-gray-900">Detail Surat</h3>
+                    <button onclick="closeDetailModal()" class="text-gray-400 hover:text-gray-600 text-2xl">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div id="detailContent" class="p-6">
+                <!-- Detail akan diisi oleh JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div id="profileModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto slide-up">
+            <div class="p-6 border-b">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-xl font-bold text-gray-900">Edit Profil Admin</h3>
+                    <button onclick="closeProfileModal()" class="text-gray-400 hover:text-gray-600 text-2xl">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <form id="profileForm" class="p-6 space-y-6">
+                <div class="flex flex-col items-center space-y-4">
+                    <div class="relative">
+                        <img id="profileImage" src="https://res.cloudinary.com/di8stbg60/image/upload/v1751214851/SYAM-DIGITAL_qp3cfw.png" 
+                             alt="Syam Digital" 
+                             class="w-24 h-24 rounded-full object-cover border-4 border-blue-500"
+                             onerror="this.src=''; this.alt='Profile image failed to load'; this.className='w-24 h-24 bg-blue-500 rounded-full flex items-center justify-center text-white border-4 border-blue-500'; this.innerHTML='<i class=\'fas fa-user text-2xl\'></i>';">
+                        <button type="button" onclick="changeProfileImage()" class="absolute bottom-0 right-0 bg-blue-500 text-white rounded-full p-2 hover:bg-blue-600 transition-colors">
+                            <i class="fas fa-camera text-sm"></i>
+                        </button>
+                    </div>
+                    <p class="text-sm text-gray-600">Klik ikon kamera untuk mengubah foto profil</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Nama Lengkap</label>
+                        <input type="text" id="fullName" value="Syam Digital" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Username</label>
+                        <input type="text" id="username" value="syamdigital" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                        <input type="email" id="email" value="admin@syamdigital.com" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Telepon</label>
+                        <input type="tel" id="phone" value="+62 812-3456-7890" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Jabatan</label>
+                    <input type="text" id="position" value="Administrator Sistem" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Alamat</label>
+                    <textarea id="address" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">Jl. Digital No. 123, Kota Teknologi, Indonesia</textarea>
+                </div>
+
+                <div class="border-t pt-4">
+                    <h4 class="font-medium text-gray-900 mb-3">Ubah Password</h4>
+                    <div class="space-y-3">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Password Lama</label>
+                            <input type="password" id="oldPassword" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Password Baru</label>
+                                <input type="password" id="newPassword" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Konfirmasi Password</label>
+                                <input type="password" id="confirmPassword" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-end space-x-3 pt-4">
+                    <button type="button" onclick="closeProfileModal()" class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+                        Batal
+                    </button>
+                    <button type="submit" class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-200">
+                        Simpan Perubahan
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto slide-up">
+            <div class="p-6 border-b">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-xl font-bold text-gray-900">Pengaturan Sistem</h3>
+                    <button onclick="closeSettingsModal()" class="text-gray-400 hover:text-gray-600 text-2xl">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="p-6 space-y-6">
+                <div>
+                    <h4 class="font-medium text-gray-900 mb-4">Pengaturan Tampilan</h4>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-700">Mode Gelap</span>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="darkMode" class="sr-only peer">
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                            </label>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-700">Notifikasi Desktop</span>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="notifications" checked class="sr-only peer">
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                            </label>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-700">Auto Refresh Data</span>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" id="autoRefresh" checked class="sr-only peer">
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                            </label>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-700">Mode Fullscreen</span>
+                            <button onclick="toggleFullscreen()" class="px-3 py-1 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors text-sm">
+                                <i class="fas fa-expand mr-1"></i>Toggle
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="font-medium text-gray-900 mb-4">Pengaturan Data</h4>
+                    <div class="space-y-3">
+                        <button onclick="exportData()" class="w-full text-left p-3 border border-gray-300 rounded-lg hover:bg-gray-50 flex items-center space-x-3">
+                            <i class="fas fa-download text-green-500"></i>
+                            <div>
+                                <p class="font-medium">Export Data</p>
+                                <p class="text-sm text-gray-600">Download semua data surat dalam format JSON</p>
+                            </div>
+                        </button>
+                        <button onclick="importData()" class="w-full text-left p-3 border border-gray-300 rounded-lg hover:bg-gray-50 flex items-center space-x-3">
+                            <i class="fas fa-upload text-blue-500"></i>
+                            <div>
+                                <p class="font-medium">Import Data</p>
+                                <p class="text-sm text-gray-600">Upload data surat dari file JSON</p>
+                            </div>
+                        </button>
+                        <button onclick="clearAllData()" class="w-full text-left p-3 border border-red-300 rounded-lg hover:bg-red-50 flex items-center space-x-3 text-red-600">
+                            <i class="fas fa-trash"></i>
+                            <div>
+                                <p class="font-medium">Hapus Semua Data</p>
+                                <p class="text-sm text-red-500">Menghapus semua data surat (tidak dapat dibatalkan)</p>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex justify-end">
+                    <button onclick="closeSettingsModal()" class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-200">
+                        Tutup
+                    </button>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- Activity Log Modal -->
+    <div id="activityModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto slide-up">
+            <div class="p-6 border-b">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-xl font-bold text-gray-900">Log Aktivitas</h3>
+                    <button onclick="closeActivityModal()" class="text-gray-400 hover:text-gray-600 text-2xl">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="p-6">
+                <div id="activityLog" class="space-y-3">
+                    <!-- Activity log akan diisi oleh JavaScript -->
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- File Preview Modal -->
+    <div id="filePreviewModal" class="fixed inset-0 bg-black bg-opacity-75 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden slide-up">
+            <div class="p-6 border-b flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                    <i id="previewFileIcon" class="fas fa-file text-2xl text-gray-600"></i>
+                    <div>
+                        <h3 class="text-xl font-bold text-gray-900">Preview File</h3>
+                        <p class="text-sm text-gray-600" id="previewFileName">filename.pdf</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <button onclick="downloadFile()" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-200 flex items-center">
+                        <i class="fas fa-download mr-2"></i>Download
+                    </button>
+                    <button onclick="closeFilePreview()" class="text-gray-400 hover:text-gray-600 text-2xl">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="p-6 max-h-[70vh] overflow-auto">
+                <div id="filePreviewContent" class="w-full h-full flex items-center justify-center">
+                    <!-- Preview content akan diisi oleh JavaScript -->
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- Success Confirmation Modal -->
+    <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-md slide-up">
+            <div class="p-6 text-center">
+                <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-4">
+                    <i class="fas fa-check text-green-600 text-2xl"></i>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 mb-2" id="successTitle">Berhasil!</h3>
+                <p class="text-gray-600 mb-6" id="successMessage">Surat berhasil ditambahkan ke sistem.</p>
+                <div class="flex justify-center space-x-3">
+                    <button onclick="closeSuccessModal()" class="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors duration-200">
+                        <i class="fas fa-check mr-2"></i>OK
+                    </button>
+                    <button onclick="addAnotherLetter()" class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+                        <i class="fas fa-plus mr-2"></i>Tambah Lagi
+                    </button>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- Warning Modal (for Login Failed) -->
+    <div id="warningModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-md slide-up">
+            <div class="p-6 text-center">
+                <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-red-100 mb-4">
+                    <i class="fas fa-exclamation-triangle text-red-600 text-2xl"></i>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 mb-2">PERINGATAN!</h3>
+                <p class="text-gray-600 mb-6">Username atau password yang Anda masukkan salah. Silakan periksa kembali dan coba lagi.</p>
+                <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+                    <div class="text-left space-y-2">
+                        <div class="flex items-center space-x-2">
+                            <i class="fas fa-user text-red-500 text-sm"></i>
+                            <span class="text-sm text-red-700"><strong>Username:</strong> admin</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <i class="fas fa-lock text-red-500 text-sm"></i>
+                            <span class="text-sm text-red-700"><strong>Password:</strong> admin123</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex justify-center">
+                    <button onclick="closeWarningModal()" class="px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors duration-200">
+                        <i class="fas fa-check mr-2"></i>Mengerti
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Info Modal (for About, Help, Contact) -->
+    <div id="infoModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-md slide-up">
+            <div class="p-6 border-b">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-xl font-bold text-gray-900" id="infoModalTitle">Informasi</h3>
+                    <button onclick="closeInfoModal()" class="text-gray-400 hover:text-gray-600 text-2xl">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="p-6">
+                <div id="infoModalContent">
+                    <!-- Content akan diisi oleh JavaScript -->
+                </div>
+                <div class="flex justify-end mt-6">
+                    <button onclick="closeInfoModal()" class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-200">
+                        Tutup
+                    </button>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <script>
+        // Data storage
+        let suratMasuk = JSON.parse(localStorage.getItem('suratMasuk')) || [];
+        let suratKeluar = JSON.parse(localStorage.getItem('suratKeluar')) || [];
+        let currentTab = 'masuk';
+        let editingId = null;
+        let activityLog = JSON.parse(localStorage.getItem('activityLog')) || [];
+        let adminProfile = JSON.parse(localStorage.getItem('adminProfile')) || {
+            fullName: 'Syam Digital',
+            username: 'syamdigital',
+            email: 'admin@syamdigital.com',
+            phone: '+62 812-3456-7890',
+            position: 'Administrator Sistem',
+            address: 'Jl. Digital No. 123, Kota Teknologi, Indonesia',
+            profileImage: 'https://res.cloudinary.com/di8stbg60/image/upload/v1751214851/SYAM-DIGITAL_qp3cfw.png'
+        };
+        let isFullscreen = false;
+        let currentFile = null;
+        let currentPreviewFile = null;
+        let isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+
+        // Login credentials
+        const validCredentials = {
+            username: 'admin',
+            password: 'admin123'
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load all data from localStorage first
+            loadAllDataFromStorage();
+            
+            // Check if user is already logged in
+            if (isLoggedIn) {
+                showMainApp();
+            } else {
+                showLoginPage();
+            }
+            
+            // Login form event listener
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+            
+            updateCurrentDate();
+            loadSampleData();
+            renderTable();
+            updateStatistics();
+            setupDragAndDrop();
+            
+            // Event listeners
+            document.getElementById('searchInput').addEventListener('input', renderTable);
+            document.getElementById('filterStatus').addEventListener('change', renderTable);
+            document.getElementById('suratForm').addEventListener('submit', handleSubmit);
+            document.getElementById('profileForm').addEventListener('submit', handleProfileSubmit);
+            
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', function(event) {
+                const dropdown = document.getElementById('profileDropdown');
+                const button = event.target.closest('button[onclick="toggleProfileDropdown()"]');
+                if (!button && !dropdown.contains(event.target)) {
+                    dropdown.classList.add('hidden');
+                }
+            });
+            
+            // Fullscreen event listeners
+            document.addEventListener('fullscreenchange', handleFullscreenChange);
+            document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+            document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+            document.addEventListener('MSFullscreenChange', handleFullscreenChange);
+            
+            // Keyboard shortcut for fullscreen (F11 alternative)
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'F11') {
+                    e.preventDefault();
+                    toggleFullscreen();
+                }
+                // ESC to exit fullscreen
+                if (e.key === 'Escape' && isFullscreen) {
+                    exitFullscreen();
+                }
+            });
+            
+            // Auto-save data before page unload
+            window.addEventListener('beforeunload', function(e) {
+                saveAllDataToStorage();
+            });
+            
+            // Auto-save data when page visibility changes (mobile/tab switching)
+            document.addEventListener('visibilitychange', function() {
+                if (document.visibilityState === 'hidden') {
+                    saveAllDataToStorage();
+                }
+            });
+            
+            // Initialize activity log
+            if (activityLog.length === 0) {
+                addActivity('Sistem dimulai', 'System');
+            }
+        });
+
+        // Data Persistence Functions
+        function loadAllDataFromStorage() {
+            // Load surat data
+            const storedSuratMasuk = localStorage.getItem('suratMasuk');
+            const storedSuratKeluar = localStorage.getItem('suratKeluar');
+            const storedActivityLog = localStorage.getItem('activityLog');
+            const storedAdminProfile = localStorage.getItem('adminProfile');
+            
+            if (storedSuratMasuk) {
+                try {
+                    suratMasuk = JSON.parse(storedSuratMasuk);
+                } catch (e) {
+                    console.error('Error loading surat masuk:', e);
+                    suratMasuk = [];
+                }
+            }
+            
+            if (storedSuratKeluar) {
+                try {
+                    suratKeluar = JSON.parse(storedSuratKeluar);
+                } catch (e) {
+                    console.error('Error loading surat keluar:', e);
+                    suratKeluar = [];
+                }
+            }
+            
+            if (storedActivityLog) {
+                try {
+                    activityLog = JSON.parse(storedActivityLog);
+                } catch (e) {
+                    console.error('Error loading activity log:', e);
+                    activityLog = [];
+                }
+            }
+            
+            if (storedAdminProfile) {
+                try {
+                    adminProfile = JSON.parse(storedAdminProfile);
+                } catch (e) {
+                    console.error('Error loading admin profile:', e);
+                    adminProfile = {
+                        fullName: 'Syam Digital',
+                        username: 'syamdigital',
+                        email: 'admin@syamdigital.com',
+                        phone: '+62 812-3456-7890',
+                        position: 'Administrator Sistem',
+                        address: 'Jl. Digital No. 123, Kota Teknologi, Indonesia',
+                        profileImage: 'https://res.cloudinary.com/di8stbg60/image/upload/v1751214851/SYAM-DIGITAL_qp3cfw.png'
+                    };
+                }
+            }
+        }
+
+        function saveAllDataToStorage() {
+            try {
+                localStorage.setItem('suratMasuk', JSON.stringify(suratMasuk));
+                localStorage.setItem('suratKeluar', JSON.stringify(suratKeluar));
+                // Save activity log to localStorage
+            saveAllDataToStorage();
+                localStorage.setItem('adminProfile', JSON.stringify(adminProfile));
+                return true;
+            } catch (e) {
+                console.error('Error saving data to localStorage:', e);
+                return false;
+            }
+        }
+
+        // Login Functions
+        function showLoginPage() {
+            document.getElementById('loginPage').classList.remove('hidden');
+            document.getElementById('mainApp').classList.add('hidden');
+        }
+
+        function showMainApp() {
+            document.getElementById('loginPage').classList.add('hidden');
+            document.getElementById('mainApp').classList.remove('hidden');
+            updateCurrentDate();
+            renderTable();
+            updateStatistics();
+            
+            // Show data persistence confirmation
+            if (suratMasuk.length > 0 || suratKeluar.length > 0) {
+                console.log('✅ Data berhasil dimuat dari penyimpanan permanen');
+                addActivity('Data dimuat dari penyimpanan lokal', 'System');
+            }
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+            
+            if (username === validCredentials.username && password === validCredentials.password) {
+                // Successful login
+                isLoggedIn = true;
+                localStorage.setItem('isLoggedIn', 'true');
+                
+                if (rememberMe) {
+                    localStorage.setItem('rememberLogin', 'true');
+                }
+                
+                addActivity('Login berhasil ke sistem', 'System');
+                showMainApp();
+                
+                // Clear form
+                document.getElementById('loginForm').reset();
+            } else {
+                // Failed login - show warning modal
+                showWarningModal();
+                addActivity('Percobaan login gagal', 'System');
+            }
+        }
+
+
+
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('loginPassword');
+            const toggleIcon = document.getElementById('passwordToggleIcon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.className = 'fas fa-eye-slash';
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.className = 'fas fa-eye';
+            }
+        }
+
+        function showWarningModal() {
+            document.getElementById('warningModal').classList.remove('hidden');
+        }
+
+        function closeWarningModal() {
+            document.getElementById('warningModal').classList.add('hidden');
+            // Clear form fields and focus on username
+            document.getElementById('loginUsername').value = '';
+            document.getElementById('loginPassword').value = '';
+            document.getElementById('loginUsername').focus();
+        }
+
+        function showForgotPassword() {
+            alert('Untuk demo ini, gunakan:\nUsername: admin\nPassword: admin123\n\nDalam aplikasi nyata, fitur reset password akan tersedia.');
+        }
+
+        function showAbout() {
+            document.getElementById('infoModalTitle').textContent = 'Tentang Aplikasi';
+            document.getElementById('infoModalContent').innerHTML = `
+                <div class="text-center mb-4">
+                    <div class="bg-blue-500 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-envelope text-white text-2xl"></i>
+                    </div>
+                    <h4 class="text-lg font-bold text-gray-900">Sistem Manajemen Surat</h4>
+                    <p class="text-sm text-gray-600">Versi 1.0.0</p>
+                </div>
+                <div class="space-y-3 text-sm text-gray-700">
+                    <p>Aplikasi ini dirancang untuk membantu mengelola surat masuk dan keluar dengan efisien.</p>
+                    <div class="bg-gray-50 p-3 rounded-lg">
+                        <h5 class="font-medium mb-2">Fitur Utama:</h5>
+                        <ul class="space-y-1 text-xs">
+                            <li>• Manajemen surat masuk dan keluar</li>
+                            <li>• Upload dan preview file</li>
+                            <li>• Sistem pencarian dan filter</li>
+                            <li>• Export/import data</li>
+                            <li>• Log aktivitas pengguna</li>
+                            <li>• Mode fullscreen</li>
+                        </ul>
+                    </div>
+                    <p class="text-center text-xs text-gray-500 mt-4">
+                        © 2024 Syam Digital<br>
+                        Dikembangkan dengan ❤️ untuk efisiensi administrasi
+                    </p>
+                </div>
+            `;
+            document.getElementById('infoModal').classList.remove('hidden');
+        }
+
+        function showHelp() {
+            document.getElementById('infoModalTitle').textContent = 'Bantuan Penggunaan';
+            document.getElementById('infoModalContent').innerHTML = `
+                <div class="space-y-4 text-sm text-gray-700">
+                    <div>
+                        <h5 class="font-medium text-gray-900 mb-2">
+                            <i class="fas fa-question-circle text-blue-500 mr-2"></i>Cara Menggunakan
+                        </h5>
+                        <div class="space-y-2 text-xs">
+                            <p><strong>1. Login:</strong> Gunakan username "admin" dan password "admin123"</p>
+                            <p><strong>2. Tambah Surat:</strong> Klik tombol "Tambah Surat" untuk menambah data baru</p>
+                            <p><strong>3. Upload File:</strong> Drag & drop atau klik untuk upload file (PDF, DOC, JPG, PNG)</p>
+                            <p><strong>4. Preview File:</strong> Klik ikon mata untuk melihat preview file</p>
+                            <p><strong>5. Filter Data:</strong> Gunakan pencarian dan filter status</p>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h5 class="font-medium text-gray-900 mb-2">
+                            <i class="fas fa-keyboard text-green-500 mr-2"></i>Shortcut Keyboard
+                        </h5>
+                        <div class="space-y-1 text-xs">
+                            <p><strong>F11:</strong> Toggle fullscreen</p>
+                            <p><strong>ESC:</strong> Keluar dari fullscreen</p>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h5 class="font-medium text-gray-900 mb-2">
+                            <i class="fas fa-exclamation-triangle text-orange-500 mr-2"></i>Tips
+                        </h5>
+                        <div class="space-y-1 text-xs">
+                            <p>• Data tersimpan di browser (localStorage)</p>
+                            <p>• Backup data secara berkala melalui Export</p>
+                            <p>• File maksimal 5MB</p>
+                            <p>• Gunakan nomor surat yang unik</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.getElementById('infoModal').classList.remove('hidden');
+        }
+
+        function showContact() {
+            document.getElementById('infoModalTitle').textContent = 'Informasi Kontak';
+            document.getElementById('infoModalContent').innerHTML = `
+                <div class="space-y-4 text-sm text-gray-700">
+                    <div class="text-center">
+                        <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1751214851/SYAM-DIGITAL_qp3cfw.png" 
+                             alt="Syam Digital" 
+                             class="w-16 h-16 rounded-full mx-auto mb-3 border-2 border-blue-500"
+                             onerror="this.src=''; this.alt='Logo failed to load'; this.className='w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center text-white mx-auto mb-3'; this.innerHTML='<i class=\'fas fa-building text-2xl\'></i>';">
+                        <h4 class="font-bold text-gray-900">Syam Digital</h4>
+                        <p class="text-gray-600">Developer & IT Solutions</p>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-envelope text-blue-500 w-5"></i>
+                            <span>admin@syamdigital.com</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-phone text-green-500 w-5"></i>
+                            <span>+62 812-3456-7890</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-map-marker-alt text-red-500 w-5"></i>
+                            <span>Jl. Digital No. 123, Kota Teknologi, Indonesia</span>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <i class="fas fa-globe text-purple-500 w-5"></i>
+                            <span>www.syamdigital.com</span>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-blue-50 p-3 rounded-lg">
+                        <h5 class="font-medium text-blue-800 mb-2">Layanan Kami</h5>
+                        <ul class="space-y-1 text-xs text-blue-700">
+                            <li>• Pengembangan Aplikasi Web</li>
+                            <li>• Sistem Manajemen Database</li>
+                            <li>• Konsultasi IT</li>
+                            <li>• Maintenance & Support</li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+            document.getElementById('infoModal').classList.remove('hidden');
+        }
+
+        function closeInfoModal() {
+            document.getElementById('infoModal').classList.add('hidden');
+        }
+
+        // File Upload Functions
+        function setupDragAndDrop() {
+            const uploadArea = document.getElementById('uploadArea');
+            
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, preventDefaults, false);
+            });
+
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, highlight, false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, unhighlight, false);
+            });
+
+            function highlight(e) {
+                uploadArea.classList.add('upload-area-dragover');
+            }
+
+            function unhighlight(e) {
+                uploadArea.classList.remove('upload-area-dragover');
+            }
+
+            uploadArea.addEventListener('drop', handleDrop, false);
+
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                
+                if (files.length > 0) {
+                    handleFileSelection(files[0]);
+                }
+            }
+        }
+
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                handleFileSelection(file);
+            }
+        }
+
+        function handleFileSelection(file) {
+            // Validate file size (5MB max)
+            if (file.size > 5 * 1024 * 1024) {
+                alert('Ukuran file terlalu besar! Maksimal 5MB.');
+                return;
+            }
+
+            // Validate file type
+            const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'image/jpeg', 'image/jpg', 'image/png'];
+            if (!allowedTypes.includes(file.type)) {
+                alert('Tipe file tidak didukung! Gunakan PDF, DOC, DOCX, JPG, atau PNG.');
+                return;
+            }
+
+            currentFile = file;
+            showFilePreview(file);
+        }
+
+        function showFilePreview(file) {
+            const uploadContent = document.getElementById('uploadContent');
+            const filePreview = document.getElementById('filePreview');
+            const fileName = document.getElementById('fileName');
+            const fileSize = document.getElementById('fileSize');
+            const fileIcon = document.getElementById('fileIcon');
+
+            // Hide upload content, show preview
+            uploadContent.classList.add('hidden');
+            filePreview.classList.remove('hidden');
+
+            // Set file info
+            fileName.textContent = file.name;
+            fileSize.textContent = formatFileSize(file.size);
+
+            // Set appropriate icon based on file type
+            if (file.type.includes('pdf')) {
+                fileIcon.className = 'fas fa-file-pdf text-red-500 text-2xl';
+            } else if (file.type.includes('word') || file.type.includes('document')) {
+                fileIcon.className = 'fas fa-file-word text-blue-500 text-2xl';
+            } else if (file.type.includes('image')) {
+                fileIcon.className = 'fas fa-file-image text-green-500 text-2xl';
+            } else {
+                fileIcon.className = 'fas fa-file text-gray-500 text-2xl';
+            }
+        }
+
+        function removeFile() {
+            currentFile = null;
+            const uploadContent = document.getElementById('uploadContent');
+            const filePreview = document.getElementById('filePreview');
+            const fileUpload = document.getElementById('fileUpload');
+
+            // Show upload content, hide preview
+            uploadContent.classList.remove('hidden');
+            filePreview.classList.add('hidden');
+            
+            // Clear file input
+            fileUpload.value = '';
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function getFileIcon(fileName) {
+            const extension = fileName.split('.').pop().toLowerCase();
+            switch (extension) {
+                case 'pdf':
+                    return '<i class="fas fa-file-pdf text-red-500"></i>';
+                case 'doc':
+                case 'docx':
+                    return '<i class="fas fa-file-word text-blue-500"></i>';
+                case 'jpg':
+                case 'jpeg':
+                case 'png':
+                    return '<i class="fas fa-file-image text-green-500"></i>';
+                default:
+                    return '<i class="fas fa-file text-gray-500"></i>';
+            }
+        }
+
+        function updateCurrentDate() {
+            const now = new Date();
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            };
+            document.getElementById('currentDate').textContent = now.toLocaleDateString('id-ID', options);
+        }
+
+        function loadSampleData() {
+            if (suratMasuk.length === 0) {
+                suratMasuk = [
+                    {
+                        id: 1,
+                        tanggal: '2024-01-15',
+                        noSurat: '001/DIR/2024',
+                        pengirim: 'Dinas Pendidikan Kota',
+                        perihal: 'Undangan Rapat Koordinasi',
+                        keterangan: 'Rapat koordinasi program pendidikan tahun 2024',
+                        status: 'Sudah Dibaca',
+                        fileName: 'undangan-rapat.pdf',
+                        fileSize: '245 KB'
+                    },
+                    {
+                        id: 2,
+                        tanggal: '2024-01-16',
+                        noSurat: '002/KEU/2024',
+                        pengirim: 'Bagian Keuangan',
+                        perihal: 'Laporan Anggaran Bulanan',
+                        keterangan: 'Laporan realisasi anggaran bulan Januari',
+                        status: 'Belum Dibaca',
+                        fileName: 'laporan-anggaran.docx',
+                        fileSize: '1.2 MB'
+                    }
+                ];
+                localStorage.setItem('suratMasuk', JSON.stringify(suratMasuk));
+            }
+
+            if (suratKeluar.length === 0) {
+                suratKeluar = [
+                    {
+                        id: 1,
+                        tanggal: '2024-01-17',
+                        noSurat: '001/OUT/2024',
+                        pengirim: 'Kepala Bagian Umum',
+                        perihal: 'Permohonan Izin Kegiatan',
+                        keterangan: 'Permohonan izin untuk kegiatan seminar',
+                        status: 'Diproses',
+                        fileName: 'permohonan-izin.pdf',
+                        fileSize: '180 KB'
+                    }
+                ];
+                localStorage.setItem('suratKeluar', JSON.stringify(suratKeluar));
+            }
+        }
+
+        // Fullscreen Functions
+        function toggleFullscreen() {
+            if (!isFullscreen) {
+                enterFullscreen();
+            } else {
+                exitFullscreen();
+            }
+        }
+
+        function enterFullscreen() {
+            const elem = document.documentElement;
+            
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.webkitRequestFullscreen) {
+                elem.webkitRequestFullscreen();
+            } else if (elem.mozRequestFullScreen) {
+                elem.mozRequestFullScreen();
+            } else if (elem.msRequestFullscreen) {
+                elem.msRequestFullscreen();
+            }
+            
+            // Fallback for browsers that don't support fullscreen API
+            if (!document.fullscreenEnabled && !document.webkitFullscreenEnabled && 
+                !document.mozFullScreenEnabled && !document.msFullscreenEnabled) {
+                document.body.classList.add('fullscreen-active');
+                updateFullscreenIcon(true);
+                isFullscreen = true;
+                addActivity('Mengaktifkan mode fullscreen', 'System');
+            }
+        }
+
+        function exitFullscreen() {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+            } else if (document.msExitFullscreen) {
+                document.msExitFullscreen();
+            }
+            
+            // Fallback
+            document.body.classList.remove('fullscreen-active');
+            updateFullscreenIcon(false);
+            isFullscreen = false;
+            addActivity('Menonaktifkan mode fullscreen', 'System');
+        }
+
+        function handleFullscreenChange() {
+            const isCurrentlyFullscreen = !!(document.fullscreenElement || 
+                                           document.webkitFullscreenElement || 
+                                           document.mozFullScreenElement || 
+                                           document.msFullscreenElement);
+            
+            isFullscreen = isCurrentlyFullscreen;
+            updateFullscreenIcon(isCurrentlyFullscreen);
+            
+            if (isCurrentlyFullscreen) {
+                addActivity('Mengaktifkan mode fullscreen', 'System');
+            } else {
+                addActivity('Menonaktifkan mode fullscreen', 'System');
+            }
+        }
+
+        function updateFullscreenIcon(fullscreenActive) {
+            const icon = document.getElementById('fullscreenIcon');
+            if (fullscreenActive) {
+                icon.className = 'fas fa-compress text-lg';
+                icon.parentElement.title = 'Exit Fullscreen (F11)';
+            } else {
+                icon.className = 'fas fa-expand text-lg';
+                icon.parentElement.title = 'Enter Fullscreen (F11)';
+            }
+        }
+
+        function switchTab(tab) {
+            currentTab = tab;
+            
+            // Update tab appearance
+            const tabMasuk = document.getElementById('tabMasuk');
+            const tabKeluar = document.getElementById('tabKeluar');
+            
+            if (tab === 'masuk') {
+                tabMasuk.className = 'flex-1 py-4 px-6 text-center font-medium transition-all duration-200 bg-blue-500 text-white';
+                tabKeluar.className = 'flex-1 py-4 px-6 text-center font-medium transition-all duration-200 bg-gray-100 text-gray-700 hover:bg-gray-200';
+            } else {
+                tabKeluar.className = 'flex-1 py-4 px-6 text-center font-medium transition-all duration-200 bg-blue-500 text-white';
+                tabMasuk.className = 'flex-1 py-4 px-6 text-center font-medium transition-all duration-200 bg-gray-100 text-gray-700 hover:bg-gray-200';
+            }
+            
+            renderTable();
+            updateStatistics();
+        }
+
+        function getCurrentData() {
+            return currentTab === 'masuk' ? suratMasuk : suratKeluar;
+        }
+
+        function renderTable() {
+            const data = getCurrentData();
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const statusFilter = document.getElementById('filterStatus').value;
+            
+            let filteredData = data.filter(item => {
+                const matchesSearch = item.noSurat.toLowerCase().includes(searchTerm) ||
+                                    item.pengirim.toLowerCase().includes(searchTerm) ||
+                                    item.perihal.toLowerCase().includes(searchTerm);
+                const matchesStatus = !statusFilter || item.status === statusFilter;
+                return matchesSearch && matchesStatus;
+            });
+
+            const tbody = document.getElementById('suratTable');
+            tbody.innerHTML = '';
+
+            if (filteredData.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8" class="text-center py-8 text-gray-500 border border-gray-300">
+                            <i class="fas fa-inbox text-4xl mb-2 block"></i>
+                            Tidak ada data surat
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            filteredData.forEach((item, index) => {
+                const statusColor = getStatusColor(item.status);
+                const row = document.createElement('tr');
+                row.className = 'border-b hover:bg-gray-50 transition-colors duration-150 fade-in';
+                row.innerHTML = `
+                    <td class="py-3 px-4 border border-gray-300">${index + 1}</td>
+                    <td class="py-3 px-4 border border-gray-300">${formatDate(item.tanggal)}</td>
+                    <td class="py-3 px-4 font-medium border border-gray-300">${item.noSurat}</td>
+                    <td class="py-3 px-4 border border-gray-300">${item.pengirim}</td>
+                    <td class="py-3 px-4 border border-gray-300">${item.perihal}</td>
+                    <td class="py-3 px-4 border border-gray-300">
+                        ${item.fileName ? `
+                            <div class="flex items-center space-x-2">
+                                ${getFileIcon(item.fileName)}
+                                <div class="flex-1">
+                                    <p class="text-sm font-medium text-gray-900">${item.fileName}</p>
+                                    <p class="text-xs text-gray-500">${item.fileSize}</p>
+                                </div>
+                                <button onclick="previewFile(${item.id})" class="text-blue-500 hover:text-blue-700 p-1" title="Preview File">
+                                    <i class="fas fa-eye text-sm"></i>
+                                </button>
+                            </div>
+                        ` : '<span class="text-gray-400 text-sm">Tidak ada file</span>'}
+                    </td>
+                    <td class="py-3 px-4 border border-gray-300">
+                        <span class="px-2 py-1 rounded-full text-xs font-medium ${statusColor}">
+                            ${item.status}
+                        </span>
+                    </td>
+                    <td class="py-3 px-4 border border-gray-300">
+                        <div class="flex space-x-2">
+                            <button onclick="viewDetail(${item.id})" class="text-blue-500 hover:text-blue-700 p-1" title="Lihat Detail">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button onclick="editSurat(${item.id})" class="text-green-500 hover:text-green-700 p-1" title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button onclick="deleteSurat(${item.id})" class="text-red-500 hover:text-red-700 p-1" title="Hapus">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function getStatusColor(status) {
+            switch(status) {
+                case 'Belum Dibaca': return 'bg-red-100 text-red-800';
+                case 'Sudah Dibaca': return 'bg-green-100 text-green-800';
+                case 'Diproses': return 'bg-yellow-100 text-yellow-800';
+                case 'Selesai': return 'bg-blue-100 text-blue-800';
+                default: return 'bg-gray-100 text-gray-800';
+            }
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('id-ID', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            });
+        }
+
+        function updateStatistics() {
+            const data = getCurrentData();
+            
+            document.getElementById('totalSurat').textContent = data.length;
+            document.getElementById('sudahDibaca').textContent = data.filter(item => item.status === 'Sudah Dibaca').length;
+            document.getElementById('diproses').textContent = data.filter(item => item.status === 'Diproses').length;
+            document.getElementById('belumDibaca').textContent = data.filter(item => item.status === 'Belum Dibaca').length;
+        }
+
+        function openModal() {
+            editingId = null;
+            currentFile = null;
+            document.getElementById('modalTitle').textContent = currentTab === 'masuk' ? 'Tambah Surat Masuk' : 'Tambah Surat Keluar';
+            document.getElementById('labelPengirim').textContent = currentTab === 'masuk' ? 'Pengirim' : 'Tujuan';
+            document.getElementById('suratForm').reset();
+            document.getElementById('tanggal').value = new Date().toISOString().split('T')[0];
+            
+            // Reset file upload area
+            document.getElementById('uploadContent').classList.remove('hidden');
+            document.getElementById('filePreview').classList.add('hidden');
+            document.getElementById('fileUpload').value = '';
+            
+            document.getElementById('modal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.add('hidden');
+            editingId = null;
+            currentFile = null;
+        }
+
+        function editSurat(id) {
+            const data = getCurrentData();
+            const item = data.find(s => s.id === id);
+            if (!item) return;
+
+            editingId = id;
+            currentFile = null;
+            document.getElementById('modalTitle').textContent = currentTab === 'masuk' ? 'Edit Surat Masuk' : 'Edit Surat Keluar';
+            document.getElementById('labelPengirim').textContent = currentTab === 'masuk' ? 'Pengirim' : 'Tujuan';
+            
+            document.getElementById('tanggal').value = item.tanggal;
+            document.getElementById('noSurat').value = item.noSurat;
+            document.getElementById('pengirim').value = item.pengirim;
+            document.getElementById('perihal').value = item.perihal;
+            document.getElementById('keterangan').value = item.keterangan;
+            document.getElementById('status').value = item.status;
+            
+            // Show existing file if available
+            if (item.fileName) {
+                const uploadContent = document.getElementById('uploadContent');
+                const filePreview = document.getElementById('filePreview');
+                const fileName = document.getElementById('fileName');
+                const fileSize = document.getElementById('fileSize');
+                const fileIcon = document.getElementById('fileIcon');
+
+                uploadContent.classList.add('hidden');
+                filePreview.classList.remove('hidden');
+                fileName.textContent = item.fileName;
+                fileSize.textContent = item.fileSize;
+                
+                // Set icon based on file extension
+                if (item.fileName.includes('.pdf')) {
+                    fileIcon.className = 'fas fa-file-pdf text-red-500 text-2xl';
+                } else if (item.fileName.includes('.doc')) {
+                    fileIcon.className = 'fas fa-file-word text-blue-500 text-2xl';
+                } else if (item.fileName.includes('.jpg') || item.fileName.includes('.png')) {
+                    fileIcon.className = 'fas fa-file-image text-green-500 text-2xl';
+                } else {
+                    fileIcon.className = 'fas fa-file text-gray-500 text-2xl';
+                }
+            } else {
+                document.getElementById('uploadContent').classList.remove('hidden');
+                document.getElementById('filePreview').classList.add('hidden');
+            }
+            
+            document.getElementById('modal').classList.remove('hidden');
+        }
+
+        function deleteSurat(id) {
+            if (confirm('Apakah Anda yakin ingin menghapus surat ini?')) {
+                if (currentTab === 'masuk') {
+                    suratMasuk = suratMasuk.filter(s => s.id !== id);
+                } else {
+                    suratKeluar = suratKeluar.filter(s => s.id !== id);
+                }
+                
+                // Save all data to localStorage
+                saveAllDataToStorage();
+                
+                renderTable();
+                updateStatistics();
+                
+                // Add activity log
+                const type = currentTab === 'masuk' ? 'masuk' : 'keluar';
+                addActivity(`Menghapus surat ${type}`, 'Data');
+            }
+        }
+
+        function handleSubmit(e) {
+            e.preventDefault();
+            
+            const formData = {
+                tanggal: document.getElementById('tanggal').value,
+                noSurat: document.getElementById('noSurat').value,
+                pengirim: document.getElementById('pengirim').value,
+                perihal: document.getElementById('perihal').value,
+                keterangan: document.getElementById('keterangan').value,
+                status: document.getElementById('status').value
+            };
+
+            // Add file information if file is uploaded
+            if (currentFile) {
+                formData.fileName = currentFile.name;
+                formData.fileSize = formatFileSize(currentFile.size);
+            } else if (editingId) {
+                // Keep existing file info when editing
+                const data = getCurrentData();
+                const existingItem = data.find(s => s.id === editingId);
+                if (existingItem && existingItem.fileName) {
+                    formData.fileName = existingItem.fileName;
+                    formData.fileSize = existingItem.fileSize;
+                }
+            }
+
+            let isEditing = editingId !== null;
+            let actionType = currentTab === 'masuk' ? 'masuk' : 'keluar';
+
+            if (editingId) {
+                // Update existing
+                if (currentTab === 'masuk') {
+                    const index = suratMasuk.findIndex(s => s.id === editingId);
+                    suratMasuk[index] = { ...formData, id: editingId };
+                } else {
+                    const index = suratKeluar.findIndex(s => s.id === editingId);
+                    suratKeluar[index] = { ...formData, id: editingId };
+                }
+            } else {
+                // Add new
+                const newId = Math.max(...getCurrentData().map(s => s.id), 0) + 1;
+                const newSurat = { ...formData, id: newId };
+                
+                if (currentTab === 'masuk') {
+                    suratMasuk.push(newSurat);
+                } else {
+                    suratKeluar.push(newSurat);
+                }
+            }
+            
+            // Save all data to localStorage
+            saveAllDataToStorage();
+
+            closeModal();
+            renderTable();
+            updateStatistics();
+            
+            // Add activity log
+            const action = editingId ? 'Mengedit surat' : 'Menambah surat baru';
+            addActivity(`${action} ${actionType}: ${formData.noSurat}`, 'Data');
+            
+            // Show success modal
+            showSuccessModal(isEditing, actionType, formData);
+        }
+
+        function showSuccessModal(isEditing, type, formData) {
+            const title = document.getElementById('successTitle');
+            const message = document.getElementById('successMessage');
+            
+            if (isEditing) {
+                title.textContent = 'Berhasil Diperbarui!';
+                message.innerHTML = `
+                    Surat <strong>${formData.noSurat}</strong> berhasil diperbarui.<br>
+                    <small class="text-gray-500">Perihal: ${formData.perihal}</small>
+                `;
+            } else {
+                title.textContent = 'Berhasil Ditambahkan!';
+                message.innerHTML = `
+                    Surat ${type} <strong>${formData.noSurat}</strong> berhasil ditambahkan ke sistem.<br>
+                    <small class="text-gray-500">Perihal: ${formData.perihal}</small>
+                `;
+            }
+            
+            document.getElementById('successModal').classList.remove('hidden');
+            
+            // Auto close after 3 seconds if user doesn't interact
+            setTimeout(() => {
+                if (!document.getElementById('successModal').classList.contains('hidden')) {
+                    closeSuccessModal();
+                }
+            }, 3000);
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('successModal').classList.add('hidden');
+        }
+
+        function addAnotherLetter() {
+            closeSuccessModal();
+            openModal();
+        }
+
+        function viewDetail(id) {
+            const data = getCurrentData();
+            const item = data.find(s => s.id === id);
+            if (!item) return;
+
+            const content = document.getElementById('detailContent');
+            content.innerHTML = `
+                <div class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal</label>
+                            <p class="text-gray-900">${formatDate(item.tanggal)}</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Nomor Surat</label>
+                            <p class="text-gray-900 font-medium">${item.noSurat}</p>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">${currentTab === 'masuk' ? 'Pengirim' : 'Tujuan'}</label>
+                        <p class="text-gray-900">${item.pengirim}</p>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Perihal</label>
+                        <p class="text-gray-900">${item.perihal}</p>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                        <span class="px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(item.status)}">
+                            ${item.status}
+                        </span>
+                    </div>
+                    
+                    ${item.fileName ? `
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">File Lampiran</label>
+                        <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                            ${getFileIcon(item.fileName)}
+                            <div class="flex-1">
+                                <p class="font-medium text-gray-900">${item.fileName}</p>
+                                <p class="text-sm text-gray-600">${item.fileSize}</p>
+                            </div>
+                            <button onclick="previewFile(${item.id})" class="px-3 py-1 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors text-sm">
+                                <i class="fas fa-eye mr-1"></i>Preview
+                            </button>
+                        </div>
+                    </div>
+                    ` : ''}
+                    
+                    ${item.keterangan ? `
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Keterangan</label>
+                        <p class="text-gray-900">${item.keterangan}</p>
+                    </div>
+                    ` : ''}
+                </div>
+            `;
+            
+            document.getElementById('detailModal').classList.remove('hidden');
+        }
+
+        function closeDetailModal() {
+            document.getElementById('detailModal').classList.add('hidden');
+        }
+
+        // Profile Functions
+        function toggleProfileDropdown() {
+            const dropdown = document.getElementById('profileDropdown');
+            dropdown.classList.toggle('hidden');
+        }
+
+        function openProfileModal() {
+            document.getElementById('profileDropdown').classList.add('hidden');
+            
+            // Load current profile data
+            document.getElementById('fullName').value = adminProfile.fullName;
+            document.getElementById('username').value = adminProfile.username;
+            document.getElementById('email').value = adminProfile.email;
+            document.getElementById('phone').value = adminProfile.phone;
+            document.getElementById('position').value = adminProfile.position;
+            document.getElementById('address').value = adminProfile.address;
+            document.getElementById('profileImage').src = adminProfile.profileImage;
+            
+            document.getElementById('profileModal').classList.remove('hidden');
+            addActivity('Membuka pengaturan profil', 'Profile');
+        }
+
+        function closeProfileModal() {
+            document.getElementById('profileModal').classList.add('hidden');
+            // Clear password fields
+            document.getElementById('oldPassword').value = '';
+            document.getElementById('newPassword').value = '';
+            document.getElementById('confirmPassword').value = '';
+        }
+
+        function handleProfileSubmit(e) {
+            e.preventDefault();
+            
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (newPassword && newPassword !== confirmPassword) {
+                alert('Password baru dan konfirmasi password tidak cocok!');
+                return;
+            }
+            
+            // Update profile data
+            adminProfile.fullName = document.getElementById('fullName').value;
+            adminProfile.username = document.getElementById('username').value;
+            adminProfile.email = document.getElementById('email').value;
+            adminProfile.phone = document.getElementById('phone').value;
+            adminProfile.position = document.getElementById('position').value;
+            adminProfile.address = document.getElementById('address').value;
+            
+            // Save all data to localStorage
+            saveAllDataToStorage();
+            
+            // Update header display
+            document.querySelector('header .text-sm.font-medium').textContent = adminProfile.fullName;
+            
+            // Update profile images
+            const profileImages = document.querySelectorAll('img[alt="Syam Digital"]');
+            profileImages.forEach(img => {
+                img.src = adminProfile.profileImage;
+                img.alt = adminProfile.fullName;
+            });
+            
+            closeProfileModal();
+            addActivity('Memperbarui profil admin', 'Profile');
+            alert('Profil berhasil diperbarui!');
+        }
+
+        function changeProfileImage() {
+            const newImageUrl = prompt('Masukkan URL gambar profil baru:', adminProfile.profileImage);
+            if (newImageUrl && newImageUrl.trim()) {
+                adminProfile.profileImage = newImageUrl.trim();
+                document.getElementById('profileImage').src = adminProfile.profileImage;
+                addActivity('Mengubah foto profil', 'Profile');
+            }
+        }
+
+        function openSettingsModal() {
+            document.getElementById('profileDropdown').classList.add('hidden');
+            document.getElementById('settingsModal').classList.remove('hidden');
+            addActivity('Membuka pengaturan sistem', 'Settings');
+        }
+
+        function closeSettingsModal() {
+            document.getElementById('settingsModal').classList.add('hidden');
+        }
+
+        function showActivityLog() {
+            document.getElementById('profileDropdown').classList.add('hidden');
+            renderActivityLog();
+            document.getElementById('activityModal').classList.remove('hidden');
+            addActivity('Melihat log aktivitas', 'System');
+        }
+
+        function closeActivityModal() {
+            document.getElementById('activityModal').classList.add('hidden');
+        }
+
+        function addActivity(action, type = 'User') {
+            const activity = {
+                id: Date.now(),
+                action: action,
+                type: type,
+                timestamp: new Date().toISOString(),
+                user: adminProfile.fullName
+            };
+            
+            activityLog.unshift(activity);
+            
+            // Keep only last 100 activities
+            if (activityLog.length > 100) {
+                activityLog = activityLog.slice(0, 100);
+            }
+            
+            // Save activity log to localStorage
+            saveAllDataToStorage();
+        }
+
+        function renderActivityLog() {
+            const container = document.getElementById('activityLog');
+            container.innerHTML = '';
+            
+            if (activityLog.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8 text-gray-500">
+                        <i class="fas fa-history text-4xl mb-2 block"></i>
+                        Belum ada aktivitas
+                    </div>
+                `;
+                return;
+            }
+            
+            activityLog.forEach(activity => {
+                const activityElement = document.createElement('div');
+                activityElement.className = 'flex items-center space-x-3 p-3 bg-gray-50 rounded-lg';
+                
+                const iconClass = getActivityIcon(activity.type);
+                const timeAgo = getTimeAgo(new Date(activity.timestamp));
+                
+                activityElement.innerHTML = `
+                    <div class="flex-shrink-0">
+                        <i class="${iconClass} text-lg"></i>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm font-medium text-gray-900">${activity.action}</p>
+                        <p class="text-xs text-gray-600">${activity.user} • ${timeAgo}</p>
+                    </div>
+                    <div class="text-xs text-gray-500">
+                        ${new Date(activity.timestamp).toLocaleString('id-ID')}
+                    </div>
+                `;
+                
+                container.appendChild(activityElement);
+            });
+        }
+
+        function getActivityIcon(type) {
+            switch(type) {
+                case 'System': return 'fas fa-cog text-blue-500';
+                case 'Profile': return 'fas fa-user text-green-500';
+                case 'Settings': return 'fas fa-sliders-h text-purple-500';
+                case 'Data': return 'fas fa-database text-orange-500';
+                default: return 'fas fa-info-circle text-gray-500';
+            }
+        }
+
+        function getTimeAgo(date) {
+            const now = new Date();
+            const diffInSeconds = Math.floor((now - date) / 1000);
+            
+            if (diffInSeconds < 60) return 'Baru saja';
+            if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} menit lalu`;
+            if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} jam lalu`;
+            return `${Math.floor(diffInSeconds / 86400)} hari lalu`;
+        }
+
+        function exportData() {
+            const data = {
+                suratMasuk: suratMasuk,
+                suratKeluar: suratKeluar,
+                adminProfile: adminProfile,
+                activityLog: activityLog,
+                exportDate: new Date().toISOString()
+            };
+            
+            const dataStr = JSON.stringify(data, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(dataBlob);
+            link.download = `backup-surat-${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            
+            addActivity('Export data sistem', 'Data');
+            alert('Data berhasil diexport!');
+        }
+
+        function importData() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const data = JSON.parse(e.target.result);
+                        
+                        if (confirm('Import data akan mengganti semua data yang ada. Lanjutkan?')) {
+                            if (data.suratMasuk) {
+                                suratMasuk = data.suratMasuk;
+                            }
+                            if (data.suratKeluar) {
+                                suratKeluar = data.suratKeluar;
+                            }
+                            if (data.adminProfile) {
+                                adminProfile = data.adminProfile;
+                            }
+                            if (data.activityLog) {
+                                activityLog = data.activityLog;
+                            }
+                            
+                            // Save all imported data to localStorage
+                            saveAllDataToStorage();
+                            
+                            renderTable();
+                            updateStatistics();
+                            addActivity('Import data sistem', 'Data');
+                            alert('Data berhasil diimport!');
+                            location.reload();
+                        }
+                    } catch (error) {
+                        alert('File tidak valid atau rusak!');
+                    }
+                };
+                reader.readAsText(file);
+            };
+            
+            input.click();
+        }
+
+        function clearAllData() {
+            if (confirm('Apakah Anda yakin ingin menghapus SEMUA data? Tindakan ini tidak dapat dibatalkan!')) {
+                if (confirm('Konfirmasi sekali lagi: Hapus semua data surat?')) {
+                    suratMasuk = [];
+                    suratKeluar = [];
+                    
+                    // Save cleared data to localStorage
+                    saveAllDataToStorage();
+                    
+                    renderTable();
+                    updateStatistics();
+                    addActivity('Menghapus semua data surat', 'Data');
+                    alert('Semua data telah dihapus!');
+                }
+            }
+        }
+
+        function logout() {
+            if (confirm('Apakah Anda yakin ingin keluar?')) {
+                addActivity('Logout dari sistem', 'System');
+                localStorage.removeItem('isLoggedIn');
+                isLoggedIn = false;
+                showLoginPage();
+            }
+        }
+
+        // File Preview Functions
+        function previewFile(id) {
+            const data = getCurrentData();
+            const item = data.find(s => s.id === id);
+            if (!item || !item.fileName) {
+                alert('File tidak ditemukan!');
+                return;
+            }
+
+            currentPreviewFile = item;
+            
+            // Update modal header
+            document.getElementById('previewFileName').textContent = item.fileName;
+            const previewIcon = document.getElementById('previewFileIcon');
+            
+            // Set appropriate icon
+            if (item.fileName.includes('.pdf')) {
+                previewIcon.className = 'fas fa-file-pdf text-2xl text-red-500';
+            } else if (item.fileName.includes('.doc')) {
+                previewIcon.className = 'fas fa-file-word text-2xl text-blue-500';
+            } else if (item.fileName.includes('.jpg') || item.fileName.includes('.png')) {
+                previewIcon.className = 'fas fa-file-image text-2xl text-green-500';
+            } else {
+                previewIcon.className = 'fas fa-file text-2xl text-gray-500';
+            }
+
+            // Generate preview content
+            generatePreviewContent(item);
+            
+            // Show modal
+            document.getElementById('filePreviewModal').classList.remove('hidden');
+            addActivity(`Preview file: ${item.fileName}`, 'Data');
+        }
+
+        function generatePreviewContent(item) {
+            const content = document.getElementById('filePreviewContent');
+            const fileName = item.fileName.toLowerCase();
+            
+            if (fileName.includes('.pdf')) {
+                // PDF Preview
+                content.innerHTML = `
+                    <div class="w-full text-center">
+                        <div class="bg-red-50 border-2 border-dashed border-red-200 rounded-lg p-8">
+                            <i class="fas fa-file-pdf text-6xl text-red-500 mb-4"></i>
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">PDF Document</h3>
+                            <p class="text-gray-600 mb-4">${item.fileName}</p>
+                            <p class="text-sm text-gray-500 mb-4">Ukuran: ${item.fileSize}</p>
+                            <div class="bg-white rounded-lg p-6 shadow-sm border">
+                                <div class="space-y-3 text-left">
+                                    <div class="flex items-center space-x-2">
+                                        <i class="fas fa-info-circle text-blue-500"></i>
+                                        <span class="text-sm">Dokumen PDF siap untuk diunduh</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <i class="fas fa-shield-alt text-green-500"></i>
+                                        <span class="text-sm">File aman dan terverifikasi</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <i class="fas fa-clock text-orange-500"></i>
+                                        <span class="text-sm">Diupload: ${formatDate(item.tanggal)}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-xs text-gray-400 mt-4">
+                                <i class="fas fa-lightbulb mr-1"></i>
+                                Tip: Klik tombol Download untuk membuka file PDF
+                            </p>
+                        </div>
+                    </div>
+                `;
+            } else if (fileName.includes('.doc') || fileName.includes('.docx')) {
+                // Word Document Preview
+                content.innerHTML = `
+                    <div class="w-full text-center">
+                        <div class="bg-blue-50 border-2 border-dashed border-blue-200 rounded-lg p-8">
+                            <i class="fas fa-file-word text-6xl text-blue-500 mb-4"></i>
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Word Document</h3>
+                            <p class="text-gray-600 mb-4">${item.fileName}</p>
+                            <p class="text-sm text-gray-500 mb-4">Ukuran: ${item.fileSize}</p>
+                            <div class="bg-white rounded-lg p-6 shadow-sm border">
+                                <div class="space-y-3 text-left">
+                                    <div class="flex items-center space-x-2">
+                                        <i class="fas fa-file-alt text-blue-500"></i>
+                                        <span class="text-sm">Dokumen Microsoft Word</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <i class="fas fa-edit text-green-500"></i>
+                                        <span class="text-sm">Dapat diedit dengan Word/LibreOffice</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <i class="fas fa-clock text-orange-500"></i>
+                                        <span class="text-sm">Diupload: ${formatDate(item.tanggal)}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-xs text-gray-400 mt-4">
+                                <i class="fas fa-lightbulb mr-1"></i>
+                                Tip: Download untuk membuka dengan aplikasi Word
+                            </p>
+                        </div>
+                    </div>
+                `;
+            } else if (fileName.includes('.jpg') || fileName.includes('.jpeg') || fileName.includes('.png')) {
+                // Image Preview
+                content.innerHTML = `
+                    <div class="w-full text-center">
+                        <div class="bg-green-50 border-2 border-dashed border-green-200 rounded-lg p-8">
+                            <i class="fas fa-file-image text-6xl text-green-500 mb-4"></i>
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Image File</h3>
+                            <p class="text-gray-600 mb-4">${item.fileName}</p>
+                            <p class="text-sm text-gray-500 mb-4">Ukuran: ${item.fileSize}</p>
+                            
+                            <!-- Sample Image Preview -->
+                            <div class="bg-white rounded-lg p-4 shadow-sm border mb-4">
+                                <div class="w-full h-64 bg-gradient-to-br from-green-100 to-blue-100 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
+                                    <div class="text-center">
+                                        <i class="fas fa-image text-4xl text-gray-400 mb-2"></i>
+                                        <p class="text-gray-500 text-sm">Preview Gambar</p>
+                                        <p class="text-xs text-gray-400">${item.fileName}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-white rounded-lg p-6 shadow-sm border">
+                                <div class="space-y-3 text-left">
+                                    <div class="flex items-center space-x-2">
+                                        <i class="fas fa-image text-green-500"></i>
+                                        <span class="text-sm">File gambar ${fileName.includes('.png') ? 'PNG' : 'JPEG'}</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <i class="fas fa-eye text-blue-500"></i>
+                                        <span class="text-sm">Dapat dilihat di browser atau aplikasi gambar</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <i class="fas fa-clock text-orange-500"></i>
+                                        <span class="text-sm">Diupload: ${formatDate(item.tanggal)}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-xs text-gray-400 mt-4">
+                                <i class="fas fa-lightbulb mr-1"></i>
+                                Tip: Download untuk melihat gambar dalam ukuran penuh
+                            </p>
+                        </div>
+                    </div>
+                `;
+            } else {
+                // Generic File Preview
+                content.innerHTML = `
+                    <div class="w-full text-center">
+                        <div class="bg-gray-50 border-2 border-dashed border-gray-200 rounded-lg p-8">
+                            <i class="fas fa-file text-6xl text-gray-500 mb-4"></i>
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">File Document</h3>
+                            <p class="text-gray-600 mb-4">${item.fileName}</p>
+                            <p class="text-sm text-gray-500 mb-4">Ukuran: ${item.fileSize}</p>
+                            <div class="bg-white rounded-lg p-6 shadow-sm border">
+                                <div class="space-y-3 text-left">
+                                    <div class="flex items-center space-x-2">
+                                        <i class="fas fa-file text-gray-500"></i>
+                                        <span class="text-sm">File dokumen</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <i class="fas fa-download text-blue-500"></i>
+                                        <span class="text-sm">Siap untuk diunduh</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <i class="fas fa-clock text-orange-500"></i>
+                                        <span class="text-sm">Diupload: ${formatDate(item.tanggal)}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-xs text-gray-400 mt-4">
+                                <i class="fas fa-lightbulb mr-1"></i>
+                                Tip: Download file untuk membuka dengan aplikasi yang sesuai
+                            </p>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function closeFilePreview() {
+            document.getElementById('filePreviewModal').classList.add('hidden');
+            currentPreviewFile = null;
+        }
+
+        function downloadFile() {
+            if (!currentPreviewFile) {
+                alert('Tidak ada file untuk diunduh!');
+                return;
+            }
+
+            // Create a sample file for download demonstration
+            const fileName = currentPreviewFile.fileName;
+            const fileExtension = fileName.split('.').pop().toLowerCase();
+            
+            let content = '';
+            let mimeType = 'text/plain';
+            
+            if (fileExtension === 'pdf') {
+                content = `%PDF-1.4
+1 0 obj
+<<
+/Type /Catalog
+/Pages 2 0 R
+>>
+endobj
+
+2 0 obj
+<<
+/Type /Pages
+/Kids [3 0 R]
+/Count 1
+>>
+endobj
+
+3 0 obj
+<<
+/Type /Page
+/Parent 2 0 R
+/MediaBox [0 0 612 792]
+/Contents 4 0 R
+/Resources <<
+/Font <<
+/F1 5 0 R
+>>
+>>
+>>
+endobj
+
+4 0 obj
+<<
+/Length 44
+>>
+stream
+BT
+/F1 12 Tf
+100 700 Td
+(Sample PDF Document - ${fileName}) Tj
+ET
+endstream
+endobj
+
+5 0 obj
+<<
+/Type /Font
+/Subtype /Type1
+/BaseFont /Helvetica
+>>
+endobj
+
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000274 00000 n 
+0000000373 00000 n 
+trailer
+<<
+/Size 6
+/Root 1 0 R
+>>
+startxref
+456
+%%EOF`;
+                mimeType = 'application/pdf';
+            } else if (fileExtension === 'docx') {
+                content = `Sample Word Document
+                
+Nama File: ${fileName}
+Tanggal Upload: ${formatDate(currentPreviewFile.tanggal)}
+Ukuran: ${currentPreviewFile.fileSize}
+
+Ini adalah contoh dokumen Word yang dapat diunduh dari sistem manajemen surat.
+
+Perihal: ${currentPreviewFile.perihal}
+${currentPreviewFile.keterangan ? 'Keterangan: ' + currentPreviewFile.keterangan : ''}
+
+---
+Generated by Sistem Manajemen Surat
+Syam Digital`;
+                mimeType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+            } else if (fileExtension === 'doc') {
+                content = `Sample Word Document
+                
+Nama File: ${fileName}
+Tanggal Upload: ${formatDate(currentPreviewFile.tanggal)}
+Ukuran: ${currentPreviewFile.fileSize}
+
+Ini adalah contoh dokumen Word yang dapat diunduh dari sistem manajemen surat.
+
+Perihal: ${currentPreviewFile.perihal}
+${currentPreviewFile.keterangan ? 'Keterangan: ' + currentPreviewFile.keterangan : ''}
+
+---
+Generated by Sistem Manajemen Surat
+Syam Digital`;
+                mimeType = 'application/msword';
+            } else {
+                content = `Sample Document - ${fileName}
+                
+Tanggal Upload: ${formatDate(currentPreviewFile.tanggal)}
+Ukuran: ${currentPreviewFile.fileSize}
+Perihal: ${currentPreviewFile.perihal}
+${currentPreviewFile.keterangan ? 'Keterangan: ' + currentPreviewFile.keterangan : ''}
+
+---
+Generated by Sistem Manajemen Surat
+Syam Digital`;
+            }
+
+            // Create and download file
+            const blob = new Blob([content], { type: mimeType });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = fileName;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            
+            addActivity(`Download file: ${fileName}`, 'Data');
+            alert(`File ${fileName} berhasil diunduh!`);
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97f7c5aef242cbe1',t:'MTc1NzkzNTYxOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor Berita Acara Kerusakan Aset Desa</title>
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1757245484/SYAMDIGITAL-LOGO-2025_mmpllg.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .editable-field {
+            border: 2px dashed transparent;
+            transition: all 0.2s ease;
+            min-height: 1.5rem;
+            display: inline-block;
+            min-width: 100px;
+        }
+        .editable-field:hover {
+            border-color: #3b82f6;
+            background-color: #eff6ff;
+        }
+        .editable-field:focus {
+            outline: none;
+            border-color: #2563eb;
+            background-color: #dbeafe;
+        }
+        .checkbox-option {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .checkbox-option:hover {
+            background-color: #f3f4f6;
+        }
+        .checkbox-option.selected {
+            background-color: #dbeafe;
+            color: #1d4ed8;
+            font-weight: 600;
+        }
+        .checkbox-option.crossed {
+            text-decoration: line-through;
+            opacity: 0.5;
+        }
+        @media print {
+            .no-print { display: none !important; }
+            .document { box-shadow: none !important; margin: 0 !important; }
+            body { background: white !important; }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen py-8">
+    <div class="max-w-4xl mx-auto px-4">
+        <!-- Header Controls -->
+        <div class="no-print mb-6 bg-white rounded-lg shadow-md p-4">
+            <div class="flex flex-wrap gap-4 items-center justify-between">
+                <h1 class="text-2xl font-bold text-gray-800">📝 Editor Berita Acara Kerusakan Aset Desa</h1>
+                <div class="flex gap-3">
+                    <a href="https://syam.digital/" class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors inline-flex items-center gap-2">
+                        🏠 Kembali ke Home
+                    </a>
+                    <button onclick="resetForm()" class="px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors">
+                        🔄 Reset
+                    </button>
+                    <button onclick="printDocument()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">
+                        🖨️ Cetak
+                    </button>
+                </div>
+            </div>
+            <p class="text-gray-600 mt-2">Klik pada area yang dapat diedit untuk mengubah isi dokumen</p>
+        </div>
+
+        <!-- Document -->
+        <div class="document bg-white rounded-lg shadow-lg p-8 max-w-none">
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <h2 class="text-xl font-bold mb-6 underline">BERITA ACARA KERUSAKAN ASET DESA</h2>
+                <div class="text-center mb-8">
+                    <span>Nomor : </span>
+                    <span class="editable-field font-mono" contenteditable="true" data-placeholder="/BAKAD-WLPTG/IX/2025">/BAKAD-WLPTG/IX/2025</span>
+                </div>
+            </div>
+
+            <!-- Opening Statement -->
+            <div class="mb-6">
+                <p class="mb-4">Yang bertanda tangan di bawah ini adalah Tim Verifikasi Aset Desa, menyatakan:</p>
+            </div>
+
+            <!-- Asset Details -->
+            <div class="space-y-3 mb-6">
+                <!-- Jenis Aset -->
+                <div>
+                    <span class="inline-block w-32">Jenis Aset</span>
+                    <span class="mr-4">:</span>
+                    <span class="checkbox-option px-1 rounded" onclick="toggleOption(this, 'jenis-aset')">Bergerak</span><span>/</span><span class="checkbox-option px-1 rounded" onclick="toggleOption(this, 'jenis-aset')">oprasional</span><span>/</span><span class="checkbox-option px-1 rounded" onclick="toggleOption(this, 'jenis-aset')">berwujud</span><span>/</span><span class="checkbox-option px-1 rounded" onclick="toggleOption(this, 'jenis-aset')">lancar</span><span>/</span><span class="checkbox-option px-1 rounded selected" onclick="toggleOption(this, 'jenis-aset')">tetap</span><span>/</span><span class="checkbox-option px-1 rounded" onclick="toggleOption(this, 'jenis-aset')">non oprasional</span><span>/</span>
+                    <br><span class="inline-block w-32"></span><span class="mr-4"></span><span class="checkbox-option px-1 rounded" onclick="toggleOption(this, 'jenis-aset')">Tak wujud</span><span>/</span> <span class="checkbox-option px-1 rounded" onclick="toggleOption(this, 'jenis-aset')">tak lancar</span>. <span class="text-sm text-gray-600">(Coret yang tidak digunakan)</span>
+                </div>
+
+                <!-- Nama -->
+                <div>
+                    <span class="inline-block w-32">Nama</span>
+                    <span class="mr-4">:</span>
+                    <span class="editable-field" contenteditable="true" data-placeholder="Timbangan/Dacing">Timbangan/Dacing</span>
+                </div>
+
+                <!-- Merek -->
+                <div>
+                    <span class="inline-block w-32">Merek</span>
+                    <span class="mr-4">:</span>
+                    <span class="editable-field" contenteditable="true" data-placeholder="-">-</span>
+                </div>
+
+                <!-- Tipe/Spek -->
+                <div>
+                    <span class="inline-block w-32">Tipe/Spek</span>
+                    <span class="mr-4">:</span>
+                    <span class="editable-field" contenteditable="true" data-placeholder="-">-</span>
+                </div>
+
+                <!-- Bahan Dasar -->
+                <div>
+                    <span class="inline-block w-32">Bahan Dasar</span>
+                    <span class="mr-4">:</span>
+                    <span class="checkbox-option px-1 rounded selected" onclick="toggleOption(this, 'bahan-dasar')">Logam</span><span>/</span><span class="checkbox-option px-1 rounded" onclick="toggleOption(this, 'bahan-dasar')">Kombinasi logam dan serat karbon</span><span>/</span><span class="checkbox-option px-1 rounded" onclick="toggleOption(this, 'bahan-dasar')">Kombinasi logam</span>
+                    <br><span class="inline-block w-32"></span><span class="mr-4"></span><span class="checkbox-option px-1 rounded" onclick="toggleOption(this, 'bahan-dasar')">dan silikon</span><span>/</span><span class="checkbox-option px-1 rounded" onclick="toggleOption(this, 'bahan-dasar')">Kombinasi logam dan plastik</span><span>/</span><span class="checkbox-option px-1 rounded" onclick="toggleOption(this, 'bahan-dasar')">Kayu</span><span>/</span><span class="checkbox-option px-1 rounded" onclick="toggleOption(this, 'bahan-dasar')">Beton</span><span>/</span><span class="checkbox-option px-1 rounded" onclick="toggleOption(this, 'bahan-dasar')">Lainnya</span>. <span class="text-sm text-gray-600">(Coret yang tidak digunakan)</span>
+                </div>
+
+                <!-- Tahun pengadaan -->
+                <div>
+                    <span class="inline-block w-32">Tahun pengadaan</span>
+                    <span class="mr-4">:</span>
+                    <span class="editable-field" contenteditable="true" data-placeholder="2022">2022</span>
+                </div>
+
+                <!-- TPK -->
+                <div>
+                    <span class="inline-block w-32">TPK</span>
+                    <span class="mr-4">:</span>
+                    <span class="editable-field" contenteditable="true" data-placeholder="NURHASNI">NURHASNI</span>
+                </div>
+            </div>
+
+            <!-- Verification Statement -->
+            <div class="mb-6">
+                <p class="mb-2">Melalui verifikasi tim menerangkan bahwa alat tersebut tidak lagi layak digunakan sehubungan 
+                    <span class="checkbox-option px-2 py-1 rounded selected" onclick="toggleOption(this, 'alasan')">Rusak</span><span>/</span>
+                    <span class="checkbox-option px-2 py-1 rounded" onclick="toggleOption(this, 'alasan')">Hilang</span><span>/</span>
+                    <span class="checkbox-option px-2 py-1 rounded" onclick="toggleOption(this, 'alasan')">versi lama</span><span>/</span>
+                    <span class="checkbox-option px-2 py-1 rounded" onclick="toggleOption(this, 'alasan')">usia alat</span>
+                    <span class="text-sm text-gray-600">(Coret yang tidak digunakan)</span>
+                    dengan lampiran foto aset dan peserta tim verifikasi, menyatakan barang tersebut dihapuskan dalam daftar aset desa.
+                </p>
+            </div>
+
+            <!-- Closing Statement -->
+            <div class="mb-8">
+                <p>Demikian Berita Acara Kerusakan Aset Desa <span class="editable-field" contenteditable="true" data-placeholder="Wani Lumbupetigo">Wani Lumbupetigo</span> untuk digunakan sesuai kebutuhannya.</p>
+            </div>
+
+            <!-- Signatures -->
+            <div class="mt-12">
+                <div class="text-center mb-12">
+                    <p class="font-medium">TIM VERIFIKASI</p>
+                </div>
+
+                <div class="grid grid-cols-3 gap-8 mb-16">
+                    <div class="text-left">
+                        <div class="h-16 mb-2"></div>
+                        <p class="editable-field font-medium underline" contenteditable="true" data-placeholder="SYAMSUDDIN">SYAMSUDDIN</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="h-16 mb-2"></div>
+                        <p class="editable-field font-medium underline" contenteditable="true" data-placeholder="FITRIA">FITRIA</p>
+                    </div>
+                    <div class="text-right">
+                        <div class="h-16 mb-2"></div>
+                        <p class="editable-field font-medium underline" contenteditable="true" data-placeholder="SAIRMAN">SAIRMAN</p>
+                    </div>
+                </div>
+
+                <div class="text-center mt-16">
+                    <p class="mb-4">Mengetahui,</p>
+                    <p class="mb-16">Kepala Desa</p>
+                    <p class="editable-field font-medium underline" contenteditable="true" data-placeholder="AMIR RAMANG">AMIR RAMANG</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleOption(element, group) {
+            // Remove selection from all options in the same group
+            const groupElements = document.querySelectorAll(`[onclick*="${group}"]`);
+            groupElements.forEach(el => {
+                el.classList.remove('selected');
+                el.classList.add('crossed');
+            });
+            
+            // Add selection to clicked element
+            element.classList.add('selected');
+            element.classList.remove('crossed');
+        }
+
+        function resetForm() {
+            if (confirm('Apakah Anda yakin ingin mereset semua data?')) {
+                location.reload();
+            }
+        }
+
+        function printDocument() {
+            window.print();
+        }
+
+        // Add placeholder behavior for editable fields
+        document.addEventListener('DOMContentLoaded', function() {
+            const editableFields = document.querySelectorAll('.editable-field');
+            
+            editableFields.forEach(field => {
+                // Handle focus and blur for placeholder effect
+                field.addEventListener('focus', function() {
+                    if (this.textContent.trim() === '' && this.dataset.placeholder) {
+                        this.textContent = '';
+                    }
+                });
+                
+                field.addEventListener('blur', function() {
+                    if (this.textContent.trim() === '' && this.dataset.placeholder) {
+                        this.textContent = this.dataset.placeholder;
+                    }
+                });
+                
+                // Prevent line breaks in single-line fields
+                field.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        this.blur();
+                    }
+                });
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'981091560606cde6',t:'MTc1ODE5NTYxOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

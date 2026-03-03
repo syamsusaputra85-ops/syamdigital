@@ -1,0 +1,2240 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Syam Digital</title>
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1757245484/SYAMDIGITAL-LOGO-2025_mmpllg.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px;
+        }
+        
+        .header {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .title {
+            font-size: 2em;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 1em;
+        }
+        
+        .search-box {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 12px;
+            font-size: 1em;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+        }
+        
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 15px 0;
+            justify-content: center;
+        }
+        
+        .filter-btn {
+            padding: 8px 16px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s;
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .upload-area {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+            text-align: center;
+            border: 2px dashed #ddd;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .upload-area:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+        
+        .upload-option {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        
+        .upload-option:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+            transform: translateY(-2px);
+            box-shadow: 0 3px 10px rgba(102, 126, 234, 0.2);
+        }
+        
+        .upload-option-icon {
+            font-size: 2em;
+            margin-bottom: 8px;
+        }
+        
+        .upload-option-title {
+            font-size: 1em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 3px;
+        }
+        
+        .upload-option-desc {
+            font-size: 0.8em;
+            color: #666;
+        }
+        
+        .upload-icon {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .photos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+        
+        .photo-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .photo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        
+        .photo-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .photo-info {
+            padding: 15px;
+        }
+        
+        .photo-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        
+        .photo-author {
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .photo-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+        
+        .tag {
+            background: #f0f0f0;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            color: #666;
+        }
+        
+        .photo-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s;
+        }
+        
+        .btn-download {
+            background: #4CAF50;
+            color: white;
+            flex: 1;
+        }
+        
+        .btn-download:hover {
+            background: #45a049;
+        }
+        
+        .btn-favorite {
+            background: #ff4757;
+            color: white;
+            padding: 8px 12px;
+        }
+        
+        .btn-favorite:hover {
+            background: #ff3742;
+        }
+        
+        .btn-favorite.active {
+            background: #ff1744;
+        }
+        
+        .btn-preview {
+            background: #2196F3;
+            color: white;
+            padding: 8px 12px;
+        }
+        
+        .btn-preview:hover {
+            background: #1976D2;
+        }
+        
+        .stats {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+        }
+        
+        .stat-item {
+            flex: 1;
+        }
+        
+        .stat-number {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .stat-label {
+            color: #666;
+            margin-top: 3px;
+            font-size: 0.9em;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 90%;
+            max-height: 90%;
+            overflow: auto;
+        }
+        
+        .preview-modal {
+            background: rgba(0,0,0,0.95);
+        }
+        
+        .preview-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 95%;
+            max-height: 95%;
+            text-align: center;
+        }
+        
+        .preview-image {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: transform 0.3s ease;
+            cursor: grab;
+        }
+        
+        .preview-image:active {
+            cursor: grabbing;
+        }
+        
+        .preview-image.zoomed {
+            cursor: move;
+        }
+        
+        .preview-info {
+            background: rgba(255,255,255,0.95);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .preview-controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .zoom-controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            background: rgba(0,0,0,0.7);
+            padding: 10px;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .zoom-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            padding: 8px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            min-width: 40px;
+        }
+        
+        .zoom-btn:hover {
+            background: rgba(255,255,255,0.3);
+            border-color: rgba(255,255,255,0.5);
+        }
+        
+        .zoom-level {
+            color: white;
+            padding: 8px 15px;
+            font-size: 0.9em;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            min-width: 60px;
+            text-align: center;
+        }
+        
+        .preview-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5em;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+        
+        .preview-nav:hover {
+            background: rgba(255,255,255,0.4);
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        .preview-nav.prev {
+            left: 20px;
+        }
+        
+        .preview-nav.next {
+            right: 20px;
+        }
+        
+        .preview-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            padding: 10px 15px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+        
+        .preview-btn:hover {
+            background: rgba(255,255,255,0.3);
+            border-color: rgba(255,255,255,0.5);
+        }
+        
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 2em;
+            cursor: pointer;
+            color: #999;
+        }
+        
+        .close:hover {
+            color: #333;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            background: #4CAF50;
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 1001;
+            transform: translateX(100%);
+            transition: transform 0.3s;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification.error {
+            background: #f44336;
+        }
+        
+        .notification.info {
+            background: #2196F3;
+        }
+        
+        .load-more {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .btn-load-more {
+            background: #667eea;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-load-more:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 1.2em;
+            color: white;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Login Styles */
+        .login-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+        
+        .login-box {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .login-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            border: 3px solid #667eea;
+            object-fit: cover;
+            box-shadow: 0 8px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .login-title {
+            font-size: 1.8em;
+            color: #333;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        
+        .login-subtitle {
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 1em;
+        }
+        
+        .login-form {
+            text-align: left;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            outline: none;
+            transition: all 0.3s;
+            background: #f8f9fa;
+        }
+        
+        .form-input:focus {
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .form-input.error {
+            border-color: #f44336;
+            background: #fff5f5;
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 8px;
+        }
+        
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .login-btn:active {
+            transform: translateY(0);
+        }
+        
+        .login-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .error-message {
+            color: #f44336;
+            font-size: 0.9em;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .login-footer {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #e0e0e0;
+            color: #666;
+            font-size: 0.8em;
+        }
+        
+        .security-info {
+            background: #f0f8ff;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 3px solid #667eea;
+        }
+        
+        .security-info-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 3px;
+            font-size: 0.9em;
+        }
+        
+        .security-info-text {
+            color: #666;
+            font-size: 0.8em;
+        }
+        
+        .user-info {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.95);
+            padding: 15px 20px;
+            border-radius: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid #667eea;
+            object-fit: cover;
+        }
+        
+        .user-details {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .user-name {
+            font-weight: bold;
+            color: #333;
+            font-size: 0.9em;
+        }
+        
+        .user-role {
+            color: #666;
+            font-size: 0.8em;
+        }
+        
+        .logout-btn {
+            background: #f44336;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.8em;
+            transition: all 0.3s;
+            margin-left: 10px;
+        }
+        
+        .logout-btn:hover {
+            background: #d32f2f;
+            transform: translateY(-1px);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .title {
+                font-size: 2em;
+            }
+            
+            .photos-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 15px;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .filters {
+                justify-content: center;
+            }
+            
+            .filter-btn {
+                padding: 8px 15px;
+                font-size: 0.9em;
+            }
+            
+            .login-box {
+                margin: 15px;
+                padding: 20px;
+            }
+            
+            .login-title {
+                font-size: 1.6em;
+            }
+            
+            .user-info {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin-bottom: 20px;
+                justify-content: center;
+            }
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translate(-50%, -50%) translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translate(-50%, -50%) translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translate(-50%, -50%) translateX(5px); }
+        }
+        
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5em;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+        }
+        
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .back-to-top:hover {
+            background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(102, 126, 234, 0.6);
+        }
+        
+        .back-to-top:active {
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 768px) {
+            .back-to-top {
+                bottom: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 1.3em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div class="login-container" id="loginContainer">
+        <div class="login-box">
+            <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1751214851/SYAM-DIGITAL_qp3cfw.png" alt="Syam Digital Admin" class="login-logo">
+            
+            <h1 class="login-title">🔐 Login Admin</h1>
+            <p class="login-subtitle">Masuk ke Syam Digital Dashboard</p>
+            
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label class="form-label" for="username">👤 Username</label>
+                    <input type="text" id="username" class="form-input" placeholder="Masukkan username Anda" required>
+                    <div class="error-message" id="usernameError">Username tidak boleh kosong</div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="password">🔑 Password</label>
+                    <input type="password" id="password" class="form-input" placeholder="Masukkan password Anda" required>
+                    <div class="error-message" id="passwordError">Password tidak boleh kosong</div>
+                </div>
+                
+                <button type="submit" class="login-btn" id="loginBtn">
+                    🚀 Masuk ke Dashboard
+                </button>
+            </form>
+            
+            <div class="security-info">
+                <div class="security-info-title">🛡️ Keamanan Terjamin</div>
+                <div class="security-info-text">
+                    Sistem login aman dengan enkripsi data. Akses terbatas hanya untuk admin yang berwenang.
+                </div>
+            </div>
+            
+            <div class="login-footer">
+                <p>📸 Syam Digital v2.0</p>
+                <p>© 2024 Syam Digital. Semua hak dilindungi.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App (Hidden until login) -->
+    <div class="container hidden" id="mainApp">
+        <!-- User Info -->
+        <div class="user-info">
+            <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1751214851/SYAM-DIGITAL_qp3cfw.png" alt="Syam Digital Admin" class="user-avatar">
+            <div class="user-details">
+                <div class="user-name">Syam Digital</div>
+                <div class="user-role">Administrator</div>
+            </div>
+            <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+        </div>
+
+        <!-- Header -->
+        <div class="header">
+            <div class="title">📸 Syam Digital</div>
+            <div class="subtitle">Pencari foto universal untuk semua aplikasi & browser</div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-number" id="totalPhotos">1,250</div>
+                <div class="stat-label">Total Foto</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="searchResults">48</div>
+                <div class="stat-label">Hasil Pencarian</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="favorites">12</div>
+                <div class="stat-label">Favorit</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="syncedFolders">0</div>
+                <div class="stat-label">Folder Sync</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="downloads">156</div>
+                <div class="stat-label">Download</div>
+            </div>
+        </div>
+
+        <!-- Search -->
+        <div class="search-box">
+            <input type="text" class="search-input" id="searchInput" placeholder="🔍 Cari foto (alam, kota, makanan, teknologi...)">
+        </div>
+
+        <!-- Filters -->
+        <div class="filters">
+            <button class="filter-btn active" onclick="filterPhotos('all')">🌟 Semua</button>
+            <button class="filter-btn" onclick="filterPhotos('nature')">🌿 Alam</button>
+            <button class="filter-btn" onclick="filterPhotos('city')">🏙️ Kota</button>
+            <button class="filter-btn" onclick="filterPhotos('people')">👥 Orang</button>
+            <button class="filter-btn" onclick="filterPhotos('food')">🍕 Makanan</button>
+            <button class="filter-btn" onclick="filterPhotos('technology')">💻 Teknologi</button>
+            <button class="filter-btn" onclick="filterPhotos('animals')">🐾 Hewan</button>
+        </div>
+
+        <!-- Upload Area -->
+        <div class="upload-area">
+            <div class="upload-icon">📁</div>
+            <div style="font-size: 1.2em; font-weight: bold; margin-bottom: 15px;">Upload Foto</div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                <button class="upload-option" onclick="document.getElementById('fileInput').click()">
+                    <div class="upload-option-icon">🖼️</div>
+                    <div class="upload-option-title">Pilih File</div>
+                    <div class="upload-option-desc">Upload foto satu per satu</div>
+                </button>
+                
+                <button class="upload-option" onclick="document.getElementById('folderInput').click()">
+                    <div class="upload-option-icon">📂</div>
+                    <div class="upload-option-title">Pilih Folder</div>
+                    <div class="upload-option-desc">Sync seluruh folder otomatis</div>
+                </button>
+            </div>
+            
+            <div style="color: #999; font-size: 0.9em; text-align: center;">
+                Drag & drop file/folder di sini • Mendukung: JPG, PNG, GIF, WebP (Max 10MB per file)
+            </div>
+            
+            <input type="file" id="fileInput" multiple accept="image/*" style="display: none;">
+            <input type="file" id="folderInput" webkitdirectory directory multiple style="display: none;">
+        </div>
+
+        <!-- Loading -->
+        <div class="loading hidden" id="loading">
+            <div class="spinner"></div>
+            Mencari foto...
+        </div>
+
+        <!-- Photos Grid -->
+        <div class="photos-grid" id="photosGrid">
+            <!-- Photos akan dimuat di sini -->
+        </div>
+
+        <!-- Load More -->
+        <div class="load-more">
+            <button class="btn-load-more" onclick="loadMorePhotos()">📥 Muat Lebih Banyak</button>
+        </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTopBtn" onclick="scrollToTop()" title="Kembali ke Atas">
+        ⬆️
+    </button>
+
+    <!-- Detail Modal -->
+    <div class="modal" id="photoModal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <!-- Preview Modal -->
+    <div class="modal preview-modal" id="previewModal">
+        <div class="preview-content">
+            <div class="preview-controls">
+                <button class="preview-btn" onclick="downloadFromPreview()" title="Download">📥 Download</button>
+                <button class="preview-btn" onclick="toggleFavoriteFromPreview()" id="previewFavoriteBtn" title="Favorit">🤍 Favorit</button>
+                <button class="preview-btn" onclick="showDetailFromPreview()" title="Detail Lengkap">ℹ️ Detail</button>
+                <button class="preview-btn" onclick="closePreview()" title="Tutup">✕ Tutup</button>
+            </div>
+            <button class="preview-nav prev" onclick="navigatePreview(-1)" title="Foto Sebelumnya (←)">‹</button>
+            <button class="preview-nav next" onclick="navigatePreview(1)" title="Foto Selanjutnya (→)">›</button>
+            <div class="zoom-controls">
+                <button class="zoom-btn" onclick="zoomOut()" title="Zoom Out (-)">🔍-</button>
+                <div class="zoom-level" id="zoomLevel">100%</div>
+                <button class="zoom-btn" onclick="zoomIn()" title="Zoom In (+)">🔍+</button>
+                <button class="zoom-btn" onclick="resetZoom()" title="Reset Zoom (0)">↻</button>
+                <button class="zoom-btn" onclick="fitToScreen()" title="Fit to Screen (F)">⛶</button>
+            </div>
+            <div id="previewContent"></div>
+        </div>
+    </div>
+
+    <!-- Search Results Modal -->
+    <div class="modal" id="searchModal">
+        <div class="modal-content" style="max-width: 95%; max-height: 95%;">
+            <span class="close" onclick="closeSearchModal()">&times;</span>
+            <div id="searchModalContent"></div>
+        </div>
+    </div>
+
+    <!-- Warning Modal for Login Errors -->
+    <div class="modal" id="warningModal" style="z-index: 2001;">
+        <div class="modal-content" style="max-width: 400px; text-align: center; animation: shake 0.5s ease-in-out;">
+            <div style="background: linear-gradient(135deg, #ff4757 0%, #ff3742 100%); color: white; padding: 20px; border-radius: 15px 15px 0 0; margin: -30px -30px 20px -30px;">
+                <div style="font-size: 3em; margin-bottom: 10px;">⚠️</div>
+                <h2 style="margin: 0; font-size: 1.5em;">Login Gagal!</h2>
+            </div>
+            
+            <div style="padding: 0 10px 20px;">
+                <div id="warningMessage" style="font-size: 1.1em; color: #333; margin-bottom: 20px; line-height: 1.5;">
+                    Username atau password yang Anda masukkan salah!
+                </div>
+                
+                <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 8px; padding: 15px; margin-bottom: 20px; text-align: left;">
+                    <div style="font-weight: bold; color: #856404; margin-bottom: 8px;">💡 Tips Keamanan:</div>
+                    <ul style="margin: 0; padding-left: 20px; color: #856404; font-size: 0.9em;">
+                        <li>Pastikan username dan password benar</li>
+                        <li>Periksa Caps Lock pada keyboard</li>
+                        <li>Hubungi administrator jika lupa password</li>
+                    </ul>
+                </div>
+                
+                <div style="display: flex; gap: 10px; justify-content: center;">
+                    <button onclick="closeWarningModal()" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 25px; cursor: pointer; font-size: 1em; transition: all 0.3s;">
+                        ❌ Tutup
+                    </button>
+                    <button onclick="closeWarningModal(); focusUsernameField()" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 12px 25px; border-radius: 25px; cursor: pointer; font-size: 1em; transition: all 0.3s;">
+                        🔄 Coba Lagi
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Login credentials
+        const ADMIN_CREDENTIALS = {
+            username: 'Syamdigital',
+            password: 'Sy@M1975'
+        };
+
+        // Check if user is already logged in
+        function checkLoginStatus() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            const loginTime = localStorage.getItem('loginTime');
+            
+            // Check if login is still valid (24 hours)
+            if (isLoggedIn && loginTime) {
+                const currentTime = new Date().getTime();
+                const timeDiff = currentTime - parseInt(loginTime);
+                const hoursDiff = timeDiff / (1000 * 60 * 60);
+                
+                if (hoursDiff < 24) {
+                    showMainApp();
+                    return;
+                }
+            }
+            
+            // Show login screen
+            showLoginScreen();
+        }
+
+        // Show login screen
+        function showLoginScreen() {
+            document.getElementById('loginContainer').style.display = 'flex';
+            document.getElementById('mainApp').classList.add('hidden');
+        }
+
+        // Show main app
+        function showMainApp() {
+            document.getElementById('loginContainer').style.display = 'none';
+            document.getElementById('mainApp').classList.remove('hidden');
+            
+            // Initialize app
+            init();
+        }
+
+        // Handle login form submission
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const loginBtn = document.getElementById('loginBtn');
+            
+            // Reset error states
+            clearErrors();
+            
+            // Validate inputs
+            let hasError = false;
+            
+            if (!username) {
+                showFieldError('username', 'Username tidak boleh kosong');
+                hasError = true;
+            }
+            
+            if (!password) {
+                showFieldError('password', 'Password tidak boleh kosong');
+                hasError = true;
+            }
+            
+            if (hasError) return;
+            
+            // Disable button and show loading
+            loginBtn.disabled = true;
+            loginBtn.innerHTML = '⏳ Memverifikasi...';
+            
+            // Simulate login process
+            setTimeout(() => {
+                if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
+                    // Successful login
+                    localStorage.setItem('isLoggedIn', 'true');
+                    localStorage.setItem('loginTime', new Date().getTime().toString());
+                    localStorage.setItem('adminUsername', username);
+                    
+                    showNotification('✅ Login berhasil! Selamat datang, ' + username, 'success');
+                    
+                    setTimeout(() => {
+                        showMainApp();
+                    }, 1000);
+                } else {
+                    // Failed login - show warning modal
+                    let errorMessage = 'Username atau password yang Anda masukkan salah!';
+                    
+                    if (username !== ADMIN_CREDENTIALS.username && password !== ADMIN_CREDENTIALS.password) {
+                        errorMessage = 'Username dan password tidak cocok dengan data sistem!';
+                    } else if (username !== ADMIN_CREDENTIALS.username) {
+                        errorMessage = 'Username tidak ditemukan dalam sistem!';
+                        showFieldError('username', 'Username tidak ditemukan');
+                    } else if (password !== ADMIN_CREDENTIALS.password) {
+                        errorMessage = 'Password yang Anda masukkan salah!';
+                        showFieldError('password', 'Password salah');
+                    }
+                    
+                    showWarningModal(errorMessage);
+                    
+                    // Clear password field
+                    document.getElementById('password').value = '';
+                }
+                
+                // Re-enable button
+                loginBtn.disabled = false;
+                loginBtn.innerHTML = '🚀 Masuk ke Dashboard';
+            }, 1500);
+        });
+
+        // Show field error
+        function showFieldError(fieldId, message) {
+            const field = document.getElementById(fieldId);
+            const errorElement = document.getElementById(fieldId + 'Error');
+            
+            field.classList.add('error');
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        }
+
+        // Clear all errors
+        function clearErrors() {
+            const fields = ['username', 'password'];
+            fields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                const errorElement = document.getElementById(fieldId + 'Error');
+                
+                field.classList.remove('error');
+                errorElement.style.display = 'none';
+            });
+        }
+
+        // Show warning modal
+        function showWarningModal(message) {
+            const modal = document.getElementById('warningModal');
+            const messageElement = document.getElementById('warningMessage');
+            
+            messageElement.textContent = message;
+            modal.style.display = 'block';
+            
+            // Auto close after 10 seconds
+            setTimeout(() => {
+                if (modal.style.display === 'block') {
+                    closeWarningModal();
+                }
+            }, 10000);
+        }
+
+        // Close warning modal
+        function closeWarningModal() {
+            document.getElementById('warningModal').style.display = 'none';
+        }
+
+        // Focus username field
+        function focusUsernameField() {
+            document.getElementById('username').focus();
+            document.getElementById('username').select();
+        }
+
+        // Logout function
+        function logout() {
+            if (confirm('🚪 Apakah Anda yakin ingin logout?')) {
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('loginTime');
+                localStorage.removeItem('adminUsername');
+                
+                showNotification('👋 Logout berhasil. Sampai jumpa!', 'info');
+                
+                setTimeout(() => {
+                    showLoginScreen();
+                    
+                    // Clear form
+                    document.getElementById('loginForm').reset();
+                    clearErrors();
+                }, 1000);
+            }
+        }
+
+        // Data foto sample - kompatibel universal
+        let allPhotos = [
+            {
+                id: 1,
+                url: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=300&fit=crop",
+                title: "Pemandangan Gunung Indah",
+                author: "Nature Pro",
+                category: "nature",
+                tags: ["gunung", "alam", "hijau", "pemandangan"],
+                size: "2.5MB",
+                downloads: 1250,
+                likes: 89
+            },
+            {
+                id: 2,
+                url: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=400&h=300&fit=crop",
+                title: "Kota Modern Malam",
+                author: "City Explorer",
+                category: "city",
+                tags: ["kota", "gedung", "malam", "lampu"],
+                size: "1.8MB",
+                downloads: 890,
+                likes: 156
+            },
+            {
+                id: 3,
+                url: "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e?w=400&h=300&fit=crop",
+                title: "Burger Lezat",
+                author: "Food Master",
+                category: "food",
+                tags: ["burger", "makanan", "lezat", "restoran"],
+                size: "3.2MB",
+                downloads: 567,
+                likes: 234
+            },
+            {
+                id: 4,
+                url: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400&h=300&fit=crop",
+                title: "Workspace Modern",
+                author: "Tech Guru",
+                category: "technology",
+                tags: ["komputer", "workspace", "modern", "teknologi"],
+                size: "2.1MB",
+                downloads: 445,
+                likes: 78
+            },
+            {
+                id: 5,
+                url: "https://images.unsplash.com/photo-1547036967-23d11aacaee0?w=400&h=300&fit=crop",
+                title: "Kucing Lucu",
+                author: "Pet Lover",
+                category: "animals",
+                tags: ["kucing", "lucu", "hewan", "domestik"],
+                size: "1.5MB",
+                downloads: 789,
+                likes: 345
+            },
+            {
+                id: 6,
+                url: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400&h=300&fit=crop",
+                title: "Senyum Bahagia",
+                author: "Portrait Pro",
+                category: "people",
+                tags: ["senyum", "bahagia", "orang", "portrait"],
+                size: "2.8MB",
+                downloads: 623,
+                likes: 167
+            },
+            {
+                id: 7,
+                url: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=400&h=300&fit=crop",
+                title: "Hutan Hijau",
+                author: "Forest Walker",
+                category: "nature",
+                tags: ["hutan", "hijau", "pohon", "alam"],
+                size: "3.1MB",
+                downloads: 934,
+                likes: 278
+            },
+            {
+                id: 8,
+                url: "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1f?w=400&h=300&fit=crop",
+                title: "Pizza Italia",
+                author: "Chef Mario",
+                category: "food",
+                tags: ["pizza", "italia", "keju", "makanan"],
+                size: "2.2MB",
+                downloads: 456,
+                likes: 189
+            }
+        ];
+
+        let currentPhotos = [...allPhotos];
+        let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+        let totalDownloads = parseInt(localStorage.getItem('totalDownloads') || '156');
+        let userPhotos = JSON.parse(localStorage.getItem('userPhotos') || '[]');
+
+        // Inisialisasi
+        function init() {
+            renderPhotos();
+            updateStats();
+            setupEventListeners();
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Search
+            document.getElementById('searchInput').addEventListener('input', function() {
+                setTimeout(searchPhotos, 100);
+            });
+
+            // File upload
+            document.getElementById('fileInput').addEventListener('change', handleFileUpload);
+            
+            // Folder upload
+            document.getElementById('folderInput').addEventListener('change', handleFolderUpload);
+
+            // Back to top button scroll detection
+            window.addEventListener('scroll', function() {
+                const backToTopBtn = document.getElementById('backToTopBtn');
+                if (window.pageYOffset > 300) {
+                    backToTopBtn.classList.add('show');
+                } else {
+                    backToTopBtn.classList.remove('show');
+                }
+            });
+
+            // Drag & drop
+            const uploadArea = document.querySelector('.upload-area');
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.style.background = '#f0f8ff';
+                uploadArea.style.borderColor = '#667eea';
+            });
+
+            uploadArea.addEventListener('dragleave', (e) => {
+                e.preventDefault();
+                uploadArea.style.background = 'white';
+                uploadArea.style.borderColor = '#ddd';
+            });
+
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.style.background = 'white';
+                uploadArea.style.borderColor = '#ddd';
+                
+                const files = Array.from(e.dataTransfer.files).filter(file => file.type.startsWith('image/'));
+                processFiles(files);
+            });
+
+            // Close modal on outside click
+            document.getElementById('photoModal').addEventListener('click', function(e) {
+                if (e.target === this) closeModal();
+            });
+
+            document.getElementById('previewModal').addEventListener('click', function(e) {
+                if (e.target === this) closePreview();
+            });
+
+            document.getElementById('searchModal').addEventListener('click', function(e) {
+                if (e.target === this) closeSearchModal();
+            });
+
+            document.getElementById('warningModal').addEventListener('click', function(e) {
+                if (e.target === this) closeWarningModal();
+            });
+        }
+
+        // Render photos
+        function renderPhotos() {
+            const grid = document.getElementById('photosGrid');
+            
+            if (currentPhotos.length === 0) {
+                grid.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 60px; color: white;">
+                        <div style="font-size: 4em; margin-bottom: 20px;">🔍</div>
+                        <h3 style="font-size: 1.5em; margin-bottom: 10px;">Tidak ada foto ditemukan</h3>
+                        <p>Coba kata kunci lain atau ubah filter</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = currentPhotos.map(photo => `
+                <div class="photo-card fade-in" onclick="showPhotoDetail(${photo.id})">
+                    <img src="${photo.url}" alt="${photo.title}" class="photo-img">
+                    <div class="photo-info">
+                        <div class="photo-title">${photo.title}</div>
+                        <div class="photo-author">oleh ${photo.author}</div>
+                        <div class="photo-tags">
+                            ${photo.tags.slice(0, 3).map(tag => `<span class="tag">#${tag}</span>`).join('')}
+                        </div>
+                        <div class="photo-actions">
+                            <button class="btn btn-preview" onclick="event.stopPropagation(); previewPhoto(${photo.id})" title="Preview Cepat">
+                                👁️
+                            </button>
+                            <button class="btn btn-download" onclick="event.stopPropagation(); downloadPhoto(${photo.id})">
+                                📥
+                            </button>
+                            <button class="btn btn-favorite ${favorites.includes(photo.id) ? 'active' : ''}" 
+                                    onclick="event.stopPropagation(); toggleFavorite(${photo.id})">
+                                ${favorites.includes(photo.id) ? '❤️' : '🤍'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            updateStats();
+        }
+
+        // Filter photos
+        function filterPhotos(category) {
+            // Update active button
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            if (category === 'all') {
+                currentPhotos = [...allPhotos, ...userPhotos];
+            } else {
+                currentPhotos = [...allPhotos, ...userPhotos].filter(photo => photo.category === category);
+            }
+            
+            renderPhotos();
+        }
+
+        // Search photos
+        function searchPhotos() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+            
+            if (!searchTerm) {
+                currentPhotos = [...allPhotos, ...userPhotos];
+                renderPhotos();
+                return;
+            }
+
+            const searchResults = [...allPhotos, ...userPhotos].filter(photo => 
+                photo.title.toLowerCase().includes(searchTerm) ||
+                photo.tags.some(tag => tag.toLowerCase().includes(searchTerm)) ||
+                photo.category.toLowerCase().includes(searchTerm) ||
+                photo.author.toLowerCase().includes(searchTerm)
+            );
+            
+            if (searchResults.length > 0) {
+                showSearchModal(searchResults, searchTerm);
+            } else {
+                showNotification(`❌ Tidak ditemukan foto untuk "${searchTerm}"`, 'error');
+            }
+        }
+
+        // Show photo detail
+        function showPhotoDetail(photoId) {
+            const photo = [...allPhotos, ...userPhotos].find(p => p.id === photoId);
+            const modal = document.getElementById('photoModal');
+            const content = document.getElementById('modalContent');
+            
+            content.innerHTML = `
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: start;">
+                    <div>
+                        <img src="${photo.url}" alt="${photo.title}" style="width: 100%; border-radius: 10px;">
+                    </div>
+                    <div>
+                        <h2 style="font-size: 1.8em; margin-bottom: 10px; color: #333;">${photo.title}</h2>
+                        <p style="color: #666; margin-bottom: 20px;">oleh <strong>${photo.author}</strong></p>
+                        
+                        <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div>
+                                    <strong>Ukuran:</strong><br>${photo.size}
+                                </div>
+                                <div>
+                                    <strong>Download:</strong><br>${photo.downloads}x
+                                </div>
+                                <div>
+                                    <strong>Likes:</strong><br>${photo.likes}
+                                </div>
+                                <div>
+                                    <strong>Kategori:</strong><br>${photo.category}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-bottom: 20px;">
+                            <strong>Tags:</strong><br>
+                            <div style="margin-top: 10px;">
+                                ${photo.tags.map(tag => `<span style="background: #e3f2fd; color: #1976d2; padding: 5px 10px; border-radius: 15px; margin-right: 5px; font-size: 0.9em;">#${tag}</span>`).join('')}
+                            </div>
+                        </div>
+                        
+                        <div style="display: flex; gap: 10px;">
+                            <button class="btn btn-download" onclick="downloadPhoto(${photo.id})" style="flex: 1; padding: 12px;">
+                                📥 Download Foto
+                            </button>
+                            <button class="btn btn-favorite ${favorites.includes(photo.id) ? 'active' : ''}" 
+                                    onclick="toggleFavorite(${photo.id})" style="padding: 12px 20px;">
+                                ${favorites.includes(photo.id) ? '❤️ Favorit' : '🤍 Favorit'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            modal.style.display = 'block';
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('photoModal').style.display = 'none';
+        }
+
+        // Show search results modal
+        function showSearchModal(results, searchTerm) {
+            const modal = document.getElementById('searchModal');
+            const content = document.getElementById('searchModalContent');
+            
+            content.innerHTML = `
+                <div style="margin-bottom: 30px;">
+                    <h2 style="color: #667eea; font-size: 2em; margin-bottom: 10px;">🔍 Hasil Pencarian</h2>
+                    <p style="color: #666; font-size: 1.2em;">Ditemukan <strong>${results.length}</strong> foto untuk "<strong>${searchTerm}</strong>"</p>
+                    <div style="margin-top: 15px;">
+                        <button class="btn" onclick="applySearchResults()" style="background: #4CAF50; color: white; padding: 10px 20px; margin-right: 10px;">
+                            ✅ Tampilkan di Halaman Utama
+                        </button>
+                        <button class="btn" onclick="closeSearchModal()" style="background: #f44336; color: white; padding: 10px 20px;">
+                            ❌ Tutup
+                        </button>
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; max-height: 60vh; overflow-y: auto; padding: 10px;">
+                    ${results.map(photo => `
+                        <div class="photo-card" style="cursor: pointer;" onclick="selectPhotoFromSearch(${photo.id})">
+                            <img src="${photo.url}" alt="${photo.title}" style="width: 100%; height: 150px; object-fit: cover;">
+                            <div style="padding: 15px;">
+                                <div style="font-weight: bold; margin-bottom: 5px; color: #333;">${photo.title}</div>
+                                <div style="color: #666; margin-bottom: 10px; font-size: 0.9em;">oleh ${photo.author}</div>
+                                <div style="display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px;">
+                                    ${photo.tags.slice(0, 2).map(tag => `<span style="background: #f0f0f0; padding: 2px 6px; border-radius: 10px; font-size: 0.7em; color: #666;">#${tag}</span>`).join('')}
+                                </div>
+                                <div style="display: flex; gap: 5px;">
+                                    <button class="btn" onclick="event.stopPropagation(); previewPhoto(${photo.id})" style="background: #2196F3; color: white; padding: 5px 10px; font-size: 0.8em; flex: 1;">
+                                        👁️ Preview
+                                    </button>
+                                    <button class="btn" onclick="event.stopPropagation(); downloadPhoto(${photo.id})" style="background: #4CAF50; color: white; padding: 5px 10px; font-size: 0.8em; flex: 1;">
+                                        📥 Download
+                                    </button>
+                                    <button class="btn ${favorites.includes(photo.id) ? 'btn-favorite active' : 'btn-favorite'}" onclick="event.stopPropagation(); toggleFavorite(${photo.id})" style="padding: 5px 8px; font-size: 0.8em;">
+                                        ${favorites.includes(photo.id) ? '❤️' : '🤍'}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            
+            // Store search results for later use
+            window.currentSearchResults = results;
+            window.currentSearchTerm = searchTerm;
+            
+            modal.style.display = 'block';
+        }
+
+        // Close search modal
+        function closeSearchModal() {
+            document.getElementById('searchModal').style.display = 'none';
+        }
+
+        // Apply search results to main page
+        function applySearchResults() {
+            if (window.currentSearchResults) {
+                currentPhotos = [...window.currentSearchResults];
+                renderPhotos();
+                closeSearchModal();
+                showNotification(`✅ Menampilkan ${currentPhotos.length} hasil pencarian untuk "${window.currentSearchTerm}"`, 'success');
+            }
+        }
+
+        // Select photo from search modal
+        function selectPhotoFromSearch(photoId) {
+            closeSearchModal();
+            showPhotoDetail(photoId);
+        }
+
+        let currentPreviewPhoto = null;
+        let currentZoom = 1;
+        let isDragging = false;
+        let dragStart = { x: 0, y: 0 };
+        let imagePosition = { x: 0, y: 0 };
+
+        // Preview photo function
+        function previewPhoto(photoId) {
+            const photo = [...allPhotos, ...userPhotos].find(p => p.id === photoId);
+            currentPreviewPhoto = photo;
+            
+            // Reset zoom
+            currentZoom = 1;
+            imagePosition = { x: 0, y: 0 };
+            
+            const modal = document.getElementById('previewModal');
+            const content = document.getElementById('previewContent');
+            const favoriteBtn = document.getElementById('previewFavoriteBtn');
+            const zoomLevel = document.getElementById('zoomLevel');
+            
+            // Update favorite button
+            if (favorites.includes(photo.id)) {
+                favoriteBtn.innerHTML = '❤️ Favorit';
+                favoriteBtn.style.background = 'rgba(255, 71, 87, 0.8)';
+            } else {
+                favoriteBtn.innerHTML = '🤍 Favorit';
+                favoriteBtn.style.background = 'rgba(255,255,255,0.2)';
+            }
+            
+            content.innerHTML = `
+                <img src="${photo.url}" alt="${photo.title}" class="preview-image" id="previewImage">
+                <div class="preview-info">
+                    <h3 style="margin: 0 0 5px 0; color: #333; font-size: 1.3em;">${photo.title}</h3>
+                    <p style="margin: 0; color: #666;">oleh ${photo.author} • ${photo.size} • ${photo.downloads} downloads</p>
+                    <p style="margin: 5px 0 0 0; color: #888; font-size: 0.9em;">
+                        Gunakan ← → untuk navigasi • + - untuk zoom • Drag untuk geser • ESC untuk tutup
+                    </p>
+                </div>
+            `;
+            
+            // Update zoom level display
+            zoomLevel.textContent = '100%';
+            
+            modal.style.display = 'block';
+            
+            // Setup image drag and zoom
+            setupImageInteraction();
+            
+            // Add keyboard navigation
+            document.addEventListener('keydown', handlePreviewKeyboard);
+        }
+
+        // Close preview
+        function closePreview() {
+            document.getElementById('previewModal').style.display = 'none';
+            document.removeEventListener('keydown', handlePreviewKeyboard);
+            currentPreviewPhoto = null;
+        }
+
+        // Keyboard navigation for preview
+        function handlePreviewKeyboard(e) {
+            if (e.key === 'Escape') {
+                closePreview();
+            } else if (e.key === 'ArrowLeft') {
+                navigatePreview(-1);
+            } else if (e.key === 'ArrowRight') {
+                navigatePreview(1);
+            } else if (e.key === 'd' || e.key === 'D') {
+                downloadFromPreview();
+            } else if (e.key === 'f' || e.key === 'F') {
+                if (e.shiftKey) {
+                    fitToScreen();
+                } else {
+                    toggleFavoriteFromPreview();
+                }
+            } else if (e.key === '+' || e.key === '=') {
+                zoomIn();
+            } else if (e.key === '-') {
+                zoomOut();
+            } else if (e.key === '0') {
+                resetZoom();
+            }
+        }
+
+        // Navigate between photos in preview
+        function navigatePreview(direction) {
+            if (!currentPreviewPhoto) return;
+            
+            const currentIndex = currentPhotos.findIndex(p => p.id === currentPreviewPhoto.id);
+            let newIndex = currentIndex + direction;
+            
+            if (newIndex < 0) newIndex = currentPhotos.length - 1;
+            if (newIndex >= currentPhotos.length) newIndex = 0;
+            
+            previewPhoto(currentPhotos[newIndex].id);
+        }
+
+        // Download from preview
+        function downloadFromPreview() {
+            if (currentPreviewPhoto) {
+                downloadPhoto(currentPreviewPhoto.id);
+            }
+        }
+
+        // Toggle favorite from preview
+        function toggleFavoriteFromPreview() {
+            if (currentPreviewPhoto) {
+                toggleFavorite(currentPreviewPhoto.id);
+                
+                // Update preview button
+                const favoriteBtn = document.getElementById('previewFavoriteBtn');
+                if (favorites.includes(currentPreviewPhoto.id)) {
+                    favoriteBtn.innerHTML = '❤️ Favorit';
+                    favoriteBtn.style.background = 'rgba(255, 71, 87, 0.8)';
+                } else {
+                    favoriteBtn.innerHTML = '🤍 Favorit';
+                    favoriteBtn.style.background = 'rgba(255,255,255,0.2)';
+                }
+            }
+        }
+
+        // Show detail from preview
+        function showDetailFromPreview() {
+            if (currentPreviewPhoto) {
+                closePreview();
+                showPhotoDetail(currentPreviewPhoto.id);
+            }
+        }
+
+        // Download photo
+        function downloadPhoto(photoId) {
+            const photo = [...allPhotos, ...userPhotos].find(p => p.id === photoId);
+            
+            // Simulate download
+            const link = document.createElement('a');
+            link.href = photo.url;
+            link.download = `${photo.title}.jpg`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            // Update stats
+            totalDownloads++;
+            localStorage.setItem('totalDownloads', totalDownloads.toString());
+            
+            showNotification(`✅ ${photo.title} berhasil diunduh!`, 'success');
+            updateStats();
+        }
+
+        // Toggle favorite
+        function toggleFavorite(photoId) {
+            const index = favorites.indexOf(photoId);
+            
+            if (index > -1) {
+                favorites.splice(index, 1);
+                showNotification('💔 Dihapus dari favorit', 'info');
+            } else {
+                favorites.push(photoId);
+                showNotification('❤️ Ditambahkan ke favorit', 'success');
+            }
+            
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            renderPhotos();
+        }
+
+        // Load more photos
+        function loadMorePhotos() {
+            const morePhotos = allPhotos.slice(0, 4).map(photo => ({
+                ...photo,
+                id: photo.id + 1000,
+                title: photo.title + ' (Tambahan)',
+                downloads: Math.floor(Math.random() * 500) + 100,
+                likes: Math.floor(Math.random() * 200) + 50
+            }));
+            
+            allPhotos = [...allPhotos, ...morePhotos];
+            currentPhotos = [...allPhotos, ...userPhotos];
+            
+            renderPhotos();
+            showNotification(`📥 ${morePhotos.length} foto baru dimuat!`, 'success');
+        }
+
+        // Handle file upload
+        function handleFileUpload(e) {
+            const files = Array.from(e.target.files);
+            processFiles(files);
+        }
+
+        // Handle folder upload
+        function handleFolderUpload(e) {
+            const files = Array.from(e.target.files);
+            const folderName = files.length > 0 ? files[0].webkitRelativePath.split('/')[0] : 'Unknown Folder';
+            
+            showNotification(`📂 Memproses folder "${folderName}" dengan ${files.length} file...`, 'info');
+            
+            // Process files with folder structure
+            processFolderFiles(files, folderName);
+        }
+
+        function processFiles(files) {
+            if (files.length === 0) return;
+
+            files.forEach((file, index) => {
+                if (file.size > 10 * 1024 * 1024) {
+                    showNotification(`❌ ${file.name} terlalu besar (max 10MB)`, 'error');
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const newPhoto = {
+                        id: Date.now() + index,
+                        url: e.target.result,
+                        title: file.name.replace(/\.[^/.]+$/, ""),
+                        author: "Anda",
+                        category: "user",
+                        tags: ["upload", "user"],
+                        size: formatFileSize(file.size),
+                        downloads: 0,
+                        likes: 0
+                    };
+                    
+                    userPhotos.push(newPhoto);
+                    localStorage.setItem('userPhotos', JSON.stringify(userPhotos));
+                    
+                    currentPhotos = [...allPhotos, ...userPhotos];
+                    renderPhotos();
+                    
+                    showNotification(`✅ ${file.name} berhasil diupload!`, 'success');
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function processFolderFiles(files, folderName) {
+            if (files.length === 0) return;
+
+            let processedCount = 0;
+            let successCount = 0;
+            let errorCount = 0;
+            const totalFiles = files.length;
+
+            // Filter only image files
+            const imageFiles = files.filter(file => file.type.startsWith('image/'));
+            
+            if (imageFiles.length === 0) {
+                showNotification(`❌ Tidak ada file gambar ditemukan di folder "${folderName}"`, 'error');
+                return;
+            }
+
+            showNotification(`📂 Memproses ${imageFiles.length} foto dari folder "${folderName}"...`, 'info');
+
+            imageFiles.forEach((file, index) => {
+                if (file.size > 10 * 1024 * 1024) {
+                    errorCount++;
+                    processedCount++;
+                    
+                    if (processedCount === imageFiles.length) {
+                        showFolderSyncComplete(folderName, successCount, errorCount);
+                    }
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    // Extract folder structure for better organization
+                    const relativePath = file.webkitRelativePath;
+                    const pathParts = relativePath.split('/');
+                    const fileName = pathParts[pathParts.length - 1];
+                    const subFolder = pathParts.length > 2 ? pathParts[1] : '';
+                    
+                    // Generate tags based on folder structure
+                    const folderTags = ['folder-sync', folderName.toLowerCase()];
+                    if (subFolder) {
+                        folderTags.push(subFolder.toLowerCase());
+                    }
+                    
+                    // Auto-detect category based on folder name
+                    const autoCategory = detectCategoryFromPath(relativePath);
+                    
+                    const newPhoto = {
+                        id: Date.now() + index + Math.random() * 1000,
+                        url: e.target.result,
+                        title: fileName.replace(/\.[^/.]+$/, ""),
+                        author: "Folder Sync",
+                        category: autoCategory,
+                        tags: folderTags,
+                        size: formatFileSize(file.size),
+                        downloads: 0,
+                        likes: 0,
+                        folderPath: relativePath,
+                        syncDate: new Date().toISOString()
+                    };
+                    
+                    userPhotos.push(newPhoto);
+                    successCount++;
+                    processedCount++;
+                    
+                    // Update UI periodically
+                    if (processedCount % 5 === 0 || processedCount === imageFiles.length) {
+                        localStorage.setItem('userPhotos', JSON.stringify(userPhotos));
+                        currentPhotos = [...allPhotos, ...userPhotos];
+                        renderPhotos();
+                    }
+                    
+                    // Show completion message when all files are processed
+                    if (processedCount === imageFiles.length) {
+                        showFolderSyncComplete(folderName, successCount, errorCount);
+                    }
+                };
+                
+                reader.onerror = function() {
+                    errorCount++;
+                    processedCount++;
+                    
+                    if (processedCount === imageFiles.length) {
+                        showFolderSyncComplete(folderName, successCount, errorCount);
+                    }
+                };
+                
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function detectCategoryFromPath(path) {
+            const pathLower = path.toLowerCase();
+            
+            if (pathLower.includes('nature') || pathLower.includes('alam') || pathLower.includes('landscape')) {
+                return 'nature';
+            } else if (pathLower.includes('city') || pathLower.includes('kota') || pathLower.includes('urban')) {
+                return 'city';
+            } else if (pathLower.includes('food') || pathLower.includes('makanan') || pathLower.includes('culinary')) {
+                return 'food';
+            } else if (pathLower.includes('people') || pathLower.includes('orang') || pathLower.includes('portrait')) {
+                return 'people';
+            } else if (pathLower.includes('tech') || pathLower.includes('teknologi') || pathLower.includes('gadget')) {
+                return 'technology';
+            } else if (pathLower.includes('animal') || pathLower.includes('hewan') || pathLower.includes('pet')) {
+                return 'animals';
+            }
+            
+            return 'user';
+        }
+
+        function showFolderSyncComplete(folderName, successCount, errorCount) {
+            const totalProcessed = successCount + errorCount;
+            
+            if (successCount > 0) {
+                showNotification(
+                    `✅ Folder "${folderName}" berhasil di-sync! ${successCount}/${totalProcessed} foto berhasil diproses.`,
+                    'success'
+                );
+            }
+            
+            if (errorCount > 0) {
+                showNotification(
+                    `⚠️ ${errorCount} file gagal diproses (ukuran terlalu besar atau format tidak didukung)`,
+                    'error'
+                );
+            }
+            
+            // Final update
+            localStorage.setItem('userPhotos', JSON.stringify(userPhotos));
+            currentPhotos = [...allPhotos, ...userPhotos];
+            renderPhotos();
+            updateStats();
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // Show/hide loading
+        function showLoading() {
+            document.getElementById('loading').classList.remove('hidden');
+        }
+
+        function hideLoading() {
+            document.getElementById('loading').classList.add('hidden');
+        }
+
+        // Update stats
+        function updateStats() {
+            document.getElementById('totalPhotos').textContent = (allPhotos.length + userPhotos.length).toLocaleString();
+            document.getElementById('searchResults').textContent = currentPhotos.length;
+            document.getElementById('favorites').textContent = favorites.length;
+            
+            // Count synced folders
+            const syncedFolders = new Set(userPhotos.filter(photo => photo.folderPath).map(photo => photo.folderPath.split('/')[0]));
+            document.getElementById('syncedFolders').textContent = syncedFolders.size;
+            
+            document.getElementById('downloads').textContent = totalDownloads;
+        }
+
+        // Show notification
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => notification.classList.add('show'), 100);
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    if (document.body.contains(notification)) {
+                        document.body.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        // Zoom functions
+        function zoomIn() {
+            if (currentZoom < 5) {
+                currentZoom += 0.25;
+                updateImageTransform();
+            }
+        }
+        
+        function zoomOut() {
+            if (currentZoom > 0.25) {
+                currentZoom -= 0.25;
+                updateImageTransform();
+            }
+        }
+        
+        function resetZoom() {
+            currentZoom = 1;
+            imagePosition = { x: 0, y: 0 };
+            updateImageTransform();
+        }
+        
+        function fitToScreen() {
+            const image = document.getElementById('previewImage');
+            if (!image) return;
+            
+            const modal = document.getElementById('previewModal');
+            const modalRect = modal.getBoundingClientRect();
+            
+            // Calculate optimal zoom to fit screen
+            const maxWidth = modalRect.width * 0.9;
+            const maxHeight = modalRect.height * 0.8;
+            
+            const scaleX = maxWidth / image.naturalWidth;
+            const scaleY = maxHeight / image.naturalHeight;
+            
+            currentZoom = Math.min(scaleX, scaleY, 1);
+            imagePosition = { x: 0, y: 0 };
+            updateImageTransform();
+        }
+        
+        function updateImageTransform() {
+            const image = document.getElementById('previewImage');
+            const zoomLevel = document.getElementById('zoomLevel');
+            
+            if (!image || !zoomLevel) return;
+            
+            image.style.transform = `scale(${currentZoom}) translate(${imagePosition.x}px, ${imagePosition.y}px)`;
+            zoomLevel.textContent = Math.round(currentZoom * 100) + '%';
+            
+            // Update cursor based on zoom level
+            if (currentZoom > 1) {
+                image.classList.add('zoomed');
+            } else {
+                image.classList.remove('zoomed');
+            }
+        }
+        
+        function setupImageInteraction() {
+            const image = document.getElementById('previewImage');
+            if (!image) return;
+            
+            // Mouse wheel zoom
+            image.addEventListener('wheel', function(e) {
+                e.preventDefault();
+                
+                if (e.deltaY < 0) {
+                    zoomIn();
+                } else {
+                    zoomOut();
+                }
+            });
+            
+            // Mouse drag
+            image.addEventListener('mousedown', function(e) {
+                if (currentZoom > 1) {
+                    isDragging = true;
+                    dragStart.x = e.clientX - imagePosition.x;
+                    dragStart.y = e.clientY - imagePosition.y;
+                    image.style.cursor = 'grabbing';
+                }
+            });
+            
+            document.addEventListener('mousemove', function(e) {
+                if (isDragging && currentZoom > 1) {
+                    imagePosition.x = e.clientX - dragStart.x;
+                    imagePosition.y = e.clientY - dragStart.y;
+                    updateImageTransform();
+                }
+            });
+            
+            document.addEventListener('mouseup', function() {
+                if (isDragging) {
+                    isDragging = false;
+                    const image = document.getElementById('previewImage');
+                    if (image) {
+                        image.style.cursor = currentZoom > 1 ? 'move' : 'grab';
+                    }
+                }
+            });
+            
+            // Touch support for mobile
+            let touchStart = null;
+            let initialDistance = 0;
+            let initialZoom = 1;
+            
+            image.addEventListener('touchstart', function(e) {
+                if (e.touches.length === 1) {
+                    // Single touch - drag
+                    if (currentZoom > 1) {
+                        touchStart = {
+                            x: e.touches[0].clientX - imagePosition.x,
+                            y: e.touches[0].clientY - imagePosition.y
+                        };
+                    }
+                } else if (e.touches.length === 2) {
+                    // Two finger - zoom
+                    const touch1 = e.touches[0];
+                    const touch2 = e.touches[1];
+                    initialDistance = Math.hypot(
+                        touch2.clientX - touch1.clientX,
+                        touch2.clientY - touch1.clientY
+                    );
+                    initialZoom = currentZoom;
+                }
+            });
+            
+            image.addEventListener('touchmove', function(e) {
+                e.preventDefault();
+                
+                if (e.touches.length === 1 && touchStart && currentZoom > 1) {
+                    // Single touch drag
+                    imagePosition.x = e.touches[0].clientX - touchStart.x;
+                    imagePosition.y = e.touches[0].clientY - touchStart.y;
+                    updateImageTransform();
+                } else if (e.touches.length === 2) {
+                    // Two finger zoom
+                    const touch1 = e.touches[0];
+                    const touch2 = e.touches[1];
+                    const currentDistance = Math.hypot(
+                        touch2.clientX - touch1.clientX,
+                        touch2.clientY - touch1.clientY
+                    );
+                    
+                    const scale = currentDistance / initialDistance;
+                    currentZoom = Math.max(0.25, Math.min(5, initialZoom * scale));
+                    updateImageTransform();
+                }
+            });
+            
+            image.addEventListener('touchend', function() {
+                touchStart = null;
+            });
+            
+            // Double tap to zoom
+            let lastTap = 0;
+            image.addEventListener('touchend', function(e) {
+                const currentTime = new Date().getTime();
+                const tapLength = currentTime - lastTap;
+                
+                if (tapLength < 500 && tapLength > 0) {
+                    if (currentZoom === 1) {
+                        currentZoom = 2;
+                    } else {
+                        resetZoom();
+                    }
+                    updateImageTransform();
+                }
+                lastTap = currentTime;
+            });
+        }
+
+        // Scroll to top function
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Initialize app on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            checkLoginStatus();
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'971c367204df81bc',t:'MTc1NTYzMzM3MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

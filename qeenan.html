@@ -1,0 +1,737 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Undangan Aqiqah - Qeenan Pratama Anugrah</title>
+  <link rel="icon" type="image/jpeg" href="https://res.cloudinary.com/di8stbg60/image/upload/v1765332696/QEENAN_FIX_alfeix.jpg">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&amp;family=Lora:wght@400;500;600&amp;family=Cormorant+Garamond:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    .font-playfair {
+      font-family: 'Playfair Display', serif;
+    }
+    
+    .font-lora {
+      font-family: 'Lora', serif;
+    }
+    
+    .font-cormorant {
+      font-family: 'Cormorant Garamond', serif;
+    }
+    
+    .elegant-gradient {
+      background: linear-gradient(135deg, #E8F5E1 0%, #D4E7C5 50%, #BFD8AF 100%);
+    }
+    
+    .gold-shimmer {
+      background: linear-gradient(120deg, #ffd700 0%, #ffed4e 50%, #ffa500 100%);
+      background-size: 200% auto;
+      animation: shimmer 3s linear infinite;
+    }
+    
+    @keyframes shimmer {
+      0% { background-position: 0% center; }
+      100% { background-position: 200% center; }
+    }
+    
+    .shimmer-glow {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .shimmer-glow::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        45deg,
+        transparent 30%,
+        rgba(255, 215, 0, 0.3) 50%,
+        transparent 70%
+      );
+      animation: shimmerSweep 3s ease-in-out infinite;
+    }
+    
+    @keyframes shimmerSweep {
+      0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+      100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+    }
+    
+    .glitter-sparkle {
+      position: relative;
+      background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 237, 78, 0.1));
+      animation: sparkleBackground 2s ease-in-out infinite;
+    }
+    
+    @keyframes sparkleBackground {
+      0%, 100% { 
+        box-shadow: 
+          0 0 20px rgba(255, 215, 0, 0.3),
+          inset 0 0 20px rgba(255, 215, 0, 0.1);
+      }
+      50% { 
+        box-shadow: 
+          0 0 40px rgba(255, 215, 0, 0.6),
+          inset 0 0 30px rgba(255, 215, 0, 0.2);
+      }
+    }
+    
+    .ornament-pattern {
+      background-image: 
+        radial-gradient(circle at 20% 30%, rgba(76, 175, 80, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(76, 175, 80, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 40% 80%, rgba(76, 175, 80, 0.05) 0%, transparent 50%);
+    }
+    
+    .decorative-border {
+      position: relative;
+      padding: 2rem;
+    }
+    
+    .decorative-border::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border: 2px solid;
+      border-image: linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffa500 100%) 1;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.8s ease-in;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .divider-ornament {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+    
+    .divider-ornament::before,
+    .divider-ornament::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, #ffd700, transparent);
+    }
+    
+    .card-elegant {
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      box-shadow: 0 8px 32px rgba(255, 215, 0, 0.2);
+    }
+    
+    .modal-backdrop {
+      backdrop-filter: blur(8px);
+      background: rgba(0, 0, 0, 0.5);
+    }
+    
+    .elegant-button {
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .elegant-button::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+    
+    .elegant-button:hover::before {
+      width: 300px;
+      height: 300px;
+    }
+    
+    .floating {
+      animation: floating 3s ease-in-out infinite;
+    }
+    
+    @keyframes floating {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-15px); }
+    }
+    
+    .floating-photo {
+      animation: floatingPhoto 4s ease-in-out infinite;
+    }
+    
+    @keyframes floatingPhoto {
+      0%, 100% { 
+        transform: translateY(0px) scale(1);
+        box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+      }
+      50% { 
+        transform: translateY(-20px) scale(1.05);
+        box-shadow: 0 15px 40px rgba(255, 215, 0, 0.6);
+      }
+    }
+    
+    .animated-gradient-name {
+      background: linear-gradient(
+        90deg,
+        #006B3F,
+        #008751,
+        #00A859,
+        #D4AF37,
+        #C5A028,
+        #008751,
+        #006B3F
+      );
+      background-size: 400% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradientFlow 4s ease infinite, glowPulse 2s ease-in-out infinite;
+      text-shadow: 0 0 20px rgba(0, 107, 63, 0.3);
+      filter: drop-shadow(0 2px 8px rgba(0, 107, 63, 0.25));
+    }
+    
+    @keyframes gradientFlow {
+      0% { background-position: 0% center; }
+      50% { background-position: 100% center; }
+      100% { background-position: 0% center; }
+    }
+    
+    @keyframes glowPulse {
+      0%, 100% { 
+        filter: drop-shadow(0 2px 10px rgba(255, 215, 0, 0.4)) brightness(1);
+      }
+      50% { 
+        filter: drop-shadow(0 4px 20px rgba(255, 215, 0, 0.8)) brightness(1.2);
+      }
+    }
+    
+    .layered-3d {
+      position: relative;
+      transform-style: preserve-3d;
+      animation: rotate3D 6s ease-in-out infinite;
+    }
+    
+    @keyframes rotate3D {
+      0%, 100% { 
+        transform: perspective(1000px) rotateY(0deg) rotateX(0deg);
+      }
+      25% { 
+        transform: perspective(1000px) rotateY(5deg) rotateX(2deg);
+      }
+      50% { 
+        transform: perspective(1000px) rotateY(0deg) rotateX(0deg);
+      }
+      75% { 
+        transform: perspective(1000px) rotateY(-5deg) rotateX(-2deg);
+      }
+    }
+    
+    .multi-shadow-3d {
+      box-shadow: 
+        0 1px 3px rgba(255, 215, 0, 0.3),
+        0 4px 8px rgba(255, 215, 0, 0.25),
+        0 8px 16px rgba(255, 215, 0, 0.2),
+        0 16px 32px rgba(255, 215, 0, 0.15),
+        inset 0 1px 2px rgba(255, 255, 255, 0.3);
+      animation: shadowPulse3D 3s ease-in-out infinite;
+    }
+    
+    @keyframes shadowPulse3D {
+      0%, 100% {
+        box-shadow: 
+          0 1px 3px rgba(255, 215, 0, 0.3),
+          0 4px 8px rgba(255, 215, 0, 0.25),
+          0 8px 16px rgba(255, 215, 0, 0.2),
+          0 16px 32px rgba(255, 215, 0, 0.15),
+          inset 0 1px 2px rgba(255, 255, 255, 0.3);
+      }
+      50% {
+        box-shadow: 
+          0 2px 6px rgba(255, 215, 0, 0.4),
+          0 8px 16px rgba(255, 215, 0, 0.35),
+          0 16px 32px rgba(255, 215, 0, 0.3),
+          0 32px 64px rgba(255, 215, 0, 0.25),
+          inset 0 2px 4px rgba(255, 255, 255, 0.5);
+      }
+    }
+    
+    .light-rays {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .light-rays::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 200%;
+      height: 200%;
+      background: conic-gradient(
+        from 0deg,
+        transparent 0deg,
+        rgba(255, 215, 0, 0.1) 30deg,
+        transparent 60deg,
+        transparent 120deg,
+        rgba(255, 215, 0, 0.1) 150deg,
+        transparent 180deg,
+        transparent 240deg,
+        rgba(255, 215, 0, 0.1) 270deg,
+        transparent 300deg
+      );
+      transform: translate(-50%, -50%) rotate(0deg);
+      animation: rotateLightRays 10s linear infinite;
+      pointer-events: none;
+    }
+    
+    @keyframes rotateLightRays {
+      0% { transform: translate(-50%, -50%) rotate(0deg); }
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+    
+    .depth-layer {
+      position: relative;
+      transform: translateZ(20px);
+    }
+    
+    .text-3d-pop {
+      text-shadow: 
+        1px 1px 0 rgba(255, 215, 0, 0.5),
+        2px 2px 0 rgba(255, 215, 0, 0.4),
+        3px 3px 0 rgba(255, 215, 0, 0.3),
+        4px 4px 0 rgba(255, 215, 0, 0.2),
+        5px 5px 10px rgba(255, 165, 0, 0.3);
+      animation: popText3D 3s ease-in-out infinite;
+    }
+    
+    @keyframes popText3D {
+      0%, 100% {
+        text-shadow: 
+          1px 1px 0 rgba(255, 215, 0, 0.5),
+          2px 2px 0 rgba(255, 215, 0, 0.4),
+          3px 3px 0 rgba(255, 215, 0, 0.3),
+          4px 4px 0 rgba(255, 215, 0, 0.2),
+          5px 5px 10px rgba(255, 165, 0, 0.3);
+      }
+      50% {
+        text-shadow: 
+          2px 2px 0 rgba(255, 215, 0, 0.6),
+          4px 4px 0 rgba(255, 215, 0, 0.5),
+          6px 6px 0 rgba(255, 215, 0, 0.4),
+          8px 8px 0 rgba(255, 215, 0, 0.3),
+          10px 10px 20px rgba(255, 165, 0, 0.5);
+      }
+    }
+    
+    .ultra-3d-depth {
+      position: relative;
+      transform-style: preserve-3d;
+      animation: ultraDepth3D 8s ease-in-out infinite;
+      box-shadow: 
+        0 2px 5px rgba(255, 215, 0, 0.2),
+        0 5px 15px rgba(255, 215, 0, 0.2),
+        0 10px 30px rgba(255, 215, 0, 0.2),
+        0 20px 50px rgba(255, 165, 0, 0.15),
+        0 30px 70px rgba(255, 140, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+    }
+    
+    @keyframes ultraDepth3D {
+      0%, 100% {
+        transform: perspective(1500px) translateZ(0px) rotateX(0deg) rotateY(0deg);
+        box-shadow: 
+          0 2px 5px rgba(255, 215, 0, 0.2),
+          0 5px 15px rgba(255, 215, 0, 0.2),
+          0 10px 30px rgba(255, 215, 0, 0.2),
+          0 20px 50px rgba(255, 165, 0, 0.15),
+          0 30px 70px rgba(255, 140, 0, 0.1),
+          inset 0 1px 0 rgba(255, 255, 255, 0.5);
+      }
+      25% {
+        transform: perspective(1500px) translateZ(30px) rotateX(3deg) rotateY(5deg);
+        box-shadow: 
+          0 5px 10px rgba(255, 215, 0, 0.3),
+          0 10px 25px rgba(255, 215, 0, 0.3),
+          0 20px 50px rgba(255, 215, 0, 0.3),
+          0 40px 80px rgba(255, 165, 0, 0.25),
+          0 60px 120px rgba(255, 140, 0, 0.2),
+          inset 0 2px 0 rgba(255, 255, 255, 0.7);
+      }
+      50% {
+        transform: perspective(1500px) translateZ(0px) rotateX(0deg) rotateY(0deg);
+        box-shadow: 
+          0 2px 5px rgba(255, 215, 0, 0.2),
+          0 5px 15px rgba(255, 215, 0, 0.2),
+          0 10px 30px rgba(255, 215, 0, 0.2),
+          0 20px 50px rgba(255, 165, 0, 0.15),
+          0 30px 70px rgba(255, 140, 0, 0.1),
+          inset 0 1px 0 rgba(255, 255, 255, 0.5);
+      }
+      75% {
+        transform: perspective(1500px) translateZ(30px) rotateX(-3deg) rotateY(-5deg);
+        box-shadow: 
+          0 5px 10px rgba(255, 215, 0, 0.3),
+          0 10px 25px rgba(255, 215, 0, 0.3),
+          0 20px 50px rgba(255, 215, 0, 0.3),
+          0 40px 80px rgba(255, 165, 0, 0.25),
+          0 60px 120px rgba(255, 140, 0, 0.2),
+          inset 0 2px 0 rgba(255, 255, 255, 0.7);
+      }
+    }
+    
+    .spotlight-3d {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .spotlight-3d::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(
+        circle at center,
+        rgba(255, 255, 255, 0.3) 0%,
+        rgba(255, 215, 0, 0.2) 20%,
+        transparent 60%
+      );
+      animation: spotlightMove3D 5s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+    
+    @keyframes spotlightMove3D {
+      0%, 100% {
+        transform: translate(0%, 0%) scale(1);
+        opacity: 0.6;
+      }
+      25% {
+        transform: translate(30%, -20%) scale(1.2);
+        opacity: 0.8;
+      }
+      50% {
+        transform: translate(0%, 0%) scale(1);
+        opacity: 0.6;
+      }
+      75% {
+        transform: translate(-30%, 20%) scale(1.2);
+        opacity: 0.8;
+      }
+    }
+    
+    .prism-light {
+      position: relative;
+    }
+    
+    .prism-light::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        45deg,
+        transparent 0%,
+        rgba(255, 0, 128, 0.1) 10%,
+        transparent 20%,
+        rgba(255, 140, 0, 0.1) 30%,
+        transparent 40%,
+        rgba(255, 215, 0, 0.15) 50%,
+        transparent 60%,
+        rgba(0, 191, 255, 0.1) 70%,
+        transparent 80%,
+        rgba(138, 43, 226, 0.1) 90%,
+        transparent 100%
+      );
+      background-size: 300% 300%;
+      animation: prismShift 6s ease-in-out infinite;
+      pointer-events: none;
+      mix-blend-mode: overlay;
+    }
+    
+    @keyframes prismShift {
+      0%, 100% {
+        background-position: 0% 50%;
+        opacity: 0.5;
+      }
+      50% {
+        background-position: 100% 50%;
+        opacity: 0.8;
+      }
+    }
+    
+    .holographic-glow {
+      animation: holographicPulse 4s ease-in-out infinite;
+    }
+    
+    @keyframes holographicPulse {
+      0%, 100% {
+        filter: 
+          drop-shadow(0 0 10px rgba(255, 215, 0, 0.4))
+          drop-shadow(0 0 20px rgba(255, 140, 0, 0.3))
+          brightness(1);
+      }
+      33% {
+        filter: 
+          drop-shadow(0 0 15px rgba(255, 0, 128, 0.5))
+          drop-shadow(0 0 30px rgba(255, 0, 128, 0.3))
+          brightness(1.1);
+      }
+      66% {
+        filter: 
+          drop-shadow(0 0 15px rgba(0, 191, 255, 0.5))
+          drop-shadow(0 0 30px rgba(0, 191, 255, 0.3))
+          brightness(1.1);
+      }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full font-lora">
+  <div class="w-full h-full overflow-auto elegant-gradient ornament-pattern">
+   <div class="w-full min-h-full flex items-center justify-center p-4 sm:p-8">
+    <div class="w-full max-w-3xl card-elegant rounded-2xl overflow-hidden fade-in"><!-- Elegant Frame Border - Like Physical Invitation Card --> <!-- Top Border -->
+     <div class="absolute top-0 left-0 right-0 h-2 sm:h-2 pointer-events-none z-10" style="background: linear-gradient(180deg, #006B3F 0%, #008751 30%, #00A859 50%, #008751 70%, #006B3F 100%); box-shadow: 0 2px 8px rgba(0,107,63,0.4);"></div><!-- Bottom Border -->
+     <div class="absolute bottom-0 left-0 right-0 h-2 sm:h-2 pointer-events-none z-10" style="background: linear-gradient(180deg, #006B3F 0%, #008751 30%, #00A859 50%, #008751 70%, #006B3F 100%); box-shadow: 0 -2px 8px rgba(0,107,63,0.4);"></div><!-- Left Border -->
+     <div class="absolute left-0 top-0 bottom-0 w-2 sm:w-2 pointer-events-none z-10" style="background: linear-gradient(90deg, #006B3F 0%, #008751 30%, #00A859 50%, #008751 70%, #006B3F 100%); box-shadow: 2px 0 8px rgba(0,107,63,0.4);"></div><!-- Right Border -->
+     <div class="absolute right-0 top-0 bottom-0 w-2 sm:w-2 pointer-events-none z-10" style="background: linear-gradient(90deg, #006B3F 0%, #008751 30%, #00A859 50%, #008751 70%, #006B3F 100%); box-shadow: -2px 0 8px rgba(0,107,63,0.4);"></div><!-- Corner Ornaments --> <!-- Top Left Corner -->
+     <div class="absolute top-0 left-0 w-8 h-8 sm:w-12 sm:h-12 pointer-events-none z-20">
+      <svg width="100%" height="100%" viewbox="0 0 50 50" xmlns="http://www.w3.org/2000/svg"><path d="M0 0 L50 0 L50 10 Q40 5 30 10 Q20 15 10 10 Q5 8 0 10 Z" fill="#006B3F" opacity="0.95" /> <path d="M0 0 L10 0 L10 50 Q8 40 10 30 Q15 20 10 10 Q8 5 10 0 Z" fill="#006B3F" opacity="0.95" /> <circle cx="15" cy="15" r="3" fill="#D4AF37" opacity="0.9" />
+      </svg>
+     </div><!-- Top Right Corner -->
+     <div class="absolute top-0 right-0 w-8 h-8 sm:w-12 sm:h-12 pointer-events-none z-20">
+      <svg width="100%" height="100%" viewbox="0 0 50 50" xmlns="http://www.w3.org/2000/svg"><path d="M50 0 L0 0 L0 10 Q10 5 20 10 Q30 15 40 10 Q45 8 50 10 Z" fill="#006B3F" opacity="0.95" /> <path d="M50 0 L40 0 L40 50 Q42 40 40 30 Q35 20 40 10 Q42 5 40 0 Z" fill="#006B3F" opacity="0.95" /> <circle cx="35" cy="15" r="3" fill="#D4AF37" opacity="0.9" />
+      </svg>
+     </div><!-- Bottom Left Corner -->
+     <div class="absolute bottom-0 left-0 w-8 h-8 sm:w-12 sm:h-12 pointer-events-none z-20">
+      <svg width="100%" height="100%" viewbox="0 0 50 50" xmlns="http://www.w3.org/2000/svg"><path d="M0 50 L50 50 L50 40 Q40 45 30 40 Q20 35 10 40 Q5 42 0 40 Z" fill="#006B3F" opacity="0.95" /> <path d="M0 50 L10 50 L10 0 Q8 10 10 20 Q15 30 10 40 Q8 45 10 50 Z" fill="#006B3F" opacity="0.95" /> <circle cx="15" cy="35" r="3" fill="#D4AF37" opacity="0.9" />
+      </svg>
+     </div><!-- Bottom Right Corner -->
+     <div class="absolute bottom-0 right-0 w-8 h-8 sm:w-12 sm:h-12 pointer-events-none z-20">
+      <svg width="100%" height="100%" viewbox="0 0 50 50" xmlns="http://www.w3.org/2000/svg"><path d="M50 50 L0 50 L0 40 Q10 45 20 40 Q30 35 40 40 Q45 42 50 40 Z" fill="#006B3F" opacity="0.95" /> <path d="M50 50 L40 50 L40 0 Q42 10 40 20 Q35 30 40 40 Q42 45 40 50 Z" fill="#006B3F" opacity="0.95" /> <circle cx="35" cy="35" r="3" fill="#D4AF37" opacity="0.9" />
+      </svg>
+     </div><!-- Decorative Header -->
+     <div class="w-full py-8 sm:py-12 text-center relative decorative-border shimmer-glow light-rays multi-shadow-3d" style="background: linear-gradient(180deg, rgba(255, 215, 0, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);">
+      <div class="relative z-10 depth-layer"><!-- Star Ornament at Top -->
+       <div class="flex justify-center mb-4">
+        <svg width="40" height="40" viewbox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 8 L23 18 L33 18 L25 25 L28 35 L20 28 L12 35 L15 25 L7 18 L17 18 Z" fill="#ffd700" opacity="0.8" />
+        </svg>
+       </div><!-- Bismillah Image --> <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1765255170/download__2_-removebg-preview_z7egr7.png" alt="Bismillah Calligraphy" class="mx-auto mb-3 sm:mb-4 opacity-90 px-4" style="max-width: 100%; width: 280px; height: auto;" loading="lazy" onerror="this.style.display='none';">
+       <style>
+              @media (min-width: 640px) {
+                img[alt="Bismillah Calligraphy"] {
+                  width: 320px !important;
+                }
+              }
+            </style>
+       <h1 id="bismillah" class="text-xl sm:text-3xl font-cormorant font-semibold mb-4 animated-gradient-name px-2">Bismillahirrahmanirrahim</h1>
+      </div>
+     </div><!-- Content -->
+     <div class="px-3 sm:px-6 md:px-12 py-5 sm:py-10">
+      <p id="greeting" class="text-center text-base sm:text-2xl mb-6 sm:mb-8 font-cormorant italic px-2" style="color: #1a1a1a; font-weight: 600;">Assalamu'alaikum Warahmatullahi Wabarakatuh</p><!-- Guest Name Section with Enhanced Design -->
+      <div class="text-center mb-6 sm:mb-10 p-3 sm:p-6 rounded-xl card-elegant shimmer-glow light-rays ultra-3d-depth spotlight-3d prism-light" style="border: 2px solid #ffd700;">
+       <p class="text-sm sm:text-sm mb-2 font-cormorant tracking-wide" style="color: #000; font-weight: 900;">Kepada Yang Terhormat</p>
+       <p id="guest-name" class="text-xl sm:text-2xl md:text-3xl font-playfair font-bold animated-gradient-name break-words px-2">Bapak/Ibu/Saudara/i</p>
+      </div><!-- Introduction -->
+      <p id="introduction" class="text-center text-sm sm:text-xl mb-6 sm:mb-8 leading-relaxed px-2" style="color: #1a1a1a; font-weight: 500;">Dengan memohon rahmat dan ridho Allah SWT, kami mengundang Bapak/Ibu/Saudara/i untuk menghadiri acara <span class="font-playfair font-bold text-lg sm:text-2xl animated-gradient-name" style="background: linear-gradient(90deg, #006B3F, #008751, #00A859, #D4AF37, #008751, #006B3F); background-size: 300% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: gradientFlow 4s ease infinite; display: inline-block; text-shadow: 0 2px 4px rgba(0, 107, 63, 0.3);">Tasyakuran Aqiqah</span> putra kami:</p><!-- Baby Name - Most Prominent -->
+      <div class="text-center my-6 sm:my-10 p-3 sm:p-8 rounded-2xl glitter-sparkle light-rays ultra-3d-depth spotlight-3d prism-light" style="border: 2px solid rgba(255, 215, 0, 0.5);">
+       <div class="divider-ornament mb-4">
+        <svg width="30" height="30" viewbox="0 0 30 30" xmlns="http://www.w3.org/2000/svg"><circle cx="15" cy="15" r="3" fill="#ffd700" /> <circle cx="15" cy="15" r="8" fill="none" stroke="#ffd700" stroke-width="1" />
+        </svg>
+       </div><!-- Baby Photo with Floating Animation -->
+       <div class="mb-4 sm:mb-6 flex justify-center">
+        <div class="relative inline-block floating-photo ultra-3d-depth spotlight-3d">
+         <div class="absolute inset-0 rounded-full glitter-sparkle" style="background: linear-gradient(135deg, #ffd700, #ffed4e, #ffa500); padding: 4px; border-radius: 50%;"></div><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1765332696/QEENAN_FIX_alfeix.jpg" alt="Qeenan Pratama Anugrah" class="relative rounded-full object-cover shadow-lg holographic-glow" style="width: 120px; height: 120px; border: 4px solid white;" loading="eager" onerror="this.style.display='none'; this.parentElement.style.display='none';">
+        </div>
+       </div>
+       <style>
+              @media (min-width: 640px) {
+                .mb-4.sm\:mb-6 img {
+                  width: 200px !important;
+                  height: 200px !important;
+                  border: 5px solid white !important;
+                }
+              }
+            </style>
+       <h2 id="baby-name" class="text-2xl sm:text-4xl md:text-5xl font-playfair font-bold mb-2 animated-gradient-name holographic-glow leading-tight break-words px-2" style="background: linear-gradient(90deg, #8B0000, #DC143C, #800020, #C41E3A, #4169E1, #1E90FF, #0000CD, #8B0000); background-size: 400% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: gradientFlow 4s ease infinite, glowPulse 2s ease-in-out infinite;">Qeenan Pratama Anugrah</h2>
+       <p id="baby-gender" class="text-sm sm:text-lg font-cormorant italic holographic-glow" style="color: #666; font-weight: 600;">(Putra)</p>
+      </div><!-- Parents Info -->
+      <div class="text-center mb-6 sm:mb-8 p-4 sm:p-6 rounded-xl card-elegant" style="box-shadow: 0 4px 20px rgba(255, 215, 0, 0.15);">
+       <p class="text-sm sm:text-base mb-2 sm:mb-3 font-cormorant tracking-wide" style="color: #444; font-weight: 600;">Putra dari:</p>
+       <p id="father-name" class="text-xl sm:text-3xl font-playfair font-semibold mb-2 break-words" style="color: #000;">Alamsyah</p>
+       <p class="text-base mb-2 font-cormorant" style="color: #D4AF37; font-size: 1.2rem;">&amp;</p>
+       <p id="mother-name" class="text-xl sm:text-3xl font-playfair font-semibold break-words" style="color: #000;">Hanipa</p>
+      </div>
+      <div class="divider-ornament my-8">
+       <svg width="50" height="20" viewbox="0 0 50 20" xmlns="http://www.w3.org/2000/svg"><path d="M0 10 Q12.5 0 25 10 T50 10" fill="none" stroke="#ffd700" stroke-width="1.5" opacity="0.6" /> <circle cx="25" cy="10" r="3" fill="#ffd700" opacity="0.8" />
+       </svg>
+      </div><!-- Event Details with Icons -->
+      <div class="p-3 sm:p-8 rounded-xl card-elegant mb-6 sm:mb-8 shimmer-glow light-rays ultra-3d-depth spotlight-3d prism-light">
+       <h3 class="text-center text-lg sm:text-2xl font-playfair font-semibold mb-4 sm:mb-6 text-3d-pop holographic-glow" style="color: #006B3F;">Detail Acara</h3>
+       <div class="space-y-3 sm:space-y-4">
+        <div class="flex items-start gap-3 sm:gap-4">
+         <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center flex-shrink-0 glitter-sparkle" style="background: linear-gradient(135deg, rgba(255, 215, 0, 0.3), rgba(255, 237, 78, 0.15));"><span class="text-xl sm:text-2xl">📅</span>
+         </div>
+         <div class="flex-1 min-w-0">
+          <p class="text-xs sm:text-base font-cormorant mb-1" style="color: #444; font-weight: 600;">Hari &amp; Tanggal</p>
+          <p id="event-day" class="text-sm sm:text-xl font-semibold break-words" style="color: #000;">Ahad</p>
+          <p id="event-date" class="text-sm sm:text-lg break-words" style="color: #1a1a1a; font-weight: 500;">21 Desember 2025</p>
+         </div>
+        </div>
+        <div class="flex items-start gap-3 sm:gap-4">
+         <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center flex-shrink-0 glitter-sparkle" style="background: linear-gradient(135deg, rgba(255, 215, 0, 0.3), rgba(255, 237, 78, 0.15));"><span class="text-xl sm:text-2xl">⏰</span>
+         </div>
+         <div class="flex-1 min-w-0">
+          <p class="text-xs sm:text-base font-cormorant mb-1" style="color: #444; font-weight: 600;">Waktu</p>
+          <p id="event-time" class="text-sm sm:text-xl font-semibold break-words" style="color: #000;">11.00 WITA - Selesai</p>
+         </div>
+        </div>
+        <div class="flex items-start gap-3 sm:gap-4">
+         <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center flex-shrink-0 glitter-sparkle" style="background: linear-gradient(135deg, rgba(255, 215, 0, 0.3), rgba(255, 237, 78, 0.15));"><span class="text-xl sm:text-2xl">📍</span>
+         </div>
+         <div class="flex-1 min-w-0">
+          <p class="text-xs sm:text-base font-cormorant mb-1" style="color: #444; font-weight: 600;">Tempat</p>
+          <p id="event-location" class="text-sm sm:text-xl font-semibold leading-relaxed mb-2 break-words" style="color: #000;">Jl. Mutiara Dusun V Desa Wani Dua</p><a href="#map-section" class="text-xs sm:text-sm inline-block elegant-button px-3 py-1.5 sm:py-2 sm:px-4 rounded-lg transition-all duration-300 hover:shadow-md" style="background: linear-gradient(135deg, rgba(212, 175, 55, 0.25), rgba(197, 160, 40, 0.15)); color: #D4AF37; font-weight: 600; text-decoration: none;"> 📍 Lihat lokasi pada peta di bawah </a>
+         </div>
+        </div>
+       </div>
+      </div><!-- Map Section -->
+      <div id="map-section" class="mb-6 sm:mb-8 p-3 sm:p-6 rounded-xl card-elegant" style="box-shadow: 0 4px 20px rgba(255, 215, 0, 0.15);">
+       <h3 class="text-center text-lg sm:text-2xl font-playfair font-semibold mb-3 sm:mb-4" style="color: #D4AF37; text-shadow: 0 2px 4px rgba(212, 175, 55, 0.2);">Peta Lokasi</h3>
+       <div class="w-full rounded-lg overflow-hidden" style="position: relative; height: 220px; border: 2px solid rgba(255, 215, 0, 0.4);"><iframe src="https://www.google.com/maps/embed?pb=!4v.!6m8!1m7!1syJVB7NUXuVIDNctguhI0Cg!2m2!1d-0..!2d119..!3f289..!4f-5..!5f0.." style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"> </iframe>
+       </div>
+       <style>
+              @media (min-width: 640px) {
+                #map-section > div {
+                  height: 350px !important;
+                }
+              }
+              @media (min-width: 768px) {
+                #map-section > div {
+                  height: 400px !important;
+                }
+              }
+            </style>
+       <p class="text-center mt-4 text-sm" style="color: #555; font-weight: 600;"><span class="font-cormorant italic">Jl. Mutiara Dusun V Desa Wani Dua</span></p>
+      </div>
+      <div class="divider-ornament my-8">
+       <svg width="50" height="20" viewbox="0 0 50 20" xmlns="http://www.w3.org/2000/svg"><path d="M0 10 Q12.5 0 25 10 T50 10" fill="none" stroke="#ffd700" stroke-width="1.5" opacity="0.6" /> <circle cx="25" cy="10" r="3" fill="#ffd700" opacity="0.8" />
+       </svg>
+      </div><!-- Host Info -->
+      <div class="text-center mb-6 sm:mb-8 p-3 sm:p-6 rounded-xl" style="background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(197, 160, 40, 0.05)); border-left: 4px solid #D4AF37; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.1);">
+       <p class="text-sm sm:text-xl mb-2 sm:mb-3 font-cormorant font-semibold" style="color: #444;">Yang Mengundang:</p>
+       <p id="host-names" class="text-xl sm:text-3xl font-semibold mb-3 sm:mb-6 break-words" style="color: #000;">Alamsyah &amp; Hanipa</p>
+       <p class="text-sm sm:text-xl mb-2 sm:mb-3 font-cormorant font-semibold" style="color: #444;">Turut Mengundang:</p>
+       <p class="text-lg sm:text-2xl font-semibold break-words mb-1" style="color: #1a1a1a;">Agung Bambang Sujadmiko</p>
+       <p id="co-hosts" class="text-lg sm:text-2xl font-semibold break-words" style="color: #1a1a1a;">Ni'mah H.Awad Naser</p>
+      </div>
+      <div class="divider-ornament my-8">
+       <svg width="50" height="20" viewbox="0 0 50 20" xmlns="http://www.w3.org/2000/svg"><path d="M0 10 Q12.5 0 25 10 T50 10" fill="none" stroke="#ffd700" stroke-width="1.5" opacity="0.6" /> <circle cx="25" cy="10" r="3" fill="#ffd700" opacity="0.8" />
+       </svg>
+      </div><!-- Closing -->
+      <p id="closing-text" class="text-center text-sm sm:text-xl mb-5 sm:mb-6 leading-relaxed italic font-cormorant px-2" style="color: #1a1a1a; font-weight: 700;">Merupakan suatu kehormatan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa dan restu.</p>
+      <p id="regards" class="text-center text-base sm:text-2xl font-playfair font-semibold mb-6 sm:mb-8 px-2" style="color: #D4AF37; text-shadow: 0 2px 4px rgba(212, 175, 55, 0.2);">Wassalamu'alaikum Warahmatullahi Wabarakatuh</p>
+     </div><!-- Decorative Footer -->
+     <div class="w-full py-6 text-center" style="background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 215, 0, 0.15) 100%);">
+      <svg class="mx-auto opacity-50" width="100" height="30" viewbox="0 0 100 30" xmlns="http://www.w3.org/2000/svg"><path d="M0 15 Q25 5 50 15 T100 15" fill="none" stroke="#ffd700" stroke-width="1.5" /> <circle cx="50" cy="15" r="4" fill="#ffa500" />
+      </svg>
+     </div>
+    </div>
+   </div>
+  </div><!-- Background Audio -->
+  <audio id="background-audio" autoplay loop preload="none"><source src="https://res.cloudinary.com/di8stbg60/video/upload/v1765392517/sholawat-qeenan_zzpbpz.mp3" type="audio/mpeg">
+  </audio><!-- Floating Audio Control Button --> <button id="audio-control" class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center shadow-lg z-50 transition-all duration-300 elegant-button" style="background: linear-gradient(135deg, #006B3F, #008751); border: 2px solid white;"> <span id="audio-icon" class="text-xl sm:text-2xl">🔊</span> </button>
+  <script>
+    // Get guest name from URL parameter
+    function getGuestName() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlGuest = urlParams.get('nama');
+      if (urlGuest) {
+        return decodeURIComponent(urlGuest);
+      }
+      return 'Bapak/Ibu/Saudara/i';
+    }
+
+    // Audio control functionality
+    let isPlaying = false;
+    const audio = document.getElementById('background-audio');
+    const audioControl = document.getElementById('audio-control');
+    const audioIcon = document.getElementById('audio-icon');
+
+    // Auto-play attempt on page load
+    function tryAutoPlay() {
+      audio.play().then(() => {
+        isPlaying = true;
+        audioIcon.textContent = '🔊';
+      }).catch(() => {
+        // Auto-play blocked, user needs to click
+        isPlaying = false;
+        audioIcon.textContent = '🔇';
+      });
+    }
+
+    // Toggle audio play/pause
+    audioControl.addEventListener('click', function() {
+      if (isPlaying) {
+        audio.pause();
+        audioIcon.textContent = '🔇';
+        isPlaying = false;
+      } else {
+        audio.play();
+        audioIcon.textContent = '🔊';
+        isPlaying = true;
+      }
+    });
+
+    // Set guest name on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      const guestName = getGuestName();
+      const guestNameDisplay = document.getElementById('guest-name');
+      if (guestNameDisplay) {
+        guestNameDisplay.textContent = guestName;
+      }
+      
+      // Try to auto-play audio
+      setTimeout(tryAutoPlay, 500);
+    });
+
+    // Handle visibility change to pause/resume audio
+    document.addEventListener('visibilitychange', function() {
+      if (document.hidden && isPlaying) {
+        audio.pause();
+      } else if (!document.hidden && isPlaying) {
+        audio.play();
+      }
+    });
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9ace9a8316278336',t:'MTc2NTU1Njk5Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

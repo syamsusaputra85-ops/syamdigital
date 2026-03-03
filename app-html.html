@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kotak Script Generator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    .font-display {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    
+    .font-mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    
+    .code-area {
+      scrollbar-width: thin;
+      scrollbar-color: #4a5568 #1e293b;
+    }
+    
+    .code-area::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    
+    .code-area::-webkit-scrollbar-track {
+      background: #1e293b;
+      border-radius: 4px;
+    }
+    
+    .code-area::-webkit-scrollbar-thumb {
+      background: #4a5568;
+      border-radius: 4px;
+    }
+    
+    .code-area::-webkit-scrollbar-thumb:hover {
+      background: #64748b;
+    }
+    
+    .copy-btn {
+      transition: all 0.2s ease;
+    }
+    
+    .copy-btn:hover {
+      transform: translateY(-1px);
+    }
+    
+    .copy-btn:active {
+      transform: translateY(0);
+    }
+    
+    .toast {
+      animation: slideIn 0.3s ease, fadeOut 0.3s ease 1.7s forwards;
+    }
+    
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+    }
+    
+    .line-numbers {
+      counter-reset: line;
+    }
+    
+    .line-numbers span {
+      counter-increment: line;
+    }
+    
+    .line-numbers span::before {
+      content: counter(line);
+      display: inline-block;
+      width: 2em;
+      text-align: right;
+      margin-right: 1em;
+      color: #64748b;
+      user-select: none;
+    }
+.btn-download {
+  display: inline-flex;
+  align-items: center;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  color: black;
+  text-decoration: none;
+  font-family: sans-serif;
+  font-weight: bold;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.btn-download:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(110, 142, 251, 0.4);
+  filter: brightness(1.1);
+}
+
+.icon { margin-right: 10px; font-size: 1.2rem; }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full font-display">
+  <div id="app-wrapper" class="h-full w-full overflow-auto" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);">
+   <div class="min-h-full p-6 md:p-8 lg:p-12"><!-- Header -->
+    <div class="text-center mb-8">
+     <h1 id="main-title" class="text-3xl md:text-4xl font-bold text-white mb-3">📦 Kotak Script Generator</h1>
+     <p id="subtitle" class="text-slate-400 text-lg">Buat kotak kode yang cantik untuk postingan Anda</p>
+    </div><!-- Main Container -->
+    <div class="max-w-4xl mx-auto space-y-6"><!-- Input Section -->
+     <div class="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 border border-slate-700/50">
+      <div class="flex flex-col sm:flex-row gap-4 mb-4">
+       <div class="flex-1"><label class="block text-slate-300 text-sm font-medium mb-2">Bahasa / Label</label> <input type="text" id="language-input" placeholder="HTML, CSS, JavaScript..." class="w-full px-4 py-3 bg-slate-900/50 border border-slate-600 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all">
+       </div>
+       <div class="flex-1"><label class="block text-slate-300 text-sm font-medium mb-2">Tema Warna</label> <select id="theme-select" class="w-full px-4 py-3 bg-slate-900/50 border border-slate-600 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all cursor-pointer"> <option value="dark">🌙 Gelap (Dark)</option> <option value="ocean">🌊 Samudra (Ocean)</option> <option value="forest">🌲 Hutan (Forest)</option> <option value="sunset">🌅 Senja (Sunset)</option> <option value="light">☀️ Terang (Light)</option> </select>
+       </div>
+      </div>
+      <div class="mb-4"><label class="block text-slate-300 text-sm font-medium mb-2">Masukkan Kode Anda</label> <textarea id="code-input" rows="8" placeholder="Tulis atau tempel kode di sini..." class="code-area w-full px-4 py-4 bg-slate-900/80 border border-slate-600 rounded-xl text-cyan-300 font-mono text-sm placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all resize-y"></textarea>
+      </div>
+      <div class="flex flex-wrap gap-3"><label class="flex items-center gap-2 text-slate-300 cursor-pointer"> <input type="checkbox" id="line-numbers-toggle" class="w-4 h-4 rounded bg-slate-700 border-slate-600 text-cyan-500 focus:ring-cyan-500 cursor-pointer"> <span class="text-sm">Nomor Baris</span> </label> <label class="flex items-center gap-2 text-slate-300 cursor-pointer"> <input type="checkbox" id="wrap-toggle" class="w-4 h-4 rounded bg-slate-700 border-slate-600 text-cyan-500 focus:ring-cyan-500 cursor-pointer"> <span class="text-sm">Word Wrap</span> </label>
+      </div>
+     </div><!-- Preview Section -->
+     <div class="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 border border-slate-700/50">
+      <h2 class="text-white font-semibold text-lg mb-4 flex items-center gap-2"><span>👁️</span> Preview Kotak Script</h2>
+      <div id="preview-container"><!-- Script Box Preview -->
+       <div id="script-box" class="rounded-xl overflow-hidden shadow-2xl border border-slate-600/50"><!-- Header Bar -->
+        <div id="box-header" class="flex items-center justify-between px-4 py-3 bg-slate-800">
+         <div class="flex items-center gap-3">
+          <div class="flex gap-2">
+           <div class="w-3 h-3 rounded-full bg-red-500"></div>
+           <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+           <div class="w-3 h-3 rounded-full bg-green-500"></div>
+          </div><span id="box-language" class="text-slate-400 text-sm font-medium">HTML</span>
+         </div><button id="copy-preview-btn" class="copy-btn flex items-center gap-2 px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-300 text-sm rounded-lg transition-colors">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+          </svg> Copy </button>
+        </div><!-- Code Area -->
+        <div id="box-code-area" class="code-area p-4 bg-slate-900 overflow-x-auto">
+         <pre id="box-code" class="text-cyan-300 font-mono text-sm whitespace-pre"><code>&lt;div class="container"&gt;
+  &lt;h1&gt;Hello World!&lt;/h1&gt;
+  &lt;p&gt;Selamat datang di website saya&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+       </div>
+      </div>
+     </div><!-- Generated Code Section -->
+     <div class="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 border border-slate-700/50">
+      <div class="flex items-center justify-between mb-4">
+       <h2 class="text-white font-semibold text-lg flex items-center gap-2"><span>📋</span> Kode HTML untuk Postingan</h2><button id="copy-html-btn" class="copy-btn flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white text-sm font-medium rounded-xl transition-all shadow-lg shadow-cyan-500/25">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+        </svg> Salin Kode HTML </button>
+      </div>
+      <div class="code-area bg-slate-900/80 rounded-xl p-4 overflow-x-auto border border-slate-700/50">
+       <pre id="generated-html" class="text-emerald-400 font-mono text-xs whitespace-pre-wrap break-all"></pre>
+      </div>
+      <p class="text-slate-500 text-sm mt-3">💡 Tempel kode ini ke mode HTML pada editor postingan blog Anda</p>
+     </div>
+    </div><!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 px-6 py-3 bg-emerald-500 text-white font-medium rounded-xl shadow-lg hidden">
+     ✓ Berhasil disalin!
+    </div>
+   </div>
+  </div>
+  <script>
+    // Default configuration
+    const defaultConfig = {
+      box_title: 'Kotak Script Generator',
+      placeholder_text: 'Tulis atau tempel kode di sini...',
+      primary_color: '#0f172a',
+      secondary_color: '#1e293b',
+      accent_color: '#06b6d4',
+      text_color: '#f1f5f9',
+      font_family: 'Plus Jakarta Sans'
+    };
+
+    let config = { ...defaultConfig };
+
+    // Theme configurations
+    const themes = {
+      dark: {
+        header: '#1e293b',
+        body: '#0f172a',
+        text: '#67e8f9',
+        border: '#334155'
+      },
+      ocean: {
+        header: '#0c4a6e',
+        body: '#082f49',
+        text: '#7dd3fc',
+        border: '#0369a1'
+      },
+      forest: {
+        header: '#14532d',
+        body: '#052e16',
+        text: '#86efac',
+        border: '#166534'
+      },
+      sunset: {
+        header: '#7c2d12',
+        body: '#431407',
+        text: '#fdba74',
+        border: '#9a3412'
+      },
+      light: {
+        header: '#e2e8f0',
+        body: '#f8fafc',
+        text: '#0f172a',
+        border: '#cbd5e1'
+      }
+    };
+
+    // DOM Elements
+    const languageInput = document.getElementById('language-input');
+    const themeSelect = document.getElementById('theme-select');
+    const codeInput = document.getElementById('code-input');
+    const lineNumbersToggle = document.getElementById('line-numbers-toggle');
+    const wrapToggle = document.getElementById('wrap-toggle');
+    const boxHeader = document.getElementById('box-header');
+    const boxCodeArea = document.getElementById('box-code-area');
+    const boxCode = document.getElementById('box-code');
+    const boxLanguage = document.getElementById('box-language');
+    const generatedHtml = document.getElementById('generated-html');
+    const copyPreviewBtn = document.getElementById('copy-preview-btn');
+    const copyHtmlBtn = document.getElementById('copy-html-btn');
+    const toast = document.getElementById('toast');
+
+    // Escape HTML entities
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // Show toast notification
+    function showToast(message) {
+      toast.textContent = '✓ ' + message;
+      toast.classList.remove('hidden');
+      setTimeout(() => {
+        toast.classList.add('hidden');
+      }, 2000);
+    }
+
+    // Generate line numbers HTML
+    function generateLineNumbers(code) {
+      const lines = code.split('\n');
+      return lines.map((line, i) => `<span>${escapeHtml(line) || ' '}</span>`).join('\n');
+    }
+
+    // Update preview
+    function updatePreview() {
+      const code = codeInput.value || `<div class="container">
+  <h1>Hello World!</h1>
+  <p>Selamat datang di website saya</p>
+</div>`;
+      const language = languageInput.value || 'HTML';
+      const theme = themes[themeSelect.value];
+      const showLineNumbers = lineNumbersToggle.checked;
+      const wordWrap = wrapToggle.checked;
+
+      // Update preview
+      boxLanguage.textContent = language;
+      boxHeader.style.background = theme.header;
+      boxCodeArea.style.background = theme.body;
+      boxCode.style.color = theme.text;
+      
+      if (showLineNumbers) {
+        boxCode.innerHTML = `<code class="line-numbers">${generateLineNumbers(code)}</code>`;
+      } else {
+        boxCode.innerHTML = `<code>${escapeHtml(code)}</code>`;
+      }
+
+      boxCode.style.whiteSpace = wordWrap ? 'pre-wrap' : 'pre';
+      boxCode.style.wordBreak = wordWrap ? 'break-word' : 'normal';
+
+      // Generate HTML code
+      generateHtmlCode(code, language, theme, showLineNumbers, wordWrap);
+    }
+
+    // Generate HTML code for copying
+    function generateHtmlCode(code, language, theme, showLineNumbers, wordWrap) {
+      const lineNumbersClass = showLineNumbers ? 'line-numbers' : '';
+      const whiteSpace = wordWrap ? 'pre-wrap' : 'pre';
+      const wordBreak = wordWrap ? 'break-word' : 'normal';
+      
+      let codeContent = showLineNumbers ? generateLineNumbers(code) : escapeHtml(code);
+      
+      const lineNumbersStyle = showLineNumbers ? `
+.line-numbers { counter-reset: line; }
+.line-numbers span { counter-increment: line; display: block; }
+.line-numbers span::before { content: counter(line); display: inline-block; width: 2em; text-align: right; margin-right: 1em; color: #64748b; user-select: none; }` : '';
+
+      const html = `<!-- Kotak Script - ${language} -->
+<style>
+.script-box { border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); margin: 1em 0; font-family: 'JetBrains Mono', 'Fira Code', monospace; border: 1px solid ${theme.border}; }
+.script-box-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: ${theme.header}; }
+.script-box-dots { display: flex; gap: 8px; }
+.script-box-dot { width: 12px; height: 12px; border-radius: 50%; }
+.script-box-dot.red { background: #ef4444; }
+.script-box-dot.yellow { background: #eab308; }
+.script-box-dot.green { background: #22c55e; }
+.script-box-lang { color: #94a3b8; font-size: 14px; font-weight: 500; }
+.script-box-body { padding: 16px; background: ${theme.body}; overflow-x: auto; }
+.script-box-code { color: ${theme.text}; font-size: 14px; margin: 0; white-space: ${whiteSpace}; word-break: ${wordBreak}; }${lineNumbersStyle}
+</style>
+<div class="script-box">
+  <div class="script-box-header">
+    <div class="script-box-dots">
+      <div class="script-box-dot red"></div>
+      <div class="script-box-dot yellow"></div>
+      <div class="script-box-dot green"></div>
+    </div>
+    <span class="script-box-lang">${escapeHtml(language)}</span>
+  </div>
+  <div class="script-box-body">
+    <pre class="script-box-code ${lineNumbersClass}">${codeContent}</pre>
+  </div>
+</div>`;
+
+      generatedHtml.textContent = html;
+    }
+
+    // Copy to clipboard
+    async function copyToClipboard(text, message) {
+      try {
+        await navigator.clipboard.writeText(text);
+        showToast(message);
+      } catch (err) {
+        // Fallback for older browsers
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        showToast(message);
+      }
+    }
+
+    // Event listeners
+    languageInput.addEventListener('input', updatePreview);
+    themeSelect.addEventListener('change', updatePreview);
+    codeInput.addEventListener('input', updatePreview);
+    lineNumbersToggle.addEventListener('change', updatePreview);
+    wrapToggle.addEventListener('change', updatePreview);
+
+    copyPreviewBtn.addEventListener('click', () => {
+      copyToClipboard(codeInput.value || boxCode.textContent, 'Kode berhasil disalin!');
+    });
+
+    copyHtmlBtn.addEventListener('click', () => {
+      copyToClipboard(generatedHtml.textContent, 'Kode HTML berhasil disalin!');
+    });
+
+    // Element SDK Integration
+    async function onConfigChange(newConfig) {
+      const title = newConfig.box_title || defaultConfig.box_title;
+      const placeholder = newConfig.placeholder_text || defaultConfig.placeholder_text;
+      const fontFamily = newConfig.font_family || defaultConfig.font_family;
+      
+      document.getElementById('main-title').innerHTML = '📦 ' + title;
+      codeInput.placeholder = placeholder;
+      
+      // Apply font
+      document.querySelectorAll('.font-display').forEach(el => {
+        el.style.fontFamily = `${fontFamily}, sans-serif`;
+      });
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [],
+        borderables: [],
+        fontEditable: {
+          get: () => config.font_family || defaultConfig.font_family,
+          set: (value) => {
+            config.font_family = value;
+            if (window.elementSdk) {
+              window.elementSdk.setConfig({ font_family: value });
+            }
+          }
+        },
+        fontSizeable: undefined
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ['box_title', config.box_title || defaultConfig.box_title],
+        ['placeholder_text', config.placeholder_text || defaultConfig.placeholder_text]
+      ]);
+    }
+
+    // Initialize
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+
+    // Initial render
+    updatePreview();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c7883bc748ace4b',t:'MTc3MDAyMjk5OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+<!-- Cool Homepage Button -->
+
+                <div class="mt-12 text-center">
+           <a href="https://www.blogger.com/blog/page/edit/5081820206718559567/2328527988564769253" class="btn-download" download> 
+                <span class="icon">⏪</span> 
+              <span class="text">Kembali Ke Agen Coding</span></a>
+        </div>
+    </section>
+
+    <!-- Tombol untuk membuka modal -->
+
+</body>
+</html>

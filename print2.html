@@ -1,0 +1,2038 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhotoPrint Pro - Cetak 6 Foto Legal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #06b6d4 100%);
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .photo-slot {
+            width: 8cm;
+            height: 5.2cm;
+            border: 2px dashed #cbd5e0;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .photo-slot:hover {
+            border-color: #3b82f6;
+            background-color: #f8fafc;
+        }
+        
+        .photo-slot.filled {
+            border: 2px solid #10b981;
+            background: white;
+        }
+        
+        .legal-paper {
+            width: 21.59cm;
+            height: 35.56cm;
+            background: white;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        .upload-zone {
+            border: 3px dashed #cbd5e0;
+            transition: all 0.3s ease;
+            background: linear-gradient(45deg, #f8fafc 25%, transparent 25%), 
+                        linear-gradient(-45deg, #f8fafc 25%, transparent 25%), 
+                        linear-gradient(45deg, transparent 75%, #f8fafc 75%), 
+                        linear-gradient(-45deg, transparent 75%, #f8fafc 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+        }
+        
+        .upload-zone:hover, .upload-zone.dragover {
+            border-color: #3b82f6;
+            background-color: #eff6ff;
+        }
+        
+        .print-preview {
+            transform: scale(0.4);
+            transform-origin: top left;
+            width: 250%;
+            height: 250%;
+        }
+        
+        @media print {
+            * {
+                -webkit-print-color-adjust: exact !important;
+                color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            
+            body {
+                margin: 0 !important;
+                padding: 0 !important;
+                background: white !important;
+            }
+            
+            body * {
+                visibility: hidden;
+            }
+            
+            .print-area, .print-area * {
+                visibility: visible;
+            }
+            
+            .print-area {
+                position: absolute !important;
+                left: 0 !important;
+                top: 0 !important;
+                width: 21.59cm !important;
+                height: 35.56cm !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                transform: none !important;
+                scale: 1 !important;
+            }
+            
+            .legal-paper {
+                width: 21.59cm !important;
+                height: 35.56cm !important;
+                box-shadow: none !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                page-break-after: avoid !important;
+                background: white !important;
+            }
+            
+            .photo-slot {
+                width: 8cm !important;
+                height: 5.2cm !important;
+                border: 1px solid #000 !important;
+                margin: 0.15cm !important;
+                page-break-inside: avoid !important;
+            }
+            
+            .photo-slot img {
+                width: 100% !important;
+                height: 100% !important;
+                object-fit: cover !important;
+            }
+        }
+        
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            transform: scale(0.8) translateY(20px);
+            transition: all 0.3s ease;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+        }
+        
+        .modal-overlay.active .modal-content {
+            transform: scale(1) translateY(0);
+        }
+        
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, #10b981, #059669);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: successPulse 2s infinite;
+        }
+        
+        @keyframes successPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .checkmark {
+            width: 40px;
+            height: 40px;
+            color: white;
+            animation: checkmarkDraw 0.6s ease-in-out;
+        }
+        
+        @keyframes checkmarkDraw {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        .floating-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 50;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+        }
+        
+        .photo-counter {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        /* Drag & Drop Styles */
+        .photo-slot.draggable {
+            cursor: grab;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+        
+        .photo-slot.draggable:active {
+            cursor: grabbing;
+        }
+        
+        .photo-slot.dragging {
+            opacity: 0.7;
+            transform: scale(0.98) rotate(2deg);
+            z-index: 1000;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4), 0 5px 15px rgba(0,0,0,0.2);
+            border: 3px solid #3b82f6 !important;
+            background: linear-gradient(135deg, #eff6ff, #dbeafe) !important;
+        }
+        
+        .photo-slot.drag-over {
+            border: 3px dashed #3b82f6 !important;
+            background: linear-gradient(135deg, #eff6ff, #dbeafe) !important;
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+            animation: dragPulse 1s infinite;
+        }
+        
+        @keyframes dragPulse {
+            0%, 100% { 
+                box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+            }
+            50% { 
+                box-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
+            }
+        }
+        
+        .photo-slot.drag-valid {
+            border-color: #10b981 !important;
+            background: linear-gradient(135deg, #ecfdf5, #d1fae5) !important;
+        }
+        
+        .photo-slot.drag-invalid {
+            border-color: #ef4444 !important;
+            background: linear-gradient(135deg, #fef2f2, #fecaca) !important;
+        }
+        
+        /* Mobile drag improvements */
+        @media (hover: none) and (pointer: coarse) {
+            .photo-slot.draggable {
+                cursor: default;
+            }
+            
+            .photo-slot.dragging {
+                transform: scale(1.05);
+                opacity: 0.8;
+            }
+            
+            .photo-slot.drag-over {
+                transform: scale(1.08);
+            }
+        }
+        
+        .position-controls {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            background: linear-gradient(135deg, rgba(0,0,0,0.8), rgba(0,0,0,0.9));
+            border-radius: 12px;
+            padding: 6px;
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            gap: 4px;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        
+        .photo-slot:hover .position-controls,
+        .photo-slot.touch-active .position-controls {
+            opacity: 1;
+            transform: scale(1.02);
+        }
+        
+        .position-btn {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,255,255,0.85));
+            border: 2px solid rgba(59, 130, 246, 0.2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .position-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        
+        .position-btn:hover::before,
+        .position-btn:active::before {
+            opacity: 1;
+        }
+        
+        .position-btn:hover,
+        .position-btn:active {
+            transform: scale(1.15);
+            border-color: #3b82f6;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+        
+        .position-btn svg {
+            width: 16px;
+            height: 16px;
+            color: #374151;
+            transition: color 0.2s ease;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .position-btn:hover svg,
+        .position-btn:active svg {
+            color: white;
+        }
+        
+        /* Touch-specific styles */
+        @media (hover: none) and (pointer: coarse) {
+            .position-controls {
+                opacity: 0.9;
+                transform: scale(1);
+            }
+            
+            .position-btn {
+                width: 40px;
+                height: 40px;
+                min-height: 44px;
+                min-width: 44px;
+            }
+            
+            .position-btn svg {
+                width: 20px;
+                height: 20px;
+            }
+        }
+        
+        .swap-indicator {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 12px;
+            font-weight: bold;
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1001;
+            pointer-events: none;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .swap-indicator.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.1);
+            animation: swapPulse 0.6s ease-out;
+        }
+        
+        @keyframes swapPulse {
+            0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+        }
+        
+        .drag-handle {
+            position: absolute;
+            top: 6px;
+            left: 6px;
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, rgba(0,0,0,0.8), rgba(0,0,0,0.9));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: all 0.3s ease;
+            cursor: grab;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .photo-slot:hover .drag-handle,
+        .photo-slot.touch-active .drag-handle {
+            opacity: 1;
+        }
+        
+        .drag-handle:active {
+            cursor: grabbing;
+        }
+        
+        .drag-handle svg {
+            width: 12px;
+            height: 12px;
+            color: rgba(255,255,255,0.9);
+        }
+        
+
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="gradient-bg text-white py-8 shadow-2xl">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="glass-effect p-3 rounded-xl">
+                        <svg class="w-10 h-10" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-3xl font-bold">PhotoPrint Pro</h1>
+                        <p class="text-blue-100">Cetak 6 Foto Landscape - Kertas Legal</p>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-6">
+                    <div class="glass-effect px-4 py-2 rounded-lg">
+                        <span class="text-sm">📄 Legal Size (21.59 × 35.56 cm)</span>
+                    </div>
+                    <div class="glass-effect px-4 py-2 rounded-lg">
+                        <span class="text-sm">📞 0812-3456-7890</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-4 py-8">
+        <!-- Upload Section -->
+        <div class="bg-white rounded-2xl shadow-xl p-8 mb-8">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold text-gray-800 flex items-center">
+                    <svg class="w-8 h-8 mr-3 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M5.5 13a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 13H11V9.413l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.413V13H5.5z"/>
+                    </svg>
+                    Upload Foto Dokumentasi
+                </h2>
+                <div class="flex items-center space-x-4">
+                    <span id="photoCount" class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full font-semibold">0/10 Foto</span>
+                    <button id="clearAll" class="text-red-600 hover:text-red-800 font-medium">Hapus Semua</button>
+                </div>
+            </div>
+
+            <!-- Header Settings -->
+            <div class="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-xl p-6 mb-6 border border-blue-200">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                    <svg class="w-6 h-6 mr-2 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/>
+                    </svg>
+                    Pengaturan Header & Layout Cetak
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="headerTitle" class="block text-sm font-medium text-gray-700 mb-2">Judul Dokumen</label>
+                        <input type="text" id="headerTitle" value="FOTO DOKUMENTASI" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" placeholder="Masukkan judul dokumen">
+                    </div>
+                    <div>
+                        <label for="headerSubtitle" class="block text-sm font-medium text-gray-700 mb-2">Keterangan Tambahan</label>
+                        <input type="text" id="headerSubtitle" value="" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" placeholder="Contoh: Proyek ABC - Tahap 1">
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <label for="headerLocation" class="block text-sm font-medium text-gray-700 mb-2">Lokasi/Instansi</label>
+                    <input type="text" id="headerLocation" value="" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" placeholder="Contoh: PT. Contoh Indonesia - Jakarta">
+                </div>
+                <div class="mt-4">
+                    <label for="footerText" class="block text-sm font-medium text-gray-700 mb-2">Teks Footer</label>
+                    <input type="text" id="footerText" value="PhotoPrint Pro - Cetak Foto Dokumentasi Berkualitas" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors" placeholder="Masukkan teks footer">
+                </div>
+                
+                <!-- Margin Controls -->
+                <div class="mt-6 pt-6 border-t border-blue-200">
+                    <h4 class="text-md font-semibold text-gray-800 mb-4 flex items-center">
+                        <svg class="w-5 h-5 mr-2 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2a1 1 0 100-2H5V5a1 1 0 00-1-1zM3 15a1 1 0 100-2v-2a1 1 0 00-2 0v2a1 1 0 001 1zm12 0a1 1 0 100-2v-2a1 1 0 10-2 0v2a1 1 0 001 1zm2-12a1 1 0 10-2 0v8a2 2 0 01-2 2h-2a1 1 0 100 2h2a2 2 0 002-2V3z" clip-rule="evenodd"/>
+                        </svg>
+                        Pengaturan Margin Cetak
+                    </h4>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Preset Margin -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-3">Preset Margin</label>
+                            <div class="space-y-2">
+                                <label class="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors">
+                                    <input type="radio" name="marginPreset" value="minimal" class="text-purple-600 focus:ring-purple-500" checked>
+                                    <div class="ml-3">
+                                        <div class="font-medium text-gray-800">Minimal (0.3cm)</div>
+                                        <div class="text-sm text-gray-600">Maksimalkan area foto, margin tipis</div>
+                                    </div>
+                                </label>
+                                
+                                <label class="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors">
+                                    <input type="radio" name="marginPreset" value="standard" class="text-purple-600 focus:ring-purple-500">
+                                    <div class="ml-3">
+                                        <div class="font-medium text-gray-800">Standard (0.5cm)</div>
+                                        <div class="text-sm text-gray-600">Seimbang antara foto dan margin</div>
+                                    </div>
+                                </label>
+                                
+                                <label class="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors">
+                                    <input type="radio" name="marginPreset" value="comfortable" class="text-purple-600 focus:ring-purple-500">
+                                    <div class="ml-3">
+                                        <div class="font-medium text-gray-800">Nyaman (0.8cm)</div>
+                                        <div class="text-sm text-gray-600">Margin lebar untuk binding/jilid</div>
+                                    </div>
+                                </label>
+                                
+                                <label class="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors">
+                                    <input type="radio" name="marginPreset" value="custom" class="text-purple-600 focus:ring-purple-500">
+                                    <div class="ml-3">
+                                        <div class="font-medium text-gray-800">Custom</div>
+                                        <div class="text-sm text-gray-600">Atur margin sesuai kebutuhan</div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Custom Margin Controls -->
+                        <div id="customMarginControls" class="opacity-50 pointer-events-none transition-all duration-300">
+                            <label class="block text-sm font-medium text-gray-700 mb-3">Margin Custom (cm)</label>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label for="marginTop" class="block text-xs font-medium text-gray-600 mb-1">Atas</label>
+                                    <input type="number" id="marginTop" min="0" max="3" step="0.1" value="0.3" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                                </div>
+                                <div>
+                                    <label for="marginBottom" class="block text-xs font-medium text-gray-600 mb-1">Bawah</label>
+                                    <input type="number" id="marginBottom" min="0" max="3" step="0.1" value="0.3" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                                </div>
+                                <div>
+                                    <label for="marginLeft" class="block text-xs font-medium text-gray-600 mb-1">Kiri</label>
+                                    <input type="number" id="marginLeft" min="0" max="3" step="0.1" value="0.3" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                                </div>
+                                <div>
+                                    <label for="marginRight" class="block text-xs font-medium text-gray-600 mb-1">Kanan</label>
+                                    <input type="number" id="marginRight" min="0" max="3" step="0.1" value="0.3" class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                                </div>
+                            </div>
+                            
+                            <div class="mt-3 p-3 bg-purple-50 rounded-lg border border-purple-200">
+                                <div class="flex items-center space-x-2 mb-2">
+                                    <svg class="w-4 h-4 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                                    </svg>
+                                    <span class="text-sm font-medium text-purple-800">Area Foto Tersedia</span>
+                                </div>
+                                <div class="text-sm text-purple-700">
+                                    <div>Lebar: <span id="availableWidth" class="font-semibold">20.99 cm</span></div>
+                                    <div>Tinggi: <span id="availableHeight" class="font-semibold">34.96 cm</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Margin Preview -->
+                    <div class="mt-4 p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border border-purple-200">
+                        <h5 class="font-semibold text-purple-800 mb-2 flex items-center">
+                            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
+                            </svg>
+                            Rekomendasi Berdasarkan Margin
+                        </h5>
+                        <div id="marginRecommendation" class="text-sm text-purple-700">
+                            <div class="flex items-center space-x-2">
+                                <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                                <span>Margin minimal memberikan area foto maksimal - cocok untuk dokumentasi detail</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="upload-zone rounded-xl p-12 text-center cursor-pointer mb-6" id="uploadZone">
+                <svg class="w-20 h-20 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 48 48">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 14l9-9 3 3 7-7 9 9M7 14l9-9 3 3 7-7 9 9M7 14v18a2 2 0 002 2h30a2 2 0 002-2V14M7 14l9 9 3-3 7 7 9-9"/>
+                </svg>
+                <h3 class="text-2xl font-semibold text-gray-700 mb-2">Pilih atau Seret Foto</h3>
+                <p class="text-gray-500 mb-4">Maksimal 10 foto untuk layout seimbang</p>
+                <p class="text-sm text-gray-400">Mendukung JPG, PNG, JPEG (Maks. 5MB per foto)</p>
+                <input type="file" id="fileInput" class="hidden" accept="image/*" multiple>
+            </div>
+
+
+
+            <!-- Quick Upload Slots -->
+            <div class="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-10 gap-3">
+                <div class="photo-upload-slot border-2 border-dashed border-gray-300 rounded-lg p-3 text-center cursor-pointer hover:border-blue-500 transition-colors" data-slot="0">
+                    <svg class="w-6 h-6 mx-auto text-gray-400 mb-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
+                    </svg>
+                    <span class="text-xs text-gray-500">Foto 1</span>
+                </div>
+                <div class="photo-upload-slot border-2 border-dashed border-gray-300 rounded-lg p-3 text-center cursor-pointer hover:border-blue-500 transition-colors" data-slot="1">
+                    <svg class="w-6 h-6 mx-auto text-gray-400 mb-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
+                    </svg>
+                    <span class="text-xs text-gray-500">Foto 2</span>
+                </div>
+                <div class="photo-upload-slot border-2 border-dashed border-gray-300 rounded-lg p-3 text-center cursor-pointer hover:border-blue-500 transition-colors" data-slot="2">
+                    <svg class="w-6 h-6 mx-auto text-gray-400 mb-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
+                    </svg>
+                    <span class="text-xs text-gray-500">Foto 3</span>
+                </div>
+                <div class="photo-upload-slot border-2 border-dashed border-gray-300 rounded-lg p-3 text-center cursor-pointer hover:border-blue-500 transition-colors" data-slot="3">
+                    <svg class="w-6 h-6 mx-auto text-gray-400 mb-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
+                    </svg>
+                    <span class="text-xs text-gray-500">Foto 4</span>
+                </div>
+                <div class="photo-upload-slot border-2 border-dashed border-gray-300 rounded-lg p-3 text-center cursor-pointer hover:border-blue-500 transition-colors" data-slot="4">
+                    <svg class="w-6 h-6 mx-auto text-gray-400 mb-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
+                    </svg>
+                    <span class="text-xs text-gray-500">Foto 5</span>
+                </div>
+                <div class="photo-upload-slot border-2 border-dashed border-gray-300 rounded-lg p-3 text-center cursor-pointer hover:border-blue-500 transition-colors" data-slot="5">
+                    <svg class="w-6 h-6 mx-auto text-gray-400 mb-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
+                    </svg>
+                    <span class="text-xs text-gray-500">Foto 6</span>
+                </div>
+                <div class="photo-upload-slot border-2 border-dashed border-gray-300 rounded-lg p-3 text-center cursor-pointer hover:border-blue-500 transition-colors" data-slot="6">
+                    <svg class="w-6 h-6 mx-auto text-gray-400 mb-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
+                    </svg>
+                    <span class="text-xs text-gray-500">Foto 7</span>
+                </div>
+                <div class="photo-upload-slot border-2 border-dashed border-gray-300 rounded-lg p-3 text-center cursor-pointer hover:border-blue-500 transition-colors" data-slot="7">
+                    <svg class="w-6 h-6 mx-auto text-gray-400 mb-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
+                    </svg>
+                    <span class="text-xs text-gray-500">Foto 8</span>
+                </div>
+                <div class="photo-upload-slot border-2 border-dashed border-gray-300 rounded-lg p-3 text-center cursor-pointer hover:border-blue-500 transition-colors" data-slot="8">
+                    <svg class="w-6 h-6 mx-auto text-gray-400 mb-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
+                    </svg>
+                    <span class="text-xs text-gray-500">Foto 9</span>
+                </div>
+                <div class="photo-upload-slot border-2 border-dashed border-gray-300 rounded-lg p-3 text-center cursor-pointer hover:border-blue-500 transition-colors" data-slot="9">
+                    <svg class="w-6 h-6 mx-auto text-gray-400 mb-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
+                    </svg>
+                    <span class="text-xs text-gray-500">Foto 10</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Print Preview Section -->
+        <div class="bg-white rounded-2xl shadow-xl p-8">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold text-gray-800 flex items-center">
+                    <svg class="w-8 h-8 mr-3 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M4 2a2 2 0 00-2 2v11a3 3 0 106 0V4a2 2 0 00-2-2H4zm1 14a1 1 0 100-2 1 1 0 000 2zm5-1.757l4.9-4.9a2 2 0 000-2.828L13.485 5.1a2 2 0 00-2.828 0L10 5.757v8.486zM16 18H9.071l6-6H16a2 2 0 012 2v2a2 2 0 01-2 2z" clip-rule="evenodd"/>
+                    </svg>
+                    Preview Halaman Cetak
+                </h2>
+                <div class="flex items-center space-x-4">
+                    <span class="text-sm text-gray-600">Kertas Legal (21.59 × 35.56 cm)</span>
+                    <div class="flex items-center space-x-2">
+                        <button id="zoomOut" class="p-2 bg-gray-100 hover:bg-gray-200 rounded-lg">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z" clip-rule="evenodd"/>
+                            </svg>
+                        </button>
+                        <span id="zoomLevel" class="text-sm font-medium">40%</span>
+                        <button id="zoomIn" class="p-2 bg-gray-100 hover:bg-gray-200 rounded-lg">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="overflow-auto bg-gray-100 rounded-xl p-8" style="max-height: 600px;">
+                <div class="print-preview">
+                    <div class="legal-paper print-area" id="printArea">
+                        <!-- Header Info -->
+                        <div class="absolute top-4 left-4 right-4 text-center">
+                            <h3 id="previewTitle" class="text-lg font-bold text-gray-800">FOTO DOKUMENTASI</h3>
+                            <p id="previewSubtitle" class="text-sm text-gray-700 font-medium"></p>
+                            <p id="previewLocation" class="text-sm text-gray-600"></p>
+                            <p class="text-sm text-gray-600 mt-1" id="printDate"></p>
+                        </div>
+
+                        <!-- Photo Grid -->
+                        <div class="absolute top-16 left-16 right-1 bottom-12">
+                            <div class="grid grid-cols-2 gap-6 h-full">
+                                <!-- Kolom Kiri -->
+                                <div class="flex flex-col justify-center space-y-3">
+                                    <div class="photo-slot flex items-center justify-center" id="slot0" draggable="false" data-slot="0">
+                                        <div class="text-center text-gray-400">
+                                            <svg class="w-12 h-12 mx-auto mb-1" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
+                                            </svg>
+                                            <p class="text-xs font-medium">Foto 1</p>
+                                        </div>
+                                        <div class="drag-handle" title="Seret untuk memindahkan">
+                                            <svg fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"/>
+                                            </svg>
+                                        </div>
+                                        <div class="position-controls">
+                                            <button class="position-btn" onclick="movePhoto(0, 'up')" title="Pindah ke Atas">
+                                                <svg fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd"/>
+                                                </svg>
+                                            </button>
+                                            <button class="position-btn" onclick="movePhoto(0, 'down')" title="Pindah ke Bawah">
+                                                <svg fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                                                </svg>
+                                            </button>
+                                            <button class="position-btn" onclick="movePhoto(0, 'right')" title="Pindah ke Kanan">
+                                                <svg fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                        <div class="swap-indicator" id="swapIndicator0">Tukar Posisi</div>
+                                    </div>
+                                    <div class="photo-slot flex items-center justify-center" id="slot1" draggable="false" data-slot="1">
+                                        <div class="text-center text-gray-400">
+                                            <svg class="w-12 h-12 mx-auto mb-1" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
+                                            </svg>
+                                            <p class="text-xs font-medium">Foto 2</p>
+                                        </div>
+                                        <div class="position-controls">
+                                            <button class="position-btn" onclick="movePhoto(1, 'up')" title="Pindah ke Atas">
+                                                <svg fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd"/>
+                                                </svg>
+                                            </button>
+                                            <button class="position-btn" onclick="movePhoto(1, 'down')" title="Pindah ke Bawah">
+                                                <svg fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                                                </svg>
+                                            </button>
+                                            <button class="position-btn" onclick="movePhoto(1, 'right')" title="Pindah ke Kanan">
+                                                <svg fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                        <div class="swap-indicator" id="swapIndicator1">Tukar Posisi</div>
+                                    </div>
+                                    <div class="photo-slot flex items-center justify-center" id="slot2" draggable="false" data-slot="2">
+                                        <div class="text-center text-gray-400">
+                                            <svg class="w-12 h-12 mx-auto mb-1" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
+                                            </svg>
+                                            <p class="text-xs font-medium">Foto 3</p>
+                                        </div>
+                                        <div class="position-controls">
+                                            <button class="position-btn" onclick="movePhoto(2, 'up')" title="Pindah ke Atas">
+                                                <svg fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd"/>
+                                                </svg>
+                                            </button>
+                                            <button class="position-btn" onclick="movePhoto(2, 'down')" title="Pindah ke Bawah">
+                                                <svg fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                                                </svg>
+                                            </button>
+                                            <button class="position-btn" onclick="movePhoto(2, 'right')" title="Pindah ke Kanan">
+                                                <svg fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                        <div class="swap-indicator" id="swapIndicator2">Tukar Posisi</div>
+                                    </div>
+                                    <div class="photo-slot flex items-center justify-center" id="slot3" draggable="false" data-slot="3">
+                                        <div class="text-center text-gray-400">
+                                            <svg class="w-12 h-12 mx-auto mb-1" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
+                                            </svg>
+                                            <p class="text-xs font-medium">Foto 4</p>
+                                        </div>
+                                        <div class="position-controls">
+                                            <button class="position-btn" onclick="movePhoto(3, 'up')" title="Pindah ke Atas">
+                                                <svg fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd"/>
+                                                </svg>
+                                            </button>
+                                            <button class="position-btn" onclick="movePhoto(3, 'down')" title="Pindah ke Bawah">
+                                                <svg fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                                                </svg>
+                                            </button>
+                                            <button class="position-btn" onclick="movePhoto(3, 'right')" title="Pindah ke Kanan">
+                                                <svg fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                        <div class="swap-indicator" id="swapIndicator3">Tukar Posisi</div>
+                                    </div>
+                                    <div class="photo-slot flex items-center justify-center" id="slot4" draggable="false" data-slot="4">
+                                        <div class="text-center text-gray-400">
+                                            <svg class="w-12 h-12 mx-auto mb-1" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
+                                            </svg>
+                                            <p class="text-xs font-medium">Foto 5</p>
+                                        </div>
+                                        <div class="position-controls">
+                                            <button class="position-btn" onclick="movePhoto(4, 'up')" title="Pindah ke Atas">
+                                                <svg fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd"/>
+                                                </svg>
+                                            </button>
+                                            <button class="position-btn" onclick="movePhoto(4, 'down')" title="Pindah ke Bawah">
+                                                <svg fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                                                </svg>
+                                            </button>
+                                            <button class="position-btn" onclick="movePhoto(4, 'right')" title="Pindah ke Kanan">
+                                                <svg fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                        <div class="swap-indicator" id="swapIndicator4">Tukar Posisi</div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Kolom Kanan -->
+                                <div class="flex flex-col justify-center space-y-3">
+                                    <div class="photo-slot flex items-center justify-center" id="slot5" draggable="false" data-slot="5">
+                                        <div class="text-center text-gray-400">
+                                            <svg class="w-12 h-12 mx-auto mb-1" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
+                                            </svg>
+                                            <p class="text-xs font-medium">Foto 6</p>
+                                        </div>
+                                        <div class="position-controls">
+                                            <button class="position-btn" onclick="movePhoto(5, 'up')" title="Pindah ke Atas">
+                                                <svg fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd"/>
+                                                </svg>
+                                            </button>
+                                            <button class="position-btn" onclick="movePhoto(5, 'down')" title="Pindah ke Bawah">
+                                                <svg fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                                                </svg>
+                                            </button>
+                                            <button class="position-btn" onclick="movePhoto(5, 'left')" title="Pindah ke Kiri">
+                                                <svg fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                        <div class="swap-indicator" id="swapIndicator5">Tukar Posisi</div>
+                                    </div>
+                                    <div class="photo-slot flex items-center justify-center" id="slot6" draggable="false" data-slot="6">
+                                        <div class="text-center text-gray-400">
+                                            <svg class="w-12 h-12 mx-auto mb-1" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
+                                            </svg>
+                                            <p class="text-xs font-medium">Foto 7</p>
+                                        </div>
+                                        <div class="position-controls">
+                                            <button class="position-btn" onclick="movePhoto(6, 'up')" title="Pindah ke Atas">
+                                                <svg fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd"/>
+                                                </svg>
+                                            </button>
+                                            <button class="position-btn" onclick="movePhoto(6, 'down')" title="Pindah ke Bawah">
+                                                <svg fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                                                </svg>
+                                            </button>
+                                            <button class="position-btn" onclick="movePhoto(6, 'left')" title="Pindah ke Kiri">
+                                                <svg fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                        <div class="swap-indicator" id="swapIndicator6">Tukar Posisi</div>
+                                    </div>
+                                    <div class="photo-slot flex items-center justify-center" id="slot7" draggable="false" data-slot="7">
+                                        <div class="text-center text-gray-400">
+                                            <svg class="w-12 h-12 mx-auto mb-1" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
+                                            </svg>
+                                            <p class="text-xs font-medium">Foto 8</p>
+                                        </div>
+                                        <div class="position-controls">
+                                            <button class="position-btn" onclick="movePhoto(7, 'up')" title="Pindah ke Atas">
+                                                <svg fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd"/>
+                                                </svg>
+                                            </button>
+                                            <button class="position-btn" onclick="movePhoto(7, 'down')" title="Pindah ke Bawah">
+                                                <svg fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                                                </svg>
+                                            </button>
+                                            <button class="position-btn" onclick="movePhoto(7, 'left')" title="Pindah ke Kiri">
+                                                <svg fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                        <div class="swap-indicator" id="swapIndicator7">Tukar Posisi</div>
+                                    </div>
+                                    <div class="photo-slot flex items-center justify-center" id="slot8" draggable="false" data-slot="8">
+                                        <div class="text-center text-gray-400">
+                                            <svg class="w-12 h-12 mx-auto mb-1" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
+                                            </svg>
+                                            <p class="text-xs font-medium">Foto 9</p>
+                                        </div>
+                                        <div class="position-controls">
+                                            <button class="position-btn" onclick="movePhoto(8, 'up')" title="Pindah ke Atas">
+                                                <svg fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd"/>
+                                                </svg>
+                                            </button>
+                                            <button class="position-btn" onclick="movePhoto(8, 'down')" title="Pindah ke Bawah">
+                                                <svg fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                                                </svg>
+                                            </button>
+                                            <button class="position-btn" onclick="movePhoto(8, 'left')" title="Pindah ke Kiri">
+                                                <svg fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                        <div class="swap-indicator" id="swapIndicator8">Tukar Posisi</div>
+                                    </div>
+                                    <div class="photo-slot flex items-center justify-center" id="slot9" draggable="false" data-slot="9">
+                                        <div class="text-center text-gray-400">
+                                            <svg class="w-12 h-12 mx-auto mb-1" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
+                                            </svg>
+                                            <p class="text-xs font-medium">Foto 10</p>
+                                        </div>
+                                        <div class="position-controls">
+                                            <button class="position-btn" onclick="movePhoto(9, 'up')" title="Pindah ke Atas">
+                                                <svg fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd"/>
+                                                </svg>
+                                            </button>
+                                            <button class="position-btn" onclick="movePhoto(9, 'down')" title="Pindah ke Bawah">
+                                                <svg fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                                                </svg>
+                                            </button>
+                                            <button class="position-btn" onclick="movePhoto(9, 'left')" title="Pindah ke Kiri">
+                                                <svg fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                        <div class="swap-indicator" id="swapIndicator9">Tukar Posisi</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Footer -->
+                        <div class="absolute bottom-2 left-4 right-4 text-center">
+                            <p id="previewFooter" class="text-xs text-gray-500">PhotoPrint Pro - Cetak Foto Dokumentasi Berkualitas</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Print Button -->
+    <button id="printBtn" class="floating-btn bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white px-8 py-4 rounded-full font-bold text-lg shadow-2xl transform hover:scale-105 transition-all duration-300 flex items-center space-x-3">
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"/>
+        </svg>
+        <span>Buat PDF</span>
+        <div id="printCounter" class="photo-counter hidden">0</div>
+    </button>
+
+    <!-- Print Success Modal -->
+    <div id="printModal" class="modal-overlay">
+        <div class="modal-content text-center">
+            <div class="success-icon">
+                <svg class="checkmark" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                </svg>
+            </div>
+            
+            <h2 class="text-2xl font-bold text-gray-800 mb-3">📄 Siap Buat PDF!</h2>
+            
+            <div class="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-4 mb-6 border border-green-200">
+                <div class="flex items-center justify-center space-x-2 mb-3">
+                    <svg class="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"/>
+                    </svg>
+                    <span class="font-semibold text-green-800">Dokumen PDF Siap Dibuat</span>
+                </div>
+                
+                <div class="grid grid-cols-3 gap-4 text-sm">
+                    <div class="text-center">
+                        <div class="font-medium text-gray-700">Format Kertas</div>
+                        <div class="text-green-600 font-semibold">Legal (21.59×35.56cm)</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="font-medium text-gray-700">Jumlah Foto</div>
+                        <div class="text-green-600 font-semibold" id="modalPhotoCount">0 Foto</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="font-medium text-gray-700">Margin</div>
+                        <div class="text-green-600 font-semibold" id="modalMarginInfo">Minimal</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-blue-50 rounded-xl p-4 mb-6 border border-blue-200">
+                <h3 class="font-semibold text-blue-800 mb-2 flex items-center justify-center">
+                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                    </svg>
+                    Keunggulan PDF
+                </h3>
+                <ul class="text-sm text-blue-700 space-y-1">
+                    <li>✓ Kualitas gambar tetap tajam dan jernih</li>
+                    <li>✓ Dapat dibuka di semua perangkat</li>
+                    <li>✓ Mudah dibagikan dan disimpan</li>
+                </ul>
+            </div>
+            
+            <div class="flex space-x-3">
+                <button id="printNowBtn" class="flex-1 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                    </svg>
+                    <span>Buat PDF</span>
+                </button>
+                
+                <button id="closeModalBtn" class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-3 px-6 rounded-xl transition-all duration-300 flex items-center justify-center space-x-2">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                    </svg>
+                    <span>Nanti Saja</span>
+                </button>
+            </div>
+            
+            <p class="text-xs text-gray-500 mt-4">
+                File PDF akan otomatis terunduh setelah klik "Buat PDF"
+            </p>
+        </div>
+    </div>
+
+
+
+    <script>
+        let uploadedPhotos = [];
+        let currentZoom = 40;
+
+        // DOM Elements
+        const uploadZone = document.getElementById('uploadZone');
+        const fileInput = document.getElementById('fileInput');
+        const photoCount = document.getElementById('photoCount');
+        const printBtn = document.getElementById('printBtn');
+        const printCounter = document.getElementById('printCounter');
+        const clearAll = document.getElementById('clearAll');
+        const printDate = document.getElementById('printDate');
+        
+        // Margin Elements
+        const marginPresets = document.querySelectorAll('input[name="marginPreset"]');
+        const customMarginControls = document.getElementById('customMarginControls');
+        const marginTop = document.getElementById('marginTop');
+        const marginBottom = document.getElementById('marginBottom');
+        const marginLeft = document.getElementById('marginLeft');
+        const marginRight = document.getElementById('marginRight');
+        const availableWidth = document.getElementById('availableWidth');
+        const availableHeight = document.getElementById('availableHeight');
+        const marginRecommendation = document.getElementById('marginRecommendation');
+        
+        // Header elements
+        const headerTitle = document.getElementById('headerTitle');
+        const headerSubtitle = document.getElementById('headerSubtitle');
+        const headerLocation = document.getElementById('headerLocation');
+        const footerText = document.getElementById('footerText');
+        const previewTitle = document.getElementById('previewTitle');
+        const previewSubtitle = document.getElementById('previewSubtitle');
+        const previewLocation = document.getElementById('previewLocation');
+        const previewFooter = document.getElementById('previewFooter');
+
+        // Initialize
+        updatePrintDate();
+        updatePhotoCount();
+        updateHeaderPreview();
+        initializeMarginControls();
+
+        // Header update listeners
+        headerTitle.addEventListener('input', updateHeaderPreview);
+        headerSubtitle.addEventListener('input', updateHeaderPreview);
+        headerLocation.addEventListener('input', updateHeaderPreview);
+        footerText.addEventListener('input', updateHeaderPreview);
+        
+        // Margin Control Functions
+        function initializeMarginControls() {
+            // Margin preset listeners
+            marginPresets.forEach(preset => {
+                preset.addEventListener('change', handleMarginPresetChange);
+            });
+            
+            // Custom margin listeners
+            [marginTop, marginBottom, marginLeft, marginRight].forEach(input => {
+                input.addEventListener('input', updateCustomMargin);
+            });
+            
+            // Initialize with minimal preset
+            updateMarginSettings('minimal');
+        }
+        
+        function handleMarginPresetChange(e) {
+            const preset = e.target.value;
+            updateMarginSettings(preset);
+            
+            if (preset === 'custom') {
+                customMarginControls.classList.remove('opacity-50', 'pointer-events-none');
+                customMarginControls.classList.add('opacity-100');
+            } else {
+                customMarginControls.classList.add('opacity-50', 'pointer-events-none');
+                customMarginControls.classList.remove('opacity-100');
+            }
+        }
+        
+        function updateMarginSettings(preset) {
+            let margins = { top: 0.3, bottom: 0.3, left: 0.3, right: 0.3 };
+            let recommendation = '';
+            
+            switch (preset) {
+                case 'minimal':
+                    margins = { top: 0.3, bottom: 0.3, left: 0.3, right: 0.3 };
+                    recommendation = `
+                        <div class="flex items-center space-x-2">
+                            <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                            <span>Margin minimal memberikan area foto maksimal - cocok untuk dokumentasi detail</span>
+                        </div>
+                    `;
+                    break;
+                case 'standard':
+                    margins = { top: 0.5, bottom: 0.5, left: 0.5, right: 0.5 };
+                    recommendation = `
+                        <div class="flex items-center space-x-2">
+                            <span class="w-2 h-2 bg-blue-500 rounded-full"></span>
+                            <span>Margin standard memberikan keseimbangan optimal antara foto dan ruang kosong</span>
+                        </div>
+                    `;
+                    break;
+                case 'comfortable':
+                    margins = { top: 0.8, bottom: 0.8, left: 0.8, right: 0.8 };
+                    recommendation = `
+                        <div class="flex items-center space-x-2">
+                            <span class="w-2 h-2 bg-purple-500 rounded-full"></span>
+                            <span>Margin nyaman cocok untuk dokumen yang akan dijilid atau diberi catatan</span>
+                        </div>
+                    `;
+                    break;
+                case 'custom':
+                    margins = {
+                        top: parseFloat(marginTop.value),
+                        bottom: parseFloat(marginBottom.value),
+                        left: parseFloat(marginLeft.value),
+                        right: parseFloat(marginRight.value)
+                    };
+                    recommendation = `
+                        <div class="flex items-center space-x-2">
+                            <span class="w-2 h-2 bg-orange-500 rounded-full"></span>
+                            <span>Margin custom disesuaikan dengan kebutuhan spesifik Anda</span>
+                        </div>
+                    `;
+                    break;
+            }
+            
+            // Update custom input values
+            marginTop.value = margins.top;
+            marginBottom.value = margins.bottom;
+            marginLeft.value = margins.left;
+            marginRight.value = margins.right;
+            
+            // Calculate available area
+            const paperWidth = 21.59; // Legal width in cm
+            const paperHeight = 35.56; // Legal height in cm
+            const headerFooterSpace = 3; // Approximate space for header/footer
+            
+            const availWidth = paperWidth - margins.left - margins.right;
+            const availHeight = paperHeight - margins.top - margins.bottom - headerFooterSpace;
+            
+            availableWidth.textContent = `${availWidth.toFixed(2)} cm`;
+            availableHeight.textContent = `${availHeight.toFixed(2)} cm`;
+            
+            // Update recommendation
+            marginRecommendation.innerHTML = recommendation;
+            
+            // Store current margins for PDF generation
+            window.currentMargins = margins;
+        }
+        
+        function updateCustomMargin() {
+            if (document.querySelector('input[name="marginPreset"]:checked').value === 'custom') {
+                updateMarginSettings('custom');
+            }
+        }
+        
+        // Get current margin values
+        function getCurrentMargins() {
+            return window.currentMargins || { top: 0.3, bottom: 0.3, left: 0.3, right: 0.3 };
+        }
+
+        function updateHeaderPreview() {
+            previewTitle.textContent = headerTitle.value || 'FOTO DOKUMENTASI';
+            
+            if (headerSubtitle.value.trim()) {
+                previewSubtitle.textContent = headerSubtitle.value;
+                previewSubtitle.style.display = 'block';
+            } else {
+                previewSubtitle.style.display = 'none';
+            }
+            
+            if (headerLocation.value.trim()) {
+                previewLocation.textContent = headerLocation.value;
+                previewLocation.style.display = 'block';
+            } else {
+                previewLocation.style.display = 'none';
+            }
+            
+            previewFooter.textContent = footerText.value || 'PhotoPrint Pro - Cetak Foto Dokumentasi Berkualitas';
+        }
+
+        function updatePrintDate() {
+            const now = new Date();
+            const options = { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            };
+            printDate.textContent = `Dicetak: ${now.toLocaleDateString('id-ID', options)}`;
+        }
+
+        // Upload functionality
+        uploadZone.addEventListener('click', () => fileInput.click());
+        
+        uploadZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadZone.classList.add('dragover');
+        });
+
+        uploadZone.addEventListener('dragleave', () => {
+            uploadZone.classList.remove('dragover');
+        });
+
+        uploadZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadZone.classList.remove('dragover');
+            handleFiles(e.dataTransfer.files);
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+
+        // Individual slot uploads
+        document.querySelectorAll('.photo-upload-slot').forEach(slot => {
+            slot.addEventListener('click', () => {
+                const slotIndex = parseInt(slot.dataset.slot);
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = 'image/*';
+                input.onchange = (e) => {
+                    if (e.target.files[0]) {
+                        addPhotoToSlot(e.target.files[0], slotIndex);
+                    }
+                };
+                input.click();
+            });
+        });
+
+        function handleFiles(files) {
+            const remainingSlots = 10 - uploadedPhotos.length;
+            const filesToProcess = Math.min(files.length, remainingSlots);
+            
+            for (let i = 0; i < filesToProcess; i++) {
+                const file = files[i];
+                if (file.size > 5 * 1024 * 1024) {
+                    alert(`File ${file.name} terlalu besar. Maksimal 5MB per foto.`);
+                    continue;
+                }
+                
+                const nextSlot = uploadedPhotos.findIndex(photo => !photo);
+                if (nextSlot === -1) {
+                    const newSlot = uploadedPhotos.length;
+                    if (newSlot < 10) {
+                        addPhotoToSlot(file, newSlot);
+                    }
+                } else {
+                    addPhotoToSlot(file, nextSlot);
+                }
+            }
+        }
+
+        function addPhotoToSlot(file, slotIndex) {
+            if (slotIndex >= 10) return;
+            
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                uploadedPhotos[slotIndex] = {
+                    file: file,
+                    dataUrl: e.target.result
+                };
+                
+                updateSlotDisplay(slotIndex);
+                updatePhotoCount();
+                updatePrintButton();
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function updateSlotDisplay(slotIndex) {
+            const photo = uploadedPhotos[slotIndex];
+            const uploadSlot = document.querySelector(`[data-slot="${slotIndex}"]`);
+            const previewSlot = document.getElementById(`slot${slotIndex}`);
+            
+            if (photo) {
+                // Update upload slot
+                uploadSlot.innerHTML = `
+                    <div class="relative">
+                        <img src="${photo.dataUrl}" alt="Foto ${slotIndex + 1}" class="w-full h-16 object-cover rounded">
+                        <button onclick="removePhoto(${slotIndex})" class="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs hover:bg-red-600">×</button>
+                        <span class="text-xs text-gray-600 mt-1 block truncate">${photo.file.name}</span>
+                    </div>
+                `;
+                uploadSlot.classList.add('border-green-500', 'bg-green-50');
+                uploadSlot.classList.remove('border-gray-300');
+                
+                // Update preview slot with drag handle and position controls
+                previewSlot.innerHTML = `
+                    <img src="${photo.dataUrl}" alt="Foto ${slotIndex + 1}" class="w-full h-full object-cover">
+                    <div class="drag-handle" title="Seret untuk memindahkan">
+                        <svg fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"/>
+                        </svg>
+                    </div>
+                    <div class="position-controls">
+                        <button class="position-btn" onclick="movePhoto(${slotIndex}, 'up')" title="Pindah ke Atas">
+                            <svg fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd"/>
+                            </svg>
+                        </button>
+                        <button class="position-btn" onclick="movePhoto(${slotIndex}, 'down')" title="Pindah ke Bawah">
+                            <svg fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                            </svg>
+                        </button>
+                        <button class="position-btn" onclick="movePhoto(${slotIndex}, '${slotIndex < 5 ? 'right' : 'left'}')" title="Pindah ke ${slotIndex < 5 ? 'Kanan' : 'Kiri'}">
+                            <svg fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="${slotIndex < 5 ? 'M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z' : 'M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z'}" clip-rule="evenodd"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="swap-indicator" id="swapIndicator${slotIndex}">Tukar Posisi</div>
+                `;
+                previewSlot.classList.add('filled');
+                
+                // Enable dragging
+                updateSlotDraggable(slotIndex);
+            } else {
+                // Reset upload slot
+                uploadSlot.innerHTML = `
+                    <svg class="w-6 h-6 mx-auto text-gray-400 mb-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
+                    </svg>
+                    <span class="text-xs text-gray-500">Foto ${slotIndex + 1}</span>
+                `;
+                uploadSlot.classList.remove('border-green-500', 'bg-green-50');
+                uploadSlot.classList.add('border-gray-300');
+                
+                // Reset preview slot
+                previewSlot.innerHTML = `
+                    <div class="text-center text-gray-400">
+                        <svg class="w-12 h-12 mx-auto mb-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
+                        </svg>
+                        <p class="text-xs font-medium">Foto ${slotIndex + 1}</p>
+                    </div>
+                    <div class="drag-handle" title="Seret untuk memindahkan">
+                        <svg fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"/>
+                        </svg>
+                    </div>
+                    <div class="position-controls">
+                        <button class="position-btn" onclick="movePhoto(${slotIndex}, 'up')" title="Pindah ke Atas">
+                            <svg fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd"/>
+                            </svg>
+                        </button>
+                        <button class="position-btn" onclick="movePhoto(${slotIndex}, 'down')" title="Pindah ke Bawah">
+                            <svg fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                            </svg>
+                        </button>
+                        <button class="position-btn" onclick="movePhoto(${slotIndex}, '${slotIndex < 5 ? 'right' : 'left'}')" title="Pindah ke ${slotIndex < 5 ? 'Kanan' : 'Kiri'}">
+                            <svg fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="${slotIndex < 5 ? 'M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z' : 'M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z'}" clip-rule="evenodd"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="swap-indicator" id="swapIndicator${slotIndex}">Tukar Posisi</div>
+                `;
+                previewSlot.classList.remove('filled');
+                
+                // Disable dragging
+                updateSlotDraggable(slotIndex);
+            }
+        }
+
+        function removePhoto(slotIndex) {
+            uploadedPhotos[slotIndex] = null;
+            updateSlotDisplay(slotIndex);
+            updatePhotoCount();
+            updatePrintButton();
+        }
+
+        function updatePhotoCount() {
+            const count = uploadedPhotos.filter(photo => photo).length;
+            photoCount.textContent = `${count}/8 Foto`;
+            
+            if (count > 0) {
+                photoCount.classList.remove('bg-blue-100', 'text-blue-800');
+                photoCount.classList.add('bg-green-100', 'text-green-800');
+            } else {
+                photoCount.classList.remove('bg-green-100', 'text-green-800');
+                photoCount.classList.add('bg-blue-100', 'text-blue-800');
+            }
+        }
+
+        function updatePrintButton() {
+            const count = uploadedPhotos.filter(photo => photo).length;
+            
+            if (count > 0) {
+                printCounter.textContent = count;
+                printCounter.classList.remove('hidden');
+            } else {
+                printCounter.classList.add('hidden');
+            }
+            
+            // Tombol cetak selalu aktif
+            printBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            printBtn.disabled = false;
+        }
+
+        // Clear all photos
+        clearAll.addEventListener('click', () => {
+            if (confirm('Yakin ingin menghapus semua foto?')) {
+                uploadedPhotos = [];
+                for (let i = 0; i < 10; i++) {
+                    updateSlotDisplay(i);
+                }
+                updatePhotoCount();
+                updatePrintButton();
+            }
+        });
+
+        // Zoom controls
+        document.getElementById('zoomIn').addEventListener('click', () => {
+            if (currentZoom < 100) {
+                currentZoom += 10;
+                updateZoom();
+            }
+        });
+
+        document.getElementById('zoomOut').addEventListener('click', () => {
+            if (currentZoom > 20) {
+                currentZoom -= 10;
+                updateZoom();
+            }
+        });
+
+        function updateZoom() {
+            const preview = document.querySelector('.print-preview');
+            const scale = currentZoom / 100;
+            preview.style.transform = `scale(${scale})`;
+            preview.style.width = `${100 / scale}%`;
+            preview.style.height = `${100 / scale}%`;
+            document.getElementById('zoomLevel').textContent = `${currentZoom}%`;
+        }
+
+        // Modal functionality
+        const printModal = document.getElementById('printModal');
+        const printNowBtn = document.getElementById('printNowBtn');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const modalPhotoCount = document.getElementById('modalPhotoCount');
+
+        function showPrintModal() {
+            const count = uploadedPhotos.filter(photo => photo).length;
+            const selectedPreset = document.querySelector('input[name="marginPreset"]:checked').value;
+            const margins = getCurrentMargins();
+            
+            modalPhotoCount.textContent = `${count} Foto`;
+            
+            // Update margin info in modal
+            const modalMarginInfo = document.getElementById('modalMarginInfo');
+            if (selectedPreset === 'custom') {
+                modalMarginInfo.textContent = `Custom (${margins.top}cm)`;
+            } else {
+                const presetNames = {
+                    'minimal': 'Minimal (0.3cm)',
+                    'standard': 'Standard (0.5cm)', 
+                    'comfortable': 'Nyaman (0.8cm)'
+                };
+                modalMarginInfo.textContent = presetNames[selectedPreset] || 'Minimal';
+            }
+            
+            printModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function hidePrintModal() {
+            printModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // PDF Generation Functions
+        function preparePrintArea() {
+            const printArea = document.getElementById('printArea');
+            const clonedArea = printArea.cloneNode(true);
+            
+            // Optimize for PDF generation
+            clonedArea.style.position = 'relative';
+            clonedArea.style.width = '21.59cm';
+            clonedArea.style.height = '35.56cm';
+            clonedArea.style.background = 'white';
+            clonedArea.style.margin = '0';
+            clonedArea.style.padding = '0';
+            clonedArea.style.transform = 'none';
+            clonedArea.style.scale = '1';
+            
+            return clonedArea;
+        }
+
+        function generateFileName() {
+            const now = new Date();
+            const dateStr = now.toISOString().slice(0, 10);
+            const timeStr = now.toTimeString().slice(0, 5).replace(':', '');
+            const title = headerTitle.value.replace(/[^a-zA-Z0-9]/g, '_') || 'FOTO_DOKUMENTASI';
+            return `${title}_${dateStr}_${timeStr}.pdf`;
+        }
+
+        async function generatePDF() {
+            try {
+                // Update print date
+                updatePrintDate();
+                
+                const originalText = printNowBtn.innerHTML;
+                
+                // Step 1: Preparing document
+                printNowBtn.innerHTML = `
+                    <svg class="w-5 h-5 animate-spin" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"/>
+                    </svg>
+                    <span>Menyiapkan Dokumen...</span>
+                `;
+                printNowBtn.disabled = true;
+                
+                await new Promise(resolve => setTimeout(resolve, 800));
+                
+                // Step 2: Processing images
+                printNowBtn.innerHTML = `
+                    <svg class="w-5 h-5 animate-pulse" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
+                    </svg>
+                    <span>Memproses Gambar...</span>
+                `;
+                
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // Step 3: Generating PDF
+                printNowBtn.innerHTML = `
+                    <svg class="w-5 h-5 animate-bounce" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                    </svg>
+                    <span>Membuat PDF...</span>
+                `;
+                
+                // Get current margin settings
+                const margins = getCurrentMargins();
+                
+                // Configure PDF options for Legal size with custom margins
+                const opt = {
+                    margin: [margins.top, margins.right, margins.bottom, margins.left], // cm margins [top, right, bottom, left]
+                    filename: generateFileName(),
+                    image: { 
+                        type: 'jpeg', 
+                        quality: 1.0 // Maximum quality
+                    },
+                    html2canvas: { 
+                        scale: 3, // High resolution
+                        useCORS: true,
+                        allowTaint: true,
+                        backgroundColor: '#ffffff',
+                        width: 816, // Legal width in pixels at 96 DPI
+                        height: 1344, // Legal height in pixels at 96 DPI
+                        scrollX: 0,
+                        scrollY: 0
+                    },
+                    jsPDF: { 
+                        unit: 'cm', 
+                        format: 'legal', // 21.59 x 35.56 cm
+                        orientation: 'portrait',
+                        compress: true
+                    }
+                };
+                
+                // Get the print area element
+                const element = document.getElementById('printArea');
+                
+                // Generate and download PDF
+                await html2pdf().set(opt).from(element).save();
+                
+                // Success state
+                printNowBtn.innerHTML = `
+                    <svg class="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                    </svg>
+                    <span>PDF Berhasil Dibuat!</span>
+                `;
+                
+                // Reset and close modal
+                setTimeout(() => {
+                    printNowBtn.innerHTML = originalText;
+                    printNowBtn.disabled = false;
+                    hidePrintModal();
+                }, 2500);
+                
+            } catch (error) {
+                console.error('PDF generation error:', error);
+                
+                // Error state
+                printNowBtn.innerHTML = `
+                    <svg class="w-5 h-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                    </svg>
+                    <span>Gagal Membuat PDF</span>
+                `;
+                
+                setTimeout(() => {
+                    printNowBtn.innerHTML = originalText;
+                    printNowBtn.disabled = false;
+                }, 3000);
+            }
+        }
+
+        // Print functionality
+        printBtn.addEventListener('click', () => {
+            showPrintModal();
+        });
+
+        // Modal event listeners
+        printNowBtn.addEventListener('click', generatePDF);
+        closeModalBtn.addEventListener('click', hidePrintModal);
+
+        // Close modal when clicking outside
+        printModal.addEventListener('click', (e) => {
+            if (e.target === printModal) {
+                hidePrintModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && printModal.classList.contains('active')) {
+                hidePrintModal();
+            }
+        });
+
+        // Initialize print button state
+        updatePrintButton();
+
+        // Layout Control Functions
+        let draggedSlot = null;
+
+        // Move Photo Function
+        function movePhoto(fromSlot, direction) {
+            const photo = uploadedPhotos[fromSlot];
+            if (!photo) return;
+            
+            let toSlot = -1;
+            
+            switch (direction) {
+                case 'up':
+                    if (fromSlot > 0 && fromSlot < 5) toSlot = fromSlot - 1;
+                    else if (fromSlot >= 5 && fromSlot < 10) toSlot = fromSlot - 1;
+                    break;
+                case 'down':
+                    if (fromSlot >= 0 && fromSlot < 4) toSlot = fromSlot + 1;
+                    else if (fromSlot >= 5 && fromSlot < 9) toSlot = fromSlot + 1;
+                    break;
+                case 'left':
+                    if (fromSlot >= 5 && fromSlot < 10) toSlot = fromSlot - 5;
+                    break;
+                case 'right':
+                    if (fromSlot >= 0 && fromSlot < 5) toSlot = fromSlot + 5;
+                    break;
+            }
+            
+            if (toSlot >= 0 && toSlot < 10) {
+                swapPhotos(fromSlot, toSlot);
+            }
+        }
+
+        // Swap Photos Function
+        function swapPhotos(slot1, slot2) {
+            const temp = uploadedPhotos[slot1];
+            uploadedPhotos[slot1] = uploadedPhotos[slot2];
+            uploadedPhotos[slot2] = temp;
+            
+            updateSlotDisplay(slot1);
+            updateSlotDisplay(slot2);
+            
+            // Show swap indicator
+            showSwapIndicator(slot1, slot2);
+        }
+
+        // Show Swap Indicator
+        function showSwapIndicator(slot1, slot2) {
+            const indicator1 = document.getElementById(`swapIndicator${slot1}`);
+            const indicator2 = document.getElementById(`swapIndicator${slot2}`);
+            
+            if (indicator1) {
+                indicator1.classList.add('show');
+                setTimeout(() => indicator1.classList.remove('show'), 1000);
+            }
+            
+            if (indicator2) {
+                indicator2.classList.add('show');
+                setTimeout(() => indicator2.classList.remove('show'), 1000);
+            }
+        }
+
+        // Layout Feedback Function
+        function showLayoutFeedback(message, type = 'success') {
+            const feedback = document.createElement('div');
+            feedback.className = `fixed top-4 right-4 z-50 px-6 py-3 rounded-lg font-semibold text-white transform translate-x-full transition-all duration-300 ${
+                type === 'success' ? 'bg-green-500' : 
+                type === 'info' ? 'bg-blue-500' : 'bg-gray-500'
+            }`;
+            feedback.textContent = message;
+            
+            document.body.appendChild(feedback);
+            
+            // Animate in
+            setTimeout(() => {
+                feedback.style.transform = 'translateX(0)';
+            }, 100);
+            
+            // Animate out and remove
+            setTimeout(() => {
+                feedback.style.transform = 'translateX(full)';
+                setTimeout(() => {
+                    if (feedback.parentNode) {
+                        feedback.parentNode.removeChild(feedback);
+                    }
+                }, 300);
+            }, 2500);
+        }
+
+        // Enhanced Drag and Drop for Photo Slots
+        let touchStartPos = { x: 0, y: 0 };
+        let isDragging = false;
+        let dragThreshold = 10;
+
+        function initializeDragAndDrop() {
+            const photoSlots = document.querySelectorAll('.photo-slot');
+            
+            photoSlots.forEach(slot => {
+                // Mouse events
+                slot.addEventListener('dragstart', handleDragStart);
+                slot.addEventListener('dragover', handleDragOver);
+                slot.addEventListener('dragenter', handleDragEnter);
+                slot.addEventListener('dragleave', handleDragLeave);
+                slot.addEventListener('drop', handleDrop);
+                slot.addEventListener('dragend', handleDragEnd);
+                
+                // Touch events for mobile
+                slot.addEventListener('touchstart', handleTouchStart, { passive: false });
+                slot.addEventListener('touchmove', handleTouchMove, { passive: false });
+                slot.addEventListener('touchend', handleTouchEnd, { passive: false });
+                
+                // Enhanced hover for touch devices
+                slot.addEventListener('touchstart', () => {
+                    slot.classList.add('touch-active');
+                });
+                
+                slot.addEventListener('touchend', () => {
+                    setTimeout(() => slot.classList.remove('touch-active'), 300);
+                });
+            });
+        }
+
+        function handleDragStart(e) {
+            const slotIndex = parseInt(e.target.closest('.photo-slot').dataset.slot);
+            if (uploadedPhotos[slotIndex]) {
+                draggedSlot = slotIndex;
+                e.target.closest('.photo-slot').classList.add('dragging');
+                e.dataTransfer.effectAllowed = 'move';
+                e.dataTransfer.setData('text/plain', slotIndex);
+                
+                // Add visual feedback
+                setTimeout(() => {
+                    document.querySelectorAll('.photo-slot').forEach(slot => {
+                        const index = parseInt(slot.dataset.slot);
+                        if (index !== slotIndex) {
+                            slot.classList.add(uploadedPhotos[index] ? 'drag-valid' : 'drag-invalid');
+                        }
+                    });
+                }, 50);
+            } else {
+                e.preventDefault();
+            }
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+        }
+
+        function handleDragEnter(e) {
+            e.preventDefault();
+            const slot = e.target.closest('.photo-slot');
+            if (draggedSlot !== null && slot) {
+                slot.classList.add('drag-over');
+            }
+        }
+
+        function handleDragLeave(e) {
+            const slot = e.target.closest('.photo-slot');
+            if (slot && !slot.contains(e.relatedTarget)) {
+                slot.classList.remove('drag-over');
+            }
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            const slot = e.target.closest('.photo-slot');
+            if (slot) {
+                slot.classList.remove('drag-over');
+                const targetSlot = parseInt(slot.dataset.slot);
+                
+                if (draggedSlot !== null && targetSlot !== draggedSlot) {
+                    swapPhotos(draggedSlot, targetSlot);
+                    showLayoutFeedback('Foto berhasil dipindahkan!', 'success');
+                }
+            }
+        }
+
+        function handleDragEnd(e) {
+            const slot = e.target.closest('.photo-slot');
+            if (slot) {
+                slot.classList.remove('dragging');
+            }
+            
+            // Clean up all visual states
+            document.querySelectorAll('.photo-slot').forEach(slot => {
+                slot.classList.remove('drag-over', 'drag-valid', 'drag-invalid');
+            });
+            
+            draggedSlot = null;
+        }
+
+        // Touch Events for Mobile
+        function handleTouchStart(e) {
+            const slot = e.target.closest('.photo-slot');
+            const slotIndex = parseInt(slot.dataset.slot);
+            
+            if (uploadedPhotos[slotIndex]) {
+                touchStartPos.x = e.touches[0].clientX;
+                touchStartPos.y = e.touches[0].clientY;
+                isDragging = false;
+                
+                // Prevent scrolling while potentially dragging
+                e.preventDefault();
+            }
+        }
+
+        function handleTouchMove(e) {
+            if (!isDragging) {
+                const deltaX = Math.abs(e.touches[0].clientX - touchStartPos.x);
+                const deltaY = Math.abs(e.touches[0].clientY - touchStartPos.y);
+                
+                if (deltaX > dragThreshold || deltaY > dragThreshold) {
+                    isDragging = true;
+                    const slot = e.target.closest('.photo-slot');
+                    const slotIndex = parseInt(slot.dataset.slot);
+                    
+                    if (uploadedPhotos[slotIndex]) {
+                        draggedSlot = slotIndex;
+                        slot.classList.add('dragging');
+                        showLayoutFeedback('Seret ke posisi yang diinginkan', 'info');
+                    }
+                }
+            }
+            
+            if (isDragging) {
+                e.preventDefault();
+                
+                // Find element under touch point
+                const elementBelow = document.elementFromPoint(
+                    e.touches[0].clientX, 
+                    e.touches[0].clientY
+                );
+                
+                const targetSlot = elementBelow?.closest('.photo-slot');
+                
+                // Update drag-over states
+                document.querySelectorAll('.photo-slot').forEach(slot => {
+                    slot.classList.remove('drag-over');
+                });
+                
+                if (targetSlot && targetSlot.dataset.slot !== draggedSlot.toString()) {
+                    targetSlot.classList.add('drag-over');
+                }
+            }
+        }
+
+        function handleTouchEnd(e) {
+            if (isDragging) {
+                e.preventDefault();
+                
+                const elementBelow = document.elementFromPoint(
+                    e.changedTouches[0].clientX, 
+                    e.changedTouches[0].clientY
+                );
+                
+                const targetSlot = elementBelow?.closest('.photo-slot');
+                
+                if (targetSlot && draggedSlot !== null) {
+                    const targetIndex = parseInt(targetSlot.dataset.slot);
+                    
+                    if (targetIndex !== draggedSlot) {
+                        swapPhotos(draggedSlot, targetIndex);
+                        showLayoutFeedback('Foto berhasil dipindahkan!', 'success');
+                    }
+                }
+                
+                // Clean up
+                document.querySelectorAll('.photo-slot').forEach(slot => {
+                    slot.classList.remove('dragging', 'drag-over');
+                });
+                
+                draggedSlot = null;
+                isDragging = false;
+            }
+        }
+
+        // Enable draggable for filled slots
+        function updateSlotDraggable(slotIndex) {
+            const slot = document.getElementById(`slot${slotIndex}`);
+            if (uploadedPhotos[slotIndex]) {
+                slot.draggable = true;
+                slot.classList.add('draggable');
+                slot.style.cursor = 'move';
+            } else {
+                slot.draggable = false;
+                slot.classList.remove('draggable');
+                slot.style.cursor = 'default';
+            }
+        }
+
+        // Initialize drag and drop
+        initializeDragAndDrop();
+
+        // Make movePhoto globally available
+        window.movePhoto = movePhoto;
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96fc97f752f5fdb0',t:'MTc1NTMwMTgyMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

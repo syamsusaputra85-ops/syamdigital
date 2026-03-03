@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Rapat Pembentukan Panitia Pernikahan</title>
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1757245484/SYAMDIGITAL-LOGO-2025_mmpllg.png">
+    <link rel="shortcut icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1757245484/SYAMDIGITAL-LOGO-2025_mmpllg.png">
+    <style>
+        body {
+            box-sizing: border-box;
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .invitation-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            padding: 30px;
+            position: relative;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="40" r="1.5" fill="rgba(255,255,255,0.1)"/><circle cx="40" cy="70" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="70" cy="80" r="2" fill="rgba(255,255,255,0.1)"/></svg>');
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin: 0;
+            font-weight: bold;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .content {
+            padding: 40px;
+            line-height: 1.8;
+            color: #333;
+        }
+        
+        .recipient {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            border-radius: 5px;
+        }
+        
+        .recipient-line {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .recipient input {
+            border: none;
+            border-bottom: 2px dotted #667eea;
+            background: transparent;
+            font-size: 16px;
+            padding: 5px;
+            margin: 0 10px;
+            min-width: 300px;
+            outline: none;
+        }
+        
+        .greeting {
+            text-align: center;
+            margin: 30px 0;
+            font-style: italic;
+            color: #555;
+        }
+        
+        .main-text {
+            text-align: justify;
+            margin: 25px 0;
+            font-size: 16px;
+        }
+        
+        .event-details {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 30px 0;
+            border: 2px solid #f4a261;
+        }
+        
+        .event-details h3 {
+            color: #d63031;
+            margin-top: 0;
+            text-align: center;
+            font-size: 1.3em;
+        }
+        
+        .detail-item {
+            display: flex;
+            margin: 15px 0;
+            align-items: flex-start;
+        }
+        
+        .detail-label {
+            font-weight: bold;
+            min-width: 120px;
+            color: #2d3436;
+        }
+        
+        .detail-value {
+            color: #636e72;
+            flex: 1;
+        }
+        
+        .closing {
+            margin-top: 30px;
+            text-align: justify;
+        }
+        
+        .signature {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #ddd;
+        }
+        
+        .signature-greeting {
+            margin-bottom: 20px;
+            font-style: italic;
+            color: #555;
+        }
+        
+        .signature-name {
+            font-weight: bold;
+            font-size: 1.1em;
+            color: #2d3436;
+            margin-top: 40px;
+        }
+        
+        .decorative-border {
+            height: 5px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #667eea);
+            margin: 20px 0;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .invitation-container {
+                margin: 0;
+                border-radius: 10px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            }
+            
+            .content {
+                padding: 20px 15px;
+            }
+            
+            .header {
+                padding: 20px 15px;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+                line-height: 1.2;
+            }
+            
+            .recipient {
+                padding: 15px;
+                margin-bottom: 20px;
+            }
+            
+            .recipient-line {
+                flex-direction: column;
+                align-items: flex-start;
+                margin-bottom: 8px;
+            }
+            
+            .recipient input {
+                min-width: 100%;
+                margin: 5px 0;
+                font-size: 14px;
+                padding: 8px 5px;
+            }
+            
+            .greeting {
+                margin: 20px 0;
+                font-size: 14px;
+            }
+            
+            .main-text {
+                font-size: 14px;
+                margin: 20px 0;
+                text-align: left;
+            }
+            
+            .event-details {
+                padding: 20px 15px;
+                margin: 20px 0;
+            }
+            
+            .event-details h3 {
+                font-size: 1.1em;
+                margin-bottom: 15px;
+            }
+            
+            .detail-item {
+                flex-direction: column;
+                margin: 12px 0;
+                align-items: flex-start;
+            }
+            
+            .detail-label {
+                margin-bottom: 5px;
+                min-width: auto;
+                font-size: 14px;
+            }
+            
+            .detail-value {
+                font-size: 14px;
+                padding-left: 0;
+            }
+            
+            .map-container {
+                padding: 15px 10px;
+                margin: 20px 0;
+            }
+            
+            .map-container h3 {
+                font-size: 1.1em;
+                margin-bottom: 15px;
+            }
+            
+            .map-container iframe {
+                height: 250px;
+            }
+            
+            .map-container p {
+                font-size: 12px;
+                margin-top: 10px;
+            }
+            
+            .closing {
+                font-size: 14px;
+                margin-top: 20px;
+                text-align: left;
+            }
+            
+            .signature {
+                margin-top: 30px;
+                padding-top: 20px;
+            }
+            
+            .signature-greeting {
+                font-size: 14px;
+                margin-bottom: 15px;
+            }
+            
+            .signature img {
+                max-width: 150px;
+            }
+            
+            .signature-name {
+                font-size: 1em;
+                margin-top: 30px;
+            }
+            
+            .decorative-border {
+                margin: 15px 0;
+                height: 4px;
+            }
+            
+            /* WhatsApp button mobile optimization */
+            div[style*="text-align: center; margin: 30px 0"] {
+                margin: 20px 0 !important;
+                padding: 0 10px !important;
+            }
+            
+            button[onclick="contactWhatsApp()"] {
+                padding: 12px 20px !important;
+                font-size: 14px !important;
+                width: 100% !important;
+                max-width: 300px !important;
+                justify-content: center !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.5em;
+            }
+            
+            .content {
+                padding: 15px 10px;
+            }
+            
+            .recipient {
+                padding: 12px;
+            }
+            
+            .event-details {
+                padding: 15px 12px;
+            }
+            
+            .map-container {
+                padding: 12px 8px;
+            }
+            
+            .map-container iframe {
+                height: 200px;
+            }
+            
+            .main-text, .closing, .detail-label, .detail-value {
+                font-size: 13px;
+            }
+            
+            .greeting {
+                font-size: 13px;
+            }
+            
+            button[onclick="contactWhatsApp()"] {
+                padding: 10px 15px !important;
+                font-size: 13px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="invitation-container">
+        <div class="header">
+            <h1>🤝 UNDANGAN 🤝</h1>
+        </div>
+        
+        <div class="content">
+            <div class="recipient">
+                <div class="recipient-line">
+                    <strong>Kepada Yth,</strong>
+                </div>
+                <div class="recipient-line">
+                    <span>Bapak/Ibu/Saudara/i</span>
+                    <input type="text" placeholder="" id="recipientName" style="border-bottom: none;">
+                </div>
+                <div class="recipient-line" style="margin-top: 15px;">
+                    <span>Di-</span>
+                </div>
+                <div class="recipient-line" style="margin-left: 50px;">
+                    <span>Tempat.</span>
+                </div>
+            </div>
+            
+            <div class="greeting">
+                <strong>Dengan Hormat,</strong><br>
+                <em>Bismillahirrahmanirrahim</em><br>
+                <strong>Assalamu'alaikum Warahmatullahi Wabarakatuh</strong>
+            </div>
+            
+            <div class="decorative-border"></div>
+            
+            <div class="main-text">
+                Puji serta syukur kami panjatkan kehadirat Allah SWT, atas rahmat dan karunianya yang telah diberikan kepada kita semua.
+            </div>
+            
+            <div class="main-text">
+                Sehubungan dengan akan dilangsungkannya acara resepsi pernikahan anak kami pada hari <strong>Senin, 27 Oktober 2025</strong>, maka melalui undangan ini kami berniat untuk mengundang Bapak/Ibu/Saudara/i untuk meluangkan waktunya supaya dapat hadir di <strong>Rapat Pembentukan Panitia Pernikahan</strong> ini, yang Insyaallah akan dilaksanakan pada:
+            </div>
+            
+            <div class="event-details">
+                <h3>📅 DETAIL ACARA</h3>
+                <div class="detail-item">
+                    <div class="detail-label">Hari, Tanggal</div>
+                    <div class="detail-value">: <strong>Sabtu, 18 Oktober 2025</strong></div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Waktu</div>
+                    <div class="detail-value">: <strong>19.30 (Ba'da Isya) s/d selesai</strong></div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Lokasi</div>
+                    <div class="detail-value">: <strong>Kediaman Bapak Suparman, Desa Labuan Lelea</strong></div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Tujuan</div>
+                    <div class="detail-value">: <strong>Pembentukan Panitia Pernikahan dan Pembagian Tugas</strong></div>
+                </div>
+            </div>
+            
+            <div class="map-container" style="margin: 30px 0; text-align: center; background: #f8f9fa; padding: 20px; border-radius: 10px; border: 2px solid #e9ecef;">
+                <h3 style="color: #2d3436; margin-bottom: 20px;">📍 LOKASI ACARA</h3>
+                <div style="position: relative; width: 100%; max-width: 600px; margin: 0 auto; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    <iframe src="https://www.google.com/maps/embed?pb=!4v. !6m8!1m7!1sc1YQ-VsaXFXnHYfgiktSGw!2m2!1d-0.. !2d119.. !3f323.. !4f-10.. !5f1.. " width="100%" height="300" style="border:0; display: block;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+                <p style="margin-top: 15px; color: #6c757d; font-size: 14px; font-style: italic;">Klik pada peta untuk melihat rute dan detail lokasi</p>
+            </div>
+            
+            <div class="closing">
+                Kami sangat mengharapkan kehadiran Bapak/Ibu/Saudara/i untuk dapat menghadiri rapat tersebut. Mengingat rapat tersebut sangat penting untuk acara resepsi pernikahan anak kami.
+            </div>
+            
+            <div class="closing">
+                Atas perhatian dan kehadirannya kami ucapkan <strong>Terimakasih</strong>.
+            </div>
+            
+
+            
+            <div class="signature">
+                <div class="signature-greeting">
+                    <strong>Wassalamu'alaikum Warahmatullahi Wabarakatuh</strong>
+                </div>
+                <div style="margin: 20px 0;">
+                    <strong>Hormat Kami</strong>
+                </div>
+                <div style="margin: 20px 0;">
+                    <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1760626374/suparman_qnyfu6.png" alt="Tanda tangan Bapak Suparman" style="max-width: 200px; height: auto;" onerror="this.src=''; this.alt='Tanda tangan tidak dapat dimuat'; this.style.display='none';">
+                </div>
+                <div class="signature-name">
+                    Keluarga Besar Bapak Suparman
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin: 30px 0; padding-bottom: 20px;">
+                <button onclick="contactWhatsApp()" style="background: linear-gradient(135deg, #25d366 0%, #128c7e 100%); color: white; border: none; padding: 15px 30px; border-radius: 25px; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 10px;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(37, 211, 102, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(37, 211, 102, 0.3)'">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893A11.821 11.821 0 0020.465 3.516"/>
+                    </svg>
+                    Bagikan ke WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Auto-focus pada input nama saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', function() {
+            const nameInput = document.getElementById('recipientName');
+            nameInput.focus();
+            
+            // Simpan nama yang diketik di localStorage
+            nameInput.addEventListener('input', function() {
+                localStorage.setItem('recipientName', this.value);
+            });
+            
+            // Muat nama yang tersimpan
+            const savedName = localStorage.getItem('recipientName');
+            if (savedName) {
+                nameInput.value = savedName;
+            }
+        });
+        
+        // Fungsi untuk mencetak undangan
+        function printInvitation() {
+            window.print();
+        }
+        
+        // Tambahkan shortcut Ctrl+P untuk print
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'p') {
+                e.preventDefault();
+                printInvitation();
+            }
+        });
+        
+        // Fungsi untuk menghubungi via WhatsApp
+        function contactWhatsApp() {
+            const recipientName = document.getElementById('recipientName').value || '[Nama Penerima]';
+            const message = encodeURIComponent(`🤝 UNDANGAN RAPAT PEMBENTUKAN PANITIA PERNIKAHAN 🤝
+
+Assalamu'alaikum Warahmatullahi Wabarakatuh
+
+Kepada Yth. Bapak/Ibu/Saudara/i
+Di Tempat
+
+Dengan Hormat,
+Bismillahirrahmanirrahim
+
+Puji serta syukur kami panjatkan kehadirat Allah SWT, atas rahmat dan karunianya yang telah diberikan kepada kita semua.
+
+Sehubungan dengan akan dilangsungkannya acara resepsi pernikahan anak kami pada hari *Senin, 27 Oktober 2025*, maka melalui undangan ini kami berniat untuk mengundang Bapak/Ibu/Saudara/i untuk meluangkan waktunya supaya dapat hadir di *Rapat Pembentukan Panitia Pernikahan* ini.
+
+📅 *DETAIL ACARA*
+🗓️ Hari, Tanggal: *Sabtu, 18 Oktober 2025*
+⏰ Waktu: *19.30 (Ba'da Isya) s/d selesai*
+📍 Lokasi: *Kediaman Bapak Suparman, Desa Labuan Lelea*
+🎯 Tujuan: *Pembentukan Panitia Pernikahan dan Pembagian Tugas*
+
+Kami sangat mengharapkan kehadiran Bapak/Ibu/Saudara/i untuk dapat menghadiri rapat tersebut. Mengingat rapat tersebut sangat penting untuk acara resepsi pernikahan anak kami.
+
+Atas perhatian dan kehadirannya kami ucapkan *Terimakasih*.
+
+Wassalamu'alaikum Warahmatullahi Wabarakatuh
+
+Hormat Kami,
+*Keluarga Besar Bapak Suparman*
+
+Info Selengkapnya: https://syam.digital/undangan1`);
+            const whatsappUrl = `https://wa.me/?text=${message}`;
+            window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98f8bf06416c64ca',t:'MTc2MDYzMDE4Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

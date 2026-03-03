@@ -1,0 +1,809 @@
+<!doctype html>
+<html lang="id">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Filter Data P3KE</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+        body {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #333;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        .app-wrapper {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            border-bottom: 3px solid #ffc107;
+        }
+
+        .header-top {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            gap: 15px;
+        }
+
+        .logo-placeholder {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .subtitle-text {
+            font-size: 13px;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+        }
+
+        .stat-box {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            margin: 5px 0;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .content {
+            flex: 1;
+            padding: 30px 20px;
+            background: white;
+            margin: 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            overflow: auto;
+            min-height: 0;
+        }
+
+        .filter-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+
+        .filter-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1e3c72;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .search-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #2a5298;
+            box-shadow: 0 0 0 3px rgba(42, 82, 152, 0.1);
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(42, 82, 152, 0.3);
+        }
+
+        .btn-secondary {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #d0d0d0;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        .results-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .results-text {
+            font-weight: 600;
+            color: #1e3c72;
+        }
+
+        .results-per-page {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .results-per-page select {
+            padding: 8px 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            position: sticky;
+            top: 0;
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        th:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 14px;
+        }
+
+        tbody tr:hover {
+            background: #f5f5f5;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .pagination button {
+            padding: 8px 12px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        .pagination button:hover:not(:disabled) {
+            border-color: #2a5298;
+            background: #f0f0f0;
+        }
+
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .pagination .active {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            border-color: #2a5298;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #2a5298;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            background: #f8d7da;
+            border: 2px solid #f5c6cb;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .success-message {
+            background: #d4edda;
+            border: 2px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .detail-btn {
+            background: #2a5298;
+            color: white;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s;
+        }
+
+        .detail-btn:hover {
+            background: #1e3c72;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 20px 15px;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            .content {
+                padding: 15px;
+                margin: 10px;
+            }
+
+            .search-group {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            td, th {
+                padding: 8px;
+            }
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="app-wrapper">
+   <div class="header">
+    <div class="header-top">
+     <div class="logo-placeholder">
+      📋
+     </div>
+     <div>
+      <h1 id="app-title">Filter Data P3KE Terintegrasi</h1>
+      <p class="subtitle-text" id="subtitle">Sistem Pencarian &amp; Filter Real-time dari Syam Digital</p>
+     </div>
+    </div>
+    <div class="stats-container">
+     <div class="stat-box">
+      <div class="stat-icon">
+       ✅
+      </div>
+      <div class="stat-value" id="total-data">
+       0
+      </div>
+      <div class="stat-label">
+       Data Siap
+      </div>
+     </div>
+     <div class="stat-box">
+      <div class="stat-icon">
+       👨‍👩‍👧‍👦
+      </div>
+      <div class="stat-value" id="total-count">
+       0
+      </div>
+      <div class="stat-label">
+       Total Data
+      </div>
+     </div>
+     <div class="stat-box">
+      <div class="stat-icon">
+       🔍
+      </div>
+      <div class="stat-value" id="filter-count">
+       0
+      </div>
+      <div class="stat-label">
+       Hasil Filter
+      </div>
+     </div>
+     <div class="stat-box">
+      <div class="stat-icon">
+       🏘️
+      </div>
+      <div class="stat-value" id="desa-count">
+       0
+      </div>
+      <div class="stat-label">
+       Jumlah Desa
+      </div>
+     </div>
+     <div class="stat-box">
+      <div class="stat-icon">
+       📍
+      </div>
+      <div class="stat-value" id="kecamatan-count">
+       0
+      </div>
+      <div class="stat-label">
+       Jumlah Kecamatan
+      </div>
+     </div>
+    </div>
+   </div>
+   <div class="content">
+    <div class="filter-section">
+     <div class="filter-title">
+      🔍 Pencarian &amp; Filter
+     </div>
+     <div class="search-group"><input type="text" class="search-input" id="search-id" placeholder="Cari ID Keluarga P3KE"> <input type="text" class="search-input" id="search-nama" placeholder="Cari Nama"> <select class="search-input" id="filter-kecamatan"> <option value="">Kecamatan - Semua</option> </select>
+     </div>
+     <div class="search-group"><select class="search-input" id="filter-desa"> <option value="">Desa - Semua</option> </select> <select class="search-input" id="filter-desil"> <option value="">Desil - Semua</option> </select> <select class="search-input" id="filter-status"> <option value="">Status Bantuan - Semua</option> </select>
+     </div>
+     <div class="search-group"><select class="search-input" id="filter-jk"> <option value="">Jenis Kelamin - Semua</option> <option value="♂️">Laki-laki (♂️)</option> <option value="♀️">Perempuan (♀️)</option> </select>
+     </div>
+     <div class="filter-buttons"><button class="btn btn-primary" onclick="applyFilters()">🔍 Cari Data</button> <button class="btn btn-secondary" onclick="resetFilters()">↺ Reset</button> <button class="btn btn-success" onclick="exportCSV()">📥 Export CSV</button> <button class="btn btn-success" onclick="exportExcel()">📥 Export Excel</button> <button class="btn btn-primary" onclick="openGoogleSheets()">📊 Buka Google Sheets</button>
+     </div>
+    </div>
+    <div id="loading" class="loading" style="display: none;">
+     <div class="spinner"></div>
+     <p>Memuat data...</p>
+    </div>
+    <div id="error-container"></div>
+    <div id="data-container">
+     <div class="results-info"><span class="results-text" id="results-text">0 data</span>
+      <div class="results-per-page"><label>Tampilkan:</label> <select id="per-page" onchange="changePerPage()"> <option value="10">10</option> <option value="25">25</option> <option value="50">50</option> <option value="100">100</option> </select>
+      </div>
+     </div>
+     <div class="table-container">
+      <table>
+       <thead>
+        <tr>
+         <th onclick="sortTable('no')">No ↕</th>
+         <th onclick="sortTable('id_keluarga')">ID Keluarga ↕</th>
+         <th onclick="sortTable('nama')">Nama ↕</th>
+         <th onclick="sortTable('nik')">NIK</th>
+         <th onclick="sortTable('kecamatan')">Kecamatan ↕</th>
+         <th onclick="sortTable('desa')">Desa ↕</th>
+         <th onclick="sortTable('desil')">Desil</th>
+         <th onclick="sortTable('jk')">JK</th>
+         <th onclick="sortTable('status')">Status Bantuan</th>
+         <th>Aksi</th>
+        </tr>
+       </thead>
+       <tbody id="table-body">
+       </tbody>
+      </table>
+     </div>
+     <div class="pagination" id="pagination"></div>
+    </div>
+   </div>
+  </div>
+  <script>
+        // Element SDK Config
+        const defaultConfig = {
+            app_title: "Filter Data P3KE Terintegrasi",
+            subtitle: "Sistem Pencarian & Filter Real-time dari Syam Digital",
+            kabupaten_name: "Kabupaten"
+        };
+
+        let config = { ...defaultConfig };
+
+        window.elementSdk.init({
+            defaultConfig,
+            onConfigChange: async (newConfig) => {
+                config = newConfig;
+                document.getElementById('app-title').textContent = config.app_title;
+                document.getElementById('subtitle').textContent = config.subtitle;
+            },
+            mapToCapabilities: () => ({
+                recolorables: [],
+                borderables: [],
+                fontEditable: undefined,
+                fontSizeable: undefined
+            }),
+            mapToEditPanelValues: (cfg) => new Map([
+                ["app_title", cfg.app_title],
+                ["subtitle", cfg.subtitle],
+                ["kabupaten_name", cfg.kabupaten_name]
+            ])
+        });
+
+        // Data
+        let allData = [];
+        let filteredData = [];
+        let currentPage = 1;
+        let perPage = 10;
+        let sortColumn = null;
+        let sortAsc = true;
+
+        // Google Sheets Config
+        const SHEETS_ID = "2PACX-1vRRQy6LGY1MMNQNINfsA9--x3StH0Rp5oTzM520pjbZuCstJzADBH3RxidcEaKXuYBgwJ9s0fbY_XZG";
+        const SHEET_NAME = gid=125225049;
+
+        // Fetch Data from Google Sheets
+        async function loadData() {
+            const loading = document.getElementById('loading');
+            const errorContainer = document.getElementById('error-container');
+            
+            loading.style.display = 'block';
+            errorContainer.innerHTML = '';
+
+            try {
+                // Gunakan Google Sheets API CSV export
+                const url = `https://docs.google.com/spreadsheets/d/${SHEETS_ID}/export?format=csv&gid=125225049`;
+                
+                const response = await fetch(url);
+                const csvText = await response.text();
+
+                // Parse CSV
+                parseCSV(csvText);
+                updateStats();
+                renderTable();
+                loading.style.display = 'none';
+
+            } catch (error) {
+                loading.style.display = 'none';
+                errorContainer.innerHTML = `<div class="error-message">❌ Gagal memuat data: ${error.message}</div>`;
+            }
+        }
+
+        function parseCSV(csv) {
+            const lines = csv.trim().split('\n');
+            const headers = lines[0].split(',').map(h => h.trim().toLowerCase().replace(/"/g, ''));
+            
+            allData = [];
+            for (let i = 1; i < lines.length; i++) {
+                const values = lines[i].split(',').map(v => v.trim().replace(/"/g, ''));
+                const obj = {};
+                headers.forEach((header, idx) => {
+                    obj[header] = values[idx] || '';
+                });
+                if (obj[headers[0]]) {
+                    allData.push(obj);
+                }
+            }
+
+            filteredData = [...allData];
+            populateFilters();
+        }
+
+        function populateFilters() {
+            const kecamatan = [...new Set(allData.map(d => d['kecamatan']).filter(k => k))];
+            const desa = [...new Set(allData.map(d => d['desa']).filter(d => d))];
+            const desil = [...new Set(allData.map(d => d['desil']).filter(d => d))];
+            const status = [...new Set(allData.map(d => d['status bantuan']).filter(s => s))];
+
+            const kecamatanSelect = document.getElementById('filter-kecamatan');
+            const desaSelect = document.getElementById('filter-desa');
+            const desilSelect = document.getElementById('filter-desil');
+            const statusSelect = document.getElementById('filter-status');
+
+            kecamatan.sort().forEach(k => {
+                const option = document.createElement('option');
+                option.value = k;
+                option.textContent = k;
+                kecamatanSelect.appendChild(option);
+            });
+
+            desa.sort().forEach(d => {
+                const option = document.createElement('option');
+                option.value = d;
+                option.textContent = d;
+                desaSelect.appendChild(option);
+            });
+
+            desil.sort().forEach(d => {
+                const option = document.createElement('option');
+                option.value = d;
+                option.textContent = d;
+                desilSelect.appendChild(option);
+            });
+
+            status.sort().forEach(s => {
+                const option = document.createElement('option');
+                option.value = s;
+                option.textContent = s;
+                statusSelect.appendChild(option);
+            });
+        }
+
+        function applyFilters() {
+            const idSearch = document.getElementById('search-id').value.toLowerCase();
+            const namaSearch = document.getElementById('search-nama').value.toLowerCase();
+            const kecamatan = document.getElementById('filter-kecamatan').value;
+            const desa = document.getElementById('filter-desa').value;
+            const desil = document.getElementById('filter-desil').value;
+            const status = document.getElementById('filter-status').value;
+            const jk = document.getElementById('filter-jk').value;
+
+            filteredData = allData.filter(row => {
+                const idMatch = !idSearch || (row['id keluarga'] && row['id keluarga'].toLowerCase().includes(idSearch));
+                const namaMatch = !namaSearch || (row['nama'] && row['nama'].toLowerCase().includes(namaSearch));
+                const kecamatanMatch = !kecamatan || row['kecamatan'] === kecamatan;
+                const desaMatch = !desa || row['desa'] === desa;
+                const desilMatch = !desil || row['desil'] === desil;
+                const statusMatch = !status || row['status bantuan'] === status;
+                const jkMatch = !jk || row['jk'] === jk;
+
+                return idMatch && namaMatch && kecamatanMatch && desaMatch && desilMatch && statusMatch && jkMatch;
+            });
+
+            currentPage = 1;
+            updateStats();
+            renderTable();
+        }
+
+        function resetFilters() {
+            document.getElementById('search-id').value = '';
+            document.getElementById('search-nama').value = '';
+            document.getElementById('filter-kecamatan').value = '';
+            document.getElementById('filter-desa').value = '';
+            document.getElementById('filter-desil').value = '';
+            document.getElementById('filter-status').value = '';
+            document.getElementById('filter-jk').value = '';
+            
+            filteredData = [...allData];
+            currentPage = 1;
+            updateStats();
+            renderTable();
+        }
+
+        function updateStats() {
+            document.getElementById('total-data').textContent = allData.length.toLocaleString('id-ID');
+            document.getElementById('total-count').textContent = allData.length.toLocaleString('id-ID');
+            document.getElementById('filter-count').textContent = filteredData.length.toLocaleString('id-ID');
+            
+            const desaCount = [...new Set(allData.map(d => d['desa']).filter(d => d))].length;
+            const kecamatanCount = [...new Set(allData.map(d => d['kecamatan']).filter(k => k))].length;
+            
+            document.getElementById('desa-count').textContent = desaCount;
+            document.getElementById('kecamatan-count').textContent = kecamatanCount;
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('table-body');
+            tbody.innerHTML = '';
+
+            const start = (currentPage - 1) * perPage;
+            const end = start + perPage;
+            const pageData = filteredData.slice(start, end);
+
+            pageData.forEach((row, idx) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${start + idx + 1}</td>
+                    <td>${row['id keluarga'] || '-'}</td>
+                    <td>${row['nama'] || '-'}</td>
+                    <td>${row['nik'] || '-'}</td>
+                    <td>${row['kecamatan'] || '-'}</td>
+                    <td>${row['desa'] || '-'}</td>
+                    <td>${row['desil'] || '-'}</td>
+                    <td>${row['jk'] || '-'}</td>
+                    <td>${row['status bantuan'] || '-'}</td>
+                    <td><button class="detail-btn" onclick="alert('Detail data: ' + JSON.stringify(row))">Detail</button></td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            renderPagination();
+            document.getElementById('results-text').textContent = `Menampilkan ${start + 1} - ${Math.min(end, filteredData.length)} dari ${filteredData.length.toLocaleString('id-ID')} data`;
+        }
+
+        function renderPagination() {
+            const totalPages = Math.ceil(filteredData.length / perPage);
+            const pagination = document.getElementById('pagination');
+            pagination.innerHTML = '';
+
+            // Previous
+            const prevBtn = document.createElement('button');
+            prevBtn.textContent = '⏮ Sebelumnya';
+            prevBtn.disabled = currentPage === 1;
+            prevBtn.onclick = () => {
+                currentPage = Math.max(1, currentPage - 1);
+                renderTable();
+            };
+            pagination.appendChild(prevBtn);
+
+            // Page numbers
+            for (let i = Math.max(1, currentPage - 2); i <= Math.min(totalPages, currentPage + 2); i++) {
+                const btn = document.createElement('button');
+                btn.textContent = i;
+                btn.className = i === currentPage ? 'active' : '';
+                btn.onclick = () => {
+                    currentPage = i;
+                    renderTable();
+                };
+                pagination.appendChild(btn);
+            }
+
+            // Next
+            const nextBtn = document.createElement('button');
+            nextBtn.textContent = 'Selanjutnya ⏭';
+            nextBtn.disabled = currentPage === totalPages;
+            nextBtn.onclick = () => {
+                currentPage = Math.min(totalPages, currentPage + 1);
+                renderTable();
+            };
+            pagination.appendChild(nextBtn);
+        }
+
+        function changePerPage() {
+            perPage = parseInt(document.getElementById('per-page').value);
+            currentPage = 1;
+            renderTable();
+        }
+
+        function sortTable(column) {
+            if (sortColumn === column) {
+                sortAsc = !sortAsc;
+            } else {
+                sortColumn = column;
+                sortAsc = true;
+            }
+
+            filteredData.sort((a, b) => {
+                const valA = a[column] || '';
+                const valB = b[column] || '';
+                const comparison = valA < valB ? -1 : valA > valB ? 1 : 0;
+                return sortAsc ? comparison : -comparison;
+            });
+
+            currentPage = 1;
+            renderTable();
+        }
+
+        function exportCSV() {
+            let csv = 'No,ID Keluarga,Nama,NIK,Kecamatan,Desa,Desil,JK,Status Bantuan\n';
+            filteredData.forEach((row, idx) => {
+                csv += `${idx + 1},"${row['id keluarga']}","${row['nama']}","${row['nik']}","${row['kecamatan']}","${row['desa']}","${row['desil']}","${row['jk']}","${row['status bantuan']}"\n`;
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `P3KE_${new Date().toISOString().split('T')[0]}.csv`;
+            link.click();
+        }
+
+        function exportExcel() {
+            alert('Fitur Export Excel membutuhkan library tambahan. Gunakan Export CSV atau Buka Google Sheets untuk saat ini.');
+        }
+
+        function openGoogleSheets() {
+            window.open('https://docs.google.com/spreadsheets/d/e/2PACX-1vRRQy6LGY1MMNQNINfsA9--x3StH0Rp5oTzM520pjbZuCstJzADBH3RxidcEaKXuYBgwJ9s0fbY_XZG/pubhtml?gid=125225049&single=true', '_blank');
+        }
+
+        // Load data on startup
+        window.addEventListener('load', loadData);
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c9e897be263cdd1',t:'MTc3MDQyMTY5My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <link rel="icon" type="image/png" href="https://syam.digital/desa_wani_lumbumpetigo.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dokumen Tanda Tangan Elektronik</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;500;600;700&amp;family=Source+Sans+3:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    .font-heading {
+      font-family: 'Crimson Pro', Georgia, serif;
+    }
+    
+    .font-body {
+      font-family: 'Source Sans 3', system-ui, sans-serif;
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes pulse-ring {
+      0% {
+        transform: scale(0.95);
+        opacity: 0.8;
+      }
+      50% {
+        transform: scale(1.05);
+        opacity: 0.4;
+      }
+      100% {
+        transform: scale(0.95);
+        opacity: 0.8;
+      }
+    }
+    
+    @keyframes shimmer {
+      0% {
+        background-position: -200% 0;
+      }
+      100% {
+        background-position: 200% 0;
+      }
+    }
+    
+    .animate-fade-in {
+      animation: fadeInUp 0.6s ease-out forwards;
+    }
+    
+    .animate-delay-1 {
+      animation-delay: 0.1s;
+      opacity: 0;
+    }
+    
+    .animate-delay-2 {
+      animation-delay: 0.2s;
+      opacity: 0;
+    }
+    
+    .animate-delay-3 {
+      animation-delay: 0.3s;
+      opacity: 0;
+    }
+    
+    .animate-delay-4 {
+      animation-delay: 0.4s;
+      opacity: 0;
+    }
+    
+    .verified-badge {
+      background: linear-gradient(90deg, #059669, #10b981, #059669);
+      background-size: 200% 100%;
+      animation: shimmer 3s linear infinite;
+    }
+    
+    .qr-glow {
+      box-shadow: 0 0 30px rgba(5, 150, 105, 0.15);
+    }
+    
+    .qr-glow:hover {
+      box-shadow: 0 0 40px rgba(5, 150, 105, 0.25);
+      transform: scale(1.02);
+    }
+    
+    .pattern-bg {
+      background-image: 
+        radial-gradient(circle at 20% 80%, rgba(5, 150, 105, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(5, 150, 105, 0.03) 0%, transparent 50%),
+        linear-gradient(135deg, #fafafa 0%, #f5f5f4 100%);
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full font-body">
+  <div id="app-wrapper" class="w-full h-full pattern-bg overflow-auto">
+   <div class="min-h-full w-full max-w-4xl mx-auto px-4 py-8 sm:px-6 lg:px-8"><!-- Header Section -->
+    <header class="text-center mb-10 animate-fade-in animate-delay-1">
+     <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-100 mb-4">
+      <svg class="w-8 h-8 text-emerald-600" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+      </svg>
+     </div>
+     <h1 id="document-title" class="font-heading text-3xl sm:text-4xl font-bold text-stone-800 mb-3">Dokumen Tanda Tangan Elektronik</h1>
+     <p id="verification-text" class="text-stone-500 text-lg max-w-xl mx-auto">Dokumen ini telah diverifikasi dan ditandatangani secara elektronik sesuai dengan ketentuan yang berlaku</p>
+    </header><!-- Main Card -->
+    <div class="bg-white rounded-2xl shadow-xl border border-stone-200 overflow-hidden animate-fade-in animate-delay-2"><!-- Verified Badge -->
+     <div class="verified-badge px-6 py-4">
+      <div class="flex items-center justify-center gap-3 text-white">
+       <svg class="w-6 h-6" fill="currentColor" viewbox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+       </svg><span class="font-semibold text-lg tracking-wide">TERVERIFIKASI &amp; SAH</span>
+      </div>
+     </div><!-- Signer Info -->
+     <div class="px-6 py-8 border-b border-stone-100 animate-fade-in animate-delay-3">
+      <div class="flex items-center gap-4 mb-4">
+       <div class="w-14 h-14 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center text-white text-xl font-bold shadow-lg">
+        S
+       </div>
+       <div>
+        <p class="text-sm text-stone-500 uppercase tracking-wider mb-1">Ditandatangani oleh</p>
+        <h2 id="signer-name" class="font-heading text-2xl font-bold text-stone-800">SYAMSUDDIN</h2>
+       </div>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+       <div class="flex items-center gap-3 text-stone-600">
+        <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg><span>Tahun 2026</span>
+       </div>
+       <div class="flex items-center gap-3 text-stone-600">
+        <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg><span>Status: Aktif</span>
+       </div>
+      </div>
+     </div><!-- QR Codes Section -->
+     <div class="px-6 py-8 animate-fade-in animate-delay-4">
+      <h3 class="font-heading text-xl font-semibold text-stone-800 text-center mb-6">Kode QR Verifikasi</h3>
+      <p class="text-stone-500 text-center mb-8 max-w-lg mx-auto">Pindai kode QR di bawah ini untuk memverifikasi keaslian tanda tangan elektronik</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-8"><!-- QR Code 1 -->
+       <div class="flex flex-col items-center">
+        <div class="qr-glow bg-white p-4 rounded-xl border-2 border-emerald-100 transition-all duration-300 cursor-pointer"><img src="https://syam.digital/syamsuddin-qr-code.png" alt="QR Code Tanda Tangan Digital SYAMSUDDIN 2026" class="w-48 h-48 object-contain" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #d1fae5, #a7f3d0)'; this.alt='QR Code tidak tersedia';">
+        </div>
+        <p class="mt-4 text-sm text-stone-600 font-medium">TTD Digital 2026</p>
+       </div><!-- QR Code 2 -->
+       <div class="flex flex-col items-center">
+        <div class="qr-glow bg-white p-4 rounded-xl border-2 border-emerald-100 transition-all duration-300 cursor-pointer"><img src="https://syam.digital/sertifikat.png" alt="QR Code Verifikasi Dokumen" class="w-48 h-48 object-contain" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='linear-gradient(135deg, #d1fae5, #a7f3d0)'; this.alt='QR Code tidak tersedia';">
+        </div>
+        <p class="mt-4 text-sm text-stone-600 font-medium">Verifikasi Dokumen</p>
+       </div>
+      </div>
+     </div><!-- Action Buttons -->
+     <div class="px-6 py-6 border-t border-stone-100 flex flex-col sm:flex-row gap-3 justify-center"><a href="https://syam.digital/verifikasi" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg transition-all duration-200 shadow-md hover:shadow-lg">
+       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+       </svg><span>👁‍🗨 Lihat Verifikasi</span> </a> <a href="https://syam.digital/sertifikatqr" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-stone-600 hover:bg-stone-700 text-white font-semibold rounded-lg transition-all duration-200 shadow-md hover:shadow-lg">
+       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+       </svg><span>Pratinjau Sertifikat</span> </a>
+     </div><!-- Info Footer -->
+     <div class="bg-stone-50 px-6 py-6 border-t border-stone-100">
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 text-sm text-stone-500">
+       <div class="flex items-center gap-2">
+        <svg class="w-4 h-4 text-emerald-500" fill="currentColor" viewbox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z" />
+        </svg><span>Dilindungi Enkripsi Digital</span>
+       </div><span class="hidden sm:block text-stone-300">•</span>
+       <div class="flex items-center gap-2">
+        <svg class="w-4 h-4 text-emerald-500" fill="currentColor" viewbox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
+        </svg><span>Dokumen Resmi</span>
+       </div>
+      </div>
+     </div>
+    </div><!-- Bottom Note -->
+    <footer class="text-center mt-8 text-stone-400 text-sm">
+     <p>© 2026 - Sistem Tanda Tangan Elektronik</p>
+    </footer>
+   </div>
+  </div>
+  <script>
+    const defaultConfig = {
+      document_title: 'Dokumen Tanda Tangan Elektronik',
+      signer_name: 'SYAMSUDDIN',
+      verification_text: 'Dokumen ini telah diverifikasi dan ditandatangani secara elektronik sesuai dengan ketentuan yang berlaku',
+      primary_color: '#059669',
+      background_color: '#fafafa',
+      text_color: '#292524',
+      surface_color: '#ffffff',
+      accent_color: '#10b981'
+    };
+
+    let config = { ...defaultConfig };
+
+    async function onConfigChange(updatedConfig) {
+      config = { ...config, ...updatedConfig };
+      
+      // Update text content
+      document.getElementById('document-title').textContent = config.document_title || defaultConfig.document_title;
+      document.getElementById('signer-name').textContent = config.signer_name || defaultConfig.signer_name;
+      document.getElementById('verification-text').textContent = config.verification_text || defaultConfig.verification_text;
+      
+      // Update avatar initial
+      const signerName = config.signer_name || defaultConfig.signer_name;
+      const avatar = document.querySelector('.w-14.h-14.rounded-full');
+      if (avatar) {
+        avatar.textContent = signerName.charAt(0).toUpperCase();
+      }
+      
+      // Update colors
+      const primaryColor = config.primary_color || defaultConfig.primary_color;
+      const backgroundColor = config.background_color || defaultConfig.background_color;
+      const textColor = config.text_color || defaultConfig.text_color;
+      const surfaceColor = config.surface_color || defaultConfig.surface_color;
+      const accentColor = config.accent_color || defaultConfig.accent_color;
+      
+      // Apply background color
+      const wrapper = document.getElementById('app-wrapper');
+      wrapper.style.background = `linear-gradient(135deg, ${backgroundColor} 0%, ${adjustColor(backgroundColor, -5)} 100%)`;
+      
+      // Apply surface color to main card
+      const mainCard = document.querySelector('.bg-white.rounded-2xl');
+      if (mainCard) {
+        mainCard.style.backgroundColor = surfaceColor;
+      }
+      
+      // Apply text colors
+      document.getElementById('document-title').style.color = textColor;
+      document.getElementById('signer-name').style.color = textColor;
+      
+      // Apply primary/accent colors to icons and badges
+      const iconBg = document.querySelector('.bg-emerald-100');
+      if (iconBg) {
+        iconBg.style.backgroundColor = adjustColor(primaryColor, 80);
+      }
+      
+      const mainIcon = document.querySelector('.text-emerald-600');
+      if (mainIcon) {
+        mainIcon.style.color = primaryColor;
+      }
+    }
+
+    function adjustColor(hex, percent) {
+      const num = parseInt(hex.replace('#', ''), 16);
+      const amt = Math.round(2.55 * percent);
+      const R = Math.min(255, Math.max(0, (num >> 16) + amt));
+      const G = Math.min(255, Math.max(0, ((num >> 8) & 0x00FF) + amt));
+      const B = Math.min(255, Math.max(0, (num & 0x0000FF) + amt));
+      return '#' + (0x1000000 + R * 0x10000 + G * 0x100 + B).toString(16).slice(1);
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [
+          {
+            get: () => config.background_color || defaultConfig.background_color,
+            set: (value) => {
+              config.background_color = value;
+              window.elementSdk.setConfig({ background_color: value });
+            }
+          },
+          {
+            get: () => config.surface_color || defaultConfig.surface_color,
+            set: (value) => {
+              config.surface_color = value;
+              window.elementSdk.setConfig({ surface_color: value });
+            }
+          },
+          {
+            get: () => config.text_color || defaultConfig.text_color,
+            set: (value) => {
+              config.text_color = value;
+              window.elementSdk.setConfig({ text_color: value });
+            }
+          },
+          {
+            get: () => config.primary_color || defaultConfig.primary_color,
+            set: (value) => {
+              config.primary_color = value;
+              window.elementSdk.setConfig({ primary_color: value });
+            }
+          },
+          {
+            get: () => config.accent_color || defaultConfig.accent_color,
+            set: (value) => {
+              config.accent_color = value;
+              window.elementSdk.setConfig({ accent_color: value });
+            }
+          }
+        ],
+        borderables: [],
+        fontEditable: {
+          get: () => config.font_family || 'Crimson Pro',
+          set: (value) => {
+            config.font_family = value;
+            window.elementSdk.setConfig({ font_family: value });
+          }
+        },
+        fontSizeable: {
+          get: () => config.font_size || 16,
+          set: (value) => {
+            config.font_size = value;
+            window.elementSdk.setConfig({ font_size: value });
+          }
+        }
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ['document_title', config.document_title || defaultConfig.document_title],
+        ['signer_name', config.signer_name || defaultConfig.signer_name],
+        ['verification_text', config.verification_text || defaultConfig.verification_text]
+      ]);
+    }
+
+    // Initialize SDK
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9cb2808b24f244b2',t:'MTc3MDYzMTA0Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WhatsApp Link Generator</title>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1767425380/syam-digital-01_i5zfka.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    * {
+      font-family: 'Outfit', sans-serif;
+    }
+    .gradient-bg {
+      background: linear-gradient(135deg, #075e54 0%, #128c7e 50%, #25d366 100%);
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+    }
+    .whatsapp-btn {
+      background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+      transition: all 0.3s ease;
+    }
+    .whatsapp-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4);
+    }
+    .copy-btn {
+      transition: all 0.3s ease;
+    }
+    .copy-btn:hover {
+      transform: scale(1.02);
+    }
+    .link-input {
+      background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+    .float-icon {
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes pulse-ring {
+      0% { transform: scale(0.8); opacity: 1; }
+      100% { transform: scale(1.3); opacity: 0; }
+    }
+    .pulse-ring {
+      animation: pulse-ring 2s ease-out infinite;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full gradient-bg overflow-auto">
+  <div class="min-h-full w-full flex items-center justify-center p-4 sm:p-6">
+   <div class="glass-card rounded-3xl shadow-2xl p-6 sm:p-8 w-full max-w-lg relative overflow-hidden"><!-- Decorative circles -->
+    <div class="absolute -top-10 -right-10 w-32 h-32 bg-green-200 rounded-full opacity-30"></div>
+    <div class="absolute -bottom-8 -left-8 w-24 h-24 bg-emerald-200 rounded-full opacity-30"></div><!-- Header -->
+    <div class="text-center mb-6 relative z-10">
+     <div class="relative inline-block mb-4">
+      <div class="absolute inset-0 bg-green-400 rounded-full pulse-ring"></div>
+      <div class="float-icon bg-gradient-to-br from-green-400 to-emerald-500 w-16 h-16 rounded-full flex items-center justify-center shadow-lg relative">
+       <svg class="w-9 h-9 text-white" viewbox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+       </svg>
+      </div>
+     </div>
+     <h1 id="app-title" class="text-2xl sm:text-3xl font-bold text-gray-800 mb-2">WhatsApp Link Generator</h1>
+     <p id="app-subtitle" class="text-gray-500 text-sm sm:text-base">Buat link WhatsApp dengan pesan otomatis</p>
+    </div><!-- Message Type Tabs -->
+    <div class="mb-6 relative z-10">
+     <div class="flex gap-2 mb-4"><button id="tab-link" class="tab-btn px-4 py-2 rounded-lg font-semibold text-sm transition-all bg-gradient-to-r from-green-400 to-emerald-500 text-white"> 🔗 Dengan Link </button> <button id="tab-plain" class="tab-btn px-4 py-2 rounded-lg font-semibold text-sm transition-all bg-gray-200 text-gray-700 hover:bg-gray-300"> 💬 Pesan Biasa </button>
+     </div><!-- Link Message Section -->
+     <div id="section-link" class="relative z-10"><label class="block text-sm font-semibold text-gray-700 mb-2">📝 Preview Pesan:</label>
+      <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-4 border border-green-100">
+       <p id="message-preview-link" class="text-gray-700 text-sm leading-relaxed whitespace-pre-wrap"></p>
+      </div>
+     </div><!-- Plain Message Section -->
+     <div id="section-plain" class="relative z-10 hidden"><label class="block text-sm font-semibold text-gray-700 mb-2">📝 Preview Pesan:</label>
+      <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-4 border border-green-100 min-h-20">
+       <p id="message-preview-plain" class="text-gray-700 text-sm leading-relaxed whitespace-pre-wrap"></p>
+      </div>
+     </div>
+    </div><!-- Input Fields -->
+    <div class="space-y-4 mb-6 relative z-10">
+     <div><label for="phone" class="block text-sm font-semibold text-gray-700 mb-2">📱 Nomor WhatsApp</label> <input type="text" id="phone" placeholder="628123456789" class="w-full px-4 py-3 rounded-xl border-2 border-green-200 focus:border-green-400 focus:outline-none transition-all text-gray-700 link-input">
+      <p class="text-xs text-gray-400 mt-1">Format: 628xxx (tanpa tanda + atau spasi)</p>
+     </div>
+     <div id="field-website"><label for="website" class="block text-sm font-semibold text-gray-700 mb-2">🌐 Link Website</label> <input type="text" id="website" placeholder="https://website-anda.com" class="w-full px-4 py-3 rounded-xl border-2 border-green-200 focus:border-green-400 focus:outline-none transition-all text-gray-700 link-input">
+     </div>
+     <div id="field-custom" class="hidden"><label for="custom-message" class="block text-sm font-semibold text-gray-700 mb-2">💬 Pesan Anda</label> <textarea id="custom-message" placeholder="Ketik pesan Anda di sini..." class="w-full px-4 py-3 rounded-xl border-2 border-green-200 focus:border-green-400 focus:outline-none transition-all text-gray-700 link-input resize-none" rows="4"></textarea>
+     </div>
+    </div><!-- Generated Link -->
+    <div class="mb-6 relative z-10"><label class="block text-sm font-semibold text-gray-700 mb-2">🔗 Link WhatsApp:</label>
+     <div class="flex gap-2"><input type="text" id="generated-link" readonly class="flex-1 px-4 py-3 rounded-xl bg-gray-100 border-2 border-gray-200 text-gray-600 text-sm truncate" placeholder="Link akan muncul di sini..."> <button id="copy-btn" class="copy-btn px-4 py-3 bg-gradient-to-r from-gray-700 to-gray-800 text-white rounded-xl font-medium hover:from-gray-800 hover:to-gray-900 flex items-center gap-2">
+       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+       </svg><span id="copy-text">Salin</span> </button>
+     </div>
+    </div><!-- Action Button --> <button id="open-wa-btn" class="whatsapp-btn w-full py-4 rounded-xl text-white font-semibold text-lg flex items-center justify-center gap-3 relative z-10">
+     <svg class="w-6 h-6" viewbox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+     </svg> Buka di WhatsApp </button> <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-6 py-3 rounded-xl shadow-lg opacity-0 transition-opacity duration-300 pointer-events-none z-50">
+     ✅ Link berhasil disalin!
+    </div>
+   </div>
+  </div>
+  <script>
+    const defaultConfig = {
+      phone_number: '628123456789',
+      website_link: 'https://website-anda.com',
+      custom_message: ''
+    };
+
+    let config = { ...defaultConfig };
+    let messageType = 'link'; // 'link' or 'plain'
+
+    const phoneInput = document.getElementById('phone');
+    const websiteInput = document.getElementById('website');
+    const customMessageInput = document.getElementById('custom-message');
+    const generatedLinkInput = document.getElementById('generated-link');
+    const messagePreviewLink = document.getElementById('message-preview-link');
+    const messagePreviewPlain = document.getElementById('message-preview-plain');
+    const copyBtn = document.getElementById('copy-btn');
+    const copyText = document.getElementById('copy-text');
+    const openWaBtn = document.getElementById('open-wa-btn');
+    const toast = document.getElementById('toast');
+
+    // Tab elements
+    const tabLink = document.getElementById('tab-link');
+    const tabPlain = document.getElementById('tab-plain');
+    const sectionLink = document.getElementById('section-link');
+    const sectionPlain = document.getElementById('section-plain');
+    const fieldWebsite = document.getElementById('field-website');
+    const fieldCustom = document.getElementById('field-custom');
+
+    function getMessage(websiteLink) {
+      return `Halo! Kami sudah menerima chat Anda. Sambil menunggu admin kembali, silakan cek katalog produk di ${websiteLink}!`;
+    }
+
+    function generateWhatsAppLink(phone, message) {
+      const encodedMessage = encodeURIComponent(message);
+      return `https://wa.me/${phone}?text=${encodedMessage}`;
+    }
+
+    function switchTab(type) {
+      messageType = type;
+      
+      // Update tab buttons
+      if (type === 'link') {
+        tabLink.classList.add('bg-gradient-to-r', 'from-green-400', 'to-emerald-500', 'text-white');
+        tabLink.classList.remove('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+        
+        tabPlain.classList.remove('bg-gradient-to-r', 'from-green-400', 'to-emerald-500', 'text-white');
+        tabPlain.classList.add('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+        
+        sectionLink.classList.remove('hidden');
+        sectionPlain.classList.add('hidden');
+        fieldWebsite.classList.remove('hidden');
+        fieldCustom.classList.add('hidden');
+      } else {
+        tabPlain.classList.add('bg-gradient-to-r', 'from-green-400', 'to-emerald-500', 'text-white');
+        tabPlain.classList.remove('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+        
+        tabLink.classList.remove('bg-gradient-to-r', 'from-green-400', 'to-emerald-500', 'text-white');
+        tabLink.classList.add('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+        
+        sectionPlain.classList.remove('hidden');
+        sectionLink.classList.add('hidden');
+        fieldWebsite.classList.add('hidden');
+        fieldCustom.classList.remove('hidden');
+      }
+      
+      updateUI();
+    }
+
+    function updateUI() {
+      const phone = phoneInput.value || config.phone_number || defaultConfig.phone_number;
+      
+      if (messageType === 'link') {
+        const website = websiteInput.value || config.website_link || defaultConfig.website_link;
+        const message = getMessage(website);
+        messagePreviewLink.textContent = message;
+        generatedLinkInput.value = generateWhatsAppLink(phone, message);
+      } else {
+        const message = customMessageInput.value || config.custom_message || '';
+        messagePreviewPlain.textContent = message || '(Pesan belum diisi)';
+        generatedLinkInput.value = message ? generateWhatsAppLink(phone, message) : '';
+      }
+    }
+
+    function showToast() {
+      toast.style.opacity = '1';
+      toast.style.pointerEvents = 'auto';
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.pointerEvents = 'none';
+      }, 2000);
+    }
+
+    async function copyToClipboard() {
+      const link = generatedLinkInput.value;
+      if (!link) {
+        toast.textContent = '⚠️ Link belum siap, isi pesan terlebih dahulu';
+        showToast();
+        return;
+      }
+      
+      try {
+        await navigator.clipboard.writeText(link);
+        copyText.textContent = 'Tersalin!';
+        showToast();
+        setTimeout(() => {
+          copyText.textContent = 'Salin';
+        }, 2000);
+      } catch (err) {
+        generatedLinkInput.select();
+        document.execCommand('copy');
+        copyText.textContent = 'Tersalin!';
+        showToast();
+        setTimeout(() => {
+          copyText.textContent = 'Salin';
+        }, 2000);
+      }
+    }
+
+    function openWhatsApp() {
+      const link = generatedLinkInput.value;
+      if (!link) {
+        toast.textContent = '⚠️ Link belum siap, isi pesan terlebih dahulu';
+        showToast();
+        return;
+      }
+      window.open(link, '_blank', 'noopener,noreferrer');
+    }
+
+    // Event Listeners
+    tabLink.addEventListener('click', () => switchTab('link'));
+    tabPlain.addEventListener('click', () => switchTab('plain'));
+
+    phoneInput.addEventListener('input', () => {
+      updateUI();
+      if (window.elementSdk) {
+        window.elementSdk.setConfig({ phone_number: phoneInput.value });
+      }
+    });
+
+    websiteInput.addEventListener('input', () => {
+      updateUI();
+      if (window.elementSdk) {
+        window.elementSdk.setConfig({ website_link: websiteInput.value });
+      }
+    });
+
+    customMessageInput.addEventListener('input', () => {
+      updateUI();
+      if (window.elementSdk) {
+        window.elementSdk.setConfig({ custom_message: customMessageInput.value });
+      }
+    });
+
+    copyBtn.addEventListener('click', copyToClipboard);
+    openWaBtn.addEventListener('click', openWhatsApp);
+
+    // Element SDK Integration
+    async function onConfigChange(newConfig) {
+      config = { ...defaultConfig, ...newConfig };
+      
+      if (config.phone_number && !phoneInput.value) {
+        phoneInput.value = config.phone_number;
+      }
+      if (config.website_link && !websiteInput.value) {
+        websiteInput.value = config.website_link;
+      }
+      if (config.custom_message && !customMessageInput.value) {
+        customMessageInput.value = config.custom_message;
+      }
+      
+      updateUI();
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [],
+        borderables: [],
+        fontEditable: undefined,
+        fontSizeable: undefined
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ['phone_number', config.phone_number || defaultConfig.phone_number],
+        ['website_link', config.website_link || defaultConfig.website_link],
+        ['custom_message', config.custom_message || defaultConfig.custom_message]
+      ]);
+    }
+
+    // Initialize
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+
+    // Set initial values
+    phoneInput.value = defaultConfig.phone_number;
+    websiteInput.value = defaultConfig.website_link;
+    updateUI();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9cbc6d65e53eff95',t:'MTc3MDczNTExNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

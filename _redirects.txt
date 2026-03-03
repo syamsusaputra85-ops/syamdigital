@@ -1,0 +1,10 @@
+/*    /index.html   200
+/home    /    301
+/services.html    /#services    301
+/portfolio.html    /#portfolio    301
+/about.html    /#about    301
+/contact.html    /#contact    301
+/wa    https://wa.me/625150531572?text=Halo%20Syam%20Digital,%20saya%20ingin%20konsultasi%20gratis    302
+/whatsapp    https://wa.me/6285150531572?text=Halo%20Syam%20Digital,%20saya%20ingin%20konsultasi%20gratis    302
+/admin/*    /404.html    404
+/.env    /404.html    404

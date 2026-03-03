@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kupon Bantuan Banjir</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@500;700&amp;family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    @media print {
+      body {
+        background: white !important;
+        padding: 0 !important;
+      }
+      
+      .no-print {
+        display: none !important;
+      }
+      
+      .print-container {
+        padding: 0 !important;
+      }
+      
+      .coupon-grid {
+        gap: 0 !important;
+      }
+      
+      .coupon {
+        break-inside: avoid;
+        page-break-inside: avoid;
+        margin: 2mm;
+      }
+    }
+    
+    .coupon {
+      width: 90mm;
+      height: 55mm;
+      border: 2px solid #1a1a1a;
+      border-radius: 4px;
+      padding: 8px 12px;
+      background: white;
+      position: relative;
+      font-family: 'Roboto', sans-serif;
+    }
+    
+    .coupon-stamp {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60px;
+      height: 60px;
+      opacity: 0.15;
+      pointer-events: none;
+      z-index: 1;
+    }
+    
+    .coupon::before {
+      content: '';
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      right: 4px;
+      bottom: 4px;
+      border: 1px dashed #666;
+      border-radius: 2px;
+      pointer-events: none;
+    }
+    
+    .coupon-number {
+      font-family: 'Roboto Mono', monospace;
+      font-size: 24px;
+      font-weight: 700;
+      color: #dc2626;
+      letter-spacing: 2px;
+    }
+    
+    .coupon-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1a1a1a;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .coupon-village {
+      font-size: 12px;
+      font-weight: 500;
+      color: #374151;
+    }
+    
+    .coupon-date {
+      font-size: 11px;
+      color: #4b5563;
+    }
+    
+    .coupon-footer {
+      font-size: 9px;
+      color: #6b7280;
+      border-top: 1px solid #e5e7eb;
+      padding-top: 4px;
+      margin-top: 4px;
+    }
+    
+    .signature-line {
+      width: 60px;
+      border-bottom: 1px solid #374151;
+      margin-top: 8px;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full bg-gray-100 overflow-auto">
+  <div class="print-container p-4 md:p-8"><!-- Control Panel -->
+   <div class="no-print bg-white rounded-lg shadow-md p-6 mb-8 max-w-2xl mx-auto">
+    <h1 class="text-2xl font-bold text-gray-800 mb-4">🎫 Generator Kupon Bantuan Banjir</h1>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+     <div><label class="block text-sm font-medium text-gray-700 mb-1">Nomor Awal</label> <input type="number" id="startNum" value="1" min="1" max="999" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+     </div>
+     <div><label class="block text-sm font-medium text-gray-700 mb-1">Nomor Akhir</label> <input type="number" id="endNum" value="200" min="1" max="999" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+     </div>
+    </div>
+    <div class="flex flex-wrap gap-3"><button onclick="generateCoupons()" class="px-6 py-2 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 transition-colors"> 🔄 Generate Kupon </button> <button onclick="window.print()" class="px-6 py-2 bg-green-600 text-white font-medium rounded-md hover:bg-green-700 transition-colors"> 🖨️ Cetak Kupon </button>
+    </div>
+    <p class="text-sm text-gray-500 mt-4">💡 Tips: Gunakan pengaturan cetak "4 kupon per halaman" untuk ukuran optimal</p>
+   </div><!-- Coupons Grid -->
+   <div id="couponContainer" class="coupon-grid flex flex-wrap justify-center gap-4"><!-- Coupons will be generated here -->
+   </div>
+  </div>
+  <script>
+    const defaultConfig = {
+      title_text: 'KUPON BANTUAN BANJIR',
+      village_name: 'Desa Wani Lumbumpetigo',
+      event_date: '11 Januari 2026'
+    };
+
+    let config = { ...defaultConfig };
+
+    function padNumber(num) {
+      return String(num).padStart(3, '0');
+    }
+
+    function createCoupon(number) {
+      const coupon = document.createElement('div');
+      coupon.className = 'coupon';
+      coupon.innerHTML = `
+        <img src="https://res.cloudinary.com/dpr2vc3b0/image/upload/v1757601398/android-chrome-192x192_l5kj9j.png" 
+             alt="Cap" 
+             class="coupon-stamp" 
+             loading="lazy" 
+             onerror="this.style.display='none';">
+        <div class="flex flex-col h-full justify-between relative z-10 p-1">
+          <div>
+            <div class="flex justify-between items-start">
+              <div>
+                <div class="coupon-title" id="title-${number}">${config.title_text}</div>
+                <div class="coupon-village" id="village-${number}">${config.village_name}</div>
+              </div>
+              <div class="coupon-number">NO. ${padNumber(number)}</div>
+            </div>
+            <div class="coupon-date mt-1" id="date-${number}">📅 Tanggal: ${config.event_date}</div>
+          </div>
+          
+          <div class="flex justify-between items-end">
+            <div class="coupon-footer">
+              <div>Berlaku untuk 1 (satu) Kepala Keluarga</div>
+              <div>Tidak dapat dipindahtangankan</div>
+            </div>
+            <div class="text-center">
+              <div class="signature-line"></div>
+              <div class="text-xs text-gray-500 mt-1">Panitia</div>
+            </div>
+          </div>
+        </div>
+      `;
+      return coupon;
+    }
+
+    function generateCoupons() {
+      const container = document.getElementById('couponContainer');
+      const startNum = parseInt(document.getElementById('startNum').value) || 1;
+      const endNum = parseInt(document.getElementById('endNum').value) || 200;
+      
+      container.innerHTML = '';
+      
+      const start = Math.min(startNum, endNum);
+      const end = Math.max(startNum, endNum);
+      
+      for (let i = start; i <= end; i++) {
+        container.appendChild(createCoupon(i));
+      }
+    }
+
+    async function onConfigChange(newConfig) {
+      config = { ...defaultConfig, ...newConfig };
+      
+      // Update all existing coupons
+      document.querySelectorAll('[id^="title-"]').forEach(el => {
+        el.textContent = config.title_text || defaultConfig.title_text;
+      });
+      
+      document.querySelectorAll('[id^="village-"]').forEach(el => {
+        el.textContent = config.village_name || defaultConfig.village_name;
+      });
+      
+      document.querySelectorAll('[id^="date-"]').forEach(el => {
+        el.textContent = `📅 Tanggal: ${config.event_date || defaultConfig.event_date}`;
+      });
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [],
+        borderables: [],
+        fontEditable: undefined,
+        fontSizeable: undefined
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ['title_text', config.title_text || defaultConfig.title_text],
+        ['village_name', config.village_name || defaultConfig.village_name],
+        ['event_date', config.event_date || defaultConfig.event_date]
+      ]);
+    }
+
+    // Initialize SDK
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+
+    // Generate initial coupons
+    generateCoupons();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9bedd88646dcff8f',t:'MTc2ODU2ODk1MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor Nota Penjualan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @media print {
+            .no-print { display: none !important; }
+            .print-break { page-break-after: always; }
+            body { font-size: 12px; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 p-4">
+    <div class="max-w-4xl mx-auto">
+        <!-- Header Controls -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6 no-print">
+            <h1 class="text-2xl font-bold text-gray-800 mb-4">Editor Nota Penjualan</h1>
+            <div class="flex flex-wrap gap-4">
+                <button onclick="addNote()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium">
+                    + Tambah Nota
+                </button>
+                <button onclick="printNotes()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium">
+                    🖨️ Cetak Semua
+                </button>
+                <button onclick="clearAll()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium">
+                    🗑️ Hapus Semua
+                </button>
+            </div>
+        </div>
+
+        <!-- Notes Container -->
+        <div id="notesContainer" class="space-y-8">
+            <!-- Initial note will be added by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        let noteCounter = 0;
+
+        function createNote() {
+            noteCounter++;
+            return `
+                <div class="bg-white rounded-lg shadow-md p-6 print-break" id="note-${noteCounter}">
+                    <div class="flex justify-between items-center mb-4 no-print">
+                        <h3 class="text-lg font-semibold text-gray-700">Nota #${noteCounter}</h3>
+                        <button onclick="removeNote('note-${noteCounter}')" class="text-red-600 hover:text-red-800 font-medium">
+                            ✕ Hapus
+                        </button>
+                    </div>
+                    
+                    <!-- Note Header -->
+                    <div class="mb-6">
+                        <input type="text" placeholder="Nama Toko" class="text-xl font-bold text-center w-full border-b-2 border-gray-300 pb-2 mb-2 focus:border-blue-500 outline-none">
+                        <input type="text" placeholder="Alamat Toko" class="text-sm text-center w-full border-b border-gray-200 pb-1 mb-2 focus:border-blue-500 outline-none">
+                        <input type="text" placeholder="No. Telp" class="text-sm text-center w-full border-b border-gray-200 pb-1 focus:border-blue-500 outline-none">
+                    </div>
+
+                    <!-- Invoice Details -->
+                    <div class="grid grid-cols-2 gap-4 mb-6 text-sm">
+                        <div>
+                            <label class="block text-gray-600 mb-1">No. Nota:</label>
+                            <input type="text" class="w-full border border-gray-300 rounded px-2 py-1 focus:border-blue-500 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-gray-600 mb-1">Tanggal:</label>
+                            <input type="date" class="w-full border border-gray-300 rounded px-2 py-1 focus:border-blue-500 outline-none" value="${new Date().toISOString().split('T')[0]}">
+                        </div>
+                    </div>
+
+                    <!-- Items Table -->
+                    <div class="overflow-x-auto mb-6">
+                        <table class="w-full border-collapse border border-gray-400">
+                            <thead>
+                                <tr class="bg-gray-100">
+                                    <th class="border border-gray-400 px-2 py-2 text-sm font-semibold w-16">BANYAKNYA</th>
+                                    <th class="border border-gray-400 px-2 py-2 text-sm font-semibold">NAMA BARANG</th>
+                                    <th class="border border-gray-400 px-2 py-2 text-sm font-semibold w-24">HARGA</th>
+                                    <th class="border border-gray-400 px-2 py-2 text-sm font-semibold w-24">JUMLAH</th>
+                                </tr>
+                            </thead>
+                            <tbody id="itemsTable-${noteCounter}">
+                                ${createItemRows(12)}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Total -->
+                    <div class="flex justify-end mb-4">
+                        <div class="text-right">
+                            <div class="text-lg font-semibold">
+                                Jumlah Rp. <span id="total-${noteCounter}" class="ml-2">0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="grid grid-cols-2 gap-8 mt-8 text-sm">
+                        <div class="text-center">
+                            <div class="mb-16">Hormat Kami,</div>
+                            <div class="border-t border-gray-400 pt-1">
+                                <input type="text" placeholder="Nama Penjual" class="text-center w-full outline-none">
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <div class="mb-16">Penerima,</div>
+                            <div class="border-t border-gray-400 pt-1">
+                                <input type="text" placeholder="Nama Pembeli" class="text-center w-full outline-none">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function createItemRows(count) {
+            let rows = '';
+            for (let i = 0; i < count; i++) {
+                rows += `
+                    <tr>
+                        <td class="border border-gray-400 px-1 py-1">
+                            <input type="number" class="w-full text-center text-sm outline-none quantity-input" onchange="calculateRow(this)" min="0">
+                        </td>
+                        <td class="border border-gray-400 px-2 py-1">
+                            <input type="text" class="w-full text-sm outline-none" placeholder="Nama barang...">
+                        </td>
+                        <td class="border border-gray-400 px-1 py-1">
+                            <input type="number" class="w-full text-center text-sm outline-none price-input" onchange="calculateRow(this)" min="0">
+                        </td>
+                        <td class="border border-gray-400 px-1 py-1">
+                            <input type="number" class="w-full text-center text-sm outline-none amount-input" readonly>
+                        </td>
+                    </tr>
+                `;
+            }
+            return rows;
+        }
+
+        function calculateRow(input) {
+            const row = input.closest('tr');
+            const quantity = parseFloat(row.querySelector('.quantity-input').value) || 0;
+            const price = parseFloat(row.querySelector('.price-input').value) || 0;
+            const amount = quantity * price;
+            
+            row.querySelector('.amount-input').value = amount > 0 ? amount : '';
+            
+            // Calculate total for the note
+            const noteId = input.closest('[id^="note-"]').id.split('-')[1];
+            calculateTotal(noteId);
+        }
+
+        function calculateTotal(noteId) {
+            const table = document.getElementById(`itemsTable-${noteId}`);
+            const amountInputs = table.querySelectorAll('.amount-input');
+            let total = 0;
+            
+            amountInputs.forEach(input => {
+                const value = parseFloat(input.value) || 0;
+                total += value;
+            });
+            
+            document.getElementById(`total-${noteId}`).textContent = total.toLocaleString('id-ID');
+        }
+
+        function addNote() {
+            const container = document.getElementById('notesContainer');
+            container.insertAdjacentHTML('beforeend', createNote());
+        }
+
+        function removeNote(noteId) {
+            if (confirm('Apakah Anda yakin ingin menghapus nota ini?')) {
+                document.getElementById(noteId).remove();
+            }
+        }
+
+        function clearAll() {
+            if (confirm('Apakah Anda yakin ingin menghapus semua nota?')) {
+                document.getElementById('notesContainer').innerHTML = '';
+                noteCounter = 0;
+            }
+        }
+
+        function printNotes() {
+            window.print();
+        }
+
+        // Initialize with one note
+        document.addEventListener('DOMContentLoaded', function() {
+            addNote();
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'981147ed675187e7',t:'MTc1ODIwMzA5Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

@@ -1,0 +1,745 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form Daftar Penduduk Miskin</title>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1763356194/Lambang_Kabupaten_Donggala_1_cvywgs.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .form-input {
+      transition: all 0.2s ease;
+    }
+    .form-input:focus {
+      transform: translateY(-1px);
+    }
+    .btn-primary {
+      transition: all 0.3s ease;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+    }
+    .data-row {
+      animation: fadeIn 0.3s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .table-container::-webkit-scrollbar {
+      height: 8px;
+    }
+    .table-container::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 4px;
+    }
+    .table-container::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    .delete-btn {
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    tr:hover .delete-btn {
+      opacity: 1;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full bg-slate-50">
+  <div id="app-wrapper" class="w-full h-full overflow-auto">
+   <div class="w-full min-h-full py-6 px-4 md:px-8" id="main-container" style="background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);"><!-- Header -->
+    <header class="max-w-7xl mx-auto mb-6">
+     <div class="bg-white rounded-2xl shadow-lg p-6 border-l-4 border-blue-600">
+      <div class="flex items-center gap-4">
+       <div class="w-16 h-16 flex items-center justify-center flex-shrink-0"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1763356194/Lambang_Kabupaten_Donggala_1_cvywgs.png" alt="Logo Kabupaten Donggala" loading="lazy" class="w-full h-full object-contain" onerror="this.style.display='none'; this.alt='Logo gagal dimuat';">
+       </div>
+       <div>
+        <h1 id="form-title" class="text-xl md:text-2xl font-bold text-slate-800">DAFTAR PENETAPAN PENDUDUK MISKIN DAN MISKIN EKSTREM</h1>
+        <p id="form-subtitle" class="text-slate-600 mt-1">Desa Wani Lumbumpetigo, Kecamatan Tanantovea - Tahun 2026</p>
+       </div>
+      </div>
+     </div>
+    </header><!-- Form Input -->
+    <section class="max-w-7xl mx-auto mb-6">
+     <div class="bg-white rounded-2xl shadow-lg p-6">
+      <h2 class="text-lg font-semibold text-slate-800 mb-4 flex items-center gap-2">
+       <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+       </svg> Input Data Baru</h2>
+      <form id="data-form" class="space-y-4">
+       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"><!-- No -->
+        <div><label class="block text-sm font-medium text-slate-700 mb-1">No <span class="text-red-500">*</span></label> <input type="number" id="no" required min="1" class="form-input w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none bg-slate-50" placeholder="1">
+        </div><!-- Kecamatan -->
+        <div><label class="block text-sm font-medium text-slate-700 mb-1">Kecamatan <span class="text-red-500">*</span></label> <input type="text" id="kecamatan" required class="form-input w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none bg-slate-50" placeholder="Tanantovea">
+        </div><!-- Desa/Kelurahan -->
+        <div><label class="block text-sm font-medium text-slate-700 mb-1">Desa/Kelurahan <span class="text-red-500">*</span></label> <input type="text" id="desa_kelurahan" required class="form-input w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none bg-slate-50" placeholder="Wani Lumbumpetigo">
+        </div><!-- Nama -->
+        <div><label class="block text-sm font-medium text-slate-700 mb-1">Nama Lengkap <span class="text-red-500">*</span></label> <input type="text" id="nama" required class="form-input w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none bg-slate-50" placeholder="Nama lengkap">
+        </div><!-- No KK -->
+        <div><label class="block text-sm font-medium text-slate-700 mb-1">No. KK <span class="text-red-500">*</span></label> <input type="text" id="no_kk" required minlength="16" maxlength="16" pattern="\d{16}" class="form-input w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none bg-slate-50" placeholder="16 digit" title="No. KK harus tepat 16 digit angka">
+         <p id="no_kk_error" class="hidden text-xs text-red-600 mt-1">No. KK harus tepat 16 digit angka</p>
+        </div><!-- NIK -->
+        <div><label class="block text-sm font-medium text-slate-700 mb-1">NIK <span class="text-red-500">*</span></label> <input type="text" id="nik" required minlength="16" maxlength="16" pattern="\d{16}" class="form-input w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none bg-slate-50" placeholder="16 digit" title="NIK harus tepat 16 digit angka">
+         <p id="nik_error" class="hidden text-xs text-red-600 mt-1">NIK harus tepat 16 digit angka</p>
+        </div><!-- Jenis Kelamin -->
+        <div><label class="block text-sm font-medium text-slate-700 mb-1">Jenis Kelamin <span class="text-red-500">*</span></label> <select id="jenis_kelamin" required class="form-input w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none bg-slate-50"> <option value="">-- Pilih --</option> <option value="Laki-laki">Laki-laki</option> <option value="Perempuan">Perempuan</option> </select>
+        </div><!-- Status Dalam Keluarga -->
+        <div><label class="block text-sm font-medium text-slate-700 mb-1">Status Dalam Keluarga <span class="text-red-500">*</span></label> <select id="status_keluarga" required class="form-input w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none bg-slate-50"> <option value="">-- Pilih --</option> <option value="Kepala Keluarga">Kepala Keluarga</option> <option value="Istri">Istri</option> <option value="Anak">Anak</option> <option value="Orang Tua">Orang Tua</option> <option value="Mertua">Mertua</option> <option value="Menantu">Menantu</option> <option value="Cucu">Cucu</option> <option value="Lainnya">Lainnya</option> </select>
+        </div><!-- Alamat -->
+        <div class="md:col-span-2"><label class="block text-sm font-medium text-slate-700 mb-1">Alamat <span class="text-red-500">*</span></label> <select id="alamat" required class="form-input w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none bg-slate-50"> <option value="">-- Pilih Alamat --</option> <option value="Jl.Latsitarda Dusun I">Jl.Latsitarda Dusun I</option> <option value="Jl.Kayuriva Dusun II">Jl.Kayuriva Dusun II</option> <option value="Jl.Kayuriva Dusun III">Jl.Kayuriva Dusun III</option> </select>
+        </div><!-- Pekerjaan -->
+        <div><label class="block text-sm font-medium text-slate-700 mb-1">Pekerjaan <span class="text-red-500">*</span></label> <select id="pekerjaan" required class="form-input w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none bg-slate-50"> <option value="">-- Pilih --</option> <option value="Petani">Petani</option> <option value="Buruh Tani">Buruh Tani</option> <option value="Nelayan">Nelayan</option> <option value="Pedagang">Pedagang</option> <option value="Buruh Harian">Buruh Harian</option> <option value="Wiraswasta">Wiraswasta</option> <option value="Ibu Rumah Tangga">Ibu Rumah Tangga</option> <option value="Tidak Bekerja">Tidak Bekerja</option> <option value="Pelajar/Mahasiswa">Pelajar/Mahasiswa</option> <option value="Lainnya">Lainnya</option> </select>
+        </div><!-- Kategori -->
+        <div><label class="block text-sm font-medium text-slate-700 mb-1">Kategori <span class="text-red-500">*</span></label> <select id="kategori" required class="form-input w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none bg-slate-50"> <option value="">-- Pilih --</option> <option value="Sangat Miskin">Sangat Miskin</option> <option value="Miskin">Miskin</option> <option value="Tidak Miskin">Tidak Miskin</option> </select>
+        </div><!-- Keterangan -->
+        <div class="lg:col-span-2"><label class="block text-sm font-medium text-slate-700 mb-1">Keterangan</label> <select id="keterangan" class="form-input w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none bg-slate-50"> <option value="">-- Pilih Keterangan (Opsional) --</option> <option value="Meninggal">Meninggal</option> <option value="Pindah Domisili">Pindah Domisili</option> <option value="Di Temukan">Di Temukan</option> </select>
+        </div>
+       </div><!-- Buttons -->
+       <div class="flex flex-wrap gap-3 pt-4 border-t border-slate-200"><button type="submit" id="submit-btn" class="btn-primary px-6 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-lg flex items-center gap-2">
+         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+         </svg><span id="submit-text">Simpan Data</span> </button> <button type="button" id="reset-btn" class="px-6 py-2.5 bg-slate-200 text-slate-700 font-semibold rounded-lg hover:bg-slate-300 transition-colors flex items-center gap-2">
+         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+         </svg> Reset Form </button>
+       </div>
+      </form>
+     </div>
+    </section><!-- Statistics -->
+    <section class="max-w-7xl mx-auto mb-6">
+     <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+      <div class="bg-white rounded-xl shadow-md p-4 border-t-4 border-blue-600">
+       <div class="text-2xl font-bold text-blue-600" id="total-count">
+        0
+       </div>
+       <div class="text-sm text-slate-600">
+        Total Data
+       </div>
+      </div>
+      <div class="bg-white rounded-xl shadow-md p-4 border-t-4 border-orange-500">
+       <div class="text-2xl font-bold text-orange-500" id="miskin-count">
+        0
+       </div>
+       <div class="text-sm text-slate-600">
+        Miskin
+       </div>
+      </div>
+      <div class="bg-white rounded-xl shadow-md p-4 border-t-4 border-red-600">
+       <div class="text-2xl font-bold text-red-600" id="ekstrem-count">
+        0
+       </div>
+       <div class="text-sm text-slate-600">
+        Sangat Miskin
+       </div>
+      </div>
+      <div class="bg-white rounded-xl shadow-md p-4 border-t-4 border-emerald-600">
+       <div class="text-2xl font-bold text-emerald-600" id="tidak-miskin-count">
+        0
+       </div>
+       <div class="text-sm text-slate-600">
+        Tidak Miskin
+       </div>
+      </div>
+      <div class="bg-white rounded-xl shadow-md p-4 border-t-4 border-purple-600">
+       <div class="text-2xl font-bold text-purple-600" id="kk-count">
+        0
+       </div>
+       <div class="text-sm text-slate-600">
+        Jumlah KK
+       </div>
+      </div>
+     </div>
+    </section><!-- Data Table -->
+    <section class="max-w-7xl mx-auto mb-6">
+     <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+      <div class="p-4 border-b border-slate-200 flex flex-wrap items-center justify-between gap-4">
+       <h2 class="text-lg font-semibold text-slate-800 flex items-center gap-2">
+        <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+        </svg> Data Terdaftar</h2>
+       <div class="flex items-center gap-2"><input type="text" id="search-input" class="px-4 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none" placeholder="Cari nama/NIK..."> <button id="export-pdf-btn" class="px-4 py-2 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white font-semibold rounded-lg hover:shadow-lg transition-all flex items-center gap-2">
+         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+         </svg><span id="export-text">Ekspor PDF</span> </button>
+       </div>
+      </div>
+      <div class="table-container overflow-x-auto">
+       <table class="w-full text-sm">
+        <thead class="bg-slate-100">
+         <tr>
+          <th class="px-4 py-3 text-left font-semibold text-slate-700">No</th>
+          <th class="px-4 py-3 text-left font-semibold text-slate-700">Kecamatan</th>
+          <th class="px-4 py-3 text-left font-semibold text-slate-700">Desa/Kel</th>
+          <th class="px-4 py-3 text-left font-semibold text-slate-700">Nama</th>
+          <th class="px-4 py-3 text-left font-semibold text-slate-700">No. KK</th>
+          <th class="px-4 py-3 text-left font-semibold text-slate-700">NIK</th>
+          <th class="px-4 py-3 text-left font-semibold text-slate-700">JK</th>
+          <th class="px-4 py-3 text-left font-semibold text-slate-700">Status</th>
+          <th class="px-4 py-3 text-left font-semibold text-slate-700">Alamat</th>
+          <th class="px-4 py-3 text-left font-semibold text-slate-700">Pekerjaan</th>
+          <th class="px-4 py-3 text-left font-semibold text-slate-700">Kategori</th>
+          <th class="px-4 py-3 text-left font-semibold text-slate-700">Keterangan</th>
+          <th class="px-4 py-3 text-center font-semibold text-slate-700">Aksi</th>
+         </tr>
+        </thead>
+        <tbody id="data-table-body" class="divide-y divide-slate-200"><!-- Data rows will be inserted here -->
+        </tbody>
+       </table>
+      </div>
+      <div id="empty-state" class="hidden p-8 text-center">
+       <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+        <svg class="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
+       </div>
+       <p class="text-slate-500">Belum ada data terdaftar</p>
+       <p class="text-sm text-slate-400 mt-1">Silakan tambahkan data menggunakan form di atas</p>
+      </div>
+     </div>
+    </section><!-- Delete Confirmation Modal -->
+    <div id="delete-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4" style="background: rgba(0,0,0,0.5);">
+     <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6">
+      <div class="flex items-center gap-4 mb-4">
+       <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
+        <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+        </svg>
+       </div>
+       <div>
+        <h3 class="text-lg font-semibold text-slate-800">Hapus Data?</h3>
+        <p class="text-sm text-slate-600">Data <span id="delete-name" class="font-medium"></span> akan dihapus permanen.</p>
+       </div>
+      </div>
+      <div class="flex gap-3 justify-end"><button id="cancel-delete" class="px-4 py-2 bg-slate-200 text-slate-700 font-medium rounded-lg hover:bg-slate-300 transition-colors">Batal</button> <button id="confirm-delete" class="px-4 py-2 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 transition-colors">Hapus</button>
+      </div>
+     </div>
+    </div><!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-4 right-4 transform translate-y-20 opacity-0 transition-all duration-300 z-50">
+     <div class="bg-slate-800 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-3">
+      <svg id="toast-icon" class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+      </svg><span id="toast-message">Data berhasil disimpan</span>
+     </div>
+    </div>
+   </div>
+  </div>
+  <script>
+    // LocalStorage key
+    const STORAGE_KEY = 'penduduk_miskin_data';
+
+    // Default configuration
+    const defaultConfig = {
+      form_title: 'DAFTAR PENETAPAN PENDUDUK MISKIN DAN MISKIN EKSTREM',
+      desa_default: 'Wani Lumbumpetigo',
+      kecamatan_default: 'Tanantovea',
+      tahun: '2026',
+      background_color: '#f8fafc',
+      surface_color: '#ffffff',
+      text_color: '#1e293b',
+      primary_color: '#2563eb',
+      accent_color: '#dc2626'
+    };
+
+    let config = { ...defaultConfig };
+    let allData = [];
+    let pendingDelete = null;
+
+    // LocalStorage functions
+    function loadData() {
+      try {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (stored) {
+          allData = JSON.parse(stored);
+          updateStatistics();
+          renderTable();
+        }
+      } catch (error) {
+        console.error('Error loading data:', error);
+        showToast('Gagal memuat data', 'error');
+      }
+    }
+
+    function saveData() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(allData));
+      } catch (error) {
+        console.error('Error saving data:', error);
+        showToast('Gagal menyimpan data', 'error');
+      }
+    }
+
+    function addData(newItem) {
+      const id = Date.now().toString() + Math.random().toString(36).substr(2, 9);
+      const item = {
+        id,
+        ...newItem,
+        created_at: new Date().toISOString()
+      };
+      allData.push(item);
+      saveData();
+      updateStatistics();
+      renderTable();
+      return true;
+    }
+
+    function deleteData(id) {
+      allData = allData.filter(item => item.id !== id);
+      saveData();
+      updateStatistics();
+      renderTable();
+    }
+
+    // Element SDK initialization
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange: async (newConfig) => {
+          config = { ...defaultConfig, ...newConfig };
+          applyConfig();
+        },
+        mapToCapabilities: (cfg) => ({
+          recolorables: [
+            {
+              get: () => cfg.background_color || defaultConfig.background_color,
+              set: (v) => { cfg.background_color = v; window.elementSdk.setConfig({ background_color: v }); }
+            },
+            {
+              get: () => cfg.surface_color || defaultConfig.surface_color,
+              set: (v) => { cfg.surface_color = v; window.elementSdk.setConfig({ surface_color: v }); }
+            },
+            {
+              get: () => cfg.text_color || defaultConfig.text_color,
+              set: (v) => { cfg.text_color = v; window.elementSdk.setConfig({ text_color: v }); }
+            },
+            {
+              get: () => cfg.primary_color || defaultConfig.primary_color,
+              set: (v) => { cfg.primary_color = v; window.elementSdk.setConfig({ primary_color: v }); }
+            },
+            {
+              get: () => cfg.accent_color || defaultConfig.accent_color,
+              set: (v) => { cfg.accent_color = v; window.elementSdk.setConfig({ accent_color: v }); }
+            }
+          ],
+          borderables: [],
+          fontEditable: {
+            get: () => cfg.font_family || 'Plus Jakarta Sans',
+            set: (v) => { cfg.font_family = v; window.elementSdk.setConfig({ font_family: v }); }
+          },
+          fontSizeable: {
+            get: () => cfg.font_size || 16,
+            set: (v) => { cfg.font_size = v; window.elementSdk.setConfig({ font_size: v }); }
+          }
+        }),
+        mapToEditPanelValues: (cfg) => new Map([
+          ['form_title', cfg.form_title || defaultConfig.form_title],
+          ['desa_default', cfg.desa_default || defaultConfig.desa_default],
+          ['kecamatan_default', cfg.kecamatan_default || defaultConfig.kecamatan_default],
+          ['tahun', cfg.tahun || defaultConfig.tahun]
+        ])
+      });
+    }
+
+    function applyConfig() {
+      const fontFamily = config.font_family || 'Plus Jakarta Sans';
+      const fontSize = config.font_size || 16;
+      const baseFontStack = 'Arial, sans-serif';
+      
+      document.body.style.fontFamily = `${fontFamily}, ${baseFontStack}`;
+      document.body.style.fontSize = `${fontSize}px`;
+      
+      // Update title
+      const titleEl = document.getElementById('form-title');
+      if (titleEl) {
+        titleEl.textContent = config.form_title || defaultConfig.form_title;
+        titleEl.style.color = config.text_color || defaultConfig.text_color;
+        titleEl.style.fontSize = `${fontSize * 1.5}px`;
+      }
+      
+      // Update subtitle
+      const subtitleEl = document.getElementById('form-subtitle');
+      if (subtitleEl) {
+        const desa = config.desa_default || defaultConfig.desa_default;
+        const kec = config.kecamatan_default || defaultConfig.kecamatan_default;
+        const tahun = config.tahun || defaultConfig.tahun;
+        subtitleEl.textContent = `Desa ${desa}, Kecamatan ${kec} - Tahun ${tahun}`;
+      }
+      
+      // Update default form values
+      const kecInput = document.getElementById('kecamatan');
+      const desaInput = document.getElementById('desa_kelurahan');
+      if (kecInput && !kecInput.value) kecInput.placeholder = config.kecamatan_default || defaultConfig.kecamatan_default;
+      if (desaInput && !desaInput.value) desaInput.placeholder = config.desa_default || defaultConfig.desa_default;
+      
+      // Apply colors
+      const mainContainer = document.getElementById('main-container');
+      if (mainContainer) {
+        mainContainer.style.background = `linear-gradient(135deg, ${config.background_color || defaultConfig.background_color} 0%, #e2e8f0 100%)`;
+      }
+      
+      // Update primary button color
+      const submitBtn = document.getElementById('submit-btn');
+      if (submitBtn) {
+        submitBtn.style.background = `linear-gradient(to right, ${config.primary_color || defaultConfig.primary_color}, ${adjustBrightness(config.primary_color || defaultConfig.primary_color, -20)})`;
+      }
+    }
+
+    function adjustBrightness(hex, percent) {
+      const num = parseInt(hex.replace('#', ''), 16);
+      const amt = Math.round(2.55 * percent);
+      const R = Math.max(0, Math.min(255, (num >> 16) + amt));
+      const G = Math.max(0, Math.min(255, ((num >> 8) & 0x00FF) + amt));
+      const B = Math.max(0, Math.min(255, (num & 0x0000FF) + amt));
+      return `#${(0x1000000 + R * 0x10000 + G * 0x100 + B).toString(16).slice(1)}`;
+    }
+
+    function updateStatistics() {
+      const total = allData.length;
+      const sangatMiskin = allData.filter(d => d.kategori === 'Sangat Miskin').length;
+      const miskin = allData.filter(d => d.kategori === 'Miskin').length;
+      const tidakMiskin = allData.filter(d => d.kategori === 'Tidak Miskin').length;
+      const uniqueKK = new Set(allData.map(d => d.no_kk)).size;
+      
+      document.getElementById('total-count').textContent = total;
+      document.getElementById('miskin-count').textContent = miskin;
+      document.getElementById('ekstrem-count').textContent = sangatMiskin;
+      document.getElementById('tidak-miskin-count').textContent = tidakMiskin;
+      document.getElementById('kk-count').textContent = uniqueKK;
+    }
+
+    function renderTable(searchTerm = '') {
+      const tbody = document.getElementById('data-table-body');
+      const emptyState = document.getElementById('empty-state');
+      
+      let filteredData = allData;
+      if (searchTerm) {
+        const term = searchTerm.toLowerCase();
+        filteredData = allData.filter(d => 
+          d.nama.toLowerCase().includes(term) || 
+          d.nik.includes(term) ||
+          d.no_kk.includes(term)
+        );
+      }
+      
+      // Sort by 'no' field
+      filteredData.sort((a, b) => a.no - b.no);
+      
+      if (filteredData.length === 0) {
+        tbody.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        return;
+      }
+      
+      emptyState.classList.add('hidden');
+      
+      tbody.innerHTML = '';
+      filteredData.forEach(item => {
+        tbody.appendChild(createRow(item));
+      });
+    }
+
+    function createRow(item) {
+      const tr = document.createElement('tr');
+      tr.className = 'data-row hover:bg-slate-50';
+      tr.dataset.id = item.id;
+      
+      let kategoriClass = 'bg-slate-100 text-slate-700';
+      if (item.kategori === 'Sangat Miskin') {
+        kategoriClass = 'bg-red-100 text-red-700';
+      } else if (item.kategori === 'Miskin') {
+        kategoriClass = 'bg-orange-100 text-orange-700';
+      } else if (item.kategori === 'Tidak Miskin') {
+        kategoriClass = 'bg-emerald-100 text-emerald-700';
+      }
+      const jkShort = item.jenis_kelamin === 'Laki-laki' ? 'L' : 'P';
+      
+      tr.innerHTML = `
+        <td class="px-4 py-3 font-medium">${item.no}</td>
+        <td class="px-4 py-3">${item.kecamatan}</td>
+        <td class="px-4 py-3">${item.desa_kelurahan}</td>
+        <td class="px-4 py-3 font-medium">${item.nama}</td>
+        <td class="px-4 py-3 font-mono text-xs">${item.no_kk}</td>
+        <td class="px-4 py-3 font-mono text-xs">${item.nik}</td>
+        <td class="px-4 py-3 text-center">${jkShort}</td>
+        <td class="px-4 py-3">${item.status_keluarga}</td>
+        <td class="px-4 py-3 max-w-xs truncate" title="${item.alamat}">${item.alamat}</td>
+        <td class="px-4 py-3">${item.pekerjaan}</td>
+        <td class="px-4 py-3"><span class="px-2 py-1 rounded-full text-xs font-medium ${kategoriClass}">${item.kategori}</span></td>
+        <td class="px-4 py-3 text-slate-500">${item.keterangan || '-'}</td>
+        <td class="px-4 py-3 text-center">
+          <button onclick="showDeleteModal('${item.id}', '${item.nama}')" class="delete-btn p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors" title="Hapus">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+            </svg>
+          </button>
+        </td>
+      `;
+      
+      return tr;
+    }
+
+    function showDeleteModal(id, name) {
+      pendingDelete = id;
+      document.getElementById('delete-name').textContent = name;
+      document.getElementById('delete-modal').classList.remove('hidden');
+    }
+
+    function hideDeleteModal() {
+      pendingDelete = null;
+      document.getElementById('delete-modal').classList.add('hidden');
+    }
+
+    function confirmDelete() {
+      if (!pendingDelete) return;
+      
+      deleteData(pendingDelete);
+      hideDeleteModal();
+      showToast('Data berhasil dihapus', 'success');
+    }
+
+    function showToast(message, type = 'success') {
+      const toast = document.getElementById('toast');
+      const toastMessage = document.getElementById('toast-message');
+      const toastIcon = document.getElementById('toast-icon');
+      
+      toastMessage.textContent = message;
+      
+      if (type === 'error') {
+        toastIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>';
+        toastIcon.classList.remove('text-emerald-400');
+        toastIcon.classList.add('text-red-400');
+      } else {
+        toastIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>';
+        toastIcon.classList.remove('text-red-400');
+        toastIcon.classList.add('text-emerald-400');
+      }
+      
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      
+      setTimeout(() => {
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 3000);
+    }
+
+    function exportToPDF() {
+      if (allData.length === 0) {
+        showToast('Tidak ada data untuk diekspor', 'error');
+        return;
+      }
+
+      const exportBtn = document.getElementById('export-pdf-btn');
+      const exportText = document.getElementById('export-text');
+      
+      exportBtn.disabled = true;
+      exportText.textContent = 'Membuat PDF...';
+
+      try {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF('landscape', 'mm', 'a4');
+        
+        // Sort data by 'no' field
+        const sortedData = [...allData].sort((a, b) => a.no - b.no);
+        
+        // Header
+        doc.setFontSize(16);
+        doc.setFont(undefined, 'bold');
+        const title = config.form_title || defaultConfig.form_title;
+        doc.text(title, doc.internal.pageSize.getWidth() / 2, 15, { align: 'center' });
+        
+        doc.setFontSize(11);
+        doc.setFont(undefined, 'normal');
+        const desa = config.desa_default || defaultConfig.desa_default;
+        const kec = config.kecamatan_default || defaultConfig.kecamatan_default;
+        const tahun = config.tahun || defaultConfig.tahun;
+        doc.text(`Desa ${desa}, Kecamatan ${kec} - Tahun ${tahun}`, doc.internal.pageSize.getWidth() / 2, 22, { align: 'center' });
+        
+        // Statistics
+        const total = allData.length;
+        const sangatMiskin = allData.filter(d => d.kategori === 'Sangat Miskin').length;
+        const miskin = allData.filter(d => d.kategori === 'Miskin').length;
+        const tidakMiskin = allData.filter(d => d.kategori === 'Tidak Miskin').length;
+        const uniqueKK = new Set(allData.map(d => d.no_kk)).size;
+        
+        doc.setFontSize(9);
+        doc.text(`Total: ${total} | Miskin: ${miskin} | Sangat Miskin: ${sangatMiskin} | Tidak Miskin: ${tidakMiskin} | Jumlah KK: ${uniqueKK}`, 14, 28);
+        
+        // Table data
+        const tableData = sortedData.map(item => [
+          item.no,
+          item.kecamatan,
+          item.desa_kelurahan,
+          item.nama,
+          item.no_kk,
+          item.nik,
+          item.jenis_kelamin === 'Laki-laki' ? 'L' : 'P',
+          item.status_keluarga,
+          item.alamat,
+          item.pekerjaan,
+          item.kategori,
+          item.keterangan || '-'
+        ]);
+        
+        // Generate table
+        doc.autoTable({
+          startY: 32,
+          head: [['No', 'Kec', 'Desa/Kel', 'Nama', 'No. KK', 'NIK', 'JK', 'Status', 'Alamat', 'Pekerjaan', 'Kategori', 'Ket']],
+          body: tableData,
+          styles: { 
+            fontSize: 7,
+            cellPadding: 2,
+            lineColor: [200, 200, 200],
+            lineWidth: 0.1
+          },
+          headStyles: { 
+            fillColor: [37, 99, 235],
+            textColor: 255,
+            fontStyle: 'bold',
+            halign: 'center'
+          },
+          columnStyles: {
+            0: { halign: 'center', cellWidth: 10 },
+            1: { cellWidth: 20 },
+            2: { cellWidth: 25 },
+            3: { cellWidth: 35 },
+            4: { fontSize: 6, cellWidth: 25 },
+            5: { fontSize: 6, cellWidth: 25 },
+            6: { halign: 'center', cellWidth: 8 },
+            7: { cellWidth: 22 },
+            8: { cellWidth: 30 },
+            9: { cellWidth: 20 },
+            10: { cellWidth: 20 },
+            11: { cellWidth: 15 }
+          },
+          alternateRowStyles: {
+            fillColor: [245, 247, 250]
+          },
+          margin: { left: 14, right: 14 }
+        });
+        
+        // Footer
+        const pageCount = doc.internal.getNumberOfPages();
+        for (let i = 1; i <= pageCount; i++) {
+          doc.setPage(i);
+          doc.setFontSize(8);
+          doc.setTextColor(100);
+          doc.text(
+            `Halaman ${i} dari ${pageCount} - Dicetak: ${new Date().toLocaleDateString('id-ID')}`,
+            doc.internal.pageSize.getWidth() / 2,
+            doc.internal.pageSize.getHeight() - 10,
+            { align: 'center' }
+          );
+        }
+        
+        // Save PDF
+        const fileName = `Daftar_Penduduk_Miskin_${desa}_${tahun}.pdf`;
+        doc.save(fileName);
+        
+        showToast('PDF berhasil diekspor');
+      } catch (error) {
+        console.error('Error generating PDF:', error);
+        showToast('Gagal membuat PDF', 'error');
+      } finally {
+        exportBtn.disabled = false;
+        exportText.textContent = 'Ekspor PDF';
+      }
+    }
+
+    function resetForm() {
+      document.getElementById('data-form').reset();
+      // Set default values
+      document.getElementById('kecamatan').value = config.kecamatan_default || defaultConfig.kecamatan_default;
+      document.getElementById('desa_kelurahan').value = config.desa_default || defaultConfig.desa_default;
+    }
+
+    function handleSubmit(e) {
+      e.preventDefault();
+      
+      // Validate No KK and NIK
+      const noKK = document.getElementById('no_kk').value;
+      const nik = document.getElementById('nik').value;
+      
+      if (noKK.length !== 16 || !/^\d{16}$/.test(noKK)) {
+        showToast('No. KK harus tepat 16 digit angka!', 'error');
+        document.getElementById('no_kk_error').classList.remove('hidden');
+        document.getElementById('no_kk').classList.add('border-red-500');
+        return;
+      }
+      
+      if (nik.length !== 16 || !/^\d{16}$/.test(nik)) {
+        showToast('NIK harus tepat 16 digit angka!', 'error');
+        document.getElementById('nik_error').classList.remove('hidden');
+        document.getElementById('nik').classList.add('border-red-500');
+        return;
+      }
+      
+      const newData = {
+        no: parseInt(document.getElementById('no').value),
+        kecamatan: document.getElementById('kecamatan').value,
+        desa_kelurahan: document.getElementById('desa_kelurahan').value,
+        nama: document.getElementById('nama').value,
+        no_kk: document.getElementById('no_kk').value,
+        nik: document.getElementById('nik').value,
+        jenis_kelamin: document.getElementById('jenis_kelamin').value,
+        status_keluarga: document.getElementById('status_keluarga').value,
+        alamat: document.getElementById('alamat').value,
+        pekerjaan: document.getElementById('pekerjaan').value,
+        kategori: document.getElementById('kategori').value,
+        keterangan: document.getElementById('keterangan').value || ''
+      };
+      
+      if (addData(newData)) {
+        showToast('Data berhasil disimpan');
+        resetForm();
+        // Auto increment no
+        document.getElementById('no').value = allData.length + 1;
+      }
+    }
+
+    // Initialize
+    function init() {
+      // Load data from localStorage
+      loadData();
+      
+      // Apply initial config
+      applyConfig();
+      
+      // Set default form values
+      document.getElementById('kecamatan').value = config.kecamatan_default || defaultConfig.kecamatan_default;
+      document.getElementById('desa_kelurahan').value = config.desa_default || defaultConfig.desa_default;
+      document.getElementById('no').value = allData.length + 1;
+      
+      // Event listeners
+      document.getElementById('data-form').addEventListener('submit', handleSubmit);
+      document.getElementById('reset-btn').addEventListener('click', resetForm);
+      document.getElementById('cancel-delete').addEventListener('click', hideDeleteModal);
+      document.getElementById('confirm-delete').addEventListener('click', confirmDelete);
+      document.getElementById('export-pdf-btn').addEventListener('click', exportToPDF);
+      
+      document.getElementById('search-input').addEventListener('input', (e) => {
+        renderTable(e.target.value);
+      });
+      
+      // Clear error messages on input
+      document.getElementById('no_kk').addEventListener('input', (e) => {
+        document.getElementById('no_kk_error').classList.add('hidden');
+        e.target.classList.remove('border-red-500');
+      });
+      
+      document.getElementById('nik').addEventListener('input', (e) => {
+        document.getElementById('nik_error').classList.add('hidden');
+        e.target.classList.remove('border-red-500');
+      });
+      
+      // Close modal on background click
+      document.getElementById('delete-modal').addEventListener('click', (e) => {
+        if (e.target.id === 'delete-modal') hideDeleteModal();
+      });
+    }
+
+    init();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c0380ad46d6b5e7',t:'MTc2ODc5NjAzOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

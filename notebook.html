@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notebook</title>
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1757245484/SYAMDIGITAL-LOGO-2025_mmpllg.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .note-card {
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        .note-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-indigo-50 via-white to-purple-50 min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">📝 Nota Saya</h1>
+            <p class="text-gray-600">Catat ide dan pemikiran Anda dengan mudah</p>
+        </div>
+
+        <!-- Add Note Form -->
+        <div class="bg-white/70 backdrop-blur-sm rounded-2xl shadow-lg p-6 mb-8 border border-white/20">
+            <div class="flex flex-col space-y-4">
+                <input 
+                    type="text" 
+                    id="noteTitle" 
+                    placeholder="Judul nota..."
+                    class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 outline-none transition-all duration-200 bg-white/80"
+                >
+                <textarea 
+                    id="noteContent" 
+                    placeholder="Tulis nota Anda di sini..."
+                    rows="4"
+                    class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 outline-none transition-all duration-200 resize-none bg-white/80"
+                ></textarea>
+                <div class="flex justify-between items-center">
+                    <div class="flex space-x-2">
+                        <button onclick="setColor('bg-yellow-100 border-yellow-200')" class="w-6 h-6 rounded-full bg-yellow-200 border-2 border-yellow-300 hover:scale-110 transition-transform"></button>
+                        <button onclick="setColor('bg-green-100 border-green-200')" class="w-6 h-6 rounded-full bg-green-200 border-2 border-green-300 hover:scale-110 transition-transform"></button>
+                        <button onclick="setColor('bg-blue-100 border-blue-200')" class="w-6 h-6 rounded-full bg-blue-200 border-2 border-blue-300 hover:scale-110 transition-transform"></button>
+                        <button onclick="setColor('bg-pink-100 border-pink-200')" class="w-6 h-6 rounded-full bg-pink-200 border-2 border-pink-300 hover:scale-110 transition-transform"></button>
+                        <button onclick="setColor('bg-purple-100 border-purple-200')" class="w-6 h-6 rounded-full bg-purple-200 border-2 border-purple-300 hover:scale-110 transition-transform"></button>
+                    </div>
+                    <button 
+                        onclick="addNote()" 
+                        class="bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-6 py-2 rounded-xl hover:from-indigo-600 hover:to-purple-700 transition-all duration-200 font-medium shadow-lg hover:shadow-xl"
+                    >
+                        ✨ Tambah Nota
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="mb-8">
+            <div class="relative max-w-md mx-auto">
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    placeholder="🔍 Cari nota..."
+                    onkeyup="searchNotes()"
+                    class="w-full px-4 py-3 pl-12 rounded-xl border border-gray-200 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 outline-none transition-all duration-200 bg-white/80"
+                >
+                <div class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
+                    🔍
+                </div>
+            </div>
+        </div>
+
+        <!-- Preview Modal -->
+        <div id="previewModal" class="fixed inset-0 bg-black/60 backdrop-blur-md z-50 hidden items-center justify-center p-4">
+            <div class="bg-white rounded-3xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
+                <!-- Header with gradient -->
+                <div class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-6 text-white flex-shrink-0">
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                                👁️
+                            </div>
+                            <h2 class="text-2xl font-bold">Preview Nota</h2>
+                        </div>
+                        <button onclick="closePreviewModal()" class="text-white/80 hover:text-white text-3xl font-light transition-colors hover:bg-white/10 rounded-full w-10 h-10 flex items-center justify-center">×</button>
+                    </div>
+                </div>
+                
+                <!-- Content -->
+                <div class="p-8 overflow-y-auto flex-1">
+                    <div id="previewContent" class="space-y-6">
+                        <!-- Content will be populated by JavaScript -->
+                    </div>
+                </div>
+                
+                <!-- Footer Actions -->
+                <div class="bg-gray-50 px-8 py-6 border-t border-gray-200 flex-shrink-0">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <div class="flex items-center space-x-4 text-sm text-gray-500">
+                            <div class="flex items-center space-x-2">
+                                <span>📅</span>
+                                <span id="previewDate"></span>
+                            </div>
+                            <span>•</span>
+                            <div class="flex items-center space-x-2">
+                                <span>🕒</span>
+                                <span id="previewTime"></span>
+                            </div>
+                        </div>
+                        <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3 w-full sm:w-auto">
+                            <button onclick="generatePDF()" class="flex-1 sm:flex-none bg-gradient-to-r from-red-500 to-pink-600 text-white px-6 py-3 rounded-xl hover:from-red-600 hover:to-pink-700 transition-all duration-200 font-medium shadow-lg hover:shadow-xl flex items-center justify-center space-x-2">
+                                <span>📄</span>
+                                <span>PDF</span>
+                            </button>
+                            <button onclick="editFromPreview()" class="flex-1 sm:flex-none bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-6 py-3 rounded-xl hover:from-indigo-600 hover:to-purple-700 transition-all duration-200 font-medium shadow-lg hover:shadow-xl flex items-center justify-center space-x-2">
+                                <span>✏️</span>
+                                <span>Edit</span>
+                            </button>
+                            <button onclick="closePreviewModal()" class="flex-1 sm:flex-none bg-gray-200 text-gray-700 px-6 py-3 rounded-xl hover:bg-gray-300 transition-all duration-200 font-medium flex items-center justify-center space-x-2">
+                                <span>✖️</span>
+                                <span>Tutup</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Modal -->
+        <div id="editModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+            <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold text-gray-800">✏️ Edit Nota</h2>
+                        <button onclick="closeEditModal()" class="text-gray-500 hover:text-gray-700 text-2xl">×</button>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <input 
+                            type="text" 
+                            id="editNoteTitle" 
+                            placeholder="Judul nota..."
+                            class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 outline-none transition-all duration-200"
+                        >
+                        <textarea 
+                            id="editNoteContent" 
+                            placeholder="Tulis nota Anda di sini..."
+                            rows="6"
+                            class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 outline-none transition-all duration-200 resize-none"
+                        ></textarea>
+                        
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                            <div class="flex space-x-2">
+                                <button onclick="setEditColor('bg-yellow-100 border-yellow-200')" class="w-8 h-8 rounded-full bg-yellow-200 border-2 border-yellow-300 hover:scale-110 transition-transform"></button>
+                                <button onclick="setEditColor('bg-green-100 border-green-200')" class="w-8 h-8 rounded-full bg-green-200 border-2 border-green-300 hover:scale-110 transition-transform"></button>
+                                <button onclick="setEditColor('bg-blue-100 border-blue-200')" class="w-8 h-8 rounded-full bg-blue-200 border-2 border-blue-300 hover:scale-110 transition-transform"></button>
+                                <button onclick="setEditColor('bg-pink-100 border-pink-200')" class="w-8 h-8 rounded-full bg-pink-200 border-2 border-pink-300 hover:scale-110 transition-transform"></button>
+                                <button onclick="setEditColor('bg-purple-100 border-purple-200')" class="w-8 h-8 rounded-full bg-purple-200 border-2 border-purple-300 hover:scale-110 transition-transform"></button>
+                                <button onclick="setEditColor('bg-white border-gray-200')" class="w-8 h-8 rounded-full bg-white border-2 border-gray-300 hover:scale-110 transition-transform"></button>
+                            </div>
+                            
+                            <div class="flex space-x-3 w-full sm:w-auto">
+                                <button 
+                                    onclick="closeEditModal()" 
+                                    class="flex-1 sm:flex-none bg-gray-200 text-gray-700 px-6 py-2 rounded-xl hover:bg-gray-300 transition-all duration-200 font-medium"
+                                >
+                                    Batal
+                                </button>
+                                <button 
+                                    onclick="saveEditedNote()" 
+                                    class="flex-1 sm:flex-none bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-6 py-2 rounded-xl hover:from-indigo-600 hover:to-purple-700 transition-all duration-200 font-medium shadow-lg hover:shadow-xl"
+                                >
+                                    💾 Simpan
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Modal -->
+        <div id="successModal" class="fixed inset-0 bg-black/60 backdrop-blur-md z-50 hidden items-center justify-center p-4">
+            <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden transform scale-95 transition-all duration-300" id="successModalContent">
+                <!-- Animated Header -->
+                <div class="bg-gradient-to-r from-green-400 via-emerald-500 to-teal-600 p-8 text-white text-center relative overflow-hidden">
+                    <!-- Animated background circles -->
+                    <div class="absolute top-0 left-0 w-20 h-20 bg-white/10 rounded-full -translate-x-10 -translate-y-10 animate-pulse"></div>
+                    <div class="absolute bottom-0 right-0 w-16 h-16 bg-white/10 rounded-full translate-x-8 translate-y-8 animate-pulse delay-300"></div>
+                    
+                    <!-- Success Icon with animation -->
+                    <div class="relative z-10">
+                        <div class="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4 animate-bounce">
+                            <div class="text-4xl">✅</div>
+                        </div>
+                        <h2 class="text-2xl font-bold mb-2">Download Berhasil!</h2>
+                        <p class="text-green-100">PDF telah berhasil diunduh</p>
+                    </div>
+                </div>
+                
+                <!-- Content -->
+                <div class="p-8 text-center">
+                    <div class="space-y-4">
+                        <!-- File info -->
+                        <div class="bg-gray-50 rounded-2xl p-4 border border-gray-100">
+                            <div class="flex items-center justify-center space-x-3 mb-3">
+                                <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center">
+                                    <span class="text-2xl">📄</span>
+                                </div>
+                                <div class="text-left">
+                                    <p class="font-semibold text-gray-800" id="downloadedFileName">nota_file.pdf</p>
+                                    <p class="text-sm text-gray-500">Format: PDF Document</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Stats -->
+                            <div class="grid grid-cols-2 gap-4 text-center">
+                                <div class="bg-white rounded-xl p-3 border border-gray-100">
+                                    <div class="text-lg font-bold text-indigo-600" id="downloadTime">--:--</div>
+                                    <div class="text-xs text-gray-500">Waktu Download</div>
+                                </div>
+                                <div class="bg-white rounded-xl p-3 border border-gray-100">
+                                    <div class="text-lg font-bold text-emerald-600">PDF</div>
+                                    <div class="text-xs text-gray-500">Format File</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Tips -->
+                        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-4 border border-blue-100">
+                            <div class="flex items-start space-x-3">
+                                <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                                    <span class="text-sm">💡</span>
+                                </div>
+                                <div class="text-left">
+                                    <p class="font-medium text-blue-800 mb-1">Tips:</p>
+                                    <p class="text-sm text-blue-700">File PDF dapat dibuka di semua perangkat dan mudah dibagikan ke orang lain!</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Action Buttons -->
+                        <div class="flex space-x-3 pt-2">
+                            <button onclick="downloadAnother()" class="flex-1 bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-6 py-3 rounded-xl hover:from-indigo-600 hover:to-purple-700 transition-all duration-200 font-medium shadow-lg hover:shadow-xl flex items-center justify-center space-x-2">
+                                <span>📄</span>
+                                <span>Download Lagi</span>
+                            </button>
+                            <button onclick="closeSuccessModal()" class="flex-1 bg-gray-100 text-gray-700 px-6 py-3 rounded-xl hover:bg-gray-200 transition-all duration-200 font-medium flex items-center justify-center space-x-2">
+                                <span>👍</span>
+                                <span>Selesai</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Decorative bottom -->
+                <div class="h-2 bg-gradient-to-r from-green-400 via-emerald-500 to-teal-600"></div>
+            </div>
+        </div>
+
+        <!-- Notes Grid -->
+        <div id="notesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Notes will be displayed here -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="text-center py-16">
+            <div class="text-6xl mb-4">📝</div>
+            <h3 class="text-xl font-semibold text-gray-600 mb-2">Belum ada nota</h3>
+            <p class="text-gray-500">Mulai dengan menambahkan nota pertama Anda!</p>
+        </div>
+    </div>
+<!-- Cool Homepage Button -->
+                <div class="mt-12 text-center">
+                    <a href="https://syam.digital/" class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white font-bold rounded-full hover:from-indigo-700 hover:via-purple-700 hover:to-pink-700 transition-all duration-500 transform hover:scale-110 hover:rotate-1 shadow-2xl hover:shadow-purple-500/25 group relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+                        <svg class="w-6 h-6 mr-3 transform group-hover:-translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                        <span class="relative z-10 text-lg tracking-wide">Kembali Ke Beranda</span>
+                        <div class="ml-3 w-2 h-2 bg-white rounded-full animate-pulse"></div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        let notes = [];
+        let selectedColor = 'bg-white border-gray-200';
+        let editingNoteId = null;
+        let editSelectedColor = 'bg-white border-gray-200';
+        let previewingNoteId = null;
+
+        // Enhanced storage system with multiple fallbacks
+        function saveNotes() {
+            try {
+                // Primary storage: localStorage
+                saveNotes();
+                localStorage.setItem('notes_backup', JSON.stringify(notes));
+                localStorage.setItem('notes_timestamp', Date.now().toString());
+                
+                // Secondary storage: sessionStorage as backup
+                sessionStorage.setItem('notes_session', JSON.stringify(notes));
+                
+                // Tertiary storage: IndexedDB for larger capacity
+                saveToIndexedDB(notes);
+                
+                console.log('✅ Nota berhasil disimpan ke semua storage');
+            } catch (error) {
+                console.error('❌ Error menyimpan nota:', error);
+                // Fallback to alternative storage if localStorage is full
+                try {
+                    sessionStorage.setItem('notes_emergency', JSON.stringify(notes));
+                } catch (sessionError) {
+                    alert('Peringatan: Penyimpanan penuh! Beberapa nota mungkin tidak tersimpan.');
+                }
+            }
+        }
+
+        function loadNotes() {
+            try {
+                // Try to load from localStorage first
+                let loadedNotes = localStorage.getItem('notes');
+                
+                if (loadedNotes) {
+                    notes = JSON.parse(loadedNotes);
+                    console.log('✅ Nota dimuat dari localStorage');
+                    return;
+                }
+                
+                // Fallback to backup localStorage
+                let backupNotes = localStorage.getItem('notes_backup');
+                if (backupNotes) {
+                    notes = JSON.parse(backupNotes);
+                    console.log('✅ Nota dimuat dari backup localStorage');
+                    saveNotes(); // Restore primary storage
+                    return;
+                }
+                
+                // Fallback to sessionStorage
+                let sessionNotes = sessionStorage.getItem('notes_session');
+                if (sessionNotes) {
+                    notes = JSON.parse(sessionNotes);
+                    console.log('✅ Nota dimuat dari sessionStorage');
+                    saveNotes(); // Restore to primary storage
+                    return;
+                }
+                
+                // Fallback to IndexedDB
+                loadFromIndexedDB();
+                
+            } catch (error) {
+                console.error('❌ Error memuat nota:', error);
+                notes = [];
+            }
+        }
+
+        // IndexedDB functions for persistent storage
+        function saveToIndexedDB(notesData) {
+            if (!window.indexedDB) return;
+            
+            const request = indexedDB.open('NotaDatabase', 1);
+            
+            request.onerror = function() {
+                console.log('IndexedDB error');
+            };
+            
+            request.onsuccess = function(event) {
+                const db = event.target.result;
+                const transaction = db.transaction(['notes'], 'readwrite');
+                const objectStore = transaction.objectStore('notes');
+                
+                objectStore.clear(); // Clear existing data
+                objectStore.add({
+                    id: 'user_notes',
+                    data: notesData,
+                    timestamp: Date.now()
+                });
+            };
+            
+            request.onupgradeneeded = function(event) {
+                const db = event.target.result;
+                const objectStore = db.createObjectStore('notes', { keyPath: 'id' });
+            };
+        }
+
+        function loadFromIndexedDB() {
+            if (!window.indexedDB) return;
+            
+            const request = indexedDB.open('NotaDatabase', 1);
+            
+            request.onsuccess = function(event) {
+                const db = event.target.result;
+                const transaction = db.transaction(['notes'], 'readonly');
+                const objectStore = transaction.objectStore('notes');
+                const getRequest = objectStore.get('user_notes');
+                
+                getRequest.onsuccess = function() {
+                    if (getRequest.result && getRequest.result.data) {
+                        notes = getRequest.result.data;
+                        console.log('✅ Nota dimuat dari IndexedDB');
+                        displayNotes();
+                        saveNotes(); // Restore to other storages
+                    }
+                };
+            };
+        }
+
+        // Auto-save functionality
+        function autoSave() {
+            saveNotes();
+        }
+
+        // Save notes every 30 seconds as backup
+        setInterval(autoSave, 30000);
+
+        // Save before page unload
+        window.addEventListener('beforeunload', function() {
+            saveNotes();
+        });
+
+        // Save when page becomes hidden (mobile app switching)
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                saveNotes();
+            }
+        });
+
+        // Storage event listener for cross-tab synchronization
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'notes' && e.newValue) {
+                try {
+                    const updatedNotes = JSON.parse(e.newValue);
+                    notes = updatedNotes;
+                    displayNotes();
+                    console.log('✅ Nota disinkronkan dari tab lain');
+                } catch (error) {
+                    console.error('Error sinkronisasi:', error);
+                }
+            }
+        });
+
+        function setColor(color) {
+            selectedColor = color;
+            // Visual feedback for selected color
+            document.querySelectorAll('[onclick^="setColor"]').forEach(btn => {
+                btn.classList.remove('ring-2', 'ring-offset-2', 'ring-indigo-400');
+            });
+            event.target.classList.add('ring-2', 'ring-offset-2', 'ring-indigo-400');
+        }
+
+        function setEditColor(color) {
+            editSelectedColor = color;
+            // Visual feedback for selected color in edit modal
+            document.querySelectorAll('[onclick^="setEditColor"]').forEach(btn => {
+                btn.classList.remove('ring-2', 'ring-offset-2', 'ring-indigo-400');
+            });
+            event.target.classList.add('ring-2', 'ring-offset-2', 'ring-indigo-400');
+        }
+
+        function addNote() {
+            const title = document.getElementById('noteTitle').value.trim();
+            const content = document.getElementById('noteContent').value.trim();
+            
+            if (!title && !content) {
+                alert('Mohon isi judul atau konten nota!');
+                return;
+            }
+
+            const note = {
+                id: Date.now(),
+                title: title || 'Nota Tanpa Judul',
+                content: content,
+                color: selectedColor,
+                date: new Date().toLocaleDateString('id-ID', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                }),
+                time: new Date().toLocaleTimeString('id-ID', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                })
+            };
+
+            notes.unshift(note);
+            saveNotes();
+            
+            // Clear form
+            document.getElementById('noteTitle').value = '';
+            document.getElementById('noteContent').value = '';
+            selectedColor = 'bg-white border-gray-200';
+            document.querySelectorAll('[onclick^="setColor"]').forEach(btn => {
+                btn.classList.remove('ring-2', 'ring-offset-2', 'ring-indigo-400');
+            });
+            
+            displayNotes();
+        }
+
+        function deleteNote(id) {
+            if (confirm('Yakin ingin menghapus nota ini?')) {
+                notes = notes.filter(note => note.id !== id);
+                saveNotes();
+                displayNotes();
+            }
+        }
+
+        function previewNote(id) {
+            const note = notes.find(n => n.id === id);
+            if (note) {
+                previewingNoteId = id;
+                
+                // Format content with line breaks and styling
+                const formattedContent = note.content
+                    .split('\n')
+                    .map(line => line.trim())
+                    .filter(line => line.length > 0)
+                    .map(line => `<p class="text-gray-700 leading-relaxed">${line}</p>`)
+                    .join('');
+                
+                // Create preview content with beautiful styling
+                document.getElementById('previewContent').innerHTML = `
+                    <div class="text-center mb-8">
+                        <div class="inline-block ${note.color} px-6 py-3 rounded-2xl border-2 mb-4">
+                            <h1 class="text-3xl font-bold text-gray-800">${note.title}</h1>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
+                        <div class="prose prose-lg max-w-none">
+                            ${formattedContent || '<p class="text-gray-500 italic">Tidak ada konten</p>'}
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 text-center">
+                        <div class="inline-flex items-center space-x-2 text-sm text-gray-500 bg-gray-100 px-4 py-2 rounded-full">
+                            <span>📝</span>
+                            <span>Nota dibuat pada ${note.date} pukul ${note.time}</span>
+                        </div>
+                    </div>
+                `;
+                
+                // Set date and time in footer
+                document.getElementById('previewDate').textContent = note.date;
+                document.getElementById('previewTime').textContent = note.time;
+                
+                // Show modal
+                document.getElementById('previewModal').classList.remove('hidden');
+                document.getElementById('previewModal').classList.add('flex');
+            }
+        }
+
+        function closePreviewModal() {
+            document.getElementById('previewModal').classList.add('hidden');
+            document.getElementById('previewModal').classList.remove('flex');
+            previewingNoteId = null;
+        }
+
+        function editFromPreview() {
+            if (previewingNoteId) {
+                closePreviewModal();
+                editNote(previewingNoteId);
+            }
+        }
+
+        function editNote(id) {
+            const note = notes.find(n => n.id === id);
+            if (note) {
+                editingNoteId = id;
+                editSelectedColor = note.color;
+                
+                // Fill edit form
+                document.getElementById('editNoteTitle').value = note.title;
+                document.getElementById('editNoteContent').value = note.content;
+                
+                // Set color selection visual feedback
+                document.querySelectorAll('[onclick^="setEditColor"]').forEach(btn => {
+                    btn.classList.remove('ring-2', 'ring-offset-2', 'ring-indigo-400');
+                    if (btn.getAttribute('onclick').includes(note.color)) {
+                        btn.classList.add('ring-2', 'ring-offset-2', 'ring-indigo-400');
+                    }
+                });
+                
+                // Show modal
+                document.getElementById('editModal').classList.remove('hidden');
+                document.getElementById('editModal').classList.add('flex');
+                document.getElementById('editNoteTitle').focus();
+            }
+        }
+
+        function closeEditModal() {
+            document.getElementById('editModal').classList.add('hidden');
+            document.getElementById('editModal').classList.remove('flex');
+            editingNoteId = null;
+            editSelectedColor = 'bg-white border-gray-200';
+            
+            // Clear form
+            document.getElementById('editNoteTitle').value = '';
+            document.getElementById('editNoteContent').value = '';
+            
+            // Clear color selection
+            document.querySelectorAll('[onclick^="setEditColor"]').forEach(btn => {
+                btn.classList.remove('ring-2', 'ring-offset-2', 'ring-indigo-400');
+            });
+        }
+
+        function saveEditedNote() {
+            const title = document.getElementById('editNoteTitle').value.trim();
+            const content = document.getElementById('editNoteContent').value.trim();
+            
+            if (!title && !content) {
+                alert('Mohon isi judul atau konten nota!');
+                return;
+            }
+
+            const noteIndex = notes.findIndex(n => n.id === editingNoteId);
+            if (noteIndex !== -1) {
+                notes[noteIndex] = {
+                    ...notes[noteIndex],
+                    title: title || 'Nota Tanpa Judul',
+                    content: content,
+                    color: editSelectedColor,
+                    date: new Date().toLocaleDateString('id-ID', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    }),
+                    time: new Date().toLocaleTimeString('id-ID', {
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    })
+                };
+                
+                saveNotes();
+                displayNotes();
+                closeEditModal();
+            }
+        }
+
+        function searchNotes() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const filteredNotes = notes.filter(note => 
+                note.title.toLowerCase().includes(searchTerm) || 
+                note.content.toLowerCase().includes(searchTerm)
+            );
+            displayNotes(filteredNotes);
+        }
+
+        function displayNotes(notesToShow = notes) {
+            const container = document.getElementById('notesContainer');
+            const emptyState = document.getElementById('emptyState');
+            
+            if (notesToShow.length === 0) {
+                container.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+            
+            emptyState.style.display = 'none';
+            
+            container.innerHTML = notesToShow.map(note => `
+                <div class="note-card ${note.color} rounded-2xl p-6 shadow-lg border-2 fade-in">
+                    <div class="flex justify-between items-start mb-3">
+                        <h3 class="font-semibold text-gray-800 text-lg line-clamp-2">${note.title}</h3>
+                        <div class="flex space-x-2 ml-2">
+                            <button onclick="previewNote(${note.id})" class="text-blue-500 hover:text-blue-700 transition-colors p-1" title="Preview">
+                                👁️
+                            </button>
+                            <button onclick="generateNotePDF(${note.id})" class="text-red-500 hover:text-red-700 transition-colors p-1" title="Download PDF">
+                                📄
+                            </button>
+                            <button onclick="editNote(${note.id})" class="text-indigo-500 hover:text-indigo-700 transition-colors p-1" title="Edit">
+                                ✏️
+                            </button>
+                            <button onclick="deleteNote(${note.id})" class="text-red-500 hover:text-red-700 transition-colors p-1" title="Hapus">
+                                🗑️
+                            </button>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-4 line-clamp-4">${note.content}</p>
+                    <div class="flex justify-between items-center text-sm text-gray-500">
+                        <span>${note.date}</span>
+                        <span>${note.time}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Keyboard controls
+        document.addEventListener('keydown', function(e) {
+            // Ctrl+Enter to add note (when not in any modal)
+            if (e.key === 'Enter' && e.ctrlKey && 
+                !document.getElementById('editModal').classList.contains('flex') && 
+                !document.getElementById('previewModal').classList.contains('flex')) {
+                addNote();
+            }
+            
+            // Escape to close modals
+            if (e.key === 'Escape') {
+                if (document.getElementById('editModal').classList.contains('flex')) {
+                    closeEditModal();
+                } else if (document.getElementById('previewModal').classList.contains('flex')) {
+                    closePreviewModal();
+                } else if (document.getElementById('successModal').classList.contains('flex')) {
+                    closeSuccessModal();
+                }
+            }
+            
+            // Ctrl+Enter to save edited note (when in edit modal)
+            if (e.key === 'Enter' && e.ctrlKey && document.getElementById('editModal').classList.contains('flex')) {
+                saveEditedNote();
+            }
+            
+            // E key to edit from preview modal
+            if (e.key === 'e' && document.getElementById('previewModal').classList.contains('flex')) {
+                editFromPreview();
+            }
+        });
+
+        // Close modals when clicking outside
+        document.getElementById('editModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeEditModal();
+            }
+        });
+
+        document.getElementById('previewModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePreviewModal();
+            }
+        });
+
+        // Success Modal Functions
+        function showSuccessModal(fileName) {
+            const modal = document.getElementById('successModal');
+            const modalContent = document.getElementById('successModalContent');
+            
+            // Set file name
+            document.getElementById('downloadedFileName').textContent = fileName;
+            
+            // Set download time
+            const now = new Date();
+            document.getElementById('downloadTime').textContent = now.toLocaleTimeString('id-ID', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
+            // Show modal with animation
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            // Animate modal entrance
+            setTimeout(() => {
+                modalContent.classList.remove('scale-95');
+                modalContent.classList.add('scale-100');
+            }, 50);
+            
+            // Auto close after 5 seconds
+            setTimeout(() => {
+                closeSuccessModal();
+            }, 5000);
+        }
+
+        function closeSuccessModal() {
+            const modal = document.getElementById('successModal');
+            const modalContent = document.getElementById('successModalContent');
+            
+            // Animate modal exit
+            modalContent.classList.remove('scale-100');
+            modalContent.classList.add('scale-95');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
+        }
+
+        function downloadAnother() {
+            closeSuccessModal();
+            // You can add logic here to show a list of notes to download
+            // For now, we'll just close the modal
+        }
+
+        // Close success modal when clicking outside
+        document.getElementById('successModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeSuccessModal();
+            }
+        });
+
+        // PDF Generation Functions
+        function generatePDF() {
+            if (!previewingNoteId) return;
+            
+            const note = notes.find(n => n.id === previewingNoteId);
+            if (!note) return;
+            
+            createPDF(note);
+        }
+
+        function generateNotePDF(id) {
+            const note = notes.find(n => n.id === id);
+            if (!note) return;
+            
+            createPDF(note);
+        }
+
+        function createPDF(note) {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // Set font
+            doc.setFont("helvetica");
+            
+            // Create header with background
+            doc.setFillColor(79, 70, 229); // Indigo background
+            doc.rect(0, 0, 210, 45, 'F');
+            
+            // Add profile image (we'll simulate it with a circle for now since jsPDF has image loading limitations)
+            doc.setFillColor(255, 255, 255); // White circle for profile
+            doc.circle(25, 22, 8, 'F');
+            doc.setFillColor(79, 70, 229);
+            doc.setFontSize(12);
+            doc.setTextColor(255, 255, 255);
+            doc.text("SD", 22, 25); // Initials as placeholder
+            
+            // Header title
+            doc.setFontSize(24);
+            doc.setTextColor(255, 255, 255); // White text
+            doc.text("Notebook Syam Digital", 45, 25);
+            
+            // Subtitle
+            doc.setFontSize(12);
+            doc.setTextColor(200, 200, 255); // Light blue
+            doc.text("Digital Notes & Documentation System", 45, 35);
+            
+            // Add some spacing after header
+            let yPosition = 65;
+            
+            // Title section with styling
+            doc.setFillColor(248, 250, 252); // Light gray background
+            doc.rect(15, yPosition - 5, 180, 25, 'F');
+            doc.setDrawColor(79, 70, 229);
+            doc.setLineWidth(0.5);
+            doc.rect(15, yPosition - 5, 180, 25, 'S');
+            
+            doc.setFontSize(16);
+            doc.setTextColor(79, 70, 229); // Indigo color
+            doc.text("📋 Judul Nota:", 20, yPosition + 5);
+            doc.setFontSize(14);
+            doc.setTextColor(55, 65, 81); // Gray-700
+            
+            // Split title if too long
+            const titleLines = doc.splitTextToSize(note.title, 160);
+            doc.text(titleLines, 20, yPosition + 15);
+            
+            // Content section
+            yPosition = yPosition + 25 + (titleLines.length * 7) + 10;
+            // Content header
+            doc.setFontSize(16);
+            doc.setTextColor(79, 70, 229); // Indigo color
+            doc.text("📝 Isi Nota:", 20, yPosition);
+            
+            yPosition += 15;
+            
+            // Content box
+            const contentStartY = yPosition;
+            doc.setFillColor(255, 255, 255); // White background
+            doc.setDrawColor(229, 231, 235); // Light border
+            doc.setLineWidth(0.5);
+            
+            doc.setFontSize(12);
+            doc.setTextColor(55, 65, 81);
+            
+            // Split content into lines
+            const contentLines = note.content.split('\n');
+            let contentHeight = 0;
+            
+            for (let line of contentLines) {
+                if (line.trim()) {
+                    const wrappedLines = doc.splitTextToSize(line, 160);
+                    doc.text(wrappedLines, 25, yPosition);
+                    yPosition += wrappedLines.length * 6;
+                    contentHeight += wrappedLines.length * 6;
+                    
+                    // Add new page if needed
+                    if (yPosition > 260) {
+                        // Draw content box for current page
+                        doc.rect(20, contentStartY - 10, 170, Math.min(contentHeight + 20, 260 - contentStartY + 10), 'S');
+                        
+                        doc.addPage();
+                        
+                        // Recreate header on new page
+                        doc.setFillColor(79, 70, 229);
+                        doc.rect(0, 0, 210, 45, 'F');
+                        doc.setFillColor(255, 255, 255);
+                        doc.circle(25, 22, 8, 'F');
+                        doc.setFillColor(79, 70, 229);
+                        doc.setFontSize(12);
+                        doc.setTextColor(255, 255, 255);
+                        doc.text("SD", 22, 25);
+                        doc.setFontSize(24);
+                        doc.text("Notebook Syam Digital", 45, 25);
+                        doc.setFontSize(12);
+                        doc.setTextColor(200, 200, 255);
+                        doc.text("Digital Notes & Documentation System", 45, 35);
+                        
+                        yPosition = 65;
+                        contentHeight = 0;
+                    }
+                } else {
+                    yPosition += 6; // Empty line spacing
+                    contentHeight += 6;
+                }
+            }
+            
+            // Draw final content box
+            if (contentHeight > 0) {
+                doc.rect(20, contentStartY - 10, 170, contentHeight + 20, 'S');
+            }
+            
+            // Footer with date and time
+            yPosition += 25;
+            if (yPosition > 260) {
+                doc.addPage();
+                // Recreate header on new page
+                doc.setFillColor(79, 70, 229);
+                doc.rect(0, 0, 210, 45, 'F');
+                doc.setFillColor(255, 255, 255);
+                doc.circle(25, 22, 8, 'F');
+                doc.setFillColor(79, 70, 229);
+                doc.setFontSize(12);
+                doc.setTextColor(255, 255, 255);
+                doc.text("SD", 22, 25);
+                doc.setFontSize(24);
+                doc.text("Notebook Syam Digital", 45, 25);
+                doc.setFontSize(12);
+                doc.setTextColor(200, 200, 255);
+                doc.text("Digital Notes & Documentation System", 45, 35);
+                yPosition = 65;
+            }
+            
+            // Footer box
+            doc.setFillColor(248, 250, 252); // Light gray background
+            doc.rect(20, yPosition - 5, 170, 25, 'F');
+            doc.setDrawColor(79, 70, 229);
+            doc.setLineWidth(0.5);
+            doc.rect(20, yPosition - 5, 170, 25, 'S');
+            
+            doc.setFontSize(10);
+            doc.setTextColor(79, 70, 229); // Indigo color
+            doc.text(`📅 Dibuat: ${note.date} pukul ${note.time}`, 25, yPosition + 5);
+            doc.text(`⬇️ Diunduh: ${new Date().toLocaleDateString('id-ID')} pukul ${new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}`, 25, yPosition + 15);
+            
+            // Add watermark
+            doc.setTextColor(200, 200, 200);
+            doc.setFontSize(8);
+            doc.text("Print Out By @Syamdigital", 140, yPosition + 15);
+            
+            // Save the PDF
+            const fileName = `${note.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.pdf`;
+            doc.save(fileName);
+            
+            // Show success modal
+            showSuccessModal(fileName);
+        }
+
+        // Initialize app
+        loadNotes();
+        displayNotes();
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9701b467163f527e',t:'MTc1NTM1NTQxMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

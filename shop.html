@@ -1,0 +1,779 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rincian Belanja</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/dpr2vc3b0/image/upload/v1767181130/BELANJA_jhnkk2.png">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.1/jspdf.plugin.autotable.min.js"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .table-container::-webkit-scrollbar {
+      height: 8px;
+    }
+    .table-container::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 4px;
+    }
+    .table-container::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    .table-container::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-slide-in {
+      animation: slideIn 0.3s ease-out;
+    }
+    @keyframes pulse-border {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
+      50% { box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.1); }
+    }
+    .success-pulse {
+      animation: pulse-border 0.5s ease-out;
+    }
+    .stat-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      animation: rotate 20s linear infinite;
+    }
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .gradient-border {
+      position: relative;
+      background: white;
+      border-radius: 1rem;
+    }
+    .gradient-border::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 1rem;
+      padding: 2px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+    }
+    tbody tr {
+      transition: all 0.2s ease;
+    }
+    tbody tr:hover {
+      background: linear-gradient(90deg, #f0f9ff 0%, #e0f2fe 100%);
+      transform: translateX(4px);
+      box-shadow: -4px 0 0 0 #0ea5e9;
+    }
+    .input-group {
+      position: relative;
+    }
+    .input-group input:focus ~ label,
+    .input-group input:not(:placeholder-shown) ~ label {
+      transform: translateY(-1.5rem) scale(0.85);
+      color: #667eea;
+    }
+    .floating-label {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      transition: all 0.3s ease;
+      pointer-events: none;
+      background: white;
+      padding: 0 0.5rem;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 m-0 p-0">
+  <div id="app-wrapper" class="h-full w-full overflow-auto">
+   <div class="min-h-full w-full p-4 md:p-6 lg:p-8"><!-- Header -->
+    <header class="max-w-7xl mx-auto mb-8">
+     <div class="bg-white rounded-2xl shadow-xl p-8 border border-indigo-100 relative overflow-hidden">
+      <div class="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 rounded-full -mr-32 -mt-32"></div>
+      <div class="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-blue-500/10 to-cyan-500/10 rounded-full -ml-24 -mb-24"></div>
+      <div class="relative z-10 flex items-center justify-between">
+       <div class="flex items-center gap-5">
+        <div class="w-16 h-16 rounded-2xl flex items-center justify-center shadow-2xl shadow-indigo-300/50 overflow-hidden bg-gradient-to-br from-indigo-500 to-purple-600 p-1">
+         <div class="w-full h-full bg-white rounded-xl flex items-center justify-center"><img src="https://res.cloudinary.com/dpr2vc3b0/image/upload/v1767181130/BELANJA_jhnkk2.png" alt="Logo Belanja" class="w-12 h-12 object-cover" onerror="this.src=''; this.alt='Logo'; this.style.display='none';">
+         </div>
+        </div>
+        <div>
+         <h1 id="app-title" class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Rincian Belanja</h1>
+         <p class="text-gray-500 text-sm mt-1.5">Sistem Manajemen Keuangan &amp; Pengeluaran</p>
+        </div>
+        <div class="hidden md:block ml-4">
+         <div class="w-16 h-16 rounded-full overflow-hidden ring-4 ring-indigo-200 flex-shrink-0 bg-indigo-100 shadow-xl mx-auto"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1767618944/sunartin-01_e2b3fr.png" alt="Admin" class="w-full h-full object-cover object-top">
+         </div>
+         <p class="text-xs font-semibold text-gray-700 text-center mt-2">Kaur Keuangan</p>
+        </div>
+       </div>
+       <div class="hidden lg:flex items-center gap-4">
+        <div class="flex items-center gap-2 bg-gradient-to-r from-indigo-50 to-purple-50 px-4 py-2 rounded-xl">
+         <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+         </svg><span class="text-sm font-medium text-gray-700" id="current-date"></span>
+        </div>
+        <div class="flex items-center gap-3 bg-white px-4 py-3 rounded-xl shadow-md border border-indigo-100">
+         <div class="w-12 h-12 rounded-full overflow-hidden ring-2 ring-indigo-200 flex-shrink-0 bg-indigo-100"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1767618944/sunartin-01_e2b3fr.png" alt="Kaur Keuangan" class="w-full h-full object-cover object-top">
+         </div>
+         <div class="text-left">
+          <p class="text-xs text-gray-500 leading-tight">Admin</p>
+          <p class="text-sm font-bold text-gray-800 leading-tight">Kaur Keuangan</p>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </header><!-- Main Content -->
+    <main class="max-w-7xl mx-auto"><!-- Statistics Cards -->
+     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"><!-- Total Belanja Card -->
+      <div class="stat-card rounded-2xl p-6 text-white shadow-2xl relative">
+       <div class="relative z-10">
+        <div class="flex items-center justify-between mb-3">
+         <div class="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+         </div>
+        </div>
+        <p class="text-sm opacity-90 mb-1">Total Pengeluaran</p>
+        <p id="stat-total" class="text-3xl font-bold">Rp 0</p>
+       </div>
+      </div><!-- Total Items Card -->
+      <div class="bg-white rounded-2xl p-6 shadow-xl border border-slate-200">
+       <div class="flex items-center justify-between mb-3">
+        <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center">
+         <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+         </svg>
+        </div>
+       </div>
+       <p class="text-sm text-gray-500 mb-1">Total Item</p>
+       <p id="stat-items" class="text-3xl font-bold text-gray-800">0</p>
+      </div><!-- Average Price Card -->
+      <div class="bg-white rounded-2xl p-6 shadow-xl border border-slate-200">
+       <div class="flex items-center justify-between mb-3">
+        <div class="w-12 h-12 bg-gradient-to-br from-amber-500 to-orange-500 rounded-xl flex items-center justify-center">
+         <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+         </svg>
+        </div>
+       </div>
+       <p class="text-sm text-gray-500 mb-1">Rata-rata per Item</p>
+       <p id="stat-average" class="text-3xl font-bold text-gray-800">Rp 0</p>
+      </div>
+     </div><!-- Input Form Card -->
+     <div class="bg-white rounded-2xl shadow-xl p-8 mb-8 border border-slate-200">
+      <div class="flex items-center gap-3 mb-6">
+       <div class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center">
+        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+        </svg>
+       </div>
+       <h2 class="text-xl font-bold text-gray-800">Tambah Transaksi Baru</h2>
+      </div>
+      <form id="input-form" class="space-y-4">
+       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4"><!-- Uraian -->
+        <div class="lg:col-span-2"><label for="uraian" class="block text-sm font-semibold text-gray-700 mb-2">Uraian / Deskripsi</label> <input type="text" id="uraian" name="uraian" required list="uraian-list" class="w-full px-4 py-3.5 rounded-xl border-2 border-slate-200 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 transition-all outline-none text-gray-700 placeholder-gray-400 font-medium" placeholder="Masukkan nama barang atau item"> <datalist id="uraian-list"> <option value="Kertas HVS"> </option><option value="Tinta Print"> </option><option value="Buku Album Besar"> </option><option value="Hekter Jilid"> </option><option value="Peluru Hekter"> </option><option value="Map Snelhecter"> </option><option value="Map Biasa"> </option><option value="Binder Clip Sedang"> </option><option value="Binder Clip Besar"> </option><option value="Map Ordner"> </option><option value="Amplop Putih"> </option><option value="Ballpoint"> </option><option value="Mata Cutter Besar"> </option><option value="Mata Cutter Kecil"> </option><option value="Gunting"> </option><option value="Tinta Stempel"> </option><option value="Mata Hekter Kecil"> </option><option value="Hekter Tembak"> </option><option value="Peluru Hekter Tembak"> </option><option value="Lakban Besar"> </option><option value="Lakban Kecil"> </option><option value="Lem Kertas"> </option><option value="Materai @10.000"> </option><option value="Super Pell"> </option><option value="Sapu Plastik"> </option><option value="Alat Pell"> </option><option value="Skop Sampah"> </option><option value="Kemoceng"> </option><option value="Tong Sampah"> </option><option value="Keset"> </option><option value="Sabun Cuci Piring"> </option><option value="Fotocopy Dokumen"> </option><option value="Jilid Dokumen"> </option><option value="Makan/Minum Rapat"> </option><option value="Makan/Minum Pegawai"> </option><option value="Token Listrik"> </option><option value="Iuran Internet"> </option><option value="Belanja Bahan Bakar Kendaraan"> </option><option value="Belanja Suku Cadang dan Service Kendaraan"> </option><option value="Pemeliharaan Printer/Laptop/Komputer"> </option><option value="Pengadaan Pakaian Batik Tradisional Donggala (SLP)"> </option><option value="Pengadaan Pakaian Harian (PDH) Warna Khaki"> </option><option value="Belanja Kursi Plastik"> </option><option value="Belanja Kipas Angin Besar"> </option><option value="Belanja Printer"> </option><option value="Lemari Arsip Besi"> </option><option value="Buku Album"> </option><option value="Tipe-x"> </option><option value="Pencil 2B"> </option><option value="Pelubang Kertas"> </option><option value="Hekter Kecil"> </option><option value="Peluru Hekter Kecil"> </option><option value="Hekter Besar"> </option><option value="Peluru Hekter Besar"> </option></datalist>
+        </div><!-- Volume -->
+        <div><label for="volume" class="block text-sm font-semibold text-gray-700 mb-2">Volume / Qty</label> <input type="number" id="volume" name="volume" required min="0" step="any" class="w-full px-4 py-3.5 rounded-xl border-2 border-slate-200 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 transition-all outline-none text-gray-700 placeholder-gray-400 font-medium" placeholder="0">
+        </div><!-- Satuan -->
+        <div><label for="satuan" class="block text-sm font-semibold text-gray-700 mb-2">Satuan</label> <input type="text" id="satuan" name="satuan" required list="satuan-list" class="w-full px-4 py-3.5 rounded-xl border-2 border-slate-200 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 transition-all outline-none text-gray-700 placeholder-gray-400 font-medium" placeholder="pcs, kg, ltr"> <datalist id="satuan-list"> <option value="pcs"> </option><option value="unit"> </option><option value="buah"> </option><option value="lembar"> </option><option value="kg"> </option><option value="gram"> </option><option value="liter"> </option><option value="meter"> </option><option value="box"> </option><option value="dos"> </option><option value="botol"> </option><option value="paket"> </option><option value="set"> </option><option value="rim"> </option><option value="lusin"> </option><option value="kodi"> </option><option value="Btg"> </option></datalist>
+        </div><!-- Harga Satuan -->
+        <div><label for="harga_satuan" class="block text-sm font-semibold text-gray-700 mb-2">Harga Satuan</label>
+         <div class="relative"><span id="currency-prefix" class="absolute left-4 top-1/2 -translate-y-1/2 text-indigo-600 font-bold">Rp</span> <input type="number" id="harga_satuan" name="harga_satuan" required min="0" class="w-full pl-12 pr-4 py-3.5 rounded-xl border-2 border-slate-200 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 transition-all outline-none text-gray-700 placeholder-gray-400 font-medium" placeholder="0">
+         </div>
+        </div>
+       </div><!-- Submit Button -->
+       <div class="flex justify-end pt-4"><button type="submit" id="submit-btn" class="px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-xl hover:from-indigo-700 hover:to-purple-700 focus:ring-4 focus:ring-indigo-300 transition-all shadow-xl shadow-indigo-200 flex items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105">
+         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+         </svg><span id="submit-text">Tambah Transaksi</span> </button>
+       </div>
+      </form>
+     </div><!-- Data Table Card -->
+     <div class="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden"><!-- Table Header -->
+      <div class="p-6 border-b-2 border-slate-100 bg-gradient-to-r from-slate-50 to-indigo-50">
+       <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+        <div>
+         <h2 class="text-xl font-bold text-gray-800 flex items-center gap-3">
+          <div class="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center">
+           <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+           </svg>
+          </div> Riwayat Transaksi</h2>
+         <p id="item-count" class="text-sm text-gray-500 mt-1.5 ml-11">0 item tercatat</p>
+        </div>
+        <div class="flex items-center gap-3 flex-wrap"><button id="clear-all-btn" onclick="showClearAllModal()" class="px-5 py-3 bg-white border-2 border-red-200 text-red-600 font-bold rounded-xl hover:bg-red-50 hover:border-red-400 focus:ring-4 focus:ring-red-100 transition-all flex items-center gap-2 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+          </svg><span>Hapus Semua</span> </button> <button id="export-pdf-btn" onclick="exportToPDF()" class="px-5 py-3 bg-white border-2 border-indigo-200 text-indigo-600 font-bold rounded-xl hover:bg-indigo-50 hover:border-indigo-400 focus:ring-4 focus:ring-indigo-100 transition-all flex items-center gap-2 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg><span id="export-text">Ekspor PDF</span> </button>
+        </div>
+       </div>
+      </div><!-- Table Container -->
+      <div class="table-container overflow-x-auto">
+       <table class="w-full min-w-[700px]">
+        <thead>
+         <tr class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
+          <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider w-12">No</th>
+          <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider">Uraian</th>
+          <th class="px-6 py-4 text-center text-xs font-bold uppercase tracking-wider w-24">Volume</th>
+          <th class="px-6 py-4 text-center text-xs font-bold uppercase tracking-wider w-24">Satuan</th>
+          <th class="px-6 py-4 text-right text-xs font-bold uppercase tracking-wider w-40">Harga Satuan</th>
+          <th class="px-6 py-4 text-right text-xs font-bold uppercase tracking-wider w-44">Jumlah (Rp)</th>
+          <th class="px-6 py-4 text-center text-xs font-bold uppercase tracking-wider w-24">Aksi</th>
+         </tr>
+        </thead>
+        <tbody id="data-table" class="divide-y divide-slate-100"><!-- Data rows will be inserted here -->
+        </tbody>
+       </table>
+      </div><!-- Empty State -->
+      <div id="empty-state" class="hidden p-12 text-center">
+       <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+        <svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+        </svg>
+       </div>
+       <h3 class="text-lg font-medium text-gray-600 mb-2">Belum ada data</h3>
+       <p class="text-gray-400">Mulai tambahkan item belanja menggunakan form di atas</p>
+      </div>
+     </div>
+    </main><!-- Footer -->
+    <footer class="max-w-6xl mx-auto mt-6 text-center text-sm text-gray-400 pb-4">
+     <p>© 2024 Rincian Belanja App</p>
+    </footer>
+   </div>
+  </div><!-- Delete Confirmation Modal -->
+  <div id="delete-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+   <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full p-6 animate-slide-in">
+    <div class="w-14 h-14 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+     <svg class="w-7 h-7 text-red-500" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+     </svg>
+    </div>
+    <h3 class="text-xl font-bold text-gray-800 text-center mb-2">Hapus Item?</h3>
+    <p id="delete-item-name" class="text-gray-500 text-center mb-6">Apakah Anda yakin ingin menghapus item ini?</p>
+    <div class="flex gap-3"><button id="cancel-delete" class="flex-1 px-4 py-3 border border-gray-200 text-gray-600 font-medium rounded-xl hover:bg-gray-50 transition-all"> Batal </button> <button id="confirm-delete" class="flex-1 px-4 py-3 bg-red-500 text-white font-medium rounded-xl hover:bg-red-600 transition-all"> Hapus </button>
+    </div>
+   </div>
+  </div><!-- Clear All Confirmation Modal -->
+  <div id="clear-all-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+   <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full p-6 animate-slide-in">
+    <div class="w-14 h-14 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+     <svg class="w-7 h-7 text-red-500" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+     </svg>
+    </div>
+    <h3 class="text-xl font-bold text-gray-800 text-center mb-2">Hapus Semua Data?</h3>
+    <p class="text-gray-500 text-center mb-6">Semua item belanja akan dihapus secara permanen. Tindakan ini tidak dapat dibatalkan.</p>
+    <div class="flex gap-3"><button id="cancel-clear-all" class="flex-1 px-4 py-3 border border-gray-200 text-gray-600 font-medium rounded-xl hover:bg-gray-50 transition-all"> Batal </button> <button id="confirm-clear-all" class="flex-1 px-4 py-3 bg-red-500 text-white font-medium rounded-xl hover:bg-red-600 transition-all"> Hapus Semua </button>
+    </div>
+   </div>
+  </div>
+  <script>
+    // LocalStorage key
+    const STORAGE_KEY = 'rincian_belanja_data';
+    const CONFIG_KEY = 'rincian_belanja_config';
+
+    // Default configuration
+    const defaultConfig = {
+      app_title: 'Rincian Belanja',
+      currency_label: 'Rp'
+    };
+
+    // Current data storage
+    let currentData = [];
+    let currentConfig = { ...defaultConfig };
+    let itemToDelete = null;
+
+    // Generate unique ID
+    function generateId() {
+      return Date.now().toString(36) + Math.random().toString(36).substr(2);
+    }
+
+    // Load data from localStorage
+    function loadData() {
+      try {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (stored) {
+          currentData = JSON.parse(stored);
+        }
+      } catch (e) {
+        console.error('Failed to load data:', e);
+        currentData = [];
+      }
+    }
+
+    // Save data to localStorage
+    function saveData() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(currentData));
+      } catch (e) {
+        console.error('Failed to save data:', e);
+        showToast('Gagal menyimpan data', 'error');
+      }
+    }
+
+    // Load config from localStorage
+    function loadConfig() {
+      try {
+        const stored = localStorage.getItem(CONFIG_KEY);
+        if (stored) {
+          currentConfig = { ...defaultConfig, ...JSON.parse(stored) };
+        }
+      } catch (e) {
+        console.error('Failed to load config:', e);
+        currentConfig = { ...defaultConfig };
+      }
+    }
+
+    // Format currency
+    function formatCurrency(amount, currencyLabel = 'Rp') {
+      return `${currencyLabel} ${amount.toLocaleString('id-ID')}`;
+    }
+
+    // Export to PDF
+    async function exportToPDF() {
+      if (currentData.length === 0) {
+        showToast('Tidak ada data untuk diekspor', 'warning');
+        return;
+      }
+
+      const exportBtn = document.getElementById('export-pdf-btn');
+      const exportText = document.getElementById('export-text');
+      exportBtn.disabled = true;
+      exportText.textContent = 'Mengekspor...';
+
+      try {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        const currencyLabel = currentConfig.currency_label || defaultConfig.currency_label;
+        const appTitle = currentConfig.app_title || defaultConfig.app_title;
+
+        // Header
+        doc.setFontSize(18);
+        doc.setFont('helvetica', 'bold');
+        doc.text(appTitle, 14, 20);
+
+        // Date
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'normal');
+        const today = new Date().toLocaleDateString('id-ID', { 
+          weekday: 'long', 
+          year: 'numeric', 
+          month: 'long', 
+          day: 'numeric' 
+        });
+        doc.text(`Tanggal: ${today}`, 14, 28);
+
+        // Sort data by created_at
+        const sortedData = [...currentData].sort((a, b) => 
+          new Date(a.created_at) - new Date(b.created_at)
+        );
+
+        // Prepare table data
+        const tableData = sortedData.map((item, index) => [
+          index + 1,
+          item.uraian,
+          item.volume,
+          item.satuan,
+          formatCurrency(item.harga_satuan, currencyLabel),
+          formatCurrency(item.jumlah, currencyLabel)
+        ]);
+
+        // Table
+        doc.autoTable({
+          startY: 35,
+          head: [['No', 'Uraian', 'Volume', 'Satuan', 'Harga Satuan', 'Jumlah (Rp)']],
+          body: tableData,
+          theme: 'grid',
+          headStyles: {
+            fillColor: [16, 185, 129],
+            textColor: 255,
+            fontStyle: 'bold',
+            halign: 'center'
+          },
+          columnStyles: {
+            0: { halign: 'center', cellWidth: 12 },
+            1: { halign: 'left', cellWidth: 55 },
+            2: { halign: 'center', cellWidth: 20 },
+            3: { halign: 'center', cellWidth: 25 },
+            4: { halign: 'right', cellWidth: 35 },
+            5: { halign: 'right', cellWidth: 40 }
+          },
+          styles: {
+            fontSize: 9,
+            cellPadding: 3
+          },
+          alternateRowStyles: {
+            fillColor: [245, 245, 245]
+          }
+        });
+
+        // Total
+        const finalY = doc.lastAutoTable.finalY + 10;
+        doc.setFontSize(12);
+        doc.setFont('helvetica', 'bold');
+        doc.text(`Total Belanja: ${formatCurrency(calculateTotal(currentData), currencyLabel)}`, 14, finalY);
+
+        // Item count
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'normal');
+        doc.text(`Jumlah Item: ${currentData.length} item`, 14, finalY + 7);
+
+        // Footer
+        doc.setFontSize(8);
+        doc.setTextColor(128);
+        doc.text('Dokumen ini dibuat secara otomatis oleh Aplikasi Rincian Belanja', 14, doc.internal.pageSize.height - 10);
+
+        // Save
+        const fileName = `${appTitle.replace(/\s+/g, '_')}_${new Date().toISOString().slice(0,10)}.pdf`;
+        doc.save(fileName);
+
+        showToast('PDF berhasil diunduh!', 'success');
+      } catch (error) {
+        console.error('Export error:', error);
+        showToast('Gagal mengekspor PDF', 'error');
+      }
+
+      exportBtn.disabled = false;
+      exportText.textContent = 'Ekspor PDF';
+    }
+
+    // Toast notification
+    function showToast(message, type = 'success') {
+      const existingToast = document.getElementById('toast');
+      if (existingToast) existingToast.remove();
+
+      const toast = document.createElement('div');
+      toast.id = 'toast';
+      
+      const colors = {
+        success: 'bg-emerald-500',
+        warning: 'bg-amber-500',
+        error: 'bg-red-500'
+      };
+
+      const icons = {
+        success: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>',
+        warning: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>',
+        error: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>'
+      };
+
+      toast.className = `fixed bottom-6 right-6 ${colors[type]} text-white px-5 py-3 rounded-xl shadow-lg flex items-center gap-3 z-50 animate-slide-in`;
+      toast.innerHTML = `
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">${icons[type]}</svg>
+        <span class="font-medium">${message}</span>
+      `;
+      
+      document.body.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(10px)';
+        toast.style.transition = 'all 0.3s ease-out';
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+
+    // Calculate total
+    function calculateTotal(data) {
+      return data.reduce((sum, item) => sum + (item.jumlah || 0), 0);
+    }
+
+    // Render table rows efficiently
+    function renderTable() {
+      const tbody = document.getElementById('data-table');
+      const emptyState = document.getElementById('empty-state');
+      const itemCount = document.getElementById('item-count');
+      const clearAllBtn = document.getElementById('clear-all-btn');
+      const currencyLabel = currentConfig.currency_label || defaultConfig.currency_label;
+
+      // Update counts
+      itemCount.textContent = `${currentData.length} item tercatat`;
+
+      // Update statistics
+      updateStatistics();
+
+      // Show/hide clear all button
+      if (currentData.length === 0) {
+        clearAllBtn.style.display = 'none';
+      } else {
+        clearAllBtn.style.display = 'flex';
+      }
+
+      // Show empty state or table
+      if (currentData.length === 0) {
+        emptyState.classList.remove('hidden');
+        tbody.innerHTML = '';
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+
+      // Create a map of existing rows
+      const existingRows = new Map();
+      [...tbody.children].forEach(row => {
+        existingRows.set(row.dataset.id, row);
+      });
+
+      // Sort data by created_at
+      const sortedData = [...currentData].sort((a, b) => 
+        new Date(a.created_at) - new Date(b.created_at)
+      );
+
+      // Update or create rows
+      sortedData.forEach((item, index) => {
+        const id = item.id;
+        let row = existingRows.get(id);
+
+        if (row) {
+          // Update existing row
+          updateRow(row, item, index + 1, currencyLabel);
+          existingRows.delete(id);
+        } else {
+          // Create new row
+          row = createRow(item, index + 1, currencyLabel);
+          tbody.appendChild(row);
+        }
+      });
+
+      // Remove deleted rows
+      existingRows.forEach(row => row.remove());
+
+      // Reorder rows
+      sortedData.forEach((item, index) => {
+        const row = tbody.querySelector(`[data-id="${item.id}"]`);
+        if (row && row !== tbody.children[index]) {
+          tbody.insertBefore(row, tbody.children[index]);
+        }
+      });
+    }
+
+    // Create a table row
+    function createRow(item, index, currencyLabel) {
+      const row = document.createElement('tr');
+      row.dataset.id = item.id;
+      row.className = 'transition-all animate-slide-in border-l-4 border-transparent hover:border-l-indigo-500';
+      
+      row.innerHTML = `
+        <td class="px-6 py-4 text-sm text-gray-600 font-bold">${index}</td>
+        <td class="px-6 py-4 text-sm text-gray-800 font-bold">${escapeHtml(item.uraian)}</td>
+        <td class="px-6 py-4 text-sm text-gray-700 text-center font-semibold">${item.volume}</td>
+        <td class="px-6 py-4 text-sm text-gray-700 text-center font-semibold">${escapeHtml(item.satuan)}</td>
+        <td class="px-6 py-4 text-sm text-gray-700 text-right font-semibold">${formatCurrency(item.harga_satuan, currencyLabel)}</td>
+        <td class="px-6 py-4 text-sm text-indigo-700 font-bold text-right">${formatCurrency(item.jumlah, currencyLabel)}</td>
+        <td class="px-6 py-4 text-center">
+          <button onclick="showDeleteModal('${item.id}')" 
+            class="p-2.5 text-red-400 hover:text-white hover:bg-red-500 rounded-xl transition-all shadow-sm hover:shadow-lg"
+            title="Hapus item">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+            </svg>
+          </button>
+        </td>
+      `;
+      
+      return row;
+    }
+
+    // Update existing row
+    function updateRow(row, item, index, currencyLabel) {
+      const cells = row.querySelectorAll('td');
+      cells[0].textContent = index;
+      cells[1].textContent = item.uraian;
+      cells[2].textContent = item.volume;
+      cells[3].textContent = item.satuan;
+      cells[4].textContent = formatCurrency(item.harga_satuan, currencyLabel);
+      cells[5].textContent = formatCurrency(item.jumlah, currencyLabel);
+    }
+
+    // Escape HTML to prevent XSS
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // Show delete confirmation modal
+    function showDeleteModal(id) {
+      const item = currentData.find(d => d.id === id);
+      if (!item) return;
+
+      itemToDelete = item;
+      document.getElementById('delete-item-name').textContent = 
+        `Apakah Anda yakin ingin menghapus "${item.uraian}"?`;
+      document.getElementById('delete-modal').classList.remove('hidden');
+      document.getElementById('delete-modal').classList.add('flex');
+    }
+
+    // Hide delete modal
+    function hideDeleteModal() {
+      document.getElementById('delete-modal').classList.add('hidden');
+      document.getElementById('delete-modal').classList.remove('flex');
+      itemToDelete = null;
+    }
+
+    // Show clear all confirmation modal
+    function showClearAllModal() {
+      if (currentData.length === 0) return;
+      document.getElementById('clear-all-modal').classList.remove('hidden');
+      document.getElementById('clear-all-modal').classList.add('flex');
+    }
+
+    // Hide clear all modal
+    function hideClearAllModal() {
+      document.getElementById('clear-all-modal').classList.add('hidden');
+      document.getElementById('clear-all-modal').classList.remove('flex');
+    }
+
+    // Handle delete confirmation
+    function handleDelete() {
+      if (!itemToDelete) return;
+
+      currentData = currentData.filter(d => d.id !== itemToDelete.id);
+      saveData();
+      renderTable();
+      hideDeleteModal();
+      showToast('Item berhasil dihapus', 'success');
+    }
+
+    // Handle clear all confirmation
+    function handleClearAll() {
+      currentData = [];
+      saveData();
+      renderTable();
+      hideClearAllModal();
+      showToast('Semua data berhasil dihapus', 'success');
+    }
+
+    // Handle form submission
+    function handleSubmit(e) {
+      e.preventDefault();
+      
+      const form = e.target;
+      const uraian = form.uraian.value.trim();
+      const volume = parseFloat(form.volume.value) || 0;
+      const satuan = form.satuan.value.trim();
+      const harga_satuan = parseFloat(form.harga_satuan.value) || 0;
+      const jumlah = volume * harga_satuan;
+
+      if (!uraian || !satuan) return;
+
+      const newItem = {
+        id: generateId(),
+        uraian,
+        volume,
+        satuan,
+        harga_satuan,
+        jumlah,
+        created_at: new Date().toISOString()
+      };
+
+      currentData.push(newItem);
+      saveData();
+      renderTable();
+      
+      form.reset();
+      form.uraian.focus();
+      showToast('Item berhasil ditambahkan', 'success');
+    }
+
+    // Apply configuration to UI
+    function applyConfig() {
+      const appTitle = document.getElementById('app-title');
+      const currencyPrefix = document.getElementById('currency-prefix');
+      
+      appTitle.textContent = currentConfig.app_title || defaultConfig.app_title;
+      currencyPrefix.textContent = currentConfig.currency_label || defaultConfig.currency_label;
+    }
+
+    // Update current date display
+    function updateCurrentDate() {
+      const dateElement = document.getElementById('current-date');
+      if (dateElement) {
+        const today = new Date().toLocaleDateString('id-ID', { 
+          weekday: 'long', 
+          year: 'numeric', 
+          month: 'long', 
+          day: 'numeric' 
+        });
+        dateElement.textContent = today;
+      }
+    }
+
+    // Update statistics cards
+    function updateStatistics() {
+      const currencyLabel = currentConfig.currency_label || defaultConfig.currency_label;
+      const total = calculateTotal(currentData);
+      const itemCount = currentData.length;
+      const average = itemCount > 0 ? total / itemCount : 0;
+
+      document.getElementById('stat-total').textContent = formatCurrency(total, currencyLabel);
+      document.getElementById('stat-items').textContent = itemCount;
+      document.getElementById('stat-average').textContent = formatCurrency(average, currencyLabel);
+    }
+
+    // Initialize application
+    function initApp() {
+      // Load data and config from localStorage
+      loadData();
+      loadConfig();
+
+      // Apply config
+      applyConfig();
+
+      // Update current date
+      updateCurrentDate();
+
+      // Update statistics
+      updateStatistics();
+
+      // Initial render
+      renderTable();
+
+      // Setup event listeners
+      document.getElementById('input-form').addEventListener('submit', handleSubmit);
+      document.getElementById('cancel-delete').addEventListener('click', hideDeleteModal);
+      document.getElementById('confirm-delete').addEventListener('click', handleDelete);
+      document.getElementById('cancel-clear-all').addEventListener('click', hideClearAllModal);
+      document.getElementById('confirm-clear-all').addEventListener('click', handleClearAll);
+      
+      // Close modals on backdrop click
+      document.getElementById('delete-modal').addEventListener('click', (e) => {
+        if (e.target === e.currentTarget) {
+          hideDeleteModal();
+        }
+      });
+
+      document.getElementById('clear-all-modal').addEventListener('click', (e) => {
+        if (e.target === e.currentTarget) {
+          hideClearAllModal();
+        }
+      });
+    }
+
+    // Start the app when DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initApp);
+    } else {
+      initApp();
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b934ae7a32f0fe2',t:'MTc2NzYxOTQzMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

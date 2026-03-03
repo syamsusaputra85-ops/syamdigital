@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="id">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kode-Kode Komputer</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow-x: hidden;
+    }
+
+    .app-container {
+      width: 100%;
+      min-height: 100%;
+      padding: 3rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+
+    .header p {
+      font-size: 1.125rem;
+      opacity: 0.85;
+    }
+
+    .shortcuts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+      width: 100%;
+      max-width: 1200px;
+      margin-bottom: 2rem;
+    }
+
+    .shortcut-card {
+      padding: 1.25rem;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: 2px solid transparent;
+    }
+
+    .shortcut-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .shortcut-key {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 700;
+      font-size: 1.125rem;
+      margin-bottom: 0.5rem;
+      font-family: 'Courier New', monospace;
+    }
+
+    .key-badge {
+      padding: 0.25rem 0.5rem;
+      border-radius: 6px;
+      font-size: 0.875rem;
+    }
+
+    .shortcut-name {
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .shortcut-desc {
+      font-size: 0.875rem;
+      opacity: 0.8;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 2rem;
+      padding: 1.5rem;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 1200px;
+    }
+
+    .footer p {
+      font-size: 0.875rem;
+      opacity: 0.9;
+    }
+
+    @media (max-width: 640px) {
+      .app-container {
+        padding: 2rem 1rem;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+      }
+
+      .shortcuts-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="app-container">
+   <header class="header">
+    <h1 id="main-title">KODE-KODE KOMPUTER</h1>
+    <p id="subtitle">Panduan Pintasan Keyboard untuk Produktivitas</p>
+   </header>
+   <main class="shortcuts-grid" id="shortcuts-container"></main>
+   <footer class="footer" id="footer">
+    <p id="footer-text">💡 Klik kartu untuk menyalin shortcut ke clipboard</p>
+   </footer>
+  </div>
+  <script>
+    const defaultConfig = {
+      background_color: "#f0f4f8",
+      card_color: "#ffffff",
+      text_color: "#1e293b",
+      primary_color: "#3b82f6",
+      accent_color: "#8b5cf6",
+      main_title: "KODE-KODE KOMPUTER",
+      subtitle: "Panduan Pintasan Keyboard untuk Produktivitas",
+      footer_text: "💡 Klik kartu untuk menyalin shortcut ke clipboard"
+    };
+
+    const shortcuts = [
+      { key: "CTRL + A", name: "Select All", desc: "Memilih semua teks" },
+      { key: "CTRL + B", name: "Bold", desc: "Menebalkan teks" },
+      { key: "CTRL + C", name: "Copy", desc: "Menyalin" },
+      { key: "CTRL + D", name: "Font", desc: "Memilih font" },
+      { key: "CTRL + E", name: "Center", desc: "Meratakan teks ke tengah" },
+      { key: "CTRL + F", name: "Find", desc: "Mencari teks" },
+      { key: "CTRL + G", name: "Go To", desc: "Pergi ke lokasi tertentu" },
+      { key: "CTRL + H", name: "Replace", desc: "Mengganti teks" },
+      { key: "CTRL + I", name: "Italic", desc: "Memiringkan teks" },
+      { key: "CTRL + J", name: "Justify", desc: "Meratakan teks kiri-kanan" },
+      { key: "CTRL + K", name: "Insert", desc: "Membuat Hyperlink" },
+      { key: "CTRL + L", name: "Left", desc: "Meratakan teks ke kiri" },
+      { key: "CTRL + M", name: "Increase Indent", desc: "Menambah indentasi" },
+      { key: "CTRL + N", name: "New", desc: "Jendela baru" },
+      { key: "CTRL + O", name: "Open", desc: "Membuka dokumen" },
+      { key: "CTRL + P", name: "Print", desc: "Mencetak" },
+      { key: "CTRL + Q", name: "Quit", desc: "Menghapus format" },
+      { key: "CTRL + R", name: "Right", desc: "Meratakan teks ke kanan" },
+      { key: "CTRL + S", name: "Save", desc: "Menyimpan" },
+      { key: "CTRL + T", name: "Hanging", desc: "Membuat tautan" },
+      { key: "CTRL + U", name: "Underline", desc: "Memberi garis bawah" },
+      { key: "CTRL + V", name: "Paste", desc: "Menempelkan" },
+      { key: "CTRL + W", name: "Close", desc: "Menutup" },
+      { key: "CTRL + Y", name: "Redo", desc: "Mengulang" }
+    ];
+
+    function renderShortcuts() {
+      const container = document.getElementById('shortcuts-container');
+      const config = window.elementSdk ? window.elementSdk.config : defaultConfig;
+      
+      container.innerHTML = shortcuts.map(shortcut => `
+        <article class="shortcut-card" data-key="${shortcut.key}">
+          <div class="shortcut-key">
+            <span class="key-badge">${shortcut.key}</span>
+          </div>
+          <div class="shortcut-name">${shortcut.name}</div>
+          <div class="shortcut-desc">${shortcut.desc}</div>
+        </article>
+      `).join('');
+
+      // Add click handlers for copying
+      document.querySelectorAll('.shortcut-card').forEach(card => {
+        card.addEventListener('click', function() {
+          const key = this.dataset.key;
+          const tempInput = document.createElement('textarea');
+          tempInput.value = key;
+          tempInput.style.position = 'fixed';
+          tempInput.style.opacity = '0';
+          document.body.appendChild(tempInput);
+          tempInput.select();
+          document.execCommand('copy');
+          document.body.removeChild(tempInput);
+          
+          // Visual feedback
+          const originalBg = this.style.backgroundColor;
+          this.style.transform = 'scale(0.95)';
+          setTimeout(() => {
+            this.style.transform = '';
+          }, 150);
+        });
+      });
+    }
+
+    async function onConfigChange(config) {
+      const backgroundColor = config.background_color || defaultConfig.background_color;
+      const cardColor = config.card_color || defaultConfig.card_color;
+      const textColor = config.text_color || defaultConfig.text_color;
+      const primaryColor = config.primary_color || defaultConfig.primary_color;
+      const accentColor = config.accent_color || defaultConfig.accent_color;
+      const mainTitle = config.main_title || defaultConfig.main_title;
+      const subtitle = config.subtitle || defaultConfig.subtitle;
+      const footerText = config.footer_text || defaultConfig.footer_text;
+
+      // Update colors
+      document.querySelector('.app-container').style.background = `linear-gradient(135deg, ${backgroundColor} 0%, ${cardColor} 100%)`;
+      document.getElementById('main-title').style.color = textColor;
+      document.getElementById('subtitle').style.color = textColor;
+      document.getElementById('footer').style.backgroundColor = cardColor;
+      document.getElementById('footer').style.color = textColor;
+      
+      document.querySelectorAll('.shortcut-card').forEach(card => {
+        card.style.backgroundColor = cardColor;
+        card.style.color = textColor;
+        card.style.borderColor = primaryColor + '20';
+      });
+
+      document.querySelectorAll('.key-badge').forEach(badge => {
+        badge.style.backgroundColor = primaryColor;
+        badge.style.color = '#ffffff';
+      });
+
+      // Update text content
+      document.getElementById('main-title').textContent = mainTitle;
+      document.getElementById('subtitle').textContent = subtitle;
+      document.getElementById('footer-text').textContent = footerText;
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities: (config) => ({
+          recolorables: [
+            {
+              get: () => config.background_color || defaultConfig.background_color,
+              set: (value) => {
+                config.background_color = value;
+                window.elementSdk.setConfig({ background_color: value });
+              }
+            },
+            {
+              get: () => config.card_color || defaultConfig.card_color,
+              set: (value) => {
+                config.card_color = value;
+                window.elementSdk.setConfig({ card_color: value });
+              }
+            },
+            {
+              get: () => config.text_color || defaultConfig.text_color,
+              set: (value) => {
+                config.text_color = value;
+                window.elementSdk.setConfig({ text_color: value });
+              }
+            },
+            {
+              get: () => config.primary_color || defaultConfig.primary_color,
+              set: (value) => {
+                config.primary_color = value;
+                window.elementSdk.setConfig({ primary_color: value });
+              }
+            },
+            {
+              get: () => config.accent_color || defaultConfig.accent_color,
+              set: (value) => {
+                config.accent_color = value;
+                window.elementSdk.setConfig({ accent_color: value });
+              }
+            }
+          ],
+          borderables: [],
+          fontEditable: undefined,
+          fontSizeable: undefined
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ["main_title", config.main_title || defaultConfig.main_title],
+          ["subtitle", config.subtitle || defaultConfig.subtitle],
+          ["footer_text", config.footer_text || defaultConfig.footer_text]
+        ])
+      });
+    }
+
+    // Initial render
+    renderShortcuts();
+    onConfigChange(defaultConfig);
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9aa12a3453fd58c3',t:'MTc2NTA4MDUzOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

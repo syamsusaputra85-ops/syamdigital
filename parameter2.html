@@ -1,0 +1,1106 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daftar Parameter Bidang dan Kegiatan</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Times+New+Roman&amp;family=Courier+Prime&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    @media print {
+      body { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+    }
+    .document-font {
+      font-family: 'Times New Roman', Times, serif;
+    }
+    .code-font {
+      font-family: 'Courier Prime', 'Courier New', monospace;
+    }
+    .copy-btn {
+      cursor: pointer;
+      padding: 2px 6px;
+      margin-left: 6px;
+      border-radius: 3px;
+      border: 1px solid #cbd5e1;
+      background-color: #f0f9ff;
+      color: #0369a1;
+      font-size: 12px;
+      font-weight: bold;
+      transition: all 0.2s ease;
+      display: inline-block;
+      user-select: none;
+    }
+    .copy-btn:hover {
+      background-color: #e0f2fe;
+      border-color: #0284c7;
+      transform: scale(1.05);
+    }
+    .copy-btn:active {
+      transform: scale(0.95);
+    }
+    .copy-feedback {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #10b981;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 6px;
+      font-weight: bold;
+      z-index: 9999;
+      animation: slideIn 0.3s ease, slideOut 0.3s ease 2.7s;
+    }
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(100px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    @keyframes slideOut {
+      from {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      to {
+        opacity: 0;
+        transform: translateX(100px);
+      }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full bg-gray-100">
+  <div id="app-container" class="w-full h-full overflow-auto p-2">
+   <div class="max-w-full mx-auto bg-white shadow-lg document-font" style="min-height: 297mm; width: 95%; margin: 0 auto;"><!-- Header Section -->
+    <div class="px-6 pt-6 pb-3">
+     <h1 id="header-title" class="text-center font-bold text-3xl mb-4" style="font-weight: 900;">PEMERINTAH KABUPATEN DONGGALA</h1>
+     <h2 class="text-center font-bold text-2xl mb-6" style="font-weight: 800;">DAFTAR PARAMETER BIDANG DAN KEGIATAN</h2>
+     <div class="grid grid-cols-12 gap-1 text-sm mb-4" style="font-weight: 600;">
+      <div class="col-span-3">
+       KABUPATEN/KOTA
+      </div>
+      <div class="col-span-1">
+       :
+      </div>
+      <div id="kabupaten-value" class="col-span-8 font-semibold">
+       PEMERINTAH KABUPATEN DONGGALA
+      </div>
+      <div class="col-span-3">
+       PROVINSI
+      </div>
+      <div class="col-span-1">
+       :
+      </div>
+      <div id="provinsi-value" class="col-span-8 font-semibold">
+       72 PROVINSI SULAWESI TENGAH
+      </div>
+      <div class="col-span-12 text-right"><span id="kode-value" class="font-bold text-lg">03</span>
+      </div>
+     </div>
+    </div><!-- Table Section -->
+    <div class="px-3 pb-6">
+     <table class="w-full border-collapse text-sm" style="font-size: 0.95rem;">
+      <thead>
+       <tr class="bg-gray-200">
+        <th class="border border-gray-400 px-1.5 py-2 text-center w-20">KODE</th>
+        <th class="border border-gray-400 px-1.5 py-2 text-left">NAMA BIDANG, SUB BIDANG DAN KEGIATAN</th>
+       </tr>
+       <tr class="bg-gray-100">
+        <th class="border border-gray-400 px-1.5 py-1 text-center text-xs">1</th>
+        <th class="border border-gray-400 px-1.5 py-1 text-center text-xs">2</th>
+       </tr>
+      </thead>
+      <tbody class="code-font text-sm" style="font-weight: 600;"><!-- BIDANG 01 -->
+       <tr class="bg-blue-50 font-bold">
+        <td class="border border-gray-400 px-1.5 py-1.5 text-center">01</td>
+        <td class="border border-gray-400 px-1.5 py-1.5"><span>BIDANG PENYELENGGARAN PEMERINTAHAN DESA</span><button class="copy-btn" onclick="copyToClipboard('BIDANG PENYELENGGARAN PEMERINTAHAN DESA')">📋</button></td>
+       </tr><!-- Sub Bidang 01.01 -->
+       <tr class="bg-blue-50/50 font-semibold">
+        <td class="border border-gray-400 px-1.5 py-1 text-center">01.01.</td>
+        <td class="border border-gray-400 px-1.5 py-1"><span>Penyelenggaran Belanja Siltap, Tunjangan dan Operasional Pemerintahan Desa</span><button class="copy-btn" onclick="copyToClipboard('Penyelenggaran Belanja Siltap, Tunjangan dan Operasional Pemerintahan Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-1.5 py-0.5 text-center">01.01.01.</td>
+        <td class="border border-gray-400 px-1.5 py-0.5"><span>Penyediaan Penghasilan Tetap dan Tunjangan Kepala Desa</span><button class="copy-btn" onclick="copyToClipboard('Penyediaan Penghasilan Tetap dan Tunjangan Kepala Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-1.5 py-0.5 text-center">01.01.02.</td>
+        <td class="border border-gray-400 px-1.5 py-0.5"><span>Penyediaan Penghasilan Tetap dan Tunjangan Perangkat Desa</span><button class="copy-btn" onclick="copyToClipboard('Penyediaan Penghasilan Tetap dan Tunjangan Perangkat Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-1.5 py-0.5 text-center">01.01.03.</td>
+        <td class="border border-gray-400 px-1.5 py-0.5"><span>Penyediaan Jaminan Sosial bagi Kepala Desa dan Perangkat Desa</span><button class="copy-btn" onclick="copyToClipboard('Penyediaan Jaminan Sosial bagi Kepala Desa dan Perangkat Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-1.5 py-0.5 text-center">01.01.04.</td>
+        <td class="border border-gray-400 px-1.5 py-0.5"><span>Penyediaan Operasional Pemerintah Desa (ATK, Honor PKPKD dan PPKD dll)</span><button class="copy-btn" onclick="copyToClipboard('Penyediaan Operasional Pemerintah Desa (ATK, Honor PKPKD dan PPKD dll)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-1.5 py-0.5 text-center">01.01.05.</td>
+        <td class="border border-gray-400 px-1.5 py-0.5"><span>Penyediaan Tunjangan BPD</span><button class="copy-btn" onclick="copyToClipboard('Penyediaan Tunjangan BPD')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-1.5 py-0.5 text-center">01.01.06.</td>
+        <td class="border border-gray-400 px-1.5 py-0.5"><span>Penyediaan Operasional BPD (rapat, ATK, Makan Minum, Pakaian Seragam, Listrik dll)</span><button class="copy-btn" onclick="copyToClipboard('Penyediaan Operasional BPD (rapat, ATK, Makan Minum, Pakaian Seragam, Listrik dll)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-1.5 py-0.5 text-center">01.01.07.</td>
+        <td class="border border-gray-400 px-1.5 py-0.5"><span>Penyediaan Insentif/Operasional RT/RW</span><button class="copy-btn" onclick="copyToClipboard('Penyediaan Insentif/Operasional RT/RW')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-1.5 py-0.5 text-center">01.01.08.</td>
+        <td class="border border-gray-400 px-1.5 py-0.5"><span>Penyediaan Operasional Pemerintah Desa yang bersumber dari Dana Desa</span><button class="copy-btn" onclick="copyToClipboard('Penyediaan Operasional Pemerintah Desa yang bersumber dari Dana Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-1.5 py-0.5 text-center">01.01.99.</td>
+        <td class="border border-gray-400 px-1.5 py-0.5"><span>Lain-lain Sub Bidang Siltap dan Operasional Pemerintahan Desa</span><button class="copy-btn" onclick="copyToClipboard('Lain-lain Sub Bidang Siltap dan Operasional Pemerintahan Desa')">📋</button></td>
+       </tr><!-- Sub Bidang 01.02 -->
+       <tr class="bg-blue-50/50 font-semibold">
+        <td class="border border-gray-400 px-2 py-1.5 text-center">01.02.</td>
+        <td class="border border-gray-400 px-2 py-1.5"><span>Penyediaan Sarana Prasarana Pemerintahan Desa</span><button class="copy-btn" onclick="copyToClipboard('Penyediaan Sarana Prasarana Pemerintahan Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">01.02.01.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Penyediaan Sarana (Aset Tetap) Perkantoran/Pemerintahan</span><button class="copy-btn" onclick="copyToClipboard('Penyediaan Sarana (Aset Tetap) Perkantoran/Pemerintahan')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">01.02.02.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pemeliharaan Gedung/Prasarana Kantor Desa</span><button class="copy-btn" onclick="copyToClipboard('Pemeliharaan Gedung/Prasarana Kantor Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">01.02.03.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pembangunan/Rehabilitasi/Peningkatan Gedung/Prasarana Kantor Desa **)</span><button class="copy-btn" onclick="copyToClipboard('Pembangunan/Rehabilitasi/Peningkatan Gedung/Prasarana Kantor Desa **)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">01.02.99.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Lain-lain Sub Bidang Sarana Prasarana Pemerintahan Desa</span><button class="copy-btn" onclick="copyToClipboard('Lain-lain Sub Bidang Sarana Prasarana Pemerintahan Desa')">📋</button></td>
+       </tr><!-- Sub Bidang 01.03 -->
+       <tr class="bg-blue-50/50 font-semibold">
+        <td class="border border-gray-400 px-2 py-1.5 text-center">01.03.</td>
+        <td class="border border-gray-400 px-2 py-1.5"><span>Pengelolaan Administrasi Kependudukan, Pencatatan Sipil, Statistik dan Kearsipan</span><button class="copy-btn" onclick="copyToClipboard('Pengelolaan Administrasi Kependudukan, Pencatatan Sipil, Statistik dan Kearsipan')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">01.03.01.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pelayanan Administrasi Umum dan Kependudukan</span><button class="copy-btn" onclick="copyToClipboard('Pelayanan Administrasi Umum dan Kependudukan')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">01.03.02.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Penyusunan, Pendataan, dan Pemutakhiran Profil Desa **)</span><button class="copy-btn" onclick="copyToClipboard('Penyusunan, Pendataan, dan Pemutakhiran Profil Desa **)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">01.03.03.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pengelolaan Administrasi dan Kearsipan Pemerintahan Desa</span><button class="copy-btn" onclick="copyToClipboard('Pengelolaan Administrasi dan Kearsipan Pemerintahan Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">01.03.04.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Penyuluhan dan Penyadaran Masyarakat tentang Kependudukan dan Capil</span><button class="copy-btn" onclick="copyToClipboard('Penyuluhan dan Penyadaran Masyarakat tentang Kependudukan dan Capil')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">01.03.05.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pemetaan dan Analisis Kemiskinan Desa secara Partisipatif</span><button class="copy-btn" onclick="copyToClipboard('Pemetaan dan Analisis Kemiskinan Desa secara Partisipatif')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">01.03.99.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Lain-lain Sub Bidang Administrasi Kependudukan, Capil, Statistik dan Kearsipan</span><button class="copy-btn" onclick="copyToClipboard('Lain-lain Sub Bidang Administrasi Kependudukan, Capil, Statistik dan Kearsipan')">📋</button></td>
+       </tr><!-- Sub Bidang 01.04 -->
+       <tr class="bg-blue-50/50 font-semibold">
+        <td class="border border-gray-400 px-2 py-1.5 text-center">01.04.</td>
+        <td class="border border-gray-400 px-2 py-1.5"><span>Penyelenggaraan Tata Praja Pemerintahan, Perencanaan, Keuangan dan Pelaporan</span><button class="copy-btn" onclick="copyToClipboard('Penyelenggaraan Tata Praja Pemerintahan, Perencanaan, Keuangan dan Pelaporan')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">01.04.01.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Penyelenggaraan Musyawarah Perencanaan Desa/Pembahasan APBDes (Reguler)</span><button class="copy-btn" onclick="copyToClipboard('Penyelenggaraan Musyawarah Perencanaan Desa/Pembahasan APBDes (Reguler)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">01.04.02.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Penyelenggaraan Musyawarah Desa Lainnya (Musdus, Rembug desa Non Reguler)</span><button class="copy-btn" onclick="copyToClipboard('Penyelenggaraan Musyawarah Desa Lainnya (Musdus, Rembug desa Non Reguler)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">01.04.03.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Penyusunan Dokumen Perencanaan Desa (RPJMDesa/RKPDesa dll)</span><button class="copy-btn" onclick="copyToClipboard('Penyusunan Dokumen Perencanaan Desa (RPJMDesa/RKPDesa dll)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">01.04.04.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Penyusunan Dokumen Keuangan Desa (APBDes, APBDes Perubahan, LPJ dll)</span><button class="copy-btn" onclick="copyToClipboard('Penyusunan Dokumen Keuangan Desa (APBDes, APBDes Perubahan, LPJ dll)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">01.04.05.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pengelolaan Administrasi/ Inventarisasi/Penilaian Aset Desa</span><button class="copy-btn" onclick="copyToClipboard('Pengelolaan Administrasi/ Inventarisasi/Penilaian Aset Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">01.04.06.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Penyusunan Kebijakan Desa (Perdes/Perkades selain Perencanaan/Keuangan)</span><button class="copy-btn" onclick="copyToClipboard('Penyusunan Kebijakan Desa (Perdes/Perkades selain Perencanaan/Keuangan)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">01.04.07.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Penyusunan Laporan Kepala Desa, LPPDesa dan Informasi Kepada Masyarakat</span><button class="copy-btn" onclick="copyToClipboard('Penyusunan Laporan Kepala Desa, LPPDesa dan Informasi Kepada Masyarakat')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">01.04.08.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pengembangan Sistem Informasi Desa</span><button class="copy-btn" onclick="copyToClipboard('Pengembangan Sistem Informasi Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">01.04.09.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Koordinasi/Kerjasama Penyelenggaraan Pemerintahan &amp; Pembangunan Desa</span><button class="copy-btn" onclick="copyToClipboard('Koordinasi/Kerjasama Penyelenggaraan Pemerintahan &amp; Pembangunan Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">01.04.10.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Dukungan Pelaksanaan &amp; Sosialisasi Pilkades, Penyaringan dan Penjaringan Perangkat Desa, dan Pemilihan BPD (yang menjadi wewenang Desa)</span><button class="copy-btn" onclick="copyToClipboard('Dukungan Pelaksanaan &amp; Sosialisasi Pilkades, Penyaringan dan Penjaringan Perangkat Desa, dan Pemilihan BPD (yang menjadi wewenang Desa)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">01.04.11.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Penyelenggaraan Lomba antar Kewilayahan &amp; Pengiriman Kontingen dalam Mengikuti Lomba Desa</span><button class="copy-btn" onclick="copyToClipboard('Penyelenggaraan Lomba antar Kewilayahan &amp; Pengiriman Kontingen dalam Mengikuti Lomba Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">01.04.12.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Dukungan Biaya Operasional dan Biaya Lainnya untuk Desa Persiapan</span><button class="copy-btn" onclick="copyToClipboard('Dukungan Biaya Operasional dan Biaya Lainnya untuk Desa Persiapan')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">01.04.99.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Lain-lain Sub Bidang Tata Praja Pemerintahan, Perencanaan, Keuangan &amp; Pelaporan</span><button class="copy-btn" onclick="copyToClipboard('Lain-lain Sub Bidang Tata Praja Pemerintahan, Perencanaan, Keuangan &amp; Pelaporan')">📋</button></td>
+       </tr><!-- Sub Bidang 01.05 -->
+       <tr class="bg-blue-50/50 font-semibold">
+        <td class="border border-gray-400 px-2 py-1.5 text-center">01.05.</td>
+        <td class="border border-gray-400 px-2 py-1.5"><span>Sub Bidang Pertanahan</span><button class="copy-btn" onclick="copyToClipboard('Sub Bidang Pertanahan')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">01.05.01.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Sertifikasi Tanah Kas Desa</span><button class="copy-btn" onclick="copyToClipboard('Sertifikasi Tanah Kas Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">01.05.02.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Administrasi Pertanahan (Pendaftaran Tanah dan Pemberian Registrasi Agenda Pertanahan)</span><button class="copy-btn" onclick="copyToClipboard('Administrasi Pertanahan (Pendaftaran Tanah dan Pemberian Registrasi Agenda Pertanahan)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">01.05.03.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Fasilitasi Sertifikasi Tanah untuk Masyarakat Miskin</span><button class="copy-btn" onclick="copyToClipboard('Fasilitasi Sertifikasi Tanah untuk Masyarakat Miskin')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">01.05.04.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Kegiatan Mediasi Konflik Pertanahan</span><button class="copy-btn" onclick="copyToClipboard('Kegiatan Mediasi Konflik Pertanahan')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">01.05.05.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Kegiatan Penyuluhan Pertanahan</span><button class="copy-btn" onclick="copyToClipboard('Kegiatan Penyuluhan Pertanahan')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">01.05.06.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Adminstrasi Pajak Bumi dan Bangunan (PBB)</span><button class="copy-btn" onclick="copyToClipboard('Adminstrasi Pajak Bumi dan Bangunan (PBB)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">01.05.07.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Penentuan/Penegasan Batas/patok Tanah Kas Desa</span><button class="copy-btn" onclick="copyToClipboard('Penentuan/Penegasan Batas/patok Tanah Kas Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">01.05.99.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Lain-lain Sub Bidang Pertanahan</span><button class="copy-btn" onclick="copyToClipboard('Lain-lain Sub Bidang Pertanahan')">📋</button></td>
+       </tr><!-- BIDANG 02 -->
+       <tr class="bg-blue-50 font-bold">
+        <td class="border border-gray-400 px-2 py-2 text-center">02</td>
+        <td class="border border-gray-400 px-2 py-2"><span>BIDANG PELAKSANAAN PEMBANGUNAN DESA</span><button class="copy-btn" onclick="copyToClipboard('BIDANG PELAKSANAAN PEMBANGUNAN DESA')">📋</button></td>
+       </tr><!-- Sub Bidang 02.01 -->
+       <tr class="bg-blue-50/50 font-semibold">
+        <td class="border border-gray-400 px-2 py-1.5 text-center">02.01.</td>
+        <td class="border border-gray-400 px-2 py-1.5"><span>Sub Bidang Pendidikan</span><button class="copy-btn" onclick="copyToClipboard('Sub Bidang Pendidikan')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.01.01.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Penyelenggaraan PAUD/TK/TPA/TKA/TPQ/Madrasah Non-Formal Milik Desa (Honor, Pakaian dll)</span><button class="copy-btn" onclick="copyToClipboard('Penyelenggaraan PAUD/TK/TPA/TKA/TPQ/Madrasah Non-Formal Milik Desa (Honor, Pakaian dll)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.01.02.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Dukungan Penyelenggaraan PAUD (APE, Sarana PAUD dst)</span><button class="copy-btn" onclick="copyToClipboard('Dukungan Penyelenggaraan PAUD (APE, Sarana PAUD dst)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.01.03.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Penyuluhan dan Pelatihan Pendidikan Bagi Masyarakat</span><button class="copy-btn" onclick="copyToClipboard('Penyuluhan dan Pelatihan Pendidikan Bagi Masyarakat')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.01.04.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pemeliharaan Sarana Prasarana Perpustakaan/Taman Bacaan/Sanggar Belajar Milik Desa</span><button class="copy-btn" onclick="copyToClipboard('Pemeliharaan Sarana Prasarana Perpustakaan/Taman Bacaan/Sanggar Belajar Milik Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.01.05.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pemeliharaan Sarana Prasarana PAUD/TK/TPA/TKA/TPQ/Madrasah Non-formal Milik Desa</span><button class="copy-btn" onclick="copyToClipboard('Pemeliharaan Sarana Prasarana PAUD/TK/TPA/TKA/TPQ/Madrasah Non-formal Milik Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.01.06.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pembangunan/Rehabilitasi/Peningkatan/Pengadaan Sarana/Prasarana/Alat Peraga PAUD/ TK/TPA/TKA/TPQ/Madrasah Nonformal</span><button class="copy-btn" onclick="copyToClipboard('Pembangunan/Rehabilitasi/Peningkatan/Pengadaan Sarana/Prasarana/Alat Peraga PAUD/ TK/TPA/TKA/TPQ/Madrasah Nonformal')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.01.07.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pembangunan/Rehabilitasi/Peningkatan Sarana/Prasarana Perpustakaan/Taman Bacaan Desa/ Sanggar Belajar Milik Desa</span><button class="copy-btn" onclick="copyToClipboard('Pembangunan/Rehabilitasi/Peningkatan Sarana/Prasarana Perpustakaan/Taman Bacaan Desa/ Sanggar Belajar Milik Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.01.08.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pengelolaan Perpustakaan Milik Desa (Pengadaan Buku, Honor, Taman Baca)</span><button class="copy-btn" onclick="copyToClipboard('Pengelolaan Perpustakaan Milik Desa (Pengadaan Buku, Honor, Taman Baca)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.01.09.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pengembangan dan Pembinaan Sanggar Seni dan Belajar</span><button class="copy-btn" onclick="copyToClipboard('Pengembangan dan Pembinaan Sanggar Seni dan Belajar')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.01.10.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Dukungan Pendidikan bagi Siswa Miskin/Berprestasi</span><button class="copy-btn" onclick="copyToClipboard('Dukungan Pendidikan bagi Siswa Miskin/Berprestasi')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.01.99.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Lain-lain Kegiatan Sub Bidang Pendidikan</span><button class="copy-btn" onclick="copyToClipboard('Lain-lain Kegiatan Sub Bidang Pendidikan')">📋</button></td>
+       </tr><!-- Sub Bidang 02.02 -->
+       <tr class="bg-blue-50/50 font-semibold">
+        <td class="border border-gray-400 px-2 py-1.5 text-center">02.02.</td>
+        <td class="border border-gray-400 px-2 py-1.5"><span>Sub Bidang Kesehatan</span><button class="copy-btn" onclick="copyToClipboard('Sub Bidang Kesehatan')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.02.01.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Penyelenggaraan Pos Kesehatan Desa/Polindes Milik Desa (obat, Insentif, KB, dsb)</span><button class="copy-btn" onclick="copyToClipboard('Penyelenggaraan Pos Kesehatan Desa/Polindes Milik Desa (obat, Insentif, KB, dsb)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.02.02.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Penyelenggaraan Posyandu (Makanan Tambahan, Kelas Bumil, Lansia, Insentif)</span><button class="copy-btn" onclick="copyToClipboard('Penyelenggaraan Posyandu (Makanan Tambahan, Kelas Bumil, Lansia, Insentif)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.02.03.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Penyuluhan dan Pelatihan Bidang Kesehatan (Untuk Masyarakat, Tenaga dan Kader Kesehatan dll)</span><button class="copy-btn" onclick="copyToClipboard('Penyuluhan dan Pelatihan Bidang Kesehatan (Untuk Masyarakat, Tenaga dan Kader Kesehatan dll)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.02.04.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Penyelenggaraan Desa Siaga Kesehatan</span><button class="copy-btn" onclick="copyToClipboard('Penyelenggaraan Desa Siaga Kesehatan')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.02.05.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pembinaan Palang Merah Remaja (PMR) Tingkat Desa</span><button class="copy-btn" onclick="copyToClipboard('Pembinaan Palang Merah Remaja (PMR) Tingkat Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.02.06.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pengasuhan Bersama atau Bina Keluarga Balita (BKB)</span><button class="copy-btn" onclick="copyToClipboard('Pengasuhan Bersama atau Bina Keluarga Balita (BKB)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.02.07.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pembinaan dan Pengawasan Upaya Kesehatan Tradisional</span><button class="copy-btn" onclick="copyToClipboard('Pembinaan dan Pengawasan Upaya Kesehatan Tradisional')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.02.08.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pemeliharaan Sarana Prasarana Posyandu/Polindes/PKD</span><button class="copy-btn" onclick="copyToClipboard('Pemeliharaan Sarana Prasarana Posyandu/Polindes/PKD')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.02.09.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pembangunan/Rehabilitasi/Peningkatan/Pengadaan Sarana/PrasaranaPosyandu/Polindes/PKD **</span><button class="copy-btn" onclick="copyToClipboard('Pembangunan/Rehabilitasi/Peningkatan/Pengadaan Sarana/PrasaranaPosyandu/Polindes/PKD **')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.02.99.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Lain-lain Kegiatan Sub Bidang Kesehatan</span><button class="copy-btn" onclick="copyToClipboard('Lain-lain Kegiatan Sub Bidang Kesehatan')">📋</button></td>
+       </tr><!-- Sub Bidang 02.03 -->
+       <tr class="bg-blue-50/50 font-semibold">
+        <td class="border border-gray-400 px-2 py-1.5 text-center">02.03.</td>
+        <td class="border border-gray-400 px-2 py-1.5"><span>Sub Bidang Pekerjaan Umum dan Penataan Ruang</span><button class="copy-btn" onclick="copyToClipboard('Sub Bidang Pekerjaan Umum dan Penataan Ruang')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.03.01.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pemeliharaan Jalan Desa</span><button class="copy-btn" onclick="copyToClipboard('Pemeliharaan Jalan Desa')">���</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.03.02.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pemeliharaan Jalan Lingkungan Pemukiman/Gang</span><button class="copy-btn" onclick="copyToClipboard('Pemeliharaan Jalan Lingkungan Pemukiman/Gang')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.03.03.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pemeliharaan Jalan Usaha Tani</span><button class="copy-btn" onclick="copyToClipboard('Pemeliharaan Jalan Usaha Tani')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.03.04.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pemeliharaan Jembatan Desa</span><button class="copy-btn" onclick="copyToClipboard('Pemeliharaan Jembatan Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.03.05.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pemeliharaan Prasarana Jalan Desa (Gorong-gorong/Selokan/Parit/Drainase dll)</span><button class="copy-btn" onclick="copyToClipboard('Pemeliharaan Prasarana Jalan Desa (Gorong-gorong/Selokan/Parit/Drainase dll)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.03.06.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pemeliharaan Gedung/Prasarana Balai Desa/Balai Kemasyarakatan</span><button class="copy-btn" onclick="copyToClipboard('Pemeliharaan Gedung/Prasarana Balai Desa/Balai Kemasyarakatan')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.03.07.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pemeliharaan Pemakaman /Situs Bersejarah/Petilasan Milik Desa</span><button class="copy-btn" onclick="copyToClipboard('Pemeliharaan Pemakaman /Situs Bersejarah/Petilasan Milik Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.03.08.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pemeliharaan Embung Milik Desa</span><button class="copy-btn" onclick="copyToClipboard('Pemeliharaan Embung Milik Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.03.09.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pemeliharaan Monumen/Gapura/Batas Desa</span><button class="copy-btn" onclick="copyToClipboard('Pemeliharaan Monumen/Gapura/Batas Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.03.10.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pembangunan/Rehabilitas/Peningkatan/Pengerasan Jalan Desa **)</span><button class="copy-btn" onclick="copyToClipboard('Pembangunan/Rehabilitas/Peningkatan/Pengerasan Jalan Desa **)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.03.11.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pembangunan/Rehabilitasi/Peningkatan/Pengerasan Jalan Lingkungan Permukiman **)</span><button class="copy-btn" onclick="copyToClipboard('Pembangunan/Rehabilitasi/Peningkatan/Pengerasan Jalan Lingkungan Permukiman **)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.03.12.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pembangunan/Rehabilitasi/Peningkatan/Pengerasan Jalan Usaha Tani **)</span><button class="copy-btn" onclick="copyToClipboard('Pembangunan/Rehabilitasi/Peningkatan/Pengerasan Jalan Usaha Tani **)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.03.13.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pembangunan/Rehabilitasi/Peningkatan/Pengerasan Jembatan Milik Desa **)</span><button class="copy-btn" onclick="copyToClipboard('Pembangunan/Rehabilitasi/Peningkatan/Pengerasan Jembatan Milik Desa **)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.03.14.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pembangunan/Rehabilitasi/Peningkatan Prasarana Jalan Desa (Gorong, selokan dll)</span><button class="copy-btn" onclick="copyToClipboard('Pembangunan/Rehabilitasi/Peningkatan Prasarana Jalan Desa (Gorong, selokan dll)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.03.15.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pembangunan/Rehabilitasi/Peningkatan Balai Desa/Balai Kemasyarakatan **)</span><button class="copy-btn" onclick="copyToClipboard('Pembangunan/Rehabilitasi/Peningkatan Balai Desa/Balai Kemasyarakatan **)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.03.16.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pembangunan/Rehabilitasi/Peningkatan Pemakaman Milik Desa/Situs BersejarahMilik Desa/Petilasan</span><button class="copy-btn" onclick="copyToClipboard('Pembangunan/Rehabilitasi/Peningkatan Pemakaman Milik Desa/Situs BersejarahMilik Desa/Petilasan')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.03.17.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pembuatan/Pemutakhiran Peta Wilayah dan Sosial Desa **)</span><button class="copy-btn" onclick="copyToClipboard('Pembuatan/Pemutakhiran Peta Wilayah dan Sosial Desa **)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.03.18.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Penyusunan Dokumen Perencanaan Tata Ruang Desa</span><button class="copy-btn" onclick="copyToClipboard('Penyusunan Dokumen Perencanaan Tata Ruang Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.03.19.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pembangunan/Rehabilitasi/Peningkatan Embung Desa **)</span><button class="copy-btn" onclick="copyToClipboard('Pembangunan/Rehabilitasi/Peningkatan Embung Desa **)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.03.20.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pembangunan/Rehabilitasi/Peningkatan Monumen/Gapura/Batas Desa **)</span><button class="copy-btn" onclick="copyToClipboard('Pembangunan/Rehabilitasi/Peningkatan Monumen/Gapura/Batas Desa **)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.03.99.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Lain-lain Kegiatan Sub Bidang Pekerjaan Umum dan Tata Ruang</span><button class="copy-btn" onclick="copyToClipboard('Lain-lain Kegiatan Sub Bidang Pekerjaan Umum dan Tata Ruang')">📋</button></td>
+       </tr><!-- Sub Bidang 02.04 -->
+       <tr class="bg-blue-50/50 font-semibold">
+        <td class="border border-gray-400 px-2 py-1.5 text-center">02.04.</td>
+        <td class="border border-gray-400 px-2 py-1.5"><span>Sub Bidang Kawasan Pemukiman</span><button class="copy-btn" onclick="copyToClipboard('Sub Bidang Kawasan Pemukiman')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.04.01.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Dukungan Pelaksanaan Program Pembangunan/Rehab Rumah Tidak Layak Huni GAKIN</span><button class="copy-btn" onclick="copyToClipboard('Dukungan Pelaksanaan Program Pembangunan/Rehab Rumah Tidak Layak Huni GAKIN')">����</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.04.02.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pemeliharaan Sumur Resapan Milik Desa</span><button class="copy-btn" onclick="copyToClipboard('Pemeliharaan Sumur Resapan Milik Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.04.03.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pemeliharaan Sumber Air Bersih Milik Desa (Mata Air, Penampung Air, Sumur Bor dll)</span><button class="copy-btn" onclick="copyToClipboard('Pemeliharaan Sumber Air Bersih Milik Desa (Mata Air, Penampung Air, Sumur Bor dll)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.04.04.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pemeliharaan Sambungan Air Bersih ke Rumah Tangga (Pipanisasi dll)</span><button class="copy-btn" onclick="copyToClipboard('Pemeliharaan Sambungan Air Bersih ke Rumah Tangga (Pipanisasi dll)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.04.05.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pemeliharaan Sanitasi Pemukiman (Gorong-gorong, Selokan, Parit diluar Prasarana Jalan))</span><button class="copy-btn" onclick="copyToClipboard('Pemeliharaan Sanitasi Pemukiman (Gorong-gorong, Selokan, Parit diluar Prasarana Jalan))')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.04.06.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pemeliharaan Fasilitas Jamban Umum/MCK Umum dll</span><button class="copy-btn" onclick="copyToClipboard('Pemeliharaan Fasilitas Jamban Umum/MCK Umum dll')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.04.07.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pemeliharaan Fasilitas Pengelolaan Sampah Desa (Penampungan,Bank Sampah, dll)</span><button class="copy-btn" onclick="copyToClipboard('Pemeliharaan Fasilitas Pengelolaan Sampah Desa (Penampungan,Bank Sampah, dll)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.04.08.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pemeliharaan Sistem Pembuangan Air Limbah (Drainase, Air limbah Rumah Tangga)</span><button class="copy-btn" onclick="copyToClipboard('Pemeliharaan Sistem Pembuangan Air Limbah (Drainase, Air limbah Rumah Tangga)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.04.09.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pemeliharaan Taman/Taman Bermain Anak Milik Desa</span><button class="copy-btn" onclick="copyToClipboard('Pemeliharaan Taman/Taman Bermain Anak Milik Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.04.10.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pembangunan/Rehabilitasi/Peningkatan Sumur Resapan **)</span><button class="copy-btn" onclick="copyToClipboard('Pembangunan/Rehabilitasi/Peningkatan Sumur Resapan **)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.04.11.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pembangunan/Rehabilitasi/Peningkatan Sumber Air Bersih Milik Desa **)</span><button class="copy-btn" onclick="copyToClipboard('Pembangunan/Rehabilitasi/Peningkatan Sumber Air Bersih Milik Desa **)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.04.12.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pembangunan/Rehabilitasi/Peningkatan Sambungan Air Bersih ke Rumah Tangga **)</span><button class="copy-btn" onclick="copyToClipboard('Pembangunan/Rehabilitasi/Peningkatan Sambungan Air Bersih ke Rumah Tangga **)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.04.13.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pembangunan/Rehabilitasi/Peningkatan Sanitasi Permukiman **)</span><button class="copy-btn" onclick="copyToClipboard('Pembangunan/Rehabilitasi/Peningkatan Sanitasi Permukiman **)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.04.14.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pembangunan/Rehabilitasi/Peningkatan Fasilitas Jamban Umum/MCK umum, dll **)</span><button class="copy-btn" onclick="copyToClipboard('Pembangunan/Rehabilitasi/Peningkatan Fasilitas Jamban Umum/MCK umum, dll **)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.04.15.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pembangunan/Rehabilitasi/Peningkatan Fasilitas Pengelolaan Sampah **)</span><button class="copy-btn" onclick="copyToClipboard('Pembangunan/Rehabilitasi/Peningkatan Fasilitas Pengelolaan Sampah **)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.04.16.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pembangunan/Rehabilitasi/Peningkatan Sistem Pembuangan Air Limbah **)</span><button class="copy-btn" onclick="copyToClipboard('Pembangunan/Rehabilitasi/Peningkatan Sistem Pembuangan Air Limbah **)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.04.17.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pembangunan/Rehabilitasi/Peningkatan Taman/Taman Bermain Anak Milik Desa **)</span><button class="copy-btn" onclick="copyToClipboard('Pembangunan/Rehabilitasi/Peningkatan Taman/Taman Bermain Anak Milik Desa **)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.04.99.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Lain-lain Kegiatan Sub Bidang Perumahan Rakyat dan Kawasan Pemukiman</span><button class="copy-btn" onclick="copyToClipboard('Lain-lain Kegiatan Sub Bidang Perumahan Rakyat dan Kawasan Pemukiman')">📋</button></td>
+       </tr><!-- Sub Bidang 02.05 -->
+       <tr class="bg-blue-50/50 font-semibold">
+        <td class="border border-gray-400 px-2 py-1.5 text-center">02.05.</td>
+        <td class="border border-gray-400 px-2 py-1.5"><span>Sub Bidang Kehutanan dan Lingkungan Hidup</span><button class="copy-btn" onclick="copyToClipboard('Sub Bidang Kehutanan dan Lingkungan Hidup')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.05.01.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pengelolaan Hutan Milik Desa</span><button class="copy-btn" onclick="copyToClipboard('Pengelolaan Hutan Milik Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.05.02.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pengelolaan Lingkungan Hidup Milik Desa</span><button class="copy-btn" onclick="copyToClipboard('Pengelolaan Lingkungan Hidup Milik Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.05.03.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pelatihan/Sosialisasi/Penyuluhan/Penyadaran tentang LH danKehutanan **)</span><button class="copy-btn" onclick="copyToClipboard('Pelatihan/Sosialisasi/Penyuluhan/Penyadaran tentang LH danKehutanan **)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.05.99.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Lain-lain Kegiatan Sub Bidang Kehutanan dan Lingkungan Hidup</span><button class="copy-btn" onclick="copyToClipboard('Lain-lain Kegiatan Sub Bidang Kehutanan dan Lingkungan Hidup')">📋</button></td>
+       </tr><!-- Sub Bidang 02.06 -->
+       <tr class="bg-blue-50/50 font-semibold">
+        <td class="border border-gray-400 px-2 py-1.5 text-center">02.06.</td>
+        <td class="border border-gray-400 px-2 py-1.5"><span>Sub Bidang Perhubungan, Komunikasi dan Informatika</span><button class="copy-btn" onclick="copyToClipboard('Sub Bidang Perhubungan, Komunikasi dan Informatika')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.06.01.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pembuatan Rambu-rambu di Jalan Desa</span><button class="copy-btn" onclick="copyToClipboard('Pembuatan Rambu-rambu di Jalan Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.06.02.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Penyelenggaraan Informasi Publik Desa (Poster, Baliho Dll)</span><button class="copy-btn" onclick="copyToClipboard('Penyelenggaraan Informasi Publik Desa (Poster, Baliho Dll)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.06.03.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pengelolaan dan Pembuatan Jaringan/Instalasi Komunikasi dan Informasi Lokal Desa</span><button class="copy-btn" onclick="copyToClipboard('Pengelolaan dan Pembuatan Jaringan/Instalasi Komunikasi dan Informasi Lokal Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.06.04.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pemeliharaan Sarana dan Prasarana Transportasi Desa</span><button class="copy-btn" onclick="copyToClipboard('Pemeliharaan Sarana dan Prasarana Transportasi Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.06.05.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pembangunan/Rehabilitasi/Peningkatan/Pengadaan Sarana &amp; Prasarana Transportasi Desa</span><button class="copy-btn" onclick="copyToClipboard('Pembangunan/Rehabilitasi/Peningkatan/Pengadaan Sarana &amp; Prasarana Transportasi Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.06.99.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Lain-lain Kegiatan Sub Bidang Perhubungan, Komunikasi dan Informatika</span><button class="copy-btn" onclick="copyToClipboard('Lain-lain Kegiatan Sub Bidang Perhubungan, Komunikasi dan Informatika')">📋</button></td>
+       </tr><!-- Sub Bidang 02.07 -->
+       <tr class="bg-blue-50/50 font-semibold">
+        <td class="border border-gray-400 px-2 py-1.5 text-center">02.07.</td>
+        <td class="border border-gray-400 px-2 py-1.5"><span>Sub Bidang Energi dan Sumberdaya Mineral</span><button class="copy-btn" onclick="copyToClipboard('Sub Bidang Energi dan Sumberdaya Mineral')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.07.01.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pemeliharaan Sarana dan Prasarana Energi Alternatif Tingkat Desa</span><button class="copy-btn" onclick="copyToClipboard('Pemeliharaan Sarana dan Prasarana Energi Alternatif Tingkat Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.07.02.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pembangunan/Rehabilitasi/Peningkatan Sarana &amp; Prasarana Energi Alternatif Desa</span><button class="copy-btn" onclick="copyToClipboard('Pembangunan/Rehabilitasi/Peningkatan Sarana &amp; Prasarana Energi Alternatif Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.07.99.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>lain-lain kegiatan sub bidang Energi dan Sumber Daya Mineral</span><button class="copy-btn" onclick="copyToClipboard('lain-lain kegiatan sub bidang Energi dan Sumber Daya Mineral')">📋</button></td>
+       </tr><!-- Sub Bidang 02.08 -->
+       <tr class="bg-blue-50/50 font-semibold">
+        <td class="border border-gray-400 px-2 py-1.5 text-center">02.08.</td>
+        <td class="border border-gray-400 px-2 py-1.5"><span>Sub Bidang Pariwisata</span><button class="copy-btn" onclick="copyToClipboard('Sub Bidang Pariwisata')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.08.01.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pemeliharaan Sarana dan Prasarana Pariwisata Milik Desa</span><button class="copy-btn" onclick="copyToClipboard('Pemeliharaan Sarana dan Prasarana Pariwisata Milik Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.08.02.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pembangunan/Rehabilitasi/Peningkatan Sarana dan Prasarana Pariwisata Milik **)</span><button class="copy-btn" onclick="copyToClipboard('Pembangunan/Rehabilitasi/Peningkatan Sarana dan Prasarana Pariwisata Milik **)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.08.03.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pengembangan Pariwisata Tingkat Desa</span><button class="copy-btn" onclick="copyToClipboard('Pengembangan Pariwisata Tingkat Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">02.08.99.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Lain-Lain Kegiatan Sub Bidang Pariwisata</span><button class="copy-btn" onclick="copyToClipboard('Lain-Lain Kegiatan Sub Bidang Pariwisata')">📋</button></td>
+       </tr><!-- BIDANG 03 -->
+       <tr class="bg-blue-50 font-bold">
+        <td class="border border-gray-400 px-2 py-2 text-center">03</td>
+        <td class="border border-gray-400 px-2 py-2"><span>BIDANG PEMBINAAN KEMASYARAKATAN</span><button class="copy-btn" onclick="copyToClipboard('BIDANG PEMBINAAN KEMASYARAKATAN')">📋</button></td>
+       </tr><!-- Sub Bidang 03.01 -->
+       <tr class="bg-blue-50/50 font-semibold">
+        <td class="border border-gray-400 px-2 py-1.5 text-center">03.01.</td>
+        <td class="border border-gray-400 px-2 py-1.5"><span>Sub Bidang Ketenteraman, Ketertiban Umum dan Perlindungan Masyarakat</span><button class="copy-btn" onclick="copyToClipboard('Sub Bidang Ketenteraman, Ketertiban Umum dan Perlindungan Masyarakat')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">03.01.01.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pengadaan/Penyelenggaraan Pos Keamanan Desa</span><button class="copy-btn" onclick="copyToClipboard('Pengadaan/Penyelenggaraan Pos Keamanan Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">03.01.02.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Penguatan &amp; Peningkatan Kapasitas Tenaga Keamanan/Ketertiban oleh Pemdes</span><button class="copy-btn" onclick="copyToClipboard('Penguatan &amp; Peningkatan Kapasitas Tenaga Keamanan/Ketertiban oleh Pemdes')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">03.01.03.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Koordinasi Pembinaan Keamanan, Ketertiban &amp; Perlindungan Masy. Skala Lokal Desa</span><button class="copy-btn" onclick="copyToClipboard('Koordinasi Pembinaan Keamanan, Ketertiban &amp; Perlindungan Masy. Skala Lokal Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">03.01.04.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Persiapan Kesiapsiagaan/Tanggap Bencana Skala Lokal Desa</span><button class="copy-btn" onclick="copyToClipboard('Persiapan Kesiapsiagaan/Tanggap Bencana Skala Lokal Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">03.01.05.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Penyediaan Pos Kesiapsiagaan Bencana Skala Lokal Desa</span><button class="copy-btn" onclick="copyToClipboard('Penyediaan Pos Kesiapsiagaan Bencana Skala Lokal Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">03.01.06.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Bantuan Hukum Untuk Aparatur Desa dan Masyarakat Miskin</span><button class="copy-btn" onclick="copyToClipboard('Bantuan Hukum Untuk Aparatur Desa dan Masyarakat Miskin')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">03.01.07.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pelatihan/Penyuluhan/Sosialisasi kepada Masy. di Bid. Hukum &amp; Pelindungan Masy.</span><button class="copy-btn" onclick="copyToClipboard('Pelatihan/Penyuluhan/Sosialisasi kepada Masy. di Bid. Hukum &amp; Pelindungan Masy.')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">03.01.99.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Lain-lain Kegiatan Sub Bidang Ketenteraman, Ketertiban Umum dan Perlindungan Masyarakat</span><button class="copy-btn" onclick="copyToClipboard('Lain-lain Kegiatan Sub Bidang Ketenteraman, Ketertiban Umum dan Perlindungan Masyarakat')">📋</button></td>
+       </tr><!-- Sub Bidang 03.02 -->
+       <tr class="bg-blue-50/50 font-semibold">
+        <td class="border border-gray-400 px-2 py-1.5 text-center">03.02.</td>
+        <td class="border border-gray-400 px-2 py-1.5"><span>Sub Bidang Kebudayaan dan Keagamaan</span><button class="copy-btn" onclick="copyToClipboard('Sub Bidang Kebudayaan dan Keagamaan')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">03.02.01.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pembinaan Group Kesenian dan Kebudayaan Tingkat Desa</span><button class="copy-btn" onclick="copyToClipboard('Pembinaan Group Kesenian dan Kebudayaan Tingkat Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">03.02.02.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pengiriman Kontingen Group Kesenian &amp; Kebudayaan (Wakil Desa tkt. Kec/Kab/Kot)</span><button class="copy-btn" onclick="copyToClipboard('Pengiriman Kontingen Group Kesenian &amp; Kebudayaan (Wakil Desa tkt. Kec/Kab/Kot)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">03.02.03.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Penyelenggaraan Festival Kesenian, Adat/Kebudayaan, dan Keagamaan (HUT RI, Raya Keagamaan dll)</span><button class="copy-btn" onclick="copyToClipboard('Penyelenggaraan Festival Kesenian, Adat/Kebudayaan, dan Keagamaan (HUT RI, Raya Keagamaan dll)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">03.02.04.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pemeliharaan Sarana Prasarana Kebudayaan, Rumah Adat dan Keagamaan Milik Desa</span><button class="copy-btn" onclick="copyToClipboard('Pemeliharaan Sarana Prasarana Kebudayaan, Rumah Adat dan Keagamaan Milik Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">03.02.05.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pembangunan/Rehabilitasi Sarana Prasarana Kebudayaan/Rumah Adat/Kegamaan Milik Desa **)</span><button class="copy-btn" onclick="copyToClipboard('Pembangunan/Rehabilitasi Sarana Prasarana Kebudayaan/Rumah Adat/Kegamaan Milik Desa **)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">03.02.99.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Lain-lain Kegiatan Sub Bidang Kebudayaan dan Keagamaan</span><button class="copy-btn" onclick="copyToClipboard('Lain-lain Kegiatan Sub Bidang Kebudayaan dan Keagamaan')">📋</button></td>
+       </tr><!-- Sub Bidang 03.03 -->
+       <tr class="bg-blue-50/50 font-semibold">
+        <td class="border border-gray-400 px-2 py-1.5 text-center">03.03.</td>
+        <td class="border border-gray-400 px-2 py-1.5"><span>Sub Bidang Kepemudaan dan Olahraga</span><button class="copy-btn" onclick="copyToClipboard('Sub Bidang Kepemudaan dan Olahraga')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">03.03.01.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pengiriman Kontingen Kepemudaan &amp; Olahraga Sebagai Wakil Desa tkt Kec/Kab/Kota</span><button class="copy-btn" onclick="copyToClipboard('Pengiriman Kontingen Kepemudaan &amp; Olahraga Sebagai Wakil Desa tkt Kec/Kab/Kota')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">03.03.02.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Penyelenggaraan Pelatihan Kepemudaan Tingkat Desa</span><button class="copy-btn" onclick="copyToClipboard('Penyelenggaraan Pelatihan Kepemudaan Tingkat Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">03.03.03.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Penyelenggaraan Festival/Lomba Kepemudaan dan Olahraga Tingkat Desa</span><button class="copy-btn" onclick="copyToClipboard('Penyelenggaraan Festival/Lomba Kepemudaan dan Olahraga Tingkat Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">03.03.04.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pemeliharaan Sarana dan Prasarana Kepemudaan dan Olahraga Milik Desa</span><button class="copy-btn" onclick="copyToClipboard('Pemeliharaan Sarana dan Prasarana Kepemudaan dan Olahraga Milik Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">03.03.05.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pembangunan/Rehabilitasi/Peningkatan Sarana dan Prasarana Kepemudaan &amp; Olahraga Milik Desa</span><button class="copy-btn" onclick="copyToClipboard('Pembangunan/Rehabilitasi/Peningkatan Sarana dan Prasarana Kepemudaan &amp; Olahraga Milik Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">03.03.06.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pembinaan Karang Taruna/Klub Kepemudaan/Olahraga Tingkat Desa</span><button class="copy-btn" onclick="copyToClipboard('Pembinaan Karang Taruna/Klub Kepemudaan/Olahraga Tingkat Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">03.03.99.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Lain-lain Kegiatan Sub Bidang Kepemudaan dan Olahraga</span><button class="copy-btn" onclick="copyToClipboard('Lain-lain Kegiatan Sub Bidang Kepemudaan dan Olahraga')">📋</button></td>
+       </tr><!-- Sub Bidang 03.04 -->
+       <tr class="bg-blue-50/50 font-semibold">
+        <td class="border border-gray-400 px-2 py-1.5 text-center">03.04.</td>
+        <td class="border border-gray-400 px-2 py-1.5"><span>Sub Bidang Kelembagaan Masyarakat</span><button class="copy-btn" onclick="copyToClipboard('Sub Bidang Kelembagaan Masyarakat')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">03.04.01.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pembinaan Lembaga Adat</span><button class="copy-btn" onclick="copyToClipboard('Pembinaan Lembaga Adat')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">03.04.02.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pembinaan LKMD/LPM/LPMD</span><button class="copy-btn" onclick="copyToClipboard('Pembinaan LKMD/LPM/LPMD')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">03.04.03.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pembinaan PKK</span><button class="copy-btn" onclick="copyToClipboard('Pembinaan PKK')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">03.04.04.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pelatihan Pembinaan Lembaga Kemasyarakatan</span><button class="copy-btn" onclick="copyToClipboard('Pelatihan Pembinaan Lembaga Kemasyarakatan')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">03.04.99.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Lain-lain Sub Bidang Kelembagaan Masyarakat</span><button class="copy-btn" onclick="copyToClipboard('Lain-lain Sub Bidang Kelembagaan Masyarakat')">📋</button></td>
+       </tr><!-- BIDANG 04 -->
+       <tr class="bg-blue-50 font-bold">
+        <td class="border border-gray-400 px-2 py-2 text-center">04</td>
+        <td class="border border-gray-400 px-2 py-2"><span>BIDANG PEMBERDAYAAN MASYARAKAT</span><button class="copy-btn" onclick="copyToClipboard('BIDANG PEMBERDAYAAN MASYARAKAT')">📋</button></td>
+       </tr><!-- Sub Bidang 04.01 -->
+       <tr class="bg-blue-50/50 font-semibold">
+        <td class="border border-gray-400 px-2 py-1.5 text-center">04.01.</td>
+        <td class="border border-gray-400 px-2 py-1.5"><span>Sub Bidang Kelautan dan Perikanan</span><button class="copy-btn" onclick="copyToClipboard('Sub Bidang Kelautan dan Perikanan')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">04.01.01.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pemeliharaan Karamba/Kolam Perikanan Darat Milik Desa</span><button class="copy-btn" onclick="copyToClipboard('Pemeliharaan Karamba/Kolam Perikanan Darat Milik Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">04.01.02.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pemeliharaan Pelabuhan Perikanan Sungai/Kecil Milik Desa</span><button class="copy-btn" onclick="copyToClipboard('Pemeliharaan Pelabuhan Perikanan Sungai/Kecil Milik Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">04.01.03.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pembangunan/Rehabilitasi/Peningkatan Karamba/Kolam Perikanan Darat Milik Desa</span><button class="copy-btn" onclick="copyToClipboard('Pembangunan/Rehabilitasi/Peningkatan Karamba/Kolam Perikanan Darat Milik Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">04.01.04.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pembangunan/Rehabilitasi/Peningkatan Pelabuhan Perikanan Sungai/Kecil Milik Desa</span><button class="copy-btn" onclick="copyToClipboard('Pembangunan/Rehabilitasi/Peningkatan Pelabuhan Perikanan Sungai/Kecil Milik Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">04.01.05.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Bantuan Perikanan (Bibit/Pakan/dll)</span><button class="copy-btn" onclick="copyToClipboard('Bantuan Perikanan (Bibit/Pakan/dll)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">04.01.06.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Bimtek/Pelatihan/Pengenalan TTG untuk Perikanan Darat/Nelayan **)</span><button class="copy-btn" onclick="copyToClipboard('Bimtek/Pelatihan/Pengenalan TTG untuk Perikanan Darat/Nelayan **)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">04.01.99.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Lain-lain Kegiatan Sub Bidang Kelautan dan Perikanan</span><button class="copy-btn" onclick="copyToClipboard('Lain-lain Kegiatan Sub Bidang Kelautan dan Perikanan')">📋</button></td>
+       </tr><!-- Sub Bidang 04.02 -->
+       <tr class="bg-blue-50/50 font-semibold">
+        <td class="border border-gray-400 px-2 py-1.5 text-center">04.02.</td>
+        <td class="border border-gray-400 px-2 py-1.5"><span>Sub Bidang Pertanian dan Peternakan</span><button class="copy-btn" onclick="copyToClipboard('Sub Bidang Pertanian dan Peternakan')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">04.02.01.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Peningkatan Produksi Tanaman Pangan (alat produksi/pengelolaan/penggilingan)</span><button class="copy-btn" onclick="copyToClipboard('Peningkatan Produksi Tanaman Pangan (alat produksi/pengelolaan/penggilingan)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">04.02.02.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Peningkatan Produksi Peternakan (alat produksi/pengelolaan/kandang)</span><button class="copy-btn" onclick="copyToClipboard('Peningkatan Produksi Peternakan (alat produksi/pengelolaan/kandang)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">04.02.03.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Penguatan Ketahanan Pangan Tingkat Desa (Lumbung Desa dll)</span><button class="copy-btn" onclick="copyToClipboard('Penguatan Ketahanan Pangan Tingkat Desa (Lumbung Desa dll)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">04.02.04.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pemeliharaan Saluran Irigasi Tersier/Sederhana</span><button class="copy-btn" onclick="copyToClipboard('Pemeliharaan Saluran Irigasi Tersier/Sederhana')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">04.02.05.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pelatihan/Bimtek/Pengenalan Teknologi Tepat Guna untuk Pertanian/Peternakan</span><button class="copy-btn" onclick="copyToClipboard('Pelatihan/Bimtek/Pengenalan Teknologi Tepat Guna untuk Pertanian/Peternakan')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">04.02.06.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pembangunan/Rehabilitasi/Peningkatan Saluran Irigasi Tersier/Sederhana</span><button class="copy-btn" onclick="copyToClipboard('Pembangunan/Rehabilitasi/Peningkatan Saluran Irigasi Tersier/Sederhana')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">04.02.99.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Lain-lain Kegiatan Sub Bidang Pertanian dan Peternakan</span><button class="copy-btn" onclick="copyToClipboard('Lain-lain Kegiatan Sub Bidang Pertanian dan Peternakan')">📋</button></td>
+       </tr><!-- Sub Bidang 04.03 -->
+       <tr class="bg-blue-50/50 font-semibold">
+        <td class="border border-gray-400 px-2 py-1.5 text-center">04.03.</td>
+        <td class="border border-gray-400 px-2 py-1.5"><span>Sub Bidang Peningkatan Kapasitas Aparatur Desa</span><button class="copy-btn" onclick="copyToClipboard('Sub Bidang Peningkatan Kapasitas Aparatur Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">04.03.01.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Peningkatan Kapasitas Kepala Desa</span><button class="copy-btn" onclick="copyToClipboard('Peningkatan Kapasitas Kepala Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">04.03.02.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Peningkatan Kapasitas Perangkat Desa</span><button class="copy-btn" onclick="copyToClipboard('Peningkatan Kapasitas Perangkat Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">04.03.03.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Peningkatan Kapasitas BPD</span><button class="copy-btn" onclick="copyToClipboard('Peningkatan Kapasitas BPD')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">04.03.99.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Lain-lain Kegiatan Sub Bidang Peningkatan Kapasitas Aparatur Desa</span><button class="copy-btn" onclick="copyToClipboard('Lain-lain Kegiatan Sub Bidang Peningkatan Kapasitas Aparatur Desa')">📋</button></td>
+       </tr><!-- Sub Bidang 04.04 -->
+       <tr class="bg-blue-50/50 font-semibold">
+        <td class="border border-gray-400 px-2 py-1.5 text-center">04.04.</td>
+        <td class="border border-gray-400 px-2 py-1.5"><span>Sub Bidang Pemberdayaan Perempuan, Perlindungan Anak dan Keluarga</span><button class="copy-btn" onclick="copyToClipboard('Sub Bidang Pemberdayaan Perempuan, Perlindungan Anak dan Keluarga')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">04.04.01.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pelatihan dan Penyuluhan Pemberdayaan Perempuan</span><button class="copy-btn" onclick="copyToClipboard('Pelatihan dan Penyuluhan Pemberdayaan Perempuan')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">04.04.02.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pelatihan dan Penyuluhan Perlindungan Anak</span><button class="copy-btn" onclick="copyToClipboard('Pelatihan dan Penyuluhan Perlindungan Anak')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">04.04.03.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pelatihan dan Penguatan Penyandang Difabel (Penyandang Disabilitas)</span><button class="copy-btn" onclick="copyToClipboard('Pelatihan dan Penguatan Penyandang Difabel (Penyandang Disabilitas)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">04.04.99.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Lain-lain Kegiatan Sub Bidang Pemberdayaan Perempuan, Perlindungan Anak dan Keluarga</span><button class="copy-btn" onclick="copyToClipboard('Lain-lain Kegiatan Sub Bidang Pemberdayaan Perempuan, Perlindungan Anak dan Keluarga')">📋</button></td>
+       </tr><!-- Sub Bidang 04.05 -->
+       <tr class="bg-blue-50/50 font-semibold">
+        <td class="border border-gray-400 px-2 py-1.5 text-center">04.05.</td>
+        <td class="border border-gray-400 px-2 py-1.5"><span>Sub Bidang Koperasi, Usaha Micro Kecil dan Menengah (UMKM)</span><button class="copy-btn" onclick="copyToClipboard('Sub Bidang Koperasi, Usaha Micro Kecil dan Menengah (UMKM)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">04.05.01.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pelatihan Manajemen Koperasi/KUD/UMKM</span><button class="copy-btn" onclick="copyToClipboard('Pelatihan Manajemen Koperasi/KUD/UMKM')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">04.05.02.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pengembangan Sarana Prasarana Usaha Mikro, Kecil, Menengah dan Koperasi</span><button class="copy-btn" onclick="copyToClipboard('Pengembangan Sarana Prasarana Usaha Mikro, Kecil, Menengah dan Koperasi')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">04.05.03.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pengadaan Teknologi Tepat Guna Untuk Pengembangan Ekonomi Pedesaan Non Pertanian</span><button class="copy-btn" onclick="copyToClipboard('Pengadaan Teknologi Tepat Guna Untuk Pengembangan Ekonomi Pedesaan Non Pertanian')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">04.05.99.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Lain-lain Sub Bidang Koperasi, Usaha Mikro Kecil dan Menengah (UMKM)</span><button class="copy-btn" onclick="copyToClipboard('Lain-lain Sub Bidang Koperasi, Usaha Mikro Kecil dan Menengah (UMKM)')">📋</button></td>
+       </tr><!-- Sub Bidang 04.06 -->
+       <tr class="bg-blue-50/50 font-semibold">
+        <td class="border border-gray-400 px-2 py-1.5 text-center">04.06.</td>
+        <td class="border border-gray-400 px-2 py-1.5"><span>Sub Bidang Dukungan Penanaman Modal</span><button class="copy-btn" onclick="copyToClipboard('Sub Bidang Dukungan Penanaman Modal')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">04.06.01.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pembentukan BUM Desa (Persiapan dan Pembentukan Awal BUMDesa)</span><button class="copy-btn" onclick="copyToClipboard('Pembentukan BUM Desa (Persiapan dan Pembentukan Awal BUMDesa)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">04.06.02.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pelatihan Pengelolaan BUM Desa (Pelatihan yg dilaksanakan oleh Pemdes)</span><button class="copy-btn" onclick="copyToClipboard('Pelatihan Pengelolaan BUM Desa (Pelatihan yg dilaksanakan oleh Pemdes)')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">04.06.99.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Lain-lain Kegiatan Sub Bidang Dukungan Penanaman Modal</span><button class="copy-btn" onclick="copyToClipboard('Lain-lain Kegiatan Sub Bidang Dukungan Penanaman Modal')">📋</button></td>
+       </tr><!-- Sub Bidang 04.07 -->
+       <tr class="bg-blue-50/50 font-semibold">
+        <td class="border border-gray-400 px-2 py-1.5 text-center">04.07.</td>
+        <td class="border border-gray-400 px-2 py-1.5"><span>Sub Bidang Perdagangan dan Perindustrian</span><button class="copy-btn" onclick="copyToClipboard('Sub Bidang Perdagangan dan Perindustrian')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">04.07.01.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pemeliharaan Pasar Desa/Kios Milik Desa</span><button class="copy-btn" onclick="copyToClipboard('Pemeliharaan Pasar Desa/Kios Milik Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">04.07.02.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pembangunan/Rehab Pasar Desa/Kios Milik Desa</span><button class="copy-btn" onclick="copyToClipboard('Pembangunan/Rehab Pasar Desa/Kios Milik Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">04.07.03.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pengembangan Industri Kecil Tingkat Desa</span><button class="copy-btn" onclick="copyToClipboard('Pengembangan Industri Kecil Tingkat Desa')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">04.07.04.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Pembentukan/Fasilitasi/Pelatihan/Pendampingan kelompok usaha ekonomi produktif</span><button class="copy-btn" onclick="copyToClipboard('Pembentukan/Fasilitasi/Pelatihan/Pendampingan kelompok usaha ekonomi produktif')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">04.07.99.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Lain-lain Sub Bidang Perdagangan dan Perindustrian</span><button class="copy-btn" onclick="copyToClipboard('Lain-lain Sub Bidang Perdagangan dan Perindustrian')">📋</button></td>
+       </tr><!-- BIDANG 05 -->
+       <tr class="bg-blue-50 font-bold">
+        <td class="border border-gray-400 px-2 py-2 text-center">05</td>
+        <td class="border border-gray-400 px-2 py-2"><span>BIDANG PENANGGULANGAN BENCANA, DARURAT DAN MENDESAK DESA</span><button class="copy-btn" onclick="copyToClipboard('BIDANG PENANGGULANGAN BENCANA, DARURAT DAN MENDESAK DESA')">📋</button></td>
+       </tr><!-- Sub Bidang 05.01 -->
+       <tr class="bg-blue-50/50 font-semibold">
+        <td class="border border-gray-400 px-2 py-1.5 text-center">05.01.</td>
+        <td class="border border-gray-400 px-2 py-1.5"><span>Sub Bidang Penanggulangan Bencana</span><button class="copy-btn" onclick="copyToClipboard('Sub Bidang Penanggulangan Bencana')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">05.01.00.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Kegiatan Penanggulangan Bencana</span><button class="copy-btn" onclick="copyToClipboard('Kegiatan Penanggulangan Bencana')">📋</button></td>
+       </tr><!-- Sub Bidang 05.02 -->
+       <tr class="bg-blue-50/50 font-semibold">
+        <td class="border border-gray-400 px-2 py-1.5 text-center">05.02.</td>
+        <td class="border border-gray-400 px-2 py-1.5"><span>Sub Bidang Keadaan Darurat</span><button class="copy-btn" onclick="copyToClipboard('Sub Bidang Keadaan Darurat')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">05.02.00.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Penanganan Keadaan Darurat</span><button class="copy-btn" onclick="copyToClipboard('Penanganan Keadaan Darurat')">📋</button></td>
+       </tr><!-- Sub Bidang 05.03 -->
+       <tr class="bg-blue-50/50 font-semibold">
+        <td class="border border-gray-400 px-2 py-1.5 text-center">05.03.</td>
+        <td class="border border-gray-400 px-2 py-1.5"><span>Sub Bidang Keadaan Mendesak</span><button class="copy-btn" onclick="copyToClipboard('Sub Bidang Keadaan Mendesak')">📋</button></td>
+       </tr>
+       <tr>
+        <td class="border border-gray-400 px-2 py-1 text-center">05.03.00.</td>
+        <td class="border border-gray-400 px-2 py-1"><span>Penanganan Keadaan Mendesak</span><button class="copy-btn" onclick="copyToClipboard('Penanganan Keadaan Mendesak')">📋</button></td>
+       </tr>
+      </tbody>
+     </table>
+    </div><!-- Footer Section -->
+    <div class="px-8 pb-4 text-xs text-gray-600 border-t border-gray-300 pt-2">
+     <div class="flex justify-between items-center"><span>Printed by SiskeuDes 03/02/2026 23:36:23</span> <span id="page-number">Halaman 5</span>
+     </div>
+    </div>
+   </div>
+  </div>
+  <script>
+    function copyToClipboard(text) {
+      // Menggunakan Clipboard API modern
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          showFeedback('✓ Disalin!');
+        }).catch(() => {
+          fallbackCopy(text);
+        });
+      } else {
+        // Fallback untuk browser lama
+        fallbackCopy(text);
+      }
+    }
+
+    function fallbackCopy(text) {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+        showFeedback('✓ Disalin!');
+      } catch (err) {
+        showFeedback('⚠ Gagal menyalin');
+      }
+      document.body.removeChild(textarea);
+    }
+
+    function showFeedback(message) {
+      const feedback = document.createElement('div');
+      feedback.className = 'copy-feedback';
+      feedback.textContent = message;
+      document.body.appendChild(feedback);
+      
+      setTimeout(() => {
+        feedback.remove();
+      }, 3000);
+    }
+
+    const defaultConfig = {
+      kabupaten_nama: 'PEMERINTAH KABUPATEN DONGGALA',
+      kode_kabupaten: '03',
+      provinsi_nama: '72 PROVINSI SULAWESI TENGAH',
+      background_color: '#f3f4f6',
+      header_bg_color: '#dbeafe',
+      text_color: '#1f2937',
+      border_color: '#9ca3af',
+      accent_color: '#3b82f6'
+    };
+
+    async function onConfigChange(config) {
+      const kabupatenNama = config.kabupaten_nama || defaultConfig.kabupaten_nama;
+      const kodeKabupaten = config.kode_kabupaten || defaultConfig.kode_kabupaten;
+      const provinsiNama = config.provinsi_nama || defaultConfig.provinsi_nama;
+      const bgColor = config.background_color || defaultConfig.background_color;
+      const headerBgColor = config.header_bg_color || defaultConfig.header_bg_color;
+      const textColor = config.text_color || defaultConfig.text_color;
+
+      document.getElementById('header-title').textContent = kabupatenNama;
+      document.getElementById('kabupaten-value').textContent = kabupatenNama;
+      document.getElementById('provinsi-value').textContent = provinsiNama;
+      document.getElementById('kode-value').textContent = kodeKabupaten;
+
+      document.body.style.backgroundColor = bgColor;
+      document.body.style.color = textColor;
+
+      const bidangRows = document.querySelectorAll('tr.bg-blue-50');
+      bidangRows.forEach(row => {
+        row.style.backgroundColor = headerBgColor;
+      });
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [
+          {
+            get: () => config.background_color || defaultConfig.background_color,
+            set: (value) => {
+              config.background_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ background_color: value });
+            }
+          },
+          {
+            get: () => config.header_bg_color || defaultConfig.header_bg_color,
+            set: (value) => {
+              config.header_bg_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ header_bg_color: value });
+            }
+          },
+          {
+            get: () => config.text_color || defaultConfig.text_color,
+            set: (value) => {
+              config.text_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ text_color: value });
+            }
+          }
+        ],
+        borderables: [],
+        fontEditable: undefined,
+        fontSizeable: undefined
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ['kabupaten_nama', config.kabupaten_nama || defaultConfig.kabupaten_nama],
+        ['kode_kabupaten', config.kode_kabupaten || defaultConfig.kode_kabupaten],
+        ['provinsi_nama', config.provinsi_nama || defaultConfig.provinsi_nama]
+      ]);
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    } else {
+      onConfigChange(defaultConfig);
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c8be51d549f6e7c',t:'MTc3MDIyNjIxNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Tebak Gambar</title>
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1757245484/SYAMDIGITAL-LOGO-2025_mmpllg.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            box-sizing: border-box;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .bounce {
+            animation: bounce 0.6s ease-in-out;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        .shake {
+            animation: shake 0.5s ease-in-out;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        .floating-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            animation: floatUp 2s ease-out forwards;
+            pointer-events: none;
+        }
+        @keyframes floatUp {
+            0% { 
+                opacity: 0; 
+                transform: translate(-50%, -50%) scale(0.5); 
+            }
+            20% { 
+                opacity: 1; 
+                transform: translate(-50%, -50%) scale(1.2); 
+            }
+            100% { 
+                opacity: 0; 
+                transform: translate(-50%, -80%) scale(1); 
+            }
+        }
+        .floating-wrong {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            animation: wrongFloat 2.5s ease-out forwards;
+            pointer-events: none;
+        }
+        @keyframes wrongFloat {
+            0% { 
+                opacity: 0; 
+                transform: translate(-50%, -50%) scale(0.3) rotate(-10deg); 
+            }
+            15% { 
+                opacity: 1; 
+                transform: translate(-50%, -50%) scale(1.1) rotate(5deg); 
+            }
+            30% { 
+                opacity: 1; 
+                transform: translate(-50%, -50%) scale(0.95) rotate(-3deg); 
+            }
+            45% { 
+                opacity: 1; 
+                transform: translate(-50%, -50%) scale(1.05) rotate(2deg); 
+            }
+            60% { 
+                opacity: 1; 
+                transform: translate(-50%, -50%) scale(1) rotate(0deg); 
+            }
+            100% { 
+                opacity: 0; 
+                transform: translate(-50%, -70%) scale(0.8) rotate(0deg); 
+            }
+        }
+        .firework {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            z-index: 999;
+            pointer-events: none;
+        }
+        .firework-left {
+            animation: fireworkLeft 1.5s ease-out forwards;
+        }
+        .firework-right {
+            animation: fireworkRight 1.5s ease-out forwards;
+        }
+        @keyframes fireworkLeft {
+            0% {
+                left: 10%;
+                top: 60%;
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                left: 20%;
+                top: 30%;
+                opacity: 1;
+                transform: scale(2);
+            }
+            100% {
+                left: 25%;
+                top: 20%;
+                opacity: 0;
+                transform: scale(0);
+            }
+        }
+        @keyframes fireworkRight {
+            0% {
+                right: 10%;
+                top: 60%;
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                right: 20%;
+                top: 30%;
+                opacity: 1;
+                transform: scale(2);
+            }
+            100% {
+                right: 25%;
+                top: 20%;
+                opacity: 0;
+                transform: scale(0);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-purple-400 via-pink-500 to-red-500 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <div class="flex justify-between items-start mb-4">
+                <a href="https://syam.digital/" target="_blank" rel="noopener noreferrer" class="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                    </svg>
+                    Kembali ke Home
+                </a>
+                <div class="flex-1"></div>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg">🎮 Game Tebak Gambar</h1>
+            <div class="bg-white/20 backdrop-blur-sm rounded-xl p-4 inline-block">
+                <p class="text-white text-lg">Skor: <span id="score" class="font-bold text-yellow-300">0</span></p>
+                <p class="text-white text-sm">Level: <span id="level" class="font-bold">1</span></p>
+            </div>
+        </div>
+
+        <!-- Game Area -->
+        <div class="max-w-2xl mx-auto">
+            <!-- Image Display -->
+            <div class="bg-white rounded-2xl shadow-2xl p-8 mb-6 fade-in">
+                <div class="text-center mb-6">
+                    <!-- Karakter Lucu Penunjuk -->
+                    <div class="flex justify-center items-center mb-4 relative">
+                        <!-- Karakter kiri -->
+                        <div class="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-8">
+                            <div class="text-6xl animate-bounce">
+                                <svg viewBox="0 0 100 100" class="w-16 h-16">
+                                    <!-- Kepala -->
+                                    <circle cx="50" cy="40" r="25" fill="#ffeb3b"/>
+                                    <!-- Mata -->
+                                    <circle cx="42" cy="35" r="3" fill="#000"/>
+                                    <circle cx="58" cy="35" r="3" fill="#000"/>
+                                    <!-- Mulut senyum -->
+                                    <path d="M40 45 Q50 55 60 45" stroke="#000" stroke-width="2" fill="none"/>
+                                    <!-- Tangan menunjuk -->
+                                    <ellipse cx="75" cy="50" rx="8" ry="4" fill="#ffeb3b"/>
+                                    <rect x="70" y="48" width="15" height="4" fill="#ffeb3b"/>
+                                    <!-- Jari telunjuk -->
+                                    <rect x="83" y="47" width="8" height="6" rx="3" fill="#ffeb3b"/>
+                                    <!-- Badan -->
+                                    <ellipse cx="50" cy="70" rx="15" ry="20" fill="#4caf50"/>
+                                    <!-- Kaki -->
+                                    <ellipse cx="45" cy="90" rx="5" ry="8" fill="#2196f3"/>
+                                    <ellipse cx="55" cy="90" rx="5" ry="8" fill="#2196f3"/>
+                                </svg>
+                            </div>
+                            <div class="text-xs text-center mt-1 font-bold text-purple-600">Tebak ini!</div>
+                        </div>
+                        
+                        <!-- Emoji utama -->
+                        <div id="imageContainer" class="fade-in relative z-10">
+                            <div class="text-9xl animate-pulse">🐱</div>
+                        </div>
+                        
+                        <!-- Karakter kanan -->
+                        <div class="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-8">
+                            <div class="text-6xl animate-bounce" style="animation-delay: 0.5s;">
+                                <svg viewBox="0 0 100 100" class="w-16 h-16">
+                                    <!-- Kepala -->
+                                    <circle cx="50" cy="40" r="25" fill="#ff9800"/>
+                                    <!-- Mata -->
+                                    <circle cx="42" cy="35" r="3" fill="#000"/>
+                                    <circle cx="58" cy="35" r="3" fill="#000"/>
+                                    <!-- Mulut senyum -->
+                                    <path d="M40 45 Q50 55 60 45" stroke="#000" stroke-width="2" fill="none"/>
+                                    <!-- Tangan menunjuk -->
+                                    <ellipse cx="25" cy="50" rx="8" ry="4" fill="#ff9800"/>
+                                    <rect x="15" y="48" width="15" height="4" fill="#ff9800"/>
+                                    <!-- Jari telunjuk -->
+                                    <rect x="9" y="47" width="8" height="6" rx="3" fill="#ff9800"/>
+                                    <!-- Badan -->
+                                    <ellipse cx="50" cy="70" rx="15" ry="20" fill="#e91e63"/>
+                                    <!-- Kaki -->
+                                    <ellipse cx="45" cy="90" rx="5" ry="8" fill="#9c27b0"/>
+                                    <ellipse cx="55" cy="90" rx="5" ry="8" fill="#9c27b0"/>
+                                </svg>
+                            </div>
+                            <div class="text-xs text-center mt-1 font-bold text-pink-600">Apa ya?</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Pesan motivasi -->
+                    <div class="bg-gradient-to-r from-blue-100 to-purple-100 rounded-xl p-3 mb-4 mx-4">
+                        <p class="text-gray-700 text-lg font-semibold">🤔 Tebak emoji di atas!</p>
+                        <p class="text-gray-600 text-sm">Lihat baik-baik dan pikirkan jawabannya! 🧠✨</p>
+                    </div>
+                </div>
+
+                <!-- Answer Input -->
+                <div class="space-y-4">
+                    <input 
+                        type="text" 
+                        id="answerInput" 
+                        placeholder="Ketik jawaban Anda..." 
+                        class="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-xl focus:border-purple-500 focus:outline-none transition-colors"
+                        autocomplete="off"
+                    >
+                    <button 
+                        id="submitBtn" 
+                        class="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-3 px-6 rounded-xl hover:from-purple-600 hover:to-pink-600 transition-all duration-300 transform hover:scale-105"
+                    >
+                        Jawab! 🚀
+                    </button>
+                </div>
+
+                <!-- Hint and Next Button -->
+                <div class="flex justify-center gap-4 mt-4">
+                    <button 
+                        id="hintBtn" 
+                        class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors"
+                    >
+                        💡 Petunjuk
+                    </button>
+                    <button 
+                        id="nextBtn" 
+                        class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 opacity-0 pointer-events-none"
+                    >
+                        Soal Berikutnya ➡️
+                    </button>
+                </div>
+            </div>
+
+            <!-- Feedback Area -->
+            <div id="feedback" class="text-center mb-6 min-h-[60px] flex items-center justify-center">
+                <p class="text-white text-xl">Selamat bermain! 🎉</p>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="bg-white/20 rounded-full h-4 mb-6">
+                <div id="progressBar" class="bg-gradient-to-r from-green-400 to-blue-500 h-4 rounded-full transition-all duration-500" style="width: 0%"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            { 
+                emoji: '🐱',
+                answer: 'kucing', 
+                hint: 'Hewan peliharaan yang suka minum susu' 
+            },
+            { 
+                emoji: '🐶',
+                answer: 'anjing', 
+                hint: 'Sahabat terbaik manusia' 
+            },
+            { 
+                emoji: '🍎',
+                answer: 'apel', 
+                hint: 'Buah merah yang dimakan Snow White' 
+            },
+            { 
+                emoji: '☀️',
+                answer: 'matahari', 
+                hint: 'Bintang yang menerangi bumi' 
+            },
+            { 
+                emoji: '🚗',
+                answer: 'mobil', 
+                hint: 'Kendaraan beroda empat' 
+            },
+            { 
+                image: 'https://res.cloudinary.com/di8stbg60/image/upload/v1758979004/images_2_nvvc5u.jpg',
+                answer: 'beruang', 
+                hint: 'Hewan besar yang kuat dan suka makan madu' 
+            },
+            { 
+                image: 'https://res.cloudinary.com/di8stbg60/image/upload/v1758979003/images_3_ru2g0d.jpg',
+                answer: 'monyet', 
+                hint: 'Hewan yang suka memanjat pohon dan makan pisang' 
+            },
+            { 
+                image: 'https://res.cloudinary.com/di8stbg60/image/upload/v1758978948/images_5_x1vicn.jpg',
+                answer: 'jerapah', 
+                hint: 'Hewan tertinggi di dunia dengan leher yang panjang' 
+            },
+            { 
+                image: 'https://res.cloudinary.com/di8stbg60/image/upload/v1758978948/images_4_k4typb.jpg',
+                answer: 'kura-kura', 
+                hint: 'Hewan yang bergerak lambat dan membawa rumahnya di punggung' 
+            },
+            { 
+                image: 'https://res.cloudinary.com/di8stbg60/image/upload/v1758978948/images_6_ehdho6.jpg',
+                answer: 'panda', 
+                hint: 'Hewan lucu berwarna hitam putih yang suka makan bambu' 
+            },
+            { 
+                emoji: '🏠',
+                answer: 'rumah', 
+                hint: 'Tempat tinggal keluarga' 
+            },
+            { 
+                emoji: '📱',
+                answer: 'handphone', 
+                hint: 'Alat komunikasi yang selalu dibawa' 
+            },
+            { 
+                emoji: '🌸',
+                answer: 'bunga', 
+                hint: 'Tumbuhan yang indah dan wangi' 
+            },
+            { 
+                emoji: '⭐',
+                answer: 'bintang', 
+                hint: 'Benda langit yang bersinar di malam hari' 
+            },
+            { 
+                emoji: '🎂',
+                answer: 'kue', 
+                hint: 'Makanan manis untuk ulang tahun' 
+            },
+            { 
+                emoji: '🐟',
+                answer: 'ikan', 
+                hint: 'Hewan yang hidup di air' 
+            },
+            { 
+                emoji: '🌙',
+                answer: 'bulan', 
+                hint: 'Satelit alami bumi' 
+            },
+            { 
+                emoji: '🔥',
+                answer: 'api', 
+                hint: 'Panas dan menyala' 
+            },
+            { 
+                emoji: '💧',
+                answer: 'air', 
+                hint: 'Cairan yang kita minum setiap hari' 
+            },
+            { 
+                emoji: '🌳',
+                answer: 'pohon', 
+                hint: 'Tumbuhan besar yang memberikan oksigen' 
+            },
+            { 
+                emoji: '🦋',
+                answer: 'kupu-kupu', 
+                hint: 'Serangga cantik yang bisa terbang' 
+            },
+            { 
+                emoji: '🍌',
+                answer: 'pisang', 
+                hint: 'Buah kuning yang disukai monyet' 
+            },
+            { 
+                emoji: '🐘',
+                answer: 'gajah', 
+                hint: 'Hewan besar dengan belalai panjang' 
+            },
+            { 
+                emoji: '🌈',
+                answer: 'pelangi', 
+                hint: 'Muncul setelah hujan dengan warna-warni' 
+            },
+            { 
+                emoji: '🎈',
+                answer: 'balon', 
+                hint: 'Mainan yang bisa terbang jika dilepas' 
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let level = 1;
+        let hintUsed = false;
+
+        const imageContainer = document.getElementById('imageContainer');
+        const answerInput = document.getElementById('answerInput');
+        const submitBtn = document.getElementById('submitBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const hintBtn = document.getElementById('hintBtn');
+        const feedback = document.getElementById('feedback');
+        const scoreElement = document.getElementById('score');
+        const levelElement = document.getElementById('level');
+        const progressBar = document.getElementById('progressBar');
+
+        function loadQuestion() {
+            const question = questions[currentQuestion];
+            
+            if (question.emoji) {
+                imageContainer.innerHTML = `<div class="text-9xl animate-pulse">${question.emoji}</div>`;
+            } else if (question.image) {
+                imageContainer.innerHTML = `<img src="${question.image}" alt="Tebak gambar ini!" class="w-48 h-48 object-cover rounded-2xl shadow-lg mx-auto animate-pulse" onerror="this.src=''; this.alt='Gambar gagal dimuat'; this.style.display='none';">`;
+            }
+            
+            imageContainer.className = 'mb-4 fade-in flex justify-center';
+            answerInput.value = '';
+            answerInput.focus();
+            hintUsed = false;
+            
+            // Update progress
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            progressBar.style.width = progress + '%';
+            
+            // Hide next button
+            nextBtn.classList.add('opacity-0', 'pointer-events-none');
+            
+            // Reset feedback
+            feedback.innerHTML = '<p class="text-white text-xl">Ayo tebak! 🤔</p>';
+        }
+
+        function createFireworks() {
+            const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#ffeaa7', '#dda0dd', '#98d8c8'];
+            
+            // Create fireworks on left side
+            for (let i = 0; i < 8; i++) {
+                setTimeout(() => {
+                    const firework = document.createElement('div');
+                    firework.className = 'firework firework-left';
+                    firework.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    firework.style.left = (5 + Math.random() * 10) + '%';
+                    firework.style.top = (50 + Math.random() * 20) + '%';
+                    document.body.appendChild(firework);
+                    
+                    setTimeout(() => {
+                        firework.remove();
+                    }, 1500);
+                }, i * 100);
+            }
+            
+            // Create fireworks on right side
+            for (let i = 0; i < 8; i++) {
+                setTimeout(() => {
+                    const firework = document.createElement('div');
+                    firework.className = 'firework firework-right';
+                    firework.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    firework.style.right = (5 + Math.random() * 10) + '%';
+                    firework.style.top = (50 + Math.random() * 20) + '%';
+                    document.body.appendChild(firework);
+                    
+                    setTimeout(() => {
+                        firework.remove();
+                    }, 1500);
+                }, i * 100);
+            }
+        }
+
+        function showFloatingMessage() {
+            const message = document.createElement('div');
+            message.className = 'floating-message';
+            message.innerHTML = `
+                <div class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-8 py-4 rounded-2xl shadow-2xl border-4 border-white">
+                    <p class="text-3xl font-bold text-center">✨ ANDA BENAR ✨</p>
+                    <p class="text-2xl font-bold text-center mt-2">🧠 PINTAR! 🧠</p>
+                </div>
+            `;
+            document.body.appendChild(message);
+            
+            setTimeout(() => {
+                message.remove();
+            }, 2000);
+        }
+
+        function showWrongMessage() {
+            const message = document.createElement('div');
+            message.className = 'floating-wrong';
+            message.innerHTML = `
+                <div class="bg-gradient-to-r from-red-500 to-pink-600 text-white px-8 py-4 rounded-2xl shadow-2xl border-4 border-white">
+                    <p class="text-3xl font-bold text-center">❌ SALAH!</p>
+                    <p class="text-2xl font-bold text-center mt-2">🤔 COBA LAGI!</p>
+                </div>
+            `;
+            document.body.appendChild(message);
+            
+            setTimeout(() => {
+                message.remove();
+            }, 2500);
+        }
+
+        function checkAnswer() {
+            const userAnswer = answerInput.value.toLowerCase().trim();
+            const correctAnswer = questions[currentQuestion].answer.toLowerCase();
+            
+            if (userAnswer === correctAnswer) {
+                // Correct answer
+                const points = hintUsed ? 5 : 10;
+                score += points;
+                scoreElement.textContent = score;
+                
+                imageContainer.classList.add('bounce');
+                feedback.innerHTML = `<p class="text-green-300 text-2xl font-bold">🎉 Benar! +${points} poin</p>`;
+                
+                // Show floating message and fireworks
+                showFloatingMessage();
+                createFireworks();
+                
+                // Show next button
+                nextBtn.classList.remove('opacity-0', 'pointer-events-none');
+                
+                // Level up every 5 questions
+                if ((currentQuestion + 1) % 5 === 0) {
+                    level++;
+                    levelElement.textContent = level;
+                    feedback.innerHTML += `<p class="text-yellow-300 text-lg mt-2">🆙 Level Up! Level ${level}</p>`;
+                }
+                
+            } else {
+                // Wrong answer
+                imageContainer.classList.add('shake');
+                feedback.innerHTML = '<p class="text-red-300 text-xl">❌ Salah! Coba lagi!</p>';
+                answerInput.classList.add('shake');
+                
+                // Show floating wrong message
+                showWrongMessage();
+                
+                setTimeout(() => {
+                    imageContainer.classList.remove('shake');
+                    answerInput.classList.remove('shake');
+                }, 500);
+            }
+        }
+
+        function showHint() {
+            const hint = questions[currentQuestion].hint;
+            feedback.innerHTML = `<p class="text-yellow-300 text-lg">💡 Petunjuk: ${hint}</p>`;
+            hintUsed = true;
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            
+            if (currentQuestion >= questions.length) {
+                // Game finished
+                feedback.innerHTML = `
+                    <div class="bg-white/20 backdrop-blur-sm rounded-xl p-6">
+                        <p class="text-white text-2xl font-bold mb-2">🏆 Selamat!</p>
+                        <p class="text-white text-lg">Anda telah menyelesaikan semua soal!</p>
+                        <p class="text-yellow-300 text-xl font-bold mt-2">Skor Akhir: ${score}</p>
+                        <button onclick="restartGame()" class="mt-4 bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-6 rounded-lg transition-colors">
+                            🔄 Main Lagi
+                        </button>
+                    </div>
+                `;
+                nextBtn.classList.add('opacity-0', 'pointer-events-none');
+                return;
+            }
+            
+            loadQuestion();
+        }
+
+        function shuffleQuestions() {
+            // Fisher-Yates shuffle algorithm
+            for (let i = questions.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [questions[i], questions[j]] = [questions[j], questions[i]];
+            }
+        }
+
+        function restartGame() {
+            currentQuestion = 0;
+            score = 0;
+            level = 1;
+            scoreElement.textContent = score;
+            levelElement.textContent = level;
+            shuffleQuestions(); // Acak urutan soal
+            loadQuestion();
+        }
+
+        // Event listeners
+        submitBtn.addEventListener('click', checkAnswer);
+        nextBtn.addEventListener('click', nextQuestion);
+        hintBtn.addEventListener('click', showHint);
+
+        answerInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkAnswer();
+            }
+        });
+
+        // Initialize game
+        shuffleQuestions(); // Acak urutan soal di awal
+        loadQuestion();
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'985b8abe4350fce6',t:'MTc1ODk4MTc4MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

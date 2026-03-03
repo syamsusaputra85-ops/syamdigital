@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master Sailing Declaration Editor - Maritime Document Generator</title>
+    <meta name="description" content="Professional maritime document editor for Master Sailing Declarations. Create, edit, and print official shipping documents with ease.">
+    <meta name="keywords" content="maritime, shipping, master declaration, sailing document, nautical, vessel documentation">
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1757245484/SYAMDIGITAL-LOGO-2025_mmpllg.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .print-area { background: white; }
+        .fade-in { animation: fadeIn 0.5s ease-in; }
+        .slide-up { animation: slideUp 0.3s ease-out; }
+        .notification { animation: slideInRight 0.3s ease-out; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes slideInRight {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+        
+        @media print {
+            @page {
+                size: legal portrait;
+                margin: 0.5in;
+            }
+            body * { visibility: hidden; }
+            .print-area, .print-area * { visibility: visible; }
+            .print-area { 
+                position: absolute; 
+                left: 0; 
+                top: 0; 
+                width: 100%; 
+                font-size: 11px;
+                line-height: 1.2;
+                transform: scale(0.85);
+                transform-origin: top left;
+            }
+            .no-print { display: none !important; }
+            .print-area h1 { font-size: 16px; margin-bottom: 4px; }
+            .print-area h2 { font-size: 14px; margin-bottom: 8px; }
+            .print-area .space-y-6 > * { margin-bottom: 12px !important; }
+            .print-area table { font-size: 9px; }
+            .print-area .text-xs { font-size: 8px; }
+        }
+        
+        .input-group:focus-within {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #1d4ed8, #1e40af);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #10b981, #059669);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-success:hover {
+            background: linear-gradient(135deg, #059669, #047857);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8 fade-in">
+        <!-- Header -->
+        <div class="text-center mb-8 slide-up">
+            <div class="flex items-center justify-center mb-4">
+                <div class="mr-4 text-center">
+                    <a href="https://syam.digital/" target="_blank" rel="noopener noreferrer" class="block hover:opacity-80 transition-opacity">
+                        <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1758415755/SRA-LOGO-FIX-removebg-preview_lcdfei.png" 
+                             alt="SRA Logo" 
+                             class="h-16 w-auto mx-auto"
+                             onerror="this.style.display='none'; this.alt='Logo failed to load';">
+                        <p class="text-xs text-blue-600 font-medium mt-1 hover:text-blue-800 transition-colors">PT.SUMBER RIZKY ALAM</p>
+                    </a>
+                </div>
+                <div class="flex-1">
+                    <h1 class="text-4xl font-bold text-gray-800 mb-2">Master Sailing Declaration Editor</h1>
+                    <p class="text-gray-600">Professional maritime document generator for shipping industry</p>
+                </div>
+                <div class="text-6xl ml-4">⚓</div>
+            </div>
+            <div class="flex justify-center space-x-4 mt-4">
+                <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">✓ Real-time editing</span>
+                <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">✓ Print ready</span>
+                <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-medium">✓ Professional format</span>
+            </div>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-8">
+            <!-- Editor Panel -->
+            <div class="bg-white rounded-xl shadow-lg p-6 no-print slide-up input-group transition-all duration-300">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-6 flex items-center">
+                    <svg class="w-6 h-6 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                    </svg>
+                    Document Editor
+                    <span class="ml-auto text-sm text-gray-500 font-normal">Auto-save enabled</span>
+                </h2>
+
+                <div class="space-y-6">
+                    <!-- Master Information -->
+                    <div class="border-l-4 border-blue-500 pl-4">
+                        <h3 class="font-semibold text-gray-700 mb-3">Master Information</h3>
+                        <div class="space-y-3">
+                            <div class="input-group transition-all duration-200">
+                                <label class="block text-sm font-medium text-gray-600 mb-1">Master Name</label>
+                                <input type="text" id="masterName" value="ARWIN MUSTAMIN" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:border-blue-300">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ship Data -->
+                    <div class="border-l-4 border-green-500 pl-4">
+                        <h3 class="font-semibold text-gray-700 mb-3">Ship Data</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="input-group transition-all duration-200">
+                                <label class="block text-sm font-medium text-gray-600 mb-1">Ship Name</label>
+                                <input type="text" id="shipName" value="SUMBER REZKY B" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 hover:border-green-300">
+                            </div>
+                            <div class="input-group transition-all duration-200">
+                                <label class="block text-sm font-medium text-gray-600 mb-1">Call Sign</label>
+                                <input type="text" id="callSign" value="YC8041" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 hover:border-green-300">
+                            </div>
+                            <div class="input-group transition-all duration-200">
+                                <label class="block text-sm font-medium text-gray-600 mb-1">IMO Number</label>
+                                <input type="text" id="imoNumber" value="" placeholder="Optional" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 hover:border-green-300">
+                            </div>
+                            <div class="input-group transition-all duration-200">
+                                <label class="block text-sm font-medium text-gray-600 mb-1">Nationality</label>
+                                <input type="text" id="nationality" value="Indonesia" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 hover:border-green-300">
+                            </div>
+                            <div class="input-group transition-all duration-200">
+                                <label class="block text-sm font-medium text-gray-600 mb-1">GT/NT</label>
+                                <input type="text" id="gtnt" value="96" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 hover:border-green-300">
+                            </div>
+                            <div class="input-group transition-all duration-200">
+                                <label class="block text-sm font-medium text-gray-600 mb-1">No. SIPI/SIKPI</label>
+                                <input type="text" id="sipiNumber" value="" placeholder="Optional" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 hover:border-green-300">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Draft Information -->
+                    <div class="border-l-4 border-yellow-500 pl-4">
+                        <h3 class="font-semibold text-gray-700 mb-3">Draft & Cargo</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="input-group transition-all duration-200">
+                                <label class="block text-sm font-medium text-gray-600 mb-1">Forward Draft (m)</label>
+                                <input type="text" id="forwardDraft" value="2,6" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all duration-200 hover:border-yellow-300">
+                            </div>
+                            <div class="input-group transition-all duration-200">
+                                <label class="block text-sm font-medium text-gray-600 mb-1">Aft Draft (m)</label>
+                                <input type="text" id="aftDraft" value="3,0" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all duration-200 hover:border-yellow-300">
+                            </div>
+                            <div class="input-group transition-all duration-200">
+                                <label class="block text-sm font-medium text-gray-600 mb-1">Cargo Type</label>
+                                <input type="text" id="cargoType" value="NIHIL" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all duration-200 hover:border-yellow-300">
+                            </div>
+                            <div class="input-group transition-all duration-200">
+                                <label class="block text-sm font-medium text-gray-600 mb-1">Passengers</label>
+                                <input type="text" id="passengers" value="NIHIL" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent transition-all duration-200 hover:border-yellow-300">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Location and Date -->
+                    <div class="border-l-4 border-purple-500 pl-4">
+                        <h3 class="font-semibold text-gray-700 mb-3">Location & Date</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="input-group transition-all duration-200">
+                                <label class="block text-sm font-medium text-gray-600 mb-1">Location</label>
+                                <input type="text" id="location" value="Samarinda" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 hover:border-purple-300">
+                            </div>
+                            <div class="input-group transition-all duration-200">
+                                <label class="block text-sm font-medium text-gray-600 mb-1">Date</label>
+                                <input type="date" id="date" value="2025-09-21" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 hover:border-purple-300">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="space-y-4 pt-6">
+                        <div class="flex gap-4">
+                            <button onclick="updateDocument()" class="flex-1 btn-primary text-white font-medium py-4 px-6 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                                </svg>
+                                Update Document
+                            </button>
+                            <button onclick="printDocument()" class="flex-1 btn-success text-white font-medium py-4 px-6 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+                                </svg>
+                                Print Document
+                            </button>
+                        </div>
+                        
+                        <!-- Back to Home Button -->
+                        <a href="https://syam.digital/" target="_blank" rel="noopener noreferrer" class="w-full bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white font-medium py-4 px-6 rounded-lg flex items-center justify-center transition-all duration-300 hover:transform hover:-translate-y-1 hover:shadow-lg">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                            </svg>
+                            Back to Syam Digital
+                        </a>
+                    </div>
+                    
+                    <!-- Additional Features -->
+                    <div class="mt-6 p-4 bg-gray-50 rounded-lg">
+                        <h4 class="font-medium text-gray-700 mb-2">Quick Actions</h4>
+                        <div class="flex gap-2">
+                            <button onclick="saveToLocalStorage()" class="text-sm bg-white border border-gray-300 text-gray-700 px-3 py-2 rounded-md hover:bg-gray-50 transition-colors">
+                                💾 Save Draft
+                            </button>
+                            <button onclick="loadFromLocalStorage()" class="text-sm bg-white border border-gray-300 text-gray-700 px-3 py-2 rounded-md hover:bg-gray-50 transition-colors">
+                                📂 Load Draft
+                            </button>
+                            <button onclick="clearForm()" class="text-sm bg-white border border-gray-300 text-gray-700 px-3 py-2 rounded-md hover:bg-gray-50 transition-colors">
+                                🗑️ Clear All
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Document Preview -->
+            <div class="bg-white rounded-xl shadow-lg p-8 print-area slide-up" style="animation-delay: 0.2s;">
+                <div class="text-center mb-8">
+                    <h1 class="text-xl font-bold text-gray-800 mb-2">SURAT PERNYATAAN NAKHODA</h1>
+                    <h2 class="text-lg font-semibold text-gray-700">( MASTER SAILING DECLARATION )</h2>
+                </div>
+
+                <div class="space-y-6 text-sm">
+                    <!-- Legal Reference -->
+                    <div class="text-center">
+                        <p class="font-medium">Berdasarkan pasal 138 Undang Undang Nomor 17 Tahun 2008 tentang Perlayaran</p>
+                        <p class="italic text-gray-600">In accordance with article 138 Shipping act No.17 Year 2008</p>
+                    </div>
+
+                    <!-- Master Declaration -->
+                    <div>
+                        <p class="font-medium">Yang bertandatangan dibawah ini :</p>
+                        <p class="italic text-gray-600 mb-2">The under sign below</p>
+                        <p><span class="font-medium">Nama Nakhoda :</span> <span id="displayMasterName" class="font-semibold">ARWIN MUSTAMIN</span></p>
+                        <p class="italic text-gray-600">Name of Master</p>
+                    </div>
+
+                    <div>
+                        <p class="font-medium">Dengan ini menyatakan bahwa :</p>
+                        <p class="italic text-gray-600">Here with declare that</p>
+                    </div>
+
+                    <!-- Section A: Ship Data -->
+                    <div>
+                        <p class="font-bold">A. Kapal dibawah ini dengan data-data :</p>
+                        <p class="italic text-gray-600 mb-3">Data of the ship below</p>
+                        
+                        <div class="space-y-1 ml-4">
+                            <div class="flex">
+                                <span class="w-32 font-medium">Nama Kapal</span>
+                                <span class="mr-2">:</span>
+                                <span id="displayShipName" class="font-semibold">SUMBER REZKY B</span>
+                            </div>
+                            <p class="italic text-gray-600 text-xs ml-32">Ship's Name</p>
+                            
+                            <div class="flex">
+                                <span class="w-32 font-medium">Tanda Panggilan</span>
+                                <span class="mr-2">:</span>
+                                <span id="displayCallSign" class="font-semibold">YC8041</span>
+                            </div>
+                            <p class="italic text-gray-600 text-xs ml-32">Call Sign</p>
+                            
+                            <div class="flex">
+                                <span class="w-32 font-medium">Nomor IMO</span>
+                                <span class="mr-2">:</span>
+                                <span id="displayImoNumber" class="font-semibold">-</span>
+                            </div>
+                            <p class="italic text-gray-600 text-xs ml-32">IMO Number</p>
+                            
+                            <div class="flex">
+                                <span class="w-32 font-medium">Kebangsaan</span>
+                                <span class="mr-2">:</span>
+                                <span id="displayNationality" class="font-semibold">Indonesia</span>
+                            </div>
+                            <p class="italic text-gray-600 text-xs ml-32">Nationality</p>
+                            
+                            <div class="flex">
+                                <span class="w-32 font-medium">GT/NT</span>
+                                <span class="mr-2">:</span>
+                                <span id="displayGtnt" class="font-semibold">96</span>
+                            </div>
+                            
+                            <div class="flex">
+                                <span class="w-32 font-medium">No.SIPI/SIKPI</span>
+                                <span class="mr-2">:</span>
+                                <span id="displaySipiNumber" class="font-semibold">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section B: Loading -->
+                    <div>
+                        <p class="font-bold">B. Telah dimuati dengan aman, sarat, dan stabilitas yang baik :</p>
+                        <p class="italic text-gray-600 mb-3">Has been loaded with safe draft and stability</p>
+                        
+                        <table class="w-full border border-gray-300 text-xs">
+                            <thead>
+                                <tr class="bg-gray-100">
+                                    <th class="border border-gray-300 p-2 text-left">URAIAN</th>
+                                    <th class="border border-gray-300 p-2 text-left">JUMLAH</th>
+                                    <th class="border border-gray-300 p-2 text-left">KETERANGAN</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="border border-gray-300 p-2">Jenis muatan<br><span class="italic text-gray-600">Total of cargoes on board</span></td>
+                                    <td class="border border-gray-300 p-2" id="displayCargoType">NIHIL</td>
+                                    <td class="border border-gray-300 p-2">NIHIL</td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-gray-300 p-2">Penumpang yang diangkut<br><span class="italic text-gray-600">Passenger on board</span></td>
+                                    <td class="border border-gray-300 p-2" id="displayPassengers">NIHIL</td>
+                                    <td class="border border-gray-300 p-2">NIHIL</td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-gray-300 p-2">Draft kapal tolak<br><span class="italic text-gray-600">Departure draft</span></td>
+                                    <td class="border border-gray-300 p-2">DEPAN: <span id="displayForwardDraft">2,6</span><br>BELAKANG: <span id="displayAftDraft">3,0</span></td>
+                                    <td class="border border-gray-300 p-2">BAIK</td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-gray-300 p-2">Stabilitas kapal tolak<br><span class="italic text-gray-600">Departure stability</span></td>
+                                    <td class="border border-gray-300 p-2">NIHIL</td>
+                                    <td class="border border-gray-300 p-2">BAIK</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Section C: Crew -->
+                    <div>
+                        <p class="font-bold">C. Telah diawaki dengan jumlah dan kompetensi yang cukup :</p>
+                        <p class="italic text-gray-600 mb-3">Manned with proper amount and competency</p>
+                        
+                        <table class="w-full border border-gray-300 text-xs">
+                            <thead>
+                                <tr class="bg-gray-100">
+                                    <th class="border border-gray-300 p-2 text-left">JABATAN DIATAS KAPAL</th>
+                                    <th class="border border-gray-300 p-2 text-left">JUMLAH</th>
+                                    <th class="border border-gray-300 p-2 text-left">KETERANGAN</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="border border-gray-300 p-2">Perwira Dek/Deck Officer</td>
+                                    <td class="border border-gray-300 p-2">01 ORANG</td>
+                                    <td class="border border-gray-300 p-2">MPR.TK.II</td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-gray-300 p-2">Perwira Mesin/Engine Officer</td>
+                                    <td class="border border-gray-300 p-2">01 ORANG</td>
+                                    <td class="border border-gray-300 p-2">JMPR.TK.I</td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-gray-300 p-2">ABK/Rating</td>
+                                    <td class="border border-gray-300 p-2"></td>
+                                    <td class="border border-gray-300 p-2"></td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-gray-300 p-2">ABK lainnya/Others</td>
+                                    <td class="border border-gray-300 p-2">03 ORANG</td>
+                                    <td class="border border-gray-300 p-2">KELASI</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Section D: Equipment -->
+                    <div>
+                        <p class="font-bold">D. Telah diperlengkapi dengan peralatan navigasi, keselamatan, pemadam kebakaran, dan pencegahan pencemaran yang berfungsi baik :</p>
+                        <p class="italic text-gray-600 mb-3">Has been equipped with navigational, life saving, fire equipment and pollution prevention</p>
+                        
+                        <table class="w-full border border-gray-300 text-xs">
+                            <thead>
+                                <tr class="bg-gray-100">
+                                    <th class="border border-gray-300 p-2 text-left">JENIS PERALATAN</th>
+                                    <th class="border border-gray-300 p-2 text-left">JUMLAH</th>
+                                    <th class="border border-gray-300 p-2 text-left">KETERANGAN</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="border border-gray-300 p-2">Navigasi/Navigational</td>
+                                    <td class="border border-gray-300 p-2">GPS.KOMPAS.RADIO</td>
+                                    <td class="border border-gray-300 p-2">Baik</td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-gray-300 p-2">Penolong/Life Saving</td>
+                                    <td class="border border-gray-300 p-2">5 BUAH</td>
+                                    <td class="border border-gray-300 p-2">Baik</td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-gray-300 p-2">Pemadam Kebakaran/Fire Equipment</td>
+                                    <td class="border border-gray-300 p-2">2 BOTOL</td>
+                                    <td class="border border-gray-300 p-2">Baik</td>
+                                </tr>
+                                <tr>
+                                    <td class="border border-gray-300 p-2">Pencegah Pencemaran/Pollution Prevention</td>
+                                    <td class="border border-gray-300 p-2">ADA</td>
+                                    <td class="border border-gray-300 p-2">Baik</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Section E: Declaration -->
+                    <div>
+                        <p class="font-bold">E. Demikian Surat Pernyataan ini saya buat dengan sebenarnya.</p>
+                        <p class="italic text-gray-600">Herewith this declaration is true and correct</p>
+                    </div>
+
+                    <!-- Signature Section -->
+                    <div class="flex justify-between items-start mt-8">
+                        <div>
+                            <p><span class="font-medium">Tempat dan tanggal :</span> <span id="displayLocation">Samarinda</span>, <span id="displayDate">21 September 2025</span></p>
+                        </div>
+                        <div class="text-center">
+                            <p class="font-medium">Nakhoda Kapal : <span id="displayMasterNameSignature" class="font-bold">ARWIN MUSTAMIN</span></p>
+                            <div class="border-t border-gray-400 mt-16 w-48 mx-auto"></div>
+                            <p class="text-xs italic text-gray-600 mt-1">Master Signature</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateDocument() {
+            // Get values from form
+            const masterName = document.getElementById('masterName').value;
+            const shipName = document.getElementById('shipName').value;
+            const callSign = document.getElementById('callSign').value;
+            const imoNumber = document.getElementById('imoNumber').value || '-';
+            const nationality = document.getElementById('nationality').value;
+            const gtnt = document.getElementById('gtnt').value;
+            const sipiNumber = document.getElementById('sipiNumber').value || '-';
+            const forwardDraft = document.getElementById('forwardDraft').value;
+            const aftDraft = document.getElementById('aftDraft').value;
+            const cargoType = document.getElementById('cargoType').value;
+            const passengers = document.getElementById('passengers').value;
+            const location = document.getElementById('location').value;
+            const dateInput = document.getElementById('date').value;
+            
+            // Format date
+            const date = new Date(dateInput);
+            const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 
+                          'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+            const formattedDate = `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
+            
+            // Update display elements
+            document.getElementById('displayMasterName').textContent = masterName;
+            document.getElementById('displayMasterNameSignature').textContent = masterName;
+            document.getElementById('displayShipName').textContent = shipName;
+            document.getElementById('displayCallSign').textContent = callSign;
+            document.getElementById('displayImoNumber').textContent = imoNumber;
+            document.getElementById('displayNationality').textContent = nationality;
+            document.getElementById('displayGtnt').textContent = gtnt;
+            document.getElementById('displaySipiNumber').textContent = sipiNumber;
+            document.getElementById('displayForwardDraft').textContent = forwardDraft;
+            document.getElementById('displayAftDraft').textContent = aftDraft;
+            document.getElementById('displayCargoType').textContent = cargoType;
+            document.getElementById('displayPassengers').textContent = passengers;
+            document.getElementById('displayLocation').textContent = location;
+            document.getElementById('displayDate').textContent = formattedDate;
+            
+            // Show success message
+            showNotification('Document updated successfully!', 'success');
+        }
+
+        function printDocument() {
+            window.print();
+        }
+
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 px-6 py-3 rounded-lg text-white font-medium z-50 notification ${
+                type === 'success' ? 'bg-green-500' : type === 'info' ? 'bg-blue-500' : 'bg-red-500'
+            }`;
+            notification.innerHTML = `
+                <div class="flex items-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        ${type === 'success' ? 
+                            '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>' :
+                            '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>'
+                        }
+                    </svg>
+                    ${message}
+                </div>
+            `;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        function saveToLocalStorage() {
+            const formData = {
+                masterName: document.getElementById('masterName').value,
+                shipName: document.getElementById('shipName').value,
+                callSign: document.getElementById('callSign').value,
+                imoNumber: document.getElementById('imoNumber').value,
+                nationality: document.getElementById('nationality').value,
+                gtnt: document.getElementById('gtnt').value,
+                sipiNumber: document.getElementById('sipiNumber').value,
+                forwardDraft: document.getElementById('forwardDraft').value,
+                aftDraft: document.getElementById('aftDraft').value,
+                cargoType: document.getElementById('cargoType').value,
+                passengers: document.getElementById('passengers').value,
+                location: document.getElementById('location').value,
+                date: document.getElementById('date').value
+            };
+            
+            localStorage.setItem('masterDeclarationDraft', JSON.stringify(formData));
+            showNotification('Draft saved successfully!', 'success');
+        }
+
+        function loadFromLocalStorage() {
+            const savedData = localStorage.getItem('masterDeclarationDraft');
+            if (savedData) {
+                const formData = JSON.parse(savedData);
+                Object.keys(formData).forEach(key => {
+                    const element = document.getElementById(key);
+                    if (element) {
+                        element.value = formData[key];
+                    }
+                });
+                updateDocument();
+                showNotification('Draft loaded successfully!', 'info');
+            } else {
+                showNotification('No saved draft found!', 'error');
+            }
+        }
+
+        function clearForm() {
+            if (confirm('Are you sure you want to clear all fields?')) {
+                document.getElementById('masterName').value = '';
+                document.getElementById('shipName').value = '';
+                document.getElementById('callSign').value = '';
+                document.getElementById('imoNumber').value = '';
+                document.getElementById('nationality').value = '';
+                document.getElementById('gtnt').value = '';
+                document.getElementById('sipiNumber').value = '';
+                document.getElementById('forwardDraft').value = '';
+                document.getElementById('aftDraft').value = '';
+                document.getElementById('cargoType').value = '';
+                document.getElementById('passengers').value = '';
+                document.getElementById('location').value = '';
+                document.getElementById('date').value = '';
+                updateDocument();
+                showNotification('Form cleared!', 'info');
+            }
+        }
+
+        // Auto-update on input change
+        document.addEventListener('input', function(e) {
+            if (e.target.tagName === 'INPUT') {
+                updateDocument();
+            }
+        });
+
+        // Initialize document
+        updateDocument();
+        
+        // Auto-save every 30 seconds
+        setInterval(() => {
+            if (document.getElementById('masterName').value.trim()) {
+                saveToLocalStorage();
+            }
+        }, 30000);
+    </script>
+    
+    <!-- Footer -->
+    <footer class="mt-16 text-center text-gray-500 text-sm no-print">
+        <div class="border-t border-gray-200 pt-8 pb-4">
+            <p class="mb-2">Master Sailing Declaration Editor v1.0</p>
+            <p>Professional maritime document generator • Ready for Netlify deployment</p>
+            <div class="flex justify-center items-center mt-4 space-x-4">
+                <span class="flex items-center">
+                    <span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                    Auto-save enabled
+                </span>
+                <span class="flex items-center">
+                    <span class="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
+                    Print optimized
+                </span>
+                <span class="flex items-center">
+                    <span class="w-2 h-2 bg-purple-500 rounded-full mr-2"></span>
+                    Mobile responsive
+                </span>
+            </div>
+        </div>
+    </footer>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98296a1c6658f882',t:'MTc1ODQ1NjE1NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

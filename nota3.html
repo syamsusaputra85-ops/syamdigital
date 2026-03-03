@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nota Penjualan</title>
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1757245484/SYAMDIGITAL-LOGO-2025_mmpllg.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @media print {
+            body { margin: 0; }
+            .no-print { display: none; }
+        }
+        .receipt-paper {
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        .editable {
+            background-color: #fef3c7;
+            border: 1px dashed #f59e0b;
+            padding: 2px;
+            border-radius: 2px;
+        }
+        .editable:focus {
+            outline: 2px solid #f59e0b;
+            background-color: #fef9e7;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-4">
+    <div class="max-w-md mx-auto bg-white receipt-paper">
+        <!-- Header Biru -->
+        <div class="bg-blue-600 text-white p-4 text-center no-print">
+            <h1 class="text-xl font-bold">NOTA PENJUALAN</h1>
+            <p class="text-sm mt-1">TOKO SERBAGUNA</p>
+        </div>
+        
+        <!-- Info Toko -->
+        <div class="p-4 border-b border-gray-200">
+            <div class="text-center text-sm">
+                <p class="font-semibold" contenteditable="false">TOKO SERBAGUNA</p>
+                <p contenteditable="false">Jl. Raya Utama No. 123</p>
+                <p contenteditable="false">Telp: 021-12345678</p>
+            </div>
+        </div>
+        
+        <!-- Info Transaksi -->
+        <div class="p-4 border-b border-gray-200">
+            <div class="flex justify-between text-sm mb-1">
+                <span>No. Nota:</span>
+                <span class="font-mono" contenteditable="false">001/2024/01</span>
+            </div>
+            <div class="flex justify-between text-sm mb-1">
+                <span>Tanggal:</span>
+                <span contenteditable="false">15/01/2024</span>
+            </div>
+            <div class="flex justify-between text-sm mb-1">
+                <span>Waktu:</span>
+                <span contenteditable="false">14:30:25</span>
+            </div>
+            <div class="flex justify-between text-sm">
+                <span>Kasir:</span>
+                <span contenteditable="false">Budi</span>
+            </div>
+        </div>
+        
+        <!-- Tabel Item -->
+        <div class="p-4">
+            <table class="w-full text-sm">
+                <thead>
+                    <tr class="border-b border-gray-300">
+                        <th class="text-left py-2">Item</th>
+                        <th class="text-center py-2">Qty</th>
+                        <th class="text-right py-2">Harga</th>
+                        <th class="text-right py-2">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="border-b border-gray-200">
+                        <td class="py-2" contenteditable="false">Beras 5kg</td>
+                        <td class="text-center py-2 qty-field" contenteditable="false" data-row="0">2</td>
+                        <td class="text-right py-2 price-field" contenteditable="false" data-row="0">65.000</td>
+                        <td class="text-right py-2 total-field" contenteditable="false" data-row="0">130.000</td>
+                    </tr>
+                    <tr class="border-b border-gray-200">
+                        <td class="py-2" contenteditable="false">Minyak Goreng 1L</td>
+                        <td class="text-center py-2 qty-field" contenteditable="false" data-row="1">3</td>
+                        <td class="text-right py-2 price-field" contenteditable="false" data-row="1">18.000</td>
+                        <td class="text-right py-2 total-field" contenteditable="false" data-row="1">54.000</td>
+                    </tr>
+                    <tr class="border-b border-gray-200">
+                        <td class="py-2" contenteditable="false">Gula Pasir 1kg</td>
+                        <td class="text-center py-2 qty-field" contenteditable="false" data-row="2">1</td>
+                        <td class="text-right py-2 price-field" contenteditable="false" data-row="2">15.000</td>
+                        <td class="text-right py-2 total-field" contenteditable="false" data-row="2">15.000</td>
+                    </tr>
+                    <tr class="border-b border-gray-200">
+                        <td class="py-2" contenteditable="false">Telur 1kg</td>
+                        <td class="text-center py-2 qty-field" contenteditable="false" data-row="3">2</td>
+                        <td class="text-right py-2 price-field" contenteditable="false" data-row="3">28.000</td>
+                        <td class="text-right py-2 total-field" contenteditable="false" data-row="3">56.000</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Total -->
+        <div class="px-4 pb-4">
+            <div class="border-t-2 border-gray-400 pt-2">
+                <div class="flex justify-between text-sm mb-1">
+                    <span>Subtotal:</span>
+                    <span id="subtotal" contenteditable="false">Rp 255.000</span>
+                </div>
+                <div class="flex justify-between text-sm mb-1">
+                    <span>Diskon:</span>
+                    <span id="discount" contenteditable="false">Rp 5.000</span>
+                </div>
+                <div class="flex justify-between font-bold text-lg border-t border-gray-300 pt-2">
+                    <span>TOTAL:</span>
+                    <span id="grandTotal" contenteditable="false">Rp 250.000</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Pembayaran -->
+        <div class="px-4 pb-4 border-t border-gray-200">
+            <div class="flex justify-between text-sm mb-1 pt-2">
+                <span>Tunai:</span>
+                <span id="cash" contenteditable="false">Rp 300.000</span>
+            </div>
+            <div class="flex justify-between text-sm font-semibold">
+                <span>Kembalian:</span>
+                <span id="change" contenteditable="false">Rp 50.000</span>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="p-4 text-center text-xs border-t border-gray-200">
+            <p class="mb-2">Terima kasih atas kunjungan Anda!</p>
+            <p>Barang yang sudah dibeli tidak dapat dikembalikan</p>
+        </div>
+        
+        <!-- Tombol Kontrol -->
+        <div class="p-4 no-print space-y-2">
+            <button id="toggleEdit" onclick="toggleEditMode()" class="w-full bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700 transition-colors">
+                ✏️ Mode Editor
+            </button>
+            <button onclick="window.print()" class="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition-colors">
+                🖨️ Cetak Nota
+            </button>
+            <a href="https://syam.digital/" class="block w-full bg-gray-600 text-white py-2 px-4 rounded hover:bg-gray-700 transition-colors text-center">
+                🏠 Kembali ke Home
+            </a>
+        </div>
+    </div>
+
+    <script>
+        let isEditMode = false;
+
+        function parseNumber(text) {
+            return parseInt(text.replace(/[^\d]/g, '')) || 0;
+        }
+
+        function formatNumber(num) {
+            return num.toLocaleString('id-ID');
+        }
+
+        function calculateRowTotal(row) {
+            const qtyElement = document.querySelector(`.qty-field[data-row="${row}"]`);
+            const priceElement = document.querySelector(`.price-field[data-row="${row}"]`);
+            const totalElement = document.querySelector(`.total-field[data-row="${row}"]`);
+            
+            const qty = parseNumber(qtyElement.textContent);
+            const price = parseNumber(priceElement.textContent);
+            const total = qty * price;
+            
+            totalElement.textContent = formatNumber(total);
+            calculateGrandTotal();
+        }
+
+        function calculateGrandTotal() {
+            let subtotal = 0;
+            document.querySelectorAll('.total-field').forEach(element => {
+                subtotal += parseNumber(element.textContent);
+            });
+            
+            const discount = parseNumber(document.getElementById('discount').textContent);
+            const grandTotal = subtotal - discount;
+            const cash = parseNumber(document.getElementById('cash').textContent);
+            const change = cash - grandTotal;
+            
+            document.getElementById('subtotal').textContent = 'Rp ' + formatNumber(subtotal);
+            document.getElementById('grandTotal').textContent = 'Rp ' + formatNumber(grandTotal);
+            document.getElementById('change').textContent = 'Rp ' + formatNumber(change);
+        }
+
+        function toggleEditMode() {
+            isEditMode = !isEditMode;
+            const editableElements = document.querySelectorAll('[contenteditable]');
+            const toggleButton = document.getElementById('toggleEdit');
+            
+            editableElements.forEach(element => {
+                if (isEditMode) {
+                    element.contentEditable = 'true';
+                    element.classList.add('editable');
+                } else {
+                    element.contentEditable = 'false';
+                    element.classList.remove('editable');
+                }
+            });
+            
+            if (isEditMode) {
+                toggleButton.textContent = '💾 Simpan & Keluar';
+                toggleButton.className = 'w-full bg-orange-600 text-white py-2 px-4 rounded hover:bg-orange-700 transition-colors';
+                
+                // Add event listeners for auto calculation
+                document.querySelectorAll('.qty-field, .price-field').forEach(element => {
+                    element.addEventListener('input', function() {
+                        const row = this.getAttribute('data-row');
+                        calculateRowTotal(row);
+                    });
+                });
+                
+                document.getElementById('discount').addEventListener('input', calculateGrandTotal);
+                document.getElementById('cash').addEventListener('input', calculateGrandTotal);
+                
+            } else {
+                toggleButton.textContent = '✏️ Mode Editor';
+                toggleButton.className = 'w-full bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700 transition-colors';
+            }
+        }
+
+        // Auto-save saat keluar dari mode edit
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && isEditMode) {
+                toggleEditMode();
+            }
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9811ab04d4b291b4',t:'MTc1ODIwNzE1Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

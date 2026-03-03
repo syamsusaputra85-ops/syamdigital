@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pencarian Kode Aset Akurat</title>
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1757245484/SYAMDIGITAL-LOGO-2025_mmpllg.png">
+    <link rel="shortcut icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1757245484/SYAMDIGITAL-LOGO-2025_mmpllg.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .loading { animation: spin 1s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .fade-in { animation: fadeIn 0.3s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .highlight { background-color: #fef3c7; padding: 1px 3px; border-radius: 2px; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <div class="flex items-center justify-center mb-4">
+                <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1751214851/SYAM-DIGITAL_qp3cfw.png" 
+                     alt="Syam Digital Admin" 
+                     class="w-16 h-16 rounded-full border-4 border-blue-500 shadow-lg mr-4"
+                     onerror="this.style.display='none';">
+                <div class="text-left">
+                    <h1 class="text-4xl font-bold text-gray-800 mb-1">🔍 Pencarian Kode Aset</h1>
+                    <p class="text-blue-600 font-medium">Admin: Syam Digital</p>
+                </div>
+            </div>
+            <div class="mb-4">
+                <a href="https://syam.digital/" target="_blank" 
+                   class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-medium rounded-lg shadow-lg transition-all duration-200 transform hover:scale-105">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg>
+                    🏠 Kembali ke Home
+                </a>
+            </div>
+            <p class="text-gray-600">Cari dan filter Kode Aset dengan mudah</p>
+        </div>
+
+        <!-- Search Controls -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+                <!-- Search Input -->
+                <div class="lg:col-span-2">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Pencarian Kode Aset</label>
+                    <div class="flex gap-2">
+                        <div class="relative flex-1">
+                            <input type="text" id="globalSearch" placeholder="Cari di semua kolom..." 
+                                   class="w-full px-4 py-2 pl-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <select id="rek5Dropdown" class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white min-w-[150px]">
+                            <option value="">Pilih Abjad di bawah Sesuai Nama Aset yang dicari</option>
+                        </select>
+                    </div>
+                    <!-- Quick Search References -->
+                    <div class="mt-3">
+                        <p class="text-sm text-gray-600 mb-2">🔤 Referensi Abjad A-Z:Pilih Awalan Huruf/Inisial Nama Aset | Semoga Bermanfaat @BySyam</p>
+                        <div class="flex flex-wrap gap-1">
+                            <button onclick="quickSearch('A')" class="px-2 py-1 bg-blue-100 hover:bg-blue-200 text-blue-700 rounded text-sm font-medium transition-colors min-w-[32px]">A</button>
+                            <button onclick="quickSearch('B')" class="px-2 py-1 bg-green-100 hover:bg-green-200 text-green-700 rounded text-sm font-medium transition-colors min-w-[32px]">B</button>
+                            <button onclick="quickSearch('C')" class="px-2 py-1 bg-purple-100 hover:bg-purple-200 text-purple-700 rounded text-sm font-medium transition-colors min-w-[32px]">C</button>
+                            <button onclick="quickSearch('D')" class="px-2 py-1 bg-red-100 hover:bg-red-200 text-red-700 rounded text-sm font-medium transition-colors min-w-[32px]">D</button>
+                            <button onclick="quickSearch('E')" class="px-2 py-1 bg-yellow-100 hover:bg-yellow-200 text-yellow-700 rounded text-sm font-medium transition-colors min-w-[32px]">E</button>
+                            <button onclick="quickSearch('F')" class="px-2 py-1 bg-indigo-100 hover:bg-indigo-200 text-indigo-700 rounded text-sm font-medium transition-colors min-w-[32px]">F</button>
+                            <button onclick="quickSearch('G')" class="px-2 py-1 bg-pink-100 hover:bg-pink-200 text-pink-700 rounded text-sm font-medium transition-colors min-w-[32px]">G</button>
+                            <button onclick="quickSearch('H')" class="px-2 py-1 bg-cyan-100 hover:bg-cyan-200 text-cyan-700 rounded text-sm font-medium transition-colors min-w-[32px]">H</button>
+                            <button onclick="quickSearch('I')" class="px-2 py-1 bg-orange-100 hover:bg-orange-200 text-orange-700 rounded text-sm font-medium transition-colors min-w-[32px]">I</button>
+                            <button onclick="quickSearch('J')" class="px-2 py-1 bg-teal-100 hover:bg-teal-200 text-teal-700 rounded text-sm font-medium transition-colors min-w-[32px]">J</button>
+                            <button onclick="quickSearch('K')" class="px-2 py-1 bg-lime-100 hover:bg-lime-200 text-lime-700 rounded text-sm font-medium transition-colors min-w-[32px]">K</button>
+                            <button onclick="quickSearch('L')" class="px-2 py-1 bg-amber-100 hover:bg-amber-200 text-amber-700 rounded text-sm font-medium transition-colors min-w-[32px]">L</button>
+                            <button onclick="quickSearch('M')" class="px-2 py-1 bg-emerald-100 hover:bg-emerald-200 text-emerald-700 rounded text-sm font-medium transition-colors min-w-[32px]">M</button>
+                            <button onclick="quickSearch('N')" class="px-2 py-1 bg-violet-100 hover:bg-violet-200 text-violet-700 rounded text-sm font-medium transition-colors min-w-[32px]">N</button>
+                            <button onclick="quickSearch('O')" class="px-2 py-1 bg-rose-100 hover:bg-rose-200 text-rose-700 rounded text-sm font-medium transition-colors min-w-[32px]">O</button>
+                            <button onclick="quickSearch('P')" class="px-2 py-1 bg-sky-100 hover:bg-sky-200 text-sky-700 rounded text-sm font-medium transition-colors min-w-[32px]">P</button>
+                            <button onclick="quickSearch('Q')" class="px-2 py-1 bg-stone-100 hover:bg-stone-200 text-stone-700 rounded text-sm font-medium transition-colors min-w-[32px]">Q</button>
+                            <button onclick="quickSearch('R')" class="px-2 py-1 bg-red-100 hover:bg-red-200 text-red-700 rounded text-sm font-medium transition-colors min-w-[32px]">R</button>
+                            <button onclick="quickSearch('S')" class="px-2 py-1 bg-green-100 hover:bg-green-200 text-green-700 rounded text-sm font-medium transition-colors min-w-[32px]">S</button>
+                            <button onclick="quickSearch('T')" class="px-2 py-1 bg-blue-100 hover:bg-blue-200 text-blue-700 rounded text-sm font-medium transition-colors min-w-[32px]">T</button>
+                            <button onclick="quickSearch('U')" class="px-2 py-1 bg-purple-100 hover:bg-purple-200 text-purple-700 rounded text-sm font-medium transition-colors min-w-[32px]">U</button>
+                            <button onclick="quickSearch('V')" class="px-2 py-1 bg-yellow-100 hover:bg-yellow-200 text-yellow-700 rounded text-sm font-medium transition-colors min-w-[32px]">V</button>
+                            <button onclick="quickSearch('W')" class="px-2 py-1 bg-indigo-100 hover:bg-indigo-200 text-indigo-700 rounded text-sm font-medium transition-colors min-w-[32px]">W</button>
+                            <button onclick="quickSearch('X')" class="px-2 py-1 bg-pink-100 hover:bg-pink-200 text-pink-700 rounded text-sm font-medium transition-colors min-w-[32px]">X</button>
+                            <button onclick="quickSearch('Y')" class="px-2 py-1 bg-cyan-100 hover:bg-cyan-200 text-cyan-700 rounded text-sm font-medium transition-colors min-w-[32px]">Y</button>
+                            <button onclick="quickSearch('Z')" class="px-2 py-1 bg-orange-100 hover:bg-orange-200 text-orange-700 rounded text-sm font-medium transition-colors min-w-[32px]">Z</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column Filter -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Filter Kolom</label>
+                    <select id="columnFilter" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                        <option value="">Semua Kolom</option>
+                    </select>
+                </div>
+
+                <!-- Sort Options -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Urutkan</label>
+                    <select id="sortOptions" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                        <option value="">Tanpa Urutan</option>
+                        <option value="asc">A-Z (Naik)</option>
+                        <option value="desc">Z-A (Turun)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Advanced Filters -->
+            <div class="border-t pt-4">
+                <button id="toggleAdvanced" class="text-blue-600 hover:text-blue-800 font-medium mb-3">
+                    ⚙️ Filter Lanjutan
+                </button>
+                <div id="advancedFilters" class="hidden grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Tanggal Dari</label>
+                        <input type="date" id="dateFrom" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Tanggal Sampai</label>
+                        <input type="date" id="dateTo" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Jumlah Minimum</label>
+                        <input type="number" id="minValue" placeholder="0" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-wrap gap-3 mt-4">
+                <button id="searchBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors">
+                    🔍 Cari Data
+                </button>
+                <button id="clearBtn" class="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-lg font-medium transition-colors">
+                    🗑️ Bersihkan
+                </button>
+                <button id="exportBtn" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-medium transition-colors">
+                    📊 Export CSV
+                </button>
+                <button id="refreshBtn" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg font-medium transition-colors">
+                    🔄 Refresh Data
+                </button>
+            </div>
+        </div>
+
+        <!-- Results Info -->
+        <div id="resultsInfo" class="bg-white rounded-lg shadow p-4 mb-4 hidden">
+            <div class="flex items-center justify-between">
+                <span id="resultCount" class="text-gray-700 font-medium"></span>
+                <span id="loadTime" class="text-sm text-gray-500"></span>
+            </div>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loadingState" class="text-center py-12 hidden">
+            <div class="loading inline-block w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full"></div>
+            <p class="mt-4 text-gray-600">Memuat data dari Google Sheets...</p>
+        </div>
+
+        <!-- Error State -->
+        <div id="errorState" class="bg-red-50 border border-red-200 rounded-lg p-6 text-center hidden">
+            <div class="text-red-600 text-6xl mb-4">⚠️</div>
+            <h3 class="text-lg font-semibold text-red-800 mb-2">Gagal Memuat Data</h3>
+            <p class="text-red-600 mb-4">Terjadi kesalahan saat mengambil data dari Google Sheets.</p>
+            <button onclick="loadData()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg">
+                Coba Lagi
+            </button>
+        </div>
+
+        <!-- Data Table -->
+        <div id="dataContainer" class="bg-white rounded-xl shadow-lg overflow-hidden hidden">
+            <div class="overflow-x-auto">
+                <table id="dataTable" class="w-full">
+                    <thead id="tableHead" class="bg-gray-50">
+                    </thead>
+                    <tbody id="tableBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div id="pagination" class="flex justify-center items-center space-x-2 mt-6 hidden">
+            <button id="prevPage" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg disabled:opacity-50">
+                ← Sebelumnya
+            </button>
+            <span id="pageInfo" class="px-4 py-2 text-gray-700"></span>
+            <button id="nextPage" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg disabled:opacity-50">
+                Selanjutnya →
+            </button>
+        </div>
+
+        <!-- Detail Modal -->
+        <div id="detailModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+            <div class="bg-white rounded-xl shadow-2xl max-w-4xl w-full h-[85vh] flex flex-col overflow-hidden">
+                <!-- Modal Header -->
+                <div class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-6 flex-shrink-0">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h2 class="text-2xl font-bold">📋 Rincian Data Lengkap</h2>
+                            <p class="text-blue-100 mt-1">Detail informasi dari data yang dipilih</p>
+                        </div>
+                        <button id="closeModal" class="text-white hover:text-gray-200 transition-colors">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="p-6 overflow-y-auto flex-1 min-h-0">
+                    <div id="modalContent" class="space-y-4">
+                        <!-- Content will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Modal Footer -->
+                <div class="bg-gray-50 px-6 py-4 flex justify-between items-center border-t flex-shrink-0">
+                    <div class="text-sm text-gray-500">
+                        💡 Tip: Klik di luar modal atau tombol X untuk menutup
+                    </div>
+                    <div class="flex gap-3">
+                        <button id="printData" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                            🖨️ Print
+                        </button>
+                        <button id="copyData" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                            📋 Copy
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let allData = [];
+        let filteredData = [];
+        let currentPage = 1;
+        const itemsPerPage = 20;
+        let headers = [];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadData();
+            setupEventListeners();
+        });
+
+        function setupEventListeners() {
+            document.getElementById('globalSearch').addEventListener('input', debounce(filterData, 300));
+            document.getElementById('rek5Dropdown').addEventListener('change', filterData);
+            document.getElementById('columnFilter').addEventListener('change', filterData);
+            document.getElementById('sortOptions').addEventListener('change', filterData);
+            document.getElementById('dateFrom').addEventListener('change', filterData);
+            document.getElementById('dateTo').addEventListener('change', filterData);
+            document.getElementById('minValue').addEventListener('input', debounce(filterData, 300));
+            
+            document.getElementById('searchBtn').addEventListener('click', filterData);
+            document.getElementById('clearBtn').addEventListener('click', clearFilters);
+            document.getElementById('exportBtn').addEventListener('click', exportToCSV);
+            document.getElementById('refreshBtn').addEventListener('click', loadData);
+            document.getElementById('toggleAdvanced').addEventListener('click', toggleAdvancedFilters);
+            
+            document.getElementById('prevPage').addEventListener('click', () => changePage(-1));
+            document.getElementById('nextPage').addEventListener('click', () => changePage(1));
+            
+            // Modal event listeners
+            document.getElementById('closeModal').addEventListener('click', closeModal);
+            document.getElementById('detailModal').addEventListener('click', (e) => {
+                if (e.target.id === 'detailModal') closeModal();
+            });
+            document.getElementById('printData').addEventListener('click', printModalData);
+            document.getElementById('copyData').addEventListener('click', copyModalData);
+            
+            // Close modal with Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') closeModal();
+            });
+        }
+
+        async function loadData() {
+            const startTime = Date.now();
+            showLoading(true);
+            hideError();
+            
+            try {
+                // Convert the HTML URL to CSV format
+                const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQtNkd1DyKr2q8bwtJ-2Mx_HH_bH-diViixvBypxt8vPkHbOHt6t38uWrBV-hfSnHPCFbUOqIIF8mtm/pub?gid=1733477135&single=true&output=csv';
+                
+                const response = await fetch(csvUrl);
+                if (!response.ok) throw new Error('Network response was not ok');
+                
+                const csvText = await response.text();
+                allData = parseCSV(csvText);
+                
+                if (allData.length > 0) {
+                    headers = Object.keys(allData[0]);
+                    setupColumnFilter();
+                    setupRek5Dropdown();
+                    filteredData = [...allData];
+                    displayData();
+                    showResults(true);
+                    
+                    const loadTime = Date.now() - startTime;
+                    document.getElementById('loadTime').textContent = `Dimuat dalam ${loadTime}ms`;
+                } else {
+                    throw new Error('No data found');
+                }
+                
+            } catch (error) {
+                console.error('Error loading data:', error);
+                showError();
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        function parseCSV(csvText) {
+            const lines = csvText.split('\n').filter(line => line.trim());
+            if (lines.length < 2) return [];
+            
+            const headers = lines[0].split(',').map(h => h.replace(/"/g, '').trim());
+            const data = [];
+            
+            for (let i = 1; i < lines.length; i++) {
+                const values = lines[i].split(',').map(v => v.replace(/"/g, '').trim());
+                if (values.length === headers.length) {
+                    const row = {};
+                    headers.forEach((header, index) => {
+                        row[header] = values[index];
+                    });
+                    
+                    // Combine Rek columns into "No." column
+                    const rekColumns = ['Rek_1', 'Rek_2', 'Rek_3', 'Rek_4', 'Rek_5'];
+                    const rekValues = rekColumns.map(col => row[col] || '').filter(val => val !== '');
+                    if (rekValues.length > 0) {
+                        row['No.'] = rekValues.join('.');
+                    }
+                    
+                    data.push(row);
+                }
+            }
+            
+            return data;
+        }
+
+        function setupColumnFilter() {
+            const select = document.getElementById('columnFilter');
+            select.innerHTML = '<option value="">Semua Kolom</option>';
+            
+            // Add the combined "No." column first if it exists
+            if (allData.length > 0 && allData[0]['No.']) {
+                const option = document.createElement('option');
+                option.value = 'No.';
+                option.textContent = 'No. (Gabungan Rek)';
+                select.appendChild(option);
+            }
+            
+            // Add other headers, excluding individual Rek columns
+            headers.forEach(header => {
+                if (!header.startsWith('Rek_')) {
+                    const option = document.createElement('option');
+                    option.value = header;
+                    option.textContent = header;
+                    select.appendChild(option);
+                }
+            });
+        }
+
+        function setupRek5Dropdown() {
+            const select = document.getElementById('rek5Dropdown');
+            select.innerHTML = '<option value="">Pilih dari Kolom A</option>';
+            
+            // Get unique values from first column (Column A)
+            const columnAValues = new Set();
+            const firstColumnKey = headers[0]; // Get the first column header
+            
+            allData.forEach(row => {
+                if (row[firstColumnKey] && row[firstColumnKey].trim() !== '') {
+                    columnAValues.add(row[firstColumnKey].trim());
+                }
+            });
+            
+            // Sort values and add to dropdown
+            Array.from(columnAValues).sort().forEach(value => {
+                const option = document.createElement('option');
+                option.value = value;
+                option.textContent = value;
+                select.appendChild(option);
+            });
+        }
+
+        function filterData() {
+            const globalSearch = document.getElementById('globalSearch').value.toLowerCase();
+            const rek5Filter = document.getElementById('rek5Dropdown').value;
+            const columnFilter = document.getElementById('columnFilter').value;
+            const sortOption = document.getElementById('sortOptions').value;
+            const dateFrom = document.getElementById('dateFrom').value;
+            const dateTo = document.getElementById('dateTo').value;
+            const minValue = parseFloat(document.getElementById('minValue').value) || 0;
+
+            filteredData = allData.filter(row => {
+                // Column A filter
+                if (rek5Filter) {
+                    const firstColumnKey = headers[0]; // Get the first column header
+                    if (row[firstColumnKey] !== rek5Filter) return false;
+                }
+
+                // Global search
+                if (globalSearch) {
+                    const searchMatch = Object.values(row).some(value => 
+                        value.toString().toLowerCase().includes(globalSearch)
+                    );
+                    if (!searchMatch) return false;
+                }
+
+                // Column filter
+                if (columnFilter && globalSearch) {
+                    const columnMatch = row[columnFilter] && 
+                        row[columnFilter].toString().toLowerCase().includes(globalSearch);
+                    if (!columnMatch) return false;
+                }
+
+                // Date filter (assuming there's a date column)
+                if (dateFrom || dateTo) {
+                    const dateColumns = headers.filter(h => 
+                        h.toLowerCase().includes('tanggal') || 
+                        h.toLowerCase().includes('date') ||
+                        h.toLowerCase().includes('waktu')
+                    );
+                    
+                    if (dateColumns.length > 0) {
+                        const rowDate = new Date(row[dateColumns[0]]);
+                        if (dateFrom && rowDate < new Date(dateFrom)) return false;
+                        if (dateTo && rowDate > new Date(dateTo)) return false;
+                    }
+                }
+
+                // Minimum value filter (for numeric columns)
+                if (minValue > 0) {
+                    const numericColumns = headers.filter(h => 
+                        h.toLowerCase().includes('jumlah') || 
+                        h.toLowerCase().includes('harga') ||
+                        h.toLowerCase().includes('nilai') ||
+                        h.toLowerCase().includes('total')
+                    );
+                    
+                    if (numericColumns.length > 0) {
+                        const rowValue = parseFloat(row[numericColumns[0]]) || 0;
+                        if (rowValue < minValue) return false;
+                    }
+                }
+
+                return true;
+            });
+
+            // Sort data
+            if (sortOption && headers.length > 0) {
+                const sortColumn = headers[0]; // Sort by first column by default
+                filteredData.sort((a, b) => {
+                    const aVal = a[sortColumn].toString().toLowerCase();
+                    const bVal = b[sortColumn].toString().toLowerCase();
+                    
+                    if (sortOption === 'asc') {
+                        return aVal.localeCompare(bVal);
+                    } else {
+                        return bVal.localeCompare(aVal);
+                    }
+                });
+            }
+
+            currentPage = 1;
+            displayData();
+            updateResultsInfo();
+        }
+
+        function displayData() {
+            const tableHead = document.getElementById('tableHead');
+            const tableBody = document.getElementById('tableBody');
+            
+            // Clear existing content
+            tableHead.innerHTML = '';
+            tableBody.innerHTML = '';
+            
+            if (filteredData.length === 0) {
+                const visibleColumns = headers.filter(h => !h.startsWith('Rek_')).length + 1; // +1 for "No." column
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="${visibleColumns}" class="text-center py-12 text-gray-500">
+                            <div class="text-4xl mb-4">📭</div>
+                            <p>Tidak ada data yang ditemukan</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            // Create header - show combined "No." column and hide individual Rek columns
+            const headerRow = document.createElement('tr');
+            
+            // Add "No." column first if it exists
+            if (filteredData.length > 0 && filteredData[0]['No.']) {
+                const th = document.createElement('th');
+                th.className = 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b';
+                th.innerHTML = 'No. <span class="text-blue-600">(Gabungan Rek)</span>';
+                headerRow.appendChild(th);
+            }
+            
+            // Add other headers, excluding individual Rek columns
+            headers.forEach(header => {
+                if (!header.startsWith('Rek_')) {
+                    const th = document.createElement('th');
+                    th.className = 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b';
+                    th.textContent = header;
+                    headerRow.appendChild(th);
+                }
+            });
+            tableHead.appendChild(headerRow);
+
+            // Create body with pagination
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const pageData = filteredData.slice(startIndex, endIndex);
+
+            pageData.forEach((row, index) => {
+                const tr = document.createElement('tr');
+                tr.className = `${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'} hover:bg-blue-50 transition-colors fade-in cursor-pointer`;
+                tr.addEventListener('click', () => openModal(row));
+                
+                // Add "No." column first if it exists
+                if (row['No.']) {
+                    const td = document.createElement('td');
+                    td.className = 'px-6 py-4 whitespace-nowrap text-sm font-semibold text-blue-700 border-b';
+                    
+                    let cellValue = row['No.'] || '';
+                    
+                    // Highlight search terms
+                    const globalSearch = document.getElementById('globalSearch').value;
+                    if (globalSearch && cellValue.toString().toLowerCase().includes(globalSearch.toLowerCase())) {
+                        const regex = new RegExp(`(${globalSearch})`, 'gi');
+                        cellValue = cellValue.toString().replace(regex, '<span class="highlight">$1</span>');
+                        td.innerHTML = cellValue;
+                    } else {
+                        td.textContent = cellValue;
+                    }
+                    
+                    tr.appendChild(td);
+                }
+                
+                // Add other columns, excluding individual Rek columns
+                headers.forEach(header => {
+                    if (!header.startsWith('Rek_')) {
+                        const td = document.createElement('td');
+                        td.className = 'px-6 py-4 whitespace-nowrap text-sm text-gray-900 border-b';
+                        
+                        let cellValue = row[header] || '';
+                        
+                        // Highlight search terms
+                        const globalSearch = document.getElementById('globalSearch').value;
+                        if (globalSearch && cellValue.toString().toLowerCase().includes(globalSearch.toLowerCase())) {
+                            const regex = new RegExp(`(${globalSearch})`, 'gi');
+                            cellValue = cellValue.toString().replace(regex, '<span class="highlight">$1</span>');
+                            td.innerHTML = cellValue;
+                        } else {
+                            td.textContent = cellValue;
+                        }
+                        
+                        tr.appendChild(td);
+                    }
+                });
+                
+                tableBody.appendChild(tr);
+            });
+
+            updatePagination();
+        }
+
+        function updatePagination() {
+            const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+            const pagination = document.getElementById('pagination');
+            const prevBtn = document.getElementById('prevPage');
+            const nextBtn = document.getElementById('nextPage');
+            const pageInfo = document.getElementById('pageInfo');
+
+            if (totalPages <= 1) {
+                pagination.classList.add('hidden');
+                return;
+            }
+
+            pagination.classList.remove('hidden');
+            prevBtn.disabled = currentPage === 1;
+            nextBtn.disabled = currentPage === totalPages;
+            pageInfo.textContent = `Halaman ${currentPage} dari ${totalPages}`;
+        }
+
+        function changePage(direction) {
+            const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+            const newPage = currentPage + direction;
+            
+            if (newPage >= 1 && newPage <= totalPages) {
+                currentPage = newPage;
+                displayData();
+            }
+        }
+
+        function updateResultsInfo() {
+            const resultCount = document.getElementById('resultCount');
+            resultCount.textContent = `Menampilkan ${filteredData.length} dari ${allData.length} data`;
+        }
+
+        function clearFilters() {
+            document.getElementById('globalSearch').value = '';
+            document.getElementById('rek5Dropdown').value = '';
+            document.getElementById('columnFilter').value = '';
+            document.getElementById('sortOptions').value = '';
+            document.getElementById('dateFrom').value = '';
+            document.getElementById('dateTo').value = '';
+            document.getElementById('minValue').value = '';
+            
+            filteredData = [...allData];
+            currentPage = 1;
+            displayData();
+            updateResultsInfo();
+        }
+
+        function exportToCSV() {
+            if (filteredData.length === 0) {
+                alert('Tidak ada data untuk diekspor');
+                return;
+            }
+
+            const csvContent = [
+                headers.join(','),
+                ...filteredData.map(row => headers.map(header => `"${row[header] || ''}"`).join(','))
+            ].join('\n');
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', `data_export_${new Date().toISOString().split('T')[0]}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function toggleAdvancedFilters() {
+            const advanced = document.getElementById('advancedFilters');
+            const button = document.getElementById('toggleAdvanced');
+            
+            if (advanced.classList.contains('hidden')) {
+                advanced.classList.remove('hidden');
+                button.textContent = '⚙️ Sembunyikan Filter Lanjutan';
+            } else {
+                advanced.classList.add('hidden');
+                button.textContent = '⚙️ Filter Lanjutan';
+            }
+        }
+
+        function showLoading(show) {
+            document.getElementById('loadingState').classList.toggle('hidden', !show);
+        }
+
+        function showError() {
+            document.getElementById('errorState').classList.remove('hidden');
+            document.getElementById('dataContainer').classList.add('hidden');
+            document.getElementById('resultsInfo').classList.add('hidden');
+        }
+
+        function hideError() {
+            document.getElementById('errorState').classList.add('hidden');
+        }
+
+        function showResults(show) {
+            document.getElementById('dataContainer').classList.toggle('hidden', !show);
+            document.getElementById('resultsInfo').classList.toggle('hidden', !show);
+        }
+
+        function quickSearch(letter) {
+            // Clear other filters first
+            document.getElementById('rek5Dropdown').value = '';
+            document.getElementById('columnFilter').value = '';
+            
+            // Set the search term to find items starting with the selected letter
+            document.getElementById('globalSearch').value = letter;
+            
+            // Update dropdown to show only items starting with the selected letter
+            updateDropdownByLetter(letter);
+            
+            // Filter data to show only items that start with the selected letter
+            const globalSearch = letter.toLowerCase();
+            
+            filteredData = allData.filter(row => {
+                // Check if any field starts with the selected letter
+                return Object.values(row).some(value => {
+                    const valueStr = value.toString().toLowerCase().trim();
+                    return valueStr.startsWith(globalSearch);
+                });
+            });
+
+            currentPage = 1;
+            displayData();
+            updateResultsInfo();
+        }
+
+        function updateDropdownByLetter(letter) {
+            const select = document.getElementById('rek5Dropdown');
+            const firstColumnKey = headers[0]; // Get the first column header
+            
+            // Clear current options
+            select.innerHTML = `<option value="">Pilih dari Kolom A (Huruf ${letter.toUpperCase()})</option>`;
+            
+            // Get unique values from first column that start with the selected letter
+            const filteredValues = new Set();
+            
+            allData.forEach(row => {
+                if (row[firstColumnKey] && row[firstColumnKey].trim() !== '') {
+                    const value = row[firstColumnKey].trim();
+                    // Check if the value starts with the selected letter (case insensitive)
+                    if (value.toLowerCase().startsWith(letter.toLowerCase())) {
+                        filteredValues.add(value);
+                    }
+                }
+            });
+            
+            // Sort values and add to dropdown
+            Array.from(filteredValues).sort().forEach(value => {
+                const option = document.createElement('option');
+                option.value = value;
+                option.textContent = value;
+                select.appendChild(option);
+            });
+            
+            // If no values found for this letter, show a message
+            if (filteredValues.size === 0) {
+                const option = document.createElement('option');
+                option.value = '';
+                option.textContent = `Tidak ada data dengan huruf ${letter.toUpperCase()}`;
+                option.disabled = true;
+                select.appendChild(option);
+            }
+        }
+
+        function openModal(rowData) {
+            const modal = document.getElementById('detailModal');
+            const modalContent = document.getElementById('modalContent');
+            
+            // Clear previous content
+            modalContent.innerHTML = '';
+            
+            // Create detailed view of the data
+            const detailsContainer = document.createElement('div');
+            detailsContainer.className = 'grid grid-cols-1 md:grid-cols-2 gap-6';
+            
+            // Group data into categories
+            const categories = {
+                'Informasi Utama': ['No.'],
+                'Data Lengkap': headers.filter(h => !h.startsWith('Rek_') && h !== 'No.')
+            };
+            
+            Object.entries(categories).forEach(([categoryName, fields]) => {
+                const categoryDiv = document.createElement('div');
+                categoryDiv.className = 'bg-gray-50 rounded-lg p-4';
+                
+                const categoryTitle = document.createElement('h3');
+                categoryTitle.className = 'text-lg font-semibold text-gray-800 mb-4 flex items-center';
+                categoryTitle.innerHTML = `<span class="mr-2">${categoryName === 'Informasi Utama' ? '🔢' : '📊'}</span>${categoryName}`;
+                categoryDiv.appendChild(categoryTitle);
+                
+                const fieldsContainer = document.createElement('div');
+                fieldsContainer.className = 'space-y-3';
+                
+                fields.forEach(field => {
+                    if (rowData[field] !== undefined && rowData[field] !== '') {
+                        const fieldDiv = document.createElement('div');
+                        fieldDiv.className = 'border-l-4 border-blue-500 pl-4 py-2';
+                        
+                        const label = document.createElement('div');
+                        label.className = 'text-sm font-medium text-gray-600 mb-1';
+                        label.textContent = field === 'No.' ? 'Nomor Aset' : field;
+                        
+                        const value = document.createElement('div');
+                        value.className = 'text-gray-900 font-medium flex items-center justify-between';
+                        
+                        if (field === 'No.' && rowData[field]) {
+                            const numberSpan = document.createElement('span');
+                            numberSpan.textContent = rowData[field];
+                            
+                            const copyButton = document.createElement('button');
+                            copyButton.className = 'ml-2 p-1 text-blue-600 hover:text-blue-800 hover:bg-blue-100 rounded transition-colors';
+                            copyButton.title = 'Copy kode aset';
+                            copyButton.type = 'button';
+                            copyButton.innerHTML = `
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                </svg>
+                            `;
+                            
+                            // Use onclick instead of addEventListener for better compatibility
+                            copyButton.onclick = function(e) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                copyToClipboard(rowData[field]);
+                                return false;
+                            };
+                            
+                            value.appendChild(numberSpan);
+                            value.appendChild(copyButton);
+                        } else {
+                            value.textContent = rowData[field] || '-';
+                        }
+                        
+                        fieldDiv.appendChild(label);
+                        fieldDiv.appendChild(value);
+                        fieldsContainer.appendChild(fieldDiv);
+                    }
+                });
+                
+                if (fieldsContainer.children.length > 0) {
+                    categoryDiv.appendChild(fieldsContainer);
+                    detailsContainer.appendChild(categoryDiv);
+                }
+            });
+            
+            // Add summary card at the top
+            const summaryCard = document.createElement('div');
+            summaryCard.className = 'bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-4 mb-6';
+            summaryCard.innerHTML = `
+                <div class="flex items-center mb-3">
+                    <div class="bg-blue-600 text-white rounded-full p-2 mr-3">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-blue-800">Ringkasan Data</h3>
+                        <p class="text-blue-600 text-sm">ID: ${rowData['No.'] || 'N/A'}</p>
+                    </div>
+                </div>
+                <div class="text-sm text-blue-700">
+                    <p><strong>Total Field:</strong> ${Object.keys(rowData).filter(k => rowData[k] && rowData[k] !== '').length} field terisi</p>
+                    <p><strong>Waktu Akses:</strong> ${new Date().toLocaleString('id-ID')}</p>
+                </div>
+            `;
+            
+            modalContent.appendChild(summaryCard);
+            modalContent.appendChild(detailsContainer);
+            
+            // Show modal with animation
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.querySelector('.bg-white').style.transform = 'scale(1)';
+                modal.querySelector('.bg-white').style.opacity = '1';
+            }, 10);
+            
+            // Store current data for print/copy functions
+            window.currentModalData = rowData;
+        }
+        
+        function closeModal() {
+            const modal = document.getElementById('detailModal');
+            const modalContent = modal.querySelector('.bg-white');
+            
+            modalContent.style.transform = 'scale(0.95)';
+            modalContent.style.opacity = '0.5';
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modalContent.style.transform = 'scale(1)';
+                modalContent.style.opacity = '1';
+            }, 200);
+        }
+        
+        function printModalData() {
+            if (!window.currentModalData) return;
+            
+            const printWindow = window.open('', '_blank');
+            const data = window.currentModalData;
+            
+            const printContent = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Detail Data - ${data['No.'] || 'N/A'}</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; margin: 20px; }
+                        .header { border-bottom: 2px solid #333; padding-bottom: 10px; margin-bottom: 20px; }
+                        .field { margin-bottom: 10px; padding: 8px; border-left: 3px solid #007bff; background: #f8f9fa; }
+                        .label { font-weight: bold; color: #333; }
+                        .value { margin-top: 5px; }
+                        @media print { body { margin: 0; } }
+                    </style>
+                </head>
+                <body>
+                    <div class="header">
+                        <h1>📋 Detail Data Lengkap</h1>
+                        <p>ID: ${data['No.'] || 'N/A'} | Dicetak: ${new Date().toLocaleString('id-ID')}</p>
+                    </div>
+                    <div class="content">
+                        ${Object.entries(data).filter(([key, value]) => value && value !== '').map(([key, value]) => `
+                            <div class="field">
+                                <div class="label">${key}:</div>
+                                <div class="value">${value}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </body>
+                </html>
+            `;
+            
+            printWindow.document.write(printContent);
+            printWindow.document.close();
+            printWindow.print();
+        }
+        
+        function copyModalData() {
+            if (!window.currentModalData) return;
+            
+            const data = window.currentModalData;
+            const textData = Object.entries(data)
+                .filter(([key, value]) => value && value !== '')
+                .map(([key, value]) => `${key}: ${value}`)
+                .join('\n');
+            
+            navigator.clipboard.writeText(textData).then(() => {
+                // Show success message
+                const copyBtn = document.getElementById('copyData');
+                const originalText = copyBtn.innerHTML;
+                copyBtn.innerHTML = '✅ Tersalin!';
+                copyBtn.classList.add('bg-green-600');
+                copyBtn.classList.remove('bg-blue-600');
+                
+                setTimeout(() => {
+                    copyBtn.innerHTML = originalText;
+                    copyBtn.classList.remove('bg-green-600');
+                    copyBtn.classList.add('bg-blue-600');
+                }, 2000);
+            }).catch(() => {
+                alert('Gagal menyalin data ke clipboard');
+            });
+        }
+
+        function copyToClipboard(value) {
+            // Try modern clipboard API first
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(value).then(() => {
+                    showCopyNotification(value);
+                }).catch(() => {
+                    fallbackCopyTextToClipboard(value);
+                });
+            } else {
+                // Fallback for older browsers or non-secure contexts
+                fallbackCopyTextToClipboard(value);
+            }
+        }
+
+        function fallbackCopyTextToClipboard(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-999999px";
+            textArea.style.top = "-999999px";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    showCopyNotification(text);
+                } else {
+                    alert('Gagal menyalin kode aset ke clipboard');
+                }
+            } catch (err) {
+                alert('Gagal menyalin kode aset ke clipboard');
+            }
+            
+            document.body.removeChild(textArea);
+        }
+
+        function showCopyNotification(value) {
+            // Show temporary success message
+            const notification = document.createElement('div');
+            notification.className = 'fixed top-4 right-4 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg z-50 flex items-center';
+            notification.innerHTML = `
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                Kode Aset ${value} berhasil disalin!
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 3000);
+        }
+
+        function copyFieldValue(value) {
+            copyToClipboard(value);
+        }
+
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97feee2800dafd8b',t:'MTc1ODAxMDY3Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

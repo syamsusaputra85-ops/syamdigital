@@ -1,0 +1,2283 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Koleksi Link Aplikasi</title>
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1767425380/syam-digital-01_i5zfka.png">
+    <link rel="shortcut icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1767425380/syam-digital-01_i5zfka.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .neon-glow {
+            box-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff, 0 0 60px #00ffff;
+            animation: neonPulse 2s infinite alternate;
+        }
+        
+        @keyframes neonPulse {
+            0% { box-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff, 0 0 60px #00ffff; }
+            100% { box-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff; }
+        }
+        
+        .gradient-border {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ffeaa7);
+            background-size: 400% 400%;
+            animation: gradientShift 3s ease infinite;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .morphing {
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .morphing:hover {
+            border-radius: 50px;
+            transform: scale(1.1);
+        }
+        
+        .liquid-fill {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .liquid-fill::before {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+            transition: top 0.3s ease;
+            z-index: -1;
+        }
+        
+        .liquid-fill:hover::before {
+            top: 0;
+        }
+        
+        .glitch {
+            position: relative;
+            animation: glitchMove 2s infinite;
+        }
+        
+        @keyframes glitchMove {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+        }
+        
+        .particle-btn {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #fff;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: particleFloat 1s ease-out forwards;
+        }
+        
+        @keyframes particleFloat {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-50px) scale(0);
+            }
+        }
+        
+        .holographic {
+            background: linear-gradient(45deg, #ff0080, #ff8c00, #40e0d0, #ff0080);
+            background-size: 400% 400%;
+            animation: holographicShine 2s ease-in-out infinite;
+        }
+        
+        @keyframes holographicShine {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .magnetic {
+            transition: transform 0.2s ease;
+        }
+        
+        .ripple {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ripple-effect {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(0);
+            animation: rippleAnimation 0.6s linear;
+        }
+        
+        @keyframes rippleAnimation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+        
+        .lightning-btn {
+            animation: lightning 3s infinite;
+        }
+        
+        @keyframes lightning {
+            0%, 90%, 100% { box-shadow: 0 0 5px #ffd700; }
+            95% { box-shadow: 0 0 20px #ffd700, 0 0 30px #ffd700, 0 0 40px #ffd700; }
+        }
+        
+        @keyframes glowPulse {
+            0% { box-shadow: 0 0 5px #ec4899, 0 0 10px #ec4899, 0 0 15px #ec4899; }
+            100% { box-shadow: 0 0 10px #ec4899, 0 0 20px #ec4899, 0 0 30px #ec4899; }
+        }
+        
+        .fire-animation {
+            background: radial-gradient(circle, rgba(255,69,0,0.8) 0%, rgba(255,140,0,0.6) 50%, rgba(255,215,0,0.4) 100%);
+            animation: fireFlicker 0.5s infinite alternate;
+        }
+        
+        @keyframes fireFlicker {
+            0% { transform: scale(1) rotate(0deg); }
+            100% { transform: scale(1.1) rotate(2deg); }
+        }
+        
+        /* Animation Keyframes */
+        @keyframes wobble {
+            0% { transform: translateX(0%); }
+            15% { transform: translateX(-25%) rotate(-5deg); }
+            30% { transform: translateX(20%) rotate(3deg); }
+            45% { transform: translateX(-15%) rotate(-3deg); }
+            60% { transform: translateX(10%) rotate(2deg); }
+            75% { transform: translateX(-5%) rotate(-1deg); }
+            100% { transform: translateX(0%); }
+        }
+        
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            14% { transform: scale(1.3); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.3); }
+            70% { transform: scale(1); }
+        }
+        
+        @keyframes swing {
+            20% { transform: rotate3d(0, 0, 1, 15deg); }
+            40% { transform: rotate3d(0, 0, 1, -10deg); }
+            60% { transform: rotate3d(0, 0, 1, 5deg); }
+            80% { transform: rotate3d(0, 0, 1, -5deg); }
+            100% { transform: rotate3d(0, 0, 1, 0deg); }
+        }
+        
+        @keyframes rubberBand {
+            0% { transform: scale3d(1, 1, 1); }
+            30% { transform: scale3d(1.25, 0.75, 1); }
+            40% { transform: scale3d(0.75, 1.25, 1); }
+            50% { transform: scale3d(1.15, 0.85, 1); }
+            65% { transform: scale3d(0.95, 1.05, 1); }
+            75% { transform: scale3d(1.05, 0.95, 1); }
+            100% { transform: scale3d(1, 1, 1); }
+        }
+        
+        @keyframes jello {
+            0%, 11.1%, 100% { transform: translate3d(0, 0, 0); }
+            22.2% { transform: skewX(-12.5deg) skewY(-12.5deg); }
+            33.3% { transform: skewX(6.25deg) skewY(6.25deg); }
+            44.4% { transform: skewX(-3.125deg) skewY(-3.125deg); }
+            55.5% { transform: skewX(1.5625deg) skewY(1.5625deg); }
+            66.6% { transform: skewX(-0.78125deg) skewY(-0.78125deg); }
+            77.7% { transform: skewX(0.390625deg) skewY(0.390625deg); }
+            88.8% { transform: skewX(-0.1953125deg) skewY(-0.1953125deg); }
+        }
+        
+        @keyframes flash {
+            0%, 50%, 100% { opacity: 1; }
+            25%, 75% { opacity: 0; }
+        }
+        
+        @keyframes tada {
+            0% { transform: scale3d(1, 1, 1); }
+            10%, 20% { transform: scale3d(0.9, 0.9, 0.9) rotate3d(0, 0, 1, -3deg); }
+            30%, 50%, 70%, 90% { transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg); }
+            40%, 60%, 80% { transform: scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg); }
+            100% { transform: scale3d(1, 1, 1); }
+        }
+        
+        @keyframes flipInX {
+            0% { transform: perspective(400px) rotate3d(1, 0, 0, 90deg); opacity: 0; }
+            40% { transform: perspective(400px) rotate3d(1, 0, 0, -20deg); }
+            60% { transform: perspective(400px) rotate3d(1, 0, 0, 10deg); opacity: 1; }
+            80% { transform: perspective(400px) rotate3d(1, 0, 0, -5deg); }
+            100% { transform: perspective(400px); }
+        }
+        
+        @keyframes zoomIn {
+            0% { opacity: 0; transform: scale3d(0.3, 0.3, 0.3); }
+            50% { opacity: 1; }
+        }
+        
+        @keyframes slideInDown {
+            0% { transform: translate3d(0, -100%, 0); visibility: visible; }
+            100% { transform: translate3d(0, 0, 0); }
+        }
+        
+        @keyframes rollIn {
+            0% { opacity: 0; transform: translate3d(-100%, 0, 0) rotate3d(0, 0, 1, -120deg); }
+            100% { opacity: 1; transform: translate3d(0, 0, 0); }
+        }
+        
+        /* Heartbeat Logo Animation */
+        @keyframes logoHeartbeat {
+            0% { transform: scale(1); }
+            14% { transform: scale(1.3); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.3); }
+            70% { transform: scale(1); }
+        }
+        
+        .heartbeat-logo {
+            animation: logoHeartbeat 1.5s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px rgba(239, 68, 68, 0.5));
+        }
+        
+        .heartbeat-logo:hover {
+            animation-duration: 0.8s;
+            filter: drop-shadow(0 0 30px rgba(239, 68, 68, 0.8));
+        }
+        
+        /* Lightning Thunder Header Animations - Same as Thunder Button */
+        .lightning-header {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .lightning-text {
+            background: linear-gradient(45deg, #ffffff, #f0f9ff, #dbeafe, #bfdbfe, #93c5fd, #60a5fa, #3b82f6, #2563eb);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: lightning 3s infinite, gradientShift 4s ease infinite;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.8), 0 0 60px rgba(147, 197, 253, 0.6);
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.9));
+        }
+        
+        @keyframes lightning {
+            0%, 90%, 100% { 
+                box-shadow: 0 0 5px #ffd700;
+                filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.5)) brightness(1);
+            }
+            95% { 
+                box-shadow: 0 0 20px #ffd700, 0 0 30px #ffd700, 0 0 40px #ffd700;
+                filter: drop-shadow(0 0 40px rgba(255, 215, 0, 1)) brightness(2);
+            }
+        }
+        
+        /* Animation Classes */
+        .wobble-btn:hover { animation: wobble 1s ease-in-out; }
+        .heartbeat-btn { animation: heartbeat 1.5s ease-in-out infinite; }
+        .swing-btn:hover { animation: swing 1s ease-in-out; }
+        .rubber-btn:hover { animation: rubberBand 1s ease-in-out; }
+        .jello-btn:hover { animation: jello 1s ease-in-out; }
+        .flash-btn:hover { animation: flash 1s ease-in-out; }
+        .tada-btn:hover { animation: tada 1s ease-in-out; }
+        .flipin-btn:hover { animation: flipInX 1s ease-in-out; }
+        .zoomin-btn:hover { animation: zoomIn 0.6s ease-in-out; }
+        .slidedown-btn:hover { animation: slideInDown 0.6s ease-in-out; }
+        .rollin-btn:hover { animation: rollIn 1s ease-in-out; }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 p-8">
+    <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-8">
+            <div class="flex justify-center items-center mb-6">
+                <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1757245484/SYAMDIGITAL-LOGO-2025_mmpllg.png" 
+                     alt="Syam Digital Logo" 
+                     class="w-24 h-24 md:w-32 md:h-32 heartbeat-logo hover:scale-110 transition-all duration-300 drop-shadow-2xl"
+                     onerror="this.style.display='none';">
+            </div>
+            
+            <!-- Syam Digital Lightning Header -->
+            <div class="lightning-header mb-8">
+                <h1 class="text-6xl md:text-8xl font-black text-center lightning-text mb-4">
+                    SYAM DIGITAL
+                </h1>
+                <div class="text-center">
+                    <a href="https://syam.digital/" target="_blank" class="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-full font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                        Kembali ke Home
+                    </a>
+                </div>
+            </div>
+            
+            <h2 class="text-4xl md:text-5xl font-bold text-center text-white mb-4">
+                ✨ Koleksi Button Link Aplikasi Keren & Unik ✨
+            </h2>
+            <p class="text-xl text-center text-gray-300 mb-8">
+                Kumpulan tombol Link Aplikasi interaktif yang memukau dengan efek visual yang menawan
+            </p>
+            
+            <!-- Search Box -->
+            <div class="max-w-md mx-auto mb-12">
+                <div class="relative">
+                    <input 
+                        type="text" 
+                        id="searchInput" 
+                        placeholder="🔍 Cari button favorit Anda..." 
+                        class="w-full px-6 py-4 bg-gray-800 text-white rounded-full border-2 border-gray-600 focus:border-cyan-400 focus:outline-none transition-all duration-300 text-lg"
+                        oninput="searchButtons()"
+                        onfocus="showDropdown()"
+                        onblur="hideDropdown()"
+                        autocomplete="off"
+                    >
+                    <div class="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer" onclick="toggleDropdown()">
+                        <svg id="dropdownIcon" class="w-6 h-6 text-gray-400 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </div>
+                    
+                    <!-- Dropdown Menu -->
+                    <div id="searchDropdown" class="absolute top-full left-0 right-0 mt-2 bg-gray-800 border-2 border-gray-600 rounded-2xl shadow-2xl z-50 max-h-64 overflow-y-auto hidden">
+                        <div class="p-2">
+                            <div class="text-cyan-400 text-sm font-semibold px-4 py-2 border-b border-gray-600">
+                                📋 Pilih Button Favorit:
+                            </div>
+                            <div id="dropdownItems" class="py-2">
+                                <!-- Items will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-center text-gray-400 text-sm mt-2">
+                    Ketik atau klik panah untuk melihat daftar semua button
+                </p>
+            </div>
+        </div>
+
+        <!-- Modal Preview -->
+        <div id="buttonModal" class="fixed inset-0 bg-black bg-opacity-75 backdrop-blur-sm z-[100] hidden flex items-center justify-center p-4">
+            <div class="bg-gray-900 rounded-2xl max-w-lg w-full mx-4 transform transition-all duration-300 scale-95 opacity-0" id="modalContent">
+                <!-- Modal Header -->
+                <div class="flex items-center justify-between p-6 border-b border-gray-700">
+                    <div class="flex items-center gap-3">
+                        <span id="modalEmoji" class="text-3xl">🌟</span>
+                        <div>
+                            <h3 id="modalTitle" class="text-xl font-bold text-white">Button Preview</h3>
+                            <p class="text-gray-400 text-sm">Klik button untuk mencoba efeknya</p>
+                        </div>
+                    </div>
+                    <button onclick="closeModal()" class="text-gray-400 hover:text-white transition-colors duration-200 p-2 hover:bg-gray-800 rounded-lg">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                
+                <!-- Modal Body -->
+                <div class="p-8">
+                    <div class="text-center mb-6">
+                        <div id="modalButtonContainer" class="inline-block">
+                            <!-- Button will be inserted here -->
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-gray-800 p-4 rounded-lg">
+                            <h4 class="text-white font-semibold mb-2 flex items-center gap-2">
+                                <span>✨</span> Efek Khusus:
+                            </h4>
+                            <p id="modalDescription" class="text-gray-300 text-sm">
+                                Deskripsi efek button akan muncul di sini
+                            </p>
+                        </div>
+                        
+                        <div class="bg-gray-800 p-4 rounded-lg">
+                            <h4 class="text-white font-semibold mb-2 flex items-center gap-2">
+                                <span>🎯</span> Cara Menggunakan:
+                            </h4>
+                            <p class="text-gray-300 text-sm">
+                                Hover atau klik button di atas untuk melihat efek animasinya. Semua button dapat dikustomisasi sesuai kebutuhan Anda.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Modal Footer -->
+                <div class="flex gap-3 p-6 border-t border-gray-700">
+                    <button onclick="scrollToButton()" class="flex-1 bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-200 flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                        </svg>
+                        Lihat di Koleksi
+                    </button>
+                    <button onclick="closeModal()" class="px-6 py-3 bg-gray-700 text-white rounded-lg font-semibold hover:bg-gray-600 transition-colors duration-200">
+                        Tutup
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <!-- Neon Glow Button -->
+            <div class="bg-gray-800 p-6 rounded-xl">
+                <h3 class="text-white font-semibold mb-4">🌟 Kode Aset</h3>
+                <a href="https://syam.digital/kodeaset" target="_blank" class="inline-block">
+                    <button class="neon-glow bg-black text-cyan-400 px-8 py-3 rounded-lg font-semibold border-2 border-cyan-400 hover:bg-cyan-400 hover:text-black transition-all duration-300">
+                        KODE ASET
+                    </button>
+                </a>
+            </div>
+            
+            <!-- Gradient Border Button -->
+            <div class="bg-gray-800 p-6 rounded-xl">
+                <h3 class="text-white font-semibold mb-4">🌈 Cari Data KPM</h3>
+                <a href="https://syam.digital/cari1" target="_blank" class="inline-block">
+                    <button class="gradient-border p-1 rounded-lg">
+                        <span class="block bg-gray-800 text-white px-8 py-3 rounded-lg font-semibold hover:bg-transparent transition-all duration-300">
+                            KPM BLT TAHUN 2022
+                        </span>
+                    </button>
+                </a>
+            </div>
+            
+            <!-- Morphing Button -->
+            <div class="bg-gray-800 p-6 rounded-xl">
+                <h3 class="text-white font-semibold mb-4">🔄 Buku Kas</h3>
+                <a href="https://syam.digital/bukukas" target="_blank" class="inline-block">
+                    <button class="morphing bg-gradient-to-r from-pink-500 to-violet-500 text-white px-8 py-3 rounded-lg font-semibold">
+                        APLIKASI BUKU KAS
+                    </button>
+                </a>
+            </div>
+            
+            <!-- Liquid Fill Button -->
+            <div class="bg-gray-800 p-6 rounded-xl">
+                <h3 class="text-white font-semibold mb-4">💧 Laporan Kas</h3>
+                <a href="https://syam.digital/bukukasv3" target="_blank" class="inline-block">
+                    <button class="liquid-fill bg-transparent border-2 border-purple-500 text-purple-500 px-8 py-3 rounded-lg font-semibold hover:text-white transition-colors duration-300">
+                        BUKU LAPORAN KAS
+                    </button>
+                </a>
+            </div>
+            
+            <!-- Glitch Button -->
+            <div class="bg-gray-800 p-6 rounded-xl">
+                <h3 class="text-white font-semibold mb-4">⚡ Laporan Bulanan</h3>
+                <a href="https://syam.digital/laporan" target="_blank" class="inline-block">
+                    <button class="glitch bg-red-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-red-700 transition-colors duration-300">
+                        APP LAPORAN BULANAN
+                    </button>
+                </a>
+            </div>
+            
+            <!-- Particle Button -->
+            <div class="bg-gray-800 p-6 rounded-xl">
+                <h3 class="text-white font-semibold mb-4">✨ Note Book</h3>
+                <a href="https://syam.digital/notebook" target="_blank" class="inline-block">
+                    <button class="particle-btn bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-8 py-3 rounded-lg font-semibold hover:from-yellow-500 hover:to-orange-600 transition-all duration-300" onclick="createParticles(this); setTimeout(() => window.open('https://syam.digital/notebook', '_blank'), 300);">
+                        NOTE BOOK
+                    </button>
+                </a>
+            </div>
+            
+            <!-- Holographic Button -->
+            <div class="bg-gray-800 p-6 rounded-xl">
+                <h3 class="text-white font-semibold mb-4">🌟 Panduan Netlify</h3>
+                <a href="https://syam.digital/panduan" target="_blank" class="inline-block">
+                    <button class="holographic text-white px-8 py-3 rounded-lg font-semibold hover:scale-105 transition-transform duration-300">
+                        PANDUAN DNS Netlify
+                    </button>
+                </a>
+            </div>
+            
+            <!-- 3D Magnetic Button -->
+            <div class="bg-gray-800 p-6 rounded-xl">
+                <h3 class="text-white font-semibold mb-4">🧲 List Link</h3>
+                <a href="https://syam.digital/listlink" target="_blank" class="inline-block">
+                    <button class="magnetic bg-gradient-to-r from-green-400 to-blue-500 text-white px-8 py-3 rounded-lg font-semibold shadow-lg hover:shadow-2xl" onmousemove="magneticEffect(this, event)" onmouseleave="resetMagnetic(this)">
+                        LIST LINK
+                    </button>
+                </a>
+            </div>
+            
+            <!-- Ripple Button -->
+            <div class="bg-gray-800 p-6 rounded-xl">
+                <h3 class="text-white font-semibold mb-4">🌊 Aplikasi Posyandu</h3>
+                <a href="https://syam.digital/posyandu" target="_blank" class="inline-block">
+                    <button class="ripple bg-gradient-to-r from-teal-400 to-cyan-500 text-white px-8 py-3 rounded-lg font-semibold" onclick="createRipple(this, event); setTimeout(() => window.open('https://syam.digital/', '_blank'), 300);">
+                        APLIKASI KADER POSYANDU
+                    </button>
+                </a>
+            </div>
+            
+            <!-- Floating Button -->
+            <div class="bg-gray-800 p-6 rounded-xl">
+                <h3 class="text-white font-semibold mb-4">🎈 QR Code</h3>
+                <a href="https://syam.digital/qrcode" target="_blank" class="inline-block">
+                    <button class="bg-gradient-to-r from-purple-400 to-pink-400 text-white px-8 py-3 rounded-lg font-semibold hover:translate-y-2 transition-transform duration-300 shadow-lg hover:shadow-xl" style="animation: float 3s ease-in-out infinite;">
+                        APLIKASI QR CODE
+                    </button>
+                </a>
+            </div>
+            
+            <!-- Pulse Button -->
+            <div class="bg-gray-800 p-6 rounded-xl">
+                <h3 class="text-white font-semibold mb-4">💓 Viewer PDF</h3>
+                <a href="https://syam.digital/pdf" target="_blank" class="inline-block">
+                    <button class="bg-red-500 text-white px-8 py-3 rounded-lg font-semibold hover:bg-red-600 transition-colors duration-300" style="animation: pulse 1.5s infinite;">
+                        Perpustakaan PDF Digital
+                    </button>
+                </a>
+            </div>
+            
+            <!-- Slide Button -->
+            <div class="bg-gray-800 p-6 rounded-xl">
+                <h3 class="text-white font-semibold mb-4">➡️ Manajemen Surat</h3>
+                <a href="https://syam.digital/surat" target="_blank" class="inline-block">
+                    <button class="relative bg-indigo-600 text-white px-8 py-3 rounded-lg font-semibold overflow-hidden group">
+                        <span class="relative z-10">SURAT MASUK & KELUAR</span>
+                        <div class="absolute inset-0 bg-indigo-800 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300"></div>
+                    </button>
+                </a>
+            </div>
+            
+        </div>
+        
+        <!-- Additional Button Collection -->
+        <div class="mt-16">
+            <h2 class="text-4xl font-bold text-center text-white mb-8">
+                🚀 Koleksi Button Versi Lanjutan
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Cyberpunk Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🤖 Tombol</h3>
+                    <a href="https://syam.digital/tombol" target="_blank" class="inline-block">
+                        <button class="cyberpunk-btn bg-black text-green-400 px-8 py-3 rounded-none font-mono font-bold border-2 border-green-400 relative overflow-hidden hover:text-black transition-colors duration-300">
+                            <span class="relative z-10">TOMBOL KEREN</span>
+                            <div class="absolute inset-0 bg-green-400 transform -skew-x-12 -translate-x-full transition-transform duration-300 hover:translate-x-0"></div>
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Glass Morphism Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🔮 Tupoksi Kepala Desa dan Perangkat Desa</h3>
+                    <a href="https://syam.digital/tupoksi" target="_blank" class="inline-block">
+                        <button class="glass-btn backdrop-blur-md bg-white/10 border border-white/20 text-white px-8 py-3 rounded-2xl font-semibold hover:bg-white/20 transition-all duration-300 shadow-xl">
+                            TUGAS DAN FUNGSI
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Neumorphism Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🎯 Aplikasi</h3>
+                    <a href="https://syam.digital/app" target="_blank" class="inline-block">
+                        <button class="neuro-btn bg-gray-300 text-gray-700 px-8 py-3 rounded-2xl font-semibold transition-all duration-300" style="box-shadow: 8px 8px 16px #bebebe, -8px -8px 16px #ffffff;">
+                            APLIKASI DEMO
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Matrix Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">💻 Editor Invoice</h3>
+                    <a href="https://syam.digital/invoice" target="_blank" class="inline-block">
+                        <button class="matrix-btn bg-black text-green-500 px-8 py-3 rounded-lg font-mono font-bold border border-green-500 relative overflow-hidden" onclick="matrixEffect(this)">
+                            APLIKASI EDITOR INVOICE
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Fire Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🔥 Fire Effect</h3>
+                    <a href="https://syam.digital/laporan2" target="_blank" class="inline-block">
+                        <button class="fire-btn bg-gradient-to-t from-red-600 via-orange-500 to-yellow-400 text-white px-8 py-3 rounded-lg font-bold relative overflow-hidden">
+                            <span class="relative z-10">IGNITE</span>
+                            <div class="fire-animation absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+                          APLIKASI LAPORAN KAS V2
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Lightning Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">⚡ Lightning</h3>
+                    <a href="https://syam.digital/pdf2" target="_blank" class="inline-block">
+                        <button class="lightning-btn bg-purple-900 text-yellow-300 px-8 py-3 rounded-lg font-bold border-2 border-yellow-300 relative overflow-hidden">
+                            <span class="relative z-10">THUNDER</span>
+                        VIEWER PDF V2
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Gradient Shift Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🌅 Gradient Shift</h3>
+                    <a href="https://syam.digital/kapalv5" target="_blank" class="inline-block">
+                        <button class="gradient-shift-btn text-white px-8 py-3 rounded-lg font-semibold" style="background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab); background-size: 400% 400%; animation: gradientShift 4s ease infinite;">
+                            KAPAL V.5
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Bounce Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🏀 Bounce</h3>
+                    <a href="https://syam.digital/kapalv9" target="_blank" class="inline-block">
+                        <button class="bounce-btn bg-orange-500 text-white px-8 py-3 rounded-full font-bold hover:animate-bounce transition-all duration-300 shadow-lg hover:shadow-2xl">
+                            KAPAL V.9
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Shake Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🌪️ Shake</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="shake-btn bg-red-600 text-white px-8 py-3 rounded-lg font-bold hover:animate-pulse transition-all duration-300" onmouseover="shakeEffect(this)">
+                            SHAKE ME
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Flip Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🔄 3D Flip</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <div class="flip-container" style="perspective: 1000px;">
+                            <button class="flip-btn bg-blue-600 text-white px-8 py-3 rounded-lg font-bold transition-transform duration-700 hover:rotate-y-180" style="transform-style: preserve-3d;">
+                                FLIP CARD
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                
+                <!-- Glow Pulse Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">✨ Glow Pulse</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="glow-pulse-btn bg-pink-600 text-white px-8 py-3 rounded-lg font-bold" style="animation: glowPulse 2s ease-in-out infinite alternate;">
+                            GLOW PULSE
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Typewriter Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">⌨️ Typewriter</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="typewriter-btn bg-gray-700 text-green-400 px-8 py-3 rounded-lg font-mono font-bold border border-green-400" onmouseover="typewriterEffect(this)">
+                            <span class="typewriter-text">TYPE_HERE</span>
+                        </button>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+        
+        <!-- Elegant Button Collection -->
+        <div class="mt-16">
+            <h2 class="text-4xl font-bold text-center text-white mb-8">
+                💎 Koleksi Button Elegant & Sophisticated
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Luxury Gold Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">👑 Luxury Gold</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="luxury-btn bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 text-gray-900 px-8 py-3 rounded-lg font-bold shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-2 border-yellow-300">
+                            LUXURY
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Minimalist Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">⚪ Minimalist</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="minimal-btn bg-white text-gray-800 px-8 py-3 rounded-full font-medium hover:bg-gray-100 transition-all duration-300 shadow-md hover:shadow-lg">
+                            Clean & Simple
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Elegant Outline Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">✨ Elegant Outline</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="elegant-outline bg-transparent border-2 border-white text-white px-8 py-3 rounded-lg font-medium hover:bg-white hover:text-gray-800 transition-all duration-500 relative overflow-hidden">
+                            <span class="relative z-10">Sophisticated</span>
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Gradient Elegant Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🌸 Soft Gradient</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="soft-gradient bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-300 text-gray-800 px-8 py-3 rounded-2xl font-medium hover:from-pink-400 hover:via-purple-400 hover:to-indigo-400 transition-all duration-300 shadow-lg">
+                            Gentle Touch
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Crystal Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">💎 Crystal</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="crystal-btn bg-gradient-to-br from-blue-100 to-blue-200 text-blue-900 px-8 py-3 rounded-xl font-medium shadow-inner hover:shadow-lg transition-all duration-300 border border-blue-300" style="backdrop-filter: blur(10px);">
+                            Crystal Clear
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Silk Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🎀 Silk Smooth</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="silk-btn bg-gradient-to-r from-rose-200 to-pink-200 text-rose-800 px-8 py-3 rounded-full font-medium hover:from-rose-300 hover:to-pink-300 transition-all duration-500 shadow-md hover:shadow-xl">
+                            Silk Touch
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Marble Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🏛️ Marble</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="marble-btn text-gray-700 px-8 py-3 rounded-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300" style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);">
+                            Marble Finish
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Velvet Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🌙 Velvet Night</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="velvet-btn bg-gradient-to-r from-gray-800 to-gray-900 text-white px-8 py-3 rounded-lg font-medium border border-gray-600 hover:border-gray-400 transition-all duration-300 shadow-lg hover:shadow-2xl">
+                            Velvet Touch
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Pearl Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🦪 Pearl</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="pearl-btn bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 px-8 py-3 rounded-full font-medium hover:from-white hover:to-gray-100 transition-all duration-300 shadow-md hover:shadow-lg" style="box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);">
+                            Pearl Shine
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Platinum Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">⚡ Platinum</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="platinum-btn bg-gradient-to-r from-gray-300 to-gray-400 text-gray-800 px-8 py-3 rounded-lg font-bold hover:from-gray-200 hover:to-gray-300 transition-all duration-300 shadow-lg hover:shadow-xl border border-gray-500">
+                            Platinum Elite
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Rose Gold Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🌹 Rose Gold</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="rose-gold-btn bg-gradient-to-r from-pink-300 via-rose-300 to-orange-200 text-rose-800 px-8 py-3 rounded-lg font-medium hover:from-pink-400 hover:via-rose-400 hover:to-orange-300 transition-all duration-300 shadow-lg hover:shadow-xl">
+                            Rose Gold
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Diamond Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">💍 Diamond</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="diamond-btn bg-gradient-to-br from-blue-50 via-white to-blue-50 text-blue-900 px-8 py-3 rounded-lg font-bold transition-all duration-300 shadow-lg hover:shadow-2xl border-2 border-blue-200" style="background-image: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), transparent 50%);">
+                            Diamond Cut
+                        </button>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+
+        <!-- Simple Button Collection -->
+        <div class="mt-16">
+            <h2 class="text-4xl font-bold text-center text-white mb-8">
+                🎯 Koleksi Button Sederhana & Clean
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Basic Blue Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🔵 Basic Blue</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="bg-blue-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors duration-200">
+                            Click Me
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Simple Green Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🟢 Simple Green</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="bg-green-600 text-white px-8 py-3 rounded-md font-medium hover:bg-green-700 transition-colors duration-200">
+                            Get Started
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Clean Red Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🔴 Clean Red</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="bg-red-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-red-700 transition-colors duration-200">
+                            Delete
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Outline Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">⚪ Simple Outline</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="bg-transparent border-2 border-blue-500 text-blue-500 px-8 py-3 rounded-lg font-medium hover:bg-blue-500 hover:text-white transition-all duration-200">
+                            Learn More
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Gray Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">⚫ Simple Gray</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="bg-gray-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-gray-700 transition-colors duration-200">
+                            Cancel
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Purple Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🟣 Simple Purple</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="bg-purple-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-purple-700 transition-colors duration-200">
+                            Subscribe
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Rounded Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🔘 Rounded</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="bg-indigo-600 text-white px-8 py-3 rounded-full font-medium hover:bg-indigo-700 transition-colors duration-200">
+                            Join Now
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Small Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🔸 Small Size</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="bg-orange-600 text-white px-6 py-2 rounded-md font-medium hover:bg-orange-700 transition-colors duration-200 text-sm">
+                            Small Button
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Large Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🔶 Large Size</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="bg-teal-600 text-white px-12 py-4 rounded-lg font-medium hover:bg-teal-700 transition-colors duration-200 text-lg">
+                            Large Button
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Light Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">💡 Light Theme</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="bg-white text-gray-800 px-8 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors duration-200 shadow-md">
+                            Light Mode
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Flat Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">📱 Flat Design</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="bg-cyan-600 text-white px-8 py-3 rounded-none font-medium hover:bg-cyan-700 transition-colors duration-200">
+                            Flat Button
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Soft Shadow Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🌤️ Soft Shadow</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="bg-pink-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-pink-700 transition-all duration-200 shadow-lg hover:shadow-xl">
+                            Soft Touch
+                        </button>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+
+        <!-- Gradient Button Collection -->
+        <div class="mt-16">
+            <h2 class="text-4xl font-bold text-center text-white mb-8">
+                🌈 Koleksi Button Gradient Warna Menarik
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Sunset Gradient -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🌅 Sunset</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="bg-gradient-to-r from-orange-400 via-red-500 to-pink-500 text-white px-8 py-3 rounded-lg font-semibold hover:from-orange-500 hover:via-red-600 hover:to-pink-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                            Sunset Glow
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Ocean Gradient -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🌊 Ocean</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="bg-gradient-to-r from-blue-400 via-cyan-500 to-teal-500 text-white px-8 py-3 rounded-lg font-semibold hover:from-blue-500 hover:via-cyan-600 hover:to-teal-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                            Ocean Wave
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Forest Gradient -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🌲 Forest</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="bg-gradient-to-r from-green-400 via-emerald-500 to-teal-600 text-white px-8 py-3 rounded-lg font-semibold hover:from-green-500 hover:via-emerald-600 hover:to-teal-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                            Forest Deep
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Purple Dream -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">💜 Purple Dream</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="bg-gradient-to-r from-purple-400 via-violet-500 to-indigo-600 text-white px-8 py-3 rounded-lg font-semibold hover:from-purple-500 hover:via-violet-600 hover:to-indigo-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                            Purple Dream
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Fire Gradient -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🔥 Fire</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 text-white px-8 py-3 rounded-lg font-semibold hover:from-red-600 hover:via-orange-600 hover:to-yellow-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                            Fire Blaze
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Cotton Candy -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🍭 Cotton Candy</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="bg-gradient-to-r from-pink-300 via-purple-300 to-blue-300 text-gray-800 px-8 py-3 rounded-lg font-semibold hover:from-pink-400 hover:via-purple-400 hover:to-blue-400 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                            Cotton Candy
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Neon Cyber -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">⚡ Neon Cyber</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 text-white px-8 py-3 rounded-lg font-semibold hover:from-cyan-500 hover:via-blue-600 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                            Neon Cyber
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Tropical -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🏝️ Tropical</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="bg-gradient-to-r from-lime-400 via-green-500 to-emerald-600 text-white px-8 py-3 rounded-lg font-semibold hover:from-lime-500 hover:via-green-600 hover:to-emerald-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                            Tropical Vibe
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Aurora -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🌌 Aurora</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 text-white px-8 py-3 rounded-lg font-semibold hover:from-green-500 hover:via-blue-600 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                            Aurora Light
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Peach -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🍑 Peach</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="bg-gradient-to-r from-orange-300 via-pink-400 to-red-400 text-white px-8 py-3 rounded-lg font-semibold hover:from-orange-400 hover:via-pink-500 hover:to-red-500 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                            Peach Soft
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Electric -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">⚡ Electric</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="bg-gradient-to-r from-yellow-400 via-lime-500 to-green-500 text-gray-800 px-8 py-3 rounded-lg font-semibold hover:from-yellow-500 hover:via-lime-600 hover:to-green-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                            Electric Lime
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Midnight -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🌙 Midnight</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="bg-gradient-to-r from-gray-700 via-blue-800 to-indigo-900 text-white px-8 py-3 rounded-lg font-semibold hover:from-gray-800 hover:via-blue-900 hover:to-indigo-950 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                            Midnight Blue
+                        </button>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+
+        <!-- Animated Button Collection -->
+        <div class="mt-16">
+            <h2 class="text-4xl font-bold text-center text-white mb-8">
+                🎬 Koleksi Button Animasi Menarik
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Rotating Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🔄 Rotating</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-3 rounded-lg font-semibold hover:animate-spin transition-all duration-300 shadow-lg hover:shadow-xl">
+                            Spin Me
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Wobble Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🌊 Wobble</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="wobble-btn bg-gradient-to-r from-green-500 to-teal-600 text-white px-8 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl">
+                            Wobble Fun
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Heartbeat Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">💓 Heartbeat</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="heartbeat-btn bg-gradient-to-r from-red-500 to-pink-600 text-white px-8 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl">
+                            ❤️ Heartbeat
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Swing Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🎪 Swing</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="swing-btn bg-gradient-to-r from-orange-500 to-red-600 text-white px-8 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl">
+                            Swing Dance
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Rubber Band Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🎈 Rubber Band</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="rubber-btn bg-gradient-to-r from-purple-500 to-indigo-600 text-white px-8 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl">
+                            Stretch Me
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Jello Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🍮 Jello</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="jello-btn bg-gradient-to-r from-yellow-500 to-orange-600 text-white px-8 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl">
+                            Jello Wiggle
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Flash Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">⚡ Flash</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="flash-btn bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-8 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl">
+                            Flash Light
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Tada Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🎉 Tada</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="tada-btn bg-gradient-to-r from-pink-500 to-rose-600 text-white px-8 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl">
+                            🎊 Tada!
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Flip In Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🔄 Flip In</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="flipin-btn bg-gradient-to-r from-teal-500 to-green-600 text-white px-8 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl">
+                            Flip In
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Zoom In Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🔍 Zoom In</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="zoomin-btn bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-8 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl">
+                            Zoom In
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Slide Down Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">⬇️ Slide Down</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="slidedown-btn bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-8 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl">
+                            Slide Down
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Roll In Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🎳 Roll In</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="rollin-btn bg-gradient-to-r from-violet-500 to-purple-600 text-white px-8 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl">
+                            Roll In
+                        </button>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+
+        <!-- Classic Button Collection -->
+        <div class="mt-16">
+            <h2 class="text-4xl font-bold text-center text-white mb-8">
+                🏛️ Koleksi Button Classic & Timeless
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Classic Blue Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🔵 Classic Blue</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="bg-blue-600 text-white px-10 py-4 rounded-md font-semibold border-2 border-blue-700 shadow-lg hover:bg-blue-700 hover:border-blue-800 transition-all duration-200 hover:shadow-xl">
+                            CLASSIC BLUE
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Vintage Brown Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🤎 Vintage Brown</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="bg-amber-700 text-white px-10 py-4 rounded-md font-semibold border-2 border-amber-800 shadow-lg hover:bg-amber-800 hover:border-amber-900 transition-all duration-200 hover:shadow-xl">
+                            VINTAGE STYLE
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Traditional Green Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🟢 Traditional Green</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="bg-green-700 text-white px-10 py-4 rounded-md font-semibold border-2 border-green-800 shadow-lg hover:bg-green-800 hover:border-green-900 transition-all duration-200 hover:shadow-xl">
+                            TRADITIONAL
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Retro Red Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🔴 Retro Red</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="bg-red-700 text-white px-10 py-4 rounded-md font-semibold border-2 border-red-800 shadow-lg hover:bg-red-800 hover:border-red-900 transition-all duration-200 hover:shadow-xl">
+                            RETRO RED
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Classic Gray Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">⚫ Classic Gray</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="bg-gray-600 text-white px-10 py-4 rounded-md font-semibold border-2 border-gray-700 shadow-lg hover:bg-gray-700 hover:border-gray-800 transition-all duration-200 hover:shadow-xl">
+                            CLASSIC GRAY
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Old School Purple Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🟣 Old School Purple</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="bg-purple-700 text-white px-10 py-4 rounded-md font-semibold border-2 border-purple-800 shadow-lg hover:bg-purple-800 hover:border-purple-900 transition-all duration-200 hover:shadow-xl">
+                            OLD SCHOOL
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Timeless Black Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">⚫ Timeless Black</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="bg-black text-white px-10 py-4 rounded-md font-semibold border-2 border-gray-800 shadow-lg hover:bg-gray-900 hover:border-gray-700 transition-all duration-200 hover:shadow-xl">
+                            TIMELESS
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Heritage Orange Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🟠 Heritage Orange</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="bg-orange-600 text-white px-10 py-4 rounded-md font-semibold border-2 border-orange-700 shadow-lg hover:bg-orange-700 hover:border-orange-800 transition-all duration-200 hover:shadow-xl">
+                            HERITAGE
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Classic White Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">⚪ Classic White</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="bg-white text-gray-800 px-10 py-4 rounded-md font-semibold border-2 border-gray-300 shadow-lg hover:bg-gray-100 hover:border-gray-400 transition-all duration-200 hover:shadow-xl">
+                            CLASSIC WHITE
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Antique Gold Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🟡 Antique Gold</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="bg-yellow-600 text-white px-10 py-4 rounded-md font-semibold border-2 border-yellow-700 shadow-lg hover:bg-yellow-700 hover:border-yellow-800 transition-all duration-200 hover:shadow-xl">
+                            ANTIQUE GOLD
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Vintage Teal Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🔷 Vintage Teal</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="bg-teal-700 text-white px-10 py-4 rounded-md font-semibold border-2 border-teal-800 shadow-lg hover:bg-teal-800 hover:border-teal-900 transition-all duration-200 hover:shadow-xl">
+                            VINTAGE TEAL
+                        </button>
+                    </a>
+                </div>
+                
+                <!-- Classic Maroon Button -->
+                <div class="bg-gray-800 p-6 rounded-xl">
+                    <h3 class="text-white font-semibold mb-4">🍷 Classic Maroon</h3>
+                    <a href="https://syam.digital/" target="_blank" class="inline-block">
+                        <button class="bg-red-900 text-white px-10 py-4 rounded-md font-semibold border-2 border-red-950 shadow-lg hover:bg-red-950 hover:border-red-800 transition-all duration-200 hover:shadow-xl">
+                            CLASSIC MAROON
+                        </button>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+
+        <div class="text-center mt-12">
+            <p class="text-gray-400 text-lg mb-4">
+                🎨 Setiap tombol memiliki efek interaktif yang unik dan memukau!
+            </p>
+            <div class="bg-gray-800 p-6 rounded-xl max-w-2xl mx-auto">
+                <h3 class="text-white font-semibold mb-3">🔗 Cara Mengubah Link:</h3>
+                <p class="text-gray-300 text-sm mb-2">
+                    Semua tombol saat ini mengarah ke: <span class="text-cyan-400 font-mono">https://syam.digital/</span>
+                </p>
+                <p class="text-gray-300 text-sm">
+                    Untuk mengubah link, ganti semua <span class="text-yellow-400 font-mono">href="https://syam.digital/"</span> 
+                    dengan URL yang Anda inginkan di dalam kode HTML.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Particle effect function
+        function createParticles(button) {
+            for (let i = 0; i < 15; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * button.offsetWidth + 'px';
+                particle.style.top = Math.random() * button.offsetHeight + 'px';
+                button.appendChild(particle);
+                
+                setTimeout(() => {
+                    particle.remove();
+                }, 1000);
+            }
+        }
+        
+        // Magnetic effect function
+        function magneticEffect(button, e) {
+            const rect = button.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            
+            button.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px)`;
+        }
+        
+        function resetMagnetic(button) {
+            button.style.transform = 'translate(0, 0)';
+        }
+        
+        // Ripple effect function
+        function createRipple(button, e) {
+            const rect = button.getBoundingClientRect();
+            const ripple = document.createElement('span');
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+            
+            ripple.className = 'ripple-effect';
+            ripple.style.width = ripple.style.height = size + 'px';
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            
+            button.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        }
+        
+        // Add floating animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes float {
+                0%, 100% { transform: translateY(0px); }
+                50% { transform: translateY(-10px); }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Matrix effect function
+        function matrixEffect(button) {
+            const chars = '01';
+            const originalText = button.textContent;
+            let iterations = 0;
+            
+            const interval = setInterval(() => {
+                button.textContent = originalText
+                    .split('')
+                    .map((char, index) => {
+                        if (index < iterations) {
+                            return originalText[index];
+                        }
+                        return chars[Math.floor(Math.random() * chars.length)];
+                    })
+                    .join('');
+                
+                if (iterations >= originalText.length) {
+                    clearInterval(interval);
+                }
+                
+                iterations += 1 / 3;
+            }, 30);
+        }
+        
+        // Shake effect function
+        function shakeEffect(button) {
+            button.style.animation = 'none';
+            setTimeout(() => {
+                button.style.animation = 'shake 0.5s ease-in-out';
+            }, 10);
+        }
+        
+        // Typewriter effect function
+        function typewriterEffect(button) {
+            const textElement = button.querySelector('.typewriter-text');
+            const originalText = 'TYPE_HERE';
+            const newText = 'LOADING...';
+            let i = 0;
+            
+            textElement.textContent = '';
+            
+            const typeInterval = setInterval(() => {
+                textElement.textContent += newText[i];
+                i++;
+                
+                if (i >= newText.length) {
+                    clearInterval(typeInterval);
+                    setTimeout(() => {
+                        textElement.textContent = originalText;
+                    }, 1000);
+                }
+            }, 100);
+        }
+        
+        // Add shake animation
+        const shakeStyle = document.createElement('style');
+        shakeStyle.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+                20%, 40%, 60%, 80% { transform: translateX(5px); }
+            }
+        `;
+        document.head.appendChild(shakeStyle);
+        
+        // Initialize dropdown on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            populateDropdown();
+        });
+        
+        // Populate dropdown with all button names
+        function populateDropdown() {
+            const buttonContainers = document.querySelectorAll('.bg-gray-800.p-6.rounded-xl');
+            const dropdownItems = document.getElementById('dropdownItems');
+            const buttonList = [
+                // Manual list of all buttons with clean names for easy searching
+                { cleanName: "Neon Glow", emoji: "🌟", searchTerm: "neon glow" },
+                { cleanName: "Gradient Border", emoji: "🌈", searchTerm: "gradient border" },
+                { cleanName: "Morphing", emoji: "🔄", searchTerm: "morphing" },
+                { cleanName: "Liquid Fill", emoji: "💧", searchTerm: "liquid fill" },
+                { cleanName: "Glitch Effect", emoji: "⚡", searchTerm: "glitch effect" },
+                { cleanName: "Particle Effect", emoji: "✨", searchTerm: "particle effect" },
+                { cleanName: "Holographic", emoji: "🌟", searchTerm: "holographic" },
+                { cleanName: "Magnetic 3D", emoji: "🧲", searchTerm: "magnetic 3d" },
+                { cleanName: "Ripple Wave", emoji: "🌊", searchTerm: "ripple wave" },
+                { cleanName: "Floating", emoji: "🎈", searchTerm: "floating" },
+                { cleanName: "Pulse Beat", emoji: "💓", searchTerm: "pulse beat" },
+                { cleanName: "Slide Effect", emoji: "➡️", searchTerm: "slide effect" },
+                { cleanName: "Cyberpunk", emoji: "🤖", searchTerm: "cyberpunk" },
+                { cleanName: "Glass Morphism", emoji: "🔮", searchTerm: "glass morphism" },
+                { cleanName: "Neumorphism", emoji: "🎯", searchTerm: "neumorphism" },
+                { cleanName: "Matrix Code", emoji: "💻", searchTerm: "matrix code" },
+                { cleanName: "Fire Effect", emoji: "🔥", searchTerm: "fire effect" },
+                { cleanName: "Lightning", emoji: "⚡", searchTerm: "lightning" },
+                { cleanName: "Gradient Shift", emoji: "🌅", searchTerm: "gradient shift" },
+                { cleanName: "Bounce", emoji: "🏀", searchTerm: "bounce" },
+                { cleanName: "Shake", emoji: "🌪️", searchTerm: "shake" },
+                { cleanName: "3D Flip", emoji: "🔄", searchTerm: "3d flip" },
+                { cleanName: "Glow Pulse", emoji: "✨", searchTerm: "glow pulse" },
+                { cleanName: "Typewriter", emoji: "⌨️", searchTerm: "typewriter" },
+                { cleanName: "Luxury Gold", emoji: "👑", searchTerm: "luxury gold" },
+                { cleanName: "Minimalist", emoji: "⚪", searchTerm: "minimalist" },
+                { cleanName: "Elegant Outline", emoji: "✨", searchTerm: "elegant outline" },
+                { cleanName: "Soft Gradient", emoji: "🌸", searchTerm: "soft gradient" },
+                { cleanName: "Crystal", emoji: "💎", searchTerm: "crystal" },
+                { cleanName: "Silk Smooth", emoji: "🎀", searchTerm: "silk smooth" },
+                { cleanName: "Marble", emoji: "🏛️", searchTerm: "marble" },
+                { cleanName: "Velvet Night", emoji: "🌙", searchTerm: "velvet night" },
+                { cleanName: "Pearl", emoji: "🦪", searchTerm: "pearl" },
+                { cleanName: "Platinum", emoji: "⚡", searchTerm: "platinum" },
+                { cleanName: "Rose Gold", emoji: "🌹", searchTerm: "rose gold" },
+                { cleanName: "Diamond", emoji: "💍", searchTerm: "diamond" },
+                { cleanName: "Basic Blue", emoji: "🔵", searchTerm: "basic blue" },
+                { cleanName: "Simple Green", emoji: "🟢", searchTerm: "simple green" },
+                { cleanName: "Clean Red", emoji: "🔴", searchTerm: "clean red" },
+                { cleanName: "Simple Outline", emoji: "⚪", searchTerm: "simple outline" },
+                { cleanName: "Simple Gray", emoji: "⚫", searchTerm: "simple gray" },
+                { cleanName: "Simple Purple", emoji: "🟣", searchTerm: "simple purple" },
+                { cleanName: "Rounded", emoji: "🔘", searchTerm: "rounded" },
+                { cleanName: "Small Size", emoji: "🔸", searchTerm: "small size" },
+                { cleanName: "Large Size", emoji: "🔶", searchTerm: "large size" },
+                { cleanName: "Light Theme", emoji: "💡", searchTerm: "light theme" },
+                { cleanName: "Flat Design", emoji: "📱", searchTerm: "flat design" },
+                { cleanName: "Soft Shadow", emoji: "🌤️", searchTerm: "soft shadow" },
+                { cleanName: "Sunset", emoji: "🌅", searchTerm: "sunset" },
+                { cleanName: "Ocean", emoji: "🌊", searchTerm: "ocean" },
+                { cleanName: "Forest", emoji: "🌲", searchTerm: "forest" },
+                { cleanName: "Purple Dream", emoji: "💜", searchTerm: "purple dream" },
+                { cleanName: "Fire", emoji: "🔥", searchTerm: "fire" },
+                { cleanName: "Cotton Candy", emoji: "🍭", searchTerm: "cotton candy" },
+                { cleanName: "Neon Cyber", emoji: "⚡", searchTerm: "neon cyber" },
+                { cleanName: "Tropical", emoji: "🏝️", searchTerm: "tropical" },
+                { cleanName: "Aurora", emoji: "🌌", searchTerm: "aurora" },
+                { cleanName: "Peach", emoji: "🍑", searchTerm: "peach" },
+                { cleanName: "Electric", emoji: "⚡", searchTerm: "electric" },
+                { cleanName: "Midnight Blue", emoji: "🌙", searchTerm: "midnight blue" },
+                { cleanName: "Rotating", emoji: "🔄", searchTerm: "rotating" },
+                { cleanName: "Wobble", emoji: "🌊", searchTerm: "wobble" },
+                { cleanName: "Heartbeat", emoji: "💓", searchTerm: "heartbeat" },
+                { cleanName: "Swing", emoji: "🎪", searchTerm: "swing" },
+                { cleanName: "Rubber Band", emoji: "🎈", searchTerm: "rubber band" },
+                { cleanName: "Jello", emoji: "🍮", searchTerm: "jello" },
+                { cleanName: "Flash", emoji: "⚡", searchTerm: "flash" },
+                { cleanName: "Tada", emoji: "🎉", searchTerm: "tada" },
+                { cleanName: "Flip In", emoji: "🔄", searchTerm: "flip in" },
+                { cleanName: "Zoom In", emoji: "🔍", searchTerm: "zoom in" },
+                { cleanName: "Slide Down", emoji: "⬇️", searchTerm: "slide down" },
+                { cleanName: "Roll In", emoji: "🎳", searchTerm: "roll in" },
+                { cleanName: "Classic Blue", emoji: "🔵", searchTerm: "classic blue" },
+                { cleanName: "Vintage Brown", emoji: "🤎", searchTerm: "vintage brown" },
+                { cleanName: "Traditional Green", emoji: "🟢", searchTerm: "traditional green" },
+                { cleanName: "Retro Red", emoji: "🔴", searchTerm: "retro red" },
+                { cleanName: "Classic Gray", emoji: "⚫", searchTerm: "classic gray" },
+                { cleanName: "Old School Purple", emoji: "🟣", searchTerm: "old school purple" },
+                { cleanName: "Timeless Black", emoji: "⚫", searchTerm: "timeless black" },
+                { cleanName: "Heritage Orange", emoji: "🟠", searchTerm: "heritage orange" },
+                { cleanName: "Classic White", emoji: "⚪", searchTerm: "classic white" },
+                { cleanName: "Antique Gold", emoji: "🟡", searchTerm: "antique gold" },
+                { cleanName: "Vintage Teal", emoji: "🔷", searchTerm: "vintage teal" },
+                { cleanName: "Classic Maroon", emoji: "🍷", searchTerm: "classic maroon" }
+            ];
+            
+            // Sort alphabetically by clean name
+            buttonList.sort((a, b) => a.cleanName.localeCompare(b.cleanName));
+            
+            // Create dropdown items
+            dropdownItems.innerHTML = '';
+            buttonList.forEach(item => {
+                const dropdownItem = document.createElement('div');
+                dropdownItem.className = 'px-4 py-2 hover:bg-gray-700 cursor-pointer rounded-lg mx-2 transition-colors duration-200 flex items-center gap-3';
+                dropdownItem.innerHTML = `
+                    <span class="text-lg">${item.emoji}</span>
+                    <div class="flex-1">
+                        <div class="text-white font-medium">${item.cleanName}</div>
+                        <div class="text-gray-400 text-xs">Klik untuk mencari</div>
+                    </div>
+                `;
+                
+                dropdownItem.addEventListener('mousedown', function(e) {
+                    e.preventDefault(); // Prevent blur event
+                    selectDropdownItem(item.searchTerm);
+                });
+                
+                dropdownItems.appendChild(dropdownItem);
+            });
+        }
+        
+        // Show dropdown
+        function showDropdown() {
+            const dropdown = document.getElementById('searchDropdown');
+            const icon = document.getElementById('dropdownIcon');
+            dropdown.classList.remove('hidden');
+            icon.style.transform = 'rotate(180deg)';
+        }
+        
+        // Hide dropdown
+        function hideDropdown() {
+            setTimeout(() => {
+                const dropdown = document.getElementById('searchDropdown');
+                const icon = document.getElementById('dropdownIcon');
+                dropdown.classList.add('hidden');
+                icon.style.transform = 'rotate(0deg)';
+            }, 200);
+        }
+        
+        // Toggle dropdown
+        function toggleDropdown() {
+            const dropdown = document.getElementById('searchDropdown');
+            const icon = document.getElementById('dropdownIcon');
+            
+            if (dropdown.classList.contains('hidden')) {
+                showDropdown();
+                document.getElementById('searchInput').focus();
+            } else {
+                hideDropdown();
+            }
+        }
+        
+        // Select dropdown item
+        function selectDropdownItem(searchTerm) {
+            const searchInput = document.getElementById('searchInput');
+            searchInput.value = searchTerm;
+            hideDropdown();
+            
+            // Show modal instead of scrolling
+            showButtonModal(searchTerm);
+        }
+        
+        // Show button modal
+        function showButtonModal(searchTerm) {
+            const buttonData = getButtonData(searchTerm);
+            if (!buttonData) {
+                console.log('Button data not found for:', searchTerm);
+                return;
+            }
+            
+            console.log('Showing modal for:', buttonData.cleanName);
+            
+            // Update modal content
+            document.getElementById('modalEmoji').textContent = buttonData.emoji;
+            document.getElementById('modalTitle').textContent = buttonData.cleanName;
+            document.getElementById('modalDescription').textContent = buttonData.description;
+            
+            // Create button preview
+            const modalButtonContainer = document.getElementById('modalButtonContainer');
+            modalButtonContainer.innerHTML = buttonData.buttonHTML;
+            
+            // Store current button for scroll function
+            window.currentModalButton = searchTerm;
+            
+            // Show modal with animation
+            const modal = document.getElementById('buttonModal');
+            const modalContent = document.getElementById('modalContent');
+            
+            // Force display and reset styles
+            modal.style.display = 'flex';
+            modal.classList.remove('hidden');
+            modalContent.style.transform = 'scale(0.95)';
+            modalContent.style.opacity = '0';
+            
+            // Animate in
+            requestAnimationFrame(() => {
+                modalContent.style.transform = 'scale(1)';
+                modalContent.style.opacity = '1';
+            });
+            
+            // Prevent body scroll
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Close modal
+        function closeModal() {
+            const modal = document.getElementById('buttonModal');
+            const modalContent = document.getElementById('modalContent');
+            
+            modalContent.style.transform = 'scale(0.95)';
+            modalContent.style.opacity = '0';
+            
+            setTimeout(() => {
+                modal.style.display = 'none';
+                modal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }, 300);
+        }
+        
+        // Scroll to button from modal
+        function scrollToButton() {
+            if (!window.currentModalButton) return;
+            
+            closeModal();
+            
+            // Search and scroll to button
+            const searchInput = document.getElementById('searchInput');
+            searchInput.value = window.currentModalButton;
+            searchButtons();
+            
+            setTimeout(() => {
+                const firstVisibleButton = document.querySelector('.bg-gray-800.p-6.rounded-xl[style*="display: block"], .bg-gray-800.p-6.rounded-xl:not([style*="display: none"])');
+                if (firstVisibleButton) {
+                    firstVisibleButton.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }, 100);
+        }
+        
+        // Get button data for modal
+        function getButtonData(searchTerm) {
+            const buttonDatabase = {
+                "neon glow": {
+                    cleanName: "Neon Glow",
+                    emoji: "🌟",
+                    description: "Efek cahaya neon yang berkedip dengan animasi pulse yang memukau. Button ini memberikan kesan futuristik dan modern dengan warna cyan yang menyala.",
+                    buttonHTML: '<button class="neon-glow bg-black text-cyan-400 px-8 py-3 rounded-lg font-semibold border-2 border-cyan-400 hover:bg-cyan-400 hover:text-black transition-all duration-300">NEON POWER</button>'
+                },
+                "cyberpunk": {
+                    cleanName: "Cyberpunk",
+                    emoji: "🤖",
+                    description: "Button dengan gaya cyberpunk futuristik, menggunakan font mono dan efek skew yang memberikan kesan digital dan high-tech.",
+                    buttonHTML: '<button class="cyberpunk-btn bg-black text-green-400 px-8 py-3 rounded-none font-mono font-bold border-2 border-green-400 relative overflow-hidden hover:text-black transition-colors duration-300"><span class="relative z-10">CYBER_MODE</span><div class="absolute inset-0 bg-green-400 transform -skew-x-12 -translate-x-full transition-transform duration-300 hover:translate-x-0"></div></button>'
+                },
+                "glass morphism": {
+                    cleanName: "Glass Morphism",
+                    emoji: "🔮",
+                    description: "Efek kaca transparan dengan backdrop blur yang memberikan kesan modern dan elegan, populer dalam desain UI terkini.",
+                    buttonHTML: '<button class="glass-btn backdrop-blur-md bg-white/10 border border-white/20 text-white px-8 py-3 rounded-2xl font-semibold hover:bg-white/20 transition-all duration-300 shadow-xl">GLASS EFFECT</button>'
+                },
+                "neumorphism": {
+                    cleanName: "Neumorphism",
+                    emoji: "🎯",
+                    description: "Gaya desain soft UI dengan shadow yang memberikan efek timbul dan tenggelam, menciptakan tampilan yang lembut dan modern.",
+                    buttonHTML: '<button class="neuro-btn bg-gray-300 text-gray-700 px-8 py-3 rounded-2xl font-semibold transition-all duration-300" style="box-shadow: 8px 8px 16px #bebebe, -8px -8px 16px #ffffff;">NEURO STYLE</button>'
+                },
+                "matrix code": {
+                    cleanName: "Matrix Code",
+                    emoji: "💻",
+                    description: "Efek matrix dengan karakter yang berubah-ubah seperti dalam film Matrix, memberikan kesan hacker dan digital.",
+                    buttonHTML: '<button class="matrix-btn bg-black text-green-500 px-8 py-3 rounded-lg font-mono font-bold border border-green-500 relative overflow-hidden" onclick="matrixEffect(this)">ENTER_MATRIX</button>'
+                },
+                "fire effect": {
+                    cleanName: "Fire Effect",
+                    emoji: "🔥",
+                    description: "Efek api dengan gradient merah-orange-kuning dan animasi flicker yang memberikan kesan panas dan energik.",
+                    buttonHTML: '<button class="fire-btn bg-gradient-to-t from-red-600 via-orange-500 to-yellow-400 text-white px-8 py-3 rounded-lg font-bold relative overflow-hidden"><span class="relative z-10">IGNITE</span><div class="fire-animation absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-300"></div></button>'
+                },
+                "lightning": {
+                    cleanName: "Lightning",
+                    emoji: "⚡",
+                    description: "Efek petir dengan animasi kilat yang memberikan kesan kekuatan dan energi listrik yang dahsyat.",
+                    buttonHTML: '<button class="lightning-btn bg-purple-900 text-yellow-300 px-8 py-3 rounded-lg font-bold border-2 border-yellow-300 relative overflow-hidden"><span class="relative z-10">THUNDER</span></button>'
+                },
+                "gradient shift": {
+                    cleanName: "Gradient Shift",
+                    emoji: "🌅",
+                    description: "Gradient yang bergerak dan berubah posisi secara dinamis, memberikan efek visual yang hidup dan menarik.",
+                    buttonHTML: '<button class="gradient-shift-btn text-white px-8 py-3 rounded-lg font-semibold" style="background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab); background-size: 400% 400%; animation: gradientShift 4s ease infinite;">SHIFT COLORS</button>'
+                },
+                "bounce": {
+                    cleanName: "Bounce",
+                    emoji: "🏀",
+                    description: "Animasi bouncing yang playful dan energik, memberikan feedback visual yang menyenangkan saat di-hover.",
+                    buttonHTML: '<button class="bounce-btn bg-orange-500 text-white px-8 py-3 rounded-full font-bold hover:animate-bounce transition-all duration-300 shadow-lg hover:shadow-2xl">BOUNCE IT</button>'
+                },
+                "shake": {
+                    cleanName: "Shake",
+                    emoji: "🌪️",
+                    description: "Efek goyang yang memberikan kesan urgent atau excited, cocok untuk call-to-action yang kuat.",
+                    buttonHTML: '<button class="shake-btn bg-red-600 text-white px-8 py-3 rounded-lg font-bold hover:animate-pulse transition-all duration-300" onmouseover="shakeEffect(this)">SHAKE ME</button>'
+                },
+                "3d flip": {
+                    cleanName: "3D Flip",
+                    emoji: "🔄",
+                    description: "Efek flip 3D yang memberikan dimensi tambahan pada button, menciptakan interaksi yang menarik dan modern.",
+                    buttonHTML: '<div class="flip-container" style="perspective: 1000px;"><button class="flip-btn bg-blue-600 text-white px-8 py-3 rounded-lg font-bold transition-transform duration-700 hover:rotate-y-180" style="transform-style: preserve-3d;">FLIP CARD</button></div>'
+                },
+                "glow pulse": {
+                    cleanName: "Glow Pulse",
+                    emoji: "✨",
+                    description: "Efek cahaya yang berdenyut dengan warna pink yang memberikan kesan magis dan menarik perhatian.",
+                    buttonHTML: '<button class="glow-pulse-btn bg-pink-600 text-white px-8 py-3 rounded-lg font-bold" style="animation: glowPulse 2s ease-in-out infinite alternate;">GLOW PULSE</button>'
+                },
+                "typewriter": {
+                    cleanName: "Typewriter",
+                    emoji: "⌨️",
+                    description: "Efek mengetik seperti mesin tik yang memberikan kesan retro dan interaktif saat di-hover.",
+                    buttonHTML: '<button class="typewriter-btn bg-gray-700 text-green-400 px-8 py-3 rounded-lg font-mono font-bold border border-green-400" onmouseover="typewriterEffect(this)"><span class="typewriter-text">TYPE_HERE</span></button>'
+                },
+                "luxury gold": {
+                    cleanName: "Luxury Gold",
+                    emoji: "👑",
+                    description: "Button mewah dengan warna emas yang memberikan kesan premium dan eksklusif, cocok untuk produk high-end.",
+                    buttonHTML: '<button class="luxury-btn bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 text-gray-900 px-8 py-3 rounded-lg font-bold shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300 border-2 border-yellow-300">LUXURY</button>'
+                },
+                "minimalist": {
+                    cleanName: "Minimalist",
+                    emoji: "⚪",
+                    description: "Desain minimalis yang clean dan sederhana, fokus pada fungsi dengan estetika yang tidak berlebihan.",
+                    buttonHTML: '<button class="minimal-btn bg-white text-gray-800 px-8 py-3 rounded-full font-medium hover:bg-gray-100 transition-all duration-300 shadow-md hover:shadow-lg">Clean & Simple</button>'
+                },
+                "elegant outline": {
+                    cleanName: "Elegant Outline",
+                    emoji: "✨",
+                    description: "Button outline yang elegan dengan transisi fill yang smooth, memberikan kesan sophisticated dan professional.",
+                    buttonHTML: '<button class="elegant-outline bg-transparent border-2 border-white text-white px-8 py-3 rounded-lg font-medium hover:bg-white hover:text-gray-800 transition-all duration-500 relative overflow-hidden"><span class="relative z-10">Sophisticated</span></button>'
+                },
+                "soft gradient": {
+                    cleanName: "Soft Gradient",
+                    emoji: "🌸",
+                    description: "Gradient lembut dengan warna pastel yang memberikan kesan feminine dan gentle, cocok untuk aplikasi lifestyle.",
+                    buttonHTML: '<button class="soft-gradient bg-gradient-to-r from-pink-300 via-purple-300 to-indigo-300 text-gray-800 px-8 py-3 rounded-2xl font-medium hover:from-pink-400 hover:via-purple-400 hover:to-indigo-400 transition-all duration-300 shadow-lg">Gentle Touch</button>'
+                },
+                "crystal": {
+                    cleanName: "Crystal",
+                    emoji: "💎",
+                    description: "Efek kristal dengan transparansi dan shadow yang memberikan kesan premium dan berkelas tinggi.",
+                    buttonHTML: '<button class="crystal-btn bg-gradient-to-br from-blue-100 to-blue-200 text-blue-900 px-8 py-3 rounded-xl font-medium shadow-inner hover:shadow-lg transition-all duration-300 border border-blue-300" style="backdrop-filter: blur(10px);">Crystal Clear</button>'
+                },
+                "silk smooth": {
+                    cleanName: "Silk Smooth",
+                    emoji: "🎀",
+                    description: "Tekstur halus seperti sutra dengan warna lembut yang memberikan kesan mewah dan berkelas.",
+                    buttonHTML: '<button class="silk-btn bg-gradient-to-r from-rose-200 to-pink-200 text-rose-800 px-8 py-3 rounded-full font-medium hover:from-rose-300 hover:to-pink-300 transition-all duration-500 shadow-md hover:shadow-xl">Silk Touch</button>'
+                },
+                "marble": {
+                    cleanName: "Marble",
+                    emoji: "🏛️",
+                    description: "Tekstur marmer yang elegan dengan gradient abu-abu yang memberikan kesan klasik dan timeless.",
+                    buttonHTML: '<button class="marble-btn text-gray-700 px-8 py-3 rounded-lg font-medium shadow-lg hover:shadow-xl transition-all duration-300" style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);">Marble Finish</button>'
+                },
+                "velvet night": {
+                    cleanName: "Velvet Night",
+                    emoji: "🌙",
+                    description: "Warna gelap seperti beludru malam yang memberikan kesan misterius dan elegan.",
+                    buttonHTML: '<button class="velvet-btn bg-gradient-to-r from-gray-800 to-gray-900 text-white px-8 py-3 rounded-lg font-medium border border-gray-600 hover:border-gray-400 transition-all duration-300 shadow-lg hover:shadow-2xl">Velvet Touch</button>'
+                },
+                "pearl": {
+                    cleanName: "Pearl",
+                    emoji: "🦪",
+                    description: "Kilau mutiara yang lembut dengan efek shimmer yang memberikan kesan mewah dan feminin.",
+                    buttonHTML: '<button class="pearl-btn bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 px-8 py-3 rounded-full font-medium hover:from-white hover:to-gray-100 transition-all duration-300 shadow-md hover:shadow-lg" style="box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);">Pearl Shine</button>'
+                },
+                "platinum": {
+                    cleanName: "Platinum",
+                    emoji: "⚡",
+                    description: "Warna platinum yang premium dengan kilau metalik yang memberikan kesan eksklusif dan high-end.",
+                    buttonHTML: '<button class="platinum-btn bg-gradient-to-r from-gray-300 to-gray-400 text-gray-800 px-8 py-3 rounded-lg font-bold hover:from-gray-200 hover:to-gray-300 transition-all duration-300 shadow-lg hover:shadow-xl border border-gray-500">Platinum Elite</button>'
+                },
+                "rose gold": {
+                    cleanName: "Rose Gold",
+                    emoji: "🌹",
+                    description: "Warna rose gold yang trendy dan feminine, memberikan kesan modern dan stylish.",
+                    buttonHTML: '<button class="rose-gold-btn bg-gradient-to-r from-pink-300 via-rose-300 to-orange-200 text-rose-800 px-8 py-3 rounded-lg font-medium hover:from-pink-400 hover:via-rose-400 hover:to-orange-300 transition-all duration-300 shadow-lg hover:shadow-xl">Rose Gold</button>'
+                },
+                "diamond": {
+                    cleanName: "Diamond",
+                    emoji: "💍",
+                    description: "Efek berlian dengan kilau dan transparansi yang memberikan kesan mewah dan berkilau.",
+                    buttonHTML: '<button class="diamond-btn bg-gradient-to-br from-blue-50 via-white to-blue-50 text-blue-900 px-8 py-3 rounded-lg font-bold transition-all duration-300 shadow-lg hover:shadow-2xl border-2 border-blue-200" style="background-image: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), transparent 50%);">Diamond Cut</button>'
+                },
+                "basic blue": {
+                    cleanName: "Basic Blue",
+                    emoji: "🔵",
+                    description: "Button biru sederhana dan clean yang cocok untuk berbagai keperluan dengan desain yang tidak berlebihan.",
+                    buttonHTML: '<button class="bg-blue-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors duration-200">Click Me</button>'
+                },
+                "simple green": {
+                    cleanName: "Simple Green",
+                    emoji: "🟢",
+                    description: "Button hijau simpel yang memberikan kesan fresh dan natural, cocok untuk action positif.",
+                    buttonHTML: '<button class="bg-green-600 text-white px-8 py-3 rounded-md font-medium hover:bg-green-700 transition-colors duration-200">Get Started</button>'
+                },
+                "clean red": {
+                    cleanName: "Clean Red",
+                    emoji: "🔴",
+                    description: "Button merah yang clean dan tegas, cocok untuk action yang membutuhkan perhatian khusus.",
+                    buttonHTML: '<button class="bg-red-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-red-700 transition-colors duration-200">Delete</button>'
+                },
+                "simple outline": {
+                    cleanName: "Simple Outline",
+                    emoji: "⚪",
+                    description: "Button outline sederhana dengan transisi fill yang clean, memberikan kesan professional.",
+                    buttonHTML: '<button class="bg-transparent border-2 border-blue-500 text-blue-500 px-8 py-3 rounded-lg font-medium hover:bg-blue-500 hover:text-white transition-all duration-200">Learn More</button>'
+                },
+                "simple gray": {
+                    cleanName: "Simple Gray",
+                    emoji: "⚫",
+                    description: "Button abu-abu netral yang cocok untuk secondary action atau cancel button.",
+                    buttonHTML: '<button class="bg-gray-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-gray-700 transition-colors duration-200">Cancel</button>'
+                },
+                "simple purple": {
+                    cleanName: "Simple Purple",
+                    emoji: "🟣",
+                    description: "Button ungu yang memberikan kesan kreatif dan modern, cocok untuk brand yang playful.",
+                    buttonHTML: '<button class="bg-purple-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-purple-700 transition-colors duration-200">Subscribe</button>'
+                },
+                "rounded": {
+                    cleanName: "Rounded",
+                    emoji: "🔘",
+                    description: "Button dengan border radius penuh yang memberikan kesan modern dan friendly.",
+                    buttonHTML: '<button class="bg-indigo-600 text-white px-8 py-3 rounded-full font-medium hover:bg-indigo-700 transition-colors duration-200">Join Now</button>'
+                },
+                "small size": {
+                    cleanName: "Small Size",
+                    emoji: "🔸",
+                    description: "Button berukuran kecil yang cocok untuk space terbatas atau secondary action.",
+                    buttonHTML: '<button class="bg-orange-600 text-white px-6 py-2 rounded-md font-medium hover:bg-orange-700 transition-colors duration-200 text-sm">Small Button</button>'
+                },
+                "large size": {
+                    cleanName: "Large Size",
+                    emoji: "🔶",
+                    description: "Button berukuran besar yang cocok untuk primary action atau call-to-action utama.",
+                    buttonHTML: '<button class="bg-teal-600 text-white px-12 py-4 rounded-lg font-medium hover:bg-teal-700 transition-colors duration-200 text-lg">Large Button</button>'
+                },
+                "light theme": {
+                    cleanName: "Light Theme",
+                    emoji: "💡",
+                    description: "Button dengan tema terang yang cocok untuk background gelap atau desain minimalis.",
+                    buttonHTML: '<button class="bg-white text-gray-800 px-8 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors duration-200 shadow-md">Light Mode</button>'
+                },
+                "gradient border": {
+                    cleanName: "Gradient Border",
+                    emoji: "🌈",
+                    description: "Border dengan gradient warna pelangi yang bergerak dinamis. Memberikan efek visual yang menarik dengan perpaduan warna yang indah.",
+                    buttonHTML: '<button class="gradient-border p-1 rounded-lg"><span class="block bg-gray-800 text-white px-8 py-3 rounded-lg font-semibold hover:bg-transparent transition-all duration-300">RAINBOW EDGE</span></button>'
+                },
+                "morphing": {
+                    cleanName: "Morphing",
+                    emoji: "🔄",
+                    description: "Button yang berubah bentuk saat di-hover, dari persegi menjadi bulat dengan efek scale yang smooth dan menarik.",
+                    buttonHTML: '<button class="morphing bg-gradient-to-r from-pink-500 to-violet-500 text-white px-8 py-3 rounded-lg font-semibold">TRANSFORM</button>'
+                },
+                "liquid fill": {
+                    cleanName: "Liquid Fill",
+                    emoji: "💧",
+                    description: "Efek pengisian cairan dari bawah ke atas saat di-hover. Memberikan sensasi visual seperti cairan yang mengalir ke dalam button.",
+                    buttonHTML: '<button class="liquid-fill bg-transparent border-2 border-purple-500 text-purple-500 px-8 py-3 rounded-lg font-semibold hover:text-white transition-colors duration-300">LIQUID MAGIC</button>'
+                },
+                "glitch effect": {
+                    cleanName: "Glitch Effect",
+                    emoji: "⚡",
+                    description: "Efek glitch digital yang memberikan kesan cyberpunk dengan gerakan acak yang menarik perhatian.",
+                    buttonHTML: '<button class="glitch bg-red-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-red-700 transition-colors duration-300">GLITCH MODE</button>'
+                },
+                "particle effect": {
+                    cleanName: "Particle Effect",
+                    emoji: "✨",
+                    description: "Partikel-partikel kecil yang beterbangan saat button diklik, memberikan efek visual yang magis dan menarik.",
+                    buttonHTML: '<button class="particle-btn bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-8 py-3 rounded-lg font-semibold hover:from-yellow-500 hover:to-orange-600 transition-all duration-300" onclick="createParticles(this)">SPARK IT</button>'
+                },
+                "holographic": {
+                    cleanName: "Holographic",
+                    emoji: "🌟",
+                    description: "Efek hologram dengan perubahan warna yang dinamis, memberikan kesan futuristik dan premium.",
+                    buttonHTML: '<button class="holographic text-white px-8 py-3 rounded-lg font-semibold hover:scale-105 transition-transform duration-300">HOLO SHINE</button>'
+                },
+                "magnetic 3d": {
+                    cleanName: "Magnetic 3D",
+                    emoji: "🧲",
+                    description: "Button yang mengikuti pergerakan mouse seperti magnet dengan efek 3D yang responsif dan interaktif.",
+                    buttonHTML: '<button class="magnetic bg-gradient-to-r from-green-400 to-blue-500 text-white px-8 py-3 rounded-lg font-semibold shadow-lg hover:shadow-2xl" onmousemove="magneticEffect(this, event)" onmouseleave="resetMagnetic(this)">MAGNETIC</button>'
+                },
+                "ripple wave": {
+                    cleanName: "Ripple Wave",
+                    emoji: "🌊",
+                    description: "Efek gelombang air yang menyebar dari titik klik, memberikan feedback visual yang natural dan menenangkan.",
+                    buttonHTML: '<button class="ripple bg-gradient-to-r from-teal-400 to-cyan-500 text-white px-8 py-3 rounded-lg font-semibold" onclick="createRipple(this, event)">MAKE WAVES</button>'
+                },
+                "floating": {
+                    cleanName: "Floating",
+                    emoji: "🎈",
+                    description: "Animasi mengambang naik-turun yang memberikan kesan ringan dan playful pada button.",
+                    buttonHTML: '<button class="bg-gradient-to-r from-purple-400 to-pink-400 text-white px-8 py-3 rounded-lg font-semibold hover:translate-y-2 transition-transform duration-300 shadow-lg hover:shadow-xl" style="animation: float 3s ease-in-out infinite;">FLOAT AWAY</button>'
+                },
+                "pulse beat": {
+                    cleanName: "Pulse Beat",
+                    emoji: "💓",
+                    description: "Animasi denyut seperti detak jantung yang memberikan kesan hidup dan energik pada button.",
+                    buttonHTML: '<button class="bg-red-500 text-white px-8 py-3 rounded-lg font-semibold hover:bg-red-600 transition-colors duration-300" style="animation: pulse 1.5s infinite;">HEARTBEAT</button>'
+                },
+                "slide effect": {
+                    cleanName: "Slide Effect",
+                    emoji: "➡️",
+                    description: "Efek slide background dari samping yang memberikan transisi yang smooth dan modern.",
+                    buttonHTML: '<button class="relative bg-indigo-600 text-white px-8 py-3 rounded-lg font-semibold overflow-hidden group"><span class="relative z-10">SLIDE IN</span><div class="absolute inset-0 bg-indigo-800 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300"></div></button>'
+                },
+                "sunset": {
+                    cleanName: "Sunset",
+                    emoji: "🌅",
+                    description: "Gradient warna sunset yang hangat dengan perpaduan orange, merah, dan pink yang memukau.",
+                    buttonHTML: '<button class="bg-gradient-to-r from-orange-400 via-red-500 to-pink-500 text-white px-8 py-3 rounded-lg font-semibold hover:from-orange-500 hover:via-red-600 hover:to-pink-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">Sunset Glow</button>'
+                },
+                "ocean": {
+                    cleanName: "Ocean",
+                    emoji: "🌊",
+                    description: "Gradient biru seperti lautan yang dalam dengan nuansa cyan dan teal yang menenangkan.",
+                    buttonHTML: '<button class="bg-gradient-to-r from-blue-400 via-cyan-500 to-teal-500 text-white px-8 py-3 rounded-lg font-semibold hover:from-blue-500 hover:via-cyan-600 hover:to-teal-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">Ocean Wave</button>'
+                },
+                "purple dream": {
+                    cleanName: "Purple Dream",
+                    emoji: "💜",
+                    description: "Gradient ungu yang dreamy dengan perpaduan purple, violet, dan indigo yang elegan.",
+                    buttonHTML: '<button class="bg-gradient-to-r from-purple-400 via-violet-500 to-indigo-600 text-white px-8 py-3 rounded-lg font-semibold hover:from-purple-500 hover:via-violet-600 hover:to-indigo-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">Purple Dream</button>'
+                },
+                "midnight blue": {
+                    cleanName: "Midnight Blue",
+                    emoji: "🌙",
+                    description: "Warna biru malam yang dalam dan misterius, memberikan kesan profesional dan elegan.",
+                    buttonHTML: '<button class="bg-gradient-to-r from-gray-700 via-blue-800 to-indigo-900 text-white px-8 py-3 rounded-lg font-semibold hover:from-gray-800 hover:via-blue-900 hover:to-indigo-950 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">Midnight Blue</button>'
+                },
+                "classic maroon": {
+                    cleanName: "Classic Maroon",
+                    emoji: "🍷",
+                    description: "Warna maroon klasik yang memberikan kesan mewah dan timeless dengan nuansa merah tua yang elegan.",
+                    buttonHTML: '<button class="bg-red-900 text-white px-10 py-4 rounded-md font-semibold border-2 border-red-950 shadow-lg hover:bg-red-950 hover:border-red-800 transition-all duration-200 hover:shadow-xl">CLASSIC MAROON</button>'
+                },
+                "vintage teal": {
+                    cleanName: "Vintage Teal",
+                    emoji: "🔷",
+                    description: "Warna teal vintage yang memberikan kesan retro dan sophisticated dengan nuansa hijau-biru yang unik.",
+                    buttonHTML: '<button class="bg-teal-700 text-white px-10 py-4 rounded-md font-semibold border-2 border-teal-800 shadow-lg hover:bg-teal-800 hover:border-teal-900 transition-all duration-200 hover:shadow-xl">VINTAGE TEAL</button>'
+                },
+                "roll in": {
+                    cleanName: "Roll In",
+                    emoji: "🎳",
+                    description: "Animasi rolling masuk dengan rotasi yang smooth, memberikan efek entrance yang unik dan menarik.",
+                    buttonHTML: '<button class="rollin-btn bg-gradient-to-r from-violet-500 to-purple-600 text-white px-8 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl">Roll In</button>'
+                },
+                "flat design": {
+                    cleanName: "Flat Design",
+                    emoji: "📱",
+                    description: "Desain flat modern tanpa border radius, memberikan kesan clean dan minimalis yang cocok untuk aplikasi modern.",
+                    buttonHTML: '<button class="bg-cyan-600 text-white px-8 py-3 rounded-none font-medium hover:bg-cyan-700 transition-colors duration-200">Flat Button</button>'
+                }
+            };
+            
+            return buttonDatabase[searchTerm.toLowerCase()] || null;
+        }
+        
+        // Close modal when clicking outside
+        document.addEventListener('click', function(e) {
+            const modal = document.getElementById('buttonModal');
+            const modalContent = document.getElementById('modalContent');
+            
+            if (e.target === modal && !modalContent.contains(e.target)) {
+                closeModal();
+            }
+        });
+        
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+        
+        // Search function
+        function searchButtons() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const buttonContainers = document.querySelectorAll('.bg-gray-800.p-6.rounded-xl');
+            let visibleCount = 0;
+            
+            buttonContainers.forEach(container => {
+                const title = container.querySelector('h3').textContent.toLowerCase();
+                const buttonText = container.querySelector('button').textContent.toLowerCase();
+                
+                // Extract clean name for better search
+                const cleanName = title.replace(/^[^\w\s]+\s*/, '').trim().toLowerCase();
+                
+                // Search in clean name, title and button text
+                const isVisible = cleanName.includes(searchTerm) || title.includes(searchTerm) || buttonText.includes(searchTerm);
+                
+                if (isVisible) {
+                    container.style.display = 'block';
+                    container.style.animation = 'fadeIn 0.3s ease-in-out';
+                    visibleCount++;
+                } else {
+                    container.style.display = 'none';
+                }
+            });
+            
+            // Update dropdown items based on search
+            if (searchTerm) {
+                filterDropdownItems(searchTerm);
+            } else {
+                populateDropdown();
+            }
+            
+            // Show/hide "no results" message
+            let noResultsMsg = document.getElementById('noResultsMessage');
+            if (visibleCount === 0 && searchTerm !== '') {
+                if (!noResultsMsg) {
+                    noResultsMsg = document.createElement('div');
+                    noResultsMsg.id = 'noResultsMessage';
+                    noResultsMsg.className = 'text-center py-12';
+                    noResultsMsg.innerHTML = `
+                        <div class="text-6xl mb-4">🔍</div>
+                        <h3 class="text-2xl font-bold text-white mb-2">Tidak ada hasil ditemukan</h3>
+                        <p class="text-gray-400">Coba kata kunci lain seperti "neon glow", "liquid fill", "classic maroon", "vintage teal", "roll in", "midnight blue", "purple dream", atau "flat design"</p>
+                    `;
+                    document.querySelector('.grid').parentNode.appendChild(noResultsMsg);
+                }
+                noResultsMsg.style.display = 'block';
+            } else if (noResultsMsg) {
+                noResultsMsg.style.display = 'none';
+            }
+        }
+        
+        // Filter dropdown items based on search
+        function filterDropdownItems(searchTerm) {
+            const dropdownItems = document.getElementById('dropdownItems');
+            const buttonList = [
+                // Same manual list as in populateDropdown
+                { cleanName: "Neon Glow", emoji: "🌟", searchTerm: "neon glow" },
+                { cleanName: "Gradient Border", emoji: "🌈", searchTerm: "gradient border" },
+                { cleanName: "Morphing", emoji: "🔄", searchTerm: "morphing" },
+                { cleanName: "Liquid Fill", emoji: "💧", searchTerm: "liquid fill" },
+                { cleanName: "Glitch Effect", emoji: "⚡", searchTerm: "glitch effect" },
+                { cleanName: "Particle Effect", emoji: "✨", searchTerm: "particle effect" },
+                { cleanName: "Holographic", emoji: "🌟", searchTerm: "holographic" },
+                { cleanName: "Magnetic 3D", emoji: "🧲", searchTerm: "magnetic 3d" },
+                { cleanName: "Ripple Wave", emoji: "🌊", searchTerm: "ripple wave" },
+                { cleanName: "Floating", emoji: "🎈", searchTerm: "floating" },
+                { cleanName: "Pulse Beat", emoji: "💓", searchTerm: "pulse beat" },
+                { cleanName: "Slide Effect", emoji: "➡️", searchTerm: "slide effect" },
+                { cleanName: "Cyberpunk", emoji: "🤖", searchTerm: "cyberpunk" },
+                { cleanName: "Glass Morphism", emoji: "🔮", searchTerm: "glass morphism" },
+                { cleanName: "Neumorphism", emoji: "🎯", searchTerm: "neumorphism" },
+                { cleanName: "Matrix Code", emoji: "💻", searchTerm: "matrix code" },
+                { cleanName: "Fire Effect", emoji: "🔥", searchTerm: "fire effect" },
+                { cleanName: "Lightning", emoji: "⚡", searchTerm: "lightning" },
+                { cleanName: "Gradient Shift", emoji: "🌅", searchTerm: "gradient shift" },
+                { cleanName: "Bounce", emoji: "🏀", searchTerm: "bounce" },
+                { cleanName: "Shake", emoji: "🌪️", searchTerm: "shake" },
+                { cleanName: "3D Flip", emoji: "🔄", searchTerm: "3d flip" },
+                { cleanName: "Glow Pulse", emoji: "✨", searchTerm: "glow pulse" },
+                { cleanName: "Typewriter", emoji: "⌨️", searchTerm: "typewriter" },
+                { cleanName: "Luxury Gold", emoji: "👑", searchTerm: "luxury gold" },
+                { cleanName: "Minimalist", emoji: "⚪", searchTerm: "minimalist" },
+                { cleanName: "Elegant Outline", emoji: "✨", searchTerm: "elegant outline" },
+                { cleanName: "Soft Gradient", emoji: "🌸", searchTerm: "soft gradient" },
+                { cleanName: "Crystal", emoji: "💎", searchTerm: "crystal" },
+                { cleanName: "Silk Smooth", emoji: "🎀", searchTerm: "silk smooth" },
+                { cleanName: "Marble", emoji: "🏛️", searchTerm: "marble" },
+                { cleanName: "Velvet Night", emoji: "🌙", searchTerm: "velvet night" },
+                { cleanName: "Pearl", emoji: "🦪", searchTerm: "pearl" },
+                { cleanName: "Platinum", emoji: "⚡", searchTerm: "platinum" },
+                { cleanName: "Rose Gold", emoji: "🌹", searchTerm: "rose gold" },
+                { cleanName: "Diamond", emoji: "💍", searchTerm: "diamond" },
+                { cleanName: "Basic Blue", emoji: "🔵", searchTerm: "basic blue" },
+                { cleanName: "Simple Green", emoji: "🟢", searchTerm: "simple green" },
+                { cleanName: "Clean Red", emoji: "🔴", searchTerm: "clean red" },
+                { cleanName: "Simple Outline", emoji: "⚪", searchTerm: "simple outline" },
+                { cleanName: "Simple Gray", emoji: "⚫", searchTerm: "simple gray" },
+                { cleanName: "Simple Purple", emoji: "🟣", searchTerm: "simple purple" },
+                { cleanName: "Rounded", emoji: "🔘", searchTerm: "rounded" },
+                { cleanName: "Small Size", emoji: "🔸", searchTerm: "small size" },
+                { cleanName: "Large Size", emoji: "🔶", searchTerm: "large size" },
+                { cleanName: "Light Theme", emoji: "💡", searchTerm: "light theme" },
+                { cleanName: "Flat Design", emoji: "📱", searchTerm: "flat design" },
+                { cleanName: "Soft Shadow", emoji: "🌤️", searchTerm: "soft shadow" },
+                { cleanName: "Sunset", emoji: "🌅", searchTerm: "sunset" },
+                { cleanName: "Ocean", emoji: "🌊", searchTerm: "ocean" },
+                { cleanName: "Forest", emoji: "🌲", searchTerm: "forest" },
+                { cleanName: "Purple Dream", emoji: "💜", searchTerm: "purple dream" },
+                { cleanName: "Fire", emoji: "🔥", searchTerm: "fire" },
+                { cleanName: "Cotton Candy", emoji: "🍭", searchTerm: "cotton candy" },
+                { cleanName: "Neon Cyber", emoji: "⚡", searchTerm: "neon cyber" },
+                { cleanName: "Tropical", emoji: "🏝️", searchTerm: "tropical" },
+                { cleanName: "Aurora", emoji: "🌌", searchTerm: "aurora" },
+                { cleanName: "Peach", emoji: "🍑", searchTerm: "peach" },
+                { cleanName: "Electric", emoji: "⚡", searchTerm: "electric" },
+                { cleanName: "Midnight Blue", emoji: "🌙", searchTerm: "midnight blue" },
+                { cleanName: "Rotating", emoji: "🔄", searchTerm: "rotating" },
+                { cleanName: "Wobble", emoji: "🌊", searchTerm: "wobble" },
+                { cleanName: "Heartbeat", emoji: "💓", searchTerm: "heartbeat" },
+                { cleanName: "Swing", emoji: "🎪", searchTerm: "swing" },
+                { cleanName: "Rubber Band", emoji: "🎈", searchTerm: "rubber band" },
+                { cleanName: "Jello", emoji: "🍮", searchTerm: "jello" },
+                { cleanName: "Flash", emoji: "⚡", searchTerm: "flash" },
+                { cleanName: "Tada", emoji: "🎉", searchTerm: "tada" },
+                { cleanName: "Flip In", emoji: "🔄", searchTerm: "flip in" },
+                { cleanName: "Zoom In", emoji: "🔍", searchTerm: "zoom in" },
+                { cleanName: "Slide Down", emoji: "⬇️", searchTerm: "slide down" },
+                { cleanName: "Roll In", emoji: "🎳", searchTerm: "roll in" },
+                { cleanName: "Classic Blue", emoji: "🔵", searchTerm: "classic blue" },
+                { cleanName: "Vintage Brown", emoji: "🤎", searchTerm: "vintage brown" },
+                { cleanName: "Traditional Green", emoji: "🟢", searchTerm: "traditional green" },
+                { cleanName: "Retro Red", emoji: "🔴", searchTerm: "retro red" },
+                { cleanName: "Classic Gray", emoji: "⚫", searchTerm: "classic gray" },
+                { cleanName: "Old School Purple", emoji: "🟣", searchTerm: "old school purple" },
+                { cleanName: "Timeless Black", emoji: "⚫", searchTerm: "timeless black" },
+                { cleanName: "Heritage Orange", emoji: "🟠", searchTerm: "heritage orange" },
+                { cleanName: "Classic White", emoji: "⚪", searchTerm: "classic white" },
+                { cleanName: "Antique Gold", emoji: "🟡", searchTerm: "antique gold" },
+                { cleanName: "Vintage Teal", emoji: "🔷", searchTerm: "vintage teal" },
+                { cleanName: "Classic Maroon", emoji: "🍷", searchTerm: "classic maroon" }
+            ];
+            
+            // Filter based on search term
+            const filteredList = buttonList.filter(item => 
+                item.cleanName.toLowerCase().includes(searchTerm) || 
+                item.searchTerm.includes(searchTerm)
+            );
+            
+            // Sort alphabetically by clean name
+            filteredList.sort((a, b) => a.cleanName.localeCompare(b.cleanName));
+            
+            // Create filtered dropdown items
+            dropdownItems.innerHTML = '';
+            if (filteredList.length === 0) {
+                dropdownItems.innerHTML = '<div class="px-4 py-3 text-gray-400 text-center">Tidak ada hasil ditemukan</div>';
+            } else {
+                filteredList.forEach(item => {
+                    const dropdownItem = document.createElement('div');
+                    dropdownItem.className = 'px-4 py-2 hover:bg-gray-700 cursor-pointer rounded-lg mx-2 transition-colors duration-200 flex items-center gap-3';
+                    dropdownItem.innerHTML = `
+                        <span class="text-lg">${item.emoji}</span>
+                        <div class="flex-1">
+                            <div class="text-white font-medium">${item.cleanName}</div>
+                            <div class="text-gray-400 text-xs">Klik untuk mencari</div>
+                        </div>
+                    `;
+                    
+                    dropdownItem.addEventListener('mousedown', function(e) {
+                        e.preventDefault();
+                        selectDropdownItem(item.searchTerm);
+                    });
+                    
+                    dropdownItems.appendChild(dropdownItem);
+                });
+            }
+        }
+        
+        // Add fade in animation
+        const fadeStyle = document.createElement('style');
+        fadeStyle.textContent = `
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        `;
+        document.head.appendChild(fadeStyle);
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97fc837a90a19c32',t:'MTc1Nzk4NTMzNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

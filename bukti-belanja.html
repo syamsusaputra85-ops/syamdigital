@@ -1,0 +1,1417 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laporan Belanja</title>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/dpr2vc3b0/image/upload/v1767181130/BELANJA_jhnkk2.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+    
+    .gradient-bg {
+      background: linear-gradient(135deg, #8B0000 0%, #DC143C 25%, #FFD700 50%, #FFA500 75%, #1E90FF 100%);
+    }
+    
+    .card-gradient {
+      background: linear-gradient(135deg, rgba(139, 0, 0, 0.05) 0%, rgba(255, 215, 0, 0.05) 50%, rgba(30, 144, 255, 0.05) 100%);
+    }
+    
+    .btn-gradient {
+      background: linear-gradient(135deg, #8B0000 0%, #DC143C 100%);
+      transition: all 0.3s ease;
+    }
+    
+    .btn-gradient:hover {
+      background: linear-gradient(135deg, #6B0000 0%, #BC1232 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(139, 0, 0, 0.3);
+    }
+    
+    .btn-secondary {
+      background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+      transition: all 0.3s ease;
+    }
+    
+    .btn-secondary:hover {
+      background: linear-gradient(135deg, #DAA520 0%, #FF8C00 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(255, 215, 0, 0.3);
+    }
+    
+    .modal-overlay {
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(5px);
+    }
+    
+    .nota-preview {
+      max-width: 100%;
+      max-height: 300px;
+      object-fit: contain;
+      border-radius: 12px;
+      border: 3px solid #FFD700;
+    }
+    
+    .delete-btn {
+      background: linear-gradient(135deg, #DC143C 0%, #8B0000 100%);
+      transition: all 0.3s ease;
+    }
+    
+    .delete-btn:hover {
+      background: linear-gradient(135deg, #BC1232 0%, #6B0000 100%);
+      transform: scale(1.05);
+    }
+    
+    .badge {
+      background: linear-gradient(135deg, #1E90FF 0%, #4169E1 100%);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    
+    .total-badge {
+      background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+      color: #8B0000;
+      padding: 8px 20px;
+      border-radius: 25px;
+      font-size: 18px;
+      font-weight: 700;
+      box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+    }
+
+    .loading-spinner {
+      border: 3px solid rgba(255, 215, 0, 0.3);
+      border-top: 3px solid #FFD700;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .toast {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, #8B0000 0%, #DC143C 100%);
+      color: white;
+      padding: 16px 24px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(139, 0, 0, 0.4);
+      z-index: 1000;
+      animation: slideIn 0.3s ease;
+      max-width: 350px;
+    }
+
+    .toast.success {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    }
+
+    .toast.error {
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(400px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    .export-btn {
+      background: linear-gradient(135deg, #1E90FF 0%, #4169E1 100%);
+    }
+
+    .export-btn:hover {
+      background: linear-gradient(135deg, #1873CC 0%, #3557C1 100%);
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full w-full overflow-auto">
+  <div class="min-h-full w-full gradient-bg">
+   <div class="max-w-7xl mx-auto px-4 py-8"><!-- Header -->
+    <header class="text-center mb-8">
+     <div class="flex flex-col items-center mb-4"><img src="https://res.cloudinary.com/dpr2vc3b0/image/upload/v1767181130/BELANJA_jhnkk2.png" alt="Logo Belanja" class="w-32 h-32 mb-4 drop-shadow-2xl" onerror="this.style.display='none'; this.alt='Logo tidak dapat dimuat';">
+     </div>
+     <h1 id="appTitle" class="text-5xl font-bold text-white mb-3 drop-shadow-lg">Laporan Belanja</h1>
+     <p id="subtitle" class="text-xl text-yellow-100 drop-shadow">Kelola dan dokumentasikan belanja Anda</p>
+     <p class="text-sm text-yellow-200 mt-2">💾 Data tersimpan di browser Anda</p>
+     <p id="storageInfo" class="text-xs text-white mt-1 bg-black bg-opacity-30 inline-block px-3 py-1 rounded-full"></p>
+    </header><!-- Summary Card -->
+    <div class="bg-white rounded-2xl shadow-2xl p-6 mb-8 card-gradient">
+     <div class="flex flex-wrap justify-between items-center gap-4">
+      <div>
+       <p class="text-gray-600 text-sm font-medium mb-2">Total Belanja</p>
+       <p id="totalBelanja" class="total-badge inline-block">Rp 0</p>
+      </div>
+      <div>
+       <p class="text-gray-600 text-sm font-medium mb-2">Jumlah Transaksi</p>
+       <p id="jumlahTransaksi" class="text-3xl font-bold text-blue-600">0</p>
+      </div>
+      <div class="flex gap-3 flex-wrap items-center">
+       <div class="flex flex-col gap-1"><label for="inputTanggalLaporan" class="text-xs font-semibold text-gray-700">Tanggal Laporan:</label> <input type="date" id="inputTanggalLaporan" class="px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:outline-none text-sm">
+       </div><button id="btnEksporPDF" class="export-btn text-white px-6 py-4 rounded-xl font-semibold shadow-lg flex items-center gap-2 mt-5"> 📄 Ekspor PDF </button> <button id="btnEksporJSON" class="btn-secondary text-white px-6 py-4 rounded-xl font-semibold shadow-lg flex items-center gap-2"> 💾 Backup Data </button> <button id="btnImporJSON" class="bg-green-600 hover:bg-green-700 text-white px-6 py-4 rounded-xl font-semibold shadow-lg flex items-center gap-2 transition"> 📥 Restore Data </button> <button id="btnHapusFoto" class="bg-orange-600 hover:bg-orange-700 text-white px-6 py-4 rounded-xl font-semibold shadow-lg flex items-center gap-2 transition"> 🗑️ Hapus Semua Foto </button> <button id="btnTambah" class="btn-gradient text-white px-8 py-4 rounded-xl font-semibold shadow-lg"> <span id="addButtonText">+ Tambah Belanja</span> </button>
+      </div>
+     </div>
+    </div><!-- Filter & Search -->
+    <div class="bg-white rounded-2xl shadow-xl p-6 mb-8">
+     <div class="grid grid-cols-1 md:grid-cols-3 gap-4"><input type="text" id="searchInput" placeholder="🔍 Cari nama item atau toko..." class="px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:outline-none"> <select id="filterKategori" class="px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:outline-none"> <option value="">Semua Kategori</option> <option value="Makanan">Makanan</option> <option value="Minuman">Minuman</option> <option value="Transportasi">Transportasi</option> <option value="Alat Tulis">Alat Tulis</option> <option value="Elektronik">Elektronik</option> <option value="Bahan Bangunan">Bahan Bangunan</option> <option value="Material">Material</option> <option value="Alat Kesehatan">Alat Kesehatan</option> <option value="Alat Kebersihan">Alat Kebersihan</option> <option value="Iuran Wi-Fi">Iuran Wi-Fi</option> <option value="Token Listrik">Token Listrik</option> <option value="BBM">BBM</option> <option value="Lainnya">Lainnya</option> </select> <input type="date" id="filterTanggal" class="px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:outline-none">
+     </div>
+    </div><!-- Data List -->
+    <div id="belanjaList" class="space-y-4"><!-- Items will be rendered here -->
+    </div><!-- Empty State -->
+    <div id="emptyState" class="bg-white rounded-2xl shadow-xl p-12 text-center">
+     <div class="text-6xl mb-4">
+      🛒
+     </div>
+     <h3 class="text-2xl font-bold text-gray-700 mb-2">Belum Ada Data Belanja</h3>
+     <p class="text-gray-500">Klik tombol "Tambah Belanja" untuk memulai mencatat belanja Anda</p>
+    </div>
+   </div>
+  </div><!-- Modal Form -->
+  <div id="modalForm" class="hidden fixed inset-0 modal-overlay z-50 overflow-auto">
+   <div class="flex items-center justify-center min-h-screen p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full p-8 relative max-h-screen overflow-y-auto">
+     <h2 id="modalTitle" class="text-3xl font-bold mb-6 bg-gradient-to-r from-red-900 via-yellow-500 to-blue-600 bg-clip-text text-transparent">Tambah Belanja Baru</h2>
+     <form id="belanjaForm" class="space-y-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+       <div><label for="inputTanggal" class="block text-sm font-semibold text-gray-700 mb-2">Tanggal *</label> <input type="date" id="inputTanggal" required class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:outline-none">
+       </div>
+       <div><label for="inputKategori" class="block text-sm font-semibold text-gray-700 mb-2">Kategori *</label> <select id="inputKategori" required class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:outline-none"> <option value="">Pilih Kategori</option> <option value="Makanan">Makanan</option> <option value="Minuman">Minuman</option> <option value="Transportasi">Transportasi</option> <option value="Alat Tulis">Alat Tulis</option> <option value="Elektronik">Elektronik</option> <option value="Bahan Bangunan">Bahan Bangunan</option> <option value="Material">Material</option> <option value="Alat Kesehatan">Alat Kesehatan</option> <option value="Alat Kebersihan">Alat Kebersihan</option> <option value="Iuran Wi-Fi">Iuran Wi-Fi</option> <option value="Token Listrik">Token Listrik</option> <option value="BBM">BBM</option> <option value="Lainnya">Lainnya</option> </select>
+       </div>
+      </div><!-- Item List Display -->
+      <div class="bg-gray-50 rounded-xl p-4">
+       <div class="flex justify-between items-center mb-3">
+        <h3 class="text-lg font-semibold text-gray-800">Daftar Item</h3><button type="button" id="btnTambahItem" class="btn-secondary text-white px-4 py-2 rounded-lg font-semibold shadow text-sm"> + Tambah Item </button>
+       </div>
+       <div id="itemList" class="space-y-2 mb-3">
+        <p class="text-gray-500 text-center py-4">Belum ada item. Klik "Tambah Item" untuk menambahkan.</p>
+       </div>
+      </div><!-- Item Input Form (Hidden by default) -->
+      <div id="itemInputForm" class="hidden bg-blue-50 rounded-xl p-4 border-2 border-blue-200">
+       <h4 class="text-md font-semibold text-gray-800 mb-3">Tambah Item Baru</h4>
+       <div class="space-y-3">
+        <div><label for="inputNamaItemDynamic" class="block text-sm font-semibold text-gray-700 mb-2">Nama Item *</label> <input type="text" id="inputNamaItemDynamic" placeholder="Contoh: Nasi Goreng" class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:outline-none">
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+         <div><label for="inputJumlahDynamic" class="block text-sm font-semibold text-gray-700 mb-2">Jumlah *</label> <input type="number" id="inputJumlahDynamic" min="1" step="0.01" placeholder="1" class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:outline-none">
+         </div>
+         <div><label for="inputSatuanDynamic" class="block text-sm font-semibold text-gray-700 mb-2">Satuan *</label> <select id="inputSatuanDynamic" class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:outline-none"> <option value="Pcs">Pcs</option> <option value="Buah">Buah</option> <option value="Kg">Kg</option> <option value="Lbr">Lbr</option> <option value="Meter">Meter</option> <option value="Zak">Zak</option> <option value="Paket">Paket</option> <option value="Btg">Btg</option> <option value="Set">Set</option> <option value="Dos">Dos</option> <option value="Botol">Botol</option> <option value="Rim">Rim</option> </select>
+         </div>
+         <div><label for="inputHargaDynamic" class="block text-sm font-semibold text-gray-700 mb-2">Harga Satuan (Rp) *</label> <input type="number" id="inputHargaDynamic" min="0" placeholder="25000" class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:outline-none">
+         </div>
+        </div>
+        <div class="flex gap-2"><button type="button" id="btnSimpanItem" class="flex-1 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-semibold transition"> ✓ Simpan Item </button> <button type="button" id="btnBatalItem" class="flex-1 bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded-lg font-semibold transition"> Batal </button>
+        </div>
+       </div>
+      </div>
+      <div><label for="inputToko" class="block text-sm font-semibold text-gray-700 mb-2">Nama Toko</label> <input type="text" id="inputToko" placeholder="Contoh: Warung Makan Sederhana" class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:outline-none">
+      </div>
+      <div><label for="inputKeterangan" class="block text-sm font-semibold text-gray-700 mb-2">Keterangan</label> <textarea id="inputKeterangan" rows="3" placeholder="Catatan tambahan..." class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:outline-none"></textarea>
+      </div>
+      <div><label for="inputNota" class="block text-sm font-semibold text-gray-700 mb-2">Upload Bukti Nota (Maksimal 5MB)</label>
+       <p class="text-xs text-gray-500 mb-2">💡 Tip: Gunakan foto dengan resolusi kecil agar bisa tersimpan</p><input type="file" id="inputNota" accept="image/*" class="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-blue-500 focus:outline-none file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-yellow-50 file:text-yellow-700 hover:file:bg-yellow-100">
+       <div id="previewContainer" class="mt-4 hidden"><img id="previewNota" class="nota-preview mx-auto" alt="Preview Nota">
+        <p id="fotoInfo" class="text-xs text-center text-gray-500 mt-2"></p>
+       </div>
+      </div>
+      <div class="bg-yellow-50 border-2 border-yellow-200 rounded-xl p-4">
+       <p class="text-sm text-gray-700"><strong>Total:</strong> <span id="previewTotal" class="text-2xl font-bold text-red-900">Rp 0</span></p>
+      </div>
+      <div class="flex gap-4 pt-4"><button type="submit" id="btnSubmit" class="flex-1 btn-gradient text-white px-6 py-4 rounded-xl font-semibold shadow-lg flex items-center justify-center gap-2"> <span id="saveButtonText">💾 Simpan Dengan Foto</span> </button> <button type="button" id="btnSimpanTanpaFoto" class="flex-1 bg-purple-600 hover:bg-purple-700 text-white px-6 py-4 rounded-xl font-semibold transition flex items-center justify-center gap-2"> 📝 Simpan Tanpa Foto </button> <button type="button" id="btnCancel" class="flex-1 bg-gray-500 hover:bg-gray-600 text-white px-6 py-4 rounded-xl font-semibold transition"> <span id="cancelButtonText">Batal</span> </button>
+      </div>
+     </form>
+    </div>
+   </div>
+  </div><!-- Modal Detail -->
+  <div id="modalDetail" class="hidden fixed inset-0 modal-overlay z-50 overflow-auto">
+   <div class="flex items-center justify-center min-h-screen p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-3xl w-full p-8 relative max-h-screen overflow-y-auto"><button id="btnCloseDetail" class="absolute top-6 right-6 text-gray-500 hover:text-gray-700 text-3xl font-bold">×</button>
+     <h2 class="text-3xl font-bold mb-6 bg-gradient-to-r from-red-900 via-yellow-500 to-blue-600 bg-clip-text text-transparent">Detail Belanja</h2>
+     <div id="detailContent" class="space-y-4"><!-- Detail will be rendered here -->
+     </div>
+    </div>
+   </div>
+  </div><!-- Hidden Import Input --> <input type="file" id="importFileInput" accept=".json" class="hidden">
+  <script>
+    const STORAGE_KEY = 'laporan_belanja_data';
+    
+    let belanjaData = [];
+    let editingId = null;
+    let currentImageBase64 = null;
+    let currentItems = [];
+
+    // Check localStorage capacity
+    function checkStorageCapacity() {
+      try {
+        let total = 0;
+        for (let key in localStorage) {
+          if (localStorage.hasOwnProperty(key)) {
+            total += localStorage[key].length + key.length;
+          }
+        }
+        const totalMB = (total / (1024 * 1024)).toFixed(2);
+        const percentage = ((total / (5 * 1024 * 1024)) * 100).toFixed(1);
+        
+        const infoElement = document.getElementById('storageInfo');
+        infoElement.textContent = `\u{1F4CA} Storage: ${totalMB}MB / 5MB (${percentage}%)`;
+        
+        console.log('\u{1F4CA} Storage Info:', {
+          totalKB: (total / 1024).toFixed(2) + ' KB',
+          totalMB: totalMB + ' MB',
+          percentage: percentage + '%',
+          itemCount: belanjaData.length
+        });
+        
+        if (percentage > 80) {
+          infoElement.classList.add('bg-red-600');
+          infoElement.classList.remove('bg-opacity-30');
+          return false;
+        }
+        return true;
+      } catch (error) {
+        console.error('❌ Error checking storage:', error);
+        return true;
+      }
+    }
+
+    // Load data from localStorage
+    function loadData() {
+      try {
+        const stored = localStorage.getItem(STORAGE_KEY);
+        if (stored) {
+          belanjaData = JSON.parse(stored);
+          console.log('\u2705 Data loaded:', belanjaData.length, 'items');
+        }
+      } catch (error) {
+        console.error('\u274C Error loading data:', error);
+        belanjaData = [];
+      }
+      renderBelanjaList();
+      updateSummary();
+      checkStorageCapacity();
+    }
+
+    // Save data to localStorage
+    function saveData() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(belanjaData));
+        console.log('\u{1F4BE} Data saved:', belanjaData.length, 'items');
+        checkStorageCapacity();
+        return true;
+      } catch (error) {
+        console.error('\u274C Error saving data:', error);
+        if (error.name === 'QuotaExceededError') {
+          showToast('\u274C Storage penuh! Hapus beberapa data atau foto terlebih dahulu.', 'error');
+        }
+        return false;
+      }
+    }
+
+    function showToast(message, type = 'success') {
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 4000);
+    }
+
+    function formatRupiah(number) {
+      return new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+        minimumFractionDigits: 0
+      }).format(number);
+    }
+
+    function formatTanggal(dateString) {
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      return new Date(dateString).toLocaleDateString('id-ID', options);
+    }
+
+    function updateSummary() {
+      const total = belanjaData.reduce((sum, item) => sum + item.total, 0);
+      const jumlah = belanjaData.length;
+      
+      document.getElementById('totalBelanja').textContent = formatRupiah(total);
+      document.getElementById('jumlahTransaksi').textContent = jumlah;
+    }
+
+    function renderBelanjaList() {
+      const container = document.getElementById('belanjaList');
+      const emptyState = document.getElementById('emptyState');
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+      const filterKat = document.getElementById('filterKategori').value;
+      const filterTgl = document.getElementById('filterTanggal').value;
+
+      let filteredData = belanjaData.filter(item => {
+        const items = JSON.parse(item.items || '[]');
+        const itemNames = items.map(i => i.nama).join(' ').toLowerCase();
+        const matchSearch = itemNames.includes(searchTerm) || 
+                          (item.toko && item.toko.toLowerCase().includes(searchTerm));
+        const matchKategori = !filterKat || item.kategori === filterKat;
+        const matchTanggal = !filterTgl || item.tanggal === filterTgl;
+        return matchSearch && matchKategori && matchTanggal;
+      });
+
+      if (filteredData.length === 0) {
+        container.classList.add('hidden');
+        emptyState.classList.remove('hidden');
+        return;
+      }
+
+      container.classList.remove('hidden');
+      emptyState.classList.add('hidden');
+
+      container.innerHTML = filteredData.map(belanja => {
+        const items = JSON.parse(belanja.items || '[]');
+        const itemsDisplay = items.map(item => 
+          `<tr class="border-b border-gray-200 hover:bg-blue-50 transition">
+            <td class="py-2 px-3 text-gray-800">${item.nama}</td>
+            <td class="py-2 px-3 text-center text-gray-700">${item.jumlah} ${item.satuan || ''}</td>
+            <td class="py-2 px-3 text-right text-gray-700">${formatRupiah(item.harga)}</td>
+            <td class="py-2 px-3 text-right font-semibold text-gray-900">${formatRupiah(item.subtotal)}</td>
+          </tr>`
+        ).join('');
+
+        return `
+        <div class="bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden border-l-4 border-blue-600">
+          <div class="p-6">
+            <!-- Header Section -->
+            <div class="flex justify-between items-start mb-4 pb-4 border-b-2 border-gray-200">
+              <div class="flex-1">
+                <div class="flex items-center gap-3 mb-2">
+                  <span class="badge text-xs">${belanja.kategori}</span>
+                  <span class="text-xs text-gray-500 font-medium">${formatTanggal(belanja.tanggal)}</span>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-1">BELANJA ${belanja.kategori.toUpperCase()}</h3>
+                ${belanja.toko ? `<p class="text-sm text-gray-600">&#128205; <span class="font-semibold">${belanja.toko}</span></p>` : ''}
+              </div>
+              <div class="flex flex-col gap-2 items-end">
+                ${belanja.bukti_nota ? '<span class="text-green-600 font-semibold text-xs bg-green-50 px-3 py-1 rounded-full">&#128206; NOTA</span>' : ''}
+                <button onclick="viewDetail('${belanja.id}')" class="btn-secondary text-white px-5 py-2 rounded-lg font-semibold shadow text-xs hover:scale-105 transition">
+                  &#128196; Detail
+                </button>
+                <button onclick="deleteItem('${belanja.id}')" class="delete-btn text-white px-5 py-2 rounded-lg font-semibold shadow text-xs hover:scale-105 transition">
+                  &#128465; Hapus
+                </button>
+              </div>
+            </div>
+
+            <!-- Table Section -->
+            <div class="bg-gradient-to-br from-gray-50 to-blue-50 rounded-xl p-4 mb-4">
+              <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                  <thead>
+                    <tr class="border-b-2 border-blue-300">
+                      <th class="py-2 px-3 text-left font-bold text-gray-700">ITEM</th>
+                      <th class="py-2 px-3 text-center font-bold text-gray-700">QTY</th>
+                      <th class="py-2 px-3 text-right font-bold text-gray-700">HARGA SATUAN</th>
+                      <th class="py-2 px-3 text-right font-bold text-gray-700">SUBTOTAL</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${itemsDisplay}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Footer Section -->
+            <div class="flex justify-between items-center pt-4 border-t-2 border-gray-300">
+              <div class="text-sm text-gray-600">
+                ${belanja.keterangan ? `<p class="italic">&#128172; ${belanja.keterangan}</p>` : '<p class="text-gray-400">Tidak ada catatan</p>'}
+              </div>
+              <div class="text-right">
+                <p class="text-xs text-gray-500 font-semibold mb-1">TOTAL BELANJA</p>
+                <p class="text-3xl font-bold text-red-900 bg-yellow-100 px-4 py-2 rounded-lg inline-block shadow-md">${formatRupiah(belanja.total)}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      `}).join('');
+    }
+
+    function viewDetail(id) {
+      const belanja = belanjaData.find(b => b.id === id);
+      if (!belanja) return;
+
+      const items = JSON.parse(belanja.items || '[]');
+      const itemsTable = items.map((item, idx) => `
+        <tr class="border-b">
+          <td class="py-2 px-3">${idx + 1}</td>
+          <td class="py-2 px-3 font-semibold">${item.nama}</td>
+          <td class="py-2 px-3 text-center">${item.jumlah} ${item.satuan || ''}</td>
+          <td class="py-2 px-3 text-right">${formatRupiah(item.harga)}</td>
+          <td class="py-2 px-3 text-right font-semibold">${formatRupiah(item.subtotal)}</td>
+        </tr>
+      `).join('');
+
+      const detailContent = document.getElementById('detailContent');
+      detailContent.innerHTML = `
+        <div class="mb-6">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="badge">${belanja.kategori}</span>
+            <span class="text-gray-600">${formatTanggal(belanja.tanggal)}</span>
+          </div>
+          
+          ${belanja.toko ? `
+            <p class="text-gray-600 mb-2"><strong>Toko:</strong> ${belanja.toko}</p>
+          ` : ''}
+          
+          ${belanja.keterangan ? `
+            <p class="text-gray-600 mb-2"><strong>Keterangan:</strong> ${belanja.keterangan}</p>
+          ` : ''}
+        </div>
+        
+        <div class="mb-6">
+          <h3 class="text-lg font-bold text-gray-800 mb-3">Detail Item</h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead class="bg-gray-100">
+                <tr>
+                  <th class="py-2 px-3 text-left">No</th>
+                  <th class="py-2 px-3 text-left">Nama Item</th>
+                  <th class="py-2 px-3 text-center">Jumlah</th>
+                  <th class="py-2 px-3 text-right">Harga Satuan</th>
+                  <th class="py-2 px-3 text-right">Subtotal</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${itemsTable}
+              </tbody>
+              <tfoot class="bg-yellow-50 font-bold">
+                <tr>
+                  <td colspan="4" class="py-3 px-3 text-right">Total Belanja:</td>
+                  <td class="py-3 px-3 text-right text-red-900 text-lg">${formatRupiah(belanja.total)}</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+        
+        ${belanja.bukti_nota ? `
+          <div class="mt-6">
+            <p class="text-sm text-gray-500 mb-3">Bukti Nota</p>
+            <img src="${belanja.bukti_nota}" class="nota-preview mx-auto" alt="Bukti Nota">
+          </div>
+        ` : '<div class="mt-6 text-center text-gray-500"><p>Tidak ada bukti nota</p></div>'}
+      `;
+
+      document.getElementById('modalDetail').classList.remove('hidden');
+    }
+
+    function deleteItem(id) {
+      const item = belanjaData.find(b => b.id === id);
+      if (!item) return;
+
+      const btnElement = event.target;
+      const originalText = btnElement.textContent;
+      
+      if (originalText === '\u{1F5D1} Hapus') {
+        btnElement.textContent = '\u26A0 Yakin Hapus?';
+        btnElement.style.background = 'linear-gradient(135deg, #FF4500 0%, #DC143C 100%)';
+        setTimeout(() => {
+          btnElement.textContent = originalText;
+          btnElement.style.background = '';
+        }, 3000);
+        return;
+      }
+
+      belanjaData = belanjaData.filter(b => b.id !== id);
+      saveData();
+      renderBelanjaList();
+      updateSummary();
+      checkStorageCapacity();
+      showToast('\u2705 Data berhasil dihapus', 'success');
+    }
+
+    document.getElementById('btnTambah').addEventListener('click', () => {
+      editingId = null;
+      currentImageBase64 = null;
+      currentItems = [];
+      document.getElementById('belanjaForm').reset();
+      document.getElementById('modalTitle').textContent = 'Tambah Belanja Baru';
+      document.getElementById('previewContainer').classList.add('hidden');
+      document.getElementById('inputTanggal').valueAsDate = new Date();
+      document.getElementById('itemInputForm').classList.add('hidden');
+      renderItemList();
+      updatePreviewTotal();
+      document.getElementById('modalForm').classList.remove('hidden');
+    });
+
+    document.getElementById('btnTambahItem').addEventListener('click', () => {
+      document.getElementById('inputNamaItemDynamic').value = '';
+      document.getElementById('inputJumlahDynamic').value = '';
+      document.getElementById('inputHargaDynamic').value = '';
+      document.getElementById('itemInputForm').classList.remove('hidden');
+    });
+
+    document.getElementById('btnBatalItem').addEventListener('click', () => {
+      document.getElementById('itemInputForm').classList.add('hidden');
+    });
+
+    document.getElementById('btnSimpanItem').addEventListener('click', () => {
+      const nama = document.getElementById('inputNamaItemDynamic').value.trim();
+      const jumlah = parseFloat(document.getElementById('inputJumlahDynamic').value);
+      const satuan = document.getElementById('inputSatuanDynamic').value;
+      const harga = parseFloat(document.getElementById('inputHargaDynamic').value);
+
+      if (!nama || !jumlah || !satuan || !harga || jumlah <= 0 || harga < 0) {
+        showToast('\u274C Mohon isi semua field dengan benar', 'error');
+        return;
+      }
+
+      const subtotal = jumlah * harga;
+      currentItems.push({ nama, jumlah, satuan, harga, subtotal });
+      
+      renderItemList();
+      document.getElementById('itemInputForm').classList.add('hidden');
+      showToast('\u2705 Item berhasil ditambahkan', 'success');
+    });
+
+    document.getElementById('btnCancel').addEventListener('click', () => {
+      document.getElementById('modalForm').classList.add('hidden');
+    });
+
+    document.getElementById('btnSimpanTanpaFoto').addEventListener('click', async () => {
+      if (currentItems.length === 0) {
+        showToast('\u274C Tambahkan minimal 1 item terlebih dahulu', 'error');
+        return;
+      }
+
+      const btnSimpan = document.getElementById('btnSimpanTanpaFoto');
+      const originalHTML = btnSimpan.innerHTML;
+      btnSimpan.disabled = true;
+      btnSimpan.innerHTML = '<div class="loading-spinner mx-auto"></div>';
+
+      try {
+        const total = currentItems.reduce((sum, item) => sum + item.subtotal, 0);
+
+        const belanjaItem = {
+          id: Date.now().toString(),
+          tanggal: document.getElementById('inputTanggal').value,
+          kategori: document.getElementById('inputKategori').value,
+          items: JSON.stringify(currentItems),
+          total: total,
+          toko: document.getElementById('inputToko').value || '',
+          keterangan: document.getElementById('inputKeterangan').value || '',
+          bukti_nota: '',
+          created_at: new Date().toISOString()
+        };
+
+        belanjaData.push(belanjaItem);
+        
+        const saved = saveData();
+        
+        if (saved) {
+          showToast('\u2705 Data berhasil disimpan (tanpa foto)!', 'success');
+          document.getElementById('modalForm').classList.add('hidden');
+          document.getElementById('belanjaForm').reset();
+          currentItems = [];
+          currentImageBase64 = null;
+          document.getElementById('previewContainer').classList.add('hidden');
+          renderBelanjaList();
+          updateSummary();
+        } else {
+          belanjaData.pop();
+          btnSimpan.disabled = false;
+          btnSimpan.innerHTML = originalHTML;
+        }
+      } catch (error) {
+        console.error('\u{1F4A5} Error:', error);
+        showToast('\u274C Terjadi kesalahan: ' + error.message, 'error');
+        btnSimpan.disabled = false;
+        btnSimpan.innerHTML = originalHTML;
+      }
+    });
+
+    document.getElementById('btnCloseDetail').addEventListener('click', () => {
+      document.getElementById('modalDetail').classList.add('hidden');
+    });
+
+    document.getElementById('inputNota').addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (!file) {
+        console.log('❌ Tidak ada file yang dipilih');
+        return;
+      }
+
+      console.log('\u{1F4F8} File dipilih:', file.name, '- Ukuran:', (file.size / 1024).toFixed(2), 'KB', '- Tipe:', file.type);
+      
+      // Validasi ukuran file (max 5MB sebelum kompresi)
+      if (file.size > 5000000) {
+        showToast('\u26A0 Gambar terlalu besar! Maksimal 5MB. Gunakan foto dengan resolusi lebih kecil.', 'error');
+        e.target.value = '';
+        currentImageBase64 = null;
+        document.getElementById('previewContainer').classList.add('hidden');
+        return;
+      }
+
+      // Validasi tipe file
+      if (!file.type.startsWith('image/')) {
+        showToast('\u274C Hanya file gambar yang diperbolehkan', 'error');
+        e.target.value = '';
+        currentImageBase64 = null;
+        document.getElementById('previewContainer').classList.add('hidden');
+        return;
+      }
+
+      showToast('\u{1F4F8} Memproses gambar...', 'success');
+      
+      const reader = new FileReader();
+      
+      reader.onload = async (event) => {
+        try {
+          let imageData = event.target.result;
+          const originalSize = (imageData.length / 1024).toFixed(2);
+          console.log('\u{1F4CF} Ukuran asli (base64):', originalSize, 'KB');
+          
+          // Kompresi SANGAT agresif
+          console.log('\u{1F5DC} Mulai kompresi agresif...');
+          imageData = await compressImage(imageData, 0.15);
+          let compressedSize = (imageData.length / 1024).toFixed(2);
+          console.log('\u{1F5DC} Ukuran setelah kompresi:', compressedSize, 'KB');
+          
+          // Validasi ukuran final - MAKSIMAL 200KB
+          if (imageData.length > 200000) {
+            console.warn('\u26A0 Foto masih terlalu besar setelah kompresi');
+            showToast('\u26A0 Foto tidak bisa disimpan (terlalu besar). Gunakan foto dengan resolusi lebih kecil atau simpan tanpa foto.', 'error');
+            e.target.value = '';
+            currentImageBase64 = null;
+            document.getElementById('previewContainer').classList.add('hidden');
+            return;
+          }
+          
+          currentImageBase64 = imageData;
+          document.getElementById('previewNota').src = imageData;
+          document.getElementById('fotoInfo').textContent = `\u2705 Ukuran: ${compressedSize} KB (dari ${originalSize} KB)`;
+          document.getElementById('previewContainer').classList.remove('hidden');
+          showToast(`\u2705 Foto berhasil diproses! (${compressedSize} KB)`, 'success');
+          
+          console.log('\u2705 Upload berhasil!');
+        } catch (error) {
+          console.error('\u274C Error memproses gambar:', error);
+          showToast('\u274C Gagal memproses gambar: ' + error.message, 'error');
+          currentImageBase64 = null;
+          document.getElementById('previewContainer').classList.add('hidden');
+        }
+      };
+      
+      reader.onerror = (error) => {
+        console.error('\u274C Error membaca file:', error);
+        showToast('\u274C Gagal membaca file gambar', 'error');
+        currentImageBase64 = null;
+        document.getElementById('previewContainer').classList.add('hidden');
+      };
+      
+      reader.readAsDataURL(file);
+    });
+
+    function updatePreviewTotal() {
+      const total = currentItems.reduce((sum, item) => sum + item.subtotal, 0);
+      document.getElementById('previewTotal').textContent = formatRupiah(total);
+    }
+
+    function renderItemList() {
+      const container = document.getElementById('itemList');
+      
+      if (currentItems.length === 0) {
+        container.innerHTML = '<p class="text-gray-500 text-center py-4 italic">Belum ada item. Klik "Tambah Item" untuk menambahkan.</p>';
+        updatePreviewTotal();
+        return;
+      }
+
+      container.innerHTML = currentItems.map((item, index) => `
+        <div class="bg-white p-4 rounded-xl border-2 border-gray-200 flex justify-between items-center hover:shadow-md transition-all hover:border-blue-300">
+          <div class="flex-1">
+            <p class="font-bold text-gray-900 text-lg mb-1">${item.nama}</p>
+            <div class="flex items-center gap-3 text-sm text-gray-600 flex-wrap">
+              <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full font-semibold">
+                Qty: ${item.jumlah} ${item.satuan}
+              </span>
+              <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full font-semibold">
+                &#64; ${formatRupiah(item.harga)}
+              </span>
+              <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full font-bold">
+                &#61; ${formatRupiah(item.subtotal)}
+              </span>
+            </div>
+          </div>
+          <button type="button" onclick="removeItem(${index})" 
+                  class="ml-3 bg-red-500 hover:bg-red-600 text-white font-bold text-xl w-10 h-10 rounded-full flex items-center justify-center transition transform hover:scale-110 shadow-lg">
+            &times;
+          </button>
+        </div>
+      `).join('');
+
+      updatePreviewTotal();
+    }
+
+    function removeItem(index) {
+      currentItems.splice(index, 1);
+      renderItemList();
+    }
+
+    document.getElementById('belanjaForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      if (currentItems.length === 0) {
+        showToast('\u274C Tambahkan minimal 1 item terlebih dahulu', 'error');
+        return;
+      }
+
+      // Cek apakah ada foto
+      if (!currentImageBase64) {
+        showToast('\u274C Silakan upload foto nota atau gunakan tombol "Simpan Tanpa Foto"', 'error');
+        return;
+      }
+
+      const btnSubmit = document.getElementById('btnSubmit');
+      const originalHTML = btnSubmit.innerHTML;
+      btnSubmit.disabled = true;
+      btnSubmit.innerHTML = '<div class="loading-spinner mx-auto"></div>';
+
+      try {
+        const total = currentItems.reduce((sum, item) => sum + item.subtotal, 0);
+
+        const belanjaItem = {
+          id: Date.now().toString(),
+          tanggal: document.getElementById('inputTanggal').value,
+          kategori: document.getElementById('inputKategori').value,
+          items: JSON.stringify(currentItems),
+          total: total,
+          toko: document.getElementById('inputToko').value || '',
+          keterangan: document.getElementById('inputKeterangan').value || '',
+          bukti_nota: currentImageBase64,
+          created_at: new Date().toISOString()
+        };
+
+        // Cek ukuran total data
+        const itemSize = JSON.stringify(belanjaItem).length;
+        const itemSizeKB = (itemSize / 1024).toFixed(2);
+        console.log('\u{1F4CA} Ukuran data total:', itemSizeKB, 'KB');
+
+        belanjaData.push(belanjaItem);
+        
+        const saved = saveData();
+        
+        if (saved) {
+          showToast('\u2705 Data dan foto berhasil disimpan!', 'success');
+          document.getElementById('modalForm').classList.add('hidden');
+          document.getElementById('belanjaForm').reset();
+          document.getElementById('previewContainer').classList.add('hidden');
+          currentItems = [];
+          currentImageBase64 = null;
+          renderBelanjaList();
+          updateSummary();
+          checkStorageCapacity();
+        } else {
+          // Rollback jika gagal
+          belanjaData.pop();
+          showToast('\u274C Storage penuh! Coba hapus beberapa foto dengan tombol "Hapus Semua Foto" atau gunakan "Simpan Tanpa Foto".', 'error');
+          btnSubmit.disabled = false;
+          btnSubmit.innerHTML = originalHTML;
+        }
+      } catch (error) {
+        console.error('\u{1F4A5} Error:', error);
+        showToast('\u274C Terjadi kesalahan. Coba "Simpan Tanpa Foto" atau hapus beberapa data lama.', 'error');
+        
+        // Rollback
+        const lastIndex = belanjaData.length - 1;
+        if (lastIndex >= 0) {
+          belanjaData.pop();
+        }
+        
+        btnSubmit.disabled = false;
+        btnSubmit.innerHTML = originalHTML;
+      }
+    });
+
+    // Fungsi untuk mengompres gambar SANGAT agresif
+    async function compressImage(base64, quality) {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          
+          // Resize sangat agresif - maksimal 800px
+          let width = img.width;
+          let height = img.height;
+          const maxDimension = 800;
+          
+          if (width > maxDimension || height > maxDimension) {
+            if (width > height) {
+              height = (height / width) * maxDimension;
+              width = maxDimension;
+            } else {
+              width = (width / height) * maxDimension;
+              height = maxDimension;
+            }
+          }
+          
+          canvas.width = width;
+          canvas.height = height;
+          ctx.drawImage(img, 0, 0, width, height);
+          
+          resolve(canvas.toDataURL('image/jpeg', quality));
+        };
+        img.src = base64;
+      });
+    }
+
+    // Export to JSON
+    document.getElementById('btnEksporJSON').addEventListener('click', () => {
+      if (belanjaData.length === 0) {
+        showToast('\u274C Tidak ada data untuk di-backup', 'error');
+        return;
+      }
+
+      const dataStr = JSON.stringify(belanjaData, null, 2);
+      const blob = new Blob([dataStr], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `backup_belanja_${new Date().toISOString().split('T')[0]}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('\u2705 Backup berhasil diunduh!', 'success');
+    });
+
+    // Import from JSON
+    document.getElementById('btnImporJSON').addEventListener('click', () => {
+      document.getElementById('importFileInput').click();
+    });
+
+    document.getElementById('importFileInput').addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        try {
+          const importedData = JSON.parse(event.target.result);
+          
+          if (!Array.isArray(importedData)) {
+            showToast('\u274C Format file tidak valid', 'error');
+            return;
+          }
+
+          belanjaData = importedData;
+          saveData();
+          renderBelanjaList();
+          updateSummary();
+          showToast(`\u2705 Berhasil restore ${importedData.length} data!`, 'success');
+        } catch (error) {
+          console.error('Error importing:', error);
+          showToast('\u274C Gagal membaca file backup', 'error');
+        }
+      };
+      reader.readAsText(file);
+      e.target.value = '';
+    });
+
+    document.getElementById('searchInput').addEventListener('input', renderBelanjaList);
+    document.getElementById('filterKategori').addEventListener('change', renderBelanjaList);
+    document.getElementById('filterTanggal').addEventListener('change', renderBelanjaList);
+
+    document.getElementById('btnEksporPDF').addEventListener('click', async () => {
+      if (belanjaData.length === 0) {
+        showToast('\u274C Tidak ada data untuk diekspor', 'error');
+        return;
+      }
+
+      const btnEkspor = document.getElementById('btnEksporPDF');
+      const originalHTML = btnEkspor.innerHTML;
+      btnEkspor.disabled = true;
+      btnEkspor.innerHTML = '<div class="loading-spinner mx-auto"></div>';
+
+      try {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        
+        const pageWidth = doc.internal.pageSize.width;
+        const pageHeight = doc.internal.pageSize.height;
+        const margin = 15;
+        let yPosition = margin;
+        let pageNumber = 1;
+
+        // Function untuk header di setiap halaman
+        function addPageHeader() {
+          // Double line header
+          doc.setDrawColor(0, 0, 0);
+          doc.setLineWidth(1);
+          doc.line(margin, yPosition, pageWidth - margin, yPosition);
+          yPosition += 2;
+          doc.setLineWidth(0.3);
+          doc.line(margin, yPosition, pageWidth - margin, yPosition);
+          yPosition += 8;
+          
+          doc.setTextColor(0, 0, 0);
+          doc.setFontSize(20);
+          doc.setFont(undefined, 'bold');
+          doc.text('LAPORAN PENGELUARAN', pageWidth / 2, yPosition, { align: 'center' });
+          yPosition += 7;
+          
+          doc.setFontSize(11);
+          doc.setFont(undefined, 'normal');
+          
+          // Gunakan tanggal manual dari input atau tanggal hari ini
+          const tanggalLaporanInput = document.getElementById('inputTanggalLaporan').value;
+          let tanggalLaporan;
+          if (tanggalLaporanInput) {
+            tanggalLaporan = new Date(tanggalLaporanInput).toLocaleDateString('id-ID', { 
+              year: 'numeric', 
+              month: 'long', 
+              day: 'numeric' 
+            });
+          } else {
+            tanggalLaporan = new Date().toLocaleDateString('id-ID', { 
+              year: 'numeric', 
+              month: 'long', 
+              day: 'numeric' 
+            });
+          }
+          
+          doc.text(`Per Tanggal: ${tanggalLaporan}`, pageWidth / 2, yPosition, { align: 'center' });
+          yPosition += 5;
+          
+          doc.setLineWidth(0.3);
+          doc.line(margin, yPosition, pageWidth - margin, yPosition);
+          yPosition += 1;
+          doc.line(margin, yPosition, pageWidth - margin, yPosition);
+          yPosition += 8;
+        }
+
+        // Function untuk footer di setiap halaman
+        function addPageFooter() {
+          doc.setDrawColor(0, 0, 0);
+          doc.setLineWidth(0.3);
+          doc.line(margin, pageHeight - 15, pageWidth - margin, pageHeight - 15);
+          
+          doc.setFontSize(8);
+          doc.setFont(undefined, 'normal');
+          doc.setTextColor(80, 80, 80);
+          doc.text(`Halaman ${pageNumber}`, pageWidth / 2, pageHeight - 10, { align: 'center' });
+          doc.text(`Dicetak: ${new Date().toLocaleDateString('id-ID')}`, pageWidth - margin, pageHeight - 10, { align: 'right' });
+          pageNumber++;
+        }
+
+        // Header halaman pertama
+        addPageHeader();
+
+        // Ringkasan box
+        const totalBelanja = belanjaData.reduce((sum, item) => sum + item.total, 0);
+        
+        doc.setDrawColor(0, 0, 0);
+        doc.setLineWidth(0.5);
+        doc.setFillColor(245, 245, 245);
+        doc.rect(margin, yPosition, pageWidth - 2 * margin, 22, 'FD');
+        
+        doc.setFontSize(12);
+        doc.setFont(undefined, 'bold');
+        doc.setTextColor(0, 0, 0);
+        doc.text('RINGKASAN PENGELUARAN', margin + 3, yPosition + 6);
+        
+        yPosition += 12;
+        doc.setFontSize(11);
+        doc.setFont(undefined, 'normal');
+        doc.text('Total Pengeluaran:', margin + 3, yPosition);
+        doc.setFont(undefined, 'bold');
+        doc.text(formatRupiah(totalBelanja), margin + 48, yPosition);
+        
+        doc.setFont(undefined, 'normal');
+        doc.text('Jumlah Transaksi:', margin + 105, yPosition);
+        doc.setFont(undefined, 'bold');
+        doc.text(`${belanjaData.length}`, margin + 143, yPosition);
+        
+        yPosition += 15;
+
+        // Sort data by date
+        const sortedData = [...belanjaData].sort((a, b) => 
+          new Date(b.tanggal) - new Date(a.tanggal)
+        );
+
+        // Judul Tabel
+        doc.setFontSize(12);
+        doc.setFont(undefined, 'bold');
+        doc.text('RINCIAN PENGELUARAN', margin, yPosition);
+        yPosition += 7;
+
+        // Tabel Header dengan kolom yang lebih terstruktur
+        const colX = {
+          no: margin,
+          tanggal: margin + 10,
+          kategori: margin + 35,
+          toko: margin + 70,
+          jumlah: pageWidth - margin - 35
+        };
+
+        doc.setDrawColor(0, 0, 0);
+        doc.setLineWidth(0.5);
+        doc.setFillColor(220, 220, 220);
+        doc.rect(margin, yPosition, pageWidth - 2 * margin, 10, 'FD');
+        
+        // Vertical lines untuk header
+        doc.line(colX.tanggal - 2, yPosition, colX.tanggal - 2, yPosition + 10);
+        doc.line(colX.kategori - 2, yPosition, colX.kategori - 2, yPosition + 10);
+        doc.line(colX.toko - 2, yPosition, colX.toko - 2, yPosition + 10);
+        doc.line(colX.jumlah - 2, yPosition, colX.jumlah - 2, yPosition + 10);
+        
+        doc.setFontSize(9);
+        doc.setFont(undefined, 'bold');
+        doc.setTextColor(0, 0, 0);
+        doc.text('NO', colX.no + 2, yPosition + 6.5);
+        doc.text('TANGGAL', colX.tanggal + 2, yPosition + 6.5);
+        doc.text('KATEGORI', colX.kategori + 2, yPosition + 6.5);
+        doc.text('TOKO/VENDOR', colX.toko + 2, yPosition + 6.5);
+        doc.text('JUMLAH (Rp)', pageWidth - margin - 3, yPosition + 6.5, { align: 'right' });
+        
+        yPosition += 10;
+
+        // Data rows dengan format yang lebih rapi
+        sortedData.forEach((belanja, index) => {
+          // Check if need new page
+          if (yPosition > pageHeight - 35) {
+            addPageFooter();
+            doc.addPage();
+            yPosition = margin;
+            addPageHeader();
+            
+            // Repeat header
+            doc.setDrawColor(0, 0, 0);
+            doc.setLineWidth(0.5);
+            doc.setFillColor(220, 220, 220);
+            doc.rect(margin, yPosition, pageWidth - 2 * margin, 10, 'FD');
+            
+            doc.line(colX.tanggal - 2, yPosition, colX.tanggal - 2, yPosition + 10);
+            doc.line(colX.kategori - 2, yPosition, colX.kategori - 2, yPosition + 10);
+            doc.line(colX.toko - 2, yPosition, colX.toko - 2, yPosition + 10);
+            doc.line(colX.jumlah - 2, yPosition, colX.jumlah - 2, yPosition + 10);
+            
+            doc.setFontSize(9);
+            doc.setFont(undefined, 'bold');
+            doc.text('NO', colX.no + 2, yPosition + 6.5);
+            doc.text('TANGGAL', colX.tanggal + 2, yPosition + 6.5);
+            doc.text('KATEGORI', colX.kategori + 2, yPosition + 6.5);
+            doc.text('TOKO/VENDOR', colX.toko + 2, yPosition + 6.5);
+            doc.text('JUMLAH (Rp)', pageWidth - margin - 3, yPosition + 6.5, { align: 'right' });
+            
+            yPosition += 10;
+          }
+
+          const rowHeight = 10;
+          
+          // Zebra striping
+          if (index % 2 === 0) {
+            doc.setFillColor(250, 250, 250);
+            doc.rect(margin, yPosition, pageWidth - 2 * margin, rowHeight, 'F');
+          }
+
+          // Row border
+          doc.setDrawColor(200, 200, 200);
+          doc.setLineWidth(0.2);
+          doc.rect(margin, yPosition, pageWidth - 2 * margin, rowHeight);
+          
+          // Vertical lines
+          doc.line(colX.tanggal - 2, yPosition, colX.tanggal - 2, yPosition + rowHeight);
+          doc.line(colX.kategori - 2, yPosition, colX.kategori - 2, yPosition + rowHeight);
+          doc.line(colX.toko - 2, yPosition, colX.toko - 2, yPosition + rowHeight);
+          doc.line(colX.jumlah - 2, yPosition, colX.jumlah - 2, yPosition + rowHeight);
+          
+          // Cell content
+          doc.setFontSize(9);
+          doc.setFont(undefined, 'normal');
+          doc.setTextColor(0, 0, 0);
+          
+          doc.text(`${index + 1}`, colX.no + 2, yPosition + 6.5);
+          
+          const tglShort = new Date(belanja.tanggal).toLocaleDateString('id-ID', { 
+            day: '2-digit', 
+            month: 'short', 
+            year: 'numeric' 
+          });
+          doc.text(tglShort, colX.tanggal + 2, yPosition + 6.5);
+          
+          // Kategori dengan max width
+          const kategoriText = doc.splitTextToSize(belanja.kategori, 30);
+          doc.text(kategoriText[0], colX.kategori + 2, yPosition + 6.5);
+          
+          // Toko dengan max width
+          const tokoText = belanja.toko || '-';
+          const tokoSplit = doc.splitTextToSize(tokoText, 60);
+          doc.text(tokoSplit[0], colX.toko + 2, yPosition + 6.5);
+          
+          doc.setFont(undefined, 'bold');
+          doc.text(formatRupiah(belanja.total), pageWidth - margin - 3, yPosition + 6.5, { align: 'right' });
+          
+          yPosition += rowHeight;
+        });
+
+        // Total akhir dengan border tebal
+        yPosition += 3;
+        doc.setDrawColor(0, 0, 0);
+        doc.setLineWidth(0.8);
+        doc.setFillColor(240, 240, 240);
+        doc.rect(margin, yPosition, pageWidth - 2 * margin, 12, 'FD');
+        
+        doc.setFontSize(11);
+        doc.setFont(undefined, 'bold');
+        doc.setTextColor(0, 0, 0);
+        doc.text('TOTAL PENGELUARAN:', margin + 3, yPosition + 8);
+        doc.setFontSize(12);
+        doc.text(formatRupiah(totalBelanja), pageWidth - margin - 3, yPosition + 8, { align: 'right' });
+
+        // Detail transaksi per halaman baru
+        doc.addPage();
+        yPosition = margin;
+        addPageHeader();
+
+        doc.setFontSize(14);
+        doc.setFont(undefined, 'bold');
+        doc.text('DETAIL TRANSAKSI PER ITEM', margin, yPosition);
+        yPosition += 10;
+
+        sortedData.forEach((belanja, index) => {
+          const items = JSON.parse(belanja.items || '[]');
+          
+          // Estimasi tinggi yang dibutuhkan
+          const estimatedHeight = 20 + (items.length * 8) + 15;
+          
+          // Check space for transaction block
+          if (yPosition + estimatedHeight > pageHeight - 25) {
+            addPageFooter();
+            doc.addPage();
+            yPosition = margin;
+            addPageHeader();
+          }
+
+          // Transaction header dengan background
+          doc.setDrawColor(0, 0, 0);
+          doc.setLineWidth(0.5);
+          doc.setFillColor(230, 230, 230);
+          doc.rect(margin, yPosition, pageWidth - 2 * margin, 10, 'FD');
+          
+          doc.setFontSize(10);
+          doc.setFont(undefined, 'bold');
+          doc.text(`TRANSAKSI #${index + 1}`, margin + 3, yPosition + 6.5);
+          doc.setFont(undefined, 'normal');
+          doc.text(formatTanggal(belanja.tanggal), pageWidth - margin - 3, yPosition + 6.5, { align: 'right' });
+          
+          yPosition += 10;
+
+          // Info box
+          doc.setLineWidth(0.3);
+          doc.setDrawColor(150, 150, 150);
+          const infoHeight = belanja.toko ? 13 : 7;
+          doc.rect(margin, yPosition, pageWidth - 2 * margin, infoHeight);
+          
+          doc.setFontSize(9);
+          doc.setFont(undefined, 'bold');
+          doc.text('Kategori:', margin + 3, yPosition + 5);
+          doc.setFont(undefined, 'normal');
+          doc.text(belanja.kategori, margin + 23, yPosition + 5);
+          
+          if (belanja.toko) {
+            doc.setFont(undefined, 'bold');
+            doc.text('Toko:', margin + 3, yPosition + 10);
+            doc.setFont(undefined, 'normal');
+            doc.text(belanja.toko, margin + 23, yPosition + 10);
+          }
+          
+          yPosition += infoHeight + 3;
+
+          // Item table header
+          const itemColX = {
+            no: margin + 3,
+            nama: margin + 12,
+            qty: margin + 100,
+            harga: margin + 125,
+            subtotal: pageWidth - margin - 3
+          };
+
+          doc.setDrawColor(0, 0, 0);
+          doc.setLineWidth(0.4);
+          doc.setFillColor(240, 240, 240);
+          doc.rect(margin, yPosition, pageWidth - 2 * margin, 8, 'FD');
+          
+          // Vertical lines untuk item header
+          doc.line(itemColX.nama - 2, yPosition, itemColX.nama - 2, yPosition + 8);
+          doc.line(itemColX.qty - 2, yPosition, itemColX.qty - 2, yPosition + 8);
+          doc.line(itemColX.harga - 2, yPosition, itemColX.harga - 2, yPosition + 8);
+          doc.line(itemColX.subtotal - 32, yPosition, itemColX.subtotal - 32, yPosition + 8);
+          
+          doc.setFontSize(8);
+          doc.setFont(undefined, 'bold');
+          doc.text('NO', itemColX.no, yPosition + 5.5);
+          doc.text('NAMA ITEM', itemColX.nama, yPosition + 5.5);
+          doc.text('QTY', itemColX.qty, yPosition + 5.5);
+          doc.text('HARGA', itemColX.harga, yPosition + 5.5);
+          doc.text('SUBTOTAL', itemColX.subtotal, yPosition + 5.5, { align: 'right' });
+          
+          yPosition += 8;
+
+          // Item rows
+          doc.setFont(undefined, 'normal');
+          items.forEach((item, idx) => {
+            const itemRowHeight = 7;
+            
+            // Zebra striping
+            if (idx % 2 === 1) {
+              doc.setFillColor(248, 248, 248);
+              doc.rect(margin, yPosition, pageWidth - 2 * margin, itemRowHeight, 'F');
+            }
+            
+            doc.setDrawColor(200, 200, 200);
+            doc.setLineWidth(0.2);
+            doc.rect(margin, yPosition, pageWidth - 2 * margin, itemRowHeight);
+            
+            // Vertical lines
+            doc.line(itemColX.nama - 2, yPosition, itemColX.nama - 2, yPosition + itemRowHeight);
+            doc.line(itemColX.qty - 2, yPosition, itemColX.qty - 2, yPosition + itemRowHeight);
+            doc.line(itemColX.harga - 2, yPosition, itemColX.harga - 2, yPosition + itemRowHeight);
+            doc.line(itemColX.subtotal - 32, yPosition, itemColX.subtotal - 32, yPosition + itemRowHeight);
+            
+            doc.setFontSize(8);
+            doc.text(`${idx + 1}`, itemColX.no, yPosition + 4.5);
+            
+            const namaText = doc.splitTextToSize(item.nama, 85);
+            doc.text(namaText[0], itemColX.nama, yPosition + 4.5);
+            
+            doc.text(`${item.jumlah} ${item.satuan || ''}`, itemColX.qty, yPosition + 4.5);
+            doc.text(formatRupiah(item.harga), itemColX.harga, yPosition + 4.5);
+            doc.setFont(undefined, 'bold');
+            doc.text(formatRupiah(item.subtotal), itemColX.subtotal, yPosition + 4.5, { align: 'right' });
+            doc.setFont(undefined, 'normal');
+            
+            yPosition += itemRowHeight;
+          });
+
+          // Total dengan background gelap
+          doc.setDrawColor(0, 0, 0);
+          doc.setLineWidth(0.5);
+          doc.setFillColor(220, 220, 220);
+          doc.rect(margin, yPosition, pageWidth - 2 * margin, 9, 'FD');
+          
+          doc.setFont(undefined, 'bold');
+          doc.setFontSize(10);
+          doc.text('TOTAL TRANSAKSI', margin + 3, yPosition + 6);
+          doc.text(formatRupiah(belanja.total), itemColX.subtotal, yPosition + 6, { align: 'right' });
+          
+          yPosition += 12;
+
+          // Nota jika ada
+          if (belanja.bukti_nota) {
+            if (yPosition > pageHeight - 110) {
+              addPageFooter();
+              doc.addPage();
+              yPosition = margin;
+              addPageHeader();
+            }
+
+            try {
+              doc.setFontSize(9);
+              doc.setFont(undefined, 'bold');
+              doc.text('Lampiran Bukti Nota:', margin, yPosition);
+              yPosition += 5;
+              
+              const notaWidth = 80;
+              const notaHeight = 100;
+              
+              const centerX = (pageWidth - notaWidth) / 2;
+              
+              doc.setDrawColor(0, 0, 0);
+              doc.setLineWidth(0.5);
+              doc.rect(centerX, yPosition, notaWidth, notaHeight);
+              
+              doc.addImage(belanja.bukti_nota, 'JPEG', centerX + 1, yPosition + 1, notaWidth - 2, notaHeight - 2);
+              
+              yPosition += notaHeight + 3;
+            } catch (error) {
+              console.error('Error adding image:', error);
+            }
+          }
+
+          yPosition += 8;
+        });
+
+        // Footer halaman terakhir
+        addPageFooter();
+
+        const fileName = `Laporan_Pengeluaran_${new Date().toISOString().split('T')[0]}.pdf`;
+        doc.save(fileName);
+
+        showToast('\u2705 PDF Laporan Profesional berhasil diunduh!', 'success');
+      } catch (error) {
+        console.error('Error generating PDF:', error);
+        showToast('\u274C Gagal membuat PDF', 'error');
+      } finally {
+        btnEkspor.disabled = false;
+        btnEkspor.innerHTML = originalHTML;
+      }
+    });
+
+    document.getElementById('btnHapusFoto').addEventListener('click', () => {
+      if (belanjaData.length === 0) {
+        showToast('\u274C Tidak ada data', 'error');
+        return;
+      }
+
+      const btnHapus = document.getElementById('btnHapusFoto');
+      const originalText = btnHapus.textContent;
+
+      if (originalText.includes('Yakin')) {
+        let fotoCount = 0;
+        belanjaData.forEach(item => {
+          if (item.bukti_nota) {
+            item.bukti_nota = '';
+            fotoCount++;
+          }
+        });
+
+        if (fotoCount === 0) {
+          showToast('\u2139 Tidak ada foto untuk dihapus', 'success');
+          btnHapus.textContent = '\u{1F5D1}\u{FE0F} Hapus Semua Foto';
+          return;
+        }
+
+        saveData();
+        renderBelanjaList();
+        checkStorageCapacity();
+        showToast(`\u2705 ${fotoCount} foto berhasil dihapus! Storage dibebaskan.`, 'success');
+        btnHapus.textContent = '\u{1F5D1}\u{FE0F} Hapus Semua Foto';
+      } else {
+        btnHapus.textContent = '\u26A0 Yakin Hapus Semua Foto?';
+        setTimeout(() => {
+          btnHapus.textContent = originalText;
+        }, 3000);
+      }
+    });
+
+    // Set tanggal laporan default ke hari ini
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('inputTanggalLaporan').value = today;
+
+    loadData();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b6f0ea2339fcdfd',t:'MTc2NzIzOTQ3NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

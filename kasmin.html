@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="id">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daftar Transfer Bahan Bangunan</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+        body {
+            box-sizing: border-box;
+        }
+        
+        @page {
+            size: A4;
+            margin: 0;
+        }
+        
+        .print-container {
+            background: white;
+            min-height: 100%;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        table {
+            border-collapse: collapse;
+        }
+        
+        .border-cell {
+            border: 1px solid #2c3e50;
+        }
+        
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+            }
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="w-full" style="background: #f8f9fa; margin: 0; padding: 0;">
+  <div class="w-full print-container" style="padding: 2.5rem; max-width: 900px; margin: 0 auto;"><!-- Header -->
+   <div style="text-align: center; margin-bottom: 2rem;">
+    <h1 id="document-title" style="font-size: 1.25rem; font-weight: bold; color: #1a202c; margin-bottom: 0.5rem;">A. Jumlah Dana yang ditransfer ke Toko/Penyedia Bahan Bangunan Tahap II</h1>
+   </div><!-- Main Table -->
+   <table style="width: 100%; margin-bottom: 2rem; font-size: 0.875rem;">
+    <thead>
+     <tr style="background: #2c3e50; color: white;">
+      <th class="border-cell" style="padding: 0.75rem; text-align: center; width: 5%;">No</th>
+      <th class="border-cell" style="padding: 0.75rem; text-align: left; width: 40%;">Jenis Bahan Bangunan</th>
+      <th class="border-cell" style="padding: 0.75rem; text-align: center; width: 10%;">Jumlah (Unit)</th>
+      <th class="border-cell" style="padding: 0.75rem; text-align: center; width: 10%;">Satuan</th>
+      <th class="border-cell" style="padding: 0.75rem; text-align: right; width: 17.5%;">Harga Per Unit (Rp)</th>
+      <th class="border-cell" style="padding: 0.75rem; text-align: right; width: 17.5%;">Jumlah Harga (Rp)</th>
+     </tr>
+    </thead>
+    <tbody id="table-body"><!-- Section 1: Pekerjaan Dinding -->
+     <tr style="background: #ecf0f1;">
+      <td class="border-cell" style="padding: 0.75rem; font-weight: bold; text-align: center;">1</td>
+      <td class="border-cell" colspan="5" style="padding: 0.75rem; font-weight: bold;">PEKERJAAN DINDING</td>
+     </tr>
+     <tr style="background: white;">
+      <td class="border-cell"></td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem;">- Batako</td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem; text-align: center;">730</td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem; text-align: center;">Bh</td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem; text-align: right;">2.000,00</td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem; text-align: right;">1.460.000,00</td>
+     </tr>
+     <tr style="background: #f8f9fa;">
+      <td class="border-cell"></td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem;">- Semen Tonasa</td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem; text-align: center;">5</td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem; text-align: center;">Bh</td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem; text-align: right;">68.000,00</td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem; text-align: right;">340.000,00</td>
+     </tr>
+     <tr style="background: white;">
+      <td class="border-cell"></td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem;">- Paku Biasa (4" 4 Kg, 2 1/2" 2 Kg)</td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem; text-align: center;">1,8</td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem; text-align: center;">Kg</td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem; text-align: right;">20.000,00</td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem; text-align: right;">35.000,00</td>
+     </tr><!-- Section 2: Pekerjaan Atap -->
+     <tr style="background: #ecf0f1;">
+      <td class="border-cell" style="padding: 0.75rem; font-weight: bold; text-align: center;">2</td>
+      <td class="border-cell" colspan="5" style="padding: 0.75rem; font-weight: bold;">PEKERJAAN ATAP</td>
+     </tr>
+     <tr style="background: white;">
+      <td class="border-cell"></td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem;">- Kayu Kuda-Kuda 8/10</td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem; text-align: center;">20</td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem; text-align: center;">Btng</td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem; text-align: right;">78.000,00</td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem; text-align: right;">1.560.000,00</td>
+     </tr>
+     <tr style="background: #f8f9fa;">
+      <td class="border-cell"></td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem;">- Kayu Gording 5/10</td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem; text-align: center;">25</td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem; text-align: center;">Btng</td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem; text-align: right;">50.000,00</td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem; text-align: right;">1.250.000,00</td>
+     </tr>
+     <tr style="background: white;">
+      <td class="border-cell"></td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem;">- Seng Gelombang Fumira</td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem; text-align: center;">48</td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem; text-align: center;">Lmbr</td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem; text-align: right;">55.000,00</td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem; text-align: right;">2.640.000,00</td>
+     </tr>
+     <tr style="background: #f8f9fa;">
+      <td class="border-cell"></td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem;">- Seng Plat</td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem; text-align: center;">9</td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem; text-align: center;">M</td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem; text-align: right;">15.000,00</td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem; text-align: right;">135.000,00</td>
+     </tr>
+     <tr style="background: white;">
+      <td class="border-cell"></td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem;">- Paku Seng</td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem; text-align: center;">4</td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem; text-align: center;">Kg</td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem; text-align: right;">40.000,00</td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem; text-align: right;">160.000,00</td>
+     </tr>
+     <tr style="background: #f8f9fa;">
+      <td class="border-cell"></td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem;">- Papan Lesplang</td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem; text-align: center;">8</td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem; text-align: center;">Kg</td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem; text-align: right;">40.000,00</td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem; text-align: right;">320.000,00</td>
+     </tr><!-- Section 3: Pekerjaan Daun Pintu dan Jendela -->
+     <tr style="background: #ecf0f1;">
+      <td class="border-cell" style="padding: 0.75rem; font-weight: bold; text-align: center;">3</td>
+      <td class="border-cell" colspan="5" style="padding: 0.75rem; font-weight: bold;">PEKERJAAN DAUN PINTU DAN JENDELA</td>
+     </tr>
+     <tr style="background: white;">
+      <td class="border-cell"></td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem;">- Daun Pintu Panel</td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem; text-align: center;">2</td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem; text-align: center;">Bh</td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem; text-align: right;">650.000,00</td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem; text-align: right;">1.300.000,00</td>
+     </tr>
+     <tr style="background: #f8f9fa;">
+      <td class="border-cell"></td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem;">- Engsel Pintu</td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem; text-align: center;">2</td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem; text-align: center;">Psng</td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem; text-align: right;">25.000,00</td>
+      <td class="border-cell" style="padding: 0.5rem 0.75rem; text-align: right;">50.000,00</td>
+     </tr><!-- Total Row -->
+     <tr style="background: #2c3e50; color: white; font-weight: bold;">
+      <td class="border-cell" colspan="5" style="padding: 0.75rem; text-align: right;">TOTAL HARGA PEMBELIAN</td>
+      <td class="border-cell" style="padding: 0.75rem; text-align: right;">9.250.000,00</td>
+     </tr>
+    </tbody>
+   </table><!-- Amount in Words -->
+   <div style="margin-top: 1.5rem; padding: 1rem; background: #ecf0f1; border-radius: 0.5rem;">
+    <p style="margin: 0; font-size: 0.875rem; color: #2c3e50;"><strong>Terbilang:</strong> <span id="amount-words" style="font-style: italic;">Sembilan Juta Dua Ratus Lima Puluh Ribu Rupiah</span></p>
+   </div><!-- Print Button -->
+   <div style="margin-top: 2rem; text-align: center;"><button onclick="window.print()" style="background: #3498db; color: white; padding: 0.75rem 2rem; border: none; border-radius: 0.5rem; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background='#2980b9'" onmouseout="this.style.background='#3498db'"> 🖨️ Cetak Dokumen </button>
+   </div>
+  </div>
+  <script>
+        const defaultConfig = {
+            document_title: "A. Jumlah Dana yang ditransfer ke Toko/Penyedia Bahan Bangunan Tahap II",
+            subtitle: "",
+            amount_in_words: "Sembilan Juta Dua Ratus Lima Puluh Ribu Rupiah"
+        };
+
+        async function onConfigChange(config) {
+            const titleElement = document.getElementById('document-title');
+            const amountWordsElement = document.getElementById('amount-words');
+
+            titleElement.textContent = config.document_title || defaultConfig.document_title;
+            amountWordsElement.textContent = config.amount_in_words || defaultConfig.amount_in_words;
+        }
+
+        function mapToCapabilities(config) {
+            return {
+                recolorables: [],
+                borderables: [],
+                fontEditable: undefined,
+                fontSizeable: undefined
+            };
+        }
+
+        function mapToEditPanelValues(config) {
+            return new Map([
+                ["document_title", config.document_title || defaultConfig.document_title],
+                ["subtitle", config.subtitle || defaultConfig.subtitle],
+                ["amount_in_words", config.amount_in_words || defaultConfig.amount_in_words]
+            ]);
+        }
+
+        if (window.elementSdk) {
+            window.elementSdk.init({
+                defaultConfig,
+                onConfigChange,
+                mapToCapabilities,
+                mapToEditPanelValues
+            });
+        }
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a9584ea2022fe8f',t:'MTc2NDk1ODQyNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SyaMdigital - Sites of the Day</title>
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1757245484/SYAMDIGITAL-LOGO-2025_mmpllg.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+        
+        .site-card {
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            background: #111111;
+            border: 1px solid #1a1a1a;
+        }
+        
+        .site-card:hover {
+            transform: translateY(-4px);
+            border-color: #333333;
+            background: #151515;
+        }
+        
+        .site-image {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .site-card:hover .site-image {
+            background: linear-gradient(135deg, #2a2a2a 0%, #3a3a3a 100%);
+        }
+        
+        .award-badge {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            color: white;
+            font-weight: 600;
+            font-size: 11px;
+            letter-spacing: 0.5px;
+        }
+        
+        .pro-badge {
+            background: #333333;
+            color: #cccccc;
+            font-weight: 500;
+            font-size: 11px;
+            letter-spacing: 0.5px;
+        }
+        
+        .nav-link {
+            color: #888888;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: #ffffff;
+        }
+        
+        .category-tag {
+            background: #1a1a1a;
+            color: #888888;
+            border: 1px solid #2a2a2a;
+            transition: all 0.3s ease;
+        }
+        
+        .category-tag:hover {
+            background: #2a2a2a;
+            color: #ffffff;
+            border-color: #3a3a3a;
+        }
+        
+        .load-more-btn {
+            background: #ffffff;
+            color: #000000;
+            transition: all 0.3s ease;
+        }
+        
+        .load-more-btn:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+        }
+        
+        .animated-logo {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57, #ff9ff3, #54a0ff);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 3s ease-in-out infinite;
+            position: relative;
+        }
+        
+        .animated-logo::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57, #ff9ff3, #54a0ff);
+            background-size: 400% 400%;
+            border-radius: 8px;
+            z-index: -1;
+            filter: blur(8px);
+            opacity: 0.7;
+            animation: gradientShift 3s ease-in-out infinite;
+        }
+        
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        
+        .animated-logo:hover {
+            animation-duration: 1s;
+            transform: scale(1.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .animated-logo:hover::before {
+            animation-duration: 1s;
+            filter: blur(12px);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-black/80 backdrop-blur-md border-b border-gray-800 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-8">
+                    <a href="https://syam.digital/" class="flex items-center space-x-3 group">
+                        <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1757245484/SYAMDIGITAL-LOGO-2025_mmpllg.png" 
+                             alt="SyaMdigital Logo" 
+                             class="w-8 h-8 transition-transform duration-300 group-hover:scale-110"
+                             onerror="this.style.display='none';">
+                        <span class="animated-logo font-bold text-xl">SyaMdigital</span>
+                    </a>
+                    <div class="hidden md:flex space-x-6">
+                        <a href="https://syam.digital/" class="nav-link text-sm font-medium">NOMINEES</a>
+                        <a href="https://syam.digital/" class="nav-link text-sm font-medium">WINNERS</a>
+                        <a href="https://syam.digital/" class="nav-link text-sm font-medium">COLLECTIONS</a>
+                        <a href="https://syam.digital/" class="nav-link text-sm font-medium">BLOG</a>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="https://syam.digital/" class="nav-link text-sm font-medium">SUBMIT</a>
+                    <a href="https://syam.digital/" class="bg-white text-black px-4 py-2 rounded text-sm font-medium hover:bg-gray-100 transition-colors">
+                        SIGN IN
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="pt-24 pb-12 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="mb-8">
+                <h1 class="text-6xl md:text-8xl font-bold mb-4 tracking-tight">Sites of the Day</h1>
+                <p class="text-gray-400 text-lg max-w-2xl">
+                    The most innovative and creative websites, handpicked by our team of experts.
+                </p>
+            </div>
+            
+            <!-- Back to Home Link -->
+            <div class="mb-6">
+                <a href="https://syam.digital/" class="inline-flex items-center space-x-2 text-gray-400 hover:text-white transition-colors group">
+                    <svg class="w-4 h-4 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                    </svg>
+                    <span class="text-sm font-medium">Back to Home</span>
+                </a>
+            </div>
+            
+            <!-- Filter Tags -->
+            <div class="flex flex-wrap gap-3 mb-8">
+                <button class="category-tag px-4 py-2 rounded-full text-sm">All</button>
+                <button class="category-tag px-4 py-2 rounded-full text-sm">E-commerce</button>
+                <button class="category-tag px-4 py-2 rounded-full text-sm">Portfolio</button>
+                <button class="category-tag px-4 py-2 rounded-full text-sm">Agency</button>
+                <button class="category-tag px-4 py-2 rounded-full text-sm">Corporate</button>
+                <button class="category-tag px-4 py-2 rounded-full text-sm">Creative</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Site Card 1 -->
+            <article class="site-card rounded-lg overflow-hidden cursor-pointer group" data-category="corporate" onclick="openSite('https://syam.digital/')">
+                <div class="site-image h-64 relative overflow-hidden">
+                    <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1758115324/1_khkp5y.png" 
+                         alt="Mastercard Business Outcomes" 
+                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="absolute inset-0 items-center justify-center hidden">
+                        <div class="w-20 h-20 bg-gradient-to-br from-orange-400 to-red-500 rounded-2xl flex items-center justify-center">
+                            <span class="text-white text-2xl font-bold">MC</span>
+                        </div>
+                    </div>
+                    <div class="absolute top-4 left-4">
+                        <span class="award-badge px-3 py-1 rounded-full uppercase">SOTD</span>
+                    </div>
+                    <div class="absolute top-4 right-4">
+                        <span class="pro-badge px-3 py-1 rounded-full uppercase">PRO</span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2 group-hover:text-gray-300 transition-colors">
+                        Mastercard Business Outcomes
+                    </h3>
+                    <div class="flex items-center justify-between text-sm text-gray-400">
+                        <span>by KKPK</span>
+                        <div class="flex items-center space-x-4">
+                            <span>🏆 8.5</span>
+                            <span>👁 2.1k</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Site Card 2 -->
+            <article class="site-card rounded-lg overflow-hidden cursor-pointer group" data-category="agency" onclick="openSite('https://syam.digital/')">
+                <div class="site-image h-64 relative overflow-hidden">
+                    <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1758115324/3_spdpro.png" 
+                         alt="Heidelberg CCUS" 
+                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="absolute inset-0 items-center justify-center hidden">
+                        <div class="w-20 h-20 bg-gradient-to-br from-blue-400 to-purple-500 rounded-2xl flex items-center justify-center">
+                            <span class="text-white text-2xl font-bold">H</span>
+                        </div>
+                    </div>
+                    <div class="absolute top-4 left-4">
+                        <span class="award-badge px-3 py-1 rounded-full uppercase">SOTD</span>
+                    </div>
+                    <div class="absolute top-4 right-4">
+                        <span class="pro-badge px-3 py-1 rounded-full uppercase">PRO</span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2 group-hover:text-gray-300 transition-colors">
+                        Heidelberg CCUS
+                    </h3>
+                    <div class="flex items-center justify-between text-sm text-gray-400">
+                        <span>by Ashfall Studio</span>
+                        <div class="flex items-center space-x-4">
+                            <span>🏆 9.2</span>
+                            <span>👁 3.4k</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Site Card 3 -->
+            <article class="site-card rounded-lg overflow-hidden cursor-pointer group" data-category="portfolio" onclick="openSite('https://syam.digital/')">
+                <div class="site-image h-64 relative overflow-hidden">
+                    <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1758115324/2_wm05fo.png" 
+                         alt="Purpose Talent" 
+                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="absolute inset-0 items-center justify-center hidden">
+                        <div class="w-20 h-20 bg-gradient-to-br from-green-400 to-teal-500 rounded-2xl flex items-center justify-center">
+                            <span class="text-white text-2xl font-bold">PT</span>
+                        </div>
+                    </div>
+                    <div class="absolute top-4 left-4">
+                        <span class="award-badge px-3 py-1 rounded-full uppercase">SOTD</span>
+                    </div>
+                    <div class="absolute top-4 right-4">
+                        <span class="pro-badge px-3 py-1 rounded-full uppercase">PRO</span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2 group-hover:text-gray-300 transition-colors">
+                        Purpose Talent
+                    </h3>
+                    <div class="flex items-center justify-between text-sm text-gray-400">
+                        <span>by Studio Morfar</span>
+                        <div class="flex items-center space-x-4">
+                            <span>🏆 8.8</span>
+                            <span>👁 1.9k</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Site Card 4 -->
+            <article class="site-card rounded-lg overflow-hidden cursor-pointer group" data-category="e-commerce" onclick="openSite('https://syam.digital/')">
+                <div class="site-image h-64 relative overflow-hidden">
+                    <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1758115324/2_wm05fo.png" 
+                         alt="Luminaire Authentik" 
+                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="absolute inset-0 items-center justify-center hidden">
+                        <div class="w-20 h-20 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-2xl flex items-center justify-center">
+                            <span class="text-white text-2xl font-bold">LA</span>
+                        </div>
+                    </div>
+                    <div class="absolute top-4 left-4">
+                        <span class="award-badge px-3 py-1 rounded-full uppercase">SOTD</span>
+                    </div>
+                    <div class="absolute top-4 right-4">
+                        <span class="pro-badge px-3 py-1 rounded-full uppercase">PRO</span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2 group-hover:text-gray-300 transition-colors">
+                        Luminaire Authentik
+                    </h3>
+                    <div class="flex items-center justify-between text-sm text-gray-400">
+                        <span>by Leeroy</span>
+                        <div class="flex items-center space-x-4">
+                            <span>🏆 9.0</span>
+                            <span>👁 2.7k</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Site Card 5 -->
+            <article class="site-card rounded-lg overflow-hidden cursor-pointer group" data-category="portfolio" onclick="openSite('https://syam.digital/')">
+                <div class="site-image h-64 relative overflow-hidden">
+                    <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1758115324/2_wm05fo.png" 
+                         alt="Wildy Riftian Portfolio" 
+                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="absolute inset-0 items-center justify-center hidden">
+                        <div class="w-20 h-20 bg-gradient-to-br from-pink-400 to-purple-500 rounded-2xl flex items-center justify-center">
+                            <span class="text-white text-2xl font-bold">WR</span>
+                        </div>
+                    </div>
+                    <div class="absolute top-4 left-4">
+                        <span class="award-badge px-3 py-1 rounded-full uppercase">SOTD</span>
+                    </div>
+                    <div class="absolute top-4 right-4">
+                        <span class="pro-badge px-3 py-1 rounded-full uppercase">PRO</span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2 group-hover:text-gray-300 transition-colors">
+                        Wildy Riftian Portfolio
+                    </h3>
+                    <div class="flex items-center justify-between text-sm text-gray-400">
+                        <span>by Surd Studio</span>
+                        <div class="flex items-center space-x-4">
+                            <span>🏆 8.7</span>
+                            <span>👁 1.5k</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Site Card 6 -->
+            <article class="site-card rounded-lg overflow-hidden cursor-pointer group" data-category="creative" onclick="openSite('https://syam.digital/')">
+                <div class="site-image h-64 relative overflow-hidden">
+                    <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1758115324/2_wm05fo.png" 
+                         alt="Bitter Creek" 
+                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="absolute inset-0 items-center justify-center hidden">
+                        <div class="w-20 h-20 bg-gradient-to-br from-indigo-400 to-blue-500 rounded-2xl flex items-center justify-center">
+                            <span class="text-white text-2xl font-bold">BC</span>
+                        </div>
+                    </div>
+                    <div class="absolute top-4 left-4">
+                        <span class="award-badge px-3 py-1 rounded-full uppercase">SOTD</span>
+                    </div>
+                    <div class="absolute top-4 right-4">
+                        <span class="pro-badge px-3 py-1 rounded-full uppercase">PRO</span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2 group-hover:text-gray-300 transition-colors">
+                        Bitter Creek
+                    </h3>
+                    <div class="flex items-center justify-between text-sm text-gray-400">
+                        <span>by Malvah</span>
+                        <div class="flex items-center space-x-4">
+                            <span>🏆 8.9</span>
+                            <span>👁 2.3k</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Site Card 7 -->
+            <article class="site-card rounded-lg overflow-hidden cursor-pointer group" data-category="agency" onclick="openSite('https://syam.digital/')">
+                <div class="site-image h-64 relative overflow-hidden">
+                    <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1758115324/2_wm05fo.png" 
+                         alt="Syam Design Studio" 
+                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="absolute inset-0 items-center justify-center hidden">
+                        <div class="w-20 h-20 bg-gradient-to-br from-blue-400 to-purple-500 rounded-2xl flex items-center justify-center">
+                            <span class="text-white text-2xl font-bold">SD</span>
+                        </div>
+                    </div>
+                    <div class="absolute top-4 left-4">
+                        <span class="award-badge px-3 py-1 rounded-full uppercase">SOTD</span>
+                    </div>
+                    <div class="absolute top-4 right-4">
+                        <span class="pro-badge px-3 py-1 rounded-full uppercase">PRO</span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2 group-hover:text-gray-300 transition-colors">
+                        Syam Design Studio
+                    </h3>
+                    <div class="flex items-center justify-between text-sm text-gray-400">
+                        <span>by SyaMdigital</span>
+                        <div class="flex items-center space-x-4">
+                            <span>🏆 9.1</span>
+                            <span>👁 3.2k</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Site Card 8 -->
+            <article class="site-card rounded-lg overflow-hidden cursor-pointer group" data-category="corporate" onclick="openSite('https://syam.digital/')">
+                <div class="site-image h-64 relative overflow-hidden">
+                    <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1758115324/2_wm05fo.png" 
+                         alt="Corporate Hub" 
+                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="absolute inset-0 items-center justify-center hidden">
+                        <div class="w-20 h-20 bg-gradient-to-br from-orange-400 to-red-500 rounded-2xl flex items-center justify-center">
+                            <span class="text-white text-2xl font-bold">CH</span>
+                        </div>
+                    </div>
+                    <div class="absolute top-4 left-4">
+                        <span class="award-badge px-3 py-1 rounded-full uppercase">SOTD</span>
+                    </div>
+                    <div class="absolute top-4 right-4">
+                        <span class="pro-badge px-3 py-1 rounded-full uppercase">PRO</span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2 group-hover:text-gray-300 transition-colors">
+                        Corporate Hub
+                    </h3>
+                    <div class="flex items-center justify-between text-sm text-gray-400">
+                        <span>by Syam Team</span>
+                        <div class="flex items-center space-x-4">
+                            <span>🏆 8.9</span>
+                            <span>👁 2.8k</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Site Card 9 -->
+            <article class="site-card rounded-lg overflow-hidden cursor-pointer group" data-category="e-commerce" onclick="openSite('https://syam.digital/')">
+                <div class="site-image h-64 relative overflow-hidden">
+                    <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1758115324/2_wm05fo.png" 
+                         alt="Ecom Spark" 
+                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="absolute inset-0 items-center justify-center hidden">
+                        <div class="w-20 h-20 bg-gradient-to-br from-emerald-400 to-cyan-500 rounded-2xl flex items-center justify-center">
+                            <span class="text-white text-2xl font-bold">ES</span>
+                        </div>
+                    </div>
+                    <div class="absolute top-4 left-4">
+                        <span class="award-badge px-3 py-1 rounded-full uppercase">SOTD</span>
+                    </div>
+                    <div class="absolute top-4 right-4">
+                        <span class="pro-badge px-3 py-1 rounded-full uppercase">PRO</span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2 group-hover:text-gray-300 transition-colors">
+                        Ecom Spark
+                    </h3>
+                    <div class="flex items-center justify-between text-sm text-gray-400">
+                        <span>by Syam Commerce</span>
+                        <div class="flex items-center space-x-4">
+                            <span>🏆 9.0</span>
+                            <span>👁 2.6k</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Site Card 10 -->
+            <article class="site-card rounded-lg overflow-hidden cursor-pointer group" data-category="agency" onclick="openSite('https://syam.digital/')">
+                <div class="site-image h-64 relative overflow-hidden">
+                    <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1758115324/2_wm05fo.png" 
+                         alt="Agency Nexus" 
+                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="absolute inset-0 items-center justify-center hidden">
+                        <div class="w-20 h-20 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-2xl flex items-center justify-center">
+                            <span class="text-white text-2xl font-bold">AN</span>
+                        </div>
+                    </div>
+                    <div class="absolute top-4 left-4">
+                        <span class="award-badge px-3 py-1 rounded-full uppercase">SOTD</span>
+                    </div>
+                    <div class="absolute top-4 right-4">
+                        <span class="pro-badge px-3 py-1 rounded-full uppercase">PRO</span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2 group-hover:text-gray-300 transition-colors">
+                        Agency Nexus
+                    </h3>
+                    <div class="flex items-center justify-between text-sm text-gray-400">
+                        <span>by Nexus Team</span>
+                        <div class="flex items-center space-x-4">
+                            <span>🏆 9.1</span>
+                            <span>👁 3.0k</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Site Card 11 -->
+            <article class="site-card rounded-lg overflow-hidden cursor-pointer group" data-category="creative" onclick="openSite('https://syam.digital/')">
+                <div class="site-image h-64 relative overflow-hidden">
+                    <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1758115324/2_wm05fo.png" 
+                         alt="Creative Forge" 
+                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="absolute inset-0 items-center justify-center hidden">
+                        <div class="w-20 h-20 bg-gradient-to-br from-fuchsia-400 to-pink-500 rounded-2xl flex items-center justify-center">
+                            <span class="text-white text-2xl font-bold">CF</span>
+                        </div>
+                    </div>
+                    <div class="absolute top-4 left-4">
+                        <span class="award-badge px-3 py-1 rounded-full uppercase">SOTD</span>
+                    </div>
+                    <div class="absolute top-4 right-4">
+                        <span class="pro-badge px-3 py-1 rounded-full uppercase">PRO</span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2 group-hover:text-gray-300 transition-colors">
+                        Creative Forge
+                    </h3>
+                    <div class="flex items-center justify-between text-sm text-gray-400">
+                        <span>by Forge Lab</span>
+                        <div class="flex items-center space-x-4">
+                            <span>🏆 8.8</span>
+                            <span>👁 1.8k</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Site Card 12 -->
+            <article class="site-card rounded-lg overflow-hidden cursor-pointer group" data-category="corporate" onclick="openSite('https://syam.digital/')">
+                <div class="site-image h-64 relative overflow-hidden">
+                    <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1758115324/2_wm05fo.png" 
+                         alt="Corporate Stack" 
+                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="absolute inset-0 items-center justify-center hidden">
+                        <div class="w-20 h-20 bg-gradient-to-br from-orange-400 to-red-500 rounded-2xl flex items-center justify-center">
+                            <span class="text-white text-2xl font-bold">CS</span>
+                        </div>
+                    </div>
+                    <div class="absolute top-4 left-4">
+                        <span class="award-badge px-3 py-1 rounded-full uppercase">SOTD</span>
+                    </div>
+                    <div class="absolute top-4 right-4">
+                        <span class="pro-badge px-3 py-1 rounded-full uppercase">PRO</span>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2 group-hover:text-gray-300 transition-colors">
+                        Corporate Stack
+                    </h3>
+                    <div class="flex items-center justify-between text-sm text-gray-400">
+                        <span>by Stack Corp</span>
+                        <div class="flex items-center space-x-4">
+                            <span>🏆 9.2</span>
+                            <span>👁 3.3k</span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+
+        <!-- Load More Button -->
+        <div class="text-center mt-16 mb-20">
+            <button onclick="loadMoreSites()" class="load-more-btn px-8 py-4 rounded-lg font-semibold text-sm uppercase tracking-wide">
+                Load More Sites
+            </button>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-800 py-16 mt-20">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-white font-bold text-xl mb-4">SyaMdigital</h3>
+                    <p class="text-gray-400 text-sm">
+                        Showcasing the most innovative and creative websites from around the world.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Awards</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Site of the Day</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Developer Award</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">CSS Design Award</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Resources</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Submit Site</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Jury</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Blog</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Connect</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="https://syam.digital/" target="_blank" class="hover:text-white transition-colors">syam.digital</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Newsletter</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center">
+                <p class="text-gray-400 text-sm">
+                    © 2024 SyaMdigital. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function openSite(url) {
+            // Create notification
+            const notification = document.createElement('div');
+            notification.className = 'fixed top-20 right-4 bg-white text-black px-6 py-3 rounded-lg shadow-xl z-50 transform translate-x-full transition-transform duration-300';
+            notification.innerHTML = `
+                <div class="flex items-center space-x-2">
+                    <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                    <span class="font-medium">Opening site...</span>
+                </div>
+            `;
+            document.body.appendChild(notification);
+            
+            // Animate in
+            setTimeout(() => {
+                notification.classList.remove('translate-x-full');
+            }, 100);
+            
+            // Remove and open site
+            setTimeout(() => {
+                notification.classList.add('translate-x-full');
+                setTimeout(() => {
+                    notification.remove();
+                    window.open(url, '_blank');
+                }, 300);
+            }, 1500);
+        }
+
+        function loadMoreSites() {
+            const grid = document.querySelector('.grid');
+            const newSites = [
+                {
+                    name: 'Digital Agency Pro',
+                    author: 'Creative Labs',
+                    url: 'https://digitalagency.com',
+                    score: '9.1',
+                    views: '4.2k',
+                    gradient: 'from-cyan-400 to-blue-500'
+                },
+                {
+                    name: 'E-commerce Excellence',
+                    author: 'Shop Masters',
+                    url: 'https://ecommerce.com',
+                    score: '8.6',
+                    views: '3.1k',
+                    gradient: 'from-emerald-400 to-cyan-500'
+                },
+                {
+                    name: 'Portfolio Perfection',
+                    author: 'Design Guru',
+                    url: 'https://portfolio.com',
+                    score: '9.3',
+                    views: '5.7k',
+                    gradient: 'from-violet-400 to-purple-500'
+                }
+            ];
+
+            newSites.forEach((site, index) => {
+                const siteCard = document.createElement('article');
+                siteCard.className = 'site-card rounded-lg overflow-hidden cursor-pointer group opacity-0 transform translate-y-8';
+                siteCard.onclick = () => openSite('https://syam.digital/');
+                
+                siteCard.innerHTML = `
+                    <div class="site-image h-64 relative overflow-hidden">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="w-20 h-20 bg-gradient-to-br ${site.gradient} rounded-2xl flex items-center justify-center">
+                                <span class="text-white text-2xl font-bold">${site.name.charAt(0)}</span>
+                            </div>
+                        </div>
+                        <div class="absolute top-4 left-4">
+                            <span class="award-badge px-3 py-1 rounded-full uppercase">SOTD</span>
+                        </div>
+                        <div class="absolute top-4 right-4">
+                            <span class="pro-badge px-3 py-1 rounded-full uppercase">PRO</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2 group-hover:text-gray-300 transition-colors">
+                            ${site.name}
+                        </h3>
+                        <div class="flex items-center justify-between text-sm text-gray-400">
+                            <span>by ${site.author}</span>
+                            <div class="flex items-center space-x-4">
+                                <span>🏆 ${site.score}</span>
+                                <span>👁 ${site.views}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                grid.appendChild(siteCard);
+                
+                // Animate in
+                setTimeout(() => {
+                    siteCard.style.transition = 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                    siteCard.classList.remove('opacity-0', 'translate-y-8');
+                }, index * 150);
+            });
+        }
+
+        // Filter functionality
+        function filterSites(category) {
+            const allCards = document.querySelectorAll('.site-card');
+            
+            allCards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'block';
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    
+                    setTimeout(() => {
+                        card.style.transition = 'all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 100);
+                } else {
+                    card.style.transition = 'all 0.3s ease';
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(-20px)';
+                    
+                    setTimeout(() => {
+                        card.style.display = 'none';
+                    }, 300);
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterButtons = document.querySelectorAll('.category-tag');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const category = this.textContent.toLowerCase().replace('-', '-');
+                    
+                    // Remove active state from all buttons
+                    filterButtons.forEach(btn => {
+                        btn.classList.remove('bg-white', 'text-black');
+                        btn.classList.add('bg-gray-800', 'text-gray-400');
+                    });
+                    
+                    // Add active state to clicked button
+                    this.classList.remove('bg-gray-800', 'text-gray-400');
+                    this.classList.add('bg-white', 'text-black');
+                    
+                    // Filter sites
+                    filterSites(category);
+                });
+            });
+
+            // Set initial active state
+            filterButtons[0].classList.remove('bg-gray-800', 'text-gray-400');
+            filterButtons[0].classList.add('bg-white', 'text-black');
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9859568cb7c37979',t:'MTc1ODk1ODY3MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

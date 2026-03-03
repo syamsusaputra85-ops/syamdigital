@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surat Undangan - Pemerintah Desa Wani Lumbumpetigo</title>
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1757855384/Logo_donggala-removebg-preview_imrpgu.png">
+    <link rel="shortcut icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1757855384/Logo_donggala-removebg-preview_imrpgu.png">
+    <style>
+        body {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 10px;
+            font-family: 'Times New Roman', serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .container {
+            background: white;
+            max-width: 800px;
+            width: 100%;
+            padding: 30px 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #333;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        .letterhead {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            margin: 0 auto 15px;
+            display: block;
+        }
+
+        .fallback-header h1 {
+            margin: 10px 0 5px;
+            font-size: 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .fallback-header h2 {
+            margin: 5px 0;
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .fallback-header p {
+            margin: 5px 0;
+            font-size: 13px;
+        }
+
+        .header h1 {
+            margin: 10px 0 5px;
+            font-size: 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .header h2 {
+            margin: 5px 0;
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .header p {
+            margin: 5px 0;
+            font-size: 13px;
+        }
+
+        .meta-info {
+            margin: 30px 0;
+            font-size: 14px;
+        }
+
+        .meta-info div {
+            margin: 8px 0;
+        }
+
+        .recipients {
+            margin: 25px 0;
+        }
+
+        .recipients-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .recipients ol {
+            margin: 10px 0;
+            padding-left: 25px;
+        }
+
+        .recipients li {
+            margin: 8px 0;
+            line-height: 1.6;
+        }
+
+        .content {
+            text-align: justify;
+            line-height: 1.8;
+            margin: 25px 0;
+        }
+
+        .event-details {
+            background: #f8f9fa;
+            padding: 25px;
+            border-left: 4px solid #667eea;
+            margin: 25px 0;
+        }
+
+        .event-details table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .event-details td {
+            padding: 10px 5px;
+            vertical-align: top;
+        }
+
+        .event-details td:first-child {
+            width: 120px;
+            font-weight: bold;
+        }
+
+        .event-details td:nth-child(2) {
+            width: 20px;
+            text-align: center;
+        }
+
+        .closing {
+            margin-top: 30px;
+            text-align: justify;
+            line-height: 1.8;
+        }
+
+        .signature {
+            margin-top: 40px;
+            text-align: right;
+        }
+
+        .signature-location {
+            margin-bottom: 10px;
+        }
+
+        .signature-name {
+            font-weight: bold;
+            text-decoration: underline;
+        }
+
+        .signature-image {
+            width: 150px;
+            height: auto;
+            margin: 10px 0;
+            display: block;
+            margin-left: auto;
+        }
+
+        .countdown-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+            text-align: center;
+        }
+
+        .countdown-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .countdown-timer {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .countdown-item {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 8px;
+            min-width: 80px;
+        }
+
+        .countdown-number {
+            font-size: 24px;
+            font-weight: bold;
+            display: block;
+        }
+
+        .countdown-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            margin-top: 5px;
+        }
+
+        .whatsapp-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+            text-align: center;
+        }
+
+        .whatsapp-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .whatsapp-section p {
+            margin-bottom: 20px;
+            color: #666;
+        }
+
+        .whatsapp-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #25D366;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+        }
+
+        .whatsapp-button:hover {
+            background: #128C7E;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+            color: white;
+            text-decoration: none;
+        }
+
+        .whatsapp-button svg {
+            flex-shrink: 0;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                padding: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 5px;
+                align-items: flex-start;
+            }
+            
+            .container {
+                padding: 20px 15px;
+                margin: 5px 0;
+                border-radius: 8px;
+            }
+            
+            .header {
+                padding-bottom: 15px;
+                margin-bottom: 20px;
+            }
+            
+            .header h1 {
+                font-size: 14px;
+                margin: 8px 0 3px;
+            }
+            
+            .header h2 {
+                font-size: 18px;
+                margin: 3px 0;
+            }
+            
+            .header p {
+                font-size: 11px;
+            }
+            
+            .letterhead {
+                max-width: 100%;
+                margin: 0 auto 10px;
+            }
+            
+            .fallback-header h1 {
+                font-size: 14px;
+                margin: 8px 0 3px;
+            }
+            
+            .fallback-header h2 {
+                font-size: 18px;
+                margin: 3px 0;
+            }
+            
+            .fallback-header p {
+                font-size: 11px;
+            }
+            
+            .meta-info {
+                font-size: 12px;
+                margin: 20px 0;
+            }
+            
+            .recipients {
+                margin: 20px 0;
+            }
+            
+            .recipients ol {
+                padding-left: 20px;
+            }
+            
+            .recipients li {
+                font-size: 13px;
+                margin: 6px 0;
+            }
+            
+            .content {
+                font-size: 13px;
+                margin: 20px 0;
+                line-height: 1.6;
+            }
+            
+            .event-details {
+                padding: 15px;
+                margin: 20px 0;
+            }
+            
+            .event-details td {
+                padding: 8px 3px;
+                font-size: 13px;
+            }
+            
+            .event-details td:first-child {
+                width: 100px;
+            }
+            
+            .closing {
+                font-size: 13px;
+                margin-top: 20px;
+                line-height: 1.6;
+            }
+            
+            .signature {
+                margin-top: 30px;
+                font-size: 13px;
+            }
+            
+            .signature-location {
+                margin-bottom: 10px;
+            }
+
+            .signature-image {
+                width: 120px;
+            }
+
+            .countdown-section {
+                padding: 20px 15px;
+                margin: 20px 0;
+            }
+
+            .countdown-title {
+                font-size: 16px;
+            }
+
+            .countdown-timer {
+                gap: 15px;
+            }
+
+            .countdown-item {
+                padding: 12px;
+                min-width: 70px;
+            }
+
+            .countdown-number {
+                font-size: 20px;
+            }
+
+            .whatsapp-section {
+                padding: 20px 15px;
+                margin: 20px 0;
+            }
+
+            .whatsapp-title {
+                font-size: 16px;
+            }
+
+            .whatsapp-section p {
+                font-size: 13px;
+            }
+
+            .whatsapp-button {
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px 10px;
+            }
+            
+            .header h1 {
+                font-size: 12px;
+            }
+            
+            .header h2 {
+                font-size: 16px;
+            }
+            
+            .meta-info, .content, .closing {
+                font-size: 12px;
+            }
+            
+            .recipients li {
+                font-size: 12px;
+            }
+            
+            .event-details td {
+                font-size: 12px;
+                padding: 6px 2px;
+            }
+            
+            .event-details td:first-child {
+                width: 80px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="https://res.cloudinary.com/dpr2vc3b0/image/upload/v1752847536/KOP-DESA-2025_t1etmr.png" 
+                 alt="Kop Surat Desa Wani Lumbumpetigo" 
+                 class="letterhead"
+                 onerror="this.style.display='none'; document.querySelector('.fallback-header').style.display='block';">
+            <div class="fallback-header" style="display: none;">
+                <h1>Pemerintah Kabupaten Donggala</h1>
+                <h1>Kecamatan Tanantovea</h1>
+                <h2>Desa Wani Lumbumpetigo</h2>
+                <p>Jalan Kayuriva, Desa Wani Lumbumpetigo, Kec. Tanantovea</p>
+            </div>
+        </div>
+
+        <div class="meta-info">
+            <div><strong>Nomor</strong> : 355/UNDG/PEM-DWLP/X/2025</div>
+            <div><strong>Lamp</strong> : -</div>
+            <div><strong>Hal</strong> : <strong>Undangan</strong></div>
+        </div>
+
+        <div class="recipients">
+            <div class="recipients-title">Kepada Yth,</div>
+            <ol>
+                <li>Camat Tanantovea</li>
+                <li>Bhabinkamtibmas Desa Wani Lumbumpetigo</li>
+                <li>Babinsa Desa Wani Lumbumpetigo</li>
+                <li>Pendamping Desa (PD)</li>
+                <li>Pendamping Lokal Desa (PLD)</li>
+                <li>BPD Wani Lumbumpetigo</li>
+                <li>Pengurus KDMP Wani Lumbumpetigo</li>
+                <li>Pendamping KDMP Wani Lumbumpetigo</li>
+            </ol>
+        </div>
+
+        <div class="content">
+            <p><strong>Dengan Hormat,</strong></p>
+            <p>Salam Sejahtera kami sampaikan semoga Allah SWT senantiasa meridhoi segala aktifitas dan dedikasi kita semua.</p>
+            <p>Dalam rangka Pelaksanaan Kegiatan <strong>Survey Lokasi/Lahan Rencana Pembangunan Kantor, Gudang dan Gerai KDMP Wani Lumbumpetigo</strong>, Dengan ini kami Pemerintah Desa Wani Lumbumpetigo bersama Badan Permusyawaratan Desa (BPD) Mengundang Bapak/Ibu Saudara (i) untuk hadir dalam Kegiatan tersebut.</p>
+        </div>
+
+        <div class="event-details">
+            <p style="margin-top: 0; margin-bottom: 15px;"><strong>Yang Insya Allah akan dilaksanakan Pada:</strong></p>
+            <table>
+                <tr>
+                    <td>Hari/Tanggal</td>
+                    <td>:</td>
+                    <td>Senin, 27 Oktober 2025</td>
+                </tr>
+                <tr>
+                    <td>Jam</td>
+                    <td>:</td>
+                    <td>09.00 WITA s/d Selesai</td>
+                </tr>
+                <tr>
+                    <td>Lokasi</td>
+                    <td>:</td>
+                    <td>Jalan Kayuriva Desa Wani Lumbumpetigo</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="closing">
+            <p>Demikian undangan ini kami sampaikan, atas kehadiran dan Partisipasinya sangat kami Harapkan dan diucapkan terima kasih.</p>
+        </div>
+
+        <div class="signature">
+            <div class="signature-location">Wani Lumbumpetigo, 26 Oktober 2025</div>
+            <div style="margin-bottom: 20px;">Kepala Desa Wani Lumbumpetigo</div>
+            <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1761457368/QRTTD-KADES_pxja44.png" 
+                 alt="Tanda Tangan Kepala Desa" 
+                 class="signature-image"
+                 onerror="this.style.display='none';"
+                 style="margin-bottom: 5px;">
+            <div class="signature-name">AMIR RAMANG</div>
+        </div>
+
+        <div class="countdown-section">
+            <div class="countdown-title">Waktu Menuju Pelaksanaan Kegiatan</div>
+            <div class="countdown-timer">
+                <div class="countdown-item">
+                    <span class="countdown-number" id="days">0</span>
+                    <div class="countdown-label">Hari</div>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="hours">0</span>
+                    <div class="countdown-label">Jam</div>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="minutes">0</span>
+                    <div class="countdown-label">Menit</div>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="seconds">0</span>
+                    <div class="countdown-label">Detik</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="whatsapp-section">
+            <a href="https://wa.me/?text=UNDANGAN%20KEGIATAN%20DESA%0A%0A📍%20Desa:%20Wani%20Lumbumpetigo%0A%0A📋%20Kegiatan:%0A%22SURVEY%20LOKASI/LAHAN%20RENCANA%20PEMBANGUNAN%20KANTOR,%20GUDANG%20DAN%20GERAI%20KDMP%20WANI%20LUMBUMPETIGO%22%0A%0A📅%20Hari/Tanggal:%20Senin,%2027%20Oktober%202025%0A⏰%20Waktu:%2009.00%20WITA%20s/d%20Selesai%0A📍%20Tempat:%20Jalan%20Kayuriva%20Desa%20Wani%20Lumbumpetigo%0A%0AKami%20mengundang%20Bapak/Ibu%20untuk%20hadir%20dalam%20kegiatan%20ini.%0A%0ATerima%20kasih%20atas%20perhatian%20dan%20kerjasamanya.%0A%0AKepala%20Desa%20%26%20BPD%20Wani%20Lumbumpetigo%0A%0AInfo%20Selengkapnya:%20https://syam.digital/undangan5" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="whatsapp-button">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.085"/>
+                </svg>
+                Bagikan ke WhatsApp
+            </a>
+        </div>
+
+
+    </div>
+
+    <script>
+        // Set target date: October 27, 2025 at 09:00 WITA
+        const targetDate = new Date('2025-10-27T09:00:00+08:00').getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance > 0) {
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById('days').textContent = days;
+                document.getElementById('hours').textContent = hours;
+                document.getElementById('minutes').textContent = minutes;
+                document.getElementById('seconds').textContent = seconds;
+            } else {
+                // Event has started or passed
+                document.getElementById('days').textContent = '0';
+                document.getElementById('hours').textContent = '0';
+                document.getElementById('minutes').textContent = '0';
+                document.getElementById('seconds').textContent = '0';
+                document.querySelector('.countdown-title').textContent = 'Kegiatan Telah Dimulai!';
+            }
+        }
+
+        // Update countdown immediately and then every second
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9947e0a80548fd02',t:'MTc2MTQ1OTkzOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

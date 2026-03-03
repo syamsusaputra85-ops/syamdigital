@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading States Buttons</title>
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1757245484/SYAMDIGITAL-LOGO-2025_mmpllg.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.5); }
+            50% { box-shadow: 0 0 30px rgba(59, 130, 246, 0.8); }
+        }
+        
+        @keyframes spin-dots {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes bounce-in {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .loading-btn {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: bounce-in 0.6s ease-out;
+        }
+        
+        .loading-btn:hover {
+            transform: translateY(-2px) scale(1.02);
+            animation: pulse-glow 2s infinite;
+        }
+        
+        .loading-spinner {
+            display: none;
+            animation: spin-dots 1s linear infinite;
+        }
+        
+        .loading-btn.loading {
+            pointer-events: none;
+            opacity: 0.8;
+        }
+        
+        .loading-btn.loading .loading-spinner {
+            display: inline-block;
+        }
+        
+        .loading-btn.loading .button-text {
+            display: none;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .gradient-bg:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-8">
+    <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-12">
+            <div class="flex justify-center items-center mb-6">
+                <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1757245484/SYAMDIGITAL-LOGO-2025_mmpllg.png" 
+                     alt="Syam Digital Logo" 
+                     class="w-20 h-20 animate-bounce hover:animate-spin transition-all duration-300 mr-4"
+                     onerror="this.style.display='none';">
+                <h1 class="text-4xl font-bold text-white bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent animate-pulse">
+                    Daftar Link Syam Digital
+                </h1>
+            </div>
+            <div class="w-32 h-1 bg-gradient-to-r from-blue-400 to-purple-400 mx-auto rounded-full animate-pulse"></div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Button 1 - Website Utama -->
+            <button onclick="handleClick(this)" data-button="1" class="loading-btn gradient-bg text-white font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-2xl transform transition-all duration-300">
+                <div class="loading-spinner w-6 h-6 border-2 border-white border-t-transparent rounded-full mx-auto"></div>
+                <span class="button-text">🏠 Website Utama<br>syam.digital</span>
+            </button>
+            
+            <!-- Button 2 - About -->
+            <button onclick="handleClick(this)" data-button="2" class="loading-btn bg-gradient-to-r from-pink-500 to-rose-500 hover:from-rose-500 hover:to-pink-500 text-white font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-2xl transform transition-all duration-300">
+                <div class="loading-spinner w-6 h-6 border-2 border-white border-t-transparent rounded-full mx-auto"></div>
+                <span class="button-text">👤 Buku Kas<br>Laporan Kas</span>
+            </button>
+            
+            <!-- Button 3 - Services -->
+            <button onclick="handleClick(this)" data-button="3" class="loading-btn bg-gradient-to-r from-green-500 to-emerald-500 hover:from-emerald-500 hover:to-green-500 text-white font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-2xl transform transition-all duration-300">
+                <div class="loading-spinner w-6 h-6 border-2 border-white border-t-transparent rounded-full mx-auto"></div>
+                <span class="button-text">⚙️ Layanan<br>Services</span>
+            </button>
+            
+            <!-- Button 4 - Portfolio -->
+            <button onclick="handleClick(this)" data-button="4" class="loading-btn bg-gradient-to-r from-orange-500 to-red-500 hover:from-red-500 hover:to-orange-500 text-white font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-2xl transform transition-all duration-300">
+                <div class="loading-spinner w-6 h-6 border-2 border-white border-t-transparent rounded-full mx-auto"></div>
+                <span class="button-text">💼 Portfolio<br>Karya Kami</span>
+            </button>
+            
+            <!-- Button 5 - Contact -->
+            <button onclick="handleClick(this)" data-button="5" class="loading-btn bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-blue-500 hover:to-cyan-500 text-white font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-2xl transform transition-all duration-300">
+                <div class="loading-spinner w-6 h-6 border-2 border-white border-t-transparent rounded-full mx-auto"></div>
+                <span class="button-text">📞 Kontak<br>Hubungi Kami</span>
+            </button>
+            
+            <!-- Button 6 - Instagram -->
+            <button onclick="handleClick(this)" data-button="6" class="loading-btn bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-purple-500 hover:to-indigo-500 text-white font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-2xl transform transition-all duration-300">
+                <div class="loading-spinner w-6 h-6 border-2 border-white border-t-transparent rounded-full mx-auto"></div>
+                <span class="button-text">📸 Instagram<br>@syamdigital</span>
+            </button>
+            
+            <!-- Button 7 - Facebook -->
+            <button onclick="handleClick(this)" data-button="7" class="loading-btn bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-orange-500 hover:to-yellow-500 text-white font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-2xl transform transition-all duration-300">
+                <div class="loading-spinner w-6 h-6 border-2 border-white border-t-transparent rounded-full mx-auto"></div>
+                <span class="button-text">📘 Facebook<br>Syam Digital</span>
+            </button>
+            
+            <!-- Button 8 - Twitter -->
+            <button onclick="handleClick(this)" data-button="8" class="loading-btn bg-gradient-to-r from-teal-500 to-green-500 hover:from-green-500 hover:to-teal-500 text-white font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-2xl transform transition-all duration-300">
+                <div class="loading-spinner w-6 h-6 border-2 border-white border-t-transparent rounded-full mx-auto"></div>
+                <span class="button-text">🐦 Twitter<br>@syamdigital</span>
+            </button>
+            
+            <!-- Button 9 - LinkedIn -->
+            <button onclick="handleClick(this)" data-button="9" class="loading-btn bg-gradient-to-r from-violet-500 to-purple-500 hover:from-purple-500 hover:to-violet-500 text-white font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-2xl transform transition-all duration-300">
+                <div class="loading-spinner w-6 h-6 border-2 border-white border-t-transparent rounded-full mx-auto"></div>
+                <span class="button-text">💼 LinkedIn<br>Syam Digital</span>
+            </button>
+            
+            <!-- Button 10 - YouTube -->
+            <button onclick="handleClick(this)" data-button="10" class="loading-btn bg-gradient-to-r from-red-500 to-pink-500 hover:from-pink-500 hover:to-red-500 text-white font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-2xl transform transition-all duration-300">
+                <div class="loading-spinner w-6 h-6 border-2 border-white border-t-transparent rounded-full mx-auto"></div>
+                <span class="button-text">📺 YouTube<br>Syam Digital</span>
+            </button>
+            
+            <!-- Button 11 - WhatsApp -->
+            <button onclick="handleClick(this)" data-button="11" class="loading-btn bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-indigo-600 hover:to-blue-600 text-white font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-2xl transform transition-all duration-300">
+                <div class="loading-spinner w-6 h-6 border-2 border-white border-t-transparent rounded-full mx-auto"></div>
+                <span class="button-text">💬 WhatsApp<br>Chat Langsung</span>
+            </button>
+            
+            <!-- Button 12 - Telegram -->
+            <button onclick="handleClick(this)" data-button="12" class="loading-btn bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-teal-600 hover:to-emerald-600 text-white font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-2xl transform transition-all duration-300">
+                <div class="loading-spinner w-6 h-6 border-2 border-white border-t-transparent rounded-full mx-auto"></div>
+                <span class="button-text">✈️ Telegram<br>@syamdigital</span>
+            </button>
+            
+            <!-- Button 13 - TikTok -->
+            <button onclick="handleClick(this)" data-button="13" class="loading-btn bg-gradient-to-r from-rose-600 to-pink-600 hover:from-pink-600 hover:to-rose-600 text-white font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-2xl transform transition-all duration-300">
+                <div class="loading-spinner w-6 h-6 border-2 border-white border-t-transparent rounded-full mx-auto"></div>
+                <span class="button-text">🎵 TikTok<br>@syamdigital</span>
+            </button>
+            
+            <!-- Button 14 - GitHub -->
+            <button onclick="handleClick(this)" data-button="14" class="loading-btn bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-yellow-500 hover:to-amber-500 text-white font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-2xl transform transition-all duration-300">
+                <div class="loading-spinner w-6 h-6 border-2 border-white border-t-transparent rounded-full mx-auto"></div>
+                <span class="button-text">💻 GitHub<br>Source Code</span>
+            </button>
+            
+            <!-- Button 15 - Behance -->
+            <button onclick="handleClick(this)" data-button="15" class="loading-btn bg-gradient-to-r from-slate-600 to-gray-600 hover:from-gray-600 hover:to-slate-600 text-white font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-2xl transform transition-all duration-300">
+                <div class="loading-spinner w-6 h-6 border-2 border-white border-t-transparent rounded-full mx-auto"></div>
+                <span class="button-text">🎨 Behance<br>Design Portfolio</span>
+            </button>
+            
+            <!-- Button 16 - Dribbble -->
+            <button onclick="handleClick(this)" data-button="16" class="loading-btn bg-gradient-to-r from-purple-600 to-violet-600 hover:from-violet-600 hover:to-purple-600 text-white font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-2xl transform transition-all duration-300">
+                <div class="loading-spinner w-6 h-6 border-2 border-white border-t-transparent rounded-full mx-auto"></div>
+                <span class="button-text">🏀 Dribbble<br>Creative Works</span>
+            </button>
+            
+            <!-- Button 17 - Pinterest -->
+            <button onclick="handleClick(this)" data-button="17" class="loading-btn bg-gradient-to-r from-lime-500 to-green-500 hover:from-green-500 hover:to-lime-500 text-white font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-2xl transform transition-all duration-300">
+                <div class="loading-spinner w-6 h-6 border-2 border-white border-t-transparent rounded-full mx-auto"></div>
+                <span class="button-text">📌 Pinterest<br>Inspirasi</span>
+            </button>
+            
+            <!-- Button 18 - Medium -->
+            <button onclick="handleClick(this)" data-button="18" class="loading-btn bg-gradient-to-r from-sky-500 to-cyan-500 hover:from-cyan-500 hover:to-sky-500 text-white font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-2xl transform transition-all duration-300">
+                <div class="loading-spinner w-6 h-6 border-2 border-white border-t-transparent rounded-full mx-auto"></div>
+                <span class="button-text">📝 Medium<br>Artikel & Tips</span>
+            </button>
+            
+            <!-- Button 19 - Reddit -->
+            <button onclick="handleClick(this)" data-button="19" class="loading-btn bg-gradient-to-r from-fuchsia-500 to-pink-500 hover:from-pink-500 hover:to-fuchsia-500 text-white font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-2xl transform transition-all duration-300">
+                <div class="loading-spinner w-6 h-6 border-2 border-white border-t-transparent rounded-full mx-auto"></div>
+                <span class="button-text">🤖 Reddit<br>Community</span>
+            </button>
+            
+            <!-- Button 20 - Blog -->
+            <button onclick="handleClick(this)" data-button="20" class="loading-btn bg-gradient-to-r from-red-600 to-orange-600 hover:from-orange-600 hover:to-red-600 text-white font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-2xl transform transition-all duration-300">
+                <div class="loading-spinner w-6 h-6 border-2 border-white border-t-transparent rounded-full mx-auto"></div>
+                <span class="button-text">📰 Blog<br>Berita & Update</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Konfigurasi link untuk setiap tombol - Anda bisa mengubah sesuai kebutuhan
+        const buttonLinks = {
+            1: 'https://www.syam.digital/',
+            2: 'https://www.syam.digital/bukukasv3',
+            3: 'https://www.syam.digital/services',
+            4: 'https://www.syam.digital/portfolio',
+            5: 'https://www.syam.digital/contact',
+            6: 'https://www.instagram.com/syamdigital',
+            7: 'https://www.facebook.com/syamdigital',
+            8: 'https://www.twitter.com/syamdigital',
+            9: 'https://www.linkedin.com/company/syamdigital',
+            10: 'https://www.youtube.com/syamdigital',
+            11: 'https://wa.me/6281234567890',
+            12: 'https://t.me/syamdigital',
+            13: 'https://www.tiktok.com/@syamdigital',
+            14: 'https://github.com/syamdigital',
+            15: 'https://www.behance.net/syamdigital',
+            16: 'https://dribbble.com/syamdigital',
+            17: 'https://www.pinterest.com/syamdigital',
+            18: 'https://medium.com/@syamdigital',
+            19: 'https://www.reddit.com/u/syamdigital',
+            20: 'https://www.syam.digital/blog'
+        };
+
+        function handleClick(button) {
+            // Get button number from data attribute
+            const buttonNumber = parseInt(button.getAttribute('data-button'));
+            const targetUrl = buttonLinks[buttonNumber] || 'https://www.syam.digital/';
+            
+            // Add loading state
+            button.classList.add('loading');
+            
+            // Simulate loading for 2 seconds, then redirect
+            setTimeout(() => {
+                window.open(targetUrl, '_blank');
+                
+                // Remove loading state after redirect
+                setTimeout(() => {
+                    button.classList.remove('loading');
+                }, 500);
+            }, 2000);
+        }
+        
+        // Add staggered animation on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.loading-btn');
+            buttons.forEach((button, index) => {
+                button.style.animationDelay = `${index * 0.1}s`;
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97f907a6a3face4f',t:'MTc1Nzk0ODgwNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

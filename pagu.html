@@ -1,0 +1,643 @@
+<!doctype html>
+<html lang="id">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alokasi Dana Desa</title>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1763356194/Lambang_Kabupaten_Donggala_1_cvywgs.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+    
+    .table-container {
+      overflow-x: auto;
+    }
+    
+    .sticky-header th {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.3s ease-out;
+    }
+    
+    @media (min-width: 768px) {
+      #main-title {
+        font-size: 2rem !important;
+      }
+      #subtitle {
+        font-size: 1.125rem !important;
+      }
+      #total-villages, #shown-villages {
+        font-size: 1.5rem !important;
+      }
+      #total-budget, #avg-budget {
+        font-size: 1.125rem !important;
+      }
+    }
+    
+    @media (max-width: 767px) {
+      .table-container {
+        font-size: 0.75rem;
+      }
+    }
+    
+    .number-cell {
+      font-variant-numeric: tabular-nums;
+    }
+    
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 1rem;
+    }
+    
+    .modal-content {
+      background: white;
+      border-radius: 1rem;
+      max-width: 600px;
+      width: 100%;
+      max-height: 90%;
+      overflow-y: auto;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    
+    .village-name-link {
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    
+    .village-name-link:hover {
+      color: #667eea;
+      text-decoration: underline;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="min-h-full w-full">
+  <div class="w-full min-h-full" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+   <div class="w-full px-4 py-8 md:px-8"><!-- Header -->
+    <header class="mb-6 md:mb-8 text-center fade-in">
+     <div class="flex flex-col items-center mb-3 md:mb-4"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1763356194/Lambang_Kabupaten_Donggala_1_cvywgs.png" alt="Logo Kabupaten Donggala" class="w-20 h-20 md:w-32 md:h-32 mb-3 md:mb-4 drop-shadow-lg" onerror="this.style.display='none';">
+     </div>
+     <h1 id="main-title" class="text-white mb-2 px-2" style="font-size: 1.25rem; font-weight: 700; line-height: 1.2;">PAGU PERUBAHAN DANA ALOKASI DANA DESA</h1>
+     <p id="subtitle" class="text-white px-2" style="font-size: 0.875rem; opacity: 0.95;">KABUPATEN DONGGALA - TAHUN ANGGARAN 2025</p>
+    </header><!-- Controls -->
+    <div class="bg-white rounded-xl shadow-lg p-4 md:p-6 mb-4 md:mb-6 fade-in">
+     <div class="grid grid-cols-1 md:grid-cols-3 gap-4"><!-- Search -->
+      <div class="md:col-span-2"><label for="search" class="block text-gray-700 mb-2" style="font-size: 0.875rem; font-weight: 500;">Cari Desa</label> <input type="text" id="search" placeholder="Cari nama desa atau kecamatan..." class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none transition-colors" style="font-size: 1rem;">
+      </div><!-- Filter by Kecamatan -->
+      <div><label for="filter-kecamatan" class="block text-gray-700 mb-2" style="font-size: 0.875rem; font-weight: 500;">Filter Kecamatan</label> <select id="filter-kecamatan" class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none transition-colors" style="font-size: 1rem;"> <option value="">Semua Kecamatan</option> </select>
+      </div>
+     </div><!-- Summary Stats -->
+     <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mt-4 md:mt-6">
+      <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-3 md:p-4 rounded-lg">
+       <div class="text-blue-600" style="font-size: 0.625rem; font-weight: 600; text-transform: uppercase;">
+        Total Desa
+       </div>
+       <div id="total-villages" class="text-blue-900 number-cell" style="font-size: 1.25rem; font-weight: 700;">
+        0
+       </div>
+      </div>
+      <div class="bg-gradient-to-br from-green-50 to-green-100 p-3 md:p-4 rounded-lg">
+       <div class="text-green-600" style="font-size: 0.625rem; font-weight: 600; text-transform: uppercase;">
+        Total Pagu
+       </div>
+       <div id="total-budget" class="text-green-900 number-cell" style="font-size: 0.75rem; font-weight: 700;">
+        Rp 0
+       </div>
+      </div>
+      <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-3 md:p-4 rounded-lg">
+       <div class="text-purple-600" style="font-size: 0.625rem; font-weight: 600; text-transform: uppercase;">
+        Rata-rata
+       </div>
+       <div id="avg-budget" class="text-purple-900 number-cell" style="font-size: 0.75rem; font-weight: 700;">
+        Rp 0
+       </div>
+      </div>
+      <div class="bg-gradient-to-br from-orange-50 to-orange-100 p-3 md:p-4 rounded-lg">
+       <div class="text-orange-600" style="font-size: 0.625rem; font-weight: 600; text-transform: uppercase;">
+        Ditampilkan
+       </div>
+       <div id="shown-villages" class="text-orange-900 number-cell" style="font-size: 1.25rem; font-weight: 700;">
+        0
+       </div>
+      </div>
+     </div>
+    </div><!-- Table -->
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden fade-in">
+     <div class="table-container">
+      <table class="w-full">
+       <thead class="sticky-header">
+        <tr style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+         <th class="px-2 md:px-4 py-2 md:py-3 text-left text-white" style="font-size: 0.75rem; font-weight: 600; white-space: nowrap;">No.</th>
+         <th class="px-2 md:px-4 py-2 md:py-3 text-left text-white" style="font-size: 0.75rem; font-weight: 600; min-width: 120px;">Nama Desa</th>
+         <th class="px-2 md:px-4 py-2 md:py-3 text-right text-white" style="font-size: 0.75rem; font-weight: 600; white-space: nowrap;">Pagu Awal</th>
+         <th class="px-2 md:px-4 py-2 md:py-3 text-right text-white" style="font-size: 0.75rem; font-weight: 600; white-space: nowrap;">Pagu Perubahan</th>
+         <th class="px-2 md:px-4 py-2 md:py-3 text-right text-white" style="font-size: 0.75rem; font-weight: 600; white-space: nowrap;">Tahap I</th>
+         <th class="px-2 md:px-4 py-2 md:py-3 text-right text-white" style="font-size: 0.75rem; font-weight: 600; white-space: nowrap;">Tahap II</th>
+         <th class="px-2 md:px-4 py-2 md:py-3 text-right text-white" style="font-size: 0.75rem; font-weight: 600; white-space: nowrap;">Tahap III</th>
+         <th class="px-2 md:px-4 py-2 md:py-3 text-right text-white" style="font-size: 0.75rem; font-weight: 600; white-space: nowrap;">Total Pagu</th>
+        </tr>
+       </thead>
+       <tbody id="table-body"><!-- Rows will be inserted here -->
+       </tbody>
+      </table>
+     </div>
+     <div id="no-results" class="hidden text-center py-12">
+      <div style="font-size: 3rem; opacity: 0.3;">
+       ����
+      </div>
+      <p class="text-gray-500 mt-4" style="font-size: 1rem;">Tidak ada data yang sesuai dengan pencarian</p>
+     </div>
+    </div>
+   </div>
+  </div><!-- Modal -->
+  <div id="detail-modal" class="modal-overlay" style="display: none;">
+   <div class="modal-content">
+    <div class="p-6"><!-- Header -->
+     <div class="flex justify-between items-start mb-6">
+      <div>
+       <h2 id="modal-village-name" class="text-gray-900" style="font-size: 1.5rem; font-weight: 700; line-height: 1.2;">Nama Desa</h2>
+       <p id="modal-kecamatan" class="text-gray-600 mt-1" style="font-size: 0.875rem;">Kecamatan</p>
+      </div><button id="close-modal" class="text-gray-400 hover:text-gray-600 transition-colors" style="font-size: 1.5rem; line-height: 1; padding: 0.25rem;"> ✕ </button>
+     </div><!-- Admin Info -->
+     <div class="flex items-center gap-3 mb-6 bg-gradient-to-r from-purple-50 to-blue-50 p-4 rounded-lg border border-purple-100"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1759537862/Syamdigital-agency-creatif_lpanrg.png" alt="Syam Digital" class="w-12 h-12 rounded-full object-cover border-2 border-white shadow-md" onerror="this.style.display='none';">
+      <div>
+       <div class="text-gray-700" style="font-size: 0.75rem; font-weight: 500; text-transform: uppercase; opacity: 0.7;">
+        Dikelola oleh
+       </div>
+       <div class="text-gray-900" style="font-size: 0.9375rem; font-weight: 600;">
+        Syam Digital
+       </div>
+      </div>
+     </div><!-- WhatsApp Share Button -->
+     <div class="mb-6"><button id="share-whatsapp" class="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2" style="font-size: 0.9375rem;">
+       <svg style="width: 20px; height: 20px;" viewbox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+       </svg> Bagikan ke WhatsApp </button>
+     </div><!-- Details -->
+     <div class="space-y-4">
+      <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-lg">
+       <div class="text-blue-600 mb-1" style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">
+        Pagu Awal
+       </div>
+       <div id="modal-pagu-awal" class="text-blue-900 number-cell" style="font-size: 1.25rem; font-weight: 700;">
+        Rp 0
+       </div>
+      </div>
+      <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-4 rounded-lg">
+       <div class="text-purple-600 mb-1" style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">
+        Pagu Perubahan
+       </div>
+       <div id="modal-pagu-perubahan" class="text-purple-900 number-cell" style="font-size: 1.25rem; font-weight: 700;">
+        Rp 0
+       </div>
+      </div>
+      <div class="bg-gradient-to-br from-red-50 to-red-100 p-4 rounded-lg border-2 border-red-200">
+       <div class="text-red-600 mb-1" style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">
+        Selisih
+       </div>
+       <div id="modal-selisih" class="text-red-900 number-cell" style="font-size: 1.25rem; font-weight: 700;">
+        Rp 0
+       </div>
+      </div>
+      <div class="border-t border-gray-200 pt-4">
+       <h3 class="text-gray-700 mb-3" style="font-size: 1rem; font-weight: 600;">Rincian Tahapan</h3>
+       <div class="space-y-3">
+        <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg"><span class="text-gray-600" style="font-size: 0.875rem; font-weight: 500;">Tahap I</span> <span id="modal-tahap1" class="text-gray-900 number-cell" style="font-size: 0.875rem; font-weight: 600;">Rp 0</span>
+        </div>
+        <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg"><span class="text-gray-600" style="font-size: 0.875rem; font-weight: 500;">Tahap II</span> <span id="modal-tahap2" class="text-gray-900 number-cell" style="font-size: 0.875rem; font-weight: 600;">Rp 0</span>
+        </div>
+        <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg"><span class="text-gray-600" style="font-size: 0.875rem; font-weight: 500;">Tahap III</span> <span id="modal-tahap3" class="text-gray-900 number-cell" style="font-size: 0.875rem; font-weight: 600;">Rp 0</span>
+        </div>
+       </div>
+      </div>
+      <div class="bg-gradient-to-br from-green-50 to-green-100 p-4 rounded-lg border-2 border-green-200">
+       <div class="text-green-600 mb-1" style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase;">
+        Total Pagu
+       </div>
+       <div id="modal-total" class="text-green-900 number-cell" style="font-size: 1.5rem; font-weight: 700;">
+        Rp 0
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+  <script>
+    const defaultConfig = {
+      main_title: "PAGU PERUBAHAN DANA ALOKASI DANA DESA",
+      subtitle: "KABUPATEN DONGGALA - TAHUN ANGGARAN 2025",
+      search_placeholder: "Cari nama desa atau kecamatan...",
+      primary_color: "#667eea",
+      secondary_color: "#764ba2",
+      background_color: "#f8f9fa",
+      text_color: "#1a202c",
+      accent_color: "#48bb78"
+    };
+
+    const data = [
+      { no: 1, kecamatan: "RIO PAKAVA", desa: "Pantolobete", paguAwal: 524457000, paguPerubahan: 505469658, tahap1: 157337100, tahap2: 157337100, tahap3: 190795458, total: 505469658 },
+      { no: 2, kecamatan: "RIO PAKAVA", desa: "Bonemarawa", paguAwal: 520762000, paguPerubahan: 501774658, tahap1: 156228600, tahap2: 156228600, tahap3: 189317458, total: 501774658 },
+      { no: 3, kecamatan: "RIO PAKAVA", desa: "Tinauka", paguAwal: 539528000, paguPerubahan: 520540658, tahap1: 161858400, tahap2: 161858400, tahap3: 196823858, total: 520540658 },
+      { no: 4, kecamatan: "RIO PAKAVA", desa: "Lalundu", paguAwal: 576256000, paguPerubahan: 557268658, tahap1: 172876800, tahap2: 172876800, tahap3: 211515058, total: 557268658 },
+      { no: 5, kecamatan: "RIO PAKAVA", desa: "Towiora", paguAwal: 497944000, paguPerubahan: 478956658, tahap1: 149383200, tahap2: 149383200, tahap3: 180190258, total: 478956658 },
+      { no: 6, kecamatan: "RIO PAKAVA", desa: "Minti Makmur", paguAwal: 496717000, paguPerubahan: 477729658, tahap1: 149015100, tahap2: 149015100, tahap3: 179699458, total: 477729658 },
+      { no: 7, kecamatan: "RIO PAKAVA", desa: "Polanto Jaya", paguAwal: 498302000, paguPerubahan: 479314658, tahap1: 149490600, tahap2: 149490600, tahap3: 180333458, total: 479314658 },
+      { no: 8, kecamatan: "RIO PAKAVA", desa: "Polando Jaya", paguAwal: 498815000, paguPerubahan: 479827658, tahap1: 149644500, tahap2: 149644500, tahap3: 180538658, total: 479827658 },
+      { no: 9, kecamatan: "RIO PAKAVA", desa: "Rio Mukti", paguAwal: 495270000, paguPerubahan: 476282658, tahap1: 148581000, tahap2: 148581000, tahap3: 179120658, total: 476282658 },
+      { no: 10, kecamatan: "RIO PAKAVA", desa: "Panca Mukti", paguAwal: 494354000, paguPerubahan: 475366658, tahap1: 148306200, tahap2: 148306200, tahap3: 178754258, total: 475366658 },
+      { no: 11, kecamatan: "RIO PAKAVA", desa: "Ngovi", paguAwal: 529381000, paguPerubahan: 510393658, tahap1: 158814300, tahap2: 158814300, tahap3: 192765058, total: 510393658 },
+      { no: 12, kecamatan: "RIO PAKAVA", desa: "Bukit Indah", paguAwal: 521063000, paguPerubahan: 502075658, tahap1: 156318900, tahap2: 156318900, tahap3: 189437858, total: 502075658 },
+      { no: 13, kecamatan: "RIO PAKAVA", desa: "Mbulawa", paguAwal: 511607000, paguPerubahan: 492619658, tahap1: 153482100, tahap2: 153482100, tahap3: 185655458, total: 492619658 },
+      { no: 14, kecamatan: "RIO PAKAVA", desa: "Pakava", paguAwal: 564095000, paguPerubahan: 545107658, tahap1: 169228500, tahap2: 169228500, tahap3: 206650658, total: 545107658 },
+      { no: 15, kecamatan: "DAMPELAS", desa: "Kambayang", paguAwal: 490911000, paguPerubahan: 471923658, tahap1: 147273300, tahap2: 147273300, tahap3: 177377058, total: 471923658 },
+      { no: 16, kecamatan: "DAMPELAS", desa: "Talaga", paguAwal: 527454000, paguPerubahan: 508466658, tahap1: 158236200, tahap2: 158236200, tahap3: 191994258, total: 508466658 },
+      { no: 17, kecamatan: "DAMPELAS", desa: "Sabang", paguAwal: 498257000, paguPerubahan: 479269658, tahap1: 149477100, tahap2: 149477100, tahap3: 180315458, total: 479269658 },
+      { no: 18, kecamatan: "DAMPELAS", desa: "Sioyong", paguAwal: 540183000, paguPerubahan: 521195658, tahap1: 162054900, tahap2: 162054900, tahap3: 197085858, total: 521195658 },
+      { no: 19, kecamatan: "DAMPELAS", desa: "Pani'i", paguAwal: 520941000, paguPerubahan: 501953658, tahap1: 156282300, tahap2: 156282300, tahap3: 189389058, total: 501953658 },
+      { no: 20, kecamatan: "DAMPELAS", desa: "Ponggerang", paguAwal: 529390000, paguPerubahan: 510402658, tahap1: 158817000, tahap2: 158817000, tahap3: 192768658, total: 510402658 },
+      { no: 21, kecamatan: "DAMPELAS", desa: "Rerang", paguAwal: 549680000, paguPerubahan: 530692658, tahap1: 164904000, tahap2: 164904000, tahap3: 200884658, total: 530692658 },
+      { no: 22, kecamatan: "DAMPELAS", desa: "Budi Mukti", paguAwal: 494401000, paguPerubahan: 475413658, tahap1: 148320300, tahap2: 148320300, tahap3: 178773058, total: 475413658 },
+      { no: 23, kecamatan: "DAMPELAS", desa: "Lembah Mukti", paguAwal: 529916000, paguPerubahan: 510928658, tahap1: 158974800, tahap2: 158974800, tahap3: 192979058, total: 510928658 },
+      { no: 24, kecamatan: "DAMPELAS", desa: "Malonas", paguAwal: 534714000, paguPerubahan: 515726658, tahap1: 160414200, tahap2: 160414200, tahap3: 194898258, total: 515726658 },
+      { no: 25, kecamatan: "DAMPELAS", desa: "Parisan Agung", paguAwal: 499093000, paguPerubahan: 480105658, tahap1: 149727900, tahap2: 149727900, tahap3: 180649858, total: 480105658 },
+      { no: 26, kecamatan: "DAMPELAS", desa: "Karya Mukti", paguAwal: 519202000, paguPerubahan: 500214658, tahap1: 155760600, tahap2: 155760600, tahap3: 188693458, total: 500214658 },
+      { no: 27, kecamatan: "DAMPELAS", desa: "Long", paguAwal: 499690000, paguPerubahan: 480702658, tahap1: 149907000, tahap2: 149907000, tahap3: 180888658, total: 480702658 },
+      { no: 28, kecamatan: "BANAWA", desa: "Loli Oge", paguAwal: 529034000, paguPerubahan: 510046658, tahap1: 158710200, tahap2: 158710200, tahap3: 192626258, total: 510046658 },
+      { no: 29, kecamatan: "BANAWA", desa: "Loli Tasiburi", paguAwal: 517548000, paguPerubahan: 498560658, tahap1: 155264400, tahap2: 155264400, tahap3: 188031858, total: 498560658 },
+      { no: 30, kecamatan: "BANAWA", desa: "Loli Pesua", paguAwal: 527737000, paguPerubahan: 508749658, tahap1: 158321100, tahap2: 158321100, tahap3: 192107458, total: 508749658 },
+      { no: 31, kecamatan: "BANAWA", desa: "Loli Dondo", paguAwal: 516853000, paguPerubahan: 497865658, tahap1: 155055900, tahap2: 155055900, tahap3: 187753858, total: 497865658 },
+      { no: 32, kecamatan: "BANAWA", desa: "Loli Saluran", paguAwal: 506449000, paguPerubahan: 487461658, tahap1: 151934700, tahap2: 151934700, tahap3: 183592258, total: 487461658 },
+      { no: 33, kecamatan: "LABUAN", desa: "Labuan", paguAwal: 517488000, paguPerubahan: 498500658, tahap1: 155246400, tahap2: 155246400, tahap3: 188007858, total: 498500658 },
+      { no: 34, kecamatan: "LABUAN", desa: "Labuan Salumbone", paguAwal: 532689000, paguPerubahan: 513701658, tahap1: 159806700, tahap2: 159806700, tahap3: 194088258, total: 513701658 },
+      { no: 35, kecamatan: "LABUAN", desa: "Labuan Panimba", paguAwal: 516978000, paguPerubahan: 497990658, tahap1: 155093400, tahap2: 155093400, tahap3: 187803858, total: 497990658 },
+      { no: 36, kecamatan: "LABUAN", desa: "Labuan Lelea", paguAwal: 522435000, paguPerubahan: 503447658, tahap1: 156730500, tahap2: 156730500, tahap3: 189986658, total: 503447658 },
+      { no: 37, kecamatan: "LABUAN", desa: "Labuan Kungguma", paguAwal: 513990000, paguPerubahan: 495002658, tahap1: 154197000, tahap2: 154197000, tahap3: 186608658, total: 495002658 },
+      { no: 38, kecamatan: "LABUAN", desa: "Labuan Toposo", paguAwal: 555891000, paguPerubahan: 536903658, tahap1: 166767300, tahap2: 166767300, tahap3: 203369058, total: 536903658 },
+      { no: 39, kecamatan: "LABUAN", desa: "Labuan Lumbubaka", paguAwal: 520318000, paguPerubahan: 501330658, tahap1: 156095400, tahap2: 156095400, tahap3: 189139858, total: 501330658 },
+      { no: 40, kecamatan: "SINDUE", desa: "Dalaka", paguAwal: 494234000, paguPerubahan: 475246658, tahap1: 148270200, tahap2: 148270200, tahap3: 178706258, total: 475246658 },
+      { no: 41, kecamatan: "SINDUE", desa: "Lero", paguAwal: 521558000, paguPerubahan: 502570694, tahap1: 156467400, tahap2: 156467400, tahap3: 189635894, total: 502570694 },
+      { no: 42, kecamatan: "SINDUE", desa: "Taripa", paguAwal: 493975000, paguPerubahan: 474987658, tahap1: 148192500, tahap2: 148192500, tahap3: 178602658, total: 474987658 },
+      { no: 43, kecamatan: "SINDUE", desa: "Sumari", paguAwal: 492737000, paguPerubahan: 473749658, tahap1: 147821100, tahap2: 147821100, tahap3: 178107458, total: 473749658 },
+      { no: 44, kecamatan: "SINDUE", desa: "Toaya", paguAwal: 512750000, paguPerubahan: 493762658, tahap1: 153825000, tahap2: 153825000, tahap3: 186112658, total: 493762658 },
+      { no: 45, kecamatan: "SINDUE", desa: "Masaingi", paguAwal: 496411000, paguPerubahan: 477423658, tahap1: 148923300, tahap2: 148923300, tahap3: 179577058, total: 477423658 },
+      { no: 46, kecamatan: "SINDUE", desa: "Marana", paguAwal: 502122000, paguPerubahan: 483134658, tahap1: 150636600, tahap2: 150636600, tahap3: 181861458, total: 483134658 },
+      { no: 47, kecamatan: "SINDUE", desa: "Enu", paguAwal: 518869000, paguPerubahan: 499881658, tahap1: 155660700, tahap2: 155660700, tahap3: 188560258, total: 499881658 },
+      { no: 48, kecamatan: "SINDUE", desa: "Lero Tatari", paguAwal: 504362000, paguPerubahan: 485374658, tahap1: 151308600, tahap2: 151308600, tahap3: 182757458, total: 485374658 },
+      { no: 49, kecamatan: "SINDUE", desa: "Toaya Vunta", paguAwal: 495069000, paguPerubahan: 476081658, tahap1: 148520700, tahap2: 148520700, tahap3: 179040258, total: 476081658 },
+      { no: 50, kecamatan: "SINDUE", desa: "Gumbasa", paguAwal: 513192000, paguPerubahan: 494204658, tahap1: 153957600, tahap2: 153957600, tahap3: 186289458, total: 494204658 },
+      { no: 51, kecamatan: "SINDUE", desa: "Ape Maliko", paguAwal: 498969000, paguPerubahan: 479981658, tahap1: 149690700, tahap2: 149690700, tahap3: 180600258, total: 479981658 },
+      { no: 52, kecamatan: "SINDUE", desa: "Kavaya", paguAwal: 515669000, paguPerubahan: 496681658, tahap1: 154700700, tahap2: 154700700, tahap3: 187280258, total: 496681658 },
+      { no: 53, kecamatan: "SIRENJA", desa: "Ombo", paguAwal: 523261000, paguPerubahan: 504273658, tahap1: 156978300, tahap2: 156978300, tahap3: 190317058, total: 504273658 },
+      { no: 54, kecamatan: "SIRENJA", desa: "Tondo", paguAwal: 503881000, paguPerubahan: 484893658, tahap1: 151164300, tahap2: 151164300, tahap3: 182565058, total: 484893658 },
+      { no: 55, kecamatan: "SIRENJA", desa: "Jonooge", paguAwal: 523527000, paguPerubahan: 504539658, tahap1: 157058100, tahap2: 157058100, tahap3: 190423458, total: 504539658 },
+      { no: 56, kecamatan: "SIRENJA", desa: "Dampal", paguAwal: 497271000, paguPerubahan: 478283658, tahap1: 149181300, tahap2: 149181300, tahap3: 179921058, total: 478283658 },
+      { no: 57, kecamatan: "SIRENJA", desa: "Sipi", paguAwal: 561161000, paguPerubahan: 542173658, tahap1: 168348300, tahap2: 168348300, tahap3: 205477058, total: 542173658 },
+      { no: 58, kecamatan: "SIRENJA", desa: "Tanjung Padang", paguAwal: 515110000, paguPerubahan: 496122658, tahap1: 154533000, tahap2: 154533000, tahap3: 187056658, total: 496122658 },
+      { no: 59, kecamatan: "SIRENJA", desa: "Balintuma", paguAwal: 516262000, paguPerubahan: 497274658, tahap1: 154878600, tahap2: 154878600, tahap3: 187517458, total: 497274658 },
+      { no: 60, kecamatan: "SIRENJA", desa: "Sibado", paguAwal: 548848000, paguPerubahan: 529860658, tahap1: 164654400, tahap2: 164654400, tahap3: 200551858, total: 529860658 },
+      { no: 61, kecamatan: "SIRENJA", desa: "Tompe", paguAwal: 536617000, paguPerubahan: 517629658, tahap1: 160985100, tahap2: 160985100, tahap3: 195659458, total: 517629658 },
+      { no: 62, kecamatan: "SIRENJA", desa: "Lompio", paguAwal: 527269000, paguPerubahan: 508281658, tahap1: 158180700, tahap2: 158180700, tahap3: 191920258, total: 508281658 },
+      { no: 63, kecamatan: "SIRENJA", desa: "Lende", paguAwal: 531799000, paguPerubahan: 512811658, tahap1: 159539700, tahap2: 159539700, tahap3: 193732258, total: 512811658 },
+      { no: 64, kecamatan: "SIRENJA", desa: "Lende Tovea", paguAwal: 524140000, paguPerubahan: 505152658, tahap1: 157242000, tahap2: 157242000, tahap3: 190668658, total: 505152658 },
+      { no: 65, kecamatan: "SIRENJA", desa: "Ujumbou", paguAwal: 527075000, paguPerubahan: 508087658, tahap1: 158122500, tahap2: 158122500, tahap3: 191842658, total: 508087658 },
+      { no: 66, kecamatan: "BALAESANG", desa: "Labean", paguAwal: 526341000, paguPerubahan: 507353658, tahap1: 157902300, tahap2: 157902300, tahap3: 191549058, total: 507353658 },
+      { no: 67, kecamatan: "BALAESANG", desa: "Lombonga", paguAwal: 550263000, paguPerubahan: 531275658, tahap1: 165078900, tahap2: 165078900, tahap3: 201117858, total: 531275658 },
+      { no: 68, kecamatan: "BALAESANG", desa: "Meli", paguAwal: 543909000, paguPerubahan: 524921658, tahap1: 163172700, tahap2: 163172700, tahap3: 198576258, total: 524921658 },
+      { no: 69, kecamatan: "BALAESANG", desa: "Tambu", paguAwal: 522118000, paguPerubahan: 503130658, tahap1: 156635400, tahap2: 156635400, tahap3: 189859858, total: 503130658 },
+      { no: 70, kecamatan: "BALAESANG", desa: "Siweli", paguAwal: 547609000, paguPerubahan: 528621658, tahap1: 164282700, tahap2: 164282700, tahap3: 200056258, total: 528621658 },
+      { no: 71, kecamatan: "BALAESANG", desa: "Sibualong", paguAwal: 523535000, paguPerubahan: 504547658, tahap1: 157060500, tahap2: 157060500, tahap3: 190426658, total: 504547658 },
+      { no: 72, kecamatan: "BALAESANG", desa: "Sibayu", paguAwal: 514403000, paguPerubahan: 495415658, tahap1: 154320900, tahap2: 154320900, tahap3: 186773858, total: 495415658 },
+      { no: 73, kecamatan: "BALAESANG", desa: "Malino", paguAwal: 516589000, paguPerubahan: 497601658, tahap1: 154976700, tahap2: 154976700, tahap3: 187648258, total: 497601658 },
+      { no: 74, kecamatan: "BALAESANG", desa: "Mapane Tambu", paguAwal: 515338000, paguPerubahan: 496350658, tahap1: 154601400, tahap2: 154601400, tahap3: 187147858, total: 496350658 },
+      { no: 75, kecamatan: "BALAESANG", desa: "Tovia Tambu", paguAwal: 545344000, paguPerubahan: 526356658, tahap1: 163603200, tahap2: 163603200, tahap3: 199150258, total: 526356658 },
+      { no: 76, kecamatan: "BALAESANG", desa: "Sipure", paguAwal: 522766000, paguPerubahan: 503778658, tahap1: 156829800, tahap2: 156829800, tahap3: 190119058, total: 503778658 },
+      { no: 77, kecamatan: "BALAESANG", desa: "Kampung Baru Sibayu", paguAwal: 519941000, paguPerubahan: 500953658, tahap1: 155982300, tahap2: 155982300, tahap3: 188989058, total: 500953658 },
+      { no: 78, kecamatan: "BALAESANG", desa: "Simagaya", paguAwal: 518239000, paguPerubahan: 499251658, tahap1: 155471700, tahap2: 155471700, tahap3: 188308258, total: 499251658 },
+      { no: 79, kecamatan: "SOJOL", desa: "Balukang", paguAwal: 528157000, paguPerubahan: 509169658, tahap1: 158447100, tahap2: 158447100, tahap3: 192275458, total: 509169658 },
+      { no: 80, kecamatan: "SOJOL", desa: "Siwalempu", paguAwal: 556129000, paguPerubahan: 537141658, tahap1: 166838700, tahap2: 166838700, tahap3: 203464258, total: 537141658 },
+      { no: 81, kecamatan: "SOJOL", desa: "Siboang", paguAwal: 543366000, paguPerubahan: 524378658, tahap1: 163009800, tahap2: 163009800, tahap3: 198359058, total: 524378658 },
+      { no: 82, kecamatan: "SOJOL", desa: "Tonggolobibi", paguAwal: 535481000, paguPerubahan: 516493658, tahap1: 160644300, tahap2: 160644300, tahap3: 195205058, total: 516493658 },
+      { no: 83, kecamatan: "SOJOL", desa: "Bou", paguAwal: 581364000, paguPerubahan: 562376658, tahap1: 174409200, tahap2: 174409200, tahap3: 213558258, total: 562376658 },
+      { no: 84, kecamatan: "SOJOL", desa: "Samalili", paguAwal: 535183000, paguPerubahan: 516195658, tahap1: 160554900, tahap2: 160554900, tahap3: 195085858, total: 516195658 },
+      { no: 85, kecamatan: "SOJOL", desa: "Bukit Harapan", paguAwal: 498265000, paguPerubahan: 479277658, tahap1: 149479500, tahap2: 149479500, tahap3: 180318658, total: 479277658 },
+      { no: 86, kecamatan: "SOJOL", desa: "Pangalasiang", paguAwal: 519095000, paguPerubahan: 500107658, tahap1: 155728500, tahap2: 155728500, tahap3: 188650658, total: 500107658 },
+      { no: 87, kecamatan: "SOJOL", desa: "Balukang II", paguAwal: 523587000, paguPerubahan: 504599658, tahap1: 157076100, tahap2: 157076100, tahap3: 190447458, total: 504599658 },
+      { no: 88, kecamatan: "BANAWA SELATAN", desa: "Mbuwu", paguAwal: 538070000, paguPerubahan: 519082658, tahap1: 161421000, tahap2: 161421000, tahap3: 196240658, total: 519082658 },
+      { no: 89, kecamatan: "BANAWA SELATAN", desa: "Salumpaku", paguAwal: 520869000, paguPerubahan: 501881658, tahap1: 156260700, tahap2: 156260700, tahap3: 189360258, total: 501881658 },
+      { no: 90, kecamatan: "BANAWA SELATAN", desa: "Watatu", paguAwal: 536214000, paguPerubahan: 517226658, tahap1: 160864200, tahap2: 160864200, tahap3: 195498258, total: 517226658 },
+      { no: 91, kecamatan: "BANAWA SELATAN", desa: "Surumana", paguAwal: 520823000, paguPerubahan: 501835658, tahap1: 156246900, tahap2: 156246900, tahap3: 189341858, total: 501835658 },
+      { no: 92, kecamatan: "BANAWA SELATAN", desa: "Lalombi", paguAwal: 545383000, paguPerubahan: 526395658, tahap1: 163614900, tahap2: 163614900, tahap3: 199165858, total: 526395658 },
+      { no: 93, kecamatan: "BANAWA SELATAN", desa: "Tanamea", paguAwal: 527445000, paguPerubahan: 508457658, tahap1: 158233500, tahap2: 158233500, tahap3: 191990658, total: 508457658 },
+      { no: 94, kecamatan: "BANAWA SELATAN", desa: "Bambarimi", paguAwal: 512086000, paguPerubahan: 493098658, tahap1: 153625800, tahap2: 153625800, tahap3: 185847058, total: 493098658 },
+      { no: 95, kecamatan: "BANAWA SELATAN", desa: "Salungkaenu", paguAwal: 538161000, paguPerubahan: 519173658, tahap1: 161448300, tahap2: 161448300, tahap3: 196277058, total: 519173658 },
+      { no: 96, kecamatan: "BANAWA SELATAN", desa: "Lumbumamara", paguAwal: 555464000, paguPerubahan: 536476658, tahap1: 166639200, tahap2: 166639200, tahap3: 203198258, total: 536476658 },
+      { no: 97, kecamatan: "BANAWA SELATAN", desa: "Tolongano", paguAwal: 540472000, paguPerubahan: 521484658, tahap1: 162141600, tahap2: 162141600, tahap3: 197201458, total: 521484658 },
+      { no: 98, kecamatan: "BANAWA SELATAN", desa: "Tosale", paguAwal: 571129000, paguPerubahan: 552141658, tahap1: 171338700, tahap2: 171338700, tahap3: 209464258, total: 552141658 },
+      { no: 99, kecamatan: "BANAWA SELATAN", desa: "Lumbu Tarombo", paguAwal: 524000000, paguPerubahan: 505012658, tahap1: 157200000, tahap2: 157200000, tahap3: 190612658, total: 505012658 },
+      { no: 100, kecamatan: "BANAWA SELATAN", desa: "Lumbulama", paguAwal: 561154000, paguPerubahan: 542166658, tahap1: 168346200, tahap2: 168346200, tahap3: 205474258, total: 542166658 },
+      { no: 101, kecamatan: "BANAWA SELATAN", desa: "Ongulara", paguAwal: 563719000, paguPerubahan: 544731658, tahap1: 169115700, tahap2: 169115700, tahap3: 206500258, total: 544731658 },
+      { no: 102, kecamatan: "BANAWA SELATAN", desa: "Malino", paguAwal: 555607000, paguPerubahan: 536619658, tahap1: 166682100, tahap2: 166682100, tahap3: 203255458, total: 536619658 },
+      { no: 103, kecamatan: "BANAWA SELATAN", desa: "Lembasada", paguAwal: 507964000, paguPerubahan: 488976658, tahap1: 152389200, tahap2: 152389200, tahap3: 184198258, total: 488976658 },
+      { no: 104, kecamatan: "BANAWA SELATAN", desa: "Sarombaya", paguAwal: 517573000, paguPerubahan: 498585658, tahap1: 155271900, tahap2: 155271900, tahap3: 188041858, total: 498585658 },
+      { no: 105, kecamatan: "BANAWA SELATAN", desa: "Salusumpu", paguAwal: 526230000, paguPerubahan: 507242658, tahap1: 157869000, tahap2: 157869000, tahap3: 191504658, total: 507242658 },
+      { no: 106, kecamatan: "BANAWA SELATAN", desa: "Tanampulu", paguAwal: 522293000, paguPerubahan: 503305658, tahap1: 156687900, tahap2: 156687900, tahap3: 189929858, total: 503305658 },
+      { no: 107, kecamatan: "TANANTOVEA", desa: "Wani Satu", paguAwal: 512826000, paguPerubahan: 493838658, tahap1: 153847800, tahap2: 153847800, tahap3: 186143058, total: 493838658 },
+      { no: 108, kecamatan: "TANANTOVEA", desa: "Wani Dua", paguAwal: 512288000, paguPerubahan: 493300658, tahap1: 153686400, tahap2: 153686400, tahap3: 185927858, total: 493300658 },
+      { no: 109, kecamatan: "TANANTOVEA", desa: "Nupa Bomba", paguAwal: 547209000, paguPerubahan: 528221658, tahap1: 164162700, tahap2: 164162700, tahap3: 199896258, total: 528221658 },
+      { no: 110, kecamatan: "TANANTOVEA", desa: "Wombo", paguAwal: 510661000, paguPerubahan: 491673658, tahap1: 153198300, tahap2: 153198300, tahap3: 185277058, total: 491673658 },
+      { no: 111, kecamatan: "TANANTOVEA", desa: "Guntarano", paguAwal: 516292000, paguPerubahan: 497304658, tahap1: 154887600, tahap2: 154887600, tahap3: 187529458, total: 497304658 },
+      { no: 112, kecamatan: "TANANTOVEA", desa: "Bale", paguAwal: 525023000, paguPerubahan: 506035658, tahap1: 157506900, tahap2: 157506900, tahap3: 191021858, total: 506035658 },
+      { no: 113, kecamatan: "TANANTOVEA", desa: "Wombo Mpanau", paguAwal: 518940000, paguPerubahan: 499952658, tahap1: 155682000, tahap2: 155682000, tahap3: 188588658, total: 499952658 },
+      { no: 114, kecamatan: "TANANTOVEA", desa: "Wombo Kalonggo", paguAwal: 509933000, paguPerubahan: 490945658, tahap1: 152979900, tahap2: 152979900, tahap3: 184985858, total: 490945658 },
+      { no: 115, kecamatan: "TANANTOVEA", desa: "Wani Tiga", paguAwal: 511051000, paguPerubahan: 492063658, tahap1: 153315300, tahap2: 153315300, tahap3: 185433058, total: 492063658 },
+      { no: 116, kecamatan: "TANANTOVEA", desa: "Wani Lumbumpetigo", paguAwal: 516557000, paguPerubahan: 497569658, tahap1: 154967100, tahap2: 154967100, tahap3: 187635458, total: 497569658 },
+      { no: 117, kecamatan: "PINEMBANI", desa: "Palintuma", paguAwal: 626479000, paguPerubahan: 607491658, tahap1: 187943700, tahap2: 187943700, tahap3: 231604258, total: 607491658 },
+      { no: 118, kecamatan: "PINEMBANI", desa: "Gimpubia", paguAwal: 534899000, paguPerubahan: 515911658, tahap1: 160469700, tahap2: 160469700, tahap3: 194972258, total: 515911658 },
+      { no: 119, kecamatan: "PINEMBANI", desa: "Dangara'a", paguAwal: 525858000, paguPerubahan: 506870658, tahap1: 157757400, tahap2: 157757400, tahap3: 191355858, total: 506870658 },
+      { no: 120, kecamatan: "PINEMBANI", desa: "Bambakanini", paguAwal: 545045000, paguPerubahan: 526057658, tahap1: 163513500, tahap2: 163513500, tahap3: 199030658, total: 526057658 },
+      { no: 121, kecamatan: "PINEMBANI", desa: "Bambakaenu", paguAwal: 576844000, paguPerubahan: 557856658, tahap1: 173053200, tahap2: 173053200, tahap3: 211750258, total: 557856658 },
+      { no: 122, kecamatan: "PINEMBANI", desa: "Tamodo", paguAwal: 512108000, paguPerubahan: 493120658, tahap1: 153632400, tahap2: 153632400, tahap3: 185855858, total: 493120658 },
+      { no: 123, kecamatan: "PINEMBANI", desa: "Kanagalongga", paguAwal: 539940000, paguPerubahan: 520952658, tahap1: 161982000, tahap2: 161982000, tahap3: 196988658, total: 520952658 },
+      { no: 124, kecamatan: "PINEMBANI", desa: "Karavia", paguAwal: 550536000, paguPerubahan: 531548658, tahap1: 165160800, tahap2: 165160800, tahap3: 201227058, total: 531548658 },
+      { no: 125, kecamatan: "PINEMBANI", desa: "Tavanggeli", paguAwal: 518394000, paguPerubahan: 499406658, tahap1: 155518200, tahap2: 155518200, tahap3: 188370258, total: 499406658 },
+      { no: 126, kecamatan: "SINDUE TOMBUSABORA", desa: "Tibo", paguAwal: 556111000, paguPerubahan: 537123658, tahap1: 166833300, tahap2: 166833300, tahap3: 203457058, total: 537123658 },
+      { no: 127, kecamatan: "SINDUE TOMBUSABORA", desa: "Kaliburu", paguAwal: 558995000, paguPerubahan: 540007658, tahap1: 167698500, tahap2: 167698500, tahap3: 204610658, total: 540007658 },
+      { no: 128, kecamatan: "SINDUE TOMBUSABORA", desa: "Batusuya", paguAwal: 546851000, paguPerubahan: 527863658, tahap1: 164055300, tahap2: 164055300, tahap3: 199753058, total: 527863658 },
+      { no: 129, kecamatan: "SINDUE TOMBUSABORA", desa: "Saloya", paguAwal: 590308000, paguPerubahan: 571320658, tahap1: 177092400, tahap2: 177092400, tahap3: 217135858, total: 571320658 },
+      { no: 130, kecamatan: "SINDUE TOMBUSABORA", desa: "Batusuya Go'o", paguAwal: 529457000, paguPerubahan: 510469658, tahap1: 158837100, tahap2: 158837100, tahap3: 192795458, total: 510469658 },
+      { no: 131, kecamatan: "SINDUE TOMBUSABORA", desa: "Kaliburu Kata", paguAwal: 535932000, paguPerubahan: 516944658, tahap1: 160779600, tahap2: 160779600, tahap3: 195385458, total: 516944658 },
+      { no: 132, kecamatan: "SINDUE TOBATA", desa: "Sikara Tobata", paguAwal: 561037000, paguPerubahan: 542049658, tahap1: 168311100, tahap2: 168311100, tahap3: 205427458, total: 542049658 },
+      { no: 133, kecamatan: "SINDUE TOBATA", desa: "Alindau", paguAwal: 536622000, paguPerubahan: 517634658, tahap1: 160986600, tahap2: 160986600, tahap3: 195661458, total: 517634658 },
+      { no: 134, kecamatan: "SINDUE TOBATA", desa: "Oti", paguAwal: 550016000, paguPerubahan: 531028658, tahap1: 165004800, tahap2: 165004800, tahap3: 201019058, total: 531028658 },
+      { no: 135, kecamatan: "SINDUE TOBATA", desa: "Tamarenja", paguAwal: 503414000, paguPerubahan: 484426658, tahap1: 151024200, tahap2: 151024200, tahap3: 182378258, total: 484426658 },
+      { no: 136, kecamatan: "SINDUE TOBATA", desa: "Sipeso", paguAwal: 505426000, paguPerubahan: 486438658, tahap1: 151627800, tahap2: 151627800, tahap3: 183183058, total: 486438658 },
+      { no: 137, kecamatan: "SINDUE TOBATA", desa: "Sindosa", paguAwal: 497667000, paguPerubahan: 478679658, tahap1: 149300100, tahap2: 149300100, tahap3: 180079458, total: 478679658 },
+      { no: 138, kecamatan: "BANAWA TENGAH", desa: "Powelua", paguAwal: 565376000, paguPerubahan: 546388658, tahap1: 169612800, tahap2: 169612800, tahap3: 207163058, total: 546388658 },
+      { no: 139, kecamatan: "BANAWA TENGAH", desa: "Lumbudolo", paguAwal: 507753000, paguPerubahan: 488765658, tahap1: 152325900, tahap2: 152325900, tahap3: 184113858, total: 488765658 },
+      { no: 140, kecamatan: "BANAWA TENGAH", desa: "Kola-Kola", paguAwal: 497328000, paguPerubahan: 478340658, tahap1: 149198400, tahap2: 149198400, tahap3: 179943858, total: 478340658 },
+      { no: 141, kecamatan: "BANAWA TENGAH", desa: "Limboro", paguAwal: 521027000, paguPerubahan: 502039658, tahap1: 156308100, tahap2: 156308100, tahap3: 189423458, total: 502039658 },
+      { no: 142, kecamatan: "BANAWA TENGAH", desa: "Towale", paguAwal: 506879000, paguPerubahan: 487891658, tahap1: 152063700, tahap2: 152063700, tahap3: 183764258, total: 487891658 },
+      { no: 143, kecamatan: "BANAWA TENGAH", desa: "Salubomba", paguAwal: 506376000, paguPerubahan: 487388658, tahap1: 151912800, tahap2: 151912800, tahap3: 183563058, total: 487388658 },
+      { no: 144, kecamatan: "BANAWA TENGAH", desa: "Mekar Baru", paguAwal: 492790000, paguPerubahan: 473802658, tahap1: 147837000, tahap2: 147837000, tahap3: 178128658, total: 473802658 },
+      { no: 145, kecamatan: "BANAWA TENGAH", desa: "Lampo", paguAwal: 505267000, paguPerubahan: 486279658, tahap1: 151580100, tahap2: 151580100, tahap3: 183119458, total: 486279658 },
+      { no: 146, kecamatan: "SOJOL UTARA", desa: "Ogoamas I", paguAwal: 535333000, paguPerubahan: 516345658, tahap1: 160599900, tahap2: 160599900, tahap3: 195145858, total: 516345658 },
+      { no: 147, kecamatan: "SOJOL UTARA", desa: "Ogoamas II", paguAwal: 525281000, paguPerubahan: 506293658, tahap1: 157584300, tahap2: 157584300, tahap3: 191125058, total: 506293658 },
+      { no: 148, kecamatan: "SOJOL UTARA", desa: "Lenju", paguAwal: 530485000, paguPerubahan: 511497658, tahap1: 159145500, tahap2: 159145500, tahap3: 193206658, total: 511497658 },
+      { no: 149, kecamatan: "SOJOL UTARA", desa: "Pesik", paguAwal: 517906000, paguPerubahan: 498918658, tahap1: 155371800, tahap2: 155371800, tahap3: 188175058, total: 498918658 },
+      { no: 150, kecamatan: "SOJOL UTARA", desa: "Bengkoli", paguAwal: 526839000, paguPerubahan: 507851658, tahap1: 158051700, tahap2: 158051700, tahap3: 191748258, total: 507851658 },
+      { no: 151, kecamatan: "BALAESANG TANJUNG", desa: "Walandano", paguAwal: 526132000, paguPerubahan: 507144658, tahap1: 157839600, tahap2: 157839600, tahap3: 191465458, total: 507144658 },
+      { no: 152, kecamatan: "BALAESANG TANJUNG", desa: "Malei", paguAwal: 534697000, paguPerubahan: 515709658, tahap1: 160409100, tahap2: 160409100, tahap3: 194891458, total: 515709658 },
+      { no: 153, kecamatan: "BALAESANG TANJUNG", desa: "Kamonji", paguAwal: 518396000, paguPerubahan: 499408658, tahap1: 155518800, tahap2: 155518800, tahap3: 188371058, total: 499408658 },
+      { no: 154, kecamatan: "BALAESANG TANJUNG", desa: "Ketong", paguAwal: 542490000, paguPerubahan: 523502658, tahap1: 162747000, tahap2: 162747000, tahap3: 198008658, total: 523502658 },
+      { no: 155, kecamatan: "BALAESANG TANJUNG", desa: "Rano", paguAwal: 521694000, paguPerubahan: 502706658, tahap1: 156508200, tahap2: 156508200, tahap3: 189690258, total: 502706658 },
+      { no: 156, kecamatan: "BALAESANG TANJUNG", desa: "Pomolulu", paguAwal: 509788000, paguPerubahan: 490800658, tahap1: 152936400, tahap2: 152936400, tahap3: 184927858, total: 490800658 },
+      { no: 157, kecamatan: "BALAESANG TANJUNG", desa: "Palau", paguAwal: 511204000, paguPerubahan: 492216658, tahap1: 153361200, tahap2: 153361200, tahap3: 185494258, total: 492216658 },
+      { no: 158, kecamatan: "BALAESANG TANJUNG", desa: "Manimbaya", paguAwal: 531867000, paguPerubahan: 512879658, tahap1: 159560100, tahap2: 159560100, tahap3: 193759458, total: 512879658 }
+    ];
+
+    let filteredData = [...data];
+
+    function formatCurrency(amount) {
+      return new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+      }).format(amount);
+    }
+
+    function renderTable() {
+      const tbody = document.getElementById('table-body');
+      tbody.innerHTML = '';
+
+      if (filteredData.length === 0) {
+        document.getElementById('no-results').classList.remove('hidden');
+        tbody.closest('table').classList.add('hidden');
+        return;
+      }
+
+      document.getElementById('no-results').classList.add('hidden');
+      tbody.closest('table').classList.remove('hidden');
+
+      let currentKecamatan = '';
+      
+      filteredData.forEach((row, index) => {
+        if (row.kecamatan !== currentKecamatan) {
+          currentKecamatan = row.kecamatan;
+          const kecamatanRow = document.createElement('tr');
+          kecamatanRow.className = 'bg-gray-100';
+          kecamatanRow.innerHTML = `
+            <td colspan="8" class="px-2 md:px-4 py-2 md:py-3 text-left font-semibold text-gray-700" style="font-size: 0.75rem;">
+              KECAMATAN ${currentKecamatan}
+            </td>
+          `;
+          tbody.appendChild(kecamatanRow);
+        }
+
+        const tr = document.createElement('tr');
+        tr.className = index % 2 === 0 ? 'bg-white hover:bg-purple-50 transition-colors' : 'bg-gray-50 hover:bg-purple-50 transition-colors';
+        tr.innerHTML = `
+          <td class="px-2 md:px-4 py-2 md:py-3 text-gray-700 border-b border-gray-200" style="font-size: 0.75rem;">${row.no}</td>
+          <td class="px-2 md:px-4 py-2 md:py-3 text-gray-900 font-medium border-b border-gray-200" style="font-size: 0.75rem;">
+            <span class="village-name-link" data-index="${index}">${row.desa}</span>
+          </td>
+          <td class="px-2 md:px-4 py-2 md:py-3 text-right text-gray-700 number-cell border-b border-gray-200" style="font-size: 0.7rem;">${formatCurrency(row.paguAwal)}</td>
+          <td class="px-2 md:px-4 py-2 md:py-3 text-right text-gray-700 number-cell border-b border-gray-200" style="font-size: 0.7rem;">${formatCurrency(row.paguPerubahan)}</td>
+          <td class="px-2 md:px-4 py-2 md:py-3 text-right text-gray-700 number-cell border-b border-gray-200" style="font-size: 0.7rem;">${formatCurrency(row.tahap1)}</td>
+          <td class="px-2 md:px-4 py-2 md:py-3 text-right text-gray-700 number-cell border-b border-gray-200" style="font-size: 0.7rem;">${formatCurrency(row.tahap2)}</td>
+          <td class="px-2 md:px-4 py-2 md:py-3 text-right text-gray-700 number-cell border-b border-gray-200" style="font-size: 0.7rem;">${formatCurrency(row.tahap3)}</td>
+          <td class="px-2 md:px-4 py-2 md:py-3 text-right font-semibold text-gray-900 number-cell border-b border-gray-200" style="font-size: 0.7rem;">${formatCurrency(row.total)}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      updateStats();
+    }
+
+    function updateStats() {
+      const totalVillages = data.length;
+      const shownVillages = filteredData.length;
+      const totalBudget = filteredData.reduce((sum, row) => sum + row.total, 0);
+      const avgBudget = totalBudget / shownVillages;
+
+      document.getElementById('total-villages').textContent = totalVillages;
+      document.getElementById('shown-villages').textContent = shownVillages;
+      document.getElementById('total-budget').textContent = formatCurrency(totalBudget);
+      document.getElementById('avg-budget').textContent = formatCurrency(avgBudget);
+    }
+
+    function filterData() {
+      const searchTerm = document.getElementById('search').value.toLowerCase();
+      const kecamatanFilter = document.getElementById('filter-kecamatan').value;
+
+      filteredData = data.filter(row => {
+        const matchesSearch = row.desa.toLowerCase().includes(searchTerm) || 
+                            row.kecamatan.toLowerCase().includes(searchTerm);
+        const matchesKecamatan = !kecamatanFilter || row.kecamatan === kecamatanFilter;
+        return matchesSearch && matchesKecamatan;
+      });
+
+      renderTable();
+    }
+
+    function populateKecamatanFilter() {
+      const kecamatans = [...new Set(data.map(row => row.kecamatan))];
+      const select = document.getElementById('filter-kecamatan');
+      
+      kecamatans.forEach(kecamatan => {
+        const option = document.createElement('option');
+        option.value = kecamatan;
+        option.textContent = kecamatan;
+        select.appendChild(option);
+      });
+    }
+
+    async function onConfigChange(config) {
+      const mainTitle = document.getElementById('main-title');
+      const subtitle = document.getElementById('subtitle');
+      const searchInput = document.getElementById('search');
+
+      mainTitle.textContent = config.main_title || defaultConfig.main_title;
+      subtitle.textContent = config.subtitle || defaultConfig.subtitle;
+      searchInput.placeholder = config.search_placeholder || defaultConfig.search_placeholder;
+
+      const primaryColor = config.primary_color || defaultConfig.primary_color;
+      const secondaryColor = config.secondary_color || defaultConfig.secondary_color;
+      
+      document.body.style.background = `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%)`;
+      
+      const headerCells = document.querySelectorAll('thead tr');
+      headerCells.forEach(header => {
+        header.style.background = `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%)`;
+      });
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities: (config) => ({
+          recolorables: [
+            {
+              get: () => config.primary_color || defaultConfig.primary_color,
+              set: (value) => {
+                config.primary_color = value;
+                window.elementSdk.setConfig({ primary_color: value });
+              }
+            },
+            {
+              get: () => config.secondary_color || defaultConfig.secondary_color,
+              set: (value) => {
+                config.secondary_color = value;
+                window.elementSdk.setConfig({ secondary_color: value });
+              }
+            }
+          ],
+          borderables: [],
+          fontEditable: undefined,
+          fontSizeable: undefined
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ["main_title", config.main_title || defaultConfig.main_title],
+          ["subtitle", config.subtitle || defaultConfig.subtitle],
+          ["search_placeholder", config.search_placeholder || defaultConfig.search_placeholder]
+        ])
+      });
+    }
+
+    let currentModalRow = null;
+
+    function openModal(rowIndex) {
+      const row = filteredData[rowIndex];
+      currentModalRow = row;
+      
+      const selisih = row.paguAwal - row.paguPerubahan;
+      
+      document.getElementById('modal-village-name').textContent = row.desa;
+      document.getElementById('modal-kecamatan').textContent = `Kecamatan ${row.kecamatan}`;
+      document.getElementById('modal-pagu-awal').textContent = formatCurrency(row.paguAwal);
+      document.getElementById('modal-pagu-perubahan').textContent = formatCurrency(row.paguPerubahan);
+      document.getElementById('modal-selisih').textContent = formatCurrency(selisih);
+      document.getElementById('modal-tahap1').textContent = formatCurrency(row.tahap1);
+      document.getElementById('modal-tahap2').textContent = formatCurrency(row.tahap2);
+      document.getElementById('modal-tahap3').textContent = formatCurrency(row.tahap3);
+      document.getElementById('modal-total').textContent = formatCurrency(row.total);
+      
+      document.getElementById('detail-modal').style.display = 'flex';
+    }
+
+    function shareToWhatsApp() {
+      if (!currentModalRow) return;
+      
+      const row = currentModalRow;
+      const message = `*PAGU DANA DESA 2025*\n\n` +
+        `📍 *Desa ${row.desa}*\n` +
+        `Kecamatan ${row.kecamatan}\n\n` +
+        `💰 *Pagu Awal:* ${formatCurrency(row.paguAwal)}\n` +
+        `💰 *Pagu Perubahan:* ${formatCurrency(row.paguPerubahan)}\n\n` +
+        `📊 *Rincian Tahapan:*\n` +
+        `• Tahap I: ${formatCurrency(row.tahap1)}\n` +
+        `• Tahap II: ${formatCurrency(row.tahap2)}\n` +
+        `• Tahap III: ${formatCurrency(row.tahap3)}\n\n` +
+        `✅ *Total Pagu:* ${formatCurrency(row.total)}\n\n` +
+        `Kabupaten Donggala - TA 2025\n\n` +
+        `ℹ️ Info Selengkapnya: https://syam.digital/pagu`;
+      
+      const encodedMessage = encodeURIComponent(message);
+      const whatsappUrl = `https://wa.me/?text=${encodedMessage}`;
+      
+      window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+    }
+
+    function closeModal() {
+      document.getElementById('detail-modal').style.display = 'none';
+    }
+
+    document.getElementById('close-modal').addEventListener('click', closeModal);
+    
+    document.getElementById('share-whatsapp').addEventListener('click', shareToWhatsApp);
+    
+    document.getElementById('detail-modal').addEventListener('click', function(e) {
+      if (e.target.id === 'detail-modal') {
+        closeModal();
+      }
+    });
+
+    document.getElementById('table-body').addEventListener('click', function(e) {
+      if (e.target.classList.contains('village-name-link')) {
+        const index = parseInt(e.target.dataset.index);
+        openModal(index);
+      }
+    });
+
+    document.getElementById('search').addEventListener('input', filterData);
+    document.getElementById('filter-kecamatan').addEventListener('change', filterData);
+
+    populateKecamatanFilter();
+    renderTable();
+    onConfigChange(window.elementSdk ? window.elementSdk.config : defaultConfig);
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a4debaad35cfd16',t:'MTc2NDIwNzY1OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

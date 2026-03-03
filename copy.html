@@ -1,0 +1,765 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pencarian Data Google Sheets</title>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1757245484/SYAMDIGITAL-LOGO-2025_mmpllg.png">
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    .loading-spinner {
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top: 3px solid white;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.3s ease-in;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      animation: fadeIn 0.2s ease-in;
+    }
+    
+    .modal-content {
+      background: white;
+      border-radius: 16px;
+      max-width: 600px;
+      width: 90%;
+      max-height: 80%;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      animation: slideUp 0.3s ease-out;
+    }
+    
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .clickable-cell {
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .clickable-cell:hover {
+      text-decoration: underline;
+      opacity: 0.8;
+    }
+    
+    .toast-notification {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      padding: 16px 24px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 500;
+      z-index: 2000;
+      animation: slideInRight 0.3s ease-out;
+    }
+    
+    @keyframes slideInRight {
+      from { opacity: 0; transform: translateX(100px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    
+    .toast-notification.fade-out {
+      animation: fadeOutRight 0.3s ease-in forwards;
+    }
+    
+    @keyframes fadeOutRight {
+      from { opacity: 1; transform: translateX(0); }
+      to { opacity: 0; transform: translateX(100px); }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full">
+  <div id="app" class="h-full w-full overflow-auto">
+   <div class="min-h-full w-full flex flex-col"><!-- Header -->
+    <header class="w-full py-8 px-6">
+     <div class="max-w-6xl mx-auto">
+      <h1 id="app-title" class="text-4xl font-bold mb-2">Pencarian Data</h1><!-- Page Navigation Tabs -->
+      <div class="flex gap-3 mt-4 mb-2"><button id="tab-page1" onclick="switchPage('page1')" class="page-tab px-6 py-2 rounded-lg font-medium transition-all"> 🐟 IKAN </button> <button id="tab-page2" onclick="switchPage('page2')" class="page-tab px-6 py-2 rounded-lg font-medium transition-all"> TUMBUHAN </button>
+      </div>
+      <p id="data-count" class="text-lg opacity-80">Memuat data...</p>
+     </div>
+    </header><!-- Search Section -->
+    <main class="flex-1 w-full px-6 pb-8">
+     <div class="max-w-6xl mx-auto"><!-- Search Bar -->
+      <div class="mb-6">
+       <div class="relative"><input type="text" id="search-input" placeholder="Cari data..." class="w-full px-5 py-4 text-lg rounded-xl border-2 focus:outline-none focus:ring-2 transition-all">
+        <svg class="absolute right-4 top-1/2 transform -translate-y-1/2 w-6 h-6 opacity-50" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+       </div>
+      </div><!-- Loading State -->
+      <div id="loading-state" class="flex flex-col items-center justify-center py-16">
+       <div class="loading-spinner mb-4"></div>
+       <p class="text-lg">Memuat data dari Google Sheets...</p>
+      </div><!-- Error State -->
+      <div id="error-state" class="hidden rounded-xl p-6 text-center">
+       <svg class="w-16 h-16 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+       </svg>
+       <h3 class="text-xl font-semibold mb-2">Gagal Memuat Data</h3>
+       <p class="opacity-80 mb-4">Tidak dapat mengambil data dari Google Sheets</p><button id="retry-button" class="px-6 py-3 rounded-lg font-medium transition-all hover:opacity-90"> Coba Lagi </button>
+      </div><!-- No Results -->
+      <div id="no-results" class="hidden text-center py-16">
+       <svg class="w-16 h-16 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+       </svg>
+       <p class="text-xl opacity-80">Tidak ada data yang ditemukan</p>
+      </div><!-- Results Table -->
+      <div id="results-container" class="hidden">
+       <div class="rounded-xl overflow-hidden border-2">
+        <div class="overflow-x-auto">
+         <table class="w-full">
+          <thead>
+           <tr id="table-header"></tr>
+          </thead>
+          <tbody id="table-body"></tbody>
+         </table>
+        </div>
+       </div>
+      </div>
+     </div>
+    </main><!-- Footer -->
+    <footer class="w-full py-6 px-6 mt-auto">
+     <div class="max-w-6xl mx-auto text-center">
+      <p id="footer-text" class="opacity-70">Data dari Google Sheets</p>
+     </div>
+    </footer>
+   </div><!-- Modal -->
+   <div id="detail-modal" class="modal-backdrop hidden" onclick="closeModalOnBackdrop(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+     <div class="p-6 border-b-2">
+      <div class="flex justify-between items-start">
+       <h2 id="modal-title" class="text-2xl font-bold">Rincian Data</h2><button onclick="closeModal()" class="text-3xl leading-none hover:opacity-70 transition-all">×</button>
+      </div>
+     </div>
+     <div id="modal-body" class="p-6"><!-- Content will be inserted here -->
+     </div>
+     <div class="p-6 border-t-2 text-right"><button onclick="closeModal()" class="px-6 py-3 rounded-lg font-medium transition-all hover:opacity-90"> Tutup </button>
+     </div>
+    </div>
+   </div>
+  </div>
+  <script>
+    const defaultConfig = {
+      background_color: "#f0f4f8",
+      surface_color: "#ffffff",
+      text_color: "#1e293b",
+      primary_color: "#3b82f6",
+      secondary_color: "#64748b",
+      app_title: "Pencarian Data",
+      search_placeholder: "Cari data...",
+      footer_text: "Data dari Google Sheets"
+    };
+
+    let allData = [];
+    let headers = [];
+    let config = {};
+    let currentPage = 'page1';
+    
+    // Data storage for both pages
+    let page1Data = { headers: [], data: [] };
+    let page2Data = { headers: [], data: [] };
+
+    const SHEET_URL_PAGE1 = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTPC0l_ljTUS9P7FlAi7j-Ub0Ylhc2jaryRAMYF-0PxjFWMLYf4gR3uw_njS0Rra2xBxCAb0VVuXnwu/pub?gid=0&single=true&output=csv";
+    const SHEET_URL_PAGE2 = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRTMK4AXvWqxhZ12J5op1XjAEd7gltLjRj0Y_KVNeXMQPjxvlLx1H7pQQwpbGwFVZcUpLnoP7M9iX2p/pub?output=csv";
+
+    async function fetchSheetData(url, pageData) {
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('Failed to fetch');
+        
+        const text = await response.text();
+        const rows = parseCSV(text);
+        
+        if (rows.length > 0) {
+          pageData.headers = rows[0];
+          pageData.data = rows.slice(1).map(row => {
+            const obj = {};
+            pageData.headers.forEach((header, index) => {
+              obj[header] = row[index] || '';
+            });
+            return obj;
+          });
+        }
+        
+        return true;
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        return false;
+      }
+    }
+    
+    async function fetchAllData() {
+      const success1 = await fetchSheetData(SHEET_URL_PAGE1, page1Data);
+      const success2 = await fetchSheetData(SHEET_URL_PAGE2, page2Data);
+      return success1 && success2;
+    }
+
+    function parseCSV(text) {
+      const rows = [];
+      let currentRow = [];
+      let currentField = '';
+      let insideQuotes = false;
+
+      for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        const nextChar = text[i + 1];
+
+        if (char === '"') {
+          if (insideQuotes && nextChar === '"') {
+            currentField += '"';
+            i++;
+          } else {
+            insideQuotes = !insideQuotes;
+          }
+        } else if (char === ',' && !insideQuotes) {
+          currentRow.push(currentField.trim());
+          currentField = '';
+        } else if ((char === '\n' || char === '\r') && !insideQuotes) {
+          if (currentField || currentRow.length > 0) {
+            currentRow.push(currentField.trim());
+            if (currentRow.some(field => field !== '')) {
+              rows.push(currentRow);
+            }
+            currentRow = [];
+            currentField = '';
+          }
+          if (char === '\r' && nextChar === '\n') i++;
+        } else {
+          currentField += char;
+        }
+      }
+
+      if (currentField || currentRow.length > 0) {
+        currentRow.push(currentField.trim());
+        if (currentRow.some(field => field !== '')) {
+          rows.push(currentRow);
+        }
+      }
+
+      return rows;
+    }
+
+    function switchPage(page) {
+      currentPage = page;
+      
+      // Update active data
+      if (page === 'page1') {
+        allData = page1Data.data;
+        headers = page1Data.headers;
+      } else {
+        allData = page2Data.data;
+        headers = page2Data.headers;
+      }
+      
+      // Update tab styles
+      const tab1 = document.getElementById('tab-page1');
+      const tab2 = document.getElementById('tab-page2');
+      const primaryColor = config.primary_color || defaultConfig.primary_color;
+      const secondaryColor = config.secondary_color || defaultConfig.secondary_color;
+      
+      if (page === 'page1') {
+        tab1.style.backgroundColor = '#10b981';
+        tab1.style.color = '#ffffff';
+        tab1.style.border = 'none';
+        tab2.style.backgroundColor = 'transparent';
+        tab2.style.color = '#10b981';
+        tab2.style.border = `2px solid #10b981`;
+      } else {
+        tab2.style.backgroundColor = '#f59e0b';
+        tab2.style.color = '#ffffff';
+        tab2.style.border = 'none';
+        tab1.style.backgroundColor = 'transparent';
+        tab1.style.color = '#f59e0b';
+        tab1.style.border = `2px solid #f59e0b`;
+      }
+      
+      // Clear search and render table
+      document.getElementById('search-input').value = '';
+      renderTable(allData);
+    }
+    
+    function showToast(message) {
+      const toast = document.createElement('div');
+      toast.className = 'toast-notification';
+      toast.innerHTML = `
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+        <span>${message}</span>
+      `;
+      
+      const primaryColor = config.primary_color || defaultConfig.primary_color;
+      toast.style.backgroundColor = primaryColor;
+      toast.style.color = '#ffffff';
+      
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.classList.add('fade-out');
+        setTimeout(() => {
+          document.body.removeChild(toast);
+        }, 300);
+      }, 2000);
+    }
+
+    function copyToClipboard(text, button, textElementId) {
+      // Get the text element by ID
+      const textElement = document.getElementById(textElementId);
+      
+      // Try modern clipboard API first
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(() => {
+          const originalText = button.innerHTML;
+          const originalColor = textElement.style.color;
+          
+          button.innerHTML = `
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+          `;
+          
+          // Change text color to green with !important
+          textElement.style.setProperty('color', '#10b981', 'important');
+          
+          showToast('Teks telah disalin');
+          
+          setTimeout(() => {
+            button.innerHTML = originalText;
+            if (originalColor) {
+              textElement.style.color = originalColor;
+            } else {
+              textElement.style.removeProperty('color');
+            }
+          }, 1500);
+        }).catch(err => {
+          console.error('Clipboard API failed:', err);
+          fallbackCopy(text, button, textElementId);
+        });
+      } else {
+        // Fallback for older browsers or non-secure contexts
+        fallbackCopy(text, button, textElementId);
+      }
+    }
+    
+    function fallbackCopy(text, button, textElementId) {
+      const textElement = document.getElementById(textElementId);
+      
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-999999px';
+      textArea.style.top = '-999999px';
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      
+      try {
+        const successful = document.execCommand('copy');
+        if (successful) {
+          const originalText = button.innerHTML;
+          const originalColor = textElement.style.color;
+          
+          button.innerHTML = `
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+          `;
+          
+          // Change text color to green with !important
+          textElement.style.setProperty('color', '#10b981', 'important');
+          
+          showToast('Teks telah disalin');
+          
+          setTimeout(() => {
+            button.innerHTML = originalText;
+            if (originalColor) {
+              textElement.style.color = originalColor;
+            } else {
+              textElement.style.removeProperty('color');
+            }
+          }, 1500);
+        } else {
+          showToast('Gagal menyalin teks');
+        }
+      } catch (err) {
+        console.error('Fallback copy failed:', err);
+        showToast('Gagal menyalin teks');
+      }
+      
+      document.body.removeChild(textArea);
+    }
+
+    function showDetailModal(rowData) {
+      const modal = document.getElementById('detail-modal');
+      const modalBody = document.getElementById('modal-body');
+      const modalTitle = document.getElementById('modal-title');
+      
+      // Set title - assuming first column is the ship name
+      const firstValue = rowData[headers[0]] || 'Detail Data';
+      modalTitle.textContent = firstValue;
+      
+      // Build modal content
+      let content = '<div class="space-y-4">';
+      headers.forEach((header, index) => {
+        const value = rowData[header] || '-';
+        const copyId = `copy-btn-${index}`;
+        const textId = `text-value-${index}`;
+        content += `
+          <div class="border-b pb-3">
+            <div class="flex justify-between items-center mb-1">
+              <div class="text-sm font-semibold opacity-70">${header}</div>
+              <button 
+                id="${copyId}" 
+                onclick="copyToClipboard('${value.replace(/'/g, "\\'")}', document.getElementById('${copyId}'), '${textId}')"
+                class="copy-button px-3 py-1 text-xs rounded-lg font-medium transition-all hover:opacity-80 flex items-center gap-1"
+                title="Salin teks">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                </svg>
+              </button>
+            </div>
+            <div id="${textId}" class="text-lg">${value}</div>
+          </div>
+        `;
+      });
+      content += '</div>';
+      
+      modalBody.innerHTML = content;
+      modal.classList.remove('hidden');
+      applyModalColors();
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('detail-modal');
+      modal.classList.add('hidden');
+    }
+
+    function closeModalOnBackdrop(event) {
+      if (event.target.id === 'detail-modal') {
+        closeModal();
+      }
+    }
+
+    function renderTable(data) {
+      const tableHeader = document.getElementById('table-header');
+      const tableBody = document.getElementById('table-body');
+      const resultsContainer = document.getElementById('results-container');
+      const noResults = document.getElementById('no-results');
+      const dataCount = document.getElementById('data-count');
+
+      if (data.length === 0) {
+        resultsContainer.classList.add('hidden');
+        noResults.classList.remove('hidden');
+        dataCount.textContent = '0 data ditemukan';
+        return;
+      }
+
+      noResults.classList.add('hidden');
+      resultsContainer.classList.remove('hidden');
+      dataCount.textContent = `${data.length} data ditemukan`;
+
+      tableHeader.innerHTML = '';
+      headers.forEach(header => {
+        const th = document.createElement('th');
+        th.className = 'px-6 py-4 text-left text-sm font-semibold border-b-2';
+        th.textContent = header;
+        tableHeader.appendChild(th);
+      });
+
+      tableBody.innerHTML = '';
+      data.forEach((row, index) => {
+        const tr = document.createElement('tr');
+        tr.className = 'fade-in hover:bg-opacity-50 transition-all';
+        tr.style.animationDelay = `${index * 0.03}s`;
+
+        headers.forEach((header, colIndex) => {
+          const td = document.createElement('td');
+          td.className = 'px-6 py-4 border-b';
+          
+          // Make first column clickable (assuming it's the ship name)
+          if (colIndex === 0) {
+            td.className += ' clickable-cell font-semibold';
+            td.onclick = () => showDetailModal(row);
+          }
+          
+          td.textContent = row[header] || '';
+          tr.appendChild(td);
+        });
+
+        tableBody.appendChild(tr);
+      });
+
+      applyColors();
+    }
+
+    function searchData(query) {
+      if (!query.trim()) {
+        renderTable(allData);
+        return;
+      }
+
+      const lowerQuery = query.toLowerCase();
+      const filtered = allData.filter(row => {
+        return Object.values(row).some(value => 
+          String(value).toLowerCase().includes(lowerQuery)
+        );
+      });
+
+      renderTable(filtered);
+    }
+
+    async function initializeApp() {
+      const loadingState = document.getElementById('loading-state');
+      const errorState = document.getElementById('error-state');
+
+      const success = await fetchAllData();
+
+      loadingState.classList.add('hidden');
+
+      if (!success) {
+        errorState.classList.remove('hidden');
+        return;
+      }
+
+      errorState.classList.add('hidden');
+      
+      // Initialize with page 1
+      switchPage('page1');
+
+      const searchInput = document.getElementById('search-input');
+      searchInput.addEventListener('input', (e) => {
+        searchData(e.target.value);
+      });
+    }
+
+    document.getElementById('retry-button').addEventListener('click', () => {
+      document.getElementById('error-state').classList.add('hidden');
+      document.getElementById('loading-state').classList.remove('hidden');
+      initializeApp();
+    });
+
+    function applyModalColors() {
+      const surfaceColor = config.surface_color || defaultConfig.surface_color;
+      const textColor = config.text_color || defaultConfig.text_color;
+      const primaryColor = config.primary_color || defaultConfig.primary_color;
+      const secondaryColor = config.secondary_color || defaultConfig.secondary_color;
+      
+      const modalContent = document.querySelector('.modal-content');
+      if (modalContent) {
+        modalContent.style.backgroundColor = surfaceColor;
+        modalContent.style.color = textColor;
+      }
+      
+      const modalHeader = document.querySelector('#detail-modal .border-b-2');
+      if (modalHeader) {
+        modalHeader.style.borderColor = secondaryColor;
+      }
+      
+      const modalFooter = document.querySelector('#detail-modal .border-t-2');
+      if (modalFooter) {
+        modalFooter.style.borderColor = secondaryColor;
+      }
+      
+      const closeButton = document.querySelector('#detail-modal .border-t-2 button');
+      if (closeButton) {
+        closeButton.style.backgroundColor = primaryColor;
+        closeButton.style.color = '#ffffff';
+      }
+      
+      const clickableCells = document.querySelectorAll('.clickable-cell');
+      clickableCells.forEach(cell => {
+        cell.style.color = primaryColor;
+      });
+      
+      const copyButtons = document.querySelectorAll('.copy-button');
+      copyButtons.forEach(btn => {
+        btn.style.backgroundColor = secondaryColor;
+        btn.style.color = '#ffffff';
+      });
+    }
+
+    function applyColors() {
+      const bgColor = config.background_color || defaultConfig.background_color;
+      const surfaceColor = config.surface_color || defaultConfig.surface_color;
+      const textColor = config.text_color || defaultConfig.text_color;
+      const primaryColor = config.primary_color || defaultConfig.primary_color;
+      const secondaryColor = config.secondary_color || defaultConfig.secondary_color;
+
+      document.getElementById('app').style.backgroundColor = bgColor;
+      document.getElementById('app').style.color = textColor;
+      
+      const header = document.querySelector('header');
+      header.style.backgroundColor = primaryColor;
+      header.style.color = '#ffffff';
+      
+      const footer = document.querySelector('footer');
+      footer.style.backgroundColor = secondaryColor;
+      footer.style.color = '#ffffff';
+      
+      const searchInput = document.getElementById('search-input');
+      searchInput.style.borderColor = secondaryColor;
+      searchInput.style.backgroundColor = surfaceColor;
+      searchInput.style.color = textColor;
+      
+      const loadingState = document.getElementById('loading-state');
+      loadingState.style.color = textColor;
+      
+      const errorState = document.getElementById('error-state');
+      errorState.style.backgroundColor = surfaceColor;
+      errorState.style.color = textColor;
+      
+      const retryButton = document.getElementById('retry-button');
+      retryButton.style.backgroundColor = primaryColor;
+      retryButton.style.color = '#ffffff';
+      
+      const noResults = document.getElementById('no-results');
+      noResults.style.color = textColor;
+      
+      const resultsContainer = document.querySelector('#results-container > div');
+      if (resultsContainer) {
+        resultsContainer.style.backgroundColor = surfaceColor;
+        resultsContainer.style.borderColor = secondaryColor;
+      }
+      
+      const tableHeader = document.getElementById('table-header');
+      if (tableHeader) {
+        tableHeader.style.backgroundColor = primaryColor;
+        tableHeader.style.color = '#ffffff';
+      }
+      
+      const tableRows = document.querySelectorAll('#table-body tr');
+      tableRows.forEach((row, index) => {
+        row.style.backgroundColor = index % 2 === 0 ? surfaceColor : bgColor;
+        row.style.color = textColor;
+      });
+      
+      const clickableCells = document.querySelectorAll('.clickable-cell');
+      clickableCells.forEach(cell => {
+        cell.style.color = primaryColor;
+      });
+    }
+
+    async function onConfigChange(newConfig) {
+      config = newConfig;
+      
+      document.getElementById('app-title').textContent = config.app_title || defaultConfig.app_title;
+      document.getElementById('search-input').placeholder = config.search_placeholder || defaultConfig.search_placeholder;
+      document.getElementById('footer-text').textContent = config.footer_text || defaultConfig.footer_text;
+      
+      applyColors();
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [
+          {
+            get: () => config.background_color || defaultConfig.background_color,
+            set: (value) => {
+              config.background_color = value;
+              if (window.elementSdk) {
+                window.elementSdk.setConfig({ background_color: value });
+              }
+            }
+          },
+          {
+            get: () => config.surface_color || defaultConfig.surface_color,
+            set: (value) => {
+              config.surface_color = value;
+              if (window.elementSdk) {
+                window.elementSdk.setConfig({ surface_color: value });
+              }
+            }
+          },
+          {
+            get: () => config.text_color || defaultConfig.text_color,
+            set: (value) => {
+              config.text_color = value;
+              if (window.elementSdk) {
+                window.elementSdk.setConfig({ text_color: value });
+              }
+            }
+          },
+          {
+            get: () => config.primary_color || defaultConfig.primary_color,
+            set: (value) => {
+              config.primary_color = value;
+              if (window.elementSdk) {
+                window.elementSdk.setConfig({ primary_color: value });
+              }
+            }
+          },
+          {
+            get: () => config.secondary_color || defaultConfig.secondary_color,
+            set: (value) => {
+              config.secondary_color = value;
+              if (window.elementSdk) {
+                window.elementSdk.setConfig({ secondary_color: value });
+              }
+            }
+          }
+        ],
+        borderables: [],
+        fontEditable: undefined,
+        fontSizeable: undefined
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ["app_title", config.app_title || defaultConfig.app_title],
+        ["search_placeholder", config.search_placeholder || defaultConfig.search_placeholder],
+        ["footer_text", config.footer_text || defaultConfig.footer_text]
+      ]);
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+      config = window.elementSdk.config;
+    }
+
+    initializeApp();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9af5d6665267eb9e',t:'MTc2NTk2ODM5NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

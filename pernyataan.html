@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Surat Pernyataan Nakhoda Editor</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Times+New+Roman&amp;family=Courier+Prime:wght@400;700&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    @media print {
+      @page {
+        size: legal;
+        margin: 0;
+      }
+      
+      html, body {
+        width: 8.5in;
+        height: 14in;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+      
+      .no-print { display: none !important; }
+      .print-area { 
+        width: 8.5in;
+        height: 14in;
+        padding: 0.3in 0.5in;
+        margin: 0;
+        box-shadow: none !important;
+        page-break-after: avoid;
+        overflow: hidden;
+        font-size: 8.5pt !important;
+        line-height: 1.25 !important;
+      }
+      
+      .print-area .document-title {
+        font-size: 11pt !important;
+        margin-bottom: 6px !important;
+        padding-bottom: 3px !important;
+      }
+      
+      .print-area p {
+        margin-bottom: 5px !important;
+      }
+      
+      .print-area .mb-2 {
+        margin-bottom: 3px !important;
+      }
+      
+      .print-area .mb-4 {
+        margin-bottom: 6px !important;
+      }
+      
+      .print-area .mb-6 {
+        margin-bottom: 8px !important;
+      }
+      
+      .print-area .space-y-1 > * {
+        margin-bottom: 1px !important;
+      }
+      
+      .print-area table {
+        font-size: 8pt !important;
+        margin-top: 3px !important;
+      }
+      
+      .print-area th, .print-area td {
+        padding: 3px 5px !important;
+      }
+      
+      .print-area .signature-area {
+        margin-top: 10px !important;
+      }
+      
+      .print-area .signature-area p {
+        margin-bottom: 3px !important;
+      }
+      
+      .print-area .signature-area .mt-2 {
+        margin-top: 3px !important;
+      }
+      
+      .print-area .signature-area .mt-16 {
+        margin-top: 25px !important;
+      }
+      
+      .print-area .bilingual {
+        font-size: 0.85em !important;
+      }
+    }
+    
+    .editable-field {
+      border-bottom: 1px dotted #666;
+      min-width: 100px;
+      padding: 2px 4px;
+      background: rgba(255, 255, 200, 0.3);
+      cursor: text;
+      display: inline-block;
+    }
+    
+    .editable-field:focus {
+      outline: 2px solid #3b82f6;
+      background: rgba(255, 255, 200, 0.6);
+      border-radius: 2px;
+    }
+    
+    .editable-field:empty:before {
+      content: attr(data-placeholder);
+      color: #999;
+      font-style: italic;
+    }
+    
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+    th, td {
+      border: 1px solid #000;
+      padding: 6px 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+    
+    th {
+      background: #f0f0f0;
+      font-weight: bold;
+    }
+    
+    .document-title {
+      font-size: 14pt;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    .section-label {
+      font-weight: bold;
+    }
+    
+    .bilingual {
+      font-style: italic;
+      color: #444;
+      font-size: 0.9em;
+    }
+    
+    .signature-area {
+      margin-top: 30px;
+      text-align: right;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full bg-gray-100 overflow-auto"><!-- Toolbar -->
+  <div class="no-print bg-white shadow-md p-4 sticky top-0 z-50 flex flex-wrap items-center justify-between gap-4">
+   <h1 class="text-lg font-bold text-gray-800">📝 Editor Surat Pernyataan Nakhoda</h1>
+   <div class="flex gap-2"><button onclick="printDocument()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition">
+     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+     </svg> Cetak </button> <button onclick="resetForm()" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition">
+     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+     </svg> Reset </button>
+   </div>
+  </div><!-- Document Area -->
+  <div class="flex justify-center p-6">
+   <div class="print-area bg-white shadow-xl p-8 w-full max-w-4xl" style="font-family: 'Times New Roman', serif; font-size: 11pt; line-height: 1.6;"><!-- Header -->
+    <div class="document-title border-b-2 border-black pb-2 mb-4">
+     SURAT PERNYATAAN NAKHODA<br><span class="bilingual">( MASTER SAILING DECLARATION )</span>
+    </div><!-- Legal Basis -->
+    <p class="mb-4">Berdasarkan pasal 138 Undang Undang Nomor 17 Tahun 2008 tentang Pelayaran<br><span class="bilingual">In accordance with article 138 Shipping act No.17 Year 2008</span></p>
+    <p class="mb-2">Yang bertandatangan dibawah ini :<br><span class="bilingual">The under sign below</span></p><!-- Master Name -->
+    <div class="mb-4 flex items-start">
+     <div class="w-40">
+      Nama Nakhoda<br><span class="bilingual">Name of Master</span>
+     </div>
+     <div>
+      : <span class="editable-field" contenteditable="true" data-field="nama_nakhoda" data-placeholder="Masukkan nama">ARBA</span>
+     </div>
+    </div>
+    <p class="mb-4">Dengan ini menyatakan bahwa :<br><span class="bilingual">Here with declare that</span></p><!-- Section A - Ship Data -->
+    <div class="mb-4">
+     <p class="section-label">A. Kapal dibawah ini dengan data-data :</p>
+     <p class="bilingual ml-4 mb-2">Data of the ship below</p>
+     <div class="ml-4 space-y-1">
+      <div class="flex">
+       <div class="w-40">
+        Nama Kapal<br><span class="bilingual">Ship's Name</span>
+       </div>
+       <div>
+        : <span class="editable-field" contenteditable="true" data-field="nama_kapal" data-placeholder="Masukkan nama kapal">ADI RAHMATULLAH PUTRA</span>
+       </div>
+      </div>
+      <div class="flex">
+       <div class="w-40">
+        Tanda Panggilan<br><span class="bilingual">Call Sign</span>
+       </div>
+       <div>
+        : <span class="editable-field" contenteditable="true" data-field="tanda_panggilan" data-placeholder="Masukkan tanda panggilan">YC8042</span>
+       </div>
+      </div>
+      <div class="flex">
+       <div class="w-40">
+        Nomor IMO<br><span class="bilingual">IMO Number</span>
+       </div>
+       <div>
+        : <span class="editable-field" contenteditable="true" data-field="nomor_imo" data-placeholder="-">-</span>
+       </div>
+      </div>
+      <div class="flex">
+       <div class="w-40">
+        Kebangsaan<br><span class="bilingual">Nationality</span>
+       </div>
+       <div>
+        : <span class="editable-field" contenteditable="true" data-field="kebangsaan" data-placeholder="Indonesia">Indonesia</span>
+       </div>
+      </div>
+      <div class="flex">
+       <div class="w-40">
+        GT/NT<br><span class="bilingual">GT/NT</span>
+       </div>
+       <div>
+        : <span class="editable-field" contenteditable="true" data-field="gt_nt" data-placeholder="0">93</span>
+       </div>
+      </div>
+      <div class="flex">
+       <div class="w-40">
+        No.SIPI/SIKPI
+       </div>
+       <div>
+        : <span class="editable-field" contenteditable="true" data-field="sipi_sikpi" data-placeholder="-">-</span>
+       </div>
+      </div>
+     </div>
+    </div><!-- Section B - Loading -->
+    <div class="mb-4">
+     <p class="section-label">B. Telah dimuati dengan aman, sarat, dan stabilitas yang baik :</p>
+     <p class="bilingual ml-4 mb-2">Has been loaded with safe draft and stability</p>
+     <table class="ml-4 text-sm">
+      <thead>
+       <tr>
+        <th style="width: 45%;">URAIAN</th>
+        <th style="width: 30%;">JUMLAH</th>
+        <th style="width: 25%;">KETERANGAN</th>
+       </tr>
+      </thead>
+      <tbody>
+       <tr>
+        <td>Jenis muatan / Total of cargoes on board</td>
+        <td><span class="editable-field" contenteditable="true" data-field="jenis_muatan" data-placeholder="-">NIHIL</span></td>
+        <td><span class="editable-field" contenteditable="true" data-field="ket_muatan" data-placeholder="-">NIHIL</span></td>
+       </tr>
+       <tr>
+        <td>Penumpang yang diangkut / Passenger on board</td>
+        <td><span class="editable-field" contenteditable="true" data-field="jumlah_penumpang" data-placeholder="-">NIHIL</span></td>
+        <td><span class="editable-field" contenteditable="true" data-field="ket_penumpang" data-placeholder="-">NIHIL</span></td>
+       </tr>
+       <tr>
+        <td>Draft kapal tolak / Departure draft</td>
+        <td>DEPAN: <span class="editable-field" contenteditable="true" data-field="draft_depan" data-placeholder="0">2,9</span><br>
+         BELAKANG: <span class="editable-field" contenteditable="true" data-field="draft_belakang" data-placeholder="0">3,3</span></td>
+        <td><span class="editable-field" contenteditable="true" data-field="ket_draft" data-placeholder="-">BAIK</span></td>
+       </tr>
+       <tr>
+        <td>Stabilitas kapal tolak / Departure stability</td>
+        <td><span class="editable-field" contenteditable="true" data-field="stabilitas" data-placeholder="-">BAIK</span></td>
+        <td><span class="editable-field" contenteditable="true" data-field="ket_stabilitas" data-placeholder="-">-</span></td>
+       </tr>
+      </tbody>
+     </table>
+    </div><!-- Section C - Crew -->
+    <div class="mb-4">
+     <p class="section-label">C. Telah diawaki dengan jumlah dan kompetensi yang cukup :</p>
+     <p class="bilingual ml-4 mb-2">Manned with proper amount and competency</p>
+     <table class="ml-4 text-sm">
+      <thead>
+       <tr>
+        <th style="width: 45%;">JABATAN DIATAS KAPAL</th>
+        <th style="width: 30%;">JUMLAH</th>
+        <th style="width: 25%;">KETERANGAN</th>
+       </tr>
+      </thead>
+      <tbody>
+       <tr>
+        <td>Perwira Dek / Deck Officer</td>
+        <td><span class="editable-field" contenteditable="true" data-field="jumlah_dek" data-placeholder="0">01</span> ORANG</td>
+        <td><span class="editable-field" contenteditable="true" data-field="ket_dek" data-placeholder="-">MPR.TK.II</span></td>
+       </tr>
+       <tr>
+        <td>Perwira Mesin / Engine Officer</td>
+        <td><span class="editable-field" contenteditable="true" data-field="jumlah_mesin" data-placeholder="0">01</span> ORANG</td>
+        <td><span class="editable-field" contenteditable="true" data-field="ket_mesin" data-placeholder="-">JMPR.TK.I</span></td>
+       </tr>
+       <tr>
+        <td>ABK / Rating</td>
+        <td><span class="editable-field" contenteditable="true" data-field="jumlah_abk" data-placeholder="0">-</span> ORANG</td>
+        <td><span class="editable-field" contenteditable="true" data-field="ket_abk" data-placeholder="-">-</span></td>
+       </tr>
+       <tr>
+        <td>ABK lainnya / Others</td>
+        <td><span class="editable-field" contenteditable="true" data-field="jumlah_abk_lain" data-placeholder="0">02</span> ORANG</td>
+        <td><span class="editable-field" contenteditable="true" data-field="ket_abk_lain" data-placeholder="-">KELASI</span></td>
+       </tr>
+      </tbody>
+     </table>
+    </div><!-- Section D - Equipment -->
+    <div class="mb-4">
+     <p class="section-label">D. Telah diperlengkapi dengan peralatan navigasi, keselamatan, pemadam kebakaran, dan pencegahan pencemaran yang berfungsi baik :</p>
+     <p class="bilingual ml-4 mb-2">Has Been equipped with navigational, life saving, fire equipment and pollution prevention</p>
+     <table class="ml-4 text-sm">
+      <thead>
+       <tr>
+        <th style="width: 45%;">JENIS PERALATAN</th>
+        <th style="width: 30%;">JUMLAH</th>
+        <th style="width: 25%;">KETERANGAN</th>
+       </tr>
+      </thead>
+      <tbody>
+       <tr>
+        <td>Navigasi / Navigational</td>
+        <td><span class="editable-field" contenteditable="true" data-field="navigasi" data-placeholder="-">GPS, KOMPAS, RADIO</span></td>
+        <td><span class="editable-field" contenteditable="true" data-field="ket_navigasi" data-placeholder="-">Baik</span></td>
+       </tr>
+       <tr>
+        <td>Penolong / Life Saving</td>
+        <td><span class="editable-field" contenteditable="true" data-field="penolong" data-placeholder="-">5 BUAH</span></td>
+        <td><span class="editable-field" contenteditable="true" data-field="ket_penolong" data-placeholder="-">Baik</span></td>
+       </tr>
+       <tr>
+        <td>Pemadam Kebakaran / Fire Equipment</td>
+        <td><span class="editable-field" contenteditable="true" data-field="pemadam" data-placeholder="-">2 BOTOL</span></td>
+        <td><span class="editable-field" contenteditable="true" data-field="ket_pemadam" data-placeholder="-">Baik</span></td>
+       </tr>
+       <tr>
+        <td>Pencegah Pencemaran / Pollution Prevention</td>
+        <td><span class="editable-field" contenteditable="true" data-field="pencemaran" data-placeholder="-">ADA</span></td>
+        <td><span class="editable-field" contenteditable="true" data-field="ket_pencemaran" data-placeholder="-">Baik</span></td>
+       </tr>
+      </tbody>
+     </table>
+    </div><!-- Section E - Declaration -->
+    <div class="mb-6">
+     <p class="section-label">E. Demikian Surat Pernyataan ini saya buat dengan sebenarnya.</p>
+     <p class="bilingual ml-4">Herewith this declaration is true and correct</p>
+    </div><!-- Signature Area -->
+    <div class="signature-area">
+     <p>Tempat dan tanggal : <span class="editable-field" contenteditable="true" data-field="tempat_tanggal" data-placeholder="Tempat, Tanggal">Samarinda, 13 Januari 2026</span></p>
+     <p class="mt-2">Nakhoda Kapal : <span class="editable-field" contenteditable="true" data-field="nama_nakhoda_ttd" data-placeholder="Nama Nakhoda">ARBA</span></p>
+     <div class="mt-16 mr-8 inline-block text-center">
+      <div class="border-b border-black w-48 mb-1"></div>
+      <p class="font-bold">NAKHODA</p>
+      <p class="bilingual">Master Signature</p>
+     </div>
+    </div>
+   </div>
+  </div><!-- Instructions -->
+  <div class="no-print text-center p-4 text-gray-600 text-sm">
+   💡 <strong>Petunjuk:</strong> Klik pada area bergaris putus-putus untuk mengedit. Tekan tombol "Cetak" untuk mencetak atau menyimpan sebagai PDF.
+  </div>
+  <script>
+    const defaultConfig = {
+      nama_nakhoda: 'ARBA',
+      nama_kapal: 'ADI RAHMATULLAH PUTRA',
+      tanda_panggilan: 'YC8042',
+      tempat_tanggal: 'Samarinda, 13 Januari 2026',
+      primary_color: '#1e40af',
+      background_color: '#f3f4f6',
+      text_color: '#1f2937',
+      font_family: 'Times New Roman',
+      font_size: 11
+    };
+
+    function printDocument() {
+      window.print();
+    }
+
+    function resetForm() {
+      const fields = document.querySelectorAll('.editable-field');
+      fields.forEach(field => {
+        const placeholder = field.getAttribute('data-placeholder');
+        if (placeholder && placeholder !== '-') {
+          field.textContent = placeholder;
+        } else {
+          field.textContent = '-';
+        }
+      });
+    }
+
+    async function onConfigChange(config) {
+      // Update editable fields based on config
+      const namaField = document.querySelector('[data-field="nama_nakhoda"]');
+      const namaFieldTtd = document.querySelector('[data-field="nama_nakhoda_ttd"]');
+      const kapalField = document.querySelector('[data-field="nama_kapal"]');
+      const tandaPanggilanField = document.querySelector('[data-field="tanda_panggilan"]');
+      const tempatTanggalField = document.querySelector('[data-field="tempat_tanggal"]');
+      
+      if (namaField) namaField.textContent = config.nama_nakhoda || defaultConfig.nama_nakhoda;
+      if (namaFieldTtd) namaFieldTtd.textContent = config.nama_nakhoda || defaultConfig.nama_nakhoda;
+      if (kapalField) kapalField.textContent = config.nama_kapal || defaultConfig.nama_kapal;
+      if (tandaPanggilanField) tandaPanggilanField.textContent = config.tanda_panggilan || defaultConfig.tanda_panggilan;
+      if (tempatTanggalField) tempatTanggalField.textContent = config.tempat_tanggal || defaultConfig.tempat_tanggal;
+      
+      // Apply colors
+      document.body.style.backgroundColor = config.background_color || defaultConfig.background_color;
+      
+      const toolbar = document.querySelector('.no-print.bg-white');
+      if (toolbar) {
+        const buttons = toolbar.querySelectorAll('button');
+        buttons[0].style.backgroundColor = config.primary_color || defaultConfig.primary_color;
+      }
+      
+      // Apply font
+      const printArea = document.querySelector('.print-area');
+      if (printArea) {
+        const fontFamily = config.font_family || defaultConfig.font_family;
+        printArea.style.fontFamily = `${fontFamily}, serif`;
+        
+        const fontSize = config.font_size || defaultConfig.font_size;
+        printArea.style.fontSize = `${fontSize}pt`;
+      }
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [
+          {
+            get: () => config.background_color || defaultConfig.background_color,
+            set: (value) => {
+              config.background_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ background_color: value });
+            }
+          },
+          {
+            get: () => config.primary_color || defaultConfig.primary_color,
+            set: (value) => {
+              config.primary_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ primary_color: value });
+            }
+          },
+          {
+            get: () => config.text_color || defaultConfig.text_color,
+            set: (value) => {
+              config.text_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ text_color: value });
+            }
+          }
+        ],
+        borderables: [],
+        fontEditable: {
+          get: () => config.font_family || defaultConfig.font_family,
+          set: (value) => {
+            config.font_family = value;
+            if (window.elementSdk) window.elementSdk.setConfig({ font_family: value });
+          }
+        },
+        fontSizeable: {
+          get: () => config.font_size || defaultConfig.font_size,
+          set: (value) => {
+            config.font_size = value;
+            if (window.elementSdk) window.elementSdk.setConfig({ font_size: value });
+          }
+        }
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ['nama_nakhoda', config.nama_nakhoda || defaultConfig.nama_nakhoda],
+        ['nama_kapal', config.nama_kapal || defaultConfig.nama_kapal],
+        ['tanda_panggilan', config.tanda_panggilan || defaultConfig.tanda_panggilan],
+        ['tempat_tanggal', config.tempat_tanggal || defaultConfig.tempat_tanggal]
+      ]);
+    }
+
+    // Sync editable fields with config
+    document.addEventListener('input', (e) => {
+      if (e.target.classList.contains('editable-field')) {
+        const field = e.target.getAttribute('data-field');
+        const value = e.target.textContent;
+        
+        // Sync nama_nakhoda fields
+        if (field === 'nama_nakhoda' || field === 'nama_nakhoda_ttd') {
+          document.querySelectorAll('[data-field="nama_nakhoda"], [data-field="nama_nakhoda_ttd"]').forEach(el => {
+            if (el !== e.target) el.textContent = value;
+          });
+          if (window.elementSdk) {
+            window.elementSdk.setConfig({ nama_nakhoda: value });
+          }
+        } else if (field === 'nama_kapal' && window.elementSdk) {
+          window.elementSdk.setConfig({ nama_kapal: value });
+        } else if (field === 'tanda_panggilan' && window.elementSdk) {
+          window.elementSdk.setConfig({ tanda_panggilan: value });
+        } else if (field === 'tempat_tanggal' && window.elementSdk) {
+          window.elementSdk.setConfig({ tempat_tanggal: value });
+        }
+      }
+    });
+
+    // Initialize SDK
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    } else {
+      onConfigChange(defaultConfig);
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9bd333f69599fdff',t:'MTc2ODI4OTU4MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
