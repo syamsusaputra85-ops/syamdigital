@@ -1,0 +1,304 @@
+html
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasi Pencarian Data</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Opsional: Font dari Google Fonts untuk tampilan lebih modern -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1 class="app-title">Aplikasi Pencarian Data</h1>
+
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Cari data di sini..." class="search-input">
+            <button id="searchButton" class="search-button">Cari</button>
+        </div>
+
+        <div class="search-results" id="searchResults">
+            <!-- Hasil pencarian akan ditampilkan di sini -->
+            <!-- Contoh item hasil pencarian (bisa diulang dengan JavaScript) -->
+            <div class="result-item">
+                <h3>Judul Data Contoh 1</h3>
+                <p>Deskripsi singkat tentang data ini. Ini adalah contoh bagaimana sebuah item hasil pencarian akan terlihat di aplikasi Anda.</p>
+                <span class="category">Kategori A</span>
+            </div>
+
+            <div class="result-item">
+                <h3>Judul Data Contoh 2 Lebih Panjang</h3>
+                <p>Informasi lebih detail mengenai data kedua. Anda bisa menambahkan link atau aksi lain di sini.</p>
+                <span class="category">Kategori B</span>
+            </div>
+
+            <div class="result-item">
+                <h3>Data Penting Nomor Tiga</h3>
+                <p>Ini adalah item hasil pencarian lainnya untuk demonstrasi tampilan.</p>
+                <span class="category">Kategori A</span>
+            </div>
+
+            <div class="result-item">
+                <h3>Proyek Beta Keempat</h3>
+                <p>Data terakhir sebagai contoh. Setiap item bisa memiliki struktur yang berbeda sesuai kebutuhan Anda.</p>
+                <span class="category">Kategori C</span>
+            </div>
+            
+            <p id="noResultsMessage" class="no-results-message" style="display: none;">Tidak ada hasil ditemukan.</p>
+        </div>
+    </div>
+
+    <!-- Anda akan menambahkan JavaScript di sini untuk fungsionalitas pencarian -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            const searchButton = document.getElementById('searchButton');
+            const searchResults = document.getElementById('searchResults');
+            const noResultsMessage = document.getElementById('noResultsMessage');
+            const allResultItems = Array.from(searchResults.getElementsByClassName('result-item'));
+
+            function performSearch() {
+                const searchTerm = searchInput.value.toLowerCase();
+                let resultsFound = false;
+
+                allResultItems.forEach(item => {
+                    const title = item.querySelector('h3').textContent.toLowerCase();
+                    const description = item.querySelector('p').textContent.toLowerCase();
+                    const category = item.querySelector('.category').textContent.toLowerCase();
+
+                    if (title.includes(searchTerm) || description.includes(searchTerm) || category.includes(searchTerm)) {
+                        item.style.display = 'block'; // Tampilkan item
+                        resultsFound = true;
+                    } else {
+                        item.style.display = 'none'; // Sembunyikan item
+                    }
+                });
+
+                if (resultsFound) {
+                    noResultsMessage.style.display = 'none';
+                } else {
+                    noResultsMessage.style.display = 'block';
+                }
+            }
+
+            // Event listener untuk tombol pencarian
+            searchButton.addEventListener('click', performSearch);
+
+            // Event listener untuk tombol Enter di input pencarian
+            searchInput.addEventListener('keypress', function(event) {
+                if (event.key === 'Enter') {
+                    performSearch();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+---
+
+### File: style.css
+
+css
+<style>
+/* Reset CSS sederhana */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Poppins', sans-serif; /* Menggunakan Poppins dari Google Fonts */
+    background-color: #f0f2f5; /* Warna latar belakang halaman */
+    color: #333;
+    line-height: 1.6;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Mengatur item ke bagian atas */
+    min-height: 100vh;
+    padding: 20px; /* Padding untuk keseluruhan halaman */
+}
+
+.container {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    max-width: 900px; /* Lebar maksimum container */
+    margin-top: 50px; /* Margin atas untuk memposisikan container */
+}
+
+.app-title {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 35px;
+    font-weight: 600;
+    font-size: 2.2em;
+}
+
+.search-box {
+    display: flex;
+    margin-bottom: 30px;
+    gap: 15px; /* Jarak antar input dan button */
+}
+
+.search-input {
+    flex-grow: 1;
+    padding: 14px 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1.1em;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.search-input::placeholder {
+    color: #999;
+}
+
+.search-input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+.search-button {
+    padding: 14px 25px;
+    background-color: #007bff; /* Warna primer tombol */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-weight: 600;
+}
+
+.search-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.search-results {
+    margin-top: 25px;
+}
+
+.result-item {
+    background-color: #fdfdfd;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 20px 25px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.result-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+.result-item h3 {
+    color: #34495e;
+    margin-bottom: 8px;
+    font-size: 1.4em;
+    font-weight: 600;
+}
+
+.result-item p {
+    color: #555;
+    font-size: 1em;
+    margin-bottom: 10px;
+}
+
+.result-item .category {
+    display: inline-block;
+    background-color: #e9f5ff;
+    color: #007bff;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    font-weight: 500;
+    margin-top: 5px;
+}
+
+.no-results-message {
+    text-align: center;
+    color: #777;
+    font-style: italic;
+    margin-top: 30px;
+    font-size: 1.1em;
+}
+
+/* Media Queries untuk Responsif */
+@media (max-width: 768px) {
+    .container {
+        padding: 25px;
+        margin-top: 30px;
+    }
+
+    .app-title {
+        font-size: 1.8em;
+        margin-bottom: 25px;
+    }
+
+    .search-box {
+        flex-direction: column; /* Input dan tombol bertumpuk */
+        gap: 10px;
+    }
+
+    .search-input,
+    .search-button {
+        width: 100%;
+        font-size: 1em;
+        padding: 12px 15px;
+    }
+
+    .result-item {
+        padding: 18px 20px;
+        margin-bottom: 15px;
+    }
+
+    .result-item h3 {
+        font-size: 1.2em;
+    }
+
+    .result-item p {
+        font-size: 0.95em;
+    }
+
+    .result-item .category {
+        font-size: 0.8em;
+        padding: 4px 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 15px;
+        margin-top: 20px;
+    }
+
+    .app-title {
+        font-size: 1.5em;
+        margin-bottom: 20px;
+    }
+
+    .search-input,
+    .search-button {
+        font-size: 0.9em;
+        padding: 10px 12px;
+    }
+
+    .result-item h3 {
+        font-size: 1.1em;
+    }
+
+    .result-item p {
+        font-size: 0.9em;
+    }
+}
+</style>
