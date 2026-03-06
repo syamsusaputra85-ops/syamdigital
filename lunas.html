@@ -50,36 +50,27 @@
  </head>
  <body class="h-full bg-gradient-to-br from-emerald-50 via-white to-green-50 overflow-auto">
   <div class="min-h-full w-full flex items-center justify-center p-4 sm:p-8">
-   <div class="w-full max-w-md">
-    <!-- Receipt Container -->
-    <div class="relative">
-     <!-- Zigzag Top -->
+   <div class="w-full max-w-md"><!-- Receipt Container -->
+    <div class="relative"><!-- Zigzag Top -->
      <div class="zigzag-top"></div><!-- Main Receipt -->
-     <div class="bg-white px-6 py-8 sm:px-8 shadow-2xl relative receipt-pattern">
-      <!-- Header -->
+     <div class="bg-white px-6 py-8 sm:px-8 shadow-2xl relative receipt-pattern"><!-- Header -->
       <div class="text-center mb-6 relative">
-       <div class="inline-flex items-center justify-center w-16 h-16 bg-emerald-100 rounded-full mb-4">
-        <i data-lucide="check-circle" class="w-10 h-10 text-emerald-600"></i>
+       <div class="inline-flex items-center justify-center w-16 h-16 bg-emerald-100 rounded-full mb-4"><i data-lucide="check-circle" class="w-10 h-10 text-emerald-600"></i>
        </div>
        <h1 id="doc-title" class="text-2xl font-extrabold text-gray-800 tracking-tight">BUKTI PEMBAYARAN</h1>
        <p class="text-emerald-600 font-semibold text-sm mt-1">Jasa Server Tahunan</p>
       </div><!-- LUNAS Stamp -->
       <div class="absolute top-20 right-4 sm:right-8 stamp">
-       <div class="border-4 border-emerald-600 rounded-lg px-4 py-2 bg-emerald-50/80">
-        <span class="text-emerald-600 font-extrabold text-xl tracking-widest">LUNAS</span>
+       <div class="border-4 border-emerald-600 rounded-lg px-4 py-2 bg-emerald-50/80"><span class="text-emerald-600 font-extrabold text-xl tracking-widest">LUNAS</span>
        </div>
       </div><!-- Divider -->
       <div class="border-t-2 border-dashed border-gray-200 my-6"></div><!-- Invoice Details -->
-      <div class="space-y-4">
-       <!-- Nomor Tagihan -->
-       <div class="flex justify-between items-center">
-        <span class="text-gray-500 text-sm">Nomor Tagihan</span> <span id="nomor-tagihan" class="font-bold text-gray-800 text-lg">72020DKT</span>
+      <div class="space-y-4"><!-- Nomor Tagihan -->
+       <div class="flex justify-between items-center"><span class="text-gray-500 text-sm">Nomor Tagihan</span> <span id="nomor-tagihan" class="font-bold text-gray-800 text-lg">72020DKT</span>
        </div><!-- Nama Server -->
-       <div class="flex justify-between items-center">
-        <span class="text-gray-500 text-sm">Nama Link Server</span> <span id="nama-server" class="font-semibold text-gray-800">Bumdesku.online</span>
+       <div class="flex justify-between items-center"><span class="text-gray-500 text-sm">Nama Link Server</span> <span id="nama-server" class="font-semibold text-gray-800">Bumdesku.online</span>
        </div><!-- Nama Pelanggan -->
-       <div class="flex justify-between items-center">
-        <span class="text-gray-500 text-sm">Nama Pelanggan</span> <span id="nama-pelanggan" class="font-semibold text-gray-800">-</span>
+       <div class="flex justify-between items-center"><span class="text-gray-500 text-sm">Nama Pelanggan</span> <input type="text" id="nama-pelanggan" class="font-semibold text-gray-800 bg-transparent border-b-2 border-emerald-300 focus:border-emerald-600 outline-none px-2 py-1 text-right" placeholder="Masukkan nama" value="-">
        </div><!-- Periode -->
        <div class="bg-gray-50 rounded-lg p-4 mt-4">
         <p class="text-gray-500 text-xs mb-2 uppercase tracking-wide">Periode Layanan</p>
@@ -102,15 +93,13 @@
        <p class="text-emerald-200 text-xs mt-1">/Tahun</p>
       </div><!-- Payment Info -->
       <div class="mt-6 bg-gray-50 rounded-lg p-4">
-       <div class="flex items-center gap-3 mb-3">
-        <i data-lucide="calendar-check" class="w-5 h-5 text-emerald-600"></i>
+       <div class="flex items-center gap-3 mb-3"><i data-lucide="calendar-check" class="w-5 h-5 text-emerald-600"></i>
         <div>
          <p class="text-xs text-gray-400">Tanggal Pembayaran</p>
          <p id="tanggal-bayar" class="font-semibold text-gray-700"></p>
         </div>
        </div>
-       <div class="flex items-center gap-3">
-        <i data-lucide="receipt" class="w-5 h-5 text-emerald-600"></i>
+       <div class="flex items-center gap-3"><i data-lucide="receipt" class="w-5 h-5 text-emerald-600"></i>
         <div>
          <p class="text-xs text-gray-400">No. Referensi</p>
          <p id="no-referensi" class="font-semibold text-gray-700 font-mono text-sm"></p>
@@ -118,15 +107,15 @@
        </div>
       </div><!-- Footer -->
       <div class="mt-6 text-center">
-       <div class="inline-flex items-center gap-2 text-emerald-600 bg-emerald-50 px-4 py-2 rounded-full">
-        <i data-lucide="shield-check" class="w-4 h-4"></i> <span class="text-sm font-medium">Pembayaran Terverifikasi</span>
+       <div class="inline-flex items-center gap-2 text-emerald-600 bg-emerald-50 px-4 py-2 rounded-full"><i data-lucide="shield-check" class="w-4 h-4"></i> <span class="text-sm font-medium">Pembayaran Terverifikasi</span>
        </div>
        <p class="text-gray-400 text-xs mt-4">Simpan bukti ini sebagai referensi pembayaran Anda</p>
       </div>
      </div><!-- Zigzag Bottom -->
      <div class="zigzag-bottom"></div>
     </div><!-- Download Button -->
-    <div class="mt-6 flex flex-col gap-3 text-center"><button onclick="window.print()" class="inline-flex items-center justify-center gap-2 bg-white text-emerald-600 font-semibold px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all hover:bg-emerald-50"> <i data-lucide="download" class="w-5 h-5"></i> <span>Cetak / Simpan PDF</span> </button> <button id="share-whatsapp" class="inline-flex items-center justify-center gap-2 bg-green-500 text-white font-semibold px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all hover:bg-green-600"> <i data-lucide="send" class="w-5 h-5"></i> <span>Bagikan ke WhatsApp</span> </button>
+    <div class="mt-6 flex flex-col gap-3 text-center">
+     <button onclick="window.print()" class="inline-flex items-center justify-center gap-2 bg-white text-emerald-600 font-semibold px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all hover:bg-emerald-50"> <i data-lucide="download" class="w-5 h-5"></i> <span>Cetak / Simpan PDF</span> </button> <button id="share-whatsapp" class="inline-flex items-center justify-center gap-2 bg-green-500 text-white font-semibold px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all hover:bg-green-600"> <i data-lucide="send" class="w-5 h-5"></i> <span>Bagikan ke WhatsApp</span> </button>
     </div>
    </div>
   </div>
@@ -171,7 +160,7 @@
     async function onConfigChange(config) {
       document.getElementById('nomor-tagihan').textContent = config.nomor_tagihan || defaultConfig.nomor_tagihan;
       document.getElementById('nama-server').textContent = config.nama_server || defaultConfig.nama_server;
-      document.getElementById('nama-pelanggan').textContent = config.nama_pelanggan || defaultConfig.nama_pelanggan;
+      document.getElementById('nama-pelanggan').value = config.nama_pelanggan || defaultConfig.nama_pelanggan;
       document.getElementById('total-tagihan').textContent = config.total_tagihan || defaultConfig.total_tagihan;
       document.getElementById('periode-mulai').textContent = config.periode_mulai || defaultConfig.periode_mulai;
       document.getElementById('periode-akhir').textContent = config.periode_akhir || defaultConfig.periode_akhir;
@@ -228,6 +217,13 @@
       });
     }
 
+    // Handle nama-pelanggan input changes
+    document.getElementById('nama-pelanggan').addEventListener('change', function() {
+      if (window.elementSdk) {
+        window.elementSdk.setConfig({ nama_pelanggan: this.value });
+      }
+    });
+
     // WhatsApp Share Function
     document.getElementById('share-whatsapp').addEventListener('click', function() {
       const nomorTagihan = document.getElementById('nomor-tagihan').textContent;
@@ -251,5 +247,5 @@
       window.open(whatsappUrl, '_blank');
     });
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9d821acf05faddfc',t:'MTc3MjgwNzkxMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9d82f39d877e9fd1',t:'MTc3MjgxNjc5My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
