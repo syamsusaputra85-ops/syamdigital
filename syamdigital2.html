@@ -296,9 +296,18 @@
       transition: opacity 0.3s ease;
       z-index: 0;
     }
+    
+    /* Portfolio image styling */
+    .portfolio-item img {
+      transition: transform 0.4s ease;
+    }
+    
+    .portfolio-item:hover img {
+      transform: scale(1.05);
+    }
   </style>
-  <style>body { box-sizing: border-box; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <style>body { box-sizing: border-box; }</style>
  </head>
  <body class="h-full overflow-auto">
   <!-- Cursor follower -->
@@ -326,7 +335,7 @@
   </nav>
   <main class="w-full">
    <!-- Hero Section -->
-   <section id="beranda" class="relative min-h-screen hero-gradient pt-32 pb-20 overflow-hidden">
+   <section id="beranda" class="relative min-h-screen hero-gradient pt-32 pb-20 overflow-hidden" style="background-image: url('https://syam.digital/syam-foto.jpg'); background-size: cover; background-position: center; background-attachment: fixed;">
     <!-- Particles -->
     <div class="particles">
      <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
@@ -555,11 +564,7 @@
      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="portfolioGrid">
       <!-- Portfolio Item 1 -->
       <div class="portfolio-item group relative rounded-2xl overflow-hidden reveal" data-category="web">
-       <div class="aspect-[4/3] bg-gradient-to-br from-indigo-600 to-purple-600 p-6 flex items-center justify-center">
-        <div class="w-full h-full rounded-xl bg-white/10 backdrop-blur flex items-center justify-center">
-         <i data-lucide="shopping-bag" class="w-16 h-16 text-white/50"></i>
-        </div>
-       </div>
+       <img src="https://images.unsplash.com/photo-1555099962-4199f1efa4d4?w=600&amp;h=450&amp;fit=crop" alt="TokoBaju Online" class="w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.display='none'; this.parentElement.style.backgroundColor='#4f46e5';">
        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
         <div>
          <span class="text-xs text-indigo-400 mb-1 block">E-Commerce</span>
@@ -569,11 +574,7 @@
        </div>
       </div><!-- Portfolio Item 2 -->
       <div class="portfolio-item group relative rounded-2xl overflow-hidden reveal" data-category="app">
-       <div class="aspect-[4/3] bg-gradient-to-br from-cyan-600 to-blue-600 p-6 flex items-center justify-center">
-        <div class="w-full h-full rounded-xl bg-white/10 backdrop-blur flex items-center justify-center">
-         <i data-lucide="heart-pulse" class="w-16 h-16 text-white/50"></i>
-        </div>
-       </div>
+       <img src="https://images.unsplash.com/photo-1576091160550-112173f7f869?w=600&amp;h=450&amp;fit=crop" alt="SehatKu App" class="w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.display='none'; this.parentElement.style.backgroundColor='#0891b2';">
        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
         <div>
          <span class="text-xs text-cyan-400 mb-1 block">Healthcare</span>
@@ -583,11 +584,7 @@
        </div>
       </div><!-- Portfolio Item 3 -->
       <div class="portfolio-item group relative rounded-2xl overflow-hidden reveal" data-category="design">
-       <div class="aspect-[4/3] bg-gradient-to-br from-pink-600 to-rose-600 p-6 flex items-center justify-center">
-        <div class="w-full h-full rounded-xl bg-white/10 backdrop-blur flex items-center justify-center">
-         <i data-lucide="utensils" class="w-16 h-16 text-white/50"></i>
-        </div>
-       </div>
+       <img src="https://images.unsplash.com/photo-1495521821757-a1efb6729352?w=600&amp;h=450&amp;fit=crop" alt="RestoGo Design" class="w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.display='none'; this.parentElement.style.backgroundColor='#be185d';">
        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
         <div>
          <span class="text-xs text-pink-400 mb-1 block">Food &amp; Beverage</span>
@@ -597,11 +594,7 @@
        </div>
       </div><!-- Portfolio Item 4 -->
       <div class="portfolio-item group relative rounded-2xl overflow-hidden reveal" data-category="web">
-       <div class="aspect-[4/3] bg-gradient-to-br from-emerald-600 to-teal-600 p-6 flex items-center justify-center">
-        <div class="w-full h-full rounded-xl bg-white/10 backdrop-blur flex items-center justify-center">
-         <i data-lucide="building-2" class="w-16 h-16 text-white/50"></i>
-        </div>
-       </div>
+       <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&amp;h=450&amp;fit=crop" alt="PropertyHub" class="w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.display='none'; this.parentElement.style.backgroundColor='#059669';">
        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
         <div>
          <span class="text-xs text-emerald-400 mb-1 block">Corporate</span>
@@ -611,11 +604,7 @@
        </div>
       </div><!-- Portfolio Item 5 -->
       <div class="portfolio-item group relative rounded-2xl overflow-hidden reveal" data-category="app">
-       <div class="aspect-[4/3] bg-gradient-to-br from-amber-600 to-orange-600 p-6 flex items-center justify-center">
-        <div class="w-full h-full rounded-xl bg-white/10 backdrop-blur flex items-center justify-center">
-         <i data-lucide="graduation-cap" class="w-16 h-16 text-white/50"></i>
-        </div>
-       </div>
+       <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&amp;h=450&amp;fit=crop" alt="EduLearn App" class="w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.display='none'; this.parentElement.style.backgroundColor='#b45309';">
        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
         <div>
          <span class="text-xs text-amber-400 mb-1 block">Education</span>
@@ -625,11 +614,7 @@
        </div>
       </div><!-- Portfolio Item 6 -->
       <div class="portfolio-item group relative rounded-2xl overflow-hidden reveal" data-category="design">
-       <div class="aspect-[4/3] bg-gradient-to-br from-violet-600 to-purple-600 p-6 flex items-center justify-center">
-        <div class="w-full h-full rounded-xl bg-white/10 backdrop-blur flex items-center justify-center">
-         <i data-lucide="wallet" class="w-16 h-16 text-white/50"></i>
-        </div>
-       </div>
+       <img src="https://images.unsplash.com/photo-1563013544-824ae1bf4de8?w=600&amp;h=450&amp;fit=crop" alt="PayEasy Wallet" class="w-full h-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.display='none'; this.parentElement.style.backgroundColor='#6d28d9';">
        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
         <div>
          <span class="text-xs text-violet-400 mb-1 block">Fintech</span>
@@ -1260,5 +1245,5 @@
     document.body.appendChild(floatingButtons);
     lucide.createIcons();
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9d91428ce1c2fe13',t:'MTc3Mjk2NjgyNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9d91560663defe13',t:'MTc3Mjk2NzYyNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
