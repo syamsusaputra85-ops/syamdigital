@@ -1,0 +1,1264 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Syam Digital - Solusi Digital Terdepan</title>
+  <link rel="icon" type="image/png" href="https://syam.digital/syam-digital-logo.png">
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;family=Outfit:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; }
+    
+    :root {
+      --bg-primary: #0a0a0f;
+      --surface: #16161f;
+      --text-primary: #f0f0f5;
+      --accent-primary: #6366f1;
+      --accent-secondary: #22d3ee;
+    }
+    
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+    }
+    
+    .font-display { font-family: 'Outfit', sans-serif; }
+    
+    /* Animated gradient background */
+    .hero-gradient {
+      background: 
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99, 102, 241, 0.3), transparent),
+        radial-gradient(ellipse 60% 40% at 80% 50%, rgba(34, 211, 238, 0.15), transparent),
+        radial-gradient(ellipse 50% 30% at 20% 80%, rgba(168, 85, 247, 0.2), transparent);
+    }
+    
+    /* Floating animation */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(2deg); }
+    }
+    
+    @keyframes float-delayed {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-15px) rotate(-2deg); }
+    }
+    
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); }
+      50% { box-shadow: 0 0 40px rgba(99, 102, 241, 0.6); }
+    }
+    
+    @keyframes gradient-shift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    @keyframes slide-up {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes scale-in {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    
+    .animate-float { animation: float 6s ease-in-out infinite; }
+    .animate-float-delayed { animation: float-delayed 5s ease-in-out infinite 0.5s; }
+    .animate-pulse-glow { animation: pulse-glow 3s ease-in-out infinite; }
+    .animate-slide-up { animation: slide-up 0.8s ease-out forwards; }
+    .animate-scale-in { animation: scale-in 0.6s ease-out forwards; }
+    
+    .delay-100 { animation-delay: 0.1s; }
+    .delay-200 { animation-delay: 0.2s; }
+    .delay-300 { animation-delay: 0.3s; }
+    .delay-400 { animation-delay: 0.4s; }
+    .delay-500 { animation-delay: 0.5s; }
+    
+    /* Gradient text */
+    .gradient-text {
+      background: linear-gradient(135deg, #6366f1 0%, #22d3ee 50%, #a855f7 100%);
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradient-shift 4s ease infinite;
+    }
+    
+    /* Glass morphism */
+    .glass {
+      background: rgba(22, 22, 31, 0.7);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    
+    .glass-light {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    /* Button styles */
+    .btn-primary {
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s ease;
+    }
+    
+    .btn-primary:hover::before {
+      left: 100%;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 40px rgba(99, 102, 241, 0.4);
+    }
+    
+    .btn-secondary {
+      background: transparent;
+      border: 2px solid rgba(99, 102, 241, 0.5);
+      transition: all 0.3s ease;
+    }
+    
+    .btn-secondary:hover {
+      background: rgba(99, 102, 241, 0.1);
+      border-color: #6366f1;
+      transform: translateY(-2px);
+    }
+    
+    /* Card hover effects */
+    .feature-card {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-10px);
+      border-color: rgba(99, 102, 241, 0.5);
+      box-shadow: 0 25px 50px -12px rgba(99, 102, 241, 0.25);
+    }
+    
+    .feature-card:hover .feature-icon {
+      transform: scale(1.1) rotate(5deg);
+    }
+    
+    .feature-icon {
+      transition: all 0.4s ease;
+    }
+    
+    /* Testimonial card */
+    .testimonial-card {
+      transition: all 0.3s ease;
+    }
+    
+    .testimonial-card:hover {
+      transform: scale(1.02);
+    }
+    
+    /* Stats counter animation */
+    .stat-number {
+      background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    /* Scrollbar styling */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #0a0a0f; }
+    ::-webkit-scrollbar-thumb { 
+      background: linear-gradient(180deg, #6366f1, #8b5cf6);
+      border-radius: 4px;
+    }
+    
+    /* Mobile menu */
+    .mobile-menu {
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+    }
+    
+    .mobile-menu.active {
+      transform: translateX(0);
+    }
+    
+    /* Particle effect container */
+    .particles {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: rgba(99, 102, 241, 0.5);
+      border-radius: 50%;
+      animation: particle-float 15s infinite linear;
+    }
+    
+    @keyframes particle-float {
+      0% { transform: translateY(100%) translateX(0); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(-100%) translateX(100px); opacity: 0; }
+    }
+    
+    /* Section reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 0.8s ease;
+    }
+    
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* Pricing card */
+    .pricing-card {
+      transition: all 0.4s ease;
+    }
+    
+    .pricing-card.popular {
+      transform: scale(1.05);
+      border: 2px solid #6366f1;
+    }
+    
+    .pricing-card:hover {
+      transform: translateY(-10px);
+    }
+    
+    .pricing-card.popular:hover {
+      transform: scale(1.05) translateY(-10px);
+    }
+    
+    /* FAQ accordion */
+    .faq-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+    
+    .faq-item.active .faq-content {
+      max-height: 200px;
+    }
+    
+    .faq-item.active .faq-icon {
+      transform: rotate(180deg);
+    }
+    
+    .faq-icon {
+      transition: transform 0.3s ease;
+    }
+    
+    /* Marquee */
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    
+    .marquee-track {
+      animation: marquee 30s linear infinite;
+    }
+    
+    /* Interactive cursor follower */
+    .cursor-follower {
+      pointer-events: none;
+      position: fixed;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: opacity 0.3s ease;
+      z-index: 0;
+    }
+  </style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full overflow-auto">
+  <!-- Cursor follower -->
+  <div id="cursorFollower" class="cursor-follower hidden lg:block"></div><!-- Navigation -->
+  <nav class="fixed top-0 left-0 right-0 z-50 glass">
+   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-20">
+     <!-- Logo --> <a href="#" class="flex items-center gap-3 group"> <img src="https://syam.digital/syam-digital-logo.png" alt="Syam Digital" class="w-10 h-10 transform group-hover:rotate-12 transition-transform" loading="lazy" onerror="console.error('Logo failed to load:', this.src); this.style.display='none';"> <span class="text-xl font-bold font-display">Syam<span class="gradient-text">Digital</span></span> </a> <!-- Desktop Menu -->
+     <div class="hidden md:flex items-center gap-8">
+      <a href="#beranda" class="nav-link text-gray-300 hover:text-white transition-colors relative group"> Beranda <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-indigo-500 to-cyan-400 group-hover:w-full transition-all duration-300"></span> </a> <a href="#layanan" class="nav-link text-gray-300 hover:text-white transition-colors relative group"> Layanan <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-indigo-500 to-cyan-400 group-hover:w-full transition-all duration-300"></span> </a> <a href="#portfolio" class="nav-link text-gray-300 hover:text-white transition-colors relative group"> Portfolio <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-indigo-500 to-cyan-400 group-hover:w-full transition-all duration-300"></span> </a> <a href="#harga" class="nav-link text-gray-300 hover:text-white transition-colors relative group"> Harga <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-indigo-500 to-cyan-400 group-hover:w-full transition-all duration-300"></span> </a> <a href="#testimoni" class="nav-link text-gray-300 hover:text-white transition-colors relative group"> Testimoni <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-indigo-500 to-cyan-400 group-hover:w-full transition-all duration-300"></span> </a> <a href="#kontak" class="nav-link text-gray-300 hover:text-white transition-colors relative group"> Kontak <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-indigo-500 to-cyan-400 group-hover:w-full transition-all duration-300"></span> </a>
+     </div><!-- CTA Button -->
+     <div class="hidden md:block">
+      <button id="navCta" class="btn-primary px-6 py-3 rounded-full text-white font-semibold"> Konsultasi Gratis </button>
+     </div><!-- Mobile Menu Button --> <button id="mobileMenuBtn" class="md:hidden p-2 text-gray-300 hover:text-white"> <i data-lucide="menu" class="w-6 h-6"></i> </button>
+    </div>
+   </div><!-- Mobile Menu -->
+   <div id="mobileMenu" class="mobile-menu fixed top-0 right-0 w-80 h-full bg-[#0a0a0f] z-50 p-6">
+    <div class="flex justify-between items-center mb-8">
+     <span class="text-xl font-bold font-display">Menu</span> <button id="closeMobileMenu" class="p-2 text-gray-300 hover:text-white"> <i data-lucide="x" class="w-6 h-6"></i> </button>
+    </div>
+    <div class="flex flex-col gap-4">
+     <a href="#beranda" class="mobile-nav-link py-3 px-4 rounded-lg hover:bg-white/5 transition-colors">Beranda</a> <a href="#layanan" class="mobile-nav-link py-3 px-4 rounded-lg hover:bg-white/5 transition-colors">Layanan</a> <a href="#portfolio" class="mobile-nav-link py-3 px-4 rounded-lg hover:bg-white/5 transition-colors">Portfolio</a> <a href="#harga" class="mobile-nav-link py-3 px-4 rounded-lg hover:bg-white/5 transition-colors">Harga</a> <a href="#testimoni" class="mobile-nav-link py-3 px-4 rounded-lg hover:bg-white/5 transition-colors">Testimoni</a> <a href="#kontak" class="mobile-nav-link py-3 px-4 rounded-lg hover:bg-white/5 transition-colors">Kontak</a> <button class="btn-primary mt-4 px-6 py-3 rounded-full text-white font-semibold"> Konsultasi Gratis </button>
+    </div>
+   </div>
+  </nav>
+  <main class="w-full">
+   <!-- Hero Section -->
+   <section id="beranda" class="relative min-h-screen hero-gradient pt-32 pb-20 overflow-hidden">
+    <!-- Particles -->
+    <div class="particles">
+     <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+     <div class="particle" style="left: 20%; animation-delay: 2s;"></div>
+     <div class="particle" style="left: 30%; animation-delay: 4s;"></div>
+     <div class="particle" style="left: 50%; animation-delay: 1s;"></div>
+     <div class="particle" style="left: 70%; animation-delay: 3s;"></div>
+     <div class="particle" style="left: 80%; animation-delay: 5s;"></div>
+     <div class="particle" style="left: 90%; animation-delay: 2.5s;"></div>
+    </div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+     <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <!-- Hero Content -->
+      <div class="text-center lg:text-left">
+       <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-light mb-6 animate-slide-up">
+        <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span> <span class="text-sm text-gray-300">Solusi Digital #1 di Indonesia</span>
+       </div>
+       <h1 id="heroTitle" class="font-display text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 animate-slide-up delay-100" style="opacity: 0;">Transformasi <span class="gradient-text">Digital</span> Bisnis Anda</h1>
+       <p id="heroSubtitle" class="text-lg sm:text-xl text-gray-400 mb-8 max-w-xl mx-auto lg:mx-0 animate-slide-up delay-200" style="opacity: 0;">Wujudkan potensi bisnis Anda dengan solusi digital terdepan. Website, aplikasi, dan strategi digital marketing yang menghasilkan.</p>
+       <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start animate-slide-up delay-300" style="opacity: 0;">
+        <button id="heroCta" class="btn-primary px-8 py-4 rounded-full text-white font-semibold text-lg flex items-center justify-center gap-2 animate-pulse-glow"> <span>Mulai Sekarang</span> <i data-lucide="arrow-right" class="w-5 h-5"></i> </button> <button class="btn-secondary px-8 py-4 rounded-full text-white font-semibold text-lg flex items-center justify-center gap-2"> <i data-lucide="play-circle" class="w-5 h-5"></i> <span>Lihat Demo</span> </button>
+       </div><!-- Trust badges -->
+       <div class="mt-12 animate-slide-up delay-400" style="opacity: 0;">
+        <p class="text-sm text-gray-500 mb-4">Dipercaya oleh 500+ perusahaan</p>
+        <div class="flex items-center justify-center lg:justify-start gap-8 opacity-50">
+         <div class="text-2xl font-bold font-display">
+          TOKOPEDIA
+         </div>
+         <div class="text-2xl font-bold font-display">
+          GOJEK
+         </div>
+         <div class="text-2xl font-bold font-display">
+          BUKALAPAK
+         </div>
+        </div>
+       </div>
+      </div><!-- Hero Visual -->
+      <div class="relative animate-scale-in delay-200" style="opacity: 0;">
+       <!-- Main floating card -->
+       <div class="relative z-10 glass rounded-3xl p-6 animate-float">
+        <div class="bg-gradient-to-br from-indigo-500/20 to-cyan-500/20 rounded-2xl p-8">
+         <!-- Dashboard mockup -->
+         <div class="space-y-4">
+          <div class="flex items-center justify-between mb-6">
+           <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center">
+             <i data-lucide="bar-chart-3" class="w-5 h-5 text-white"></i>
+            </div>
+            <div>
+             <p class="text-sm text-gray-400">Total Revenue</p>
+             <p class="text-xl font-bold">Rp 2.4M</p>
+            </div>
+           </div>
+           <div class="flex items-center gap-1 text-green-400 text-sm">
+            <i data-lucide="trending-up" class="w-4 h-4"></i> <span>+24%</span>
+           </div>
+          </div><!-- Chart bars -->
+          <div class="flex items-end gap-2 h-32">
+           <div class="flex-1 bg-indigo-500/30 rounded-t-lg" style="height: 40%;"></div>
+           <div class="flex-1 bg-indigo-500/40 rounded-t-lg" style="height: 60%;"></div>
+           <div class="flex-1 bg-indigo-500/50 rounded-t-lg" style="height: 45%;"></div>
+           <div class="flex-1 bg-indigo-500/60 rounded-t-lg" style="height: 80%;"></div>
+           <div class="flex-1 bg-gradient-to-t from-indigo-500 to-cyan-400 rounded-t-lg" style="height: 100%;"></div>
+           <div class="flex-1 bg-indigo-500/70 rounded-t-lg" style="height: 70%;"></div>
+           <div class="flex-1 bg-indigo-500/50 rounded-t-lg" style="height: 55%;"></div>
+          </div>
+          <div class="flex justify-between text-xs text-gray-500 mt-2">
+           <span>Sen</span> <span>Sel</span> <span>Rab</span> <span>Kam</span> <span>Jum</span> <span>Sab</span> <span>Min</span>
+          </div>
+         </div>
+        </div>
+       </div><!-- Floating elements -->
+       <div class="absolute -top-4 -right-4 glass rounded-2xl p-4 animate-float-delayed z-20">
+        <div class="flex items-center gap-3">
+         <div class="w-12 h-12 rounded-full bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center">
+          <i data-lucide="check" class="w-6 h-6 text-white"></i>
+         </div>
+         <div>
+          <p class="text-xs text-gray-400">Project Selesai</p>
+          <p class="text-lg font-bold">1,234+</p>
+         </div>
+        </div>
+       </div>
+       <div class="absolute -bottom-4 -left-4 glass rounded-2xl p-4 animate-float z-20">
+        <div class="flex items-center gap-3">
+         <div class="w-12 h-12 rounded-full bg-gradient-to-br from-purple-400 to-pink-500 flex items-center justify-center">
+          <i data-lucide="users" class="w-6 h-6 text-white"></i>
+         </div>
+         <div>
+          <p class="text-xs text-gray-400">Klien Puas</p>
+          <p class="text-lg font-bold">99.8%</p>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div><!-- Scroll indicator -->
+    <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+     <a href="#layanan" class="flex flex-col items-center gap-2 text-gray-400 hover:text-white transition-colors"> <span class="text-sm">Scroll ke bawah</span> <i data-lucide="chevron-down" class="w-5 h-5"></i> </a>
+    </div>
+   </section><!-- Stats Section -->
+   <section class="py-16 border-y border-white/5">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+     <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+      <div class="text-center reveal">
+       <div class="stat-number text-4xl md:text-5xl font-bold font-display mb-2" data-count="500">
+        0+
+       </div>
+       <p class="text-gray-400">Klien Puas</p>
+      </div>
+      <div class="text-center reveal">
+       <div class="stat-number text-4xl md:text-5xl font-bold font-display mb-2" data-count="1234">
+        0+
+       </div>
+       <p class="text-gray-400">Project Selesai</p>
+      </div>
+      <div class="text-center reveal">
+       <div class="stat-number text-4xl md:text-5xl font-bold font-display mb-2" data-count="15">
+        0+
+       </div>
+       <p class="text-gray-400">Tahun Pengalaman</p>
+      </div>
+      <div class="text-center reveal">
+       <div class="stat-number text-4xl md:text-5xl font-bold font-display mb-2" data-count="50">
+        0+
+       </div>
+       <p class="text-gray-400">Tim Expert</p>
+      </div>
+     </div>
+    </div>
+   </section><!-- Services Section -->
+   <section id="layanan" class="py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+     <div class="text-center mb-16 reveal">
+      <span class="inline-block px-4 py-2 rounded-full glass-light text-sm text-indigo-400 mb-4">Layanan Kami</span>
+      <h2 id="aboutTitle" class="font-display text-3xl md:text-4xl lg:text-5xl font-bold mb-4">Solusi Digital <span class="gradient-text">Lengkap</span></h2>
+      <p class="text-gray-400 max-w-2xl mx-auto text-lg">Kami menyediakan berbagai layanan digital untuk membantu bisnis Anda berkembang di era digital</p>
+     </div>
+     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Service Card 1 -->
+      <div class="feature-card glass rounded-2xl p-8 reveal">
+       <div class="feature-icon w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center mb-6">
+        <i data-lucide="globe" class="w-8 h-8 text-white"></i>
+       </div>
+       <h3 class="text-xl font-bold mb-3">Website Development</h3>
+       <p class="text-gray-400 mb-4">Website profesional dengan desain modern, responsif, dan SEO-friendly untuk meningkatkan presence online bisnis Anda.</p>
+       <ul class="space-y-2 text-sm text-gray-400">
+        <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-green-400"></i> <span>Custom Design</span></li>
+        <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-green-400"></i> <span>Mobile Responsive</span></li>
+        <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-green-400"></i> <span>SEO Optimized</span></li>
+       </ul>
+      </div><!-- Service Card 2 -->
+      <div class="feature-card glass rounded-2xl p-8 reveal">
+       <div class="feature-icon w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center mb-6">
+        <i data-lucide="smartphone" class="w-8 h-8 text-white"></i>
+       </div>
+       <h3 class="text-xl font-bold mb-3">Mobile App Development</h3>
+       <p class="text-gray-400 mb-4">Aplikasi mobile native dan cross-platform dengan performa tinggi dan user experience yang memukau.</p>
+       <ul class="space-y-2 text-sm text-gray-400">
+        <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-green-400"></i> <span>iOS &amp; Android</span></li>
+        <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-green-400"></i> <span>React Native / Flutter</span></li>
+        <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-green-400"></i> <span>Push Notifications</span></li>
+       </ul>
+      </div><!-- Service Card 3 -->
+      <div class="feature-card glass rounded-2xl p-8 reveal">
+       <div class="feature-icon w-16 h-16 rounded-2xl bg-gradient-to-br from-pink-500 to-rose-500 flex items-center justify-center mb-6">
+        <i data-lucide="trending-up" class="w-8 h-8 text-white"></i>
+       </div>
+       <h3 class="text-xl font-bold mb-3">Digital Marketing</h3>
+       <p class="text-gray-400 mb-4">Strategi pemasaran digital terintegrasi untuk meningkatkan brand awareness dan konversi bisnis Anda.</p>
+       <ul class="space-y-2 text-sm text-gray-400">
+        <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-green-400"></i> <span>Social Media Marketing</span></li>
+        <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-green-400"></i> <span>Google &amp; Meta Ads</span></li>
+        <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-green-400"></i> <span>Content Marketing</span></li>
+       </ul>
+      </div><!-- Service Card 4 -->
+      <div class="feature-card glass rounded-2xl p-8 reveal">
+       <div class="feature-icon w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center mb-6">
+        <i data-lucide="palette" class="w-8 h-8 text-white"></i>
+       </div>
+       <h3 class="text-xl font-bold mb-3">UI/UX Design</h3>
+       <p class="text-gray-400 mb-4">Desain interface yang intuitif dan user experience yang memikat untuk produk digital Anda.</p>
+       <ul class="space-y-2 text-sm text-gray-400">
+        <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-green-400"></i> <span>User Research</span></li>
+        <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-green-400"></i> <span>Wireframing &amp; Prototyping</span></li>
+        <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-green-400"></i> <span>Design System</span></li>
+       </ul>
+      </div><!-- Service Card 5 -->
+      <div class="feature-card glass rounded-2xl p-8 reveal">
+       <div class="feature-icon w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center mb-6">
+        <i data-lucide="shopping-cart" class="w-8 h-8 text-white"></i>
+       </div>
+       <h3 class="text-xl font-bold mb-3">E-Commerce Solutions</h3>
+       <p class="text-gray-400 mb-4">Platform e-commerce lengkap dengan fitur payment gateway, inventory, dan analytics terintegrasi.</p>
+       <ul class="space-y-2 text-sm text-gray-400">
+        <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-green-400"></i> <span>Multi Payment Gateway</span></li>
+        <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-green-400"></i> <span>Inventory Management</span></li>
+        <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-green-400"></i> <span>Analytics Dashboard</span></li>
+       </ul>
+      </div><!-- Service Card 6 -->
+      <div class="feature-card glass rounded-2xl p-8 reveal">
+       <div class="feature-icon w-16 h-16 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-500 flex items-center justify-center mb-6">
+        <i data-lucide="cloud" class="w-8 h-8 text-white"></i>
+       </div>
+       <h3 class="text-xl font-bold mb-3">Cloud &amp; DevOps</h3>
+       <p class="text-gray-400 mb-4">Infrastruktur cloud yang scalable dan automated deployment untuk aplikasi Anda.</p>
+       <ul class="space-y-2 text-sm text-gray-400">
+        <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-green-400"></i> <span>AWS / GCP / Azure</span></li>
+        <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-green-400"></i> <span>CI/CD Pipeline</span></li>
+        <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-green-400"></i> <span>24/7 Monitoring</span></li>
+       </ul>
+      </div>
+     </div>
+    </div>
+   </section><!-- Portfolio Section -->
+   <section id="portfolio" class="py-24 bg-gradient-to-b from-transparent via-indigo-950/20 to-transparent">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+     <div class="text-center mb-16 reveal">
+      <span class="inline-block px-4 py-2 rounded-full glass-light text-sm text-cyan-400 mb-4">Portfolio</span>
+      <h2 class="font-display text-3xl md:text-4xl lg:text-5xl font-bold mb-4">Karya <span class="gradient-text">Terbaik</span> Kami</h2>
+      <p class="text-gray-400 max-w-2xl mx-auto text-lg">Lihat beberapa project terbaik yang telah kami kerjakan untuk klien kami</p>
+     </div><!-- Portfolio Filter -->
+     <div class="flex flex-wrap justify-center gap-4 mb-12 reveal">
+      <button class="portfolio-filter active px-6 py-2 rounded-full glass-light text-sm hover:bg-indigo-500/20 transition-colors" data-filter="all">Semua</button> <button class="portfolio-filter px-6 py-2 rounded-full glass-light text-sm hover:bg-indigo-500/20 transition-colors" data-filter="web">Website</button> <button class="portfolio-filter px-6 py-2 rounded-full glass-light text-sm hover:bg-indigo-500/20 transition-colors" data-filter="app">Mobile App</button> <button class="portfolio-filter px-6 py-2 rounded-full glass-light text-sm hover:bg-indigo-500/20 transition-colors" data-filter="design">UI/UX</button>
+     </div><!-- Portfolio Grid -->
+     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="portfolioGrid">
+      <!-- Portfolio Item 1 -->
+      <div class="portfolio-item group relative rounded-2xl overflow-hidden reveal" data-category="web">
+       <div class="aspect-[4/3] bg-gradient-to-br from-indigo-600 to-purple-600 p-6 flex items-center justify-center">
+        <div class="w-full h-full rounded-xl bg-white/10 backdrop-blur flex items-center justify-center">
+         <i data-lucide="shopping-bag" class="w-16 h-16 text-white/50"></i>
+        </div>
+       </div>
+       <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+        <div>
+         <span class="text-xs text-indigo-400 mb-1 block">E-Commerce</span>
+         <h3 class="text-xl font-bold mb-2">TokoBaju Online</h3>
+         <p class="text-sm text-gray-300">Platform fashion e-commerce dengan AI recommendation</p>
+        </div>
+       </div>
+      </div><!-- Portfolio Item 2 -->
+      <div class="portfolio-item group relative rounded-2xl overflow-hidden reveal" data-category="app">
+       <div class="aspect-[4/3] bg-gradient-to-br from-cyan-600 to-blue-600 p-6 flex items-center justify-center">
+        <div class="w-full h-full rounded-xl bg-white/10 backdrop-blur flex items-center justify-center">
+         <i data-lucide="heart-pulse" class="w-16 h-16 text-white/50"></i>
+        </div>
+       </div>
+       <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+        <div>
+         <span class="text-xs text-cyan-400 mb-1 block">Healthcare</span>
+         <h3 class="text-xl font-bold mb-2">SehatKu App</h3>
+         <p class="text-sm text-gray-300">Aplikasi kesehatan dengan fitur teleconsultation</p>
+        </div>
+       </div>
+      </div><!-- Portfolio Item 3 -->
+      <div class="portfolio-item group relative rounded-2xl overflow-hidden reveal" data-category="design">
+       <div class="aspect-[4/3] bg-gradient-to-br from-pink-600 to-rose-600 p-6 flex items-center justify-center">
+        <div class="w-full h-full rounded-xl bg-white/10 backdrop-blur flex items-center justify-center">
+         <i data-lucide="utensils" class="w-16 h-16 text-white/50"></i>
+        </div>
+       </div>
+       <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+        <div>
+         <span class="text-xs text-pink-400 mb-1 block">Food &amp; Beverage</span>
+         <h3 class="text-xl font-bold mb-2">RestoGo Design</h3>
+         <p class="text-sm text-gray-300">UI/UX design untuk aplikasi food delivery</p>
+        </div>
+       </div>
+      </div><!-- Portfolio Item 4 -->
+      <div class="portfolio-item group relative rounded-2xl overflow-hidden reveal" data-category="web">
+       <div class="aspect-[4/3] bg-gradient-to-br from-emerald-600 to-teal-600 p-6 flex items-center justify-center">
+        <div class="w-full h-full rounded-xl bg-white/10 backdrop-blur flex items-center justify-center">
+         <i data-lucide="building-2" class="w-16 h-16 text-white/50"></i>
+        </div>
+       </div>
+       <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+        <div>
+         <span class="text-xs text-emerald-400 mb-1 block">Corporate</span>
+         <h3 class="text-xl font-bold mb-2">PropertyHub</h3>
+         <p class="text-sm text-gray-300">Website real estate dengan virtual tour 360°</p>
+        </div>
+       </div>
+      </div><!-- Portfolio Item 5 -->
+      <div class="portfolio-item group relative rounded-2xl overflow-hidden reveal" data-category="app">
+       <div class="aspect-[4/3] bg-gradient-to-br from-amber-600 to-orange-600 p-6 flex items-center justify-center">
+        <div class="w-full h-full rounded-xl bg-white/10 backdrop-blur flex items-center justify-center">
+         <i data-lucide="graduation-cap" class="w-16 h-16 text-white/50"></i>
+        </div>
+       </div>
+       <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+        <div>
+         <span class="text-xs text-amber-400 mb-1 block">Education</span>
+         <h3 class="text-xl font-bold mb-2">EduLearn App</h3>
+         <p class="text-sm text-gray-300">Platform e-learning dengan gamification</p>
+        </div>
+       </div>
+      </div><!-- Portfolio Item 6 -->
+      <div class="portfolio-item group relative rounded-2xl overflow-hidden reveal" data-category="design">
+       <div class="aspect-[4/3] bg-gradient-to-br from-violet-600 to-purple-600 p-6 flex items-center justify-center">
+        <div class="w-full h-full rounded-xl bg-white/10 backdrop-blur flex items-center justify-center">
+         <i data-lucide="wallet" class="w-16 h-16 text-white/50"></i>
+        </div>
+       </div>
+       <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+        <div>
+         <span class="text-xs text-violet-400 mb-1 block">Fintech</span>
+         <h3 class="text-xl font-bold mb-2">PayEasy Wallet</h3>
+         <p class="text-sm text-gray-300">Mobile banking app dengan crypto integration</p>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Pricing Section -->
+   <section id="harga" class="py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+     <div class="text-center mb-16 reveal">
+      <span class="inline-block px-4 py-2 rounded-full glass-light text-sm text-purple-400 mb-4">Harga</span>
+      <h2 class="font-display text-3xl md:text-4xl lg:text-5xl font-bold mb-4">Paket <span class="gradient-text">Terjangkau</span></h2>
+      <p class="text-gray-400 max-w-2xl mx-auto text-lg">Pilih paket yang sesuai dengan kebutuhan dan budget bisnis Anda</p>
+     </div>
+     <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+      <!-- Starter -->
+      <div class="pricing-card glass rounded-3xl p-8 reveal">
+       <div class="text-center mb-8">
+        <h3 class="text-xl font-bold mb-2">Starter</h3>
+        <p class="text-gray-400 text-sm mb-4">Untuk bisnis yang baru mulai</p>
+        <div class="flex items-baseline justify-center gap-1">
+         <span class="text-4xl font-bold font-display">Rp 5</span> <span class="text-xl font-bold">Juta</span>
+        </div>
+        <p class="text-gray-500 text-sm mt-2">per project</p>
+       </div>
+       <ul class="space-y-4 mb-8">
+        <li class="flex items-center gap-3">
+         <div class="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center">
+          <i data-lucide="check" class="w-3 h-3 text-green-400"></i>
+         </div><span class="text-gray-300">Landing Page (5 halaman)</span></li>
+        <li class="flex items-center gap-3">
+         <div class="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center">
+          <i data-lucide="check" class="w-3 h-3 text-green-400"></i>
+         </div><span class="text-gray-300">Responsive Design</span></li>
+        <li class="flex items-center gap-3">
+         <div class="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center">
+          <i data-lucide="check" class="w-3 h-3 text-green-400"></i>
+         </div><span class="text-gray-300">Basic SEO</span></li>
+        <li class="flex items-center gap-3">
+         <div class="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center">
+          <i data-lucide="check" class="w-3 h-3 text-green-400"></i>
+         </div><span class="text-gray-300">1 bulan support</span></li>
+        <li class="flex items-center gap-3 opacity-50">
+         <div class="w-5 h-5 rounded-full bg-gray-500/20 flex items-center justify-center">
+          <i data-lucide="x" class="w-3 h-3 text-gray-500"></i>
+         </div><span class="text-gray-500">CMS Integration</span></li>
+       </ul><button class="w-full btn-secondary py-3 rounded-full font-semibold"> Pilih Paket </button>
+      </div><!-- Professional -->
+      <div class="pricing-card popular glass rounded-3xl p-8 relative reveal">
+       <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
+        <span class="px-4 py-1 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 text-sm font-semibold"> Paling Populer </span>
+       </div>
+       <div class="text-center mb-8">
+        <h3 class="text-xl font-bold mb-2">Professional</h3>
+        <p class="text-gray-400 text-sm mb-4">Untuk bisnis yang berkembang</p>
+        <div class="flex items-baseline justify-center gap-1">
+         <span class="text-4xl font-bold font-display gradient-text">Rp 15</span> <span class="text-xl font-bold">Juta</span>
+        </div>
+        <p class="text-gray-500 text-sm mt-2">per project</p>
+       </div>
+       <ul class="space-y-4 mb-8">
+        <li class="flex items-center gap-3">
+         <div class="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center">
+          <i data-lucide="check" class="w-3 h-3 text-green-400"></i>
+         </div><span class="text-gray-300">Website (15 halaman)</span></li>
+        <li class="flex items-center gap-3">
+         <div class="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center">
+          <i data-lucide="check" class="w-3 h-3 text-green-400"></i>
+         </div><span class="text-gray-300">Custom Design</span></li>
+        <li class="flex items-center gap-3">
+         <div class="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center">
+          <i data-lucide="check" class="w-3 h-3 text-green-400"></i>
+         </div><span class="text-gray-300">Advanced SEO</span></li>
+        <li class="flex items-center gap-3">
+         <div class="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center">
+          <i data-lucide="check" class="w-3 h-3 text-green-400"></i>
+         </div><span class="text-gray-300">CMS Integration</span></li>
+        <li class="flex items-center gap-3">
+         <div class="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center">
+          <i data-lucide="check" class="w-3 h-3 text-green-400"></i>
+         </div><span class="text-gray-300">3 bulan support</span></li>
+       </ul><button class="w-full btn-primary py-3 rounded-full font-semibold"> Pilih Paket </button>
+      </div><!-- Enterprise -->
+      <div class="pricing-card glass rounded-3xl p-8 reveal">
+       <div class="text-center mb-8">
+        <h3 class="text-xl font-bold mb-2">Enterprise</h3>
+        <p class="text-gray-400 text-sm mb-4">Untuk bisnis enterprise</p>
+        <div class="flex items-baseline justify-center gap-1">
+         <span class="text-4xl font-bold font-display">Rp 50</span> <span class="text-xl font-bold">Juta+</span>
+        </div>
+        <p class="text-gray-500 text-sm mt-2">per project</p>
+       </div>
+       <ul class="space-y-4 mb-8">
+        <li class="flex items-center gap-3">
+         <div class="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center">
+          <i data-lucide="check" class="w-3 h-3 text-green-400"></i>
+         </div><span class="text-gray-300">Unlimited Pages</span></li>
+        <li class="flex items-center gap-3">
+         <div class="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center">
+          <i data-lucide="check" class="w-3 h-3 text-green-400"></i>
+         </div><span class="text-gray-300">Custom Web App</span></li>
+        <li class="flex items-center gap-3">
+         <div class="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center">
+          <i data-lucide="check" class="w-3 h-3 text-green-400"></i>
+         </div><span class="text-gray-300">API Integration</span></li>
+        <li class="flex items-center gap-3">
+         <div class="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center">
+          <i data-lucide="check" class="w-3 h-3 text-green-400"></i>
+         </div><span class="text-gray-300">Dedicated Team</span></li>
+        <li class="flex items-center gap-3">
+         <div class="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center">
+          <i data-lucide="check" class="w-3 h-3 text-green-400"></i>
+         </div><span class="text-gray-300">12 bulan support</span></li>
+       </ul><button class="w-full btn-secondary py-3 rounded-full font-semibold"> Hubungi Kami </button>
+      </div>
+     </div>
+    </div>
+   </section><!-- Testimonials Section -->
+   <section id="testimoni" class="py-24 bg-gradient-to-b from-transparent via-purple-950/20 to-transparent">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+     <div class="text-center mb-16 reveal">
+      <span class="inline-block px-4 py-2 rounded-full glass-light text-sm text-rose-400 mb-4">Testimoni</span>
+      <h2 class="font-display text-3xl md:text-4xl lg:text-5xl font-bold mb-4">Apa Kata <span class="gradient-text">Klien</span> Kami</h2>
+      <p class="text-gray-400 max-w-2xl mx-auto text-lg">Dengarkan cerita sukses dari klien-klien kami yang telah bertransformasi digital</p>
+     </div>
+     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Testimonial 1 -->
+      <div class="testimonial-card glass rounded-2xl p-8 reveal">
+       <div class="flex items-center gap-1 mb-4">
+        <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-yellow-400"></i> <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-yellow-400"></i> <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-yellow-400"></i> <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-yellow-400"></i> <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-yellow-400"></i>
+       </div>
+       <p class="text-gray-300 mb-6">"Tim Syam Digital sangat profesional dan responsif. Website kami selesai tepat waktu dengan kualitas yang luar biasa. Revenue online kami naik 300% dalam 3 bulan!"</p>
+       <div class="flex items-center gap-4">
+        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-white font-bold">
+         AS
+        </div>
+        <div>
+         <p class="font-semibold">Ahmad Surya</p>
+         <p class="text-sm text-gray-400">CEO, TokoBaju.id</p>
+        </div>
+       </div>
+      </div><!-- Testimonial 2 -->
+      <div class="testimonial-card glass rounded-2xl p-8 reveal">
+       <div class="flex items-center gap-1 mb-4">
+        <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-yellow-400"></i> <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-yellow-400"></i> <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-yellow-400"></i> <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-yellow-400"></i> <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-yellow-400"></i>
+       </div>
+       <p class="text-gray-300 mb-6">"Aplikasi mobile yang dibuat sangat user-friendly. Customer engagement kami meningkat drastis. Terima kasih Syam Digital!"</p>
+       <div class="flex items-center gap-4">
+        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center text-white font-bold">
+         DW
+        </div>
+        <div>
+         <p class="font-semibold">Diana Wijaya</p>
+         <p class="text-sm text-gray-400">CMO, SehatKu Health</p>
+        </div>
+       </div>
+      </div><!-- Testimonial 3 -->
+      <div class="testimonial-card glass rounded-2xl p-8 reveal">
+       <div class="flex items-center gap-1 mb-4">
+        <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-yellow-400"></i> <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-yellow-400"></i> <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-yellow-400"></i> <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-yellow-400"></i> <i data-lucide="star" class="w-5 h-5 text-yellow-400 fill-yellow-400"></i>
+       </div>
+       <p class="text-gray-300 mb-6">"Strategi digital marketing dari Syam Digital membuat brand kami viral. Follower Instagram naik dari 1K ke 100K dalam 6 bulan!"</p>
+       <div class="flex items-center gap-4">
+        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 to-rose-500 flex items-center justify-center text-white font-bold">
+         RP
+        </div>
+        <div>
+         <p class="font-semibold">Rina Putri</p>
+         <p class="text-sm text-gray-400">Founder, Beautyland</p>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- FAQ Section -->
+   <section class="py-24">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+     <div class="text-center mb-16 reveal">
+      <span class="inline-block px-4 py-2 rounded-full glass-light text-sm text-emerald-400 mb-4">FAQ</span>
+      <h2 class="font-display text-3xl md:text-4xl lg:text-5xl font-bold mb-4">Pertanyaan <span class="gradient-text">Umum</span></h2>
+     </div>
+     <div class="space-y-4" id="faqContainer">
+      <!-- FAQ Item 1 -->
+      <div class="faq-item glass rounded-2xl overflow-hidden reveal">
+       <button class="faq-trigger w-full px-6 py-5 flex items-center justify-between text-left"> <span class="font-semibold">Berapa lama waktu pengerjaan project?</span> <i data-lucide="chevron-down" class="faq-icon w-5 h-5 text-gray-400"></i> </button>
+       <div class="faq-content px-6 pb-5">
+        <p class="text-gray-400">Waktu pengerjaan tergantung kompleksitas project. Landing page biasanya 1-2 minggu, website company profile 2-4 minggu, dan aplikasi custom 1-3 bulan. Kami akan memberikan timeline detail setelah diskusi requirement.</p>
+       </div>
+      </div><!-- FAQ Item 2 -->
+      <div class="faq-item glass rounded-2xl overflow-hidden reveal">
+       <button class="faq-trigger w-full px-6 py-5 flex items-center justify-between text-left"> <span class="font-semibold">Apakah ada garansi setelah project selesai?</span> <i data-lucide="chevron-down" class="faq-icon w-5 h-5 text-gray-400"></i> </button>
+       <div class="faq-content px-6 pb-5">
+        <p class="text-gray-400">Ya, kami memberikan garansi maintenance gratis sesuai paket yang dipilih. Starter 1 bulan, Professional 3 bulan, dan Enterprise hingga 12 bulan. Selama periode garansi, kami akan memperbaiki bug tanpa biaya tambahan.</p>
+       </div>
+      </div><!-- FAQ Item 3 -->
+      <div class="faq-item glass rounded-2xl overflow-hidden reveal">
+       <button class="faq-trigger w-full px-6 py-5 flex items-center justify-between text-left"> <span class="font-semibold">Bagaimana sistem pembayarannya?</span> <i data-lucide="chevron-down" class="faq-icon w-5 h-5 text-gray-400"></i> </button>
+       <div class="faq-content px-6 pb-5">
+        <p class="text-gray-400">Pembayaran dilakukan bertahap: 50% di awal sebagai DP, 25% saat progress 50%, dan 25% sisanya saat project selesai. Kami menerima transfer bank, e-wallet, dan invoice untuk perusahaan.</p>
+       </div>
+      </div><!-- FAQ Item 4 -->
+      <div class="faq-item glass rounded-2xl overflow-hidden reveal">
+       <button class="faq-trigger w-full px-6 py-5 flex items-center justify-between text-left"> <span class="font-semibold">Apakah bisa request revisi?</span> <i data-lucide="chevron-down" class="faq-icon w-5 h-5 text-gray-400"></i> </button>
+       <div class="faq-content px-6 pb-5">
+        <p class="text-gray-400">Tentu! Kami memberikan revisi unlimited untuk minor changes dan 3x major revision per milestone. Kami ingin memastikan hasil akhir sesuai dengan ekspektasi Anda.</p>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- CTA Section -->
+   <section class="py-24">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+     <div class="relative glass rounded-3xl p-12 md:p-16 overflow-hidden reveal">
+      <!-- Background decoration -->
+      <div class="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-indigo-500/30 to-purple-500/30 rounded-full blur-3xl"></div>
+      <div class="absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-full blur-3xl"></div>
+      <div class="relative z-10 text-center">
+       <h2 class="font-display text-3xl md:text-4xl lg:text-5xl font-bold mb-6">Siap <span class="gradient-text">Bertransformasi</span> Digital?</h2>
+       <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">Konsultasikan kebutuhan digital bisnis Anda dengan tim expert kami. Gratis dan tanpa komitmen.</p>
+       <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <button class="btn-primary px-8 py-4 rounded-full text-white font-semibold text-lg flex items-center justify-center gap-2"> <i data-lucide="phone" class="w-5 h-5"></i> <span>Hubungi Sekarang</span> </button> <button class="btn-secondary px-8 py-4 rounded-full text-white font-semibold text-lg flex items-center justify-center gap-2"> <i data-lucide="message-circle" class="w-5 h-5"></i> <span>Chat WhatsApp</span> </button>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Contact Section -->
+   <section id="kontak" class="py-24 bg-gradient-to-b from-transparent via-indigo-950/20 to-transparent">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+     <div class="grid lg:grid-cols-2 gap-12">
+      <!-- Contact Info -->
+      <div class="reveal">
+       <span class="inline-block px-4 py-2 rounded-full glass-light text-sm text-indigo-400 mb-4">Kontak</span>
+       <h2 class="font-display text-3xl md:text-4xl font-bold mb-6">Mari <span class="gradient-text">Terhubung</span></h2>
+       <p class="text-gray-400 text-lg mb-8">Kami siap membantu mewujudkan visi digital Anda. Hubungi kami melalui channel berikut atau isi form di samping.</p>
+       <div class="space-y-6">
+        <div class="flex items-start gap-4">
+         <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center flex-shrink-0">
+          <i data-lucide="map-pin" class="w-6 h-6 text-white"></i>
+         </div>
+         <div>
+          <h3 class="font-semibold mb-1">Alamat</h3>
+          <p class="text-gray-400">Jl. Sudirman No. 123, Jakarta Selatan, 12190</p>
+         </div>
+        </div>
+        <div class="flex items-start gap-4">
+         <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center flex-shrink-0">
+          <i data-lucide="phone" class="w-6 h-6 text-white"></i>
+         </div>
+         <div>
+          <h3 class="font-semibold mb-1">Telepon</h3>
+          <p class="text-gray-400">+62 21 1234 5678</p>
+         </div>
+        </div>
+        <div class="flex items-start gap-4">
+         <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-pink-500 to-rose-500 flex items-center justify-center flex-shrink-0">
+          <i data-lucide="mail" class="w-6 h-6 text-white"></i>
+         </div>
+         <div>
+          <h3 class="font-semibold mb-1">Email</h3>
+          <p class="text-gray-400">hello@syamdigital.com</p>
+         </div>
+        </div>
+       </div><!-- Social Links -->
+       <div class="mt-10">
+        <p class="text-sm text-gray-500 mb-4">Ikuti kami di social media</p>
+        <div class="flex gap-4">
+         <a href="#" class="w-10 h-10 rounded-xl glass-light flex items-center justify-center hover:bg-indigo-500/20 transition-colors"> <i data-lucide="instagram" class="w-5 h-5"></i> </a> <a href="#" class="w-10 h-10 rounded-xl glass-light flex items-center justify-center hover:bg-indigo-500/20 transition-colors"> <i data-lucide="linkedin" class="w-5 h-5"></i> </a> <a href="#" class="w-10 h-10 rounded-xl glass-light flex items-center justify-center hover:bg-indigo-500/20 transition-colors"> <i data-lucide="twitter" class="w-5 h-5"></i> </a> <a href="#" class="w-10 h-10 rounded-xl glass-light flex items-center justify-center hover:bg-indigo-500/20 transition-colors"> <i data-lucide="youtube" class="w-5 h-5"></i> </a>
+        </div>
+       </div>
+      </div><!-- Contact Form -->
+      <div class="glass rounded-3xl p-8 reveal">
+       <form id="contactForm" class="space-y-6">
+        <div class="grid sm:grid-cols-2 gap-6">
+         <div>
+          <label for="name" class="block text-sm font-medium mb-2">Nama Lengkap</label> <input type="text" id="name" placeholder="John Doe" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-indigo-500 focus:outline-none transition-colors">
+         </div>
+         <div>
+          <label for="email" class="block text-sm font-medium mb-2">Email</label> <input type="email" id="email" placeholder="john@email.com" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-indigo-500 focus:outline-none transition-colors">
+         </div>
+        </div>
+        <div>
+         <label for="phone" class="block text-sm font-medium mb-2">No. WhatsApp</label> <input type="tel" id="phone" placeholder="+62 812 3456 7890" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-indigo-500 focus:outline-none transition-colors">
+        </div>
+        <div>
+         <label for="service" class="block text-sm font-medium mb-2">Layanan yang Dibutuhkan</label> <select id="service" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-indigo-500 focus:outline-none transition-colors"> <option value="" class="bg-[#16161f]">Pilih layanan</option> <option value="web" class="bg-[#16161f]">Website Development</option> <option value="app" class="bg-[#16161f]">Mobile App Development</option> <option value="marketing" class="bg-[#16161f]">Digital Marketing</option> <option value="design" class="bg-[#16161f]">UI/UX Design</option> <option value="ecommerce" class="bg-[#16161f]">E-Commerce Solutions</option> <option value="other" class="bg-[#16161f]">Lainnya</option> </select>
+        </div>
+        <div>
+         <label for="message" class="block text-sm font-medium mb-2">Pesan</label> <textarea id="message" rows="4" placeholder="Ceritakan kebutuhan project Anda..." class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-indigo-500 focus:outline-none transition-colors resize-none"></textarea>
+        </div><button type="submit" class="w-full btn-primary py-4 rounded-xl font-semibold text-lg flex items-center justify-center gap-2"> <span>Kirim Pesan</span> <i data-lucide="send" class="w-5 h-5"></i> </button>
+       </form>
+       <div id="formSuccess" class="hidden text-center py-12">
+        <div class="w-16 h-16 rounded-full bg-green-500/20 flex items-center justify-center mx-auto mb-4">
+         <i data-lucide="check-circle" class="w-8 h-8 text-green-400"></i>
+        </div>
+        <h3 class="text-xl font-bold mb-2">Pesan Terkirim!</h3>
+        <p class="text-gray-400">Tim kami akan menghubungi Anda dalam 24 jam.</p>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Footer -->
+   <footer class="border-t border-white/5 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+     <div class="grid md:grid-cols-4 gap-8 mb-12">
+      <!-- Brand -->
+      <div class="md:col-span-2">
+       <a href="#" class="flex items-center gap-3 mb-4">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-cyan-400 flex items-center justify-center">
+         <span class="text-white font-bold text-xl font-display">S</span>
+        </div><span class="text-xl font-bold font-display">Syam<span class="gradient-text">Digital</span></span> </a>
+       <p class="text-gray-400 max-w-md mb-6">Partner digital terpercaya untuk transformasi bisnis Anda. Kami membantu membangun solusi digital yang inovatif dan berdampak.</p>
+       <div class="flex gap-4">
+        <a href="#" class="w-10 h-10 rounded-xl glass-light flex items-center justify-center hover:bg-indigo-500/20 transition-colors"> <i data-lucide="instagram" class="w-5 h-5"></i> </a> <a href="#" class="w-10 h-10 rounded-xl glass-light flex items-center justify-center hover:bg-indigo-500/20 transition-colors"> <i data-lucide="linkedin" class="w-5 h-5"></i> </a> <a href="#" class="w-10 h-10 rounded-xl glass-light flex items-center justify-center hover:bg-indigo-500/20 transition-colors"> <i data-lucide="twitter" class="w-5 h-5"></i> </a>
+       </div>
+      </div><!-- Quick Links -->
+      <div>
+       <h4 class="font-semibold mb-4">Layanan</h4>
+       <ul class="space-y-3 text-gray-400">
+        <li><a href="#" class="hover:text-white transition-colors">Website Development</a></li>
+        <li><a href="#" class="hover:text-white transition-colors">Mobile App</a></li>
+        <li><a href="#" class="hover:text-white transition-colors">Digital Marketing</a></li>
+        <li><a href="#" class="hover:text-white transition-colors">UI/UX Design</a></li>
+       </ul>
+      </div><!-- Company -->
+      <div>
+       <h4 class="font-semibold mb-4">Perusahaan</h4>
+       <ul class="space-y-3 text-gray-400">
+        <li><a href="#" class="hover:text-white transition-colors">Tentang Kami</a></li>
+        <li><a href="#" class="hover:text-white transition-colors">Portfolio</a></li>
+        <li><a href="#" class="hover:text-white transition-colors">Karir</a></li>
+        <li><a href="#" class="hover:text-white transition-colors">Blog</a></li>
+       </ul>
+      </div>
+     </div><!-- Copyright -->
+     <div class="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+      <p class="text-gray-500 text-sm">© 2024 Syam Digital. All rights reserved.</p>
+      <div class="flex gap-6 text-sm text-gray-500">
+       <a href="#" class="hover:text-white transition-colors">Privacy Policy</a> <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+      </div>
+     </div>
+    </div>
+   </footer>
+  </main>
+  <script>
+    // Default configuration
+    const defaultConfig = {
+      hero_title: 'Transformasi <span class="gradient-text">Digital</span> Bisnis Anda',
+      hero_subtitle: 'Wujudkan potensi bisnis Anda dengan solusi digital terdepan. Website, aplikasi, dan strategi digital marketing yang menghasilkan.',
+      about_title: 'Solusi Digital <span class="gradient-text">Lengkap</span>',
+      cta_button_text: 'Mulai Sekarang',
+      background_color: '#0a0a0f',
+      surface_color: '#16161f',
+      text_color: '#f0f0f5',
+      primary_color: '#6366f1',
+      secondary_color: '#22d3ee'
+    };
+
+    let config = { ...defaultConfig };
+
+    // Initialize Element SDK
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange: async (newConfig) => {
+          config = { ...defaultConfig, ...newConfig };
+          
+          // Update hero title
+          const heroTitle = document.getElementById('heroTitle');
+          if (heroTitle) heroTitle.innerHTML = config.hero_title;
+          
+          // Update hero subtitle
+          const heroSubtitle = document.getElementById('heroSubtitle');
+          if (heroSubtitle) heroSubtitle.textContent = config.hero_subtitle;
+          
+          // Update about title
+          const aboutTitle = document.getElementById('aboutTitle');
+          if (aboutTitle) aboutTitle.innerHTML = config.about_title;
+          
+          // Update CTA buttons
+          const heroCta = document.getElementById('heroCta');
+          if (heroCta) {
+            const ctaSpan = heroCta.querySelector('span');
+            if (ctaSpan) ctaSpan.textContent = config.cta_button_text;
+          }
+          
+          const navCta = document.getElementById('navCta');
+          if (navCta) navCta.textContent = config.cta_button_text;
+          
+          // Update colors
+          document.documentElement.style.setProperty('--bg-primary', config.background_color);
+          document.documentElement.style.setProperty('--surface', config.surface_color);
+          document.documentElement.style.setProperty('--text-primary', config.text_color);
+          document.documentElement.style.setProperty('--accent-primary', config.primary_color);
+          document.documentElement.style.setProperty('--accent-secondary', config.secondary_color);
+          
+          document.body.style.backgroundColor = config.background_color;
+          document.body.style.color = config.text_color;
+        },
+        mapToCapabilities: (config) => ({
+          recolorables: [
+            {
+              get: () => config.background_color || defaultConfig.background_color,
+              set: (value) => {
+                config.background_color = value;
+                window.elementSdk.setConfig({ background_color: value });
+              }
+            },
+            {
+              get: () => config.surface_color || defaultConfig.surface_color,
+              set: (value) => {
+                config.surface_color = value;
+                window.elementSdk.setConfig({ surface_color: value });
+              }
+            },
+            {
+              get: () => config.text_color || defaultConfig.text_color,
+              set: (value) => {
+                config.text_color = value;
+                window.elementSdk.setConfig({ text_color: value });
+              }
+            },
+            {
+              get: () => config.primary_color || defaultConfig.primary_color,
+              set: (value) => {
+                config.primary_color = value;
+                window.elementSdk.setConfig({ primary_color: value });
+              }
+            },
+            {
+              get: () => config.secondary_color || defaultConfig.secondary_color,
+              set: (value) => {
+                config.secondary_color = value;
+                window.elementSdk.setConfig({ secondary_color: value });
+              }
+            }
+          ],
+          borderables: [],
+          fontEditable: undefined,
+          fontSizeable: undefined
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ['hero_title', config.hero_title || defaultConfig.hero_title],
+          ['hero_subtitle', config.hero_subtitle || defaultConfig.hero_subtitle],
+          ['about_title', config.about_title || defaultConfig.about_title],
+          ['cta_button_text', config.cta_button_text || defaultConfig.cta_button_text]
+        ])
+      });
+    }
+
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // Mobile menu toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const closeMobileMenu = document.getElementById('closeMobileMenu');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.add('active');
+    });
+
+    closeMobileMenu.addEventListener('click', () => {
+      mobileMenu.classList.remove('active');
+    });
+
+    mobileNavLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.remove('active');
+      });
+    });
+
+    // Cursor follower
+    const cursorFollower = document.getElementById('cursorFollower');
+    document.addEventListener('mousemove', (e) => {
+      cursorFollower.style.left = e.clientX + 'px';
+      cursorFollower.style.top = e.clientY + 'px';
+    });
+
+    // Smooth scroll for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Scroll reveal animation
+    const revealElements = document.querySelectorAll('.reveal');
+    const revealOnScroll = () => {
+      revealElements.forEach(el => {
+        const elementTop = el.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
+        if (elementTop < windowHeight - 100) {
+          el.classList.add('active');
+        }
+      });
+    };
+    window.addEventListener('scroll', revealOnScroll);
+    revealOnScroll();
+
+    // Trigger initial animations
+    setTimeout(() => {
+      document.querySelectorAll('.animate-slide-up, .animate-scale-in').forEach(el => {
+        el.style.opacity = '1';
+      });
+    }, 100);
+
+    // Stats counter animation
+    const animateCounter = (element, target) => {
+      let current = 0;
+      const increment = target / 50;
+      const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+          element.textContent = target + '+';
+          clearInterval(timer);
+        } else {
+          element.textContent = Math.floor(current) + '+';
+        }
+      }, 30);
+    };
+
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const counters = entry.target.querySelectorAll('[data-count]');
+          counters.forEach(counter => {
+            const target = parseInt(counter.getAttribute('data-count'));
+            animateCounter(counter, target);
+          });
+          statsObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    const statsSection = document.querySelector('.grid.grid-cols-2.md\\:grid-cols-4');
+    if (statsSection) {
+      statsObserver.observe(statsSection);
+    }
+
+    // Portfolio filter
+    const filterButtons = document.querySelectorAll('.portfolio-filter');
+    const portfolioItems = document.querySelectorAll('.portfolio-item');
+
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const filter = btn.getAttribute('data-filter');
+        
+        filterButtons.forEach(b => b.classList.remove('active', 'bg-indigo-500/30'));
+        btn.classList.add('active', 'bg-indigo-500/30');
+
+        portfolioItems.forEach(item => {
+          const category = item.getAttribute('data-category');
+          if (filter === 'all' || category === filter) {
+            item.style.display = 'block';
+            item.style.animation = 'scale-in 0.5s ease forwards';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // FAQ accordion
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach(item => {
+      const trigger = item.querySelector('.faq-trigger');
+      trigger.addEventListener('click', () => {
+        const isActive = item.classList.contains('active');
+        faqItems.forEach(i => i.classList.remove('active'));
+        if (!isActive) {
+          item.classList.add('active');
+        }
+      });
+    });
+
+    // Contact form submission
+    const contactForm = document.getElementById('contactForm');
+    const formSuccess = document.getElementById('formSuccess');
+
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      // Simulate form submission
+      const submitBtn = contactForm.querySelector('button[type="submit"]');
+      submitBtn.innerHTML = '<span class="animate-pulse">Mengirim...</span>';
+      submitBtn.disabled = true;
+
+      setTimeout(() => {
+        contactForm.classList.add('hidden');
+        formSuccess.classList.remove('hidden');
+        lucide.createIcons();
+      }, 1500);
+    });
+
+    // Navbar scroll effect
+    const nav = document.querySelector('nav');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        nav.classList.add('shadow-lg');
+      } else {
+        nav.classList.remove('shadow-lg');
+      }
+    });
+
+    // Floating action buttons
+    const floatingButtons = document.createElement('div');
+    floatingButtons.className = 'fixed bottom-8 left-0 right-0 flex items-center justify-between pointer-events-none z-40 px-8';
+    floatingButtons.innerHTML = `
+      <a href="https://wa.me/62" target="_blank" rel="noopener noreferrer" class="pointer-events-auto w-14 h-14 rounded-full bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-white shadow-lg hover:shadow-xl hover:scale-110 transition-transform duration-300 animate-pulse-glow">
+        <i data-lucide="message-circle" class="w-7 h-7"></i>
+      </a>
+      <button onclick="window.scrollTo({ top: 0, behavior: 'smooth' })" class="pointer-events-auto w-14 h-14 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-lg hover:shadow-xl hover:scale-110 transition-transform duration-300 animate-pulse-glow">
+        <i data-lucide="arrow-up" class="w-7 h-7"></i>
+      </button>
+    `;
+    document.body.appendChild(floatingButtons);
+    lucide.createIcons();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9d91428ce1c2fe13',t:'MTc3Mjk2NjgyNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
