@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1757245484/SYAMDIGITAL-LOGO-2025_mmpllg.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portofolio Excel | Syamsuddin</title>
+    <link href="https://fonts.googleapis.com" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --navy: #0f172a;
+            --gold: #b48d56;
+            --slate: #64748b;
+            --bg: #f8fafc;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            padding: 0;
+            color: var(--navy);
+        }
+
+        /* Navigation */
+        nav {
+            background-color: var(--navy);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 8px 15px;
+            transition: 0.3s;
+        }
+
+        nav a:hover { color: var(--white); background: rgba(255,255,255,0.1); border-radius: 5px; }
+
+        /* Main Content */
+        .container {
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .header-section h1 {
+            font-size: 2.5rem;
+            color: var(--navy);
+            margin-bottom: 10px;
+        }
+
+        .header-section p {
+            color: var(--slate);
+            font-size: 1.1rem;
+        }
+
+        /* Project Grid */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .project-card {
+            background: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            transition: 0.3s;
+            border: 1px solid #e2e8f0;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--gold);
+        }
+
+        .project-img {
+            width: 100%;
+            height: 200px;
+            background: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            font-size: 0.9rem;
+            font-style: italic;
+            overflow: hidden;
+        }
+
+        .project-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .project-info {
+            padding: 25px;
+        }
+
+        .project-info h3 {
+            margin: 0 0 10px;
+            color: var(--navy);
+            font-size: 1.25rem;
+        }
+
+        .project-info p {
+            color: var(--slate);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tech-badge {
+            background: #f1f5f9;
+            color: var(--navy);
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border: 1px solid #cbd5e1;
+        }
+
+        /* Footer Message */
+        .footer-cta {
+            text-align: center;
+            margin-top: 60px;
+            padding: 40px;
+            background: var(--navy);
+            color: white;
+            border-radius: 20px;
+        }
+
+        .footer-cta h2 { color: var(--gold); margin-bottom: 10px; }
+        
+        @media (max-width: 768px) {
+            .header-section h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="index.html">BERANDA</a>
+    <a href="profil.html">PROFIL</a>
+    <a href="portofolio.html">PORTOFOLIO</a>
+    <a href="hargajasa.html">HARGA JASA</a>
+</nav>
+
+<div class="container">
+    <div class="header-section">
+        <h1>Portofolio Kerja</h1>
+        <p>Demonstrasi keahlian pengolahan data dan administrasi profesional.</p>
+    </div>
+
+    <div class="project-grid">
+        <!-- Proyek 1 -->
+        <div class="project-card">
+            <div class="project-img">
+                <!-- Ganti src dengan file gambar Anda -->
+                <img src="data2.JPG" alt="Dashboard Excel"> 
+                <!-- Jika belum ada gambar, teks ini muncul: -->
+            </div>
+            <div class="project-info">
+                <h3>Dashboard Admin Desa</h3>
+                <p>Otomasi laporan kependudukan menggunakan Pivot Table dan Chart interaktif untuk visualisasi data yang cepat.</p>
+                <div class="tech-stack">
+                    <span class="tech-badge">Pivot Table</span>
+                    <span class="tech-badge">Slicers</span>
+                    <span class="tech-badge">Data Analysis</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Proyek 2 -->
+        <div class="project-card">
+            <div class="project-img">
+                <img src="data1.jpg" alt="Rumus Excel">
+            </div>
+            <div class="project-info">
+                <h3>Sistem Pencarian Data</h3>
+                <p>Implementasi rumus VLOOKUP, INDEX-MATCH, dan Nested IF untuk mempercepat pencarian ribuan database secara akurat.</p>
+                <div class="tech-stack">
+                    <span class="tech-badge">VLOOKUP</span>
+                    <span class="tech-badge">Data Validation</span>
+                    <span class="tech-badge">Zero Error</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Proyek 3 -->
+        <div class="project-card">
+            <div class="project-img">
+                <img src="data3.jpg" alt="Data Cleaning">
+            </div>
+            <div class="project-info">
+                <h3>Data Cleaning & Standarisasi</h3>
+                <p>Proses merapikan format database yang berantakan, menghapus duplikasi, dan menstandarisasi alamat/kontak.</p>
+                <div class="tech-stack">
+                    <span class="tech-badge">Data Cleaning</span>
+                    <span class="tech-badge">Text-to-Columns</span>
+                    <span class="tech-badge">Efficiency</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-cta">
+        <h2>Butuh Solusi Data Seperti Ini?</h2>
+        <p>Saya siap membantu merapikan administrasi dan data bisnis Anda dengan standar ketelitian tinggi.</p>
+        <p style="font-size: 0.8rem; opacity: 0.7;">Klik tombol WhatsApp di pojok kanan bawah untuk konsultasi gratis.</p>
+    </div>
+</div>
+<style>
+    .whatsapp-float {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background-color: #25d366;
+        color: #FFF;
+        border-radius: 50px;
+        text-align: center;
+        padding: 15px 25px;
+        box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+        z-index: 1000;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 600;
+        font-size: 14px;
+        transition: all 0.3s ease;
+    }
+
+    .whatsapp-float:hover {
+        background-color: #128c7e;
+        transform: scale(1.05);
+        color: #FFF;
+    }
+
+    .wa-icon {
+        font-size: 20px;
+    }
+
+.animate-fade-in-up {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+        
+        @keyframes bounce-subtle {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-3px);
+            }
+            60% {
+                transform: translateY(-2px);
+            }
+        }
+        
+        .animate-bounce-subtle {
+            animation: bounce-subtle 2s infinite;
+        }
+        
+        @keyframes gradient-x {
+            0%, 100% {
+                background-size: 200% 200%;
+                background-position: left center;
+            }
+            50% {
+                background-size: 200% 200%;
+                background-position: right center;
+            }
+        }
+        
+        .animate-gradient-x {
+            background-size: 200% 200%;
+            animation: gradient-x 3s ease infinite;
+        }
+        
+        @keyframes rainbow-text {
+            0% { background-position: 0% 50%; }
+            25% { background-position: 100% 50%; }
+            50% { background-position: 100% 50%; }
+            75% { background-position: 0% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .rainbow-text {
+            background: linear-gradient(
+                45deg,
+                #ff0000,
+                #ff7f00,
+                #ffff00,
+                #00ff00,
+                #0000ff,
+                #4b0082,
+                #9400d3,
+                #ff0000
+            );
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: rainbow-text 3s ease-in-out infinite;
+        }
+        
+        .rainbow-text:hover {
+            animation-duration: 1s;
+            transform: scale(1.05);
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+        }
+        
+        .text-brand-container:hover .animate-bounce-subtle {
+            animation-duration: 0.8s;
+        }
+        
+        .group:hover .animate-bounce-subtle {
+            animation-play-state: running;
+        }
+</style>
+
+<!-- GANTI NOMOR DI BAWAH: Gunakan format 628... (tanpa tanda + atau spasi) -->
+<div class="fixed bottom-6 right-6 z-50">
+        <a href="https://wa.me/6285150531572" target="_blank" class="group flex items-center bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white rounded-full shadow-2xl hover:shadow-green-500/25 transition-all duration-300 transform hover:scale-110 animate-bounce-subtle">
+            <!-- WhatsApp Icon -->
+            <div class="flex items-center justify-center w-14 h-14 rounded-full">
+                <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"></path>
+                </svg>
+            </div>
+            
+            <!-- Tooltip Text (Hidden by default, shows on hover) -->
+            <div class="absolute right-full mr-3 px-3 py-2 bg-gray-900 text-white text-sm rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 whitespace-nowrap shadow-lg">
+                Chat via WhatsApp
+                <!-- Arrow pointing to button -->
+                <div class="absolute top-1/2 -right-1 transform -translate-y-1/2 w-2 h-2 bg-gray-900 rotate-45"></div>
+            </div>
+        </a>
+        
+        <!-- Floating notification dot -->
+        <div class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full flex items-center justify-center animate-pulse">
+            <span class="text-white text-xs font-bold">!</span>
+        </div>
+    </div>
+
+
+
+         
+          <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97c53e3b42dffd6d',t:'MTc1NzQwNTc4Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+
+<script async src="https://cse.google.com/cse.js?cx=e4c237a80056843c6">
+
+</body>
+</html>
