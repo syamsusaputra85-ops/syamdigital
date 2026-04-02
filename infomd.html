@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mahir Digital</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&amp;family=Space+Mono:wght@700&amp;display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .mono { font-family: 'Space Mono', monospace; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 20px rgba(37,211,102,0.3); } 50% { box-shadow: 0 0 40px rgba(37,211,102,0.6); } }
+    .fade-up { animation: fadeUp 0.7s ease forwards; opacity: 0; }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+    .delay-5 { animation-delay: 0.5s; }
+    .delay-6 { animation-delay: 0.6s; }
+    .wa-btn { animation: pulse-glow 2s ease-in-out infinite; }
+    .gradient-border { background: linear-gradient(135deg, #0f172a, #1e293b); border: 1px solid rgba(255,255,255,0.08); }
+    .section-card { background: rgba(15,23,42,0.6); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.06); }
+    .check-item { transition: transform 0.2s; }
+    .check-item:hover { transform: translateX(4px); }
+  </style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full">
+  <div id="app" class="w-full h-full overflow-auto bg-[#030712] text-[#e2e8f0]">
+   <!-- Floating BG Elements -->
+   <div style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;">
+    <div style="position:absolute;top:-20%;right:-10%;width:500px;height:500px;background:radial-gradient(circle,rgba(37,211,102,0.06) 0%,transparent 70%);border-radius:50%;"></div>
+    <div style="position:absolute;bottom:-10%;left:-10%;width:400px;height:400px;background:radial-gradient(circle,rgba(59,130,246,0.05) 0%,transparent 70%);border-radius:50%;"></div>
+   </div>
+   <div style="position:relative;z-index:1;" class="max-w-3xl mx-auto px-4 py-10 sm:py-16">
+    <!-- Hero -->
+    <header class="text-center mb-14 fade-up">
+     <div class="inline-block px-4 py-1.5 rounded-full text-xs font-semibold tracking-widest uppercase mb-6" style="background:rgba(37,211,102,0.1);color:#25d366;border:1px solid rgba(37,211,102,0.2);">
+      Platform Edukasi #1
+     </div>
+     <h1 id="hero-title" class="mono text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 leading-tight" style="color:#f8fafc;">Mahir Digital</h1>
+     <p id="hero-subtitle" class="text-lg sm:text-xl max-w-xl mx-auto leading-relaxed" style="color:#94a3b8;">Belajar Digital Marketing dari NOL sampai bisa PRAKTEK &amp; MENDAPATKAN PENGHASILAN, hanya dari rumah 🚀</p>
+    </header><!-- What is Mahir Digital -->
+    <section class="section-card rounded-2xl p-6 sm:p-8 mb-6 fade-up delay-1">
+     <h2 class="text-xl font-bold mb-4" style="color:#25d366;">Apa itu Mahir Digital?</h2>
+     <p class="leading-relaxed" style="color:#cbd5e1;"><strong style="color:#f8fafc;">Mahir Digital</strong> adalah platform edukasi untuk bantu kamu mulai belajar Digital Marketing <strong style="color:#f8fafc;">DARI NOL (PEMULA)</strong>, sampai bisa praktek &amp; mendapatkan penghasilan. Materi dalam bentuk video pembelajaran yang bisa diakses melalui website — kapanpun dan dimanapun.</p>
+     <p class="mt-3 text-sm" style="color:#64748b;">Belajar digital marketing butuh konsistensi dan bimbingan rutin — semua itu bisa kamu dapatkan di Mahir Digital.</p>
+    </section><!-- Fasilitas -->
+    <section class="section-card rounded-2xl p-6 sm:p-8 mb-6 fade-up delay-2">
+     <h2 class="text-xl font-bold mb-5" style="color:#25d366;">🎯 Fasilitas Belajar</h2>
+     <p class="text-sm font-semibold uppercase tracking-wide mb-4" style="color:#94a3b8;">Bimbingan Rutin Setiap Hari, Minggu &amp; Bulan</p>
+     <div class="space-y-3">
+      <div class="check-item flex items-start gap-3">
+       <span class="mt-0.5 flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold" style="background:rgba(37,211,102,0.15);color:#25d366;">✓</span> <span style="color:#e2e8f0;">Konsultasi via WA grup (4 mentor praktisi) — <strong>Setiap hari</strong></span>
+      </div>
+      <div class="check-item flex items-start gap-3">
+       <span class="mt-0.5 flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold" style="background:rgba(37,211,102,0.15);color:#25d366;">✓</span> <span style="color:#e2e8f0;">Kelas ONLINE (Live via Zoom) — <strong>1 minggu sekali</strong></span>
+      </div>
+      <div class="check-item flex items-start gap-3">
+       <span class="mt-0.5 flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold" style="background:rgba(37,211,102,0.15);color:#25d366;">✓</span> <span style="color:#e2e8f0;">Kelas OFFLINE — <strong>1 bulan sekali</strong></span>
+      </div>
+      <div class="check-item flex items-start gap-3">
+       <span class="mt-0.5 flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold" style="background:rgba(37,211,102,0.15);color:#25d366;">✓</span> <span style="color:#e2e8f0;">Video courses terstruktur &amp; mudah dipahami — <strong>Akses 24 jam</strong></span>
+      </div>
+     </div>
+     <div class="mt-5 p-4 rounded-xl" style="background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.15);">
+      <p class="text-sm font-semibold" style="color:#93c5fd;">📚 Total 14 Chapter — masing-masing 5-7 video pembelajaran</p>
+     </div>
+    </section><!-- Target -->
+    <section class="section-card rounded-2xl p-6 sm:p-8 mb-6 fade-up delay-3">
+     <h2 class="text-xl font-bold mb-5" style="color:#25d366;">🎯 Target Setelah Mengikuti</h2>
+     <div class="space-y-4">
+      <div class="flex items-start gap-3">
+       <span class="mt-0.5 flex-shrink-0 w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold" style="background:rgba(251,191,36,0.15);color:#fbbf24;">1</span> <span style="color:#cbd5e1;">Bisa langsung jualan online (dibantu cari supplier &amp; riset produk)</span>
+      </div>
+      <div class="flex items-start gap-3">
+       <span class="mt-0.5 flex-shrink-0 w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold" style="background:rgba(251,191,36,0.15);color:#fbbf24;">2</span> <span style="color:#cbd5e1;">Bisa praktek bikin iklan sendiri — bebas jual produk apapun</span>
+      </div>
+      <div class="flex items-start gap-3">
+       <span class="mt-0.5 flex-shrink-0 w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold" style="background:rgba(251,191,36,0.15);color:#fbbf24;">3</span> <span style="color:#cbd5e1;">Ngerti cara bikin konten iklan yang menarik (naikin klik 100%)</span>
+      </div>
+      <div class="flex items-start gap-3">
+       <span class="mt-0.5 flex-shrink-0 w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold" style="background:rgba(251,191,36,0.15);color:#fbbf24;">4</span> <span style="color:#cbd5e1;">Ngerti cara bikin website/landing page yang menarik</span>
+      </div>
+      <div class="flex items-start gap-3">
+       <span class="mt-0.5 flex-shrink-0 w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold" style="background:rgba(251,191,36,0.15);color:#fbbf24;">5</span> <span style="color:#cbd5e1;">Ngerti baca data setelah beriklan &amp; ambil keputusan tepat</span>
+      </div>
+     </div>
+     <div class="mt-6 p-5 rounded-xl text-center" style="background:linear-gradient(135deg,rgba(239,68,68,0.1),rgba(251,191,36,0.1));border:1px solid rgba(239,68,68,0.2);">
+      <p class="text-lg font-bold" style="color:#fbbf24;">🔥 BISA DAPET PENGHASILAN 3-10 JUTA PERTAMA</p>
+      <p class="text-sm mt-1" style="color:#f87171;">Kurang dari 6 bulan!</p>
+     </div>
+    </section><!-- Investasi -->
+    <section class="section-card rounded-2xl p-6 sm:p-8 mb-6 fade-up delay-4">
+     <h2 class="text-xl font-bold mb-4" style="color:#25d366;">💰 Investasi Membership</h2>
+     <div class="text-center p-6 rounded-xl" style="background:linear-gradient(135deg,rgba(37,211,102,0.08),rgba(37,211,102,0.02));border:1px solid rgba(37,211,102,0.2);">
+      <p class="text-sm mb-2" style="color:#94a3b8;">Harga Program Membership</p>
+      <p class="mono text-4xl font-bold" style="color:#25d366;">Rp 1.185.000</p>
+      <p class="text-xs mt-2" style="color:#64748b;">Rekening BCA 7615670898 a.n PT MAHIR DIGITAL ASIA</p>
+     </div>
+    </section><!-- Formulir Info -->
+    <section class="section-card rounded-2xl p-6 sm:p-8 mb-6 fade-up delay-5">
+     <h2 class="text-xl font-bold mb-4" style="color:#25d366;">📋 Data Registrasi</h2>
+     <p class="text-sm mb-4" style="color:#94a3b8;">Formulir yang perlu diisi saat pendaftaran:</p>
+     <ul class="space-y-2 text-sm" style="color:#cbd5e1;">
+      <li class="flex items-center gap-2"><span style="color:#25d366;">•</span> Nama lengkap</li>
+      <li class="flex items-center gap-2"><span style="color:#25d366;">•</span> No WA</li>
+      <li class="flex items-center gap-2"><span style="color:#25d366;">•</span> Email</li>
+      <li class="flex items-center gap-2"><span style="color:#25d366;">•</span> Sudah punya produk? (sebutkan)</li>
+      <li class="flex items-center gap-2"><span style="color:#25d366;">•</span> Sudah pernah beriklan di FB/IG? (sebutkan budget)</li>
+     </ul>
+    </section><!-- Aktivasi -->
+    <section class="section-card rounded-2xl p-6 sm:p-8 mb-8 fade-up delay-6">
+     <h2 class="text-xl font-bold mb-4" style="color:#25d366;">🔑 Proses Aktivasi</h2>
+     <div class="space-y-3 text-sm" style="color:#cbd5e1;">
+      <div class="flex items-start gap-3">
+       <span class="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold" style="background:#25d366;color:#030712;">1</span> <span>Buat akun di <strong style="color:#93c5fd;">member.mahirdigital.id</strong></span>
+      </div>
+      <div class="flex items-start gap-3">
+       <span class="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold" style="background:#25d366;color:#030712;">2</span> <span>Isi semua data &amp; klik <strong>Buat Pesanan</strong></span>
+      </div>
+      <div class="flex items-start gap-3">
+       <span class="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold" style="background:#25d366;color:#030712;">3</span> <span>Copy nomor invoice (abaikan nominal penagihan)</span>
+      </div>
+      <div class="flex items-start gap-3">
+       <span class="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold" style="background:#25d366;color:#030712;">4</span> <span>Kirim nomor invoice untuk aktivasi (maks 1x24 jam)</span>
+      </div>
+     </div>
+    </section><!-- Tutorial Member Area -->
+    <section class="section-card rounded-2xl p-6 sm:p-8 mb-6 fade-up delay-6">
+     <h2 class="text-xl font-bold mb-5" style="color:#25d366;">📖 Tutorial Setelah Masuk Web Membership</h2>
+     <div class="space-y-3 text-sm" style="color:#cbd5e1;">
+      <div class="flex items-start gap-3">
+       <span class="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold" style="background:#fbbf24;color:#030712;">1</span> <span>Tonton video 1 - 4 di dashboard</span>
+      </div>
+      <div class="flex items-start gap-3">
+       <span class="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold" style="background:#fbbf24;color:#030712;">2</span> <span>Masuk ke menu <strong>Program &amp; Kurikulum</strong> → Pelajari materi di kurikulum <strong>"Kelas Facebook &amp; Instagram Ads Mastery"</strong></span>
+      </div>
+      <div class="flex items-start gap-3">
+       <span class="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold" style="background:#fbbf24;color:#030712;">3</span> <span>Catat poin-poin penting yang akan ditanyakan ke mentor</span>
+      </div>
+      <div class="flex items-start gap-3">
+       <span class="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold" style="background:#fbbf24;color:#030712;">4</span> <span>Mulai praktekkan materinya pelan-pelan</span>
+      </div>
+      <div class="flex items-start gap-3">
+       <span class="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold" style="background:#fbbf24;color:#030712;">5</span> <span><strong style="color:#fbbf24;">Link grup WA &amp; Telegram</strong> ada di Dashboard Member Area (setelah login)</span>
+      </div>
+     </div>
+     <div class="mt-5 p-4 rounded-xl" style="background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.15);">
+      <p class="text-sm font-semibold" style="color:#f87171;">⚠️ PENTING:</p>
+      <p class="text-sm mt-2" style="color:#cbd5e1;">Untuk konsultasi dan tanya jawab dengan mentor hanya melalui <strong>grup WA</strong> (bukan japri).</p>
+     </div>
+    </section><!-- WhatsApp Share Button -->
+    <div class="text-center mb-16 fade-up delay-6">
+     <a id="wa-share-btn" href="#" target="_blank" rel="noopener noreferrer" class="wa-btn inline-flex items-center gap-3 px-8 py-4 rounded-2xl text-lg font-bold transition-all duration-300 hover:scale-105" style="background:#25d366;color:#ffffff;text-decoration:none;">
+      <svg width="28" height="28" viewbox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+      </svg><span id="cta-text">Bagikan via WhatsApp</span> </a>
+     <p class="mt-3 text-xs" style="color:#64748b;">Klik untuk mengirim info lengkap program via WhatsApp</p>
+    </div><!-- Footer -->
+    <footer class="text-center pb-8">
+     <p class="text-xs" style="color:#475569;">© 2024 Mahir Digital — PT Mahir Digital Asia</p>
+    </footer>
+   </div>
+  </div>
+  <script>
+    const waMessage = `Izin saya jelaskan mengenai program dari mahir digital ya Kak 😊
+
+*Mahir Digital Platform edukasi* untuk bantu Kamu mulai belajar Digital Marketing DARI NOL (PEMULA), sampai bisa PRAKTEK & MENDAPATKAN PENGHASILAN, hanya dari rumah.
+
+Materi utamanya tersedia dalam bentuk video pembelajaran yang bisa diakses melalui website, jadi kamu bisa pelajari materinya kapanpun dan dimanapun.
+
+Belajar digital marketing tidak cukup dalam waktu 1 Minggu atau 1 bulan tapi perlu konsisten dan dibimbing rutin yang bisa kamu dapatkan dengan gabung di Mahir Digital.
+
+*FASILITAS BELAJAR :*
+BIMBINGAN RUTIN SETIAP HARI, SETIAP MINGGU & SETIAP BULAN, melalui :
+✅ Konsultasi via WA grup (dengan 4 mentor praktisi) Setiap hari
+✅ Kelas ONLINE (Live via zoom) 1 minggu sekali
+✅ Kelas OFFLINE 1 bulan sekali
+✅ Video courses terstruktur & mudah dipahami (bisa diakses 24 jam)
+
+
+Foto Materi
+
+Berikut untuk total materi yang akan akan pelajari nanti ya Kak.Total ada 14 chapter dan masing2 chapter sekitar 5-7 video pembelajarannya.
+
+
+*TARGET SETELAH MENGIKUT MAHIR DIGITAL :*
+1. Bisa langsung jualan online (dibantu cara cari supplier & riset produk, bagi yang belum ada produk)
+
+2. Bisa praktek bikin iklan sendiri, jadi bisa bebas jual produk apapun
+
+3. Ngerti cara bikin konten iklan yang menarik (supaya naikin presentase klik 100%)
+
+4. Ngerti cara bikin website/ landing page yang menarik
+
+5. Ngerti baca data setelah beriklan & bisa ambil keputusan yang tepat
+Dan yang paling penting :
+
+*BISA SEGERA DAPET PENGHASILAN 3-10 JUTA PERTAMA, KURANG DARI 6 BULAN* 🔥
+
+
+*Cara dapat 5-10 juta pertama dari Digital Marketing*
+
+CARA REAL DAPET 5-10 JUTA.mp4
+
+Bisa tonton video diatas dulu ya kak supaya ada gambaran terkait program membership nya 🙏😊
+
+
+Bagaimana Kak, apakah sudah jelas info terkait program membershipnya? Ada yang mau ditanyakan dulu kah?
+
+Atau mau langsung aku bantu untuk registrasi Membershipnya?
+
+
+*Selanjutnya, silahkan isi formulir dibawah ini ya :*
+
+- Nama lengkap :
+- No WA :
+- Email :
+- Sudah punya produk (kalau sudah sebutkan produknya) :
+- Sudah pernah beriklan di FB/IG Ada (kalau sudah sebutkan budget) :
+- Program Membership Mahir Digital
+
+
+Selanjutnya bisa konfirmasi payment kesini ya Kak :
+
+*Rekening BCA 7615670898 , senilai Rp 1.185.000* Rekening resmi hanya atas nama *PT MAHIR DIGITAL ASIA*
+
+Kalau sudah transfer, boleh konfirmasi ya Kak.
+
+Supaya langsung diinvite ke grup WA (jadi bisa langsung ikut kelas online minggu ini atau minggu depan)
+
+Apabila ada kendala terkait poin diatas bisa langsung tanya ke aku ya Kak 😊
+
+Terimakasih sebelumnya🙏
+
+
+Halo Kak, langkah selanjutnya silahkan buat akun member Mahir Digital, melalui link ini ya ⬇️
+
+https://member.mahirdigital.id/lp?aff=syamggih&i=1&type=membership&whatsapp=. 
+
+1. Silahkan isi semua data tersebut untuk kebutuhan aktivitasi akun
+2. Klik tombol *Buat Pesanan*
+3. Silahkan copy nomer invoice yg tertera
+4. *TIDAK PERLU TRANSFER LAGI, ABAIKAN NOMINAL PENAGIHAN*
+
+Lalu, kirim nomer invoice tersebut, supaya Aku bantu aktivasi akun Kakak.
+
+*Jika masih bingung, bisa simak video berikut untuk tutorialnya:*
+
+https://youtu.be/IgvjRnQxBfA
+
+Setelah akun anda aktif *(Maksimal 1X24 Jam)*, Kakak bisa langsung isi formulir kelengkapan data dan login ke member area.
+
+Kalau butuh bantuan, boleh japri aku yaa :)
+
+Terimakasih sudah menjadi bagian dari Mahir Digital! Semangat Kak, semoga lancar belajar & prakteknya ❤️
+
+
+*Pendaftaran Sudah Berhasil* ✅
+
+Terimakasih banyak. 
+ 
+Pembayaran senilai : 1.185.000 sudah kita terima.
+
+*MOHON DITUNGGU LINK AKTIVASI MAKSIMAL 1X24 JAM (dikirimkan via WA dan juga Email)*
+
+Setelah akun Membership di aktifkan silahkan registrasi kembali dan pastikan data yang diisi pada formulir sudah sesuai dan benar.
+
+*Tutorial Aktivasi Akun Membership ⬇️*
+
+*Melalui Laptop:*
+https://youtu.be/ErPchwtD2WI
+
+*Melalui HP:*
+https://youtube.com/shorts/HI9F0PCGNis`;
+
+    const waUrl = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(waMessage);
+    document.getElementById('wa-share-btn').href = waUrl;
+
+    // Element SDK
+    const defaultConfig = {
+      hero_title: 'Mahir Digital',
+      hero_subtitle: 'Belajar Digital Marketing dari NOL sampai bisa PRAKTEK & MENDAPATKAN PENGHASILAN, hanya dari rumah 🚀',
+      cta_button_text: 'Bagikan via WhatsApp',
+      background_color: '#030712',
+      surface_color: '#0f172a',
+      text_color: '#e2e8f0',
+      primary_action: '#25d366',
+      secondary_action: '#fbbf24',
+      font_family: 'Plus Jakarta Sans',
+      font_size: 16
+    };
+
+    function applyConfig(config) {
+      const c = { ...defaultConfig, ...config };
+      document.getElementById('hero-title').textContent = c.hero_title;
+      document.getElementById('hero-subtitle').textContent = c.hero_subtitle;
+      document.getElementById('cta-text').textContent = c.cta_button_text;
+
+      const app = document.getElementById('app');
+      app.style.backgroundColor = c.background_color;
+      app.style.color = c.text_color;
+      app.style.fontFamily = `${c.font_family}, Plus Jakarta Sans, sans-serif`;
+
+      document.querySelectorAll('.section-card').forEach(el => {
+        el.style.backgroundColor = c.surface_color;
+        el.style.borderColor = `${c.text_color}11`;
+      });
+
+      document.querySelectorAll('h2').forEach(el => el.style.color = c.primary_action);
+
+      const waBtn = document.getElementById('wa-share-btn');
+      waBtn.style.backgroundColor = c.primary_action;
+
+      const base = c.font_size;
+      document.getElementById('hero-title').style.fontSize = `${base * 2.5}px`;
+      document.getElementById('hero-subtitle').style.fontSize = `${base * 1.15}px`;
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange: async (config) => applyConfig(config),
+        mapToCapabilities: (config) => ({
+          recolorables: [
+            { get: () => config.background_color || defaultConfig.background_color, set: (v) => { config.background_color = v; window.elementSdk.setConfig({ background_color: v }); } },
+            { get: () => config.surface_color || defaultConfig.surface_color, set: (v) => { config.surface_color = v; window.elementSdk.setConfig({ surface_color: v }); } },
+            { get: () => config.text_color || defaultConfig.text_color, set: (v) => { config.text_color = v; window.elementSdk.setConfig({ text_color: v }); } },
+            { get: () => config.primary_action || defaultConfig.primary_action, set: (v) => { config.primary_action = v; window.elementSdk.setConfig({ primary_action: v }); } },
+            { get: () => config.secondary_action || defaultConfig.secondary_action, set: (v) => { config.secondary_action = v; window.elementSdk.setConfig({ secondary_action: v }); } }
+          ],
+          borderables: [],
+          fontEditable: {
+            get: () => config.font_family || defaultConfig.font_family,
+            set: (v) => { config.font_family = v; window.elementSdk.setConfig({ font_family: v }); }
+          },
+          fontSizeable: {
+            get: () => config.font_size || defaultConfig.font_size,
+            set: (v) => { config.font_size = v; window.elementSdk.setConfig({ font_size: v }); }
+          }
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ['hero_title', config.hero_title || defaultConfig.hero_title],
+          ['hero_subtitle', config.hero_subtitle || defaultConfig.hero_subtitle],
+          ['cta_button_text', config.cta_button_text || defaultConfig.cta_button_text]
+        ])
+      });
+    }
+
+    lucide.createIcons();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e5d84ed81873413',t:'MTc3NTEwODY0MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+<script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js'); fbq('init', '1772182890426187'); fbq('track', 'PageView');</script><noscript> <img height="1" width="1" src="https://www.facebook.com/tr?id=1772182890426187&ev=PageView&noscript=1"/></noscript>
+</body>
+</html>
