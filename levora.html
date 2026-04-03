@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LEVORA - Beauty Bar Soap</title>
+  <link rel="icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1775244946/Syam-Store-Logo_kr49dd.png" type="image/png">
+  <link rel="shortcut icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1775244946/Syam-Store-Logo_kr49dd.png">
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&amp;family=DM+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    html, body { height: 100%; margin: 0; }
+    * { box-sizing: border-box; }
+    .font-display { font-family: 'Playfair Display', Georgia, serif; }
+    .font-body { font-family: 'DM Sans', sans-serif; }
+    .app-wrapper { width: 100%; min-height: 100%; overflow-x: hidden; }
+    .hero-gradient { background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%); }
+    .gold-text { background: linear-gradient(135deg, #d4a574, #f0d5a8, #d4a574); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .gold-border { border-color: #d4a574; }
+    .gold-bg { background: linear-gradient(135deg, #d4a574, #c9956b); }
+    .card-glass { background: rgba(255,255,255,0.03); backdrop-filter: blur(10px); border: 1px solid rgba(212,165,116,0.15); }
+    .testi-scroll { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 8px; }
+    .testi-scroll::-webkit-scrollbar { display: none; }
+    .testi-scroll > * { scroll-snap-align: center; flex-shrink: 0; }
+    .product-carousel { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+    .product-carousel::-webkit-scrollbar { display: none; }
+    .product-carousel > * { scroll-snap-align: start; flex-shrink: 0; }
+    .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    .float-anim { animation: floaty 4s ease-in-out infinite; }
+    @keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+    @keyframes shimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
+    .shimmer-btn { background: linear-gradient(90deg, #d4a574 0%, #f0d5a8 25%, #d4a574 50%, #f0d5a8 75%, #d4a574 100%); background-size: 200% auto; animation: shimmer 3s linear infinite; color: #0a0a0a; }
+    .product-tab.active { background: rgba(212,165,116,0.2); border-color: #d4a574; color: #f0d5a8; }
+    .product-tab { border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.5); transition: all 0.3s; }
+    .ingredient-pill { background: rgba(212,165,116,0.1); border: 1px solid rgba(212,165,116,0.25); }
+    .video-container { position: relative; width: 100%; max-width: 350px; margin: 0 auto; }
+    .video-container iframe { width: 100%; aspect-ratio: 315/576; border-radius: 16px; }
+    .store-img { border-radius: 12px; border: 1px solid rgba(212,165,116,0.2); }
+  </style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="font-body" style="height:100%; margin:0;">
+  <div class="app-wrapper hero-gradient text-white">
+   <!-- Navbar -->
+   <nav class="sticky top-0 z-50 bg-black/60 backdrop-blur-lg border-b border-white/5">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+     <div class="flex items-center gap-2"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1775244946/Syam-Store-Logo_kr49dd.png" alt="LEVORA Logo" loading="lazy" class="w-8 h-8 rounded-full" onerror="this.style.background='#d4a574';"> <span id="nav-brand" class="font-display font-bold text-lg gold-text">LEVORA</span>
+     </div><a href="#order" class="text-xs font-semibold px-4 py-2 rounded-full shimmer-btn">Pesan Sekarang</a>
+    </div>
+   </nav><!-- Hero -->
+   <section class="fade-in relative py-12 px-4 text-center overflow-hidden">
+    <div class="absolute inset-0 opacity-10" style="background: radial-gradient(circle at 50% 0%, #d4a574 0%, transparent 60%);"></div>
+    <div class="relative max-w-lg mx-auto">
+     <p class="text-xs tracking-[0.3em] uppercase text-amber-300/70 mb-3">Premium Skincare Soap</p>
+     <h1 id="hero-title" class="font-display text-5xl md:text-6xl font-800 gold-text mb-3">LEVORA</h1>
+     <p id="hero-subtitle" class="font-display text-xl md:text-2xl text-white/80 mb-4">Beauty Bar Soap</p>
+     <p class="text-white/50 text-sm max-w-sm mx-auto mb-8 leading-relaxed">Sabun pencerah wajah &amp; tubuh dengan kandungan aktif untuk kulit lebih cerah, bersih, dan lembap.</p>
+     <div class="float-anim mb-8">
+      <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1775242860/1_Glow_Age_Bar_tu91ii.png" alt="LEVORA Glow Age Bar" loading="lazy" class="mx-auto w-56 md:w-72 drop-shadow-2xl" onerror="this.style.background='#1a1a2e'; this.alt='Image unavailable';">
+     </div><a href="#products" id="hero-cta" class="inline-block shimmer-btn font-bold px-8 py-3 rounded-full text-sm tracking-wide">Pesan Sekarang</a>
+    </div>
+   </section><!-- Products Section -->
+   <section id="products" class="fade-in py-14 px-4">
+    <div class="max-w-5xl mx-auto">
+     <p class="text-center text-xs tracking-[0.25em] uppercase text-amber-300/60 mb-2">Our Collection</p>
+     <h2 class="font-display text-3xl font-bold text-center gold-text mb-8">Produk Kami</h2><!-- Product Tabs -->
+     <div class="flex justify-center gap-2 mb-8 flex-wrap">
+      <button onclick="showProduct('brilly')" id="tab-brilly" class="product-tab active px-4 py-2 rounded-full text-xs font-semibold transition-all">Brilly Bar</button> <button onclick="showProduct('acen')" id="tab-acen" class="product-tab px-4 py-2 rounded-full text-xs font-semibold transition-all">Acen Bar</button> <button onclick="showProduct('glow')" id="tab-glow" class="product-tab px-4 py-2 rounded-full text-xs font-semibold transition-all">Glow Age Bar</button>
+     </div><!-- Brilly Bar -->
+     <div id="product-brilly" class="product-panel">
+      <div class="product-carousel px-2 mb-6">
+       <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1775242859/1_Brilly_Bar_kwnfsw.png" alt="Brilly Bar 1" loading="lazy" class="w-52 h-52 object-contain rounded-2xl card-glass p-3" onerror="this.style.background='#1a1a2e';"> <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1775242859/2_Brilly_Bar_sk2svf.png" alt="Brilly Bar 2" loading="lazy" class="w-52 h-52 object-contain rounded-2xl card-glass p-3" onerror="this.style.background='#1a1a2e';"> <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1775242863/3_Brilly_Bar_rnwql0.png" alt="Brilly Bar 3" loading="lazy" class="w-52 h-52 object-contain rounded-2xl card-glass p-3" onerror="this.style.background='#1a1a2e';"> <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1775242862/4_Brilly_Bar_dn4lrz.png" alt="Brilly Bar 4" loading="lazy" class="w-52 h-52 object-contain rounded-2xl card-glass p-3" onerror="this.style.background='#1a1a2e';">
+      </div>
+      <div class="card-glass rounded-2xl p-6 max-w-xl mx-auto">
+       <h3 class="font-display text-xl font-bold text-amber-200 mb-2">Brilly Bar Brightening Bar Soap</h3>
+       <p class="text-white/60 text-sm leading-relaxed mb-4">Sabun batang multifungsi yang diformulasikan untuk membantu mencerahkan kulit, menyamarkan noda hitam, dan mengangkat sel kulit mati secara lembut.</p>
+       <h4 class="text-amber-300/80 text-xs font-semibold tracking-wider uppercase mb-3">Manfaat Utama</h4>
+       <ul class="space-y-2 mb-5">
+        <li class="flex items-start gap-2 text-sm text-white/70"><i data-lucide="check-circle" class="w-4 h-4 text-amber-400 mt-0.5 flex-shrink-0"></i>Mencerahkan kulit secara bertahap dan merata</li>
+        <li class="flex items-start gap-2 text-sm text-white/70"><i data-lucide="check-circle" class="w-4 h-4 text-amber-400 mt-0.5 flex-shrink-0"></i>Menyamarkan noda hitam dan bekas jerawat</li>
+        <li class="flex items-start gap-2 text-sm text-white/70"><i data-lucide="check-circle" class="w-4 h-4 text-amber-400 mt-0.5 flex-shrink-0"></i>Mengeksfoliasi sel kulit mati secara lembut</li>
+        <li class="flex items-start gap-2 text-sm text-white/70"><i data-lucide="check-circle" class="w-4 h-4 text-amber-400 mt-0.5 flex-shrink-0"></i>Melembapkan kulit agar terasa halus dan tidak kering</li>
+       </ul>
+       <h4 class="text-amber-300/80 text-xs font-semibold tracking-wider uppercase mb-3">Kandungan Unggulan</h4>
+       <div class="flex flex-wrap gap-2 mb-5">
+        <span class="ingredient-pill text-xs px-3 py-1.5 rounded-full text-amber-200">Niacinamide</span> <span class="ingredient-pill text-xs px-3 py-1.5 rounded-full text-amber-200">Glutathione</span> <span class="ingredient-pill text-xs px-3 py-1.5 rounded-full text-amber-200">Glycolic Acid</span> <span class="ingredient-pill text-xs px-3 py-1.5 rounded-full text-amber-200">Purac FCC</span> <span class="ingredient-pill text-xs px-3 py-1.5 rounded-full text-amber-200">Super Moisturizing Max</span>
+       </div>
+       <div class="bg-white/5 rounded-xl p-4 mb-4">
+        <h4 class="text-amber-300/80 text-xs font-semibold tracking-wider uppercase mb-2">Cara Pakai</h4>
+        <p class="text-white/50 text-xs leading-relaxed">Basahi wajah dan sabun terlebih dahulu. Gosokkan sabun secara langsung ke kulit dengan gerakan melingkar. Bilas hingga bersih, lalu keringkan wajah dengan menepuk lembut menggunakan handuk.</p>
+       </div>
+       <p class="text-white/30 text-[10px]">BPOM RI: NA18251202592</p>
+      </div>
+     </div><!-- Acen Bar -->
+     <div id="product-acen" class="product-panel hidden">
+      <div class="product-carousel px-2 mb-6">
+       <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1775242859/1_Acen_Bar_rhuw2a.png" alt="Acen Bar 1" loading="lazy" class="w-52 h-52 object-contain rounded-2xl card-glass p-3" onerror="this.style.background='#1a1a2e';"> <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1775242859/2_Acen_Bar_wwygha.png" alt="Acen Bar 2" loading="lazy" class="w-52 h-52 object-contain rounded-2xl card-glass p-3" onerror="this.style.background='#1a1a2e';"> <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1775242861/3_Acen_Bar_libp54.png" alt="Acen Bar 3" loading="lazy" class="w-52 h-52 object-contain rounded-2xl card-glass p-3" onerror="this.style.background='#1a1a2e';"> <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1775242861/4_Acen_Bar_ks74ev.png" alt="Acen Bar 4" loading="lazy" class="w-52 h-52 object-contain rounded-2xl card-glass p-3" onerror="this.style.background='#1a1a2e';">
+      </div>
+      <div class="card-glass rounded-2xl p-6 max-w-xl mx-auto">
+       <h3 class="font-display text-xl font-bold text-amber-200 mb-2">Acen Bar - Anti Acne Soap</h3>
+       <p class="text-white/60 text-sm leading-relaxed mb-4">Sabun khusus untuk kulit berjerawat yang membantu membersihkan pori-pori, mengurangi peradangan, dan mencegah timbulnya jerawat baru.</p>
+       <div class="flex flex-wrap gap-2 mb-4">
+        <span class="ingredient-pill text-xs px-3 py-1.5 rounded-full text-amber-200">Anti-Acne Formula</span> <span class="ingredient-pill text-xs px-3 py-1.5 rounded-full text-amber-200">Deep Cleansing</span> <span class="ingredient-pill text-xs px-3 py-1.5 rounded-full text-amber-200">Oil Control</span>
+       </div>
+      </div>
+     </div><!-- Glow Age Bar -->
+     <div id="product-glow" class="product-panel hidden">
+      <div class="product-carousel px-2 mb-6">
+       <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1775242860/1_Glow_Age_Bar_tu91ii.png" alt="Glow Age Bar 1" loading="lazy" class="w-52 h-52 object-contain rounded-2xl card-glass p-3" onerror="this.style.background='#1a1a2e';"> <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1775242860/2_Glow_Age_Bar_jgj5xb.png" alt="Glow Age Bar 2" loading="lazy" class="w-52 h-52 object-contain rounded-2xl card-glass p-3" onerror="this.style.background='#1a1a2e';"> <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1775242861/3_Glow_Age_Bar_t1uecz.png" alt="Glow Age Bar 3" loading="lazy" class="w-52 h-52 object-contain rounded-2xl card-glass p-3" onerror="this.style.background='#1a1a2e';"> <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1775242862/4_Glow_Age_Bar_pkpar3.png" alt="Glow Age Bar 4" loading="lazy" class="w-52 h-52 object-contain rounded-2xl card-glass p-3" onerror="this.style.background='#1a1a2e';">
+      </div>
+      <div class="card-glass rounded-2xl p-6 max-w-xl mx-auto">
+       <h3 class="font-display text-xl font-bold text-amber-200 mb-2">Glow Age Bar - Anti Aging Soap</h3>
+       <p class="text-white/60 text-sm leading-relaxed mb-4">Sabun anti-aging yang membantu menyamarkan tanda penuaan, mengencangkan kulit, dan mengembalikan kelembapan alami kulit wajah dan tubuh.</p>
+       <div class="flex flex-wrap gap-2 mb-4">
+        <span class="ingredient-pill text-xs px-3 py-1.5 rounded-full text-amber-200">Anti-Aging Formula</span> <span class="ingredient-pill text-xs px-3 py-1.5 rounded-full text-amber-200">Skin Firming</span> <span class="ingredient-pill text-xs px-3 py-1.5 rounded-full text-amber-200">Deep Hydration</span>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- Video Section -->
+   <section class="fade-in py-14 px-4">
+    <div class="max-w-5xl mx-auto text-center">
+     <p class="text-xs tracking-[0.25em] uppercase text-amber-300/60 mb-2">Watch</p>
+     <h2 class="font-display text-3xl font-bold gold-text mb-8">Video Produk</h2>
+     <div class="video-container">
+      <iframe src="https://www.youtube.com/embed/j-0cvsGY3yE" title="LEVORA Product Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="border-radius:16px;"></iframe>
+     </div>
+    </div>
+   </section><!-- Store Gallery -->
+   <section class="fade-in py-14 px-4">
+    <div class="max-w-5xl mx-auto text-center">
+     <p class="text-xs tracking-[0.25em] uppercase text-amber-300/60 mb-2">Gallery</p>
+     <h2 class="font-display text-3xl font-bold gold-text mb-8">Syam Store</h2>
+     <div class="grid grid-cols-3 gap-3 max-w-md mx-auto">
+      <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1775242863/Syam-store5_rjsjpa.jpg" alt="Syam Store" loading="lazy" class="store-img w-full aspect-square object-cover" onerror="this.style.background='#1a1a2e';"> <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1775242863/Syam-store4_cgnj3z.jpg" alt="Syam Store" loading="lazy" class="store-img w-full aspect-square object-cover" onerror="this.style.background='#1a1a2e';"> <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1775242863/Syam-store3_m6kgjf.jpg" alt="Syam Store" loading="lazy" class="store-img w-full aspect-square object-cover" onerror="this.style.background='#1a1a2e';">
+     </div>
+    </div>
+   </section><!-- Testimonials -->
+   <section class="fade-in py-14 px-4">
+    <div class="max-w-5xl mx-auto">
+     <p class="text-center text-xs tracking-[0.25em] uppercase text-amber-300/60 mb-2">Testimonials</p>
+     <h2 class="font-display text-3xl font-bold text-center gold-text mb-8">Testimoni Pelanggan</h2>
+     <div class="testi-scroll px-2">
+      <div class="w-64 md:w-72">
+       <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1775242864/Syam-store7_hcbufu.png" alt="Testimoni 1" loading="lazy" class="w-full rounded-2xl border border-amber-500/20 shadow-lg" onerror="this.style.background='#1a1a2e';">
+      </div>
+      <div class="w-64 md:w-72">
+       <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1775242865/Syam-store9_fhbj1v.png" alt="Testimoni 2" loading="lazy" class="w-full rounded-2xl border border-amber-500/20 shadow-lg" onerror="this.style.background='#1a1a2e';">
+      </div>
+      <div class="w-64 md:w-72">
+       <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1775242864/Syam-store8_omhmbe.png" alt="Testimoni 3" loading="lazy" class="w-full rounded-2xl border border-amber-500/20 shadow-lg" onerror="this.style.background='#1a1a2e';">
+      </div>
+      <div class="w-64 md:w-72">
+       <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1775242864/Syam-store6_jydm3m.png" alt="Testimoni 4" loading="lazy" class="w-full rounded-2xl border border-amber-500/20 shadow-lg" onerror="this.style.background='#1a1a2e';">
+      </div>
+     </div>
+     <p class="text-center text-white/30 text-xs mt-4">← Geser untuk lihat lebih banyak →</p>
+    </div>
+   </section><!-- Why LEVORA -->
+   <section class="fade-in py-14 px-4">
+    <div class="max-w-xl mx-auto text-center">
+     <h2 class="font-display text-3xl font-bold gold-text mb-6">Kenapa LEVORA?</h2>
+     <p class="text-white/50 text-sm leading-relaxed mb-8">Merawat kulit dimulai dari hal paling dasar — membersihkan dengan kandungan yang tepat. LEVORA bukan sekadar sabun biasa. Ini adalah langkah awal menuju kulit yang lebih cerah, sehat, dan lembap.</p>
+     <div class="grid grid-cols-2 gap-4">
+      <div class="card-glass rounded-xl p-5 text-center">
+       <div class="w-10 h-10 mx-auto mb-3 rounded-full gold-bg flex items-center justify-center"><i data-lucide="shield-check" class="w-5 h-5 text-black"></i>
+       </div>
+       <p class="text-amber-200 text-sm font-semibold mb-1">BPOM Certified</p>
+       <p class="text-white/40 text-xs">Aman &amp; Terdaftar</p>
+      </div>
+      <div class="card-glass rounded-xl p-5 text-center">
+       <div class="w-10 h-10 mx-auto mb-3 rounded-full gold-bg flex items-center justify-center"><i data-lucide="sparkles" class="w-5 h-5 text-black"></i>
+       </div>
+       <p class="text-amber-200 text-sm font-semibold mb-1">Premium Quality</p>
+       <p class="text-white/40 text-xs">Bahan Aktif Terbaik</p>
+      </div>
+      <div class="card-glass rounded-xl p-5 text-center">
+       <div class="w-10 h-10 mx-auto mb-3 rounded-full gold-bg flex items-center justify-center"><i data-lucide="heart" class="w-5 h-5 text-black"></i>
+       </div>
+       <p class="text-amber-200 text-sm font-semibold mb-1">Gentle Formula</p>
+       <p class="text-white/40 text-xs">Aman untuk Harian</p>
+      </div>
+      <div class="card-glass rounded-xl p-5 text-center">
+       <div class="w-10 h-10 mx-auto mb-3 rounded-full gold-bg flex items-center justify-center"><i data-lucide="star" class="w-5 h-5 text-black"></i>
+       </div>
+       <p class="text-amber-200 text-sm font-semibold mb-1">Hasil Nyata</p>
+       <p class="text-white/40 text-xs">Terbukti Efektif</p>
+      </div>
+     </div>
+    </div>
+   </section><!-- Order CTA -->
+   <section id="order" class="fade-in py-16 px-4">
+    <div class="max-w-md mx-auto text-center card-glass rounded-3xl p-8">
+     <h2 class="font-display text-2xl font-bold gold-text mb-3">Dapatkan Kulit Impianmu!</h2>
+     <p class="text-white/50 text-sm mb-6">Pesan sekarang dan rasakan perbedaannya.</p><a href="https://wa.me/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 shimmer-btn font-bold px-8 py-3.5 rounded-full text-sm tracking-wide"> <i data-lucide="message-circle" class="w-4 h-4"></i> <span id="cta-btn-text">Pesan Sekarang</span> </a>
+     <p class="text-white/30 text-xs mt-6">Hubungi kami via WhatsApp</p>
+    </div>
+   </section><!-- Disclaimer -->
+   <section class="fade-in py-10 px-4">
+    <div class="max-w-lg mx-auto card-glass rounded-2xl p-5">
+     <div class="flex items-start gap-3">
+      <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5"></i>
+      <div>
+       <h4 class="text-amber-200 text-sm font-semibold mb-2">Syarat Klaim &amp; Komplain</h4>
+       <ol class="text-white/50 text-xs space-y-2 list-decimal list-inside leading-relaxed">
+        <li>Rekam video unboxing tanpa jeda saat membuka paket, pastikan nomor resi terlihat jelas.</li>
+        <li>Video unboxing WAJIB untuk proses komplain dan klaim.</li>
+       </ol>
+       <p class="text-amber-400/70 text-xs font-semibold mt-3">❗ Tanpa video unboxing, klaim tidak akan diproses.</p>
+      </div>
+     </div>
+    </div>
+   </section><!-- Footer -->
+   <footer class="py-8 px-4 border-t border-white/5 text-center">
+    <div class="flex items-center justify-center gap-2 mb-2"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1775244946/Syam-Store-Logo_kr49dd.png" alt="LEVORA" loading="lazy" class="w-6 h-6 rounded-full" onerror="this.style.background='#d4a574';"> <span class="font-display font-semibold text-sm gold-text">LEVORA</span>
+    </div>
+    <p class="text-white/25 text-xs">© 2025 LEVORA Beauty. All rights reserved.</p>
+   </footer>
+  </div>
+  <script>
+    // Product tabs
+    function showProduct(name) {
+      document.querySelectorAll('.product-panel').forEach(p => p.classList.add('hidden'));
+      document.querySelectorAll('.product-tab').forEach(t => t.classList.remove('active'));
+      document.getElementById('product-' + name).classList.remove('hidden');
+      document.getElementById('tab-' + name).classList.add('active');
+    }
+
+    // Scroll fade-in
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Lucide icons
+    lucide.createIcons();
+
+    // Element SDK
+    const defaultConfig = {
+      hero_title: 'LEVORA',
+      hero_subtitle: 'Beauty Bar Soap',
+      cta_text: 'Pesan Sekarang',
+      background_color: '#0a0a0a',
+      accent_color: '#d4a574',
+      text_color: '#ffffff',
+      surface_color: '#1a1a2e',
+      font_family: 'Playfair Display',
+      font_size: 16
+    };
+
+    function applyConfig(config) {
+      const t = (k) => config[k] || defaultConfig[k];
+      document.getElementById('hero-title').textContent = t('hero_title');
+      document.getElementById('nav-brand').textContent = t('hero_title');
+      document.getElementById('hero-subtitle').textContent = t('hero_subtitle');
+      document.getElementById('cta-btn-text').textContent = t('cta_text');
+      document.getElementById('hero-cta').textContent = t('cta_text');
+
+      const font = t('font_family');
+      const baseSize = t('font_size');
+      document.querySelectorAll('.font-display').forEach(el => {
+        el.style.fontFamily = `${font}, Georgia, serif`;
+      });
+      document.querySelectorAll('p, li, span, a, button').forEach(el => {
+        el.style.fontFamily = `DM Sans, ${font}, sans-serif`;
+      });
+
+      // Apply accent color
+      const accent = t('accent_color');
+      document.documentElement.style.setProperty('--accent', accent);
+
+      // Font sizing
+      document.querySelectorAll('h1').forEach(el => el.style.fontSize = `${baseSize * 3}px`);
+      document.querySelectorAll('h2').forEach(el => el.style.fontSize = `${baseSize * 1.875}px`);
+      document.querySelectorAll('h3').forEach(el => el.style.fontSize = `${baseSize * 1.25}px`);
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange: async (config) => { applyConfig(config); },
+        mapToCapabilities: (config) => ({
+          recolorables: [
+            { get: () => config.background_color || defaultConfig.background_color, set: (v) => { config.background_color = v; window.elementSdk.setConfig({ background_color: v }); } },
+            { get: () => config.surface_color || defaultConfig.surface_color, set: (v) => { config.surface_color = v; window.elementSdk.setConfig({ surface_color: v }); } },
+            { get: () => config.text_color || defaultConfig.text_color, set: (v) => { config.text_color = v; window.elementSdk.setConfig({ text_color: v }); } },
+            { get: () => config.accent_color || defaultConfig.accent_color, set: (v) => { config.accent_color = v; window.elementSdk.setConfig({ accent_color: v }); } },
+          ],
+          borderables: [],
+          fontEditable: {
+            get: () => config.font_family || defaultConfig.font_family,
+            set: (v) => { config.font_family = v; window.elementSdk.setConfig({ font_family: v }); }
+          },
+          fontSizeable: {
+            get: () => config.font_size || defaultConfig.font_size,
+            set: (v) => { config.font_size = v; window.elementSdk.setConfig({ font_size: v }); }
+          }
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ['hero_title', config.hero_title || defaultConfig.hero_title],
+          ['hero_subtitle', config.hero_subtitle || defaultConfig.hero_subtitle],
+          ['cta_text', config.cta_text || defaultConfig.cta_text],
+        ])
+      });
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e6a86cbb4ab9fcb',t:'MTc3NTI0NTAzMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
