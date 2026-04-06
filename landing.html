@@ -1,0 +1,638 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mahir Digital - Bunda Mandiri dari Rumah</title>
+  <link rel="icon" type="image/png" href="https://member.mahirdigital.id/_next/image?url=%2Fimages%2Flogo%2FLOGO-MD-PUTIH.png&amp;w=256&amp;q=75">
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&amp;family=Playfair+Display:wght@700;800&amp;display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            rose: { 50:'#fff1f2',100:'#ffe4e6',200:'#fecdd3',300:'#fda4af',400:'#fb7185',500:'#f43f5e',600:'#e11d48' },
+            mint: { 50:'#f0fdf4',100:'#dcfce7',200:'#bbf7d0',300:'#86efac',400:'#4ade80',500:'#22c55e' },
+            cream: { 50:'#fffbf0',100:'#fef3cd' }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html, body { height:100%; }
+    body { font-family:'Nunito',sans-serif; }
+    .font-display { font-family:'Playfair Display',serif; }
+
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes pulse-glow { 0%,100%{box-shadow:0 0 0 0 rgba(244,63,94,0.4)} 50%{box-shadow:0 0 0 16px rgba(244,63,94,0)} }
+    @keyframes shimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
+    @keyframes scaleIn { from{opacity:0;transform:scale(0.8)} to{opacity:1;transform:scale(1)} }
+    @keyframes slideLeft { from{opacity:0;transform:translateX(-40px)} to{opacity:1;transform:translateX(0)} }
+    @keyframes slideRight { from{opacity:0;transform:translateX(40px)} to{opacity:1;transform:translateX(0)} }
+    @keyframes countUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+    .anim-float { animation: float 3s ease-in-out infinite; }
+    .anim-fade-up { animation: fadeUp 0.8s ease-out both; }
+    .anim-fade-up-d1 { animation: fadeUp 0.8s ease-out 0.15s both; }
+    .anim-fade-up-d2 { animation: fadeUp 0.8s ease-out 0.3s both; }
+    .anim-fade-up-d3 { animation: fadeUp 0.8s ease-out 0.45s both; }
+    .anim-fade-up-d4 { animation: fadeUp 0.8s ease-out 0.6s both; }
+    .anim-scale-in { animation: scaleIn 0.6s ease-out both; }
+    .anim-slide-left { animation: slideLeft 0.7s ease-out both; }
+    .anim-slide-right { animation: slideRight 0.7s ease-out both; }
+
+    .cta-btn { animation: pulse-glow 2s ease-in-out infinite; }
+    .cta-btn:hover { transform:scale(1.05); }
+    .cta-btn { transition: transform 0.3s ease; }
+
+    .shimmer-badge {
+      background: linear-gradient(90deg, #f43f5e 0%, #ff8fab 40%, #f43f5e 80%);
+      background-size: 200% 100%;
+      animation: shimmer 2.5s linear infinite;
+    }
+
+    .pain-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .pain-card:hover { transform:translateY(-4px); box-shadow:0 12px 30px rgba(0,0,0,0.1); }
+
+    .benefit-card { transition: transform 0.3s ease; }
+    .benefit-card:hover { transform:translateY(-6px); }
+
+    .faq-item { transition: all 0.3s ease; }
+    .faq-answer { max-height:0; overflow:hidden; transition: max-height 0.4s ease, padding 0.3s ease; }
+    .faq-answer.open { max-height:300px; padding-top:12px; }
+
+    .scroll-anim { opacity:0; transform:translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .scroll-anim.visible { opacity:1; transform:translateY(0); }
+
+    .hero-blob {
+      position:absolute; border-radius:50%; filter:blur(80px); opacity:0.3; z-index:0;
+    }
+
+    .sticky-cta {
+      position:fixed; bottom:0; left:0; right:0; z-index:50;
+      transform:translateY(100%); transition: transform 0.4s ease;
+      background: linear-gradient(to top, rgba(255,255,255,1) 70%, rgba(255,255,255,0));
+      padding: 12px 16px 16px;
+    }
+    .sticky-cta.show { transform:translateY(0); }
+
+    .whatsapp-btn {
+      position: fixed;
+      bottom: 30px;
+      right: 20px;
+      z-index: 40;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: #25D366;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-decoration: none;
+      box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .whatsapp-btn:hover {
+      transform: scale(1.15);
+      box-shadow: 0 12px 32px rgba(37, 211, 102, 0.6);
+    }
+
+    .whatsapp-btn svg {
+      width: 32px;
+      height: 32px;
+    }
+  </style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full">
+  <div id="app-wrapper" class="w-full h-full overflow-auto" style="background:#0f0f1a;"><!-- HERO SECTION -->
+   <section class="relative overflow-hidden" style="background: linear-gradient(135deg, #1a1a2e 0%, #2d1b3d 40%, #1f1f35 100%);">
+    <div class="hero-blob" style="width:300px;height:300px;background:#f43f5e;top:-80px;right:-60px;opacity:0.15;"></div>
+    <div class="hero-blob" style="width:250px;height:250px;background:#22c55e;bottom:-60px;left:-50px;opacity:0.15;"></div>
+    <div class="relative z-10 max-w-xl mx-auto px-5 pt-10 pb-8 text-center"><!-- Logo -->
+     <div class="anim-fade-up mb-6 flex items-center justify-center gap-2"><img src="https://member.mahirdigital.id/_next/image?url=%2Fimages%2Flogo%2FLOGO-MD-PUTIH.png&amp;w=256&amp;q=75" alt="Mahir Digital Logo" width="120" height="40" loading="lazy" onerror="console.error('Logo failed to load:', this.src);">
+     </div><!-- Illustration -->
+     <div class="anim-fade-up-d1 mb-6">
+      <div class="anim-float inline-block">
+       <div class="w-32 h-32 mx-auto rounded-full flex items-center justify-center text-6xl" style="background:linear-gradient(135deg,#ffe4e6,#dcfce7);box-shadow:0 8px 32px rgba(244,63,94,0.15);">
+        👩‍👧‍👦
+       </div>
+      </div>
+     </div><!-- Headline -->
+     <h1 id="el-hero-headline" class="anim-fade-up-d2 font-display text-2xl sm:text-3xl font-extrabold leading-tight mb-4" style="color:#ffffff;">Bunda, Ubah Waktu Luang di Rumah Jadi Sumber Penghasilan Tambahan! 💰✨</h1><!-- Sub-headline -->
+     <p id="el-hero-sub" class="anim-fade-up-d3 text-base sm:text-lg leading-relaxed mb-6" style="color:#e5e7eb;">Bosan cuma jadi penonton kesuksesan orang lain di media sosial? Di <strong style="color:#ff6b9d;">Mahir Digital</strong>, kami bimbing Bunda langkah demi langkah menguasai jualan online dan skill digital. Cukup modal HP, tanpa harus ninggalin urusan dapur dan buah hati!</p><!-- CTA -->
+     <div class="anim-fade-up-d4"><a href="#daftar" id="el-cta-main" class="cta-btn inline-block px-6 py-4 rounded-2xl text-white font-extrabold text-base sm:text-lg" style="background:linear-gradient(135deg,#f43f5e,#e11d48);text-decoration:none;"> SAYA MAU JADI BUNDA MANDIRI SEKARANG 🚀 </a>
+      <p class="mt-3 text-sm" style="color:#d1d5db;">🔒 Tanpa ribet. Langsung dapat akses belajar.</p>
+     </div><!-- Trust badges -->
+     <div class="mt-8 flex flex-wrap justify-center gap-4 anim-fade-up-d4">
+      <div class="flex items-center gap-1.5 text-sm font-semibold" style="color:#22c55e;"><i data-lucide="users" style="width:18px;height:18px;"></i> 3.500+ Bunda Bergabung
+      </div>
+      <div class="flex items-center gap-1.5 text-sm font-semibold" style="color:#f43f5e;"><i data-lucide="star" style="width:18px;height:18px;"></i> Rating 4.9/5
+      </div>
+     </div>
+    </div><!-- Wave divider -->
+    <svg viewbox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full" style="display:block;margin-bottom:-1px;"><path d="M0 40C240 80 480 0 720 40C960 80 1200 0 1440 40V80H0V40Z" fill="#0f0f1a" />
+    </svg>
+   </section><!-- PAIN POINTS -->
+   <section class="max-w-xl mx-auto px-5 py-10 scroll-anim">
+    <h2 class="font-display text-xl sm:text-2xl font-extrabold text-center mb-2" style="color:#1a1a2e;">Bunda Sering Merasakan Ini? 😔</h2>
+    <p class="text-center text-sm mb-6" style="color:#9ca3af;">Kalau iya, Bunda nggak sendirian...</p>
+    <div class="space-y-3">
+     <div class="pain-card flex items-start gap-3 p-4 rounded-2xl" style="background:#fff;box-shadow:0 2px 12px rgba(0,0,0,0.05);"><span class="text-2xl mt-0.5">😞</span>
+      <p class="text-sm sm:text-base" style="color:#4a4a68;">Pengen bantu ekonomi suami tapi <strong>nggak bisa kerja kantoran</strong>.</p>
+     </div>
+     <div class="pain-card flex items-start gap-3 p-4 rounded-2xl" style="background:#fff;box-shadow:0 2px 12px rgba(0,0,0,0.05);"><span class="text-2xl mt-0.5">😰</span>
+      <p class="text-sm sm:text-base" style="color:#4a4a68;">Mau jualan online tapi <strong>gaptek dan bingung mulai dari mana</strong>.</p>
+     </div>
+     <div class="pain-card flex items-start gap-3 p-4 rounded-2xl" style="background:#fff;box-shadow:0 2px 12px rgba(0,0,0,0.05);"><span class="text-2xl mt-0.5">😩</span>
+      <p class="text-sm sm:text-base" style="color:#4a4a68;">Udah posting jualan di WA/FB tapi <strong>yang beli itu-itu aja</strong> (atau malah sepi).</p>
+     </div>
+     <div class="pain-card flex items-start gap-3 p-4 rounded-2xl" style="background:#fff;box-shadow:0 2px 12px rgba(0,0,0,0.05);"><span class="text-2xl mt-0.5">😟</span>
+      <p class="text-sm sm:text-base" style="color:#4a4a68;">Takut bisnis <strong>ganggu waktu urus anak dan rumah tangga</strong>.</p>
+     </div>
+    </div><!-- Solution bridge -->
+    <div class="mt-8 p-5 rounded-2xl text-center" style="background:linear-gradient(135deg,#dcfce7,#f0fdf4);border:2px solid #bbf7d0;">
+     <p class="text-3xl mb-2">🤗</p>
+     <p class="font-bold text-base sm:text-lg" style="color:#166534;">Tenang Bun, Bunda nggak sendirian!</p>
+     <p class="text-sm mt-1" style="color:#4a4a68;"><strong style="color:#e11d48;">Mahir Digital</strong> hadir sebagai solusi praktis khusus untuk Bunda yang ingin produktif tanpa harus keluar rumah.</p>
+    </div>
+   </section><!-- KURIKULUM -->
+   <section class="py-10 scroll-anim" style="background:linear-gradient(180deg,#fffbf7 0%,#fff1f2 100%);">
+    <div class="max-w-xl mx-auto px-5">
+     <h2 class="font-display text-xl sm:text-2xl font-extrabold text-center mb-2" style="color:#1a1a2e;">Apa yang Akan Bunda Pelajari? 📚</h2>
+     <p class="text-center text-sm mb-8" style="color:#f43f5e;font-weight:700;">Materi Super Simpel, Anti Pusing!</p>
+     <div class="space-y-4">
+      <div class="benefit-card flex gap-4 p-4 rounded-2xl" style="background:#fff;box-shadow:0 4px 16px rgba(0,0,0,0.06);">
+       <div class="flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center text-2xl" style="background:#ffe4e6;">
+        📸
+       </div>
+       <div>
+        <h3 class="font-bold text-sm sm:text-base" style="color:#1a1a2e;">Konten Cantik Sekali Klik</h3>
+        <p class="text-xs sm:text-sm mt-1" style="color:#6b7280;">Cara bikin foto &amp; video jualan estetik pakai Canva. Gampang banget!</p>
+       </div>
+      </div>
+      <div class="benefit-card flex gap-4 p-4 rounded-2xl" style="background:#fff;box-shadow:0 4px 16px rgba(0,0,0,0.06);">
+       <div class="flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center text-2xl" style="background:#dcfce7;">
+        📲
+       </div>
+       <div>
+        <h3 class="font-bold text-sm sm:text-base" style="color:#1a1a2e;">Laris Manis di WhatsApp</h3>
+        <p class="text-xs sm:text-sm mt-1" style="color:#6b7280;">Rahasia jualan di Story WA tanpa bikin orang risih, malah bikin nagih.</p>
+       </div>
+      </div>
+      <div class="benefit-card flex gap-4 p-4 rounded-2xl" style="background:#fff;box-shadow:0 4px 16px rgba(0,0,0,0.06);">
+       <div class="flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center text-2xl" style="background:#fef3cd;">
+        🛒
+       </div>
+       <div>
+        <h3 class="font-bold text-sm sm:text-base" style="color:#1a1a2e;">Jago Marketplace (Shopee/TikTok)</h3>
+        <p class="text-xs sm:text-sm mt-1" style="color:#6b7280;">Cara buka toko online pertama Bunda sampai banjir orderan.</p>
+       </div>
+      </div>
+      <div class="benefit-card flex gap-4 p-4 rounded-2xl" style="background:#fff;box-shadow:0 4px 16px rgba(0,0,0,0.06);">
+       <div class="flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center text-2xl" style="background:#e0e7ff;">
+        💸
+       </div>
+       <div>
+        <h3 class="font-bold text-sm sm:text-base" style="color:#1a1a2e;">Cuan Tanpa Stok Barang</h3>
+        <p class="text-xs sm:text-sm mt-1" style="color:#6b7280;">Belajar Affiliate &amp; Dropship. Gak perlu ribet packing &amp; kirim barang!</p>
+       </div>
+      </div>
+      <div class="benefit-card flex gap-4 p-4 rounded-2xl" style="background:#fff;box-shadow:0 4px 16px rgba(0,0,0,0.06);">
+       <div class="flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center text-2xl" style="background:#fce7f3;">
+        ✍️
+       </div>
+       <div>
+        <h3 class="font-bold text-sm sm:text-base" style="color:#1a1a2e;">Tulisan yang Menjual</h3>
+        <p class="text-xs sm:text-sm mt-1" style="color:#6b7280;">Cara bikin caption yang bikin sesama Ibu-ibu langsung pengen beli.</p>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- KENAPA MAHIR DIGITAL -->
+   <section class="py-10 scroll-anim" style="background:#fffbf7;">
+    <div class="max-w-xl mx-auto px-5">
+     <h2 class="font-display text-xl sm:text-2xl font-extrabold text-center mb-8" style="color:#1a1a2e;">Mengapa Harus Mahir Digital? 🌟</h2>
+     <div class="grid grid-cols-2 gap-3">
+      <div class="p-4 rounded-2xl text-center" style="background:linear-gradient(135deg,#fff1f2,#fff);box-shadow:0 2px 12px rgba(0,0,0,0.05);">
+       <div class="text-3xl mb-2">
+        ⏰
+       </div>
+       <h3 class="font-bold text-sm" style="color:#1a1a2e;">Waktu Fleksibel</h3>
+       <p class="text-xs mt-1" style="color:#6b7280;">Belajar kapan saja saat anak tidur atau waktu luang</p>
+      </div>
+      <div class="p-4 rounded-2xl text-center" style="background:linear-gradient(135deg,#dcfce7,#fff);box-shadow:0 2px 12px rgba(0,0,0,0.05);">
+       <div class="text-3xl mb-2">
+        👩‍🏫
+       </div>
+       <h3 class="font-bold text-sm" style="color:#1a1a2e;">Bimbingan Sampai Bisa</h3>
+       <p class="text-xs mt-1" style="color:#6b7280;">Mentor sabar jawab pertanyaan "gaptek" Bunda</p>
+      </div>
+      <div class="p-4 rounded-2xl text-center" style="background:linear-gradient(135deg,#fef3cd,#fff);box-shadow:0 2px 12px rgba(0,0,0,0.05);">
+       <div class="text-3xl mb-2">
+        💬
+       </div>
+       <h3 class="font-bold text-sm" style="color:#1a1a2e;">Komunitas Suportif</h3>
+       <p class="text-xs mt-1" style="color:#6b7280;">Ribuan Bunda hebat saling dukung. Laris Bareng!</p>
+      </div>
+      <div class="p-4 rounded-2xl text-center" style="background:linear-gradient(135deg,#e0e7ff,#fff);box-shadow:0 2px 12px rgba(0,0,0,0.05);">
+       <div class="text-3xl mb-2">
+        🎬
+       </div>
+       <h3 class="font-bold text-sm" style="color:#1a1a2e;">Video Replay</h3>
+       <p class="text-xs mt-1" style="color:#6b7280;">Gak sempat ikut live? Ada rekaman yang bisa ditonton ulang</p>
+      </div>
+     </div>
+    </div>
+   </section><!-- TESTIMONI -->
+   <section class="py-10 scroll-anim" style="background:linear-gradient(180deg,#fffbf7,#fff1f2);">
+    <div class="max-w-xl mx-auto px-5">
+     <h2 class="font-display text-xl sm:text-2xl font-extrabold text-center mb-6" style="color:#1a1a2e;">Kata Mereka yang Sudah Bergabung 💕</h2>
+     <div class="space-y-4">
+      <div class="p-5 rounded-2xl" style="background:#fff;box-shadow:0 4px 20px rgba(244,63,94,0.08);">
+       <div class="flex items-center gap-1 mb-3"><span style="color:#f59e0b;">⭐⭐⭐⭐⭐</span>
+       </div>
+       <p id="el-testimoni" class="text-sm sm:text-base italic leading-relaxed" style="color:#4a4a68;">"Dulu saya cuma tahu cara buka FB buat liat status orang. Setelah ikut Mahir Digital, sekarang status WA saya penuh orderan daster! Seneng banget bisa jajanin anak pakai uang sendiri."</p>
+       <div class="flex items-center gap-3 mt-4">
+        <div class="w-10 h-10 rounded-full flex items-center justify-center text-lg" style="background:linear-gradient(135deg,#fda4af,#f43f5e);color:#fff;">
+         R
+        </div>
+        <div>
+         <p id="el-testimoni-name" class="font-bold text-sm" style="color:#1a1a2e;">Bunda Rahma</p>
+         <p class="text-xs" style="color:#9ca3af;">Ibu Rumah Tangga &amp; Alumni Batch 5</p>
+        </div>
+       </div>
+      </div>
+      <div class="p-5 rounded-2xl" style="background:#fff;box-shadow:0 4px 20px rgba(244,63,94,0.08);">
+       <div class="flex items-center gap-1 mb-3"><span style="color:#f59e0b;">⭐⭐⭐⭐⭐</span>
+       </div>
+       <p class="text-sm sm:text-base italic leading-relaxed" style="color:#4a4a68;">"Awalnya ragu banget karena gaptek. Tapi ternyata mentornya sabar banget, step by step. Sekarang udah punya toko di Shopee dan omset jutaan per bulan! 🥹"</p>
+       <div class="flex items-center gap-3 mt-4">
+        <div class="w-10 h-10 rounded-full flex items-center justify-center text-lg" style="background:linear-gradient(135deg,#86efac,#22c55e);color:#fff;">
+         S
+        </div>
+        <div>
+         <p class="font-bold text-sm" style="color:#1a1a2e;">Bunda Sari</p>
+         <p class="text-xs" style="color:#9ca3af;">Ibu 2 Anak &amp; Seller Shopee</p>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- VIDEO TUTORIAL -->
+   <section class="py-10 scroll-anim" style="background:linear-gradient(180deg,#fffbf7,#fff1f2);">
+    <div class="max-w-xl mx-auto px-5">
+     <h2 class="font-display text-xl sm:text-2xl font-extrabold text-center mb-2" style="color:#1a1a2e;">Lihat Penjelasan Singkat 🎬</h2>
+     <p class="text-center text-sm mb-6" style="color:#9ca3af;">Penasaran gimana cara kerjanya? Tonton video berikut!</p>
+     <div class="relative w-full rounded-2xl overflow-hidden" style="background:#000;box-shadow:0 8px 32px rgba(244,63,94,0.15);padding-bottom:56.25%;">
+      <iframe class="absolute inset-0 w-full h-full" src="https://www.youtube.com/embed/BAAVBbDaqy4" title="Penjelasan Tentang Mahir Digital" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="border:none;"></iframe>
+     </div>
+    </div>
+   </section><!-- GALERI KARYA -->
+   <section class="py-10 scroll-anim" style="background:linear-gradient(180deg,#fffbf7,#fff1f2);">
+    <div class="max-w-xl mx-auto px-5">
+     <h2 class="font-display text-xl sm:text-2xl font-extrabold text-center mb-2" style="color:#1a1a2e;">Galeri Karya Alumni 📸</h2>
+     <p class="text-center text-sm mb-6" style="color:#9ca3af;">Lihat hasil karya dan inspirasi dari Bunda-Bunda cerdas digital kami</p>
+     <div class="relative w-full rounded-2xl overflow-hidden" style="background:#fff;box-shadow:0 8px 32px rgba(244,63,94,0.15);"><!-- Slider container -->
+      <div class="relative w-full" style="padding-bottom:100%;">
+       <div id="gallery-slider" class="absolute inset-0 flex transition-transform duration-500 ease-out" style="transform:translateX(0%);"><img src="https://res.cloudinary.com/di8stbg60/image/upload/v1775448007/Untitled-design-29-e. _fmbg7g.png" alt="Karya alumni" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='#e5e7eb'; this.alt='Image unavailable';" class="w-full h-full object-cover flex-shrink-0"> <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1775448006/WhatsApp-Image-2025-02-27-at-20.37.56_325ac3ee-1080x810_zfjl03.jpg" alt="Karya alumni" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='#e5e7eb'; this.alt='Image unavailable';" class="w-full h-full object-cover flex-shrink-0"> <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1775448006/9-400x400_h9sml5.png" alt="Karya alumni" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='#e5e7eb'; this.alt='Image unavailable';" class="w-full h-full object-cover flex-shrink-0"> <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1775448006/WhatsApp-Image-2025-02-27-at-20.37.55_b62cc697-1080x810_whtptg.jpg" alt="Karya alumni" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='#e5e7eb'; this.alt='Image unavailable';" class="w-full h-full object-cover flex-shrink-0"> <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1775448006/7-400x400_bdzqf3.png" alt="Karya alumni" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='#e5e7eb'; this.alt='Image unavailable';" class="w-full h-full object-cover flex-shrink-0"> <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1775448006/8-400x400_ukblz2.png" alt="Karya alumni" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='#e5e7eb'; this.alt='Image unavailable';" class="w-full h-full object-cover flex-shrink-0"> <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1775448103/Syam-Digital-MD_osfm97.png" alt="Karya alumni" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='#e5e7eb'; this.alt='Image unavailable';" class="w-full h-full object-cover flex-shrink-0">
+       </div>
+      </div><!-- Navigation buttons --> <button onclick="prevGallery()" class="absolute left-3 top-1/2 transform -translate-y-1/2 z-10 w-10 h-10 rounded-full flex items-center justify-center" style="background:rgba(255,255,255,0.9);box-shadow:0 2px 8px rgba(0,0,0,0.1);transition:all 0.3s;"> <i data-lucide="chevron-left" style="width:20px;height:20px;color:#f43f5e;"></i> </button> <button onclick="nextGallery()" class="absolute right-3 top-1/2 transform -translate-y-1/2 z-10 w-10 h-10 rounded-full flex items-center justify-center" style="background:rgba(255,255,255,0.9);box-shadow:0 2px 8px rgba(0,0,0,0.1);transition:all 0.3s;"> <i data-lucide="chevron-right" style="width:20px;height:20px;color:#f43f5e;"></i> </button> <!-- Dots -->
+      <div class="absolute bottom-3 left-1/2 transform -translate-x-1/2 z-10 flex gap-1.5"><button onclick="goToGallerySlide(0)" class="w-2.5 h-2.5 rounded-full gallery-dot" style="background:#f43f5e;"></button> <button onclick="goToGallerySlide(1)" class="w-2.5 h-2.5 rounded-full gallery-dot" style="background:rgba(255,255,255,0.5);"></button> <button onclick="goToGallerySlide(2)" class="w-2.5 h-2.5 rounded-full gallery-dot" style="background:rgba(255,255,255,0.5);"></button> <button onclick="goToGallerySlide(3)" class="w-2.5 h-2.5 rounded-full gallery-dot" style="background:rgba(255,255,255,0.5);"></button> <button onclick="goToGallerySlide(4)" class="w-2.5 h-2.5 rounded-full gallery-dot" style="background:rgba(255,255,255,0.5);"></button> <button onclick="goToGallerySlide(5)" class="w-2.5 h-2.5 rounded-full gallery-dot" style="background:rgba(255,255,255,0.5);"></button> <button onclick="goToGallerySlide(6)" class="w-2.5 h-2.5 rounded-full gallery-dot" style="background:rgba(255,255,255,0.5);"></button>
+      </div>
+     </div>
+    </div>
+   </section><!-- JADWAL BELAJAR -->
+   <section class="py-10 scroll-anim" style="background:#fffbf7;">
+    <div class="max-w-xl mx-auto px-5">
+     <h2 class="font-display text-xl sm:text-2xl font-extrabold text-center mb-2" style="color:#1a1a2e;">Jadwal Belajar Mingguan 📅</h2>
+     <p class="text-center text-sm mb-6" style="color:#9ca3af;">Cuma 30-45 menit/hari. Cocok saat anak tidur siang!</p>
+     <div class="space-y-2">
+      <div class="flex items-center gap-3 p-3 rounded-xl" style="background:#fff;box-shadow:0 1px 6px rgba(0,0,0,0.04);">
+       <div class="flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center text-xs font-bold text-white" style="background:#f43f5e;">
+        SEN
+       </div>
+       <div>
+        <p class="font-bold text-sm" style="color:#1a1a2e;">Desain Konten</p>
+        <p class="text-xs" style="color:#6b7280;">Bikin gambar jualan di Canva</p>
+       </div>
+      </div>
+      <div class="flex items-center gap-3 p-3 rounded-xl" style="background:#fff;box-shadow:0 1px 6px rgba(0,0,0,0.04);">
+       <div class="flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center text-xs font-bold text-white" style="background:#f97316;">
+        SEL
+       </div>
+       <div>
+        <p class="font-bold text-sm" style="color:#1a1a2e;">Copywriting</p>
+        <p class="text-xs" style="color:#6b7280;">Nulis caption yang bikin orang beli</p>
+       </div>
+      </div>
+      <div class="flex items-center gap-3 p-3 rounded-xl" style="background:#fff;box-shadow:0 1px 6px rgba(0,0,0,0.04);">
+       <div class="flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center text-xs font-bold text-white" style="background:#eab308;">
+        RAB
+       </div>
+       <div>
+        <p class="font-bold text-sm" style="color:#1a1a2e;">WhatsApp Marketing</p>
+        <p class="text-xs" style="color:#6b7280;">Teknik jualan di Story &amp; Broadcast</p>
+       </div>
+      </div>
+      <div class="flex items-center gap-3 p-3 rounded-xl" style="background:#fff;box-shadow:0 1px 6px rgba(0,0,0,0.04);">
+       <div class="flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center text-xs font-bold text-white" style="background:#22c55e;">
+        KAM
+       </div>
+       <div>
+        <p class="font-bold text-sm" style="color:#1a1a2e;">Marketplace Mastery</p>
+        <p class="text-xs" style="color:#6b7280;">Shopee &amp; TikTok Shop dari nol</p>
+       </div>
+      </div>
+      <div class="flex items-center gap-3 p-3 rounded-xl" style="background:#fff;box-shadow:0 1px 6px rgba(0,0,0,0.04);">
+       <div class="flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center text-xs font-bold text-white" style="background:#6366f1;">
+        JUM
+       </div>
+       <div>
+        <p class="font-bold text-sm" style="color:#1a1a2e;">Praktik &amp; Tanya Jawab</p>
+        <p class="text-xs" style="color:#6b7280;">Langsung praktik bareng mentor</p>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- CLOSING & PENAWARAN -->
+   <section id="daftar" class="py-10 scroll-anim" style="background:linear-gradient(135deg,#1a1a2e 0%,#2d1b3d 100%);">
+    <div class="max-w-xl mx-auto px-5 text-center">
+     <div class="shimmer-badge inline-block px-4 py-1.5 rounded-full text-white text-xs font-bold mb-4">
+      🔥 PENAWARAN TERBATAS MINGGU INI
+     </div>
+     <h2 class="font-display text-xl sm:text-2xl font-extrabold mb-3" style="color:#fff;">Amankan Kursi Bunda Sekarang! 🎯</h2>
+     <p class="text-sm sm:text-base mb-6" style="color:#d1d5db;">Jangan biarkan kesempatan ini lewat. Jadi Bunda cerdas digital adalah investasi terbaik untuk masa depan keluarga.</p><!-- Pricing Card -->
+     <div class="p-6 rounded-3xl mx-auto max-w-sm" style="background:linear-gradient(135deg,#fff1f2,#fff);box-shadow:0 8px 40px rgba(244,63,94,0.2);">
+      <p class="text-sm font-semibold mb-1" style="color:#9ca3af;">Harga Normal</p>
+      <p id="el-price-orig" class="text-lg font-bold line-through mb-2" style="color:#9ca3af;">Rp 500.000</p>
+      <p class="text-sm font-semibold mb-1" style="color:#e11d48;">Harga Spesial Batch Bunda</p>
+      <p id="el-price-promo" class="text-4xl font-black mb-1" style="color:#e11d48;">Rp 149.000</p>
+      <p class="text-xs mb-4" style="color:#6b7280;">Akses selamanya + update materi gratis</p>
+      <div class="space-y-2 text-left mb-5">
+       <div class="flex items-center gap-2 text-sm" style="color:#166534;">
+        <span>✅</span> Akses semua materi video
+       </div>
+       <div class="flex items-center gap-2 text-sm" style="color:#166534;">
+        <span>✅</span> Grup komunitas Bunda
+       </div>
+       <div class="flex items-center gap-2 text-sm" style="color:#166534;">
+        <span>✅</span> Bimbingan langsung mentor
+       </div>
+       <div class="flex items-center gap-2 text-sm" style="color:#166534;">
+        <span>✅</span> Template Canva siap pakai
+       </div>
+       <div class="flex items-center gap-2 text-sm" style="color:#166534;">
+        <span>✅</span> Sertifikat kelulusan
+       </div>
+      </div><a href="https://member.mahirdigital.id/lp?aff=syamggih&amp;i=1" id="el-cta-daftar" target="_blank" rel="noopener noreferrer" class="cta-btn block w-full py-4 rounded-2xl text-white font-extrabold text-base text-center" style="background:linear-gradient(135deg,#f43f5e,#e11d48);text-decoration:none;"> DAFTAR BATCH BUNDA SEKARANG 🚀 </a>
+      <p class="mt-3 text-xs" style="color:#9ca3af;">⚡ Kuota terbatas, hanya 50 slot tersisa</p>
+     </div><!-- Countdown feel -->
+     <div class="flex justify-center gap-3 mt-6" id="countdown-wrap">
+      <div class="text-center p-3 rounded-xl" style="background:rgba(255,255,255,0.1);min-width:60px;">
+       <p id="cd-hours" class="text-2xl font-black" style="color:#f43f5e;">23</p>
+       <p class="text-xs" style="color:#9ca3af;">Jam</p>
+      </div>
+      <div class="text-center p-3 rounded-xl" style="background:rgba(255,255,255,0.1);min-width:60px;">
+       <p id="cd-mins" class="text-2xl font-black" style="color:#f43f5e;">59</p>
+       <p class="text-xs" style="color:#9ca3af;">Menit</p>
+      </div>
+      <div class="text-center p-3 rounded-xl" style="background:rgba(255,255,255,0.1);min-width:60px;">
+       <p id="cd-secs" class="text-2xl font-black" style="color:#f43f5e;">59</p>
+       <p class="text-xs" style="color:#9ca3af;">Detik</p>
+      </div>
+     </div>
+    </div>
+   </section><!-- FAQ -->
+   <section class="py-10 scroll-anim" style="background:#fffbf7;">
+    <div class="max-w-xl mx-auto px-5">
+     <h2 class="font-display text-xl sm:text-2xl font-extrabold text-center mb-6" style="color:#1a1a2e;">Pertanyaan yang Sering Ditanya 🤔</h2>
+     <div class="space-y-3" id="faq-container">
+      <div class="faq-item rounded-2xl overflow-hidden" style="background:#fff;box-shadow:0 2px 10px rgba(0,0,0,0.05);"><button onclick="toggleFaq(this)" class="w-full flex items-center justify-between p-4 text-left"> <span class="font-bold text-sm sm:text-base" style="color:#1a1a2e;">Kalau saya gaptek banget gimana?</span> <i data-lucide="chevron-down" style="width:20px;height:20px;color:#f43f5e;transition:transform 0.3s;"></i> </button>
+       <div class="faq-answer px-4 pb-4">
+        <p class="text-sm" style="color:#6b7280;">Justru itu alasan Bunda harus gabung! Kita ajarkan dari nol, pelan-pelan sampai paham. Mentornya sabar banget kok! 😊</p>
+       </div>
+      </div>
+      <div class="faq-item rounded-2xl overflow-hidden" style="background:#fff;box-shadow:0 2px 10px rgba(0,0,0,0.05);"><button onclick="toggleFaq(this)" class="w-full flex items-center justify-between p-4 text-left"> <span class="font-bold text-sm sm:text-base" style="color:#1a1a2e;">Harus punya laptop?</span> <i data-lucide="chevron-down" style="width:20px;height:20px;color:#f43f5e;transition:transform 0.3s;"></i> </button>
+       <div class="faq-answer px-4 pb-4">
+        <p class="text-sm" style="color:#6b7280;">Nggak perlu Bun, 90% materi bisa dipraktikkan cuma lewat HP. Kalau punya laptop, itu bonus!</p>
+       </div>
+      </div>
+      <div class="faq-item rounded-2xl overflow-hidden" style="background:#fff;box-shadow:0 2px 10px rgba(0,0,0,0.05);"><button onclick="toggleFaq(this)" class="w-full flex items-center justify-between p-4 text-left"> <span class="font-bold text-sm sm:text-base" style="color:#1a1a2e;">Berapa lama belajarnya?</span> <i data-lucide="chevron-down" style="width:20px;height:20px;color:#f43f5e;transition:transform 0.3s;"></i> </button>
+       <div class="faq-answer px-4 pb-4">
+        <p class="text-sm" style="color:#6b7280;">Program utamanya 4 minggu, tapi akses materinya selamanya. Bunda bisa belajar sesuai kecepatan sendiri.</p>
+       </div>
+      </div>
+      <div class="faq-item rounded-2xl overflow-hidden" style="background:#fff;box-shadow:0 2px 10px rgba(0,0,0,0.05);"><button onclick="toggleFaq(this)" class="w-full flex items-center justify-between p-4 text-left"> <span class="font-bold text-sm sm:text-base" style="color:#1a1a2e;">Bisa minta refund?</span> <i data-lucide="chevron-down" style="width:20px;height:20px;color:#f43f5e;transition:transform 0.3s;"></i> </button>
+       <div class="faq-answer px-4 pb-4">
+        <p class="text-sm" style="color:#6b7280;">Tentu! Jika dalam 7 hari pertama Bunda merasa tidak cocok, uang kembali 100%. Tanpa ribet!</p>
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- FOOTER -->
+   <footer class="py-8 text-center" style="background:#1a1a2e;">
+    <div class="max-w-xl mx-auto px-5">
+     <div class="flex items-center justify-center mb-3"><img src="https://member.mahirdigital.id/_next/image?url=%2Fimages%2Flogo%2FLOGO-MD-PUTIH.png&amp;w=256&amp;q=75" alt="Mahir Digital Logo" width="100" height="32" loading="lazy" onerror="console.error('Logo failed to load:', this.src);">
+     </div>
+     <p class="text-xs" style="color:#6b7280;">© 2025 Mahir Digital. Semua Bunda berhak sukses dari rumah. 💕</p>
+    </div>
+   </footer><!-- SUCCESS MODAL -->
+   <div id="success-modal" class="fixed inset-0 z-50 flex items-center justify-center p-5" style="display:none;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);">
+    <div class="p-6 rounded-3xl text-center max-w-sm w-full anim-scale-in" style="background:#fff;">
+     <div class="text-5xl mb-3">
+      🎉
+     </div>
+     <h3 class="font-display text-xl font-extrabold mb-2" style="color:#1a1a2e;">Yeay, Selamat Bunda!</h3>
+     <p class="text-sm mb-4" style="color:#6b7280;">Pendaftaran Bunda sedang kami proses. Tim kami akan segera menghubungi Bunda via WhatsApp.</p><button onclick="document.getElementById('success-modal').style.display='none'" class="w-full py-3 rounded-xl text-white font-bold" style="background:linear-gradient(135deg,#22c55e,#16a34a);"> Oke, Saya Tunggu Ya! 💚 </button>
+    </div>
+   </div><!-- STICKY CTA -->
+   <div id="sticky-cta" class="sticky-cta"><a href="https://member.mahirdigital.id/lp?aff=syamggih&amp;i=1" target="_blank" rel="noopener noreferrer" class="cta-btn block w-full py-3.5 rounded-2xl text-white font-extrabold text-sm text-center" style="background:linear-gradient(135deg,#f43f5e,#e11d48);text-decoration:none;"> DAFTAR SEKARANG - Rp 1.185.000 🚀 </a>
+   </div><!-- WHATSAPP BUTTON --> <a href="https://wa.me/" target="_blank" rel="noopener noreferrer" class="whatsapp-btn" title="Chat dengan kami di WhatsApp"> <i data-lucide="message-circle"></i> </a>
+  </div>
+  <script>
+  // Gallery Slider
+  let currentGallerySlide = 0;
+  const totalGallerySlides = 7;
+
+  function updateGallerySlider() {
+    const slider = document.getElementById('gallery-slider');
+    slider.style.transform = `translateX(-${currentGallerySlide * 100}%)`;
+    
+    // Update dots
+    document.querySelectorAll('.gallery-dot').forEach((dot, idx) => {
+      if (idx === currentGallerySlide) {
+        dot.style.background = '#f43f5e';
+      } else {
+        dot.style.background = 'rgba(255,255,255,0.5)';
+      }
+    });
+  }
+
+  function nextGallery() {
+    currentGallerySlide = (currentGallerySlide + 1) % totalGallerySlides;
+    updateGallerySlider();
+  }
+
+  function prevGallery() {
+    currentGallerySlide = (currentGallerySlide - 1 + totalGallerySlides) % totalGallerySlides;
+    updateGallerySlider();
+  }
+
+  function goToGallerySlide(idx) {
+    currentGallerySlide = idx;
+    updateGallerySlider();
+  }
+
+  // Auto-advance gallery every 5 seconds
+  setInterval(nextGallery, 5000);
+
+  // Element SDK
+  const defaultConfig = {
+    background_color: '#fffbf7',
+    surface_color: '#ffffff',
+    text_color: '#1a1a2e',
+    primary_action_color: '#f43f5e',
+    secondary_action_color: '#22c55e',
+    font_family: 'Nunito',
+    font_size: 14,
+    hero_headline: 'Bunda, Ubah Waktu Luang di Rumah Jadi Sumber Penghasilan Tambahan! 💰✨',
+    hero_subheadline: 'Bosan cuma jadi penonton kesuksesan orang lain di media sosial? Di Mahir Digital, kami bimbing Bunda langkah demi langkah menguasai jualan online dan skill digital. Cukup modal HP, tanpa harus ninggalin urusan dapur dan buah hati!',
+    cta_text: 'SAYA MAU JADI BUNDA MANDIRI SEKARANG 🚀',
+    price_original: 'Rp 2.500.000',
+    price_promo: 'Rp 1.185.000',
+    testimoni_text: '"Dulu saya cuma tahu cara buka FB buat liat status orang. Setelah ikut Mahir Digital, sekarang status WA saya penuh orderan daster! Seneng banget bisa jajanin anak pakai uang sendiri."',
+    testimoni_name: 'Bunda Rahma'
+  };
+
+  function applyConfig(config) {
+    const c = {...defaultConfig, ...config};
+    const f = c.font_family || defaultConfig.font_family;
+    const bs = c.font_size || defaultConfig.font_size;
+
+    document.getElementById('el-hero-headline').textContent = c.hero_headline;
+    document.getElementById('el-hero-sub').innerHTML = c.hero_subheadline;
+    document.getElementById('el-cta-main').textContent = c.cta_text;
+    document.getElementById('el-price-orig').textContent = c.price_original;
+    document.getElementById('el-price-promo').textContent = c.price_promo;
+    document.getElementById('el-testimoni').textContent = c.testimoni_text;
+    document.getElementById('el-testimoni-name').textContent = c.testimoni_name;
+
+    document.body.style.fontFamily = `${f}, Nunito, sans-serif`;
+    document.querySelectorAll('.font-display').forEach(el => {
+      el.style.fontFamily = `Playfair Display, ${f}, serif`;
+    });
+
+    // Font size scaling
+    document.querySelectorAll('h1').forEach(el => el.style.fontSize = `${bs * 1.8}px`);
+    document.querySelectorAll('h2').forEach(el => el.style.fontSize = `${bs * 1.5}px`);
+    document.querySelectorAll('h3').forEach(el => el.style.fontSize = `${bs * 1.1}px`);
+    document.querySelectorAll('p').forEach(el => {
+      if (!el.closest('#countdown-wrap')) el.style.fontSize = `${bs}px`;
+    });
+  }
+
+  if (window.elementSdk) {
+    window.elementSdk.init({
+      defaultConfig,
+      onConfigChange: async (config) => applyConfig(config),
+      mapToCapabilities: (config) => ({
+        recolorables: [
+          { get: () => config.background_color || defaultConfig.background_color, set: (v) => { config.background_color = v; window.elementSdk.setConfig({background_color:v}); }},
+          { get: () => config.surface_color || defaultConfig.surface_color, set: (v) => { config.surface_color = v; window.elementSdk.setConfig({surface_color:v}); }},
+          { get: () => config.text_color || defaultConfig.text_color, set: (v) => { config.text_color = v; window.elementSdk.setConfig({text_color:v}); }},
+          { get: () => config.primary_action_color || defaultConfig.primary_action_color, set: (v) => { config.primary_action_color = v; window.elementSdk.setConfig({primary_action_color:v}); }},
+          { get: () => config.secondary_action_color || defaultConfig.secondary_action_color, set: (v) => { config.secondary_action_color = v; window.elementSdk.setConfig({secondary_action_color:v}); }},
+        ],
+        borderables: [],
+        fontEditable: {
+          get: () => config.font_family || defaultConfig.font_family,
+          set: (v) => { config.font_family = v; window.elementSdk.setConfig({font_family:v}); }
+        },
+        fontSizeable: {
+          get: () => config.font_size || defaultConfig.font_size,
+          set: (v) => { config.font_size = v; window.elementSdk.setConfig({font_size:v}); }
+        }
+      }),
+      mapToEditPanelValues: (config) => new Map([
+        ['hero_headline', config.hero_headline || defaultConfig.hero_headline],
+        ['hero_subheadline', config.hero_subheadline || defaultConfig.hero_subheadline],
+        ['cta_text', config.cta_text || defaultConfig.cta_text],
+        ['price_original', config.price_original || defaultConfig.price_original],
+        ['price_promo', config.price_promo || defaultConfig.price_promo],
+        ['testimoni_text', config.testimoni_text || defaultConfig.testimoni_text],
+        ['testimoni_name', config.testimoni_name || defaultConfig.testimoni_name],
+      ])
+    });
+  }
+
+  // FAQ Toggle
+  function toggleFaq(btn) {
+    const answer = btn.nextElementSibling;
+    const icon = btn.querySelector('[data-lucide]');
+    const isOpen = answer.classList.contains('open');
+    // Close all
+    document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'));
+    document.querySelectorAll('.faq-item [data-lucide]').forEach(i => i.style.transform = 'rotate(0deg)');
+    if (!isOpen) {
+      answer.classList.add('open');
+      icon.style.transform = 'rotate(180deg)';
+    }
+  }
+
+  // Success modal
+  function showSuccessModal() {
+    document.getElementById('success-modal').style.display = 'flex';
+  }
+
+  // Countdown timer (resets daily)
+  function startCountdown() {
+    const now = new Date();
+    const end = new Date(now);
+    end.setHours(23,59,59,999);
+    function tick() {
+      const diff = end - new Date();
+      if (diff <= 0) return;
+      const h = Math.floor(diff/3600000);
+      const m = Math.floor((diff%3600000)/60000);
+      const s = Math.floor((diff%60000)/1000);
+      document.getElementById('cd-hours').textContent = String(h).padStart(2,'0');
+      document.getElementById('cd-mins').textContent = String(m).padStart(2,'0');
+      document.getElementById('cd-secs').textContent = String(s).padStart(2,'0');
+    }
+    tick();
+    setInterval(tick, 1000);
+  }
+  startCountdown();
+
+  // Scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.scroll-anim').forEach(el => observer.observe(el));
+
+  // Sticky CTA on scroll
+  let lastScroll = 0;
+  const wrapper = document.getElementById('app-wrapper');
+  wrapper.addEventListener('scroll', () => {
+    const st = wrapper.scrollTop;
+    const stickyCta = document.getElementById('sticky-cta');
+    if (st > 600) { stickyCta.classList.add('show'); } else { stickyCta.classList.remove('show'); }
+    lastScroll = st;
+  });
+
+  // Init Lucide
+  lucide.createIcons();
+</script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e7df6d796f5fdeb',t:'MTc3NTQ0ODg1MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
