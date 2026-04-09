@@ -9,6 +9,8 @@
   <script src="/_sdk/element_sdk.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&amp;family=Source+Sans+3:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
   <style>
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; padding: 0; }
     body { font-family: 'Source Sans 3', sans-serif; }
     .heading-font { font-family: 'Playfair Display', serif; }
     @media print {
@@ -24,19 +26,45 @@
    <div class="max-w-4xl mx-auto mb-8 text-center no-print">
     <h1 class="heading-font text-3xl font-bold text-stone-800 mb-1" id="main-title">Slip Gaji Perangkat Desa</h1>
     <p class="text-stone-500 text-sm" id="sub-title">Pemerintah Desa Wani Lumbumpetigo</p>
-    <p class="text-stone-400 text-xs mt-1" id="period-text">Periode: 1 Juni 2025</p>
+    <div class="flex items-center justify-center gap-2 mt-1">
+     <p class="text-stone-400 text-xs" id="period-text">Periode: 25 Mei 2026</p><button id="edit-period-btn" class="ml-2 px-2 py-1 text-xs bg-stone-300 hover:bg-stone-400 text-stone-700 rounded transition font-medium" title="Edit tanggal periode">✎ Edit</button>
+    </div>
+   </div><!-- Edit Period Modal -->
+   <div id="period-modal" class="fixed inset-0 bg-black/30 flex items-center justify-center z-50 hidden no-print">
+    <div class="bg-white rounded-lg shadow-lg p-6 max-w-sm w-full mx-4">
+     <h2 class="text-lg font-bold text-stone-800 mb-4">Edit Tanggal Periode</h2>
+     <div class="space-y-3 mb-6">
+      <div><label class="block text-xs font-semibold text-stone-600 mb-1">Tanggal</label> <input type="number" id="edit-period-date" min="1" max="31" class="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm">
+      </div>
+      <div><label class="block text-xs font-semibold text-stone-600 mb-1">Bulan</label> <input type="text" id="edit-period-month" class="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm">
+      </div>
+      <div><label class="block text-xs font-semibold text-stone-600 mb-1">Tahun</label> <input type="number" id="edit-period-year" min="2000" class="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm">
+      </div>
+     </div>
+     <div class="flex gap-3"><button id="cancel-period-btn" class="flex-1 px-4 py-2 bg-stone-200 text-stone-800 rounded-lg font-medium hover:bg-stone-300 transition">Batal</button> <button id="save-period-btn" class="flex-1 px-4 py-2 bg-stone-800 text-white rounded-lg font-medium hover:bg-stone-700 transition">Simpan</button>
+     </div>
+    </div>
    </div><!-- Print Button -->
-   <div class="max-w-4xl mx-auto mb-6 flex justify-end no-print"><button onclick="window.print()" class="flex items-center gap-2 bg-stone-800 text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-stone-700 transition"> <i data-lucide="printer" style="width:16px;height:16px;"></i> Cetak Semua Slip </button>
+   <div class="max-w-4xl mx-auto mb-6 flex justify-end no-print"><button id="print-btn" class="flex items-center gap-2 bg-stone-800 text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-stone-700 transition"> <i data-lucide="printer" style="width:16px;height:16px;"></i> Cetak Semua Slip </button>
+   </div><!-- Edit Payment Date Modal -->
+   <div id="payment-modal" class="fixed inset-0 bg-black/30 flex items-center justify-center z-50 hidden no-print">
+    <div class="bg-white rounded-lg shadow-lg p-6 max-w-sm w-full mx-4">
+     <h2 class="text-lg font-bold text-stone-800 mb-4">Edit Tanggal Pembayaran</h2>
+     <div class="mb-6"><label class="block text-xs font-semibold text-stone-600 mb-1">Tanggal &amp; Bulan</label> <input type="text" id="edit-payment-date" placeholder="Contoh: 25 Mei 2026" class="w-full px-3 py-2 border border-stone-300 rounded-lg text-sm">
+     </div>
+     <div class="flex gap-3"><button id="cancel-payment-btn" class="flex-1 px-4 py-2 bg-stone-200 text-stone-800 rounded-lg font-medium hover:bg-stone-300 transition">Batal</button> <button id="save-payment-btn" class="flex-1 px-4 py-2 bg-stone-800 text-white rounded-lg font-medium hover:bg-stone-700 transition">Simpan</button>
+     </div>
+    </div>
    </div><!-- Slips Container -->
    <div class="max-w-4xl mx-auto space-y-6" id="slips-container"></div>
   </div>
   <script>
     const defaultConfig = {
       village_name: 'Pemerintah Desa Wani Lumbumpetigo',
-      period_date: '1',
-      period_month: 'Juni',
-      period_year: '2025',
-      payment_date: '28 Juni 2025',
+      period_date: '25',
+      period_month: 'Mei',
+      period_year: '2026',
+      payment_date: '25 Mei 2026',
       num_months: '1',
       background_color: '#f5f5f4',
       surface_color: '#ffffff',
@@ -162,14 +190,20 @@
             <!-- Signatures -->
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:28px; text-align:center; font-size:${fs * 0.88}px;">
               <div>
-                <div style="color:#78716c; margin-bottom:2px;">${cfg.payment_date || defaultConfig.payment_date}</div>
+                <div style="color:#78716c; margin-bottom:2px; display:flex; align-items:center; justify-content:center; gap:6px;">
+                  <span>${cfg.payment_date || defaultConfig.payment_date}</span>
+                  <button class="edit-payment-btn" style="padding:2px 6px; background:#d6d3d1; border:none; border-radius:3px; cursor:pointer; font-size:${fs * 0.75}px; color:#78716c; hover:background:#c7c4c0; transition:background 0.2s;" data-emp-index="${i}" title="Edit tanggal pembayaran">✎</button>
+                </div>
                 <div style="color:#78716c;">Mengetahui,</div>
                 <div style="font-weight:600;">Kepala Desa</div>
                 <div style="height:50px;"></div>
                 <div style="font-weight:700; border-top:1px solid ${tc}; display:inline-block; padding-top:4px;">AMIR RAMANG</div>
               </div>
               <div>
-                <div style="color:#78716c; margin-bottom:2px;">${cfg.payment_date || defaultConfig.payment_date}</div>
+                <div style="color:#78716c; margin-bottom:2px; display:flex; align-items:center; justify-content:center; gap:6px;">
+                  <span>${cfg.payment_date || defaultConfig.payment_date}</span>
+                  <button class="edit-payment-btn" style="padding:2px 6px; background:#d6d3d1; border:none; border-radius:3px; cursor:pointer; font-size:${fs * 0.75}px; color:#78716c; hover:background:#c7c4c0; transition:background 0.2s;" data-emp-index="${i}" title="Edit tanggal pembayaran">✎</button>
+                </div>
                 <div style="color:#78716c;">Penerima,</div>
                 <div style="font-weight:600;">${emp.position}</div>
                 <div style="height:50px;"></div>
@@ -207,6 +241,21 @@
           if (terbilangElement) terbilangElement.textContent = terbilang(newTotal) + ' Rupiah';
         });
       });
+
+      // Attach event listeners to payment date edit buttons
+      document.querySelectorAll('.edit-payment-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const modal = document.getElementById('payment-modal');
+          const input = document.getElementById('edit-payment-date');
+          const cfg = window.elementSdk?.config || defaultConfig;
+          input.value = cfg.payment_date || defaultConfig.payment_date;
+          input.focus();
+          modal.classList.remove('hidden');
+        });
+      });
+
+      // Recreate Lucide icons after building slips
+      lucide.createIcons();
     }
 
     // Element SDK
@@ -260,11 +309,119 @@
     lucide.createIcons();
     buildSlips();
 
-    // Monitor config changes dan update edit panel inputs jika ada
-    const originalSetConfig = window.elementSdk.setConfig.bind(window.elementSdk);
-    window.elementSdk.setConfig = async function(partial) {
-      await originalSetConfig(partial);
-    };
+    // Edit Period Modal Handler
+    const periodModal = document.getElementById('period-modal');
+    const editPeriodBtn = document.getElementById('edit-period-btn');
+    const cancelPeriodBtn = document.getElementById('cancel-period-btn');
+    const savePeriodBtn = document.getElementById('save-period-btn');
+    const editPeriodDate = document.getElementById('edit-period-date');
+    const editPeriodMonth = document.getElementById('edit-period-month');
+    const editPeriodYear = document.getElementById('edit-period-year');
+
+    editPeriodBtn.addEventListener('click', () => {
+      const cfg = window.elementSdk?.config || defaultConfig;
+      editPeriodDate.value = cfg.period_date || defaultConfig.period_date;
+      editPeriodMonth.value = cfg.period_month || defaultConfig.period_month;
+      editPeriodYear.value = cfg.period_year || defaultConfig.period_year;
+      periodModal.classList.remove('hidden');
+    });
+
+    cancelPeriodBtn.addEventListener('click', () => {
+      periodModal.classList.add('hidden');
+    });
+
+    savePeriodBtn.addEventListener('click', () => {
+      const newDate = editPeriodDate.value;
+      const newMonth = editPeriodMonth.value;
+      const newYear = editPeriodYear.value;
+
+      if (newDate && newMonth && newYear) {
+        window.elementSdk.setConfig({
+          period_date: newDate,
+          period_month: newMonth,
+          period_year: newYear
+        });
+        periodModal.classList.add('hidden');
+      }
+    });
+
+    // Close modal on background click
+    periodModal.addEventListener('click', (e) => {
+      if (e.target === periodModal) {
+        periodModal.classList.add('hidden');
+      }
+    });
+
+    // Edit Payment Date Modal Handler
+    const paymentModal = document.getElementById('payment-modal');
+    const cancelPaymentBtn = document.getElementById('cancel-payment-btn');
+    const savePaymentBtn = document.getElementById('save-payment-btn');
+    const editPaymentDate = document.getElementById('edit-payment-date');
+
+    cancelPaymentBtn.addEventListener('click', () => {
+      paymentModal.classList.add('hidden');
+    });
+
+    savePaymentBtn.addEventListener('click', () => {
+      const newPaymentDate = editPaymentDate.value;
+      if (newPaymentDate) {
+        window.elementSdk.setConfig({
+          payment_date: newPaymentDate
+        });
+        paymentModal.classList.add('hidden');
+      }
+    });
+
+    // Close modal on background click
+    paymentModal.addEventListener('click', (e) => {
+      if (e.target === paymentModal) {
+        paymentModal.classList.add('hidden');
+      }
+    });
+
+    // Print button handler
+    document.getElementById('print-btn').addEventListener('click', () => {
+      const printWindow = window.open('', '_blank', 'width=900,height=1200');
+      
+      if (printWindow) {
+        const container = document.getElementById('slips-container');
+        const header = document.getElementById('main-title').parentElement;
+        
+        const htmlContent = `
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <meta charset="UTF-8">
+            <title>Slip Gaji</title>
+            <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Source+Sans+3:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+            <style>
+              body { 
+                font-family: 'Source Sans 3', Arial, sans-serif;
+                margin: 0;
+                padding: 20px;
+                background: #f5f5f4;
+              }
+              .heading-font { font-family: 'Playfair Display', serif; }
+              @media print {
+                body { margin: 0; padding: 10px; }
+                .slip-card { break-inside: avoid; margin-bottom: 20px; }
+              }
+            </style>
+          </head>
+          <body>
+            ${header.innerHTML}
+            ${container.innerHTML}
+            <script>
+              setTimeout(() => window.print(), 500);
+            <\/script>
+          </body>
+          </html>
+        `;
+        
+        printWindow.document.write(htmlContent);
+        printWindow.document.close();
+      }
+    });
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e990306717e81ef',t:'MTc3NTczMjQ2Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e991d2787ce8369',t:'MTc3NTczMzUzNi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
