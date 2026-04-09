@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Slip Gaji Pemerintah Desa</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&amp;family=Source+Sans+3:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Source Sans 3', sans-serif; }
+    .heading-font { font-family: 'Playfair Display', serif; }
+    @media print {
+      .no-print { display: none !important; }
+      .slip-card { break-inside: avoid; box-shadow: none !important; border: 1px solid #ccc !important; }
+    }
+  </style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full overflow-auto bg-stone-100">
+  <div class="w-full min-h-full py-8 px-4" id="app-wrapper"><!-- Header -->
+   <div class="max-w-4xl mx-auto mb-8 text-center no-print">
+    <h1 class="heading-font text-3xl font-bold text-stone-800 mb-1" id="main-title">Slip Gaji Perangkat Desa</h1>
+    <p class="text-stone-500 text-sm" id="sub-title">Pemerintah Desa Wani Lumbumpetigo</p>
+    <p class="text-stone-400 text-xs mt-1" id="period-text">Periode: 1 Juni 2025</p>
+   </div><!-- Print Button -->
+   <div class="max-w-4xl mx-auto mb-6 flex justify-end no-print"><button onclick="window.print()" class="flex items-center gap-2 bg-stone-800 text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-stone-700 transition"> <i data-lucide="printer" style="width:16px;height:16px;"></i> Cetak Semua Slip </button>
+   </div><!-- Slips Container -->
+   <div class="max-w-4xl mx-auto space-y-6" id="slips-container"></div>
+  </div>
+  <script>
+    const defaultConfig = {
+      village_name: 'Pemerintah Desa Wani Lumbumpetigo',
+      period_date: '1',
+      period_month: 'Juni',
+      period_year: '2025',
+      payment_date: '28 Juni 2025',
+      num_months: '1',
+      background_color: '#f5f5f4',
+      surface_color: '#ffffff',
+      text_color: '#1c1917',
+      accent_color: '#292524',
+      border_color: '#d6d3d1',
+      font_family: 'Source Sans 3',
+      font_size: 14
+    };
+
+    const employees = [
+      { name: 'AMIR RAMANG', position: 'Kepala Desa', salary: 2450000, volume: 1 },
+      { name: 'SYAMSUDDIN', position: 'Sekretaris Desa', salary: 2250000, volume: 1 },
+      { name: 'SUNARTIN', position: 'Kaur Keuangan', salary: 2050000, volume: 1 },
+      { name: 'AL-ZAHRIN LAHASE', position: 'Kaur Perencanaan', salary: 2050000, volume: 1 },
+      { name: 'FITRIA', position: 'Kaur Umum dan Aset', salary: 2050000, volume: 1 }
+    ];
+
+    function formatRupiah(n) {
+      return 'Rp ' + n.toLocaleString('id-ID');
+    }
+
+    function terbilang(n) {
+      const satuan = ['', 'Satu', 'Dua', 'Tiga', 'Empat', 'Lima', 'Enam', 'Tujuh', 'Delapan', 'Sembilan', 'Sepuluh', 'Sebelas'];
+      if (n < 12) return satuan[n];
+      if (n < 20) return satuan[n - 10] + ' Belas';
+      if (n < 100) return satuan[Math.floor(n / 10)] + ' Puluh' + (n % 10 ? ' ' + satuan[n % 10] : '');
+      if (n < 200) return 'Seratus' + (n % 100 ? ' ' + terbilang(n % 100) : '');
+      if (n < 1000) return satuan[Math.floor(n / 100)] + ' Ratus' + (n % 100 ? ' ' + terbilang(n % 100) : '');
+      if (n < 2000) return 'Seribu' + (n % 1000 ? ' ' + terbilang(n % 1000) : '');
+      if (n < 1000000) return terbilang(Math.floor(n / 1000)) + ' Ribu' + (n % 1000 ? ' ' + terbilang(n % 1000) : '');
+      if (n < 1000000000) return terbilang(Math.floor(n / 1000000)) + ' Juta' + (n % 1000000 ? ' ' + terbilang(n % 1000000) : '');
+      return n.toString();
+    }
+
+    function buildSlips() {
+      const container = document.getElementById('slips-container');
+      container.innerHTML = '';
+      const cfg = window.elementSdk?.config || defaultConfig;
+      const village = cfg.village_name || defaultConfig.village_name;
+      const periodDate = cfg.period_date || defaultConfig.period_date;
+      const periodMonth = cfg.period_month || defaultConfig.period_month;
+      const periodYear = cfg.period_year || defaultConfig.period_year;
+      const periodDisplay = `${periodDate} ${periodMonth} ${periodYear}`;
+      const numMonths = parseInt(cfg.num_months || defaultConfig.num_months) || 1;
+
+      employees.forEach((emp, i) => {
+        const card = document.createElement('div');
+        card.className = 'slip-card rounded-xl p-0 overflow-hidden shadow-md';
+        card.style.backgroundColor = cfg.surface_color || defaultConfig.surface_color;
+        card.style.border = `1px solid ${cfg.border_color || defaultConfig.border_color}`;
+
+        const ff = `${cfg.font_family || defaultConfig.font_family}, Source Sans 3, sans-serif`;
+        const fs = cfg.font_size || defaultConfig.font_size;
+        const tc = cfg.text_color || defaultConfig.text_color;
+        const ac = cfg.accent_color || defaultConfig.accent_color;
+
+        card.innerHTML = `
+          <!-- Header -->
+          <div style="background:${ac}; padding: 20px 28px;" class="flex items-center justify-between">
+            <div>
+              <div style="font-family:Playfair Display,serif; font-size:${fs * 1.15}px; color:#fff; font-weight:700;">${village}</div>
+              <div style="font-family:${ff}; font-size:${fs * 0.85}px; color:rgba(255,255,255,0.7); margin-top:2px;">SLIP GAJI PERANGKAT DESA</div>
+            </div>
+            <div style="font-family:${ff}; font-size:${fs * 0.8}px; color:rgba(255,255,255,0.6); text-align:right;">
+              Periode<br><span style="color:#fff;font-weight:600;font-size:${fs}px;">${periodDisplay}</span>
+            </div>
+          </div>
+
+          <!-- Body -->
+          <div style="padding: 24px 28px; font-family:${ff}; color:${tc};">
+            <!-- Employee Info -->
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px 32px; margin-bottom:20px;">
+              <div>
+                <div style="font-size:${fs * 0.75}px; color:#78716c; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:2px;">Nama</div>
+                <div style="font-size:${fs * 1.1}px; font-weight:700;">${emp.name}</div>
+              </div>
+              <div>
+                <div style="font-size:${fs * 0.75}px; color:#78716c; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:2px;">Jabatan</div>
+                <div style="font-size:${fs * 1.1}px; font-weight:600;">${emp.position}</div>
+              </div>
+            </div>
+
+            <!-- Divider -->
+            <div style="height:1px; background:${cfg.border_color || defaultConfig.border_color}; margin-bottom:16px;"></div>
+
+            <!-- Salary Table -->
+            <table style="width:100%; font-size:${fs}px; border-collapse:collapse;">
+              <thead>
+                <tr style="border-bottom:2px solid ${cfg.border_color || defaultConfig.border_color};">
+                  <th style="text-align:left; padding:8px 0; font-size:${fs * 0.78}px; text-transform:uppercase; letter-spacing:0.5px; color:#78716c;">Uraian</th>
+                  <th style="text-align:right; padding:8px 0; font-size:${fs * 0.78}px; text-transform:uppercase; letter-spacing:0.5px; color:#78716c;">Jumlah</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-bottom:1px solid ${cfg.border_color || defaultConfig.border_color};">
+                  <td style="padding:10px 0;">Penghasilan Tetap (Siltap)</td>
+                  <td style="padding:10px 0; text-align:right; font-weight:600;">${formatRupiah(emp.salary)}</td>
+                </tr>
+                <tr style="border-bottom:1px solid ${cfg.border_color || defaultConfig.border_color};">
+                  <td style="padding:10px 0; font-size:${fs * 0.9}px; color:#78716c;">
+                    <div style="display:flex; align-items:center; gap:8px;">
+                      Volume Bulan
+                      <input type="number" value="${emp.volume}" min="1" max="12" style="width:50px; padding:4px 8px; border:1px solid ${cfg.border_color}; border-radius:4px; font-size:${fs * 0.9}px;" class="volume-input" data-emp-index="${i}">
+                    </div>
+                  </td>
+                  <td style="padding:10px 0; text-align:right; font-weight:600; font-size:${fs * 0.9}px; color:${tc};" volume-total-display>${formatRupiah(emp.salary * emp.volume)}</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td style="padding:12px 0; font-weight:700; font-size:${fs * 1.05}px;">TOTAL DITERIMA</td>
+                  <td style="padding:12px 0; text-align:right; font-weight:800; font-size:${fs * 1.15}px; color:${ac};" total-display>${formatRupiah(emp.salary * emp.volume)}</td>
+                </tr>
+              </tfoot>
+            </table>
+
+            <!-- Terbilang -->
+            <div style="background:${cfg.background_color || defaultConfig.background_color}; border-radius:8px; padding:10px 14px; margin-top:12px; font-size:${fs * 0.85}px;">
+              <span style="color:#78716c;">Terbilang:</span> <em style="font-weight:600;" terbilang-display>${terbilang(emp.salary * emp.volume)} Rupiah</em>
+            </div>
+
+            <!-- Signatures -->
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:28px; text-align:center; font-size:${fs * 0.88}px;">
+              <div>
+                <div style="color:#78716c; margin-bottom:2px;">${cfg.payment_date || defaultConfig.payment_date}</div>
+                <div style="color:#78716c;">Mengetahui,</div>
+                <div style="font-weight:600;">Kepala Desa</div>
+                <div style="height:50px;"></div>
+                <div style="font-weight:700; border-top:1px solid ${tc}; display:inline-block; padding-top:4px;">AMIR RAMANG</div>
+              </div>
+              <div>
+                <div style="color:#78716c; margin-bottom:2px;">${cfg.payment_date || defaultConfig.payment_date}</div>
+                <div style="color:#78716c;">Penerima,</div>
+                <div style="font-weight:600;">${emp.position}</div>
+                <div style="height:50px;"></div>
+                <div style="font-weight:700; border-top:1px solid ${tc}; display:inline-block; padding-top:4px;">${emp.name}</div>
+              </div>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      // Attach event listeners to volume inputs
+      document.querySelectorAll('.volume-input').forEach(input => {
+        input.addEventListener('input', (e) => {
+          const newVolume = parseInt(e.target.value) || 1;
+          const empIndex = parseInt(e.target.dataset.empIndex);
+          
+          // Update employee volume in array
+          employees[empIndex].volume = newVolume;
+          
+          const emp = employees[empIndex];
+          const card = e.target.closest('.slip-card');
+          
+          // Update volume total display
+          const newTotal = emp.salary * newVolume;
+          const volumeTotalElement = card.querySelector('[volume-total-display]');
+          if (volumeTotalElement) volumeTotalElement.textContent = formatRupiah(newTotal);
+          
+          // Update grand total
+          const totalElement = card.querySelector('[total-display]');
+          if (totalElement) totalElement.textContent = formatRupiah(newTotal);
+          
+          // Update terbilang
+          const terbilangElement = card.querySelector('[terbilang-display]');
+          if (terbilangElement) terbilangElement.textContent = terbilang(newTotal) + ' Rupiah';
+        });
+      });
+    }
+
+    // Element SDK
+    window.elementSdk.init({
+      defaultConfig,
+      onConfigChange: async (config) => {
+        const bg = config.background_color || defaultConfig.background_color;
+        document.getElementById('app-wrapper').style.backgroundColor = bg;
+
+        const ff = `${config.font_family || defaultConfig.font_family}, Source Sans 3, sans-serif`;
+        const fs = config.font_size || defaultConfig.font_size;
+        const tc = config.text_color || defaultConfig.text_color;
+
+        const title = document.getElementById('main-title');
+        title.style.color = tc;
+        title.style.fontSize = `${fs * 2}px`;
+
+        const sub = document.getElementById('sub-title');
+        sub.textContent = config.village_name || defaultConfig.village_name;
+        sub.style.fontFamily = ff;
+        sub.style.color = config.border_color || defaultConfig.border_color;
+
+        const per = document.getElementById('period-text');
+        per.textContent = `Periode: ${config.period_date || defaultConfig.period_date} ${config.period_month || defaultConfig.period_month} ${config.period_year || defaultConfig.period_year}`;
+        per.style.fontFamily = ff;
+
+        buildSlips();
+      },
+      mapToCapabilities: (config) => ({
+        recolorables: [
+          { get: () => config.background_color || defaultConfig.background_color, set: (v) => { config.background_color = v; window.elementSdk.setConfig({ background_color: v }); } },
+          { get: () => config.surface_color || defaultConfig.surface_color, set: (v) => { config.surface_color = v; window.elementSdk.setConfig({ surface_color: v }); } },
+          { get: () => config.text_color || defaultConfig.text_color, set: (v) => { config.text_color = v; window.elementSdk.setConfig({ text_color: v }); } },
+          { get: () => config.accent_color || defaultConfig.accent_color, set: (v) => { config.accent_color = v; window.elementSdk.setConfig({ accent_color: v }); } },
+          { get: () => config.border_color || defaultConfig.border_color, set: (v) => { config.border_color = v; window.elementSdk.setConfig({ border_color: v }); } }
+        ],
+        borderables: [],
+        fontEditable: { get: () => config.font_family || defaultConfig.font_family, set: (v) => { config.font_family = v; window.elementSdk.setConfig({ font_family: v }); } },
+        fontSizeable: { get: () => config.font_size || defaultConfig.font_size, set: (v) => { config.font_size = v; window.elementSdk.setConfig({ font_size: v }); } }
+      }),
+      mapToEditPanelValues: (config) => new Map([
+        ['village_name', config.village_name || defaultConfig.village_name],
+        ['period_date', config.period_date || defaultConfig.period_date],
+        ['period_month', config.period_month || defaultConfig.period_month],
+        ['period_year', config.period_year || defaultConfig.period_year],
+        ['payment_date', config.payment_date || defaultConfig.payment_date],
+        ['num_months', config.num_months || defaultConfig.num_months]
+      ])
+    });
+
+    lucide.createIcons();
+    buildSlips();
+
+    // Monitor config changes dan update edit panel inputs jika ada
+    const originalSetConfig = window.elementSdk.setConfig.bind(window.elementSdk);
+    window.elementSdk.setConfig = async function(partial) {
+      await originalSetConfig(partial);
+    };
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e990306717e81ef',t:'MTc3NTczMjQ2Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
