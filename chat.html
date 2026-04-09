@@ -64,8 +64,7 @@ html, body { height: 100%; margin: 0; }
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
  </head>
  <body class="h-full" style="background: var(--bg-color, #0f0f1a);">
-  <div id="app" class="h-full flex flex-col overflow-auto" style="background: var(--bg-color);">
-   <!-- Header -->
+  <div id="app" class="h-full flex flex-col overflow-auto" style="background: var(--bg-color);"><!-- Header -->
    <header class="sticky top-0 z-20 px-4 py-4" style="background: var(--primary-color);">
     <div class="max-w-lg mx-auto flex items-center gap-3">
      <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white font-bold text-lg">
@@ -75,8 +74,7 @@ html, body { height: 100%; margin: 0; }
       <h1 id="headerTitle" class="text-white font-bold text-base leading-tight">Acen Bar – Chat Guide</h1>
       <p class="text-white/70 text-xs mt-0.5">Panduan Analog Chat Penjualan</p>
      </div>
-     <div class="flex gap-1">
-      <span class="w-2 h-2 rounded-full bg-green-300 animate-pulse"></span> <span class="text-white/70 text-xs">Online</span>
+     <div class="flex gap-1"><span class="w-2 h-2 rounded-full bg-green-300 animate-pulse"></span> <span class="text-white/70 text-xs">Online</span>
      </div>
     </div>
    </header><!-- Scenario Tabs -->
@@ -90,8 +88,7 @@ html, body { height: 100%; margin: 0; }
     <div class="max-w-lg mx-auto" id="chatArea"></div>
    </div><!-- Bottom Actions -->
    <div class="sticky bottom-0 px-4 py-3 border-t" style="background: var(--surface-color); border-color: var(--primary-color); opacity:0.3;">
-    <div class="max-w-lg mx-auto flex gap-2">
-     <button id="copyBtn" class="flex-1 py-2.5 rounded-xl font-semibold text-sm flex items-center justify-center gap-2" style="background: var(--primary-color); color: white;"> <i data-lucide="copy" style="width:16px;height:16px;"></i> <span>Salin Semua Balasan</span> </button> <button id="tipsBtn" class="py-2.5 px-4 rounded-xl font-semibold text-sm border-2 flex items-center justify-center gap-2" style="border-color: var(--secondary-color); color: var(--secondary-color);"> <i data-lucide="lightbulb" style="width:16px;height:16px;"></i> Tips </button>
+    <div class="max-w-lg mx-auto flex gap-2"><button id="copyBtn" class="flex-1 py-2.5 rounded-xl font-semibold text-sm flex items-center justify-center gap-2" style="background: var(--primary-color); color: white;"> <i data-lucide="copy" style="width:16px;height:16px;"></i> <span>Salin Semua Balasan</span> </button> <button id="tipsBtn" class="py-2.5 px-4 rounded-xl font-semibold text-sm border-2 flex items-center justify-center gap-2" style="border-color: var(--secondary-color); color: var(--secondary-color);"> <i data-lucide="lightbulb" style="width:16px;height:16px;"></i> Tips </button>
     </div>
    </div>
   </div><!-- Tips Modal -->
@@ -178,6 +175,23 @@ const tips = [
 ];
 
 let activeScenario = 'sapaan';
+let allMessages = [];
+
+// Initialize Data SDK
+async function initializeDataSDK() {
+  const handler = {
+    onDataChanged(data) {
+      allMessages = data;
+    }
+  };
+  
+  const result = await window.dataSdk.init(handler);
+  if (!result.isOk) {
+    console.error('Data SDK init failed:', result.error);
+  }
+}
+
+initializeDataSDK();
 
 function renderTabs(c) {
   const container = document.getElementById('scenarioTabs');
@@ -234,10 +248,24 @@ function renderChat(c) {
       whatsappIcon.style.background = '#25D366';
       whatsappIcon.style.color = 'white';
       whatsappIcon.innerHTML = '<i data-lucide="send" style="width:14px;height:14px;"></i> <span>WhatsApp</span>';
-      whatsappIcon.onclick = (e) => { 
+      whatsappIcon.onclick = async (e) => { 
         e.stopPropagation(); 
-        const encoded = encodeURIComponent(chat.text);
-        window.open(`https://wa.me/?text=${encoded}`, '_blank');
+        
+        // Save to Data SDK
+        const result = await window.dataSdk.create({
+          id: Date.now().toString(),
+          scenario: activeScenario,
+          message_text: chat.text,
+          message_type: 'admin_reply',
+          created_at: new Date().toISOString()
+        });
+        
+        if (result.isOk) {
+          const encoded = encodeURIComponent(chat.text);
+          window.open(`https://wa.me/?text=${encoded}`, '_blank');
+        } else {
+          console.error('Failed to save message:', result.error);
+        }
       };
 
       actionContainer.appendChild(copyIcon);
@@ -336,5 +364,5 @@ renderTabs(defaultConfig);
 renderChat(defaultConfig);
 lucide.createIcons();
 </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e9a84659781a5d8',t:'MTc3NTc0ODI1MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e9a897b421ea5d8',t:'MTc3NTc0ODQ1OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
