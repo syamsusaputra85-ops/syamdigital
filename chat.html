@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <style>
+* { font-family: 'Plus Jakarta Sans', sans-serif; }
+html, body { height: 100%; margin: 0; }
+
+.chat-bubble-left {
+  background: var(--surface-color);
+  border-radius: 4px 18px 18px 18px;
+  animation: slideLeft 0.3s ease-out;
+}
+.chat-bubble-right {
+  background: var(--primary-color);
+  color: white;
+  border-radius: 18px 4px 18px 18px;
+  animation: slideRight 0.3s ease-out;
+}
+@keyframes slideLeft { from { opacity:0; transform: translateX(-12px); } to { opacity:1; transform: translateX(0); } }
+@keyframes slideRight { from { opacity:0; transform: translateX(12px); } to { opacity:1; transform: translateX(0); } }
+
+.scenario-btn {
+  transition: all 0.2s;
+  border: 2px solid var(--primary-color);
+  color: var(--primary-color);
+}
+.scenario-btn:hover {
+  background: var(--primary-color);
+  color: white;
+  transform: translateY(-1px);
+}
+.scenario-btn.active {
+  background: var(--primary-color);
+  color: white;
+}
+
+.typing-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: #999; display: inline-block;
+  animation: blink 1.2s infinite;
+}
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes blink { 0%,100%{opacity:.3} 50%{opacity:1} }
+
+.copy-toast {
+  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+  background: #1a1a2e; color: white; padding: 10px 20px; border-radius: 10px;
+  font-size: 13px; z-index: 999; opacity: 0; transition: opacity 0.3s;
+  pointer-events: none;
+}
+.copy-toast.show { opacity: 1; }
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
+</style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full" style="background: var(--bg-color, #0f0f1a);">
+  <div id="app" class="h-full flex flex-col overflow-auto" style="background: var(--bg-color);">
+   <!-- Header -->
+   <header class="sticky top-0 z-20 px-4 py-4" style="background: var(--primary-color);">
+    <div class="max-w-lg mx-auto flex items-center gap-3">
+     <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white font-bold text-lg">
+      A
+     </div>
+     <div class="flex-1">
+      <h1 id="headerTitle" class="text-white font-bold text-base leading-tight">Acen Bar – Chat Guide</h1>
+      <p class="text-white/70 text-xs mt-0.5">Panduan Analog Chat Penjualan</p>
+     </div>
+     <div class="flex gap-1">
+      <span class="w-2 h-2 rounded-full bg-green-300 animate-pulse"></span> <span class="text-white/70 text-xs">Online</span>
+     </div>
+    </div>
+   </header><!-- Scenario Tabs -->
+   <div class="sticky top-[72px] z-10 px-4 py-3" style="background: var(--bg-color);">
+    <div class="max-w-lg mx-auto">
+     <p class="text-xs font-semibold mb-2" style="color: var(--text-color); opacity:0.5;">PILIH SKENARIO CHAT:</p>
+     <div class="flex gap-2 overflow-x-auto pb-1" id="scenarioTabs"></div>
+    </div>
+   </div><!-- Chat Area -->
+   <div class="flex-1 px-4 pb-4">
+    <div class="max-w-lg mx-auto" id="chatArea"></div>
+   </div><!-- Bottom Actions -->
+   <div class="sticky bottom-0 px-4 py-3 border-t" style="background: var(--surface-color); border-color: var(--primary-color); opacity:0.3;">
+    <div class="max-w-lg mx-auto flex gap-2">
+     <button id="copyBtn" class="flex-1 py-2.5 rounded-xl font-semibold text-sm flex items-center justify-center gap-2" style="background: var(--primary-color); color: white;"> <i data-lucide="copy" style="width:16px;height:16px;"></i> <span>Salin Semua Balasan</span> </button> <button id="tipsBtn" class="py-2.5 px-4 rounded-xl font-semibold text-sm border-2 flex items-center justify-center gap-2" style="border-color: var(--secondary-color); color: var(--secondary-color);"> <i data-lucide="lightbulb" style="width:16px;height:16px;"></i> Tips </button>
+    </div>
+   </div>
+  </div><!-- Tips Modal -->
+  <div id="tipsModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4" style="background:rgba(0,0,0,0.6);">
+   <div class="rounded-2xl p-5 max-w-md w-full max-h-[80%] overflow-auto" style="background: var(--surface-color);">
+    <div class="flex justify-between items-center mb-4">
+     <h3 class="font-bold text-lg" style="color: var(--text-color);">💡 Tips Penjualan</h3><button id="closeTips" class="w-8 h-8 rounded-full flex items-center justify-center" style="background: var(--bg-color);"><i data-lucide="x" style="width:16px;height:16px;color:var(--text-color);"></i></button>
+    </div>
+    <div class="space-y-3 text-sm" style="color: var(--text-color); opacity:0.85;" id="tipsContent"></div>
+   </div>
+  </div>
+  <div class="copy-toast" id="copyToast">
+   ✅ Teks berhasil disalin!
+  </div>
+  <script>
+const defaultConfig = {
+  brand_name: 'Acen Bar',
+  product_price: 'Rp 49.000',
+  promo_text: 'Beli 2 Gratis 1',
+  background_color: '#0f0f1a',
+  surface_color: '#1a1a2e',
+  text_color: '#e8e8f0',
+  primary_color: '#00b894',
+  secondary_color: '#fdcb6e'
+};
+
+function setVars(c) {
+  document.documentElement.style.setProperty('--bg-color', c.background_color || defaultConfig.background_color);
+  document.documentElement.style.setProperty('--surface-color', c.surface_color || defaultConfig.surface_color);
+  document.documentElement.style.setProperty('--text-color', c.text_color || defaultConfig.text_color);
+  document.documentElement.style.setProperty('--primary-color', c.primary_color || defaultConfig.primary_color);
+  document.documentElement.style.setProperty('--secondary-color', c.secondary_color || defaultConfig.secondary_color);
+}
+setVars(defaultConfig);
+
+function getScenarios(c) {
+  const b = c.brand_name || defaultConfig.brand_name;
+  const p = c.product_price || defaultConfig.product_price;
+  const pr = c.promo_text || defaultConfig.promo_text;
+  return [
+    {
+      id: 'sapaan', label: '👋 Sapaan', icon: 'message-circle',
+      chats: [
+        { from: 'customer', text: `Halo, saya tertarik dengan ${b}. Bisa tanya harganya?` },
+        { from: 'admin', text: `Halo Kak! ✨ Terima kasih sudah menghubungi admin ${b}.\n\nBetul sekali Kak, sabun ${b} kami memang spesialis untuk perawatan kulit berjerawat dan pori-pori tersumbat.\n\nHarga per bar-nya hanya ${p}. Sedang ada promo ${pr} hari ini!\n\nBoleh tahu Kak, saat ini keluhan jerawatnya di area mana saja (wajah/punggung) agar kami bisa bantu jelaskan cara pakainya?` },
+      ]
+    },
+    {
+      id: 'edukasi', label: '📚 Edukasi', icon: 'book-open',
+      chats: [
+        { from: 'customer', text: 'Apakah aman? Ada efek samping?' },
+        { from: 'admin', text: `Tenang Kak, ${b} diformulasikan dengan bahan yang lembut namun efektif mengeringkan jerawat tanpa bikin kulit terasa tertarik atau kering kerontang. ✅\n\nProduk ini sudah digunakan oleh banyak pelanggan kami dan hasilnya jerawat jadi lebih cepat kempes dalam 3-5 hari pemakaian rutin. Aman digunakan setiap hari saat cuci muka, Kak.` },
+      ]
+    },
+    {
+      id: 'order', label: '🛒 Order', icon: 'shopping-cart',
+      chats: [
+        { from: 'customer', text: 'Mau dong, gimana cara pesannya?' },
+        { from: 'admin', text: `Siap Kak! Kebetulan stok hari ini tersisa sedikit karena banyak pesanan dari iklan.\n\nKakak bisa langsung isi data ini ya:\n📝 Nama:\n📱 No. HP:\n📍 Alamat Lengkap:\n📦 Jumlah Pesanan:\n\nAtau jika ingin lebih praktis, Kakak bisa langsung checkout di link bio kami. Tinggal pilih metode pembayaran & otomatis terhitung ongkirnya 😊` },
+      ]
+    },
+    {
+      id: 'followup', label: '🔔 Follow-up', icon: 'bell',
+      chats: [
+        { from: 'admin', text: `Halo Kak, mohon maaf mengganggu. 🙏\n\nHanya ingin menginfokan, pesanan Kakak sudah kami siapkan. Jika konfirmasi pembayaran dilakukan sebelum jam 15.00, barang bisa ikut pengiriman hari ini juga.\n\nJadi diambil kak paket ${b}-nya? 😊` },
+      ]
+    },
+    {
+      id: 'keberatan', label: '🤔 Keberatan', icon: 'help-circle',
+      chats: [
+        { from: 'customer', text: 'Kok mahal ya? Di tempat lain lebih murah.' },
+        { from: 'admin', text: `Wah, saya paham Kak 🙏\n\nTapi ${b} ini bukan sabun biasa. Formulanya khusus untuk jerawat dengan kandungan aktif yang sudah teruji.\n\nKalau dihitung-hitung, 1 bar bisa dipakai ± 1 bulan. Jadi cuma ${p} per bulan untuk wajah bersih bebas jerawat. Lebih hemat dari treatment facial lho Kak! 💰\n\nDan sekarang lagi promo ${pr}. Jadi makin hemat!` },
+      ]
+    }
+  ];
+}
+
+const tips = [
+  { icon: '📸', title: 'Siapkan Foto Testimoni', desc: 'Selalu siapkan foto Before-After pelanggan lain di galeri HP. Kirimkan jika mereka ragu.' },
+  { icon: '🚚', title: 'Tawarkan COD', desc: '"Bisa Bayar di Tempat (COD) kok Kak, jadi lebih aman!" – ini menghilangkan kekhawatiran.' },
+  { icon: '⚡', title: 'Balas Cepat', desc: 'Kecepatan membalas adalah kunci. Usahakan balas dalam 1-2 menit agar mereka tidak lari ke penjual lain.' },
+  { icon: '🎯', title: 'Gunakan Urgency', desc: '"Stok tinggal sedikit" atau "Promo berakhir hari ini" membantu mendorong keputusan.' },
+  { icon: '💬', title: 'Tanya Balik', desc: 'Selalu akhiri chat dengan pertanyaan agar percakapan tetap berjalan dan tidak menggantung.' },
+];
+
+let activeScenario = 'sapaan';
+
+function renderTabs(c) {
+  const container = document.getElementById('scenarioTabs');
+  const scenarios = getScenarios(c);
+  container.innerHTML = '';
+  scenarios.forEach(s => {
+    const btn = document.createElement('button');
+    btn.className = `scenario-btn px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap ${s.id === activeScenario ? 'active' : ''}`;
+    btn.textContent = s.label;
+    btn.onclick = () => { activeScenario = s.id; renderTabs(c); renderChat(c); };
+    container.appendChild(btn);
+  });
+}
+
+function renderChat(c) {
+  const area = document.getElementById('chatArea');
+  const scenario = getScenarios(c).find(s => s.id === activeScenario);
+  if (!scenario) return;
+  area.innerHTML = '';
+
+  scenario.chats.forEach((chat, i) => {
+    const wrapper = document.createElement('div');
+    wrapper.className = `flex ${chat.from === 'admin' ? 'justify-end' : 'justify-start'} mb-3`;
+    wrapper.style.animationDelay = `${i * 0.15}s`;
+
+    const bubble = document.createElement('div');
+    bubble.className = `${chat.from === 'admin' ? 'chat-bubble-right' : 'chat-bubble-left'} px-4 py-3 max-w-[85%] text-sm leading-relaxed relative`;
+    if (chat.from !== 'admin') bubble.style.color = 'var(--text-color)';
+
+    const label = document.createElement('div');
+    label.className = 'text-[10px] font-bold mb-1 opacity-60';
+    label.textContent = chat.from === 'admin' ? '🟢 BALASAN ANDA' : '👤 KONSUMEN';
+    bubble.appendChild(label);
+
+    const textEl = document.createElement('div');
+    textEl.style.whiteSpace = 'pre-wrap';
+    textEl.textContent = chat.text;
+    bubble.appendChild(textEl);
+
+    if (chat.from === 'admin') {
+      const actionContainer = document.createElement('div');
+      actionContainer.className = 'flex gap-1 mt-2 pt-2 border-t' ;
+      actionContainer.style.borderColor = 'rgba(255,255,255,0.1)';
+
+      const copyIcon = document.createElement('button');
+      copyIcon.className = 'flex-1 py-1.5 px-2 rounded-lg text-xs font-semibold flex items-center justify-center gap-1 transition-all hover:scale-105';
+      copyIcon.style.background = 'rgba(255,255,255,0.1)';
+      copyIcon.style.color = 'white';
+      copyIcon.innerHTML = '<i data-lucide="copy" style="width:14px;height:14px;"></i> <span>Salin</span>';
+      copyIcon.onclick = (e) => { e.stopPropagation(); copyText(chat.text); };
+
+      const whatsappIcon = document.createElement('button');
+      whatsappIcon.className = 'flex-1 py-1.5 px-2 rounded-lg text-xs font-semibold flex items-center justify-center gap-1 transition-all hover:scale-105';
+      whatsappIcon.style.background = '#25D366';
+      whatsappIcon.style.color = 'white';
+      whatsappIcon.innerHTML = '<i data-lucide="send" style="width:14px;height:14px;"></i> <span>WhatsApp</span>';
+      whatsappIcon.onclick = (e) => { 
+        e.stopPropagation(); 
+        const encoded = encodeURIComponent(chat.text);
+        window.open(`https://wa.me/?text=${encoded}`, '_blank');
+      };
+
+      actionContainer.appendChild(copyIcon);
+      actionContainer.appendChild(whatsappIcon);
+      bubble.appendChild(actionContainer);
+    }
+
+    wrapper.appendChild(bubble);
+    area.appendChild(wrapper);
+  });
+
+  lucide.createIcons();
+}
+
+function renderTips() {
+  const container = document.getElementById('tipsContent');
+  container.innerHTML = '';
+  tips.forEach(t => {
+    container.innerHTML += `<div class="p-3 rounded-xl" style="background:var(--bg-color);"><div class="font-bold mb-1">${t.icon} ${t.title}</div><div class="opacity-70">${t.desc}</div></div>`;
+  });
+}
+
+function copyText(text) {
+  navigator.clipboard.writeText(text).then(() => {
+    const toast = document.getElementById('copyToast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 1500);
+  });
+}
+
+document.getElementById('copyBtn').onclick = () => {
+  const c = window.elementSdk?.config || defaultConfig;
+  const scenario = getScenarios(c).find(s => s.id === activeScenario);
+  if (!scenario) return;
+  const adminTexts = scenario.chats.filter(ch => ch.from === 'admin').map(ch => ch.text).join('\n\n---\n\n');
+  copyText(adminTexts);
+};
+
+document.getElementById('tipsBtn').onclick = () => {
+  document.getElementById('tipsModal').classList.remove('hidden');
+  document.getElementById('tipsModal').classList.add('flex');
+};
+document.getElementById('closeTips').onclick = () => {
+  document.getElementById('tipsModal').classList.add('hidden');
+  document.getElementById('tipsModal').classList.remove('flex');
+};
+document.getElementById('tipsModal').onclick = (e) => {
+  if (e.target === document.getElementById('tipsModal')) {
+    document.getElementById('tipsModal').classList.add('hidden');
+    document.getElementById('tipsModal').classList.remove('flex');
+  }
+};
+
+renderTips();
+
+// Element SDK
+window.elementSdk.init({
+  defaultConfig,
+  onConfigChange: async (config) => {
+    setVars(config);
+    const c = { ...defaultConfig, ...config };
+    document.getElementById('headerTitle').textContent = `${c.brand_name} – Chat Guide`;
+    renderTabs(c);
+    renderChat(c);
+
+    const font = c.font_family || 'Plus Jakarta Sans';
+    document.querySelectorAll('*').forEach(el => {
+      if (el.style) el.style.fontFamily = `${font}, sans-serif`;
+    });
+
+    const size = c.font_size || 14;
+    document.querySelectorAll('.chat-bubble-left, .chat-bubble-right').forEach(el => {
+      el.style.fontSize = `${size}px`;
+    });
+  },
+  mapToCapabilities: (config) => ({
+    recolorables: [
+      { get: () => config.background_color || defaultConfig.background_color, set: v => { config.background_color = v; window.elementSdk.setConfig({ background_color: v }); } },
+      { get: () => config.surface_color || defaultConfig.surface_color, set: v => { config.surface_color = v; window.elementSdk.setConfig({ surface_color: v }); } },
+      { get: () => config.text_color || defaultConfig.text_color, set: v => { config.text_color = v; window.elementSdk.setConfig({ text_color: v }); } },
+      { get: () => config.primary_color || defaultConfig.primary_color, set: v => { config.primary_color = v; window.elementSdk.setConfig({ primary_color: v }); } },
+      { get: () => config.secondary_color || defaultConfig.secondary_color, set: v => { config.secondary_color = v; window.elementSdk.setConfig({ secondary_color: v }); } },
+    ],
+    borderables: [],
+    fontEditable: { get: () => config.font_family || defaultConfig.font_family, set: v => { config.font_family = v; window.elementSdk.setConfig({ font_family: v }); } },
+    fontSizeable: { get: () => config.font_size || defaultConfig.font_size || 14, set: v => { config.font_size = v; window.elementSdk.setConfig({ font_size: v }); } },
+  }),
+  mapToEditPanelValues: (config) => new Map([
+    ['brand_name', config.brand_name || defaultConfig.brand_name],
+    ['product_price', config.product_price || defaultConfig.product_price],
+    ['promo_text', config.promo_text || defaultConfig.promo_text],
+  ])
+});
+
+renderTabs(defaultConfig);
+renderChat(defaultConfig);
+lucide.createIcons();
+</script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e9a84659781a5d8',t:'MTc3NTc0ODI1MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
