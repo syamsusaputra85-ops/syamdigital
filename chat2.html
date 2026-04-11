@@ -28,13 +28,11 @@
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
  </head>
  <body class="h-full">
-  <div id="app" class="h-full w-full overflow-auto" style="background: #FFF5F0;">
-   <!-- Header -->
+  <div id="app" class="h-full w-full overflow-auto" style="background: #FFF5F0;"><!-- Header -->
    <header class="sticky top-0 z-20" style="background: linear-gradient(135deg, #EE4D2D 0%, #D73B1D 100%);">
     <div class="max-w-3xl mx-auto px-4 py-5">
      <div class="flex items-center gap-3">
-      <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background: rgba(255,255,255,0.2);">
-       <i data-lucide="message-circle" style="width:22px;height:22px;color:#fff;"></i>
+      <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background: rgba(255,255,255,0.2);"><i data-lucide="message-circle" style="width:22px;height:22px;color:#fff;"></i>
       </div>
       <div>
        <h1 id="main-title" class="font-heading text-white font-800 text-xl leading-tight">Template Chat Shopee</h1>
@@ -44,14 +42,12 @@
     </div>
    </header><!-- Store Name Banner -->
    <div class="max-w-3xl mx-auto px-4 mt-4">
-    <div class="rounded-xl px-4 py-3 flex items-center gap-2" style="background: #FFF0E6; border: 1px solid #FFDCC8;">
-     <i data-lucide="store" style="width:16px;height:16px;color:#EE4D2D;"></i> <span class="text-sm" style="color: #B8390F;">Toko: <strong id="store-display" class="font-heading">Nama Toko Kamu</strong></span>
+    <div class="rounded-xl px-4 py-3 flex items-center gap-2" style="background: #FFF0E6; border: 1px solid #FFDCC8;"><i data-lucide="store" style="width:16px;height:16px;color:#EE4D2D;"></i> <span class="text-sm" style="color: #B8390F;">Toko: <strong id="store-display" class="font-heading">Nama Toko Kamu</strong></span>
     </div>
    </div><!-- Templates -->
    <main class="max-w-3xl mx-auto px-4 py-5 space-y-4 pb-8" id="templates-container"></main><!-- Toast -->
    <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 hidden">
-    <div class="rounded-xl px-5 py-3 shadow-lg flex items-center gap-2" style="background: #1A1A2E; color: #fff;">
-     <i data-lucide="check-circle" style="width:18px;height:18px;color:#4ADE80;"></i> <span class="text-sm font-medium">Template berhasil disalin!</span>
+    <div class="rounded-xl px-5 py-3 shadow-lg flex items-center gap-2" style="background: #1A1A2E; color: #fff;"><i data-lucide="check-circle" style="width:18px;height:18px;color:#4ADE80;"></i> <span class="text-sm font-medium">Template berhasil disalin!</span>
     </div>
    </div>
   </div>
@@ -158,45 +154,44 @@
       const container = document.getElementById('templates-container');
       const storeName = config.store_name || defaultConfig.store_name;
 
-      if (container.children.length === 0) {
-        TEMPLATES.forEach((t, i) => {
-          const card = document.createElement('div');
+      TEMPLATES.forEach((t, i) => {
+        let card = document.getElementById(`card-${t.id}`);
+        
+        if (!card) {
+          card = document.createElement('div');
           card.id = `card-${t.id}`;
           card.className = 'card-hover rounded-2xl shadow-sm fade-in';
-          card.style.animationDelay = `${i * 0.08}s`;
           card.style.border = '1px solid #F0E0D6';
-          card.innerHTML = `
-            <div class="p-5">
-              <div class="flex items-start justify-between mb-3">
-                <div class="flex items-center gap-2.5">
-                  <div class="w-9 h-9 rounded-lg flex items-center justify-center" style="background:${t.tagBg};">
-                    <i data-lucide="${t.icon}" style="width:18px;height:18px;color:${t.tagColor};"></i>
-                  </div>
-                  <div>
-                    <h3 class="font-heading font-700 text-sm card-title">${t.title}</h3>
-                    <p class="text-xs mt-0.5 card-desc" style="color:#888;">${t.desc}</p>
-                  </div>
-                </div>
-                <span class="tag-pill" style="background:${t.tagBg};color:${t.tagColor};">${t.tag}</span>
-              </div>
-              <div class="rounded-xl p-4 mb-3 template-body" style="background:#FFFAF7;border:1px dashed #F0D6C8;">
-                <p class="text-sm leading-relaxed whitespace-pre-line template-text">${getProcessedText(t, storeName)}</p>
-              </div>
-              <button onclick="copyTemplate(${t.id})" class="copy-btn w-full rounded-xl py-2.5 text-sm font-semibold flex items-center justify-center gap-2 text-white" style="background:#EE4D2D;">
-                <i data-lucide="copy" style="width:15px;height:15px;"></i>
-                <span>Salin Template</span>
-              </button>
-            </div>
-          `;
           container.appendChild(card);
-        });
-        lucide.createIcons();
-      } else {
-        TEMPLATES.forEach(t => {
-          const textEl = document.querySelector(`#card-${t.id} .template-text`);
-          if (textEl) textEl.textContent = getProcessedText(t, storeName);
-        });
-      }
+        }
+        
+        card.style.animationDelay = `${i * 0.08}s`;
+        card.innerHTML = `
+          <div class="p-5">
+            <div class="flex items-start justify-between mb-3">
+              <div class="flex items-center gap-2.5">
+                <div class="w-9 h-9 rounded-lg flex items-center justify-center" style="background:${t.tagBg};">
+                  <i data-lucide="${t.icon}" style="width:18px;height:18px;color:${t.tagColor};"></i>
+                </div>
+                <div>
+                  <h3 class="font-heading font-700 text-sm card-title">${t.title}</h3>
+                  <p class="text-xs mt-0.5 card-desc" style="color:#888;">${t.desc}</p>
+                </div>
+              </div>
+              <span class="tag-pill" style="background:${t.tagBg};color:${t.tagColor};">${t.tag}</span>
+            </div>
+            <div class="rounded-xl p-4 mb-3 template-body" style="background:#FFFAF7;border:1px dashed #F0D6C8;">
+              <p class="text-sm leading-relaxed whitespace-pre-line template-text">${getProcessedText(t, storeName)}</p>
+            </div>
+            <button onclick="copyTemplate(${t.id})" class="copy-btn w-full rounded-xl py-2.5 text-sm font-semibold flex items-center justify-center gap-2 text-white" style="background:#EE4D2D;">
+              <i data-lucide="copy" style="width:15px;height:15px;"></i>
+              <span>Salin Template</span>
+            </button>
+          </div>
+        `;
+      });
+      
+      lucide.createIcons();
     }
 
     function applyConfig(config) {
@@ -269,5 +264,5 @@
     renderTemplates(defaultConfig);
     lucide.createIcons();
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9ea9e15d45aa5ff0',t:'MTc3NTkwOTM0NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9ea9e742c3e55ff0',t:'MTc3NTkwOTU4Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
