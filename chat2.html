@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopee Chat Templates</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=DM+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: 'DM Sans', sans-serif; margin: 0; }
+    .font-heading { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .card-hover { transition: transform 0.2s, box-shadow 0.2s; }
+    .card-hover:hover { transform: translateY(-2px); }
+    .copy-btn { transition: all 0.2s; }
+    .copy-btn:active { transform: scale(0.95); }
+    .toast-show { animation: slideUp 0.3s ease-out forwards; }
+    .toast-hide { animation: slideDown 0.3s ease-in forwards; }
+    @keyframes slideUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes slideDown { from { transform: translateY(0); opacity: 1; } to { transform: translateY(100%); opacity: 0; } }
+    .fade-in { animation: fadeIn 0.4s ease-out forwards; opacity: 0; }
+    @keyframes fadeIn { to { opacity: 1; } }
+    .tag-pill { display: inline-block; padding: 2px 10px; border-radius: 9999px; font-size: 11px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; }
+  </style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full">
+  <div id="app" class="h-full w-full overflow-auto" style="background: #FFF5F0;">
+   <!-- Header -->
+   <header class="sticky top-0 z-20" style="background: linear-gradient(135deg, #EE4D2D 0%, #D73B1D 100%);">
+    <div class="max-w-3xl mx-auto px-4 py-5">
+     <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background: rgba(255,255,255,0.2);">
+       <i data-lucide="message-circle" style="width:22px;height:22px;color:#fff;"></i>
+      </div>
+      <div>
+       <h1 id="main-title" class="font-heading text-white font-800 text-xl leading-tight">Template Chat Shopee</h1>
+       <p class="text-orange-100 text-xs mt-0.5">Salin &amp; gunakan di Chat Assistant</p>
+      </div>
+     </div>
+    </div>
+   </header><!-- Store Name Banner -->
+   <div class="max-w-3xl mx-auto px-4 mt-4">
+    <div class="rounded-xl px-4 py-3 flex items-center gap-2" style="background: #FFF0E6; border: 1px solid #FFDCC8;">
+     <i data-lucide="store" style="width:16px;height:16px;color:#EE4D2D;"></i> <span class="text-sm" style="color: #B8390F;">Toko: <strong id="store-display" class="font-heading">Nama Toko Kamu</strong></span>
+    </div>
+   </div><!-- Templates -->
+   <main class="max-w-3xl mx-auto px-4 py-5 space-y-4 pb-8" id="templates-container"></main><!-- Toast -->
+   <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 hidden">
+    <div class="rounded-xl px-5 py-3 shadow-lg flex items-center gap-2" style="background: #1A1A2E; color: #fff;">
+     <i data-lucide="check-circle" style="width:18px;height:18px;color:#4ADE80;"></i> <span class="text-sm font-medium">Template berhasil disalin!</span>
+    </div>
+   </div>
+  </div>
+  <script>
+    const TEMPLATES = [
+      {
+        id: 1,
+        tag: "Auto Reply",
+        tagColor: "#EE4D2D",
+        tagBg: "#FFEDE9",
+        icon: "message-square",
+        title: "Pesan Otomatis (Sibuk/Offline)",
+        desc: "Menyapa pembeli yang baru mengirim pesan",
+        text: `Halo Kak! Selamat datang di {{STORE}}. 😊\nPesanan Kakak sedang kami proses. Mohon tunggu sebentar ya, admin akan segera membalas chat Kakak satu per satu.\nSambil menunggu, silakan cek etalase kami. Semua produk yang bisa diklik insyaAllah ready stok. Selamat belanja! 🛍️`
+      },
+      {
+        id: 2,
+        tag: "Stok",
+        tagColor: "#00BFA5",
+        tagBg: "#E0F7F4",
+        icon: "package-check",
+        title: "Balasan Cek Stok Produk",
+        desc: "Jawaban saat ditanya \"Barang ini ready?\"",
+        text: `Hai Kak! Produk ini ready sesuai stok di aplikasi ya. Silakan langsung di-checkout agar bisa segera kami proses ke kurir hari ini. Jangan sampai kehabisan ya Kak! ✨`
+      },
+      {
+        id: 3,
+        tag: "Terima Kasih",
+        tagColor: "#7C3AED",
+        tagBg: "#F3EEFF",
+        icon: "heart",
+        title: "Setelah Pembeli Checkout",
+        desc: "Memberi kesan profesional setelah order masuk",
+        text: `Terima kasih sudah berbelanja di {{STORE}}! 😍\nPesanan Kakak sudah kami terima dan akan segera disiapkan. Mohon ditunggu update resinya secara otomatis di aplikasi ya. Sehat selalu!`
+      },
+      {
+        id: 4,
+        tag: "Stok Habis",
+        tagColor: "#DC2626",
+        tagBg: "#FEE2E2",
+        icon: "alert-triangle",
+        title: "Barang Kosong (Penting untuk Dropship)",
+        desc: "Jika ternyata barang habis / supplier kosong",
+        text: `Mohon maaf banget Kak, ternyata produk [Nama Produk] sedang kosong karena perputaran barang yang cepat. 🙏\nApakah Kakak berkenan ganti ke warna/model lain yang mirip, atau mau diajukan pembatalan saja? Kami tunggu kabarnya ya Kak.`
+      },
+      {
+        id: 5,
+        tag: "Dropship",
+        tagColor: "#2563EB",
+        tagBg: "#EFF6FF",
+        icon: "handshake",
+        title: "Permohonan Dropship (Inisiatif Pribadi)",
+        desc: "Saat kamu ingin menjadi dropshipper dari supplier lain",
+        text: `Halo Admin, salam kenal saya {{STORE}}.\nSaya perhatikan produk yang ada di toko kakak sangat berkualitas dan punya ulasan yang bagus. \nSaya berencana untuk memasarkan produk tersebut di toko saya dengan sistem dropship.\nSaya berkomitmen untuk memberikan pelayanan admin yang fast-response kepada pembeli agar penjualan produk kakak juga meningkat. \nApakah saya diperbolehkan mengambil foto produk dan berjualan sebagai dropshipper resmi kakak? \nTerima kasih banyak.`
+      },
+      {
+        id: 6,
+        tag: "Kolaborasi",
+        tagColor: "#059669",
+        tagBg: "#ECFDF5",
+        icon: "users",
+        title: "Penawaran Kerjasama Dropship (Dengan Audiens)",
+        desc: "Saat kamu punya audiens aktif dan tertarik kolaborasi",
+        text: `Selamat siang Admin. Saya {{STORE}} dari Admin {{STORE}}.\nSaat ini saya memiliki audiens yang cukup aktif di [TikTok/Instagram] dengan minat di bidang Perlengkapan Rumah Tangga. \nSaya sangat tertarik untuk menyertakan produk dari toko kakak dalam katalog jualan saya melalui sistem dropship.\nSaya yakin dengan target pasar yang saya miliki, kita bisa menjalin kerjasama yang saling menguntungkan. \nApakah ada syarat khusus atau prosedur pendaftaran dropship di sini? Mohon informasinya ya Kak.\nTerima kasih.`
+      },
+      {
+        id: 7,
+        tag: "Resi Otomatis",
+        tagColor: "#DC2626",
+        tagBg: "#FEE2E2",
+        icon: "truck",
+        title: "Pertanyaan Dropship (Booking Code/Resi Otomatis)",
+        desc: "Tanya tentang fitur pengiriman otomatis dropship",
+        text: `Halo Kak, saya berminat menjadi dropshipper untuk produk-produk di toko ini.\nRencananya saya akan memasarkan produk kakak di platform lain. Oleh karena itu, \nsaya ingin menanyakan apakah toko kakak mendukung pengiriman dengan Resi Otomatis (Booking Code)?\nJika bisa, mohon izin untuk saya mulai memproses promosi produknya hari ini. Ditunggu konfirmasinya ya Kak, \nsukses selalu untuk tokonya!`
+      },
+      {
+        id: 8,
+        tag: "Formulir",
+        tagColor: "#8B5CF6",
+        tagBg: "#F5F3FF",
+        icon: "clipboard",
+        title: "Format Pengajuan Kerjasama Dropship",
+        desc: "Template formulir resmi untuk pengajuan kerjasama",
+        text: `PENGAJUAN KERJASAMA DROPSHIP:\n\nNama Toko: {{STORE}}\nPlatform Penjualan: [Shopee/TikTok/Lazada/WhatsApp]\nKategori Produk: [Isi sesuai kategori]\n\nHalo Kak, melalui pesan ini saya memohon izin untuk menjadi mitra dropship kakak. \nSaya akan mematuhi aturan stok dan harga yang kakak tetapkan. \nMohon kiranya diperkenankan untuk menggunakan aset foto produk kakak. \nTerima kasih.`
+      }
+    ];
+
+    const defaultConfig = {
+      store_name: "Nama Toko Kamu",
+      background_color: "#FFF5F0",
+      surface_color: "#FFFFFF",
+      text_color: "#1A1A2E",
+      primary_color: "#EE4D2D",
+      secondary_color: "#B8390F",
+      font_family: "Plus Jakarta Sans",
+      font_size: 15
+    };
+
+    function getProcessedText(template, storeName) {
+      return template.text.replace(/\{\{STORE\}\}/g, storeName);
+    }
+
+    function renderTemplates(config) {
+      const container = document.getElementById('templates-container');
+      const storeName = config.store_name || defaultConfig.store_name;
+
+      if (container.children.length === 0) {
+        TEMPLATES.forEach((t, i) => {
+          const card = document.createElement('div');
+          card.id = `card-${t.id}`;
+          card.className = 'card-hover rounded-2xl shadow-sm fade-in';
+          card.style.animationDelay = `${i * 0.08}s`;
+          card.style.border = '1px solid #F0E0D6';
+          card.innerHTML = `
+            <div class="p-5">
+              <div class="flex items-start justify-between mb-3">
+                <div class="flex items-center gap-2.5">
+                  <div class="w-9 h-9 rounded-lg flex items-center justify-center" style="background:${t.tagBg};">
+                    <i data-lucide="${t.icon}" style="width:18px;height:18px;color:${t.tagColor};"></i>
+                  </div>
+                  <div>
+                    <h3 class="font-heading font-700 text-sm card-title">${t.title}</h3>
+                    <p class="text-xs mt-0.5 card-desc" style="color:#888;">${t.desc}</p>
+                  </div>
+                </div>
+                <span class="tag-pill" style="background:${t.tagBg};color:${t.tagColor};">${t.tag}</span>
+              </div>
+              <div class="rounded-xl p-4 mb-3 template-body" style="background:#FFFAF7;border:1px dashed #F0D6C8;">
+                <p class="text-sm leading-relaxed whitespace-pre-line template-text">${getProcessedText(t, storeName)}</p>
+              </div>
+              <button onclick="copyTemplate(${t.id})" class="copy-btn w-full rounded-xl py-2.5 text-sm font-semibold flex items-center justify-center gap-2 text-white" style="background:#EE4D2D;">
+                <i data-lucide="copy" style="width:15px;height:15px;"></i>
+                <span>Salin Template</span>
+              </button>
+            </div>
+          `;
+          container.appendChild(card);
+        });
+        lucide.createIcons();
+      } else {
+        TEMPLATES.forEach(t => {
+          const textEl = document.querySelector(`#card-${t.id} .template-text`);
+          if (textEl) textEl.textContent = getProcessedText(t, storeName);
+        });
+      }
+    }
+
+    function applyConfig(config) {
+      const c = { ...defaultConfig, ...config };
+      document.getElementById('app').style.background = c.background_color;
+      document.getElementById('store-display').textContent = c.store_name || defaultConfig.store_name;
+
+      document.querySelectorAll('.card-hover').forEach(el => {
+        el.style.background = c.surface_color;
+      });
+      document.querySelectorAll('.card-title').forEach(el => {
+        el.style.color = c.text_color;
+        el.style.fontFamily = `${c.font_family}, Plus Jakarta Sans, sans-serif`;
+      });
+      document.querySelectorAll('.template-text').forEach(el => {
+        el.style.color = c.text_color;
+        el.style.fontSize = `${c.font_size}px`;
+        el.style.fontFamily = `${c.font_family}, DM Sans, sans-serif`;
+      });
+      document.querySelectorAll('.copy-btn').forEach(el => {
+        el.style.background = c.primary_color;
+      });
+
+      renderTemplates(c);
+    }
+
+    let toastTimer;
+    window.copyTemplate = function(id) {
+      const t = TEMPLATES.find(x => x.id === id);
+      if (!t) return;
+      const cfg = window.elementSdk?.config || defaultConfig;
+      const text = getProcessedText(t, cfg.store_name || defaultConfig.store_name);
+      navigator.clipboard.writeText(text).then(() => {
+        const toast = document.getElementById('toast');
+        toast.classList.remove('hidden', 'toast-hide');
+        toast.classList.add('toast-show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => {
+          toast.classList.remove('toast-show');
+          toast.classList.add('toast-hide');
+          setTimeout(() => toast.classList.add('hidden'), 300);
+        }, 2000);
+      });
+    };
+
+    // SDK init
+    window.elementSdk.init({
+      defaultConfig,
+      onConfigChange: async (config) => {
+        applyConfig(config);
+      },
+      mapToCapabilities: (config) => ({
+        recolorables: [
+          { get: () => config.background_color || defaultConfig.background_color, set: v => { config.background_color = v; window.elementSdk.setConfig({ background_color: v }); } },
+          { get: () => config.surface_color || defaultConfig.surface_color, set: v => { config.surface_color = v; window.elementSdk.setConfig({ surface_color: v }); } },
+          { get: () => config.text_color || defaultConfig.text_color, set: v => { config.text_color = v; window.elementSdk.setConfig({ text_color: v }); } },
+          { get: () => config.primary_color || defaultConfig.primary_color, set: v => { config.primary_color = v; window.elementSdk.setConfig({ primary_color: v }); } },
+          { get: () => config.secondary_color || defaultConfig.secondary_color, set: v => { config.secondary_color = v; window.elementSdk.setConfig({ secondary_color: v }); } }
+        ],
+        borderables: [],
+        fontEditable: { get: () => config.font_family || defaultConfig.font_family, set: v => { config.font_family = v; window.elementSdk.setConfig({ font_family: v }); } },
+        fontSizeable: { get: () => config.font_size || defaultConfig.font_size, set: v => { config.font_size = v; window.elementSdk.setConfig({ font_size: v }); } }
+      }),
+      mapToEditPanelValues: (config) => new Map([
+        ["store_name", config.store_name || defaultConfig.store_name]
+      ])
+    });
+
+    // Initial render
+    renderTemplates(defaultConfig);
+    lucide.createIcons();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9ea9e15d45aa5ff0',t:'MTc3NTkwOTM0NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
