@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Syam Store – Official</title>
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --primary:#0f9d58;
+  --accent:#25D366;
+  --dark:#111;
+  --muted:#666;
+  --bg:#f6f7f9;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:'Inter',sans-serif;
+  background:var(--bg);
+  color:var(--dark);
+}
+
+/* NAV */
+.nav{
+  position:sticky; top:0; z-index:10;
+  background:#fff; padding:14px 18px;
+  display:flex; justify-content:space-between; align-items:center;
+  box-shadow:0 2px 10px rgba(0,0,0,.05);
+}
+.brand{font-weight:700; font-size:18px}
+.nav a{color:var(--dark); text-decoration:none; margin-left:12px}
+
+/* HERO */
+.hero{
+  padding:28px 18px 10px;
+  background:linear-gradient(135deg,#ffffff,#eef7f1);
+}
+.hero-wrap{
+  max-width:980px; margin:auto;
+  display:grid; grid-template-columns:1.1fr .9fr; gap:18px;
+}
+.hero h1{margin:0 0 8px; font-size:28px}
+.hero p{color:var(--muted); margin:0 0 16px}
+.hero img{
+  width:100%; border-radius:14px;
+  box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+/* BADGE */
+.badges{display:flex; gap:8px; flex-wrap:wrap; margin:10px 0 14px}
+.badge{
+  font-size:12px; padding:6px 10px; border-radius:999px;
+  background:#fff; border:1px solid #eee;
+}
+
+/* CTA */
+.btn{
+  display:inline-block; padding:12px 18px; border-radius:10px;
+  background:var(--accent); color:#fff; text-decoration:none;
+  font-weight:700; box-shadow:0 6px 14px rgba(37,211,102,.25);
+}
+
+/* SECTION */
+.section{max-width:980px; margin:16px auto; padding:18px}
+.card{
+  background:#fff; border-radius:14px; padding:16px;
+  box-shadow:0 8px 24px rgba(0,0,0,.06);
+}
+
+/* GRID */
+.grid{display:grid; gap:14px}
+.grid-2{grid-template-columns:1fr 1fr}
+.grid-3{grid-template-columns:1fr 1fr 1fr}
+
+/* PRODUCT */
+.product img{width:100%; border-radius:10px}
+.title{font-weight:700; margin:6px 0}
+.price{color:#e53935; font-weight:700; font-size:20px}
+
+/* LIST */
+.list li{margin:8px 0}
+
+/* TESTI */
+.testi{background:#f1f8e9; border-radius:10px; padding:12px}
+
+/* FORM */
+input,select,textarea{
+  width:100%; padding:12px; margin:8px 0;
+  border-radius:10px; border:1px solid #ddd; outline:none;
+}
+input[readonly]{background:#f1f1f1}
+
+/* VIDEO */
+.video iframe{width:100%; height:260px; border:none; border-radius:12px}
+
+/* STICKY CTA */
+.sticky{
+  position:fixed; bottom:0; left:0; right:0;
+  background:#fff; padding:10px 14px;
+  display:flex; justify-content:space-between; align-items:center;
+  box-shadow:0 -2px 10px rgba(0,0,0,.08);
+}
+.total-bar{font-weight:700}
+
+/* FOOTER */
+.footer{padding:20px; text-align:center; color:#777; font-size:14px}
+
+/* RESPONSIVE */
+@media(max-width:820px){
+  .hero-wrap{grid-template-columns:1fr}
+  .video iframe{height:200px}
+  .grid-3{grid-template-columns:1fr 1fr}
+}
+@media(max-width:520px){
+  .grid-2,.grid-3{grid-template-columns:1fr}
+  .hero h1{font-size:22px}
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<div class="nav">
+  <div class="brand">Syam Store</div>
+  <div>
+    <a href="#produk">Produk</a>
+    <a href="#order">Order</a>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-wrap">
+    <div>
+      <h1>Produk Praktis & Berkualitas untuk Kebutuhan Harian</h1>
+      <p>Solusi cepat, rapi, dan hemat untuk rumah & aktivitas harian kamu.</p>
+
+      <div class="badges">
+        <span class="badge">✔️ Original</span>
+        <span class="badge">🚚 Kirim Cepat</span>
+        <span class="badge">💯 Garansi</span>
+      </div>
+
+      <a href="#order" class="btn">🛒 Order Sekarang</a>
+    </div>
+
+    <div>
+      <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1776515708/klik-wa_qfwo2g.gif">
+    </div>
+  </div>
+</section>
+
+<!-- PRODUK -->
+<section id="produk" class="section grid grid-2">
+  <div class="card product">
+    <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1776515708/klik-wa_qfwo2g.gif">
+    <div class="title">Set Perkakas Serbaguna</div>
+    <div class="price">Rp 45.500 – 78.500</div>
+  </div>
+
+  <div class="card">
+    <h3>Keunggulan</h3>
+    <ul class="list">
+      <li>✔️ Multifungsi & praktis</li>
+      <li>✔️ Tahan lama</li>
+      <li>✔️ Hemat tempat</li>
+      <li>✔️ Cocok semua kebutuhan</li>
+    </ul>
+  </div>
+</section>
+
+<!-- VIDEO -->
+<section class="section card video">
+  <h3>Video Produk</h3>
+  <iframe src="https://www.youtube.com/embed/MxoZWNLU56M" allowfullscreen></iframe>
+</section>
+
+<!-- TESTIMONI -->
+<section class="section grid grid-3">
+  <div class="card testi">⭐⭐⭐⭐⭐ Barang bagus banget!</div>
+  <div class="card testi">⭐⭐⭐⭐⭐ Pengiriman cepat!</div>
+  <div class="card testi">⭐⭐⭐⭐⭐ Recommended!</div>
+</section>
+
+<!-- FORM ORDER -->
+<section id="order" class="section card">
+  <h3>Form Pemesanan</h3>
+
+  <input id="nama" placeholder="Nama Lengkap" required>
+  <input id="alamat" placeholder="Alamat Lengkap" required>
+  <input id="hp" placeholder="No WhatsApp" required>
+
+  <select id="variasi" onchange="hitung()">
+    <option value="">Pilih Ukuran</option>
+    <option value="Kecil|45500">Kecil - 45.500</option>
+    <option value="Sedang|56500">Sedang - 56.500</option>
+    <option value="Besar|67500">Besar - 67.500</option>
+    <option value="Jumbo|78500">Jumbo - 78.500</option>
+  </select>
+
+  <input id="jumlah" type="number" placeholder="Jumlah" onchange="hitung()">
+
+  <select id="bayar">
+    <option>COD</option>
+    <option>Transfer</option>
+  </select>
+
+  <input id="total" readonly placeholder="Total Harga">
+  <textarea id="catatan" placeholder="Catatan (opsional)"></textarea>
+</section>
+
+<!-- STICKY CTA -->
+<div class="sticky">
+  <div class="total-bar" id="totalBar">Total: Rp 0</div>
+  <button class="btn" onclick="kirimWA()">Order via WhatsApp</button>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">© Syam Store 2026</div>
+
+<script>
+function hitung(){
+  let v = document.getElementById("variasi").value;
+  let j = document.getElementById("jumlah").value || 1;
+  let h = v ? parseInt(v.split("|")[1]) : 0;
+  let t = h * j;
+  document.getElementById("total").value = "Rp " + t.toLocaleString();
+  document.getElementById("totalBar").innerText = "Total: Rp " + t.toLocaleString();
+}
+
+function kirimWA(){
+  let nama = document.getElementById("nama").value;
+  let alamat = document.getElementById("alamat").value;
+  let hp = document.getElementById("hp").value;
+  let variasi = document.getElementById("variasi").value.split("|")[0];
+  let jumlah = document.getElementById("jumlah").value;
+  let bayar = document.getElementById("bayar").value;
+  let total = document.getElementById("total").value;
+  let catatan = document.getElementById("catatan").value;
+
+  let pesan = `Halo kak, saya mau order:%0A%0A
+Nama: ${nama}%0AAlamat: ${alamat}%0ANo HP: ${hp}%0A
+Varian: ${variasi}%0AJumlah: ${jumlah}%0A
+Pembayaran: ${bayar}%0ATotal: ${total}%0A
+Catatan: ${catatan}`;
+
+  window.open(`https://wa.me/6285150531572?text=${pesan}`,'_blank');
+}
+</script>
+
+</body>
+</html>
