@@ -102,13 +102,9 @@ body{
 /* TESTI */
 .testi{background:#f1f8e9; border-radius:10px; padding:12px}
 
+
 /* FORM */
-<select id="kota" onchange="hitungTotal()">
-  <option value="">Pilih Kota</option>
-  <option value="Jakarta|10000">Jakarta - 10.000</option>
-  <option value="Bandung|15000">Bandung - 15.000</option>
-  <option value="Papua|50000">Papua - 50.000</option>
-</select>
+
 input,select,textarea{
   width:100%; padding:12px; margin:8px 0;
   border-radius:10px; border:1px solid #ddd; outline:none;
@@ -221,7 +217,7 @@ updateTimer();
 <!-- VIDEO -->
 <section class="section card video">
   <h3>Video Produk</h3>
-  <iframe src="https://www.youtube.com/watch?v=j3R9OJbCpw0" allowfullscreen></iframe>
+  <iframe src="https://youtu.be/j3R9OJbCpw0" allowfullscreen></iframe>
 </section>
 
 <!-- TESTIMONI -->
@@ -238,7 +234,12 @@ updateTimer();
   <input id="nama" placeholder="Nama Lengkap" required>
   <input id="alamat" placeholder="Alamat Lengkap" required>
   <input id="hp" placeholder="No WhatsApp" required>
-
+  <select id="kota" onchange="hitungTotal()">
+  <option value="">Pilih Kota</option>
+  <option value="Jakarta|10000">Jakarta - 10.000</option>
+  <option value="Bandung|15000">Bandung - 15.000</option>
+  <option value="Papua|50000">Papua - 50.000</option>
+</select>
   <select id="variasi" onchange="hitung()">
     <option value="">Pilih Ukuran</option>
     <option value="Kecil|45500">Kecil - 45.500</option>
