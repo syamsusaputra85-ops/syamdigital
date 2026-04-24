@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Belajar Digital Marketing</title>
+
+<style>
+* {
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg,#f8f9fc,#eef1f7);
+  color:#111;
+}
+
+/* CONTAINER */
+.container {
+  max-width:520px;
+  margin:auto;
+  padding:20px;
+}
+
+/* ANIMATION */
+.fade-in {
+  opacity:0;
+  transform:translateY(20px);
+  animation:fadeUp 1s forwards;
+}
+
+@keyframes fadeUp {
+  to {
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+/* HERO */
+.hero {
+  text-align:center;
+  padding:40px 10px;
+}
+
+.hero h1 {
+  font-size:28px;
+  margin-bottom:15px;
+}
+
+.hero p {
+  font-size:15px;
+  color:#555;
+}
+
+/* BUTTON */
+.cta {
+  display:block;
+  background:#25D366;
+  color:white;
+  text-align:center;
+  padding:16px;
+  border-radius:50px;
+  font-weight:bold;
+  text-decoration:none;
+  margin-top:25px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.1);
+  transition:0.3s;
+}
+
+.cta:hover {
+  transform:scale(1.05);
+}
+
+/* CARD */
+.card {
+  background:#fff;
+  padding:20px;
+  border-radius:18px;
+  margin-top:15px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.05);
+}
+
+/* TITLE */
+.title {
+  font-size:20px;
+  margin-bottom:10px;
+  text-align:center;
+}
+
+/* LIST */
+.list li {
+  margin:8px 0;
+  font-size:14px;
+}
+
+/* TESTIMONI */
+.testi {
+  font-size:14px;
+  margin-bottom:10px;
+  color:#444;
+}
+
+/* PRICE */
+.price {
+  text-align:center;
+}
+
+.old {
+  text-decoration:line-through;
+  color:#999;
+}
+
+.new {
+  color:#e63946;
+  font-size:28px;
+  font-weight:bold;
+}
+
+/* FLOATING BUTTON */
+.floating {
+  position:fixed;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  width:90%;
+  max-width:500px;
+}
+
+.floating a {
+  display:block;
+  background:#25D366;
+  color:#fff;
+  text-align:center;
+  padding:18px;
+  border-radius:50px;
+  font-weight:bold;
+  text-decoration:none;
+  box-shadow:0 10px 25px rgba(0,0,0,0.2);
+}
+
+/* COUNTDOWN */
+.timer {
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  margin-top:15px;
+}
+
+.time-box {
+  background:#111;
+  color:#fff;
+  padding:10px;
+  border-radius:10px;
+  width:60px;
+  text-align:center;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- HERO -->
+  <div class="hero fade-in">
+    <h1>Belajar Digital Marketing dari Nol Sampai Bisa Menghasilkan</h1>
+    <p>Khusus pemula yang ingin penghasilan dari rumah</p>
+
+    <a href="https://wa.me/6285150531572?text=Halo%20saya%20mau%20mulai" class="cta">
+      🚀 Mulai Sekarang
+    </a>
+  </div>
+
+  <!-- PROBLEM -->
+  <div class="card fade-in">
+    <div class="title">Masalah Kamu?</div>
+    <ul class="list">
+      <li>❌ Bingung mulai</li>
+      <li>❌ Takut gagal</li>
+      <li>❌ Tidak punya skill</li>
+      <li>❌ Mau penghasilan dari rumah</li>
+    </ul>
+  </div>
+
+  <!-- SOLUTION -->
+  <div class="card fade-in">
+    <div class="title">Kami Solusinya</div>
+    <p>#Ngajarin • #Nemenin • #Nolongin</p>
+  </div>
+
+  <!-- TESTIMONI -->
+  <div class="card fade-in">
+    <div class="title">Testimoni</div>
+    <p class="testi">"Dari nol sekarang sudah income"</p>
+    <p class="testi">"Gampang dipahami banget"</p>
+  </div>
+
+  <!-- OFFER -->
+  <div class="card fade-in price">
+    <p class="old">Rp499.000</p>
+    <p class="new">Rp99.000</p>
+    <p>Promo terbatas hari ini</p>
+
+    <!-- TIMER -->
+    <div class="timer">
+      <div class="time-box"><span id="h">00</span><br>Jam</div>
+      <div class="time-box"><span id="m">00</span><br>Menit</div>
+      <div class="time-box"><span id="s">00</span><br>Detik</div>
+    </div>
+
+    <a href="https://wa.me/6285150531572?text=Halo%20saya%20mau%20ambil%20promo" class="cta">
+      🔥 Ambil Promo
+    </a>
+  </div>
+
+</div>
+
+<!-- FLOATING BUTTON -->
+<div class="floating">
+  <a href="https://wa.me/6285150531572?text=Halo%20saya%20mau%20order">
+    💬 Order via WhatsApp
+  </a>
+</div>
+
+<script>
+// COUNTDOWN 6 JAM
+let end = new Date().getTime() + (6*60*60*1000);
+
+setInterval(()=>{
+  let now = new Date().getTime();
+  let dist = end - now;
+
+  let h = Math.floor((dist%(1000*60*60*24))/(1000*60*60));
+  let m = Math.floor((dist%(1000*60*60))/(1000*60));
+  let s = Math.floor((dist%(1000*60))/1000);
+
+  document.getElementById("h").innerHTML = h;
+  document.getElementById("m").innerHTML = m;
+  document.getElementById("s").innerHTML = s;
+},1000);
+</script>
+
+</body>
+</html>
