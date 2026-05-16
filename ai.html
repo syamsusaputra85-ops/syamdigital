@@ -13,6 +13,7 @@
             font-family: 'Inter', sans-serif;
             background-color: #fcfaf7;
             color: #4a4a4a;
+            overflow-x: hidden;
         }
 
         .chart-container {
@@ -26,25 +27,26 @@
         }
 
         .glass-card {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(229, 231, 235, 0.5);
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(229, 231, 235, 0.6);
         }
 
         .btn-primary {
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             background: #8b735b;
         }
 
         .btn-primary:hover {
             background: #725e4a;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 20px rgba(139, 115, 91, 0.2);
         }
 
         .nav-link {
             position: relative;
             cursor: pointer;
+            transition: color 0.3s;
         }
 
         .nav-link::after {
@@ -65,142 +67,234 @@
         .hidden-section {
             display: none;
         }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
     <!-- Chosen Palette: Serene Professionalism (Warm Neutrals, Earthy Brown, Soft Cream) -->
     <!-- Application Structure Plan: 
-        1. Desain Berbasis Dashboard: Menggunakan struktur navigasi atas untuk berpindah antar bagian (Ringkasan, Unduhan, Panduan). 
-        2. Alur Pengguna: Pengguna pertama kali melihat ringkasan visual konten, kemudian diarahkan ke tab 'Unduhan' untuk akses utama.
-        3. Interaktivitas: Navigasi dinamis tanpa reload halaman, grafik interaktif untuk menunjukkan komposisi paket produk, dan tombol aksi yang responsif. 
-        Dipilih untuk memberikan kesan produk eksklusif dan terorganisir bagi pembeli.
+        1. Login Gate: Validasi akses dengan fitur toggle eye untuk input. Kode bersifat dinamis menggunakan localStorage.
+        2. Dashboard Utama: Struktur navigasi 4 pilar (Beranda, Unduhan, Panduan, Pengaturan).
+        3. Fitur Pengaturan: Memungkinkan admin/pengguna mengubah "Admin-AI" menjadi kode kustom.
+        4. Keamanan Data: Menggunakan browser storage untuk persistensi kode akses tanpa database eksternal.
     -->
     <!-- Visualization & Content Choices: 
-        - Ringkasan Konten -> Visualisasi Komposisi -> Donut Chart (Chart.js) -> Memberikan gambaran proporsi aset utama vs tutorial.
-        - Tautan Unduhan -> Akses Cepat -> Grid Card dengan Tombol Aksi -> Memudahkan navigasi ke link eksternal (AI Studio & Mega).
-        - Panduan -> Edukasi Pengguna -> FAQ Interaktif -> Mengurangi beban support dengan menjawab pertanyaan umum.
-        - Justifikasi: Penggunaan skema warna netral meningkatkan fokus pada konten dan memberikan rasa tenang/profesional.
+        - Input Login -> Tipe Password + Eye Toggle -> Standar keamanan UI modern.
+        - Ringkasan Paket -> Doughnut Chart (Chart.js) -> Representasi visual distribusi produk.
+        - Form Ganti Kode -> Verifikasi input ganda -> Menghindari kesalahan pengetikan kode baru.
+        - Justifikasi: Penggunaan LocalStorage memungkinkan fungsionalitas ganti kode bekerja secara lokal pada browser pengguna.
     -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
 
-    <nav class="fixed top-0 w-full z-50 glass-card border-b">
-        <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-            <span class="font-bold text-xl tracking-tight text-[#8b735b]">DIGITALPRO <span class="font-light text-gray-400">ACCESS</span></span>
-            <div class="flex space-x-8 text-sm font-medium">
-                <span onclick="showSection('home')" class="nav-link text-[#8b735b]">Beranda</span>
-                <span onclick="showSection('downloads')" class="nav-link">Unduhan</span>
-                <span onclick="showSection('guide')" class="nav-link">Panduan</span>
+    <!-- LOGIN SECTION -->
+    <div id="login-gate" class="fixed inset-0 z-[100] flex items-center justify-center bg-[#fcfaf7] px-6">
+        <div class="max-w-md w-full glass-card p-10 rounded-[2rem] shadow-xl text-center fade-in">
+            <div class="mb-8">
+                <div class="w-16 h-16 bg-[#8b735b]/10 text-[#8b735b] rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl font-bold">A</div>
+                <h1 class="text-2xl font-bold text-gray-800">Akses Terbatas</h1>
+                <p class="text-gray-500 text-sm mt-2">Silakan masukkan kode akses untuk melanjutkan ke portal unduhan produk.</p>
             </div>
+            
+            <div class="space-y-4">
+                <div class="relative group">
+                    <input type="password" id="login-code" placeholder="Masukkan Kode Login" 
+                        class="w-full pl-5 pr-14 py-4 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#8b735b]/50 focus:border-[#8b735b] transition-all text-center tracking-widest font-bold">
+                    <button type="button" onclick="togglePassword('login-code', 'eye-icon')" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#8b735b] transition-colors p-2 text-xl focus:outline-none">
+                        <span id="eye-icon">👁️</span>
+                    </button>
+                    <p id="error-msg" class="text-red-400 text-xs mt-2 hidden">Kode yang Anda masukkan salah.</p>
+                </div>
+                <button onclick="attemptLogin()" class="w-full py-4 btn-primary text-white rounded-xl font-bold uppercase tracking-widest text-sm shadow-lg">Masuk ke Portal</button>
+            </div>
+            
+            <p class="mt-8 text-[10px] text-gray-400 uppercase tracking-widest">Protected by DigitalPro Security</p>
         </div>
-    </nav>
+    </div>
 
-    <main class="pt-24 pb-12 px-6 max-w-6xl mx-auto">
-        
-        <!-- SECTION: HOME -->
-        <section id="home" class="section-content">
-            <div class="mb-12 text-center">
-                <h1 class="text-4xl font-bold text-gray-800 mb-4">Terima Kasih Atas Pembelian Anda</h1>
-                <p class="text-lg text-gray-500 max-w-2xl mx-auto italic">Selamat datang di portal akses eksklusif Anda. Semua file dan instruksi yang Anda butuhkan telah disiapkan di bawah ini.</p>
-            </div>
-
-            <div class="grid md:grid-cols-2 gap-8 items-center mb-16">
-                <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
-                    <h2 class="text-2xl font-semibold mb-6">Ringkasan Paket Produk</h2>
-                    <p class="mb-6 text-gray-600">Bagian ini menjelaskan proporsi konten yang Anda terima. Kami memastikan keseimbangan antara file aplikasi utama dan materi edukasi untuk hasil maksimal.</p>
-                    <ul class="space-y-4">
-                        <li class="flex items-center text-sm">
-                            <span class="w-3 h-3 rounded-full bg-[#8b735b] mr-3"></span>
-                            <span><strong>Aplikasi Utama:</strong> Akses penuh ke sistem AI Studio.</span>
-                        </li>
-                        <li class="flex items-center text-sm">
-                            <span class="w-3 h-3 rounded-full bg-[#c2b4a3] mr-3"></span>
-                            <span><strong>Video Tutorial:</strong> Panduan langkah demi langkah penggunaan.</span>
-                        </li>
-                        <li class="flex items-center text-sm">
-                            <span class="w-3 h-3 rounded-full bg-[#e8e2db] mr-3"></span>
-                            <span><strong>File Tambahan:</strong> Aset pendukung dan template pendukung.</span>
-                        </li>
-                    </ul>
-                    <button onclick="showSection('downloads')" class="mt-8 w-full py-3 btn-primary text-white rounded-xl font-semibold uppercase tracking-wider text-xs">Akses File Sekarang</button>
-                </div>
-                <div class="chart-container">
-                    <canvas id="contentChart"></canvas>
+    <!-- MAIN APP CONTAINER -->
+    <div id="main-app" class="hidden">
+        <nav class="fixed top-0 w-full z-50 glass-card border-b">
+            <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+                <span class="font-bold text-xl tracking-tight text-[#8b735b]">DIGITALPRO <span class="font-light text-gray-400">ACCESS</span></span>
+                <div class="flex space-x-6 text-xs md:text-sm font-medium overflow-x-auto">
+                    <span onclick="showSection('home')" id="nav-home" class="nav-link text-[#8b735b] whitespace-nowrap">Beranda</span>
+                    <span onclick="showSection('downloads')" id="nav-downloads" class="nav-link whitespace-nowrap">Unduhan</span>
+                    <span onclick="showSection('guide')" id="nav-guide" class="nav-link whitespace-nowrap">Panduan</span>
+                    <span onclick="showSection('settings')" id="nav-settings" class="nav-link whitespace-nowrap">Pengaturan</span>
                 </div>
             </div>
-        </section>
+        </nav>
 
-        <!-- SECTION: DOWNLOADS -->
-        <section id="downloads" class="section-content hidden-section">
-            <div class="mb-12">
-                <h2 class="text-3xl font-bold text-gray-800 mb-2 text-center">Pusat Unduhan</h2>
-                <p class="text-gray-500 text-center">Klik tombol di bawah ini untuk mengakses file Anda melalui server aman kami.</p>
-            </div>
-
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 flex flex-col items-center text-center">
-                    <div class="w-16 h-16 bg-[#fcfaf7] rounded-2xl flex items-center justify-center mb-6 text-2xl">⚡</div>
-                    <h3 class="text-xl font-bold mb-3">Produk Utama (AI Studio)</h3>
-                    <p class="text-gray-500 text-sm mb-8">Gunakan link ini untuk mengakses aplikasi utama dan dashboard interaktif Anda.</p>
-                    <a href="https://ai.studio/apps/drive/12Wr-krhL4TUrQCSAskLIAbyeqmauOopM?fullscreenApplet=true" target="_blank" class="w-full py-4 btn-primary text-white rounded-xl font-bold">BUKA PRODUK</a>
+        <main class="pt-24 pb-12 px-6 max-w-6xl mx-auto">
+            
+            <!-- SECTION: HOME -->
+            <section id="home" class="section-content fade-in">
+                <div class="mb-12 text-center">
+                    <h1 class="text-4xl font-bold text-gray-800 mb-4 tracking-tight">Selamat Datang Kembali</h1>
+                    <p class="text-lg text-gray-500 max-w-2xl mx-auto italic leading-relaxed">Portal akses eksklusif untuk seluruh aset digital Anda.</p>
                 </div>
 
-                <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 flex flex-col items-center text-center">
-                    <div class="w-16 h-16 bg-[#fcfaf7] rounded-2xl flex items-center justify-center mb-6 text-2xl">📚</div>
-                    <h3 class="text-xl font-bold mb-3">Tutorial & File Tambahan</h3>
-                    <p class="text-gray-500 text-sm mb-8">Folder berisi video edukasi, PDF panduan, dan file pendukung lainnya di Mega.nz.</p>
-                    <a href="https://mega.nz/folder/oJYVzTjT#cOKLuIZvUYqOcvQ7t-YS3A" target="_blank" class="w-full py-4 border-2 border-[#8b735b] text-[#8b735b] hover:bg-[#8b735b] hover:text-white transition-all rounded-xl font-bold">DOWNLOAD TUTORIAL</a>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION: GUIDE -->
-        <section id="guide" class="section-content hidden-section">
-            <div class="max-w-3xl mx-auto">
-                <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Panduan Memulai</h2>
-                <div class="space-y-6">
-                    <div class="bg-white p-6 rounded-2xl border border-gray-100">
-                        <h4 class="font-bold text-lg mb-2 text-[#8b735b]">1. Bagaimana cara mengakses produk?</h4>
-                        <p class="text-gray-600 text-sm">Klik tab 'Unduhan' dan pilih 'Buka Produk'. Anda akan diarahkan ke platform AI Studio untuk login atau akses langsung.</p>
+                <div class="grid md:grid-cols-2 gap-10 items-center mb-16">
+                    <div class="bg-white p-10 rounded-[2.5rem] shadow-sm border border-gray-100">
+                        <h2 class="text-2xl font-semibold mb-6">Konten Tersedia</h2>
+                        <ul class="space-y-4">
+                            <li class="flex items-center text-sm">
+                                <span class="w-2.5 h-2.5 rounded-full bg-[#8b735b] mr-4"></span>
+                                <span><strong>Aplikasi Utama:</strong> Cloud AI Engine.</span>
+                            </li>
+                            <li class="flex items-center text-sm">
+                                <span class="w-2.5 h-2.5 rounded-full bg-[#c2b4a3] mr-4"></span>
+                                <span><strong>Video Tutorial:</strong> 12 Modul Eksklusif.</span>
+                            </li>
+                            <li class="flex items-center text-sm">
+                                <span class="w-2.5 h-2.5 rounded-full bg-[#e8e2db] mr-4"></span>
+                                <span><strong>Resource:</strong> Template & Dataset.</span>
+                            </li>
+                        </ul>
+                        <button onclick="showSection('downloads')" class="mt-10 w-full py-4 btn-primary text-white rounded-2xl font-semibold uppercase tracking-widest text-xs">Akses File</button>
                     </div>
-                    <div class="bg-white p-6 rounded-2xl border border-gray-100">
-                        <h4 class="font-bold text-lg mb-2 text-[#8b735b]">2. Apakah file tutorial bisa diunduh?</h4>
-                        <p class="text-gray-600 text-sm">Ya, semua materi di tautan Mega.nz dapat Anda download ke perangkat Anda untuk dipelajari secara offline.</p>
-                    </div>
-                    <div class="bg-white p-6 rounded-2xl border border-gray-100">
-                        <h4 class="font-bold text-lg mb-2 text-[#8b735b]">3. Mengalami kendala teknis?</h4>
-                        <p class="text-gray-600 text-sm">Jika link tidak dapat dibuka atau file rusak, silakan hubungi tim support kami melalui kontak yang tersedia di marketplace tempat Anda membeli.</p>
+                    <div class="chart-container">
+                        <canvas id="contentChart"></canvas>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-    </main>
+            <!-- SECTION: DOWNLOADS -->
+            <section id="downloads" class="section-content hidden-section fade-in">
+                <div class="mb-12 text-center">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-2">Pusat Unduhan</h2>
+                    <p class="text-gray-500">Pilih kategori file yang ingin Anda akses.</p>
+                </div>
 
-    <footer class="mt-12 py-10 border-t border-gray-200">
-        <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-gray-400 text-xs">
-            <p>&copy; 2024 Digital Delivery System. Hak Cipta Dilindungi.</p>
-            <div class="mt-4 md:mt-0 flex space-x-6">
-                <span>Privacy Policy</span>
-                <span>Terms of Service</span>
-                <span>Support</span>
-            </div>
-        </div>
-    </footer>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-white p-10 rounded-[2.5rem] shadow-sm border border-gray-100 flex flex-col items-center text-center">
+                        <div class="w-16 h-16 bg-[#fcfaf7] rounded-2xl flex items-center justify-center mb-6 text-2xl">🚀</div>
+                        <h3 class="text-xl font-bold mb-3">AI Studio Dashboard</h3>
+                        <a href="https://ai.studio/apps/drive/12Wr-krhL4TUrQCSAskLIAbyeqmauOopM?fullscreenApplet=true" target="_blank" class="w-full py-5 btn-primary text-white rounded-2xl font-bold">BUKA DASHBOARD</a>
+                    </div>
+
+                    <div class="bg-white p-10 rounded-[2.5rem] shadow-sm border border-gray-100 flex flex-col items-center text-center">
+                        <div class="w-16 h-16 bg-[#fcfaf7] rounded-2xl flex items-center justify-center mb-6 text-2xl">📁</div>
+                        <h3 class="text-xl font-bold mb-3">Tutorial & Assets</h3>
+                        <a href="https://mega.nz/folder/oJYVzTjT#cOKLuIZvUYqOcvQ7t-YS3A" target="_blank" class="w-full py-5 border-2 border-[#8b735b] text-[#8b735b] hover:bg-[#8b735b] hover:text-white transition-all rounded-2xl font-bold">MEGA.NZ FOLDER</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: SETTINGS (NEW) -->
+            <section id="settings" class="section-content hidden-section fade-in">
+                <div class="max-w-xl mx-auto">
+                    <div class="bg-white p-10 rounded-[2.5rem] shadow-sm border border-gray-100">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-2">Ganti Kode Akses</h2>
+                        <p class="text-gray-500 text-sm mb-8">Kode ini digunakan untuk masuk kembali ke portal ini di masa mendatang.</p>
+                        
+                        <div class="space-y-6">
+                            <div class="relative">
+                                <label class="text-[10px] uppercase font-bold text-gray-400 mb-2 block">Kode Baru</label>
+                                <input type="password" id="new-code" placeholder="Minimal 5 Karakter" 
+                                    class="w-full px-5 py-4 rounded-xl border border-gray-100 bg-[#fcfaf7] focus:outline-none focus:ring-2 focus:ring-[#8b735b]/30">
+                                <button type="button" onclick="togglePassword('new-code', 'eye-new')" class="absolute right-4 bottom-3 text-gray-400 p-2">
+                                    <span id="eye-new">👁️</span>
+                                </button>
+                            </div>
+                            <div class="relative">
+                                <label class="text-[10px] uppercase font-bold text-gray-400 mb-2 block">Konfirmasi Kode Baru</label>
+                                <input type="password" id="confirm-code" placeholder="Ulangi Kode Baru" 
+                                    class="w-full px-5 py-4 rounded-xl border border-gray-100 bg-[#fcfaf7] focus:outline-none focus:ring-2 focus:ring-[#8b735b]/30">
+                            </div>
+                            <button onclick="updateAccessCode()" class="w-full py-4 btn-primary text-white rounded-xl font-bold shadow-lg">Simpan Kode Baru</button>
+                            <p id="settings-msg" class="text-center text-sm font-medium"></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: GUIDE -->
+            <section id="guide" class="section-content hidden-section fade-in">
+                <div class="max-w-3xl mx-auto space-y-6">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Bantuan</h2>
+                    <div class="bg-white p-8 rounded-[2rem] border border-gray-100 shadow-sm">
+                        <h4 class="font-bold text-lg mb-3 text-[#8b735b]">Lupa Kode Akses?</h4>
+                        <p class="text-gray-600 text-sm leading-relaxed">Jika Anda lupa kode yang telah diganti, Anda perlu membersihkan cache browser Anda untuk mengembalikan kode ke standar (Admin-AI).</p>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="mt-12 py-12 border-t border-gray-200 text-center">
+            <p class="text-gray-400 text-[10px] uppercase tracking-[0.2em] mb-4">&copy; 2024 Secure Digital Delivery</p>
+            <span onclick="location.reload()" class="text-[#8b735b] text-xs font-bold cursor-pointer hover:underline">KELUAR / LOGOUT</span>
+        </footer>
+    </div>
 
     <script>
+        // Persistence Logic
+        const getStoredCode = () => localStorage.getItem('appAccessCode') || "Admin-AI";
+        
+        function togglePassword(inputId, iconId) {
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById(iconId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.textContent = '🔒';
+            } else {
+                input.type = 'password';
+                icon.textContent = '👁️';
+            }
+        }
+
+        function attemptLogin() {
+            const input = document.getElementById('login-code').value;
+            const errorMsg = document.getElementById('error-msg');
+            
+            if (input === getStoredCode()) {
+                document.getElementById('login-gate').classList.add('hidden-section');
+                document.getElementById('main-app').classList.remove('hidden');
+                initChart();
+            } else {
+                errorMsg.classList.remove('hidden');
+                document.getElementById('login-code').classList.add('border-red-300');
+                setTimeout(() => document.getElementById('login-code').classList.remove('border-red-300'), 800);
+            }
+        }
+
+        function updateAccessCode() {
+            const newCode = document.getElementById('new-code').value;
+            const confirmCode = document.getElementById('confirm-code').value;
+            const msg = document.getElementById('settings-msg');
+
+            if (newCode.length < 5) {
+                msg.textContent = "Kode terlalu pendek!";
+                msg.className = "text-center text-sm font-medium text-red-500";
+                return;
+            }
+
+            if (newCode === confirmCode) {
+                localStorage.setItem('appAccessCode', newCode);
+                msg.textContent = "Kode berhasil diperbarui!";
+                msg.className = "text-center text-sm font-medium text-green-500";
+                document.getElementById('new-code').value = "";
+                document.getElementById('confirm-code').value = "";
+            } else {
+                msg.textContent = "Konfirmasi kode tidak cocok.";
+                msg.className = "text-center text-sm font-medium text-red-500";
+            }
+        }
+
         function showSection(sectionId) {
-            document.querySelectorAll('.section-content').forEach(section => {
-                section.classList.add('hidden-section');
-            });
+            document.querySelectorAll('.section-content').forEach(section => section.classList.add('hidden-section'));
             document.getElementById(sectionId).classList.remove('hidden-section');
-            
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('text-[#8b735b]');
-            });
-            
-            const activeLink = Array.from(document.querySelectorAll('.nav-link')).find(el => el.innerText.toLowerCase() === (sectionId === 'home' ? 'beranda' : sectionId === 'downloads' ? 'unduhan' : 'panduan'));
-            if (activeLink) activeLink.classList.add('text-[#8b735b]');
-            
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('text-[#8b735b]'));
+            document.getElementById('nav-' + sectionId).classList.add('text-[#8b735b]');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -209,40 +303,22 @@
             new Chart(ctx, {
                 type: 'doughnut',
                 data: {
-                    labels: ['Aplikasi Utama', 'Tutorial Video', 'Aset Tambahan'],
+                    labels: ['Sistem AI', 'Tutorial', 'Resource'],
                     datasets: [{
-                        data: [50, 35, 15],
+                        data: [50, 30, 20],
                         backgroundColor: ['#8b735b', '#c2b4a3', '#e8e2db'],
-                        borderWidth: 0,
-                        hoverOffset: 10
+                        borderWidth: 0
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                padding: 20,
-                                usePointStyle: true,
-                                font: { size: 12 }
-                            }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return ' ' + context.label + ': ' + context.raw + '%';
-                                }
-                            }
-                        }
-                    },
-                    cutout: '70%'
+                    plugins: { legend: { position: 'bottom' } }
                 }
             });
         }
 
-        document.addEventListener('DOMContentLoaded', initChart);
+        document.getElementById('login-code').addEventListener('keypress', (e) => { if (e.key === 'Enter') attemptLogin(); });
     </script>
 </body>
 </html>
