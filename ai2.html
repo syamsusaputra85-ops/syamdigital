@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Video Promosi Instant - Buat Konten Viral Otomatis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus+Jakarta+Sans', sans-serif;
+            background-color: #000000;
+            color: #ffffff;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .hero-gradient {
+            background: radial-gradient(circle at 50% 50%, #1a2e05 0%, #000000 100%);
+        }
+
+        .text-lime {
+            color: #ccff00;
+        }
+
+        .bg-lime {
+            background-color: #ccff00;
+        }
+
+        .btn-shadow {
+            box-shadow: 0 0 30px rgba(204, 255, 0, 0.4);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+        }
+
+        .badge-pulse {
+            background: rgba(204, 255, 0, 0.1);
+            border: 1px solid rgba(204, 255, 0, 0.3);
+            border-radius: 100px;
+            padding: 4px 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #ccff00;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #ccff00;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(204, 255, 0, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(204, 255, 0, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(204, 255, 0, 0); }
+        }
+
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+
+        @keyframes floating {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Custom Video Player Style */
+        .video-container {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 4px solid rgba(204, 255, 0, 0.2);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body class="hero-gradient">
+
+    <!-- Navigation -->
+    <nav class="flex justify-between items-center px-6 py-6 max-w-7xl mx-auto">
+        <div class="text-xl font-bold tracking-tighter">AI<span class="text-lime">VIDEO</span></div>
+        <a href="#buy" class="text-sm font-semibold border border-white/20 px-4 py-2 rounded-full hover:bg-white/10 transition">Masuk</a>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative pt-10 pb-16 px-6 overflow-hidden">
+        <div class="max-w-4xl mx-auto text-center relative z-10">
+            <!-- Badge -->
+            <div class="badge-pulse mb-8">
+                <span class="pulse-dot"></span>
+                <span class="text-xs font-semibold uppercase tracking-widest text-lime">Rilis Terbaru: Video Instan v6.1</span>
+            </div>
+
+            <!-- Headline -->
+            <h1 class="text-4xl md:text-7xl font-extrabold leading-tight tracking-tight mb-6">
+                Bikin Video AI Review Produk <br class="hidden md:block">
+                <span class="text-white/60">Tanpa Produk & Tanpa Rekam</span> <br>
+                <span class="text-lime italic">Modal Foto Doang</span>
+            </h1>
+
+            <!-- Subheadline -->
+            <p class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
+                Ubah foto jadi video promosi viral otomatis. Hasilkan ratusan konten affiliate, datangkan trafik, dan lipatgandakan komisi Anda.
+            </p>
+        </div>
+    </header>
+
+    <!-- Video Ad & Visual Demo Section -->
+    <section class="px-6 pb-20">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
+                
+                <!-- Video Ads Player (Left/Main) -->
+                <div class="lg:col-span-3">
+                    <div class="video-container bg-black aspect-video flex items-center justify-center relative">
+                        <video 
+                            class="w-full h-full object-cover" 
+                            controls 
+                            poster="https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&q=80&w=1000"
+                        >
+                            <source src="id-11110105-6vff0-mndoxo62wikh57.16000081776909683.mp4" type="video/mp4">
+                            Browser Anda tidak mendukung tag video.
+                        </video>
+                        <div class="absolute top-4 left-4 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full border border-white/10 text-[10px] font-bold text-lime uppercase tracking-wider">
+                            Contoh Hasil Video AI
+                        </div>
+                    </div>
+                    <div class="mt-4 flex items-center gap-4 text-gray-400 text-sm italic">
+                        <svg class="w-5 h-5 text-lime" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-width="2"></path></svg>
+                        Lihat bagaimana AI mengubah foto menjadi video review natural.
+                    </div>
+                </div>
+
+                <!-- Process Card (Right/Side) -->
+                <div class="lg:col-span-2 space-y-6">
+                    <div class="glass-card p-6 border-lime/20">
+                        <h3 class="text-lime font-bold mb-4 uppercase tracking-widest text-xs">Cara Kerja Instant</h3>
+                        <div class="space-y-6">
+                            <div class="flex gap-4">
+                                <div class="w-8 h-8 shrink-0 bg-lime text-black rounded-full flex items-center justify-center font-bold">1</div>
+                                <div>
+                                    <p class="font-bold">Upload Foto Model & Produk</p>
+                                    <p class="text-sm text-gray-500">Cukup gunakan foto katalog yang sudah ada.</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-4">
+                                <div class="w-8 h-8 shrink-0 bg-white/10 text-white rounded-full flex items-center justify-center font-bold">2</div>
+                                <div>
+                                    <p class="font-bold">AI Processing</p>
+                                    <p class="text-sm text-gray-500">Sistem kami menganimasikan wajah & suara.</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-4">
+                                <div class="w-8 h-8 shrink-0 bg-white/10 text-white rounded-full flex items-center justify-center font-bold">3</div>
+                                <div>
+                                    <p class="font-bold">Video Siap Viral</p>
+                                    <p class="text-sm text-gray-500">Download & upload ke TikTok/Reels/Shopee.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8">
+                            <a href="#buy" class="block bg-lime text-black text-center font-extrabold py-4 px-6 rounded-xl btn-shadow hover:scale-105 transition transform w-full">
+                                COBA SEKARANG
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Trust Factor -->
+                    <div class="glass-card p-4 flex items-center justify-between">
+                        <div class="flex -space-x-2">
+                            <img class="w-8 h-8 rounded-full border-2 border-black" src="https://i.pravatar.cc/100?u=1" alt="user">
+                            <img class="w-8 h-8 rounded-full border-2 border-black" src="https://i.pravatar.cc/100?u=2" alt="user">
+                            <img class="w-8 h-8 rounded-full border-2 border-black" src="https://i.pravatar.cc/100?u=3" alt="user">
+                        </div>
+                        <p class="text-[10px] text-gray-400 font-semibold uppercase tracking-tight">52 Orang baru saja bergabung</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="px-6 py-20 bg-white/5">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-3xl md:text-5xl font-bold text-center mb-16">Kenapa Harus Pakai <span class="text-lime">AI Video?</span></h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="glass-card p-8">
+                    <div class="w-12 h-12 bg-lime/10 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6 text-lime" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">10x Lebih Cepat</h3>
+                    <p class="text-gray-400">Gak butuh waktu berjam-jam buat editing. Masukkan foto, biarkan AI bekerja dalam hitungan detik.</p>
+                </div>
+                
+                <div class="glass-card p-8">
+                    <div class="w-12 h-12 bg-lime/10 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6 text-lime" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Tanpa Stok Produk</h3>
+                    <p class="text-gray-400">Mau jualan produk affiliate tapi gak punya barangnya? Gak masalah. Pakai foto dari supplier saja.</p>
+                </div>
+
+                <div class="glass-card p-8">
+                    <div class="w-12 h-12 bg-lime/10 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6 text-lime" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Video Terlihat Pro</h3>
+                    <p class="text-gray-400">Hasil video memiliki gerakan yang smooth, dubbing AI natural, dan transisi yang viral di media sosial.</p>
+                </div>
+
+                <div class="glass-card p-8">
+                    <div class="w-12 h-12 bg-lime/10 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6 text-lime" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Lipatgandakan Omzet</h3>
+                    <p class="text-gray-400">Makin banyak konten yang diproduksi, makin besar peluang trafik dan penjualan yang masuk.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing / Footer CTA -->
+    <section id="buy" class="px-6 py-24 text-center">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-4xl md:text-6xl font-extrabold mb-6">Mulai Dominasi <span class="text-lime">Affiliate</span> Sekarang!</h2>
+            <p class="text-gray-400 mb-12 text-lg">Jangan biarkan kompetitor mendahului Anda. Gunakan teknologi masa depan untuk bisnis hari ini.</p>
+            
+            <div class="glass-card p-12 border-lime/30 relative">
+                <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-lime text-black px-4 py-1 rounded text-xs font-black uppercase tracking-tighter">Penawaran Terbatas</div>
+                <div class="text-xl text-gray-400 uppercase font-bold tracking-widest mb-2">Harga Promo</div>
+                <div class="text-6xl font-black mb-2 text-lime">Rp 25.000</div>
+                <div class="text-2xl text-gray-500 line-through mb-8 font-semibold">Rp 49.999</div>
+                
+                <ul class="text-left space-y-4 mb-10 max-w-xs mx-auto">
+                    <li class="flex items-center gap-3"><svg class="w-5 h-5 text-lime" fill="currentColor" viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"></path></svg> Unlimited AI Video Generation</li>
+                    <li class="flex items-center gap-3"><svg class="w-5 h-5 text-lime" fill="currentColor" viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"></path></svg> 50+ Template Viral</li>
+                    <li class="flex items-center gap-3"><svg class="w-5 h-5 text-lime" fill="currentColor" viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"></path></svg> Lisensi Komersial</li>
+                    <li class="flex items-center gap-3"><svg class="w-5 h-5 text-lime" fill="currentColor" viewBox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"></path></svg> Update Selamanya</li>
+                </ul>
+
+                <button class="bg-lime text-black font-extrabold text-xl py-5 px-10 rounded-full btn-shadow hover:scale-105 transition transform active:scale-95 w-full">
+                    AMBIL PROMO SEKARANG
+                </button>
+                <p class="mt-6 text-xs text-gray-500 uppercase tracking-widest font-bold italic">Promo khusus hari ini saja!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-10 border-t border-white/10 px-6 text-center text-gray-600 text-sm">
+        <p>&copy; 2024 AI Video Promosi. Seluruh hak cipta dilindungi.</p>
+    </footer>
+
+</body>
+</html>
