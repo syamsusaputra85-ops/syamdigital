@@ -3,322 +3,648 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal Akses Produk Digital</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Syam Digital - Pengiriman Produk</title>
+    <link rel="icon" type="image/png" href="Syam-digital-logo.png">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
-        
+        :root {
+            --primary-color: #1a2a6c;
+            --secondary-color: #b21f1f;
+            --accent-color: #fdbb2d;
+            --text-dark: #333333;
+            --text-light: #ffffff;
+            --bg-light: #f4f7f6;
+            --card-bg: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #fcfaf7;
-            color: #4a4a4a;
-            overflow-x: hidden;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- LOGIN GATE --- */
+        #login-gate {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a2a6c, #275d8c);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s;
+        }
+
+        /* Diubah menjadi tag <form> agar mendukung interaksi keyboard & standar web profesional */
+        .login-box {
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .login-logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 3px solid var(--accent-color);
+        }
+
+        .login-box h2 {
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .login-box p {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 45px 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: var(--primary-color);
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 18px;
+            user-select: none;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .login-btn:hover {
+            background-color: #111b47;
+        }
+
+        .error-msg {
+            color: var(--secondary-color);
+            font-size: 14px;
+            margin-top: 10px;
+            display: none;
+        }
+
+        /* --- WELCOME MODAL --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .info-modal {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+            text-align: center;
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+            border-top: 8px solid var(--accent-color);
+        }
+
+        .modal-overlay.active .info-modal {
+            transform: translateY(0);
+        }
+
+        .modal-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
+        .info-modal h3 {
+            color: var(--primary-color);
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        .info-steps {
+            text-align: left;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .info-steps li {
+            margin-bottom: 8px;
+            list-style-position: inside;
+        }
+
+        .btn-close-modal {
+            background: linear-gradient(135deg, #1a2a6c, #275d8c);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(26,42,108,0.3);
+            transition: background 0.3s;
+        }
+
+        .btn-close-modal:hover {
+            opacity: 0.9;
+        }
+
+        /* --- MAIN APP --- */
+        #main-app {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-logo {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent-color);
+        }
+
+        .brand h1 {
+            font-size: 20px;
+            letter-spacing: 1px;
+        }
+
+        nav {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-btn {
+            background: transparent;
+            color: var(--text-light);
+            border: none;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: 15px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            background-color: rgba(255,255,255,0.2);
+            color: var(--accent-color);
+        }
+
+        main {
+            flex: 1;
+            padding: 40px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .welcome-card {
+            background: linear-gradient(135deg, #ffffff, #f9fbfd);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+            border-left: 5px solid var(--accent-color);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid { grid-template-columns: 1fr; }
+            header { flex-direction: column; gap: 15px; text-align: center; }
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
 
         .chart-container {
             position: relative;
+            margin: auto;
+            height: 250px;
+            width: 250px;
+        }
+
+        .download-box {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn-dl {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            color: white;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-dl:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(0,0,0,0.15);
+        }
+
+        .btn-main { background-color: #27ae60; }
+        .btn-tutorial { background-color: #e67e22; }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .form-group input {
             width: 100%;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 300px;
-            max-height: 350px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
         }
 
-        .glass-card {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(229, 231, 235, 0.6);
-        }
-
-        .btn-primary {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            background: #8b735b;
-        }
-
-        .btn-primary:hover {
-            background: #725e4a;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 20px rgba(139, 115, 91, 0.2);
-        }
-
-        .nav-link {
-            position: relative;
+        .btn-save {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
             cursor: pointer;
-            transition: color 0.3s;
+            font-weight: bold;
         }
 
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -4px;
-            left: 0;
-            background-color: #8b735b;
-            transition: width 0.3s;
-        }
-
-        .nav-link:hover::after {
-            width: 100%;
-        }
-
-        .hidden-section {
+        .success-toast {
+            background-color: #2ecc71;
+            color: white;
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 15px;
             display: none;
         }
 
-        .fade-in {
-            animation: fadeIn 0.6s ease-out forwards;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        footer {
+            background-color: #222;
+            color: #bbb;
+            text-align: center;
+            padding: 15px;
+            font-size: 14px;
+            margin-top: auto;
         }
     </style>
 </head>
 <body>
-    <!-- Chosen Palette: Serene Professionalism (Warm Neutrals, Earthy Brown, Soft Cream) -->
-    <!-- Application Structure Plan: 
-        1. Login Gate: Validasi akses dengan fitur toggle eye untuk input. Kode bersifat dinamis menggunakan localStorage.
-        2. Dashboard Utama: Struktur navigasi 4 pilar (Beranda, Unduhan, Panduan, Pengaturan).
-        3. Fitur Pengaturan: Memungkinkan admin/pengguna mengubah "Admin-AI" menjadi kode kustom.
-        4. Keamanan Data: Menggunakan browser storage untuk persistensi kode akses tanpa database eksternal.
-    -->
-    <!-- Visualization & Content Choices: 
-        - Input Login -> Tipe Password + Eye Toggle -> Standar keamanan UI modern.
-        - Ringkasan Paket -> Doughnut Chart (Chart.js) -> Representasi visual distribusi produk.
-        - Form Ganti Kode -> Verifikasi input ganda -> Menghindari kesalahan pengetikan kode baru.
-        - Justifikasi: Penggunaan LocalStorage memungkinkan fungsionalitas ganti kode bekerja secara lokal pada browser pengguna.
-    -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
 
-    <!-- LOGIN SECTION -->
-    <div id="login-gate" class="fixed inset-0 z-[100] flex items-center justify-center bg-[#fcfaf7] px-6">
-        <div class="max-w-md w-full glass-card p-10 rounded-[2rem] shadow-xl text-center fade-in">
-            <div class="mb-8">
-                <div class="w-16 h-16 bg-[#8b735b]/10 text-[#8b735b] rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl font-bold">A</div>
-                <h1 class="text-2xl font-bold text-gray-800">Akses Terbatas</h1>
-                <p class="text-gray-500 text-sm mt-2">Silakan masukkan kode akses untuk melanjutkan ke portal unduhan produk.</p>
+    <div id="login-gate">
+        <form class="login-box" id="loginForm" onsubmit="validateLogin(event)">
+            <img src="Syam-digital-logo.png" alt="Syam Digital Logo" class="login-logo">
+            <h2>Syam Digital</h2>
+            <p>Silakan masukkan kode akses untuk mengunduh produk Anda.</p>
+            <div class="input-group">
+                <input type="password" id="login-code" placeholder="Masukkan KODE AKSES" autocomplete="current-password">
+                <span class="toggle-password" id="eye-icon" onclick="togglePasswordVisibility()">👁️</span>
+            </div>
+            <button type="submit" class="login-btn">Masuk & Akses File</button>
+            <div class="error-msg" id="login-error">Kode akses salah. Silakan coba lagi!</div>
+        </form>
+    </div>
+
+    <div class="modal-overlay" id="info-modal-overlay">
+        <div class="info-modal">
+            <div class="modal-icon">🔓</div>
+            <h3>Akses Berhasil Dibuka!</h3>
+            <p style="color: #555; font-size: 15px;">Selamat datang di Sistem Pengiriman Produk Syam Digital.</p>
+            
+            <div class="info-steps">
+                <strong style="color: var(--primary-color); display:block; margin-bottom: 8px;">📢 Alur Pengunduhan Produk:</strong>
+                <ul>
+                    <li>Gunakan Menu <strong>"Unduhan"</strong> di bar navigasi atas untuk mengambil file.</li>
+                    <li>Sistem menyediakan 2 link mirror (AI Studio & Mega.nz) demi kenyamanan Anda.</li>
+                    <li>Pastikan mengunduh <strong>Video Panduan</strong> agar instalasi produk berjalan maksimal.</li>
+                    <li>Ubah kode login default Anda di tab <strong>"Pengaturan"</strong> demi keamanan privasi.</li>
+                </ul>
             </div>
             
-            <div class="space-y-4">
-                <div class="relative group">
-                    <input type="password" id="login-code" placeholder="Masukkan Kode Login" 
-                        class="w-full pl-5 pr-14 py-4 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#8b735b]/50 focus:border-[#8b735b] transition-all text-center tracking-widest font-bold">
-                    <button type="button" onclick="togglePassword('login-code', 'eye-icon')" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#8b735b] transition-colors p-2 text-xl focus:outline-none">
-                        <span id="eye-icon">👁️</span>
-                    </button>
-                    <p id="error-msg" class="text-red-400 text-xs mt-2 hidden">Kode yang Anda masukkan salah.</p>
-                </div>
-                <button onclick="attemptLogin()" class="w-full py-4 btn-primary text-white rounded-xl font-bold uppercase tracking-widest text-sm shadow-lg">Masuk ke Portal</button>
-            </div>
-            
-            <p class="mt-8 text-[10px] text-gray-400 uppercase tracking-widest">Protected by DigitalPro Security</p>
+            <button type="button" class="btn-close-modal" onclick="closeInfoModal()">Paham, Masuk ke Dashboard</button>
         </div>
     </div>
 
-    <!-- MAIN APP CONTAINER -->
-    <div id="main-app" class="hidden">
-        <nav class="fixed top-0 w-full z-50 glass-card border-b">
-            <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-                <span class="font-bold text-xl tracking-tight text-[#8b735b]">DIGITALPRO <span class="font-light text-gray-400">ACCESS</span></span>
-                <div class="flex space-x-6 text-xs md:text-sm font-medium overflow-x-auto">
-                    <span onclick="showSection('home')" id="nav-home" class="nav-link text-[#8b735b] whitespace-nowrap">Beranda</span>
-                    <span onclick="showSection('downloads')" id="nav-downloads" class="nav-link whitespace-nowrap">Unduhan</span>
-                    <span onclick="showSection('guide')" id="nav-guide" class="nav-link whitespace-nowrap">Panduan</span>
-                    <span onclick="showSection('settings')" id="nav-settings" class="nav-link whitespace-nowrap">Pengaturan</span>
-                </div>
+    <div id="main-app">
+        <header>
+            <div class="brand">
+                <img src="Syam-digital-logo.png" alt="Syam Digital Logo" class="brand-logo">
+                <h1>Syam Digital</h1>
             </div>
-        </nav>
+            <nav>
+                <button type="button" class="nav-btn active" onclick="switchTab('beranda')">Beranda</button>
+                <button type="button" class="nav-btn" onclick="switchTab('unduhan')">Unduhan</button>
+                <button type="button" class="nav-btn" onclick="switchTab('panduan')">Panduan</button>
+                <button type="button" class="nav-btn" onclick="switchTab('pengaturan')">⚙️ Pengaturan</button>
+            </nav>
+        </header>
 
-        <main class="pt-24 pb-12 px-6 max-w-6xl mx-auto">
-            
-            <!-- SECTION: HOME -->
-            <section id="home" class="section-content fade-in">
-                <div class="mb-12 text-center">
-                    <h1 class="text-4xl font-bold text-gray-800 mb-4 tracking-tight">Selamat Datang Kembali</h1>
-                    <p class="text-lg text-gray-500 max-w-2xl mx-auto italic leading-relaxed">Portal akses eksklusif untuk seluruh aset digital Anda.</p>
+        <main>
+            <section id="beranda" class="tab-content active">
+                <div class="welcome-card">
+                    <h2>Halo, Terima Kasih Atas Pembelian Anda! 🎉</h2>
+                    <p style="margin-top: 10px; color: #555; line-height: 1.6;">
+                        Produk digital Anda telah siap. Silakan menuju tab <strong>Unduhan</strong> untuk mengambil file produk serta video tutorial pelengkap eksklusif dari kami.
+                    </p>
                 </div>
 
-                <div class="grid md:grid-cols-2 gap-10 items-center mb-16">
-                    <div class="bg-white p-10 rounded-[2.5rem] shadow-sm border border-gray-100">
-                        <h2 class="text-2xl font-semibold mb-6">Konten Tersedia</h2>
-                        <ul class="space-y-4">
-                            <li class="flex items-center text-sm">
-                                <span class="w-2.5 h-2.5 rounded-full bg-[#8b735b] mr-4"></span>
-                                <span><strong>Aplikasi Utama:</strong> Cloud AI Engine.</span>
-                            </li>
-                            <li class="flex items-center text-sm">
-                                <span class="w-2.5 h-2.5 rounded-full bg-[#c2b4a3] mr-4"></span>
-                                <span><strong>Video Tutorial:</strong> 12 Modul Eksklusif.</span>
-                            </li>
-                            <li class="flex items-center text-sm">
-                                <span class="w-2.5 h-2.5 rounded-full bg-[#e8e2db] mr-4"></span>
-                                <span><strong>Resource:</strong> Template & Dataset.</span>
-                            </li>
-                        </ul>
-                        <button onclick="showSection('downloads')" class="mt-10 w-full py-4 btn-primary text-white rounded-2xl font-semibold uppercase tracking-widest text-xs">Akses File</button>
-                    </div>
-                    <div class="chart-container">
-                        <canvas id="contentChart"></canvas>
-                    </div>
-                </div>
-            </section>
-
-            <!-- SECTION: DOWNLOADS -->
-            <section id="downloads" class="section-content hidden-section fade-in">
-                <div class="mb-12 text-center">
-                    <h2 class="text-3xl font-bold text-gray-800 mb-2">Pusat Unduhan</h2>
-                    <p class="text-gray-500">Pilih kategori file yang ingin Anda akses.</p>
-                </div>
-
-                <div class="grid md:grid-cols-2 gap-8">
-                    <div class="bg-white p-10 rounded-[2.5rem] shadow-sm border border-gray-100 flex flex-col items-center text-center">
-                        <div class="w-16 h-16 bg-[#fcfaf7] rounded-2xl flex items-center justify-center mb-6 text-2xl">🚀</div>
-                        <h3 class="text-xl font-bold mb-3">AI Studio Dashboard</h3>
-                        <a href="https://ai.studio/apps/drive/12Wr-krhL4TUrQCSAskLIAbyeqmauOopM?fullscreenApplet=true" target="_blank" class="w-full py-5 btn-primary text-white rounded-2xl font-bold">BUKA DASHBOARD</a>
-                    </div>
-
-                    <div class="bg-white p-10 rounded-[2.5rem] shadow-sm border border-gray-100 flex flex-col items-center text-center">
-                        <div class="w-16 h-16 bg-[#fcfaf7] rounded-2xl flex items-center justify-center mb-6 text-2xl">📁</div>
-                        <h3 class="text-xl font-bold mb-3">Tutorial & Assets</h3>
-                        <a href="https://mega.nz/folder/oJYVzTjT#cOKLuIZvUYqOcvQ7t-YS3A" target="_blank" class="w-full py-5 border-2 border-[#8b735b] text-[#8b735b] hover:bg-[#8b735b] hover:text-white transition-all rounded-2xl font-bold">MEGA.NZ FOLDER</a>
-                    </div>
-                </div>
-            </section>
-
-            <!-- SECTION: SETTINGS (NEW) -->
-            <section id="settings" class="section-content hidden-section fade-in">
-                <div class="max-w-xl mx-auto">
-                    <div class="bg-white p-10 rounded-[2.5rem] shadow-sm border border-gray-100">
-                        <h2 class="text-2xl font-bold text-gray-800 mb-2">Ganti Kode Akses</h2>
-                        <p class="text-gray-500 text-sm mb-8">Kode ini digunakan untuk masuk kembali ke portal ini di masa mendatang.</p>
-                        
-                        <div class="space-y-6">
-                            <div class="relative">
-                                <label class="text-[10px] uppercase font-bold text-gray-400 mb-2 block">Kode Baru</label>
-                                <input type="password" id="new-code" placeholder="Minimal 5 Karakter" 
-                                    class="w-full px-5 py-4 rounded-xl border border-gray-100 bg-[#fcfaf7] focus:outline-none focus:ring-2 focus:ring-[#8b735b]/30">
-                                <button type="button" onclick="togglePassword('new-code', 'eye-new')" class="absolute right-4 bottom-3 text-gray-400 p-2">
-                                    <span id="eye-new">👁️</span>
-                                </button>
-                            </div>
-                            <div class="relative">
-                                <label class="text-[10px] uppercase font-bold text-gray-400 mb-2 block">Konfirmasi Kode Baru</label>
-                                <input type="password" id="confirm-code" placeholder="Ulangi Kode Baru" 
-                                    class="w-full px-5 py-4 rounded-xl border border-gray-100 bg-[#fcfaf7] focus:outline-none focus:ring-2 focus:ring-[#8b735b]/30">
-                            </div>
-                            <button onclick="updateAccessCode()" class="w-full py-4 btn-primary text-white rounded-xl font-bold shadow-lg">Simpan Kode Baru</button>
-                            <p id="settings-msg" class="text-center text-sm font-medium"></p>
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <h3>📦 Ikhtisar Paket Produk</h3>
+                        <div class="chart-container" style="margin-top: 20px;">
+                            <canvas id="productChart"></canvas>
                         </div>
                     </div>
-                </div>
-            </section>
-
-            <!-- SECTION: GUIDE -->
-            <section id="guide" class="section-content hidden-section fade-in">
-                <div class="max-w-3xl mx-auto space-y-6">
-                    <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Bantuan</h2>
-                    <div class="bg-white p-8 rounded-[2rem] border border-gray-100 shadow-sm">
-                        <h4 class="font-bold text-lg mb-3 text-[#8b735b]">Lupa Kode Akses?</h4>
-                        <p class="text-gray-600 text-sm leading-relaxed">Jika Anda lupa kode yang telah diganti, Anda perlu membersihkan cache browser Anda untuk mengembalikan kode ke standar (Admin-AI).</p>
+                    <div class="card" style="display: flex; flex-direction: column; justify-content: center;">
+                        <h3>Butuh Bantuan Cepat?</h3>
+                        <p style="margin: 15px 0; color: #666; line-height: 1.5;">
+                            Jika mengalami kendala teknis saat mengunduh atau mengekstrak file, tim support kami siap membantu Anda kapan saja.
+                        </p>
+                        <a href="#" style="color: var(--primary-color); font-weight: bold; text-decoration: none;">Hubungi Layanan Support &rarr;</a>
                     </div>
                 </div>
             </section>
 
+            <section id="unduhan" class="tab-content">
+                <div class="card">
+                    <h2>Link Download Resmi</h2>
+                    <p style="color: #666; margin-bottom: 20px;">Klik tombol di bawah ini untuk mengunduh seluruh item langsung dari cloud storage aman kami.</p>
+                    
+                    <div class="download-box">
+                        <a href="https://ai.studio/apps/drive/12Wr-krhL4TUrQCSAskLIAbyeqmauOopM?fullscreenApplet=true" target="_blank" class="btn-dl btn-main">
+                            📥 Download File Utama Produk (AI Studio)
+                        </a>
+                        <a href="https://mega.nz/folder/oJYVzTjT#cOKLuIZvUYqOcvQ7t-YS3A" target="_blank" class="btn-dl btn-tutorial">
+                            🎬 Download Video Tutorial & Bonus (Mega.nz)
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <section id="panduan" class="tab-content">
+                <div class="card">
+                    <h2>Instruksi Penggunaan</h2>
+                    <ul style="margin-left: 20px; margin-top: 15px; line-height: 1.8;">
+                        <li>Unduh semua bagian file dari kedua server di atas demi kelengkapan data.</li>
+                        <li>Gunakan aplikasi file extractor versi terbaru (seperti WinRAR atau 7-Zip) jika berkas berformat <code>.zip</code> atau <code>.rar</code>.</li>
+                        <li>Tonton video panduan terlebih dahulu sebelum mengeksekusi sistem utama produk.</li>
+                        <li><em>Catatan Pengembang:</em> Jika Anda lupa kode akses baru yang diganti di menu Pengaturan, hapus cache browser Anda untuk mengembalikannya ke kode default (<code>Admin-AI</code>).</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="pengaturan" class="tab-content">
+                <div class="card">
+                    <h2>Pengaturan Kode Akses</h2>
+                    <p style="color: #666; margin-bottom: 20px;">Ganti kode login default Anda untuk menjaga privasi akses pembeli.</p>
+                    
+                    <form onsubmit="changeAccessCode(event)">
+                        <div class="form-group">
+                            <label for="new-code">Kode Akses Baru:</label>
+                            <input type="text" id="new-code" placeholder="Masukkan kode akses baru">
+                        </div>
+                        <div class="form-group">
+                            <label for="confirm-code">Konfirmasi Kode Akses Baru:</label>
+                            <input type="text" id="confirm-code" placeholder="Ulangi kode akses baru">
+                        </div>
+                        <button type="submit" class="btn-save">Simpan Perubahan</button>
+                    </form>
+                    <div class="success-toast" id="save-success">Kode akses berhasil diperbarui!</div>
+                </div>
+            </section>
         </main>
 
-        <footer class="mt-12 py-12 border-t border-gray-200 text-center">
-            <p class="text-gray-400 text-[10px] uppercase tracking-[0.2em] mb-4">&copy; 2024 Secure Digital Delivery</p>
-            <span onclick="location.reload()" class="text-[#8b735b] text-xs font-bold cursor-pointer hover:underline">KELUAR / LOGOUT</span>
+        <footer>
+            &copy; 2026 Syam Digital • Solusi Digital, Hasil Maksimal. All Rights Reserved.
         </footer>
     </div>
 
     <script>
-        // Persistence Logic
-        const getStoredCode = () => localStorage.getItem('appAccessCode') || "Admin-AI";
-        
-        function togglePassword(inputId, iconId) {
-            const input = document.getElementById(inputId);
-            const icon = document.getElementById(iconId);
-            if (input.type === 'password') {
-                input.type = 'text';
-                icon.textContent = '🔒';
+        const DEFAULT_CODE = "Admin-AI";
+
+        function getActiveCode() {
+            return localStorage.getItem('syam_access_code') || DEFAULT_CODE;
+        }
+
+        // PERBAIKAN UTAMA: Ditambahkan parameter 'e' untuk mematikan fungsi refresh bawaan GitHub Pages
+        function validateLogin(e) {
+            if (e) e.preventDefault(); // Menghentikan reload halaman pada GitHub Pages
+
+            const inputCode = document.getElementById('login-code').value;
+            const currentValidCode = getActiveCode();
+            const errorElement = document.getElementById('login-error');
+
+            if (inputCode === currentValidCode) {
+                errorElement.style.display = 'none';
+                
+                const loginGate = document.getElementById('login-gate');
+                loginGate.style.opacity = '0';
+                setTimeout(() => {
+                    loginGate.style.display = 'none';
+                    
+                    const mainApp = document.getElementById('main-app');
+                    mainApp.style.display = 'flex';
+                    mainApp.style.flexDirection = 'column';
+                    setTimeout(() => {
+                        mainApp.style.opacity = '1';
+                        renderChart();
+                        document.getElementById('info-modal-overlay').classList.add('active');
+                    }, 50);
+                }, 500);
             } else {
-                input.type = 'password';
-                icon.textContent = '👁️';
+                errorElement.style.display = 'block';
+                const box = document.querySelector('.login-box');
+                box.style.transform = 'scale(0.98)';
+                setTimeout(() => box.style.transform = 'scale(1)', 100);
             }
         }
 
-        function attemptLogin() {
-            const input = document.getElementById('login-code').value;
-            const errorMsg = document.getElementById('error-msg');
+        function closeInfoModal() {
+            document.getElementById('info-modal-overlay').classList.remove('active');
+        }
+
+        function togglePasswordVisibility() {
+            const passwordInput = document.getElementById('login-code');
+            const eyeIcon = document.getElementById('eye-icon');
             
-            if (input === getStoredCode()) {
-                document.getElementById('login-gate').classList.add('hidden-section');
-                document.getElementById('main-app').classList.remove('hidden');
-                initChart();
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.textContent = '🔒';
             } else {
-                errorMsg.classList.remove('hidden');
-                document.getElementById('login-code').classList.add('border-red-300');
-                setTimeout(() => document.getElementById('login-code').classList.remove('border-red-300'), 800);
+                passwordInput.type = 'password';
+                eyeIcon.textContent = '👁️';
             }
         }
 
-        function updateAccessCode() {
-            const newCode = document.getElementById('new-code').value;
-            const confirmCode = document.getElementById('confirm-code').value;
-            const msg = document.getElementById('settings-msg');
+        // PERBAIKAN: Ditambahkan e.preventDefault() pada sistem ganti password
+        function changeAccessCode(e) {
+            if (e) e.preventDefault();
 
-            if (newCode.length < 5) {
-                msg.textContent = "Kode terlalu pendek!";
-                msg.className = "text-center text-sm font-medium text-red-500";
+            const newCode = document.getElementById('new-code').value.trim();
+            const confirmCode = document.getElementById('confirm-code').value.trim();
+            const toast = document.getElementById('save-success');
+
+            if (!newCode || !confirmCode) {
+                alert('Semua bidang input harus diisi!');
                 return;
             }
 
-            if (newCode === confirmCode) {
-                localStorage.setItem('appAccessCode', newCode);
-                msg.textContent = "Kode berhasil diperbarui!";
-                msg.className = "text-center text-sm font-medium text-green-500";
-                document.getElementById('new-code').value = "";
-                document.getElementById('confirm-code').value = "";
-            } else {
-                msg.textContent = "Konfirmasi kode tidak cocok.";
-                msg.className = "text-center text-sm font-medium text-red-500";
+            if (newCode.length < 4) {
+                alert('Kode akses minimal terdiri dari 4 karakter demi keamanan.');
+                return;
+            }
+
+            if (newCode !== confirmCode) {
+                alert('Konfirmasi kode tidak cocok. Pastikan pengetikan sama persis!');
+                return;
+            }
+
+            localStorage.setItem('syam_access_code', newCode);
+            toast.style.display = 'block';
+            document.getElementById('new-code').value = '';
+            document.getElementById('confirm-code').value = '';
+
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 4000);
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+
+            document.getElementById(tabId).classList.add('active');
+            if (event && event.currentTarget) {
+                event.currentTarget.classList.add('active');
             }
         }
 
-        function showSection(sectionId) {
-            document.querySelectorAll('.section-content').forEach(section => section.classList.add('hidden-section'));
-            document.getElementById(sectionId).classList.remove('hidden-section');
-            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('text-[#8b735b]'));
-            document.getElementById('nav-' + sectionId).classList.add('text-[#8b735b]');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function initChart() {
-            const ctx = document.getElementById('contentChart').getContext('2d');
+        function renderChart() {
+            const ctx = document.getElementById('productChart').getContext('2d');
             new Chart(ctx, {
                 type: 'doughnut',
                 data: {
-                    labels: ['Sistem AI', 'Tutorial', 'Resource'],
+                    labels: ['File Utama (AI Studio)', 'Video Tutorial & Bonus'],
                     datasets: [{
-                        data: [50, 30, 20],
-                        backgroundColor: ['#8b735b', '#c2b4a3', '#e8e2db'],
-                        borderWidth: 0
+                        data: [60, 40],
+                        backgroundColor: ['#27ae60', '#e67e22'],
+                        borderWidth: 2
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: { legend: { position: 'bottom' } }
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
                 }
             });
         }
-
-        document.getElementById('login-code').addEventListener('keypress', (e) => { if (e.key === 'Enter') attemptLogin(); });
     </script>
 </body>
 </html>
