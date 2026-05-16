@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Akses Produk Digital</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fcfaf7;
+            color: #4a4a4a;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 350px;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(229, 231, 235, 0.5);
+        }
+
+        .btn-primary {
+            transition: all 0.3s ease;
+            background: #8b735b;
+        }
+
+        .btn-primary:hover {
+            background: #725e4a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .nav-link {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #8b735b;
+            transition: width 0.3s;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .hidden-section {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Chosen Palette: Serene Professionalism (Warm Neutrals, Earthy Brown, Soft Cream) -->
+    <!-- Application Structure Plan: 
+        1. Desain Berbasis Dashboard: Menggunakan struktur navigasi atas untuk berpindah antar bagian (Ringkasan, Unduhan, Panduan). 
+        2. Alur Pengguna: Pengguna pertama kali melihat ringkasan visual konten, kemudian diarahkan ke tab 'Unduhan' untuk akses utama.
+        3. Interaktivitas: Navigasi dinamis tanpa reload halaman, grafik interaktif untuk menunjukkan komposisi paket produk, dan tombol aksi yang responsif. 
+        Dipilih untuk memberikan kesan produk eksklusif dan terorganisir bagi pembeli.
+    -->
+    <!-- Visualization & Content Choices: 
+        - Ringkasan Konten -> Visualisasi Komposisi -> Donut Chart (Chart.js) -> Memberikan gambaran proporsi aset utama vs tutorial.
+        - Tautan Unduhan -> Akses Cepat -> Grid Card dengan Tombol Aksi -> Memudahkan navigasi ke link eksternal (AI Studio & Mega).
+        - Panduan -> Edukasi Pengguna -> FAQ Interaktif -> Mengurangi beban support dengan menjawab pertanyaan umum.
+        - Justifikasi: Penggunaan skema warna netral meningkatkan fokus pada konten dan memberikan rasa tenang/profesional.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <nav class="fixed top-0 w-full z-50 glass-card border-b">
+        <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+            <span class="font-bold text-xl tracking-tight text-[#8b735b]">DIGITALPRO <span class="font-light text-gray-400">ACCESS</span></span>
+            <div class="flex space-x-8 text-sm font-medium">
+                <span onclick="showSection('home')" class="nav-link text-[#8b735b]">Beranda</span>
+                <span onclick="showSection('downloads')" class="nav-link">Unduhan</span>
+                <span onclick="showSection('guide')" class="nav-link">Panduan</span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-24 pb-12 px-6 max-w-6xl mx-auto">
+        
+        <!-- SECTION: HOME -->
+        <section id="home" class="section-content">
+            <div class="mb-12 text-center">
+                <h1 class="text-4xl font-bold text-gray-800 mb-4">Terima Kasih Atas Pembelian Anda</h1>
+                <p class="text-lg text-gray-500 max-w-2xl mx-auto italic">Selamat datang di portal akses eksklusif Anda. Semua file dan instruksi yang Anda butuhkan telah disiapkan di bawah ini.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 items-center mb-16">
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
+                    <h2 class="text-2xl font-semibold mb-6">Ringkasan Paket Produk</h2>
+                    <p class="mb-6 text-gray-600">Bagian ini menjelaskan proporsi konten yang Anda terima. Kami memastikan keseimbangan antara file aplikasi utama dan materi edukasi untuk hasil maksimal.</p>
+                    <ul class="space-y-4">
+                        <li class="flex items-center text-sm">
+                            <span class="w-3 h-3 rounded-full bg-[#8b735b] mr-3"></span>
+                            <span><strong>Aplikasi Utama:</strong> Akses penuh ke sistem AI Studio.</span>
+                        </li>
+                        <li class="flex items-center text-sm">
+                            <span class="w-3 h-3 rounded-full bg-[#c2b4a3] mr-3"></span>
+                            <span><strong>Video Tutorial:</strong> Panduan langkah demi langkah penggunaan.</span>
+                        </li>
+                        <li class="flex items-center text-sm">
+                            <span class="w-3 h-3 rounded-full bg-[#e8e2db] mr-3"></span>
+                            <span><strong>File Tambahan:</strong> Aset pendukung dan template pendukung.</span>
+                        </li>
+                    </ul>
+                    <button onclick="showSection('downloads')" class="mt-8 w-full py-3 btn-primary text-white rounded-xl font-semibold uppercase tracking-wider text-xs">Akses File Sekarang</button>
+                </div>
+                <div class="chart-container">
+                    <canvas id="contentChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: DOWNLOADS -->
+        <section id="downloads" class="section-content hidden-section">
+            <div class="mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-2 text-center">Pusat Unduhan</h2>
+                <p class="text-gray-500 text-center">Klik tombol di bawah ini untuk mengakses file Anda melalui server aman kami.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 flex flex-col items-center text-center">
+                    <div class="w-16 h-16 bg-[#fcfaf7] rounded-2xl flex items-center justify-center mb-6 text-2xl">⚡</div>
+                    <h3 class="text-xl font-bold mb-3">Produk Utama (AI Studio)</h3>
+                    <p class="text-gray-500 text-sm mb-8">Gunakan link ini untuk mengakses aplikasi utama dan dashboard interaktif Anda.</p>
+                    <a href="https://ai.studio/apps/drive/12Wr-krhL4TUrQCSAskLIAbyeqmauOopM?fullscreenApplet=true" target="_blank" class="w-full py-4 btn-primary text-white rounded-xl font-bold">BUKA PRODUK</a>
+                </div>
+
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 flex flex-col items-center text-center">
+                    <div class="w-16 h-16 bg-[#fcfaf7] rounded-2xl flex items-center justify-center mb-6 text-2xl">📚</div>
+                    <h3 class="text-xl font-bold mb-3">Tutorial & File Tambahan</h3>
+                    <p class="text-gray-500 text-sm mb-8">Folder berisi video edukasi, PDF panduan, dan file pendukung lainnya di Mega.nz.</p>
+                    <a href="https://mega.nz/folder/oJYVzTjT#cOKLuIZvUYqOcvQ7t-YS3A" target="_blank" class="w-full py-4 border-2 border-[#8b735b] text-[#8b735b] hover:bg-[#8b735b] hover:text-white transition-all rounded-xl font-bold">DOWNLOAD TUTORIAL</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: GUIDE -->
+        <section id="guide" class="section-content hidden-section">
+            <div class="max-w-3xl mx-auto">
+                <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Panduan Memulai</h2>
+                <div class="space-y-6">
+                    <div class="bg-white p-6 rounded-2xl border border-gray-100">
+                        <h4 class="font-bold text-lg mb-2 text-[#8b735b]">1. Bagaimana cara mengakses produk?</h4>
+                        <p class="text-gray-600 text-sm">Klik tab 'Unduhan' dan pilih 'Buka Produk'. Anda akan diarahkan ke platform AI Studio untuk login atau akses langsung.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-gray-100">
+                        <h4 class="font-bold text-lg mb-2 text-[#8b735b]">2. Apakah file tutorial bisa diunduh?</h4>
+                        <p class="text-gray-600 text-sm">Ya, semua materi di tautan Mega.nz dapat Anda download ke perangkat Anda untuk dipelajari secara offline.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-gray-100">
+                        <h4 class="font-bold text-lg mb-2 text-[#8b735b]">3. Mengalami kendala teknis?</h4>
+                        <p class="text-gray-600 text-sm">Jika link tidak dapat dibuka atau file rusak, silakan hubungi tim support kami melalui kontak yang tersedia di marketplace tempat Anda membeli.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="mt-12 py-10 border-t border-gray-200">
+        <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-gray-400 text-xs">
+            <p>&copy; 2024 Digital Delivery System. Hak Cipta Dilindungi.</p>
+            <div class="mt-4 md:mt-0 flex space-x-6">
+                <span>Privacy Policy</span>
+                <span>Terms of Service</span>
+                <span>Support</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function showSection(sectionId) {
+            document.querySelectorAll('.section-content').forEach(section => {
+                section.classList.add('hidden-section');
+            });
+            document.getElementById(sectionId).classList.remove('hidden-section');
+            
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('text-[#8b735b]');
+            });
+            
+            const activeLink = Array.from(document.querySelectorAll('.nav-link')).find(el => el.innerText.toLowerCase() === (sectionId === 'home' ? 'beranda' : sectionId === 'downloads' ? 'unduhan' : 'panduan'));
+            if (activeLink) activeLink.classList.add('text-[#8b735b]');
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function initChart() {
+            const ctx = document.getElementById('contentChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Aplikasi Utama', 'Tutorial Video', 'Aset Tambahan'],
+                    datasets: [{
+                        data: [50, 35, 15],
+                        backgroundColor: ['#8b735b', '#c2b4a3', '#e8e2db'],
+                        borderWidth: 0,
+                        hoverOffset: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                padding: 20,
+                                usePointStyle: true,
+                                font: { size: 12 }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return ' ' + context.label + ': ' + context.raw + '%';
+                                }
+                            }
+                        }
+                    },
+                    cutout: '70%'
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', initChart);
+    </script>
+</body>
+</html>
