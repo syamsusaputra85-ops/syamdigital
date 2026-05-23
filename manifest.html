@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Manifest - PT. AGAS DELAPAN DELAPAN</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- html2pdf.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+
+        /* Styling khusus cetak manual */
+        @media print {
+            body {
+                background: white;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .print-area {
+                width: 100% !important;
+                max-width: 100% !important;
+                box-shadow: none !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+        }
+
+        /* Dokumen kertas A4 Ratio */
+        .manifest-paper {
+            width: 210mm;
+            min-height: 297mm;
+            background: white;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            padding: 15mm;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+            transition: transform 0.2s ease;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Top Navigation Bar -->
+    <header class="bg-slate-900 text-white py-4 px-4 md:px-6 shadow-md flex justify-between items-center no-print sticky top-0 z-50">
+        <div class="flex items-center gap-3">
+            <div class="bg-emerald-500 p-2 rounded-lg shrink-0">
+                <i data-lucide="ship" class="w-5 h-5 md:w-6 md:h-6 text-white"></i>
+            </div>
+            <div>
+                <h1 class="text-sm md:text-lg font-bold tracking-wide leading-none md:leading-normal">PT. AGAS DELAPAN DELAPAN</h1>
+                <p class="text-[10px] md:text-xs text-slate-400">Generator Manifest & Daftar Muatan Kapal (PDF)</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-1.5 md:gap-2">
+            <button onclick="downloadPDF()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-2 rounded-lg text-xs md:text-sm font-semibold flex items-center gap-1.5 transition-all shadow-lg active:scale-95">
+                <i data-lucide="file-down" class="w-4 h-4"></i>
+                <span class="hidden sm:inline">Unduh PDF</span>
+                <span class="sm:hidden">PDF</span>
+            </button>
+            <button onclick="window.print()" class="bg-slate-700 hover:bg-slate-600 text-white px-3 py-2 rounded-lg text-xs md:text-sm font-semibold flex items-center gap-1.5 transition-all active:scale-95">
+                <i data-lucide="printer" class="w-4 h-4"></i>
+                <span class="hidden sm:inline">Cetak</span>
+                <span class="sm:hidden">Cetak</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Switcher Tab untuk Tampilan HP/Mobile (Disembunyikan di Layar Desktop) -->
+    <div class="lg:hidden bg-slate-800 border-b border-slate-700 flex no-print sticky top-[60px] z-40">
+        <button id="tab-edit" onclick="switchMobileTab('edit')" class="flex-1 py-3 text-center text-xs md:text-sm font-semibold text-emerald-400 border-b-2 border-emerald-500 transition-all flex justify-center items-center gap-2">
+            <i data-lucide="edit-3" class="w-4 h-4"></i>
+            <span>Isi Data</span>
+        </button>
+        <button id="tab-preview" onclick="switchMobileTab('preview')" class="flex-1 py-3 text-center text-xs md:text-sm font-semibold text-slate-400 border-b-2 border-transparent transition-all flex justify-center items-center gap-2">
+            <i data-lucide="eye" class="w-4 h-4"></i>
+            <span>Pratinjau Manifest</span>
+        </button>
+    </div>
+
+    <!-- Main Workspace -->
+    <main class="flex-1 flex flex-col lg:flex-row h-[calc(100vh-112px)] lg:h-[calc(100vh-72px)] overflow-hidden">
+        
+        <!-- Left Panel: Form Input -->
+        <section id="panel-form" class="w-full lg:w-5/12 bg-white border-r border-slate-200 overflow-y-auto p-4 md:p-6 no-print block lg:block">
+            <div class="space-y-6">
+                
+                <!-- Section Header -->
+                <div class="border-b border-slate-150 pb-4">
+                    <h2 class="text-base md:text-lg font-bold text-slate-800 flex items-center gap-2">
+                        <i data-lucide="edit" class="w-5 h-5 text-emerald-600"></i>
+                        Input Informasi Manifest
+                    </h2>
+                    <p class="text-xs text-slate-500">Isi data di bawah ini untuk mengupdate pratinjau dokumen secara instan.</p>
+                </div>
+
+                <!-- 1. Kop Surat & Identitas Perusahaan -->
+                <details class="bg-slate-50 rounded-xl p-3 md:p-4 border border-slate-200" open>
+                    <summary class="font-semibold text-slate-700 cursor-pointer select-none flex justify-between items-center">
+                        <span class="text-xs md:text-sm">1. Informasi Perusahaan / Kop Surat</span>
+                        <i data-lucide="chevron-down" class="w-4 h-4 text-slate-500"></i>
+                    </summary>
+                    <div class="mt-4 space-y-4 text-sm">
+                        
+                        <!-- Pilihan Jenis Kop Surat -->
+                        <div>
+                            <label class="block text-[10px] font-semibold text-slate-500 mb-1.5 uppercase">Jenis Kop Surat</label>
+                            <div class="grid grid-cols-2 gap-2 bg-slate-100 p-1 rounded-lg">
+                                <button type="button" id="btn-mode-image" onclick="setKopMode('image')" class="py-1.5 text-xs font-semibold rounded-md transition-all bg-emerald-600 text-white shadow-sm">
+                                    Kop Gambar (Banner)
+                                </button>
+                                <button type="button" id="btn-mode-text" onclick="setKopMode('text')" class="py-1.5 text-xs font-semibold rounded-md transition-all text-slate-600 hover:text-slate-800">
+                                    Kop Teks Manual
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Input URL Kop Gambar -->
+                        <div id="wrapper-kop-image" class="space-y-1">
+                            <label class="block text-xs font-semibold text-slate-600">URL GAMBAR KOP SURAT</label>
+                            <input type="text" id="input-kop-image-url" value="https://res.cloudinary.com/di8stbg60/image/upload/v1779532145/kopagas_ya3r6p.jpg" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none text-xs">
+                            <p class="text-[10px] text-slate-400">Tautan gambar kop surat Anda.</p>
+                        </div>
+
+                        <!-- Input Teks Manual (Disembunyikan saat mode gambar) -->
+                        <div id="wrapper-kop-text" class="hidden space-y-3">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">NAMA PERUSAHAAN</label>
+                                <input type="text" id="input-company-name" value="PT. AGAS DELAPAN DELAPAN" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">SUB-DESKRIPSI LAYANAN</label>
+                                <input type="text" id="input-company-sub" value="SEA AND LAND TRANSPORTATION SERVICES" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">KETERANGAN BADAN HUKUM</label>
+                                <input type="text" id="input-company-legal" value="BADAN HUKUM : AHU-0017997.AH.01.01 TAHUN 2019" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">ALAMAT LENGKAP</label>
+                                <textarea id="input-company-address" rows="2" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none">JL. MUTIARA WANI DUA KEC. TANANTOVEA SULAWESI TENGAH</textarea>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-600 mb-1">KONTAK WA/TELP</label>
+                                    <input type="text" id="input-company-wa" value="HUZAIKIR.ST 085230277777, AGUNG BAMBANG S. 082197021000" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-600 mb-1">EMAIL</label>
+                                    <input type="text" id="input-company-email" value="pt.agas88@gmail.com, agung.bambang@gmail.com" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </details>
+
+                <!-- 2. Detail Dokumen & Kapal -->
+                <details class="bg-slate-50 rounded-xl p-3 md:p-4 border border-slate-200" open>
+                    <summary class="font-semibold text-slate-700 cursor-pointer select-none flex justify-between items-center">
+                        <span class="text-xs md:text-sm">2. Detail Kapal & Pelayaran</span>
+                        <i data-lucide="chevron-down" class="w-4 h-4 text-slate-500"></i>
+                    </summary>
+                    <div class="mt-4 space-y-3 text-sm">
+                        
+                        <!-- Nama Kapal (Dropdown + Custom Input) -->
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">NAMA KAPAL</label>
+                            <select id="input-ship-name-select" class="w-full px-3 py-2.5 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none mb-2 text-sm bg-white">
+                                <option value="KLM. BERKAT SABAR 05" selected>KLM. BERKAT SABAR 05</option>
+                                <option value="KLM. SUMBER RIZKY">KLM. SUMBER RIZKY</option>
+                                <option value="KLM. SUMBER RIZKY 02">KLM. SUMBER RIZKY 02</option>
+                                <option value="KLM. SUMBER REZKY A">KLM. SUMBER REZKY A</option>
+                                <option value="KLM. ADI RAHMATULLAH PUTRA">KLM. ADI RAHMATULLAH PUTRA</option>
+                                <option value="KLM. SUMBER REZKY B">KLM. SUMBER REZKY B</option>
+                                <option value="KLM. QUDRAT ILAHI">KLM. QUDRAT ILAHI</option>
+                                <option value="KLM. FIRDAH JAYA 03">KLM. FIRDAH JAYA 03</option>
+                                <option value="KLM. SYUKRAN 3">KLM. SYUKRAN 3</option>
+                                <option value="KLM. SYUKRAN 03">KLM. SYUKRAN 03</option>
+                                <option value="KLM. BUNGA RIZKA">KLM. BUNGA RIZKA</option>
+                                <option value="KLM. SURYA UTAMA 77">KLM. SURYA UTAMA 77</option>
+                                <option value="KLM. MARHABAN 02">KLM. MARHABAN 02</option>
+                                <option value="KLM. BERKAH ILAHI 99">KLM. BERKAH ILAHI 99</option>
+                                <option value="KLM. SUMBER REZKY 88">KLM. SUMBER REZKY 88</option>
+                                <option value="KLM. ANUGERAH REZKY PUTRA">KLM. ANUGERAH REZKY PUTRA</option>
+                                <option value="__custom__">Tulis Nama Lain / Custom...</option>
+                            </select>
+                            <input type="text" id="input-ship-name" value="KLM. BERKAT SABAR 05" class="hidden w-full px-3 py-2.5 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none text-sm" placeholder="Ketik nama kapal manual">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">GROSS TONNAGE (GT)</label>
+                                <input type="text" id="input-ship-gt" value="40" class="w-full px-3 py-2.5 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">NEGARA ASAL KAPAL</label>
+                                <input type="text" id="input-ship-country" value="RI" class="w-full px-3 py-2.5 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none text-sm">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">TANGGAL BERANGKAT</label>
+                                <input type="date" id="input-ship-date" value="2026-05-23" class="w-full px-3 py-2.5 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">PELABUHAN TUJUAN</label>
+                                <input type="text" id="input-ship-destination" value="SAMARINDA" class="w-full px-3 py-2.5 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none text-sm">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">TANDA PANGGIL (CALL SIGN)</label>
+                            <input type="text" id="input-ship-callsign" value="" placeholder="Isi jika ada" class="w-full px-3 py-2.5 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none text-sm">
+                        </div>
+                    </div>
+                </details>
+
+                <!-- 3. Daftar Muatan Kapal (Dynamic Table) -->
+                <div class="bg-slate-50 rounded-xl p-3 md:p-4 border border-slate-200">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="font-semibold text-slate-700 text-xs md:text-sm">3. Daftar Muatan Kapal</span>
+                        <button type="button" onclick="addCargoRow()" class="text-xs bg-emerald-600 hover:bg-emerald-500 text-white px-2.5 py-1.5 rounded-lg flex items-center gap-1 transition-all">
+                            <i data-lucide="plus-circle" class="w-4 h-4"></i>
+                            Tambah Baris
+                        </button>
+                    </div>
+
+                    <!-- Container Baris Muatan -->
+                    <div id="cargo-rows-container" class="space-y-4">
+                        <!-- Default Row 1 -->
+                        <div class="cargo-row bg-white p-3 rounded-lg border border-slate-200 relative" data-row-id="1">
+                            <button onclick="removeCargoRow(this)" class="absolute top-2 right-2 text-red-500 hover:text-red-700 transition-all p-1">
+                                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            </button>
+                            <h4 class="text-xs font-bold text-slate-500 mb-2">BARIS MUATAN #1</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mb-2">
+                                <div>
+                                    <label class="block text-[10px] text-slate-500">PENGIRIM</label>
+                                    <input type="text" class="cargo-shipper w-full px-2.5 py-2 text-xs border rounded-lg focus:ring-1 focus:ring-emerald-500" value="PT. AGAS88">
+                                </div>
+                                <div>
+                                    <label class="block text-[10px] text-slate-500">PENERIMA</label>
+                                    <input type="text" class="cargo-consignee w-full px-2.5 py-2 text-xs border rounded-lg focus:ring-1 focus:ring-emerald-500" value="">
+                                </div>
+                            </div>
+                            
+                            <!-- Sub items container -->
+                            <div class="sub-items-container space-y-1.5">
+                                <label class="block text-[10px] text-slate-500 font-semibold">ITEM MUATAN:</label>
+                                <div class="sub-item-row flex gap-1.5 items-center">
+                                    <input type="text" class="cargo-item-name w-1/2 px-2.5 py-2 text-xs border rounded-lg" placeholder="Contoh: Sayuran" value="Sayuran">
+                                    <input type="number" class="cargo-item-qty w-1/4 px-2.5 py-2 text-xs border rounded-lg text-right" placeholder="Qty" value="4000" oninput="calculateTotalCargo()">
+                                    <select class="cargo-item-unit w-1/4 px-1.5 py-2 text-xs border rounded-lg bg-white" onchange="calculateTotalCargo()">
+                                        <option value="kg" selected>kg</option>
+                                        <option value="ton">ton</option>
+                                        <option value="m3">m³</option>
+                                    </select>
+                                </div>
+                                <div class="sub-item-row flex gap-1.5 items-center">
+                                    <input type="text" class="cargo-item-name w-1/2 px-2.5 py-2 text-xs border rounded-lg" placeholder="Contoh: Buah" value="Buah">
+                                    <input type="number" class="cargo-item-qty w-1/4 px-2.5 py-2 text-xs border rounded-lg text-right" placeholder="Qty" value="1000" oninput="calculateTotalCargo()">
+                                    <select class="cargo-item-unit w-1/4 px-1.5 py-2 text-xs border rounded-lg bg-white" onchange="calculateTotalCargo()">
+                                        <option value="kg" selected>kg</option>
+                                        <option value="ton">ton</option>
+                                        <option value="m3">m³</option>
+                                    </select>
+                                </div>
+                                <div class="sub-item-row flex gap-1.5 items-center">
+                                    <input type="text" class="cargo-item-name w-1/2 px-2.5 py-2 text-xs border rounded-lg" placeholder="Contoh: Ikan" value="Ikan">
+                                    <input type="number" class="cargo-item-qty w-1/4 px-2.5 py-2 text-xs border rounded-lg text-right" placeholder="Qty" value="4000" oninput="calculateTotalCargo()">
+                                    <select class="cargo-item-unit w-1/4 px-1.5 py-2 text-xs border rounded-lg bg-white" onchange="calculateTotalCargo()">
+                                        <option value="kg" selected>kg</option>
+                                        <option value="ton">ton</option>
+                                        <option value="m3">m³</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button onclick="addSubItemRow(this)" class="mt-2 text-[10px] text-emerald-600 hover:text-emerald-500 flex items-center gap-1 font-medium p-1">
+                                <i data-lucide="plus" class="w-3.5 h-3.5"></i> Tambah Item Muatan
+                            </button>
+
+                            <div class="mt-2">
+                                <label class="block text-[10px] text-slate-500">KETERANGAN / REFF</label>
+                                <input type="text" class="cargo-notes w-full px-2.5 py-2 text-xs border rounded-lg focus:ring-1 focus:ring-emerald-500" value="" placeholder="Keterangan opsional">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Total Berat / Kuantitas override -->
+                    <div class="mt-3 p-3 bg-emerald-50 rounded-lg border border-emerald-150">
+                        <div class="flex justify-between items-center text-xs">
+                            <span class="font-semibold text-emerald-800">Total Kuantitas Terhitung:</span>
+                            <span id="calculated-total-qty" class="font-bold text-emerald-900">9000 kg (9.00 ton)</span>
+                        </div>
+                        <div class="mt-2">
+                            <label class="block text-[10px] text-slate-500 mb-1">OVERRIDE FOOTER TOTAL (Teks yang akan muncul di tabel bawah):</label>
+                            <input type="text" id="input-total-override" value="JUMLAH : 9000. TON" class="w-full px-3 py-2 text-xs border rounded-lg bg-white">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Penandatangan & Lokasi -->
+                <details class="bg-slate-50 rounded-xl p-3 md:p-4 border border-slate-200" open>
+                    <summary class="font-semibold text-slate-700 cursor-pointer select-none flex justify-between items-center">
+                        <span class="text-xs md:text-sm">4. Pengesahan & Tanda Tangan</span>
+                        <i data-lucide="chevron-down" class="w-4 h-4 text-slate-500"></i>
+                    </summary>
+                    <div class="mt-4 space-y-3 text-sm">
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">KOTA ASAL</label>
+                                <input type="text" id="input-sign-city" value="Wani" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">TANGGAL CETAK</label>
+                                <input type="text" id="input-sign-date-text" value="23 Mei 2026" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">NAMA PERUSAHAAN DI ATAS TANDATANGAN</label>
+                            <input type="text" id="input-sign-company" value="PT. AGAS DELAPAN DELAPAN" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">NAMA PENANDATANGAN</label>
+                            <input type="text" id="input-sign-name" value="AGUNG BAMBANG SUJADMIKO" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">JABATAN</label>
+                            <input type="text" id="input-sign-role" value="Direktur" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">KONTEN QR CODE VERIFIKASI</label>
+                            <input type="text" id="input-qr-content" value="https://ptagas88.com/verify/manifest/KLM-BS05-23052026" class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="Masukkan URL verifikasi dokumen">
+                            <p class="text-[10px] text-slate-400 mt-1">QR Code akan ter-generate otomatis untuk scan digital di HP.</p>
+                        </div>
+                    </div>
+                </details>
+
+            </div>
+        </section>
+
+        <!-- Right Panel: Live Document Preview (Tersembunyi di mobile kecuali tab pratinjau diklik) -->
+        <section id="panel-preview" class="w-full lg:w-7/12 bg-slate-800 overflow-auto p-4 md:p-8 flex justify-center items-start hidden lg:flex">
+            
+            <div id="capture-container" class="w-full overflow-visible flex justify-center">
+                <!-- Kertas A4 Dokumen Manifest -->
+                <div class="manifest-paper text-black shadow-2xl relative shrink-0" id="manifest-document">
+                    
+                    <!-- KOP GAMBAR (DEFAULT / PILIHAN RESMI) -->
+                    <div id="view-kop-image-container" class="mb-4">
+                        <img id="view-kop-image" src="https://res.cloudinary.com/di8stbg60/image/upload/v1779532145/kopagas_ya3r6p.jpg" alt="Kop Surat PT AGAS DELAPAN DELAPAN" class="w-full h-auto object-contain">
+                    </div>
+
+                    <!-- KOP TEXT DINAMIS (FALLBACK) -->
+                    <div id="view-kop-text-container" class="hidden flex items-start border-b-[3px] border-double border-slate-700 pb-3 mb-4">
+                        
+                        <!-- Logo PT AGAS -->
+                        <div class="w-1/6 flex justify-center pt-2">
+                            <div class="w-20 h-20 rounded-full border border-blue-100 flex items-center justify-center p-0.5 shadow-sm bg-white">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="w-full h-full">
+                                    <circle cx="50" cy="50" r="48" fill="none" stroke="#2563eb" stroke-width="1"/>
+                                    <path d="M 30,55 Q 40,25 50,30 Q 38,38 30,55 Z" fill="#60a5fa" opacity="0.8"/>
+                                    <path d="M 50,55 Q 60,15 70,25 Q 58,35 50,55 Z" fill="#fbbf24" opacity="0.8"/>
+                                    <path d="M 40,55 Q 50,20 60,25 Q 48,38 40,55 Z" fill="#34d399" opacity="0.8"/>
+                                    <path d="M 50,15 L 68,68 L 56,68 L 50,45 L 44,45 L 38,68 L 26,68 Z" fill="#16a34a" stroke="#fff" stroke-width="1.5"/>
+                                    <path d="M 42,52 L 54,52 L 50,38 Z" fill="#fff"/>
+                                    <circle cx="50" cy="62" r="12" fill="#f87171" stroke="#fff" stroke-width="1"/>
+                                    <text x="50" y="66" font-family="Arial, sans-serif" font-weight="bold" font-size="11" fill="#fff" text-anchor="middle">88</text>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <!-- Data Alamat & Legalitas Kop -->
+                        <div class="w-5/6 text-center pl-4">
+                            <h2 id="view-company-name" class="text-xl md:text-2xl font-bold tracking-wide text-red-500 font-sans">PT. AGAS DELAPAN DELAPAN</h2>
+                            <p id="view-company-sub" class="text-[11px] font-bold text-sky-600 tracking-wider">SEA AND LAND TRANSPORTATION SERVICES</p>
+                            <p id="view-company-legal" class="text-[9px] text-gray-500 font-medium">BADAN HUKUM : AHU-0017997.AH.01.01 TAHUN 2019</p>
+                            <p id="view-company-address" class="text-[10px] text-gray-600 leading-tight font-normal mt-0.5">JL. MUTIARA WANI DUA KEC. TANANTOVEA SULAWESI TENGAH</p>
+                            <p id="view-company-contact" class="text-[9px] text-gray-500 mt-0.5">WA : HUZAIKIR.ST 085230277777, AGUNG BAMBANG S 082197021000</p>
+                            <p id="view-company-email" class="text-[9px] text-blue-600 italic">Email : ptagas88@gmail.com, agung.bambang@gmail.com</p>
+                        </div>
+                    </div>
+
+                    <!-- TITLE DOKUMEN -->
+                    <div class="text-center mb-5">
+                        <h3 class="text-sm font-bold tracking-widest border-b border-black inline-block pb-0.5 uppercase">MANIFEST/ DAFTAR MUATAN</h3>
+                    </div>
+
+                    <!-- SHIP / CARGO VOYAGE INFO GRID -->
+                    <div class="grid grid-cols-2 gap-x-8 gap-y-2.5 text-[11px] mb-4">
+                        <!-- Left Block -->
+                        <div class="space-y-1.5">
+                            <div class="flex">
+                                <span class="w-32">Nama kapal</span>
+                                <span class="mr-2">:</span>
+                                <span id="view-ship-name" class="font-bold uppercase">KLM. BERKAT SABAR 05</span>
+                            </div>
+                            <div class="flex">
+                                <span class="w-32">Tgl berangkat</span>
+                                <span class="mr-2">:</span>
+                                <span id="view-ship-date">23 Mei 2026</span>
+                            </div>
+                            <div class="flex">
+                                <span class="w-32">Tujuan</span>
+                                <span class="mr-2">:</span>
+                                <span id="view-ship-destination" class="font-bold uppercase">SAMARINDA</span>
+                            </div>
+                        </div>
+
+                        <!-- Right Block -->
+                        <div class="space-y-1.5 pl-6">
+                            <div class="flex">
+                                <span class="w-32">GT.</span>
+                                <span class="mr-2">:</span>
+                                <span id="view-ship-gt">40</span>
+                            </div>
+                            <div class="flex">
+                                <span class="w-32">Negara.</span>
+                                <span class="mr-2">:</span>
+                                <span id="view-ship-country" class="uppercase">RI</span>
+                            </div>
+                            <div class="flex">
+                                <span class="w-32">Tanda panggil</span>
+                                <span class="mr-2">:</span>
+                                <span id="view-ship-callsign" class="uppercase">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TABLE CONTENT -->
+                    <table class="w-full border-collapse border border-black text-[11px] mb-6">
+                        <thead>
+                            <tr class="bg-gray-50 text-center">
+                                <th class="border border-black px-2 py-1.5 font-bold w-[6%]">NO</th>
+                                <th class="border border-black px-3 py-1.5 font-bold w-[16%]">PENGIRIM</th>
+                                <th class="border border-black px-3 py-1.5 font-bold w-[16%]">PENERIMA</th>
+                                <th class="border border-black px-3 py-1.5 font-bold w-[25%]">JENIS MUATAN</th>
+                                <th class="border border-black px-3 py-1.5 font-bold w-[17%]">JUMLAH (TON/M3/KG)</th>
+                                <th class="border border-black px-3 py-1.5 font-bold w-[20%]">KETERANGAN</th>
+                            </tr>
+                        </thead>
+                        <tbody id="view-table-body">
+                            <!-- Rows will be injected here via JavaScript -->
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="6" id="view-table-total" class="border border-black px-4 py-2 text-center font-bold tracking-widest uppercase">
+                                    JUMLAH : 9000. TON
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                    <!-- SIGNATURE & ENDORSEMENT FOOTER -->
+                    <div class="flex justify-end text-[11px] mt-8">
+                        <div class="w-[300px] text-center flex flex-col items-center">
+                            <p class="leading-relaxed">
+                                <span id="view-sign-city">Wani</span>, <span id="view-sign-date">23 Mei 2026</span>
+                            </p>
+                            <p class="font-bold uppercase tracking-wider mb-2" id="view-sign-company">PT. AGAS DELAPAN DELAPAN</p>
+                            
+                            <!-- Dynamic QR Code Space -->
+                            <div class="my-2 bg-white p-1 border border-gray-300 rounded inline-block shadow-sm">
+                                <img id="view-qr-code" src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://ptagas88.com" alt="QR Code Digital Signature" class="w-24 h-24">
+                            </div>
+                            
+                            <p class="font-bold underline uppercase mt-2" id="view-sign-name">AGUNG BAMBANG SUJADMIKO</p>
+                            <p class="text-gray-700 text-[10px]" id="view-sign-role">Direktur</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Footer Status Bar -->
+    <footer class="bg-slate-900 border-t border-slate-800 text-slate-400 text-xs px-6 py-3 flex justify-between items-center no-print">
+        <span>© 2026 PT. Agas Delapan Delapan. Semua hak dilindungi undang-undang.</span>
+        <span class="flex items-center gap-1.5 text-emerald-400">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            Siap Cetak / Unduh PDF
+        </span>
+    </footer>
+
+    <!-- JS Logic -->
+    <script>
+        // Inisialisasi ikon Lucide
+        lucide.createIcons();
+
+        // Object penampung data manifest untuk rendering otomatis
+        let manifestData = {
+            kopMode: "image", // default ke 'image'
+            kopImageUrl: "https://res.cloudinary.com/di8stbg60/image/upload/v1779532145/kopagas_ya3r6p.jpg",
+            company: {
+                name: "PT. AGAS DELAPAN DELAPAN",
+                sub: "SEA AND LAND TRANSPORTATION SERVICES",
+                legal: "BADAN HUKUM : AHU-0017997.AH.01.01 TAHUN 2019",
+                address: "JL. MUTIARA WANI DUA KEC. TANANTOVEA SULAWESI TENGAH",
+                wa: "HUZAIKIR.ST 085230277777, AGUNG BAMBANG S 082197021000",
+                email: "pt.agas88@gmail.com, agung.bambang@gmail.com"
+            },
+            ship: {
+                name: "KLM. BERKAT SABAR 05",
+                date: "2026-05-23",
+                destination: "SAMARINDA",
+                gt: "40",
+                country: "RI",
+                callsign: ""
+            },
+            signing: {
+                city: "Wani",
+                dateText: "23 Mei 2026",
+                company: "PT. AGAS DELAPAN DELAPAN",
+                name: "AGUNG BAMBANG SUJADMIKO",
+                role: "Direktur",
+                qrContent: "https://ptagas88.com/verify/manifest/KLM-BS05-23052026"
+            },
+            cargoRows: [
+                {
+                    id: 1,
+                    shipper: "PT. AGAS88",
+                    consignee: "",
+                    items: [
+                        { name: "Sayuran", qty: 4000, unit: "kg" },
+                        { name: "Buah", qty: 1000, unit: "kg" },
+                        { name: "Ikan", qty: 4000, unit: "kg" }
+                    ],
+                    notes: ""
+                }
+            ],
+            totalOverride: "JUMLAH : 9000. TON"
+        };
+
+        // Fungsi berpindah tab di perangkat mobile
+        function switchMobileTab(tab) {
+            const panelForm = document.getElementById('panel-form');
+            const panelPreview = document.getElementById('panel-preview');
+            const tabEdit = document.getElementById('tab-edit');
+            const tabPreview = document.getElementById('tab-preview');
+
+            if (tab === 'edit') {
+                panelForm.classList.remove('hidden');
+                panelForm.classList.add('block');
+                panelPreview.classList.add('hidden');
+                panelPreview.classList.remove('flex');
+
+                tabEdit.className = "flex-1 py-3 text-center text-xs md:text-sm font-semibold text-emerald-400 border-b-2 border-emerald-500 transition-all flex justify-center items-center gap-2";
+                tabPreview.className = "flex-1 py-3 text-center text-xs md:text-sm font-semibold text-slate-400 border-b-2 border-transparent transition-all flex justify-center items-center gap-2";
+            } else {
+                panelForm.classList.add('hidden');
+                panelForm.classList.remove('block');
+                panelPreview.classList.remove('hidden');
+                panelPreview.classList.add('flex');
+
+                tabEdit.className = "flex-1 py-3 text-center text-xs md:text-sm font-semibold text-slate-400 border-b-2 border-transparent transition-all flex justify-center items-center gap-2";
+                tabPreview.className = "flex-1 py-3 text-center text-xs md:text-sm font-semibold text-emerald-400 border-b-2 border-emerald-500 transition-all flex justify-center items-center gap-2";
+                
+                // Menghitung ulang skala agar lembar A4 pas layar HP
+                setTimeout(autoFitPaper, 50);
+            }
+        }
+
+        // Fungsi melakukan skala otomatis lembar dokumen A4 di layar HP
+        function autoFitPaper() {
+            const panel = document.getElementById('panel-preview');
+            const paper = document.getElementById('manifest-document');
+            const wrapper = document.getElementById('capture-container');
+            
+            if (!panel || !paper || !wrapper) return;
+
+            // Jika di desktop (lebar layar >= 1024px), matikan transform
+            if (window.innerWidth >= 1024) {
+                paper.style.transform = 'none';
+                wrapper.style.height = 'auto';
+                return;
+            }
+
+            // Dapatkan lebar panel pembungkus dikurangi padding pengaman
+            const containerWidth = panel.clientWidth - 32; 
+            const paperWidth = 794; // Nilai representasi lebar kertas A4 (210mm) dalam piksel
+
+            if (containerWidth < paperWidth) {
+                const scale = containerWidth / paperWidth;
+                paper.style.transform = `scale(${scale})`;
+                paper.style.transformOrigin = 'top center';
+                
+                // Sesuaikan tinggi wrapper penampung agar tidak ada ruang kosong di bawah setelah diskalakan
+                wrapper.style.height = `${paper.clientHeight * scale}px`;
+            } else {
+                paper.style.transform = 'none';
+                wrapper.style.height = 'auto';
+            }
+        }
+
+        // Jalankan autoFit ketika orientasi perangkat berubah atau di-resize
+        window.addEventListener('resize', autoFitPaper);
+
+        // Event listener khusus penanganan dropdown Nama Kapal
+        document.getElementById('input-ship-name-select').addEventListener('change', function() {
+            const selectElement = this;
+            const customInputElement = document.getElementById('input-ship-name');
+            
+            if (selectElement.value === '__custom__') {
+                customInputElement.classList.remove('hidden');
+                customInputElement.value = "";
+                customInputElement.focus();
+            } else {
+                customInputElement.classList.add('hidden');
+                customInputElement.value = selectElement.value;
+            }
+            syncFormDataAndRender();
+        });
+
+        // Fungsi mengatur jenis kop surat (Gambar Banner vs Teks Dinamis)
+        function setKopMode(mode) {
+            manifestData.kopMode = mode;
+            
+            const btnImg = document.getElementById('btn-mode-image');
+            const btnTxt = document.getElementById('btn-mode-text');
+            const wrapImg = document.getElementById('wrapper-kop-image');
+            const wrapTxt = document.getElementById('wrapper-kop-text');
+
+            if (mode === 'image') {
+                btnImg.className = "py-1.5 text-xs font-semibold rounded-md transition-all bg-emerald-600 text-white shadow-sm";
+                btnTxt.className = "py-1.5 text-xs font-semibold rounded-md transition-all text-slate-600 hover:text-slate-800";
+                wrapImg.classList.remove('hidden');
+                wrapTxt.classList.add('hidden');
+            } else {
+                btnTxt.className = "py-1.5 text-xs font-semibold rounded-md transition-all bg-emerald-600 text-white shadow-sm";
+                btnImg.className = "py-1.5 text-xs font-semibold rounded-md transition-all text-slate-600 hover:text-slate-800";
+                wrapTxt.classList.remove('hidden');
+                wrapImg.classList.add('hidden');
+            }
+
+            syncFormDataAndRender();
+        }
+
+        // Fungsi Helper untuk memformat tanggal ke gaya bahasa Indonesia
+        function formatDateToIndonesian(dateString) {
+            if(!dateString) return "-";
+            const months = [
+                "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+                "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+            ];
+            const parts = dateString.split("-");
+            if(parts.length !== 3) return dateString;
+            const day = parseInt(parts[2], 10);
+            const monthIndex = parseInt(parts[1], 10) - 1;
+            const year = parts[0];
+            return `${day} ${months[monthIndex]} ${year}`;
+        }
+
+        // Fungsi menambah baris kargo utama
+        function addCargoRow() {
+            const container = document.getElementById('cargo-rows-container');
+            const newId = Date.now();
+            
+            const rowHtml = `
+                <div class="cargo-row bg-white p-3 rounded-lg border border-slate-200 relative" data-row-id="${newId}">
+                    <button onclick="removeCargoRow(this)" class="absolute top-2 right-2 text-red-500 hover:text-red-700 transition-all p-1">
+                        <i data-lucide="trash-2" class="w-4 h-4"></i>
+                    </button>
+                    <h4 class="text-xs font-bold text-slate-500 mb-2">BARIS MUATAN BARU</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mb-2">
+                        <div>
+                            <label class="block text-[10px] text-slate-500">PENGIRIM</label>
+                            <input type="text" class="cargo-shipper w-full px-2.5 py-2 text-xs border rounded-lg focus:ring-1 focus:ring-emerald-500" value="">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] text-slate-500">PENERIMA</label>
+                            <input type="text" class="cargo-consignee w-full px-2.5 py-2 text-xs border rounded-lg focus:ring-1 focus:ring-emerald-500" value="">
+                        </div>
+                    </div>
+                    
+                    <div class="sub-items-container space-y-1.5">
+                        <label class="block text-[10px] text-slate-500 font-semibold">ITEM MUATAN:</label>
+                        <div class="sub-item-row flex gap-1.5 items-center">
+                            <input type="text" class="cargo-item-name w-1/2 px-2.5 py-2 text-xs border rounded-lg" placeholder="Nama muatan" value="">
+                            <input type="number" class="cargo-item-qty w-1/4 px-2.5 py-2 text-xs border rounded-lg text-right" placeholder="Qty" value="0" oninput="calculateTotalCargo()">
+                            <select class="cargo-item-unit w-1/4 px-1.5 py-2 text-xs border rounded-lg bg-white" onchange="calculateTotalCargo()">
+                                <option value="kg" selected>kg</option>
+                                <option value="ton">ton</option>
+                                <option value="m3">m³</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button onclick="addSubItemRow(this)" class="mt-2 text-[10px] text-emerald-600 hover:text-emerald-500 flex items-center gap-1 font-medium p-1">
+                        <i data-lucide="plus" class="w-3.5 h-3.5"></i> Tambah Item Muatan
+                    </button>
+
+                    <div class="mt-2">
+                        <label class="block text-[10px] text-slate-500">KETERANGAN / REFF</label>
+                        <input type="text" class="cargo-notes w-full px-2.5 py-2 text-xs border rounded-lg focus:ring-1 focus:ring-emerald-500" value="">
+                    </div>
+                </div>
+            `;
+            
+            container.insertAdjacentHTML('beforeend', rowHtml);
+            lucide.createIcons();
+            syncFormDataAndRender();
+        }
+
+        // Fungsi menambah sub-item (komoditas bertumpuk dalam satu baris kargo)
+        function addSubItemRow(button) {
+            const container = button.previousElementSibling;
+            const subRowHtml = `
+                <div class="sub-item-row flex gap-1.5 items-center">
+                    <input type="text" class="cargo-item-name w-1/2 px-2.5 py-2 text-xs border rounded-lg" placeholder="Nama muatan" value="">
+                    <input type="number" class="cargo-item-qty w-1/4 px-2.5 py-2 text-xs border rounded-lg text-right" placeholder="Qty" value="0" oninput="calculateTotalCargo()">
+                    <select class="cargo-item-unit w-1/4 px-1.5 py-2 text-xs border rounded-lg bg-white" onchange="calculateTotalCargo()">
+                        <option value="kg" selected>kg</option>
+                        <option value="ton">ton</option>
+                        <option value="m3">m³</option>
+                    </select>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', subRowHtml);
+            calculateTotalCargo();
+        }
+
+        // Menghapus baris kargo utama
+        function removeCargoRow(button) {
+            const row = button.closest('.cargo-row');
+            row.remove();
+            calculateTotalCargo();
+        }
+
+        // Membaca seluruh form & merekonstruksi data manifest
+        function syncFormDataAndRender() {
+            // URL Gambar Kop
+            manifestData.kopImageUrl = document.getElementById('input-kop-image-url').value;
+
+            // Perusahaan
+            manifestData.company.name = document.getElementById('input-company-name').value;
+            manifestData.company.sub = document.getElementById('input-company-sub').value;
+            manifestData.company.legal = document.getElementById('input-company-legal').value;
+            manifestData.company.address = document.getElementById('input-company-address').value;
+            manifestData.company.wa = document.getElementById('input-company-wa').value;
+            manifestData.company.email = document.getElementById('input-company-email').value;
+
+            // Kapal (Membaca isian manual yang tersembunyi/ditampilkan)
+            manifestData.ship.name = document.getElementById('input-ship-name').value;
+            manifestData.ship.gt = document.getElementById('input-ship-gt').value;
+            manifestData.ship.date = document.getElementById('input-ship-date').value;
+            manifestData.ship.country = document.getElementById('input-ship-country').value;
+            manifestData.ship.destination = document.getElementById('input-ship-destination').value;
+            manifestData.ship.callsign = document.getElementById('input-ship-callsign').value;
+
+            // Tanda Tangan
+            manifestData.signing.city = document.getElementById('input-sign-city').value;
+            manifestData.signing.dateText = document.getElementById('input-sign-date-text').value;
+            manifestData.signing.company = document.getElementById('input-sign-company').value;
+            manifestData.signing.name = document.getElementById('input-sign-name').value;
+            manifestData.signing.role = document.getElementById('input-sign-role').value;
+            manifestData.signing.qrContent = document.getElementById('input-qr-content').value;
+
+            // Membaca Dinamis Row Tabel
+            const rows = document.querySelectorAll('.cargo-row');
+            manifestData.cargoRows = [];
+            
+            rows.forEach((row, index) => {
+                const id = row.getAttribute('data-row-id');
+                const shipper = row.querySelector('.cargo-shipper').value;
+                const consignee = row.querySelector('.cargo-consignee').value;
+                const notes = row.querySelector('.cargo-notes').value;
+                
+                // Ambil semua sub-item
+                const subItemRows = row.querySelectorAll('.sub-item-row');
+                const items = [];
+                subItemRows.forEach(subRow => {
+                    const name = subRow.querySelector('.cargo-item-name').value;
+                    const qty = parseFloat(subRow.querySelector('.cargo-item-qty').value) || 0;
+                    const unit = subRow.querySelector('.cargo-item-unit').value;
+                    if(name || qty > 0) {
+                        items.push({ name, qty, unit });
+                    }
+                });
+
+                manifestData.cargoRows.push({
+                    id,
+                    shipper,
+                    consignee,
+                    items,
+                    notes
+                });
+            });
+
+            manifestData.totalOverride = document.getElementById('input-total-override').value;
+
+            renderManifestDocument();
+        }
+
+        // Kalkulasi Total Kargo Otomatis
+        function calculateTotalCargo() {
+            const rows = document.querySelectorAll('.cargo-row');
+            let totalKg = 0;
+            let hasCalculations = false;
+
+            rows.forEach(row => {
+                const subItemRows = row.querySelectorAll('.sub-item-row');
+                subItemRows.forEach(subRow => {
+                    const qty = parseFloat(subRow.querySelector('.cargo-item-qty').value) || 0;
+                    const unit = subRow.querySelector('.cargo-item-unit').value;
+                    
+                    if (qty > 0) {
+                        hasCalculations = true;
+                        if (unit === 'kg') {
+                            totalKg += qty;
+                        } else if (unit === 'ton') {
+                            totalKg += (qty * 1000);
+                        }
+                    }
+                });
+            });
+
+            const totalTextSpan = document.getElementById('calculated-total-qty');
+            if (hasCalculations) {
+                const totalTon = totalKg / 1000;
+                totalTextSpan.textContent = `${totalKg.toLocaleString('id-ID')} kg (${totalTon.toLocaleString('id-ID', {maximumFractionDigits: 2})} ton)`;
+                
+                document.getElementById('input-total-override').placeholder = `JUMLAH : ${totalKg.toLocaleString('id-ID')} KG`;
+            } else {
+                totalTextSpan.textContent = "0 kg (0 ton)";
+            }
+
+            syncFormDataAndRender();
+        }
+
+        // Render data manifest ke layar live-preview
+        function renderManifestDocument() {
+            // Tampilkan/Sembunyikan Mode Kop di Pratinjau Dokumen
+            const viewKopImg = document.getElementById('view-kop-image-container');
+            const viewKopTxt = document.getElementById('view-kop-text-container');
+            
+            if (manifestData.kopMode === 'image') {
+                viewKopImg.classList.remove('hidden');
+                viewKopTxt.classList.add('hidden');
+                document.getElementById('view-kop-image').src = manifestData.kopImageUrl || "https://res.cloudinary.com/di8stbg60/image/upload/v1779532145/kopagas_ya3r6p.jpg";
+            } else {
+                viewKopTxt.classList.remove('hidden');
+                viewKopImg.classList.add('hidden');
+                
+                // Render Kop Teks Dinamis
+                document.getElementById('view-company-name').textContent = manifestData.company.name;
+                document.getElementById('view-company-sub').textContent = manifestData.company.sub;
+                document.getElementById('view-company-legal').textContent = manifestData.company.legal;
+                document.getElementById('view-company-address').textContent = manifestData.company.address;
+                document.getElementById('view-company-contact').textContent = "WA : " + manifestData.company.wa;
+                document.getElementById('view-company-email').textContent = "Email : " + manifestData.company.email;
+            }
+
+            // Detail Kapal
+            document.getElementById('view-ship-name').textContent = manifestData.ship.name || "-";
+            document.getElementById('view-ship-gt').textContent = manifestData.ship.gt || "-";
+            document.getElementById('view-ship-date').textContent = formatDateToIndonesian(manifestData.ship.date);
+            document.getElementById('view-ship-country').textContent = manifestData.ship.country || "-";
+            document.getElementById('view-ship-destination').textContent = manifestData.ship.destination || "-";
+            document.getElementById('view-ship-callsign').textContent = manifestData.ship.callsign || "-";
+
+            // List Kargo di Tabel
+            const tableBody = document.getElementById('view-table-body');
+            tableBody.innerHTML = "";
+
+            if (manifestData.cargoRows.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="border border-black px-3 py-4 text-center text-gray-400 italic">
+                            Belum ada muatan yang diinput. Klik "Tambah Baris" di form kiri.
+                        </td>
+                    </tr>
+                `;
+            } else {
+                manifestData.cargoRows.forEach((row, idx) => {
+                    const rowNo = String(idx + 1).padStart(2, '0');
+                    
+                    // Kita kumpulkan daftar muatan dan jumlahnya agar mirip layout aslinya
+                    let itemNamesHtml = "";
+                    let itemQtiesHtml = "";
+
+                    if (row.items.length === 0) {
+                        itemNamesHtml = "-";
+                        itemQtiesHtml = "-";
+                    } else {
+                        row.items.forEach((item, itemIdx) => {
+                            const isLast = itemIdx === row.items.length - 1;
+                            const spacing = isLast ? '' : 'margin-bottom: 2px;';
+                            
+                            itemNamesHtml += `<div style="${spacing}">${item.name || '-'}</div>`;
+                            
+                            const formattedQty = parseFloat(item.qty).toLocaleString('id-ID');
+                            itemQtiesHtml += `<div style="${spacing}">${formattedQty} ${item.unit}</div>`;
+                        });
+                    }
+
+                    const tableRowHtml = `
+                        <tr class="align-top">
+                            <td class="border border-black px-2 py-2 text-center">${rowNo}</td>
+                            <td class="border border-black px-3 py-2 uppercase font-semibold">${row.shipper || '-'}</td>
+                            <td class="border border-black px-3 py-2 uppercase font-semibold">${row.consignee || ''}</td>
+                            <td class="border border-black px-3 py-2">
+                                <div class="flex flex-col text-left">
+                                    ${itemNamesHtml}
+                                </div>
+                            </td>
+                            <td class="border border-black px-3 py-2 text-right">
+                                <div class="flex flex-col text-right">
+                                    ${itemQtiesHtml}
+                                </div>
+                            </td>
+                            <td class="border border-black px-3 py-2 whitespace-pre-line">${row.notes || ''}</td>
+                        </tr>
+                    `;
+                    tableBody.insertAdjacentHTML('beforeend', tableRowHtml);
+                });
+            }
+
+            // Total footer
+            document.getElementById('view-table-total').textContent = manifestData.totalOverride || "-";
+
+            // Bagian tanda tangan
+            document.getElementById('view-sign-city').textContent = manifestData.signing.city;
+            document.getElementById('view-sign-date').textContent = manifestData.signing.dateText;
+            document.getElementById('view-sign-company').textContent = manifestData.signing.company;
+            document.getElementById('view-sign-name').textContent = manifestData.signing.name;
+            document.getElementById('view-sign-role').textContent = manifestData.signing.role;
+
+            // Live Update QR Code
+            const qrImg = document.getElementById('view-qr-code');
+            const qrData = encodeURIComponent(manifestData.signing.qrContent || "PT AGAS DELAPAN DELAPAN");
+            qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${qrData}`;
+            
+            // Atur skala lembar pratinjau agar pas dengan container pembungkusnya
+            autoFitPaper();
+        }
+
+        // Inisialisasi pendengar perubahan (event listeners) untuk auto-sync
+        const inputsToSync = [
+            'input-kop-image-url', 'input-company-name', 'input-company-sub', 'input-company-legal', 'input-company-address',
+            'input-company-wa', 'input-company-email',
+            'input-ship-name', 'input-ship-gt', 'input-ship-date', 'input-ship-country',
+            'input-ship-destination', 'input-ship-callsign',
+            'input-sign-city', 'input-sign-date-text', 'input-sign-company',
+            'input-sign-name', 'input-sign-role', 'input-qr-content', 'input-total-override'
+        ];
+
+        inputsToSync.forEach(id => {
+            document.getElementById(id).addEventListener('input', syncFormDataAndRender);
+        });
+
+        // Trigger Render Pertama Kali
+        syncFormDataAndRender();
+        calculateTotalCargo();
+
+        // Fungsi Ekspor PDF Premium menggunakan html2pdf.js
+        function downloadPDF() {
+            const element = document.getElementById('capture-container');
+            const paper = document.getElementById('manifest-document');
+            const wrapper = document.getElementById('capture-container');
+
+            // Amankan skala transform agar PDF tercetak dalam ukuran aslinya yang jernih (tanpa scale)
+            const prevTransform = paper.style.transform;
+            const prevHeight = wrapper.style.height;
+
+            paper.style.transform = 'none';
+            wrapper.style.height = 'auto';
+            
+            // Konfigurasi ekspor
+            const opt = {
+                margin:       [10, 10, 10, 10], // Margins
+                filename:     `Manifest_${manifestData.ship.name.replace(/\s+/g, '_')}_${manifestData.signing.dateText.replace(/\s+/g, '_')}.pdf`,
+                image:        { type: 'jpeg', quality: 1.0 },
+                html2canvas:  { scale: 3, useCORS: true, letterRendering: true }, // Skala tinggi untuk detail maksimal
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            // Memanggil loader dinamis saat ekspor untuk kenyamanan pengguna
+            const btn = document.querySelector('button[onclick="downloadPDF()"]');
+            const originalContent = btn.innerHTML;
+            btn.innerHTML = `<i data-lucide="loader" class="w-4 h-4 animate-spin"></i> <span>Sedang Membuat PDF...</span>`;
+            lucide.createIcons();
+
+            html2pdf().set(opt).from(element).save().then(() => {
+                // Kembalikan skala visual setelah selesai render PDF
+                paper.style.transform = prevTransform;
+                wrapper.style.height = prevHeight;
+                btn.innerHTML = originalContent;
+                lucide.createIcons();
+            }).catch(err => {
+                console.error("Gagal mengekspor PDF:", err);
+                // Pulihkan kembali skala visual jika error
+                paper.style.transform = prevTransform;
+                wrapper.style.height = prevHeight;
+                btn.innerHTML = originalContent;
+                lucide.createIcons();
+            });
+        }
+    </script>
+</body>
+</html>
