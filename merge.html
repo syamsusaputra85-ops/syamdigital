@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="id" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GabungPDF Pro - Aplikasi Penggabung PDF Modern</title>
+    <!-- Tailwind CSS untuk Styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons untuk Ikon yang Modern -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- PDF-Lib untuk Manipulasi PDF Client-Side -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f5f3ff',
+                            100: '#ede9fe',
+                            200: '#ddd6fe',
+                            300: '#c4b5fd',
+                            400: '#a78bfa',
+                            500: '#8b5cf6',
+                            600: '#7c3aed',
+                            700: '#6d28d9',
+                            800: '#5b21b6',
+                            900: '#4c1d95',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-full flex flex-col font-sans">
+
+    <!-- Header / Navigasi -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-30">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="bg-primary-600 text-white p-2 rounded-xl shadow-md shadow-primary-200">
+                    <i data-lucide="files" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-slate-900 tracking-tight">GabungPDF <span class="text-primary-600">Pro</span></h1>
+                    <p class="text-xs text-slate-500 font-medium">Penggabung PDF Cepat, Aman, & Lokal</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-2">
+                <!-- Tombol Syam Digital Manifest di Header -->
+                <a href="https://syam.digital/manifest" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-1.5 text-xs text-primary-700 bg-primary-50 hover:bg-primary-100 px-3.5 py-1.5 rounded-full font-semibold border border-primary-100 transition-all duration-300 shadow-sm" title="Buka Syam Digital Manifest">
+                    <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                    <span>Syam Digital</span>
+                </a>
+                
+                <div class="flex items-center space-x-2 text-xs text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-full font-medium border border-emerald-100">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span>Proses 100% Offline</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Konten Utama -->
+    <main class="flex-grow max-w-6xl w-full mx-auto px-4 py-8 flex flex-col lg:flex-row gap-8">
+        
+        <!-- Sisi Kiri: Dropzone & File List -->
+        <div class="flex-1 flex flex-col space-y-6">
+            
+            <!-- Drag and Drop Zone -->
+            <div id="dropzone" class="border-2 border-dashed border-slate-300 hover:border-primary-500 bg-white hover:bg-primary-50/20 rounded-2xl p-8 text-center cursor-pointer transition-all duration-300 shadow-sm relative group">
+                <input type="file" id="fileInput" multiple accept=".pdf" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
+                <div class="flex flex-col items-center justify-center space-y-4">
+                    <div class="p-4 bg-slate-50 group-hover:bg-primary-100 text-slate-400 group-hover:text-primary-600 rounded-full transition-colors duration-300">
+                        <i data-lucide="upload-cloud" class="w-10 h-10"></i>
+                    </div>
+                    <div>
+                        <p class="text-base font-semibold text-slate-700">Tarik dan lepas file PDF Anda di sini</p>
+                        <p class="text-xs text-slate-400 mt-1">atau klik untuk memilih file dari komputer Anda</p>
+                    </div>
+                    <div class="text-xs text-slate-400 border border-slate-200 px-3 py-1 rounded-md bg-slate-50">
+                        Mendukung beberapa file sekaligus
+                    </div>
+                </div>
+            </div>
+
+            <!-- List of Uploaded Files -->
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col flex-grow">
+                <div class="px-6 py-4 border-b border-slate-200 flex justify-between items-center bg-slate-50/50">
+                    <h3 class="font-bold text-slate-800 flex items-center gap-2">
+                        <i data-lucide="list-ordered" class="w-5 h-5 text-slate-500"></i>
+                        Daftar Dokumen Yang Akan Digabungkan
+                    </h3>
+                    <span id="fileCountBadge" class="bg-slate-200 text-slate-700 text-xs font-semibold px-2.5 py-1 rounded-full">0 File</span>
+                </div>
+
+                <!-- Empty State -->
+                <div id="emptyState" class="p-12 text-center flex flex-col items-center justify-center space-y-3 flex-grow">
+                    <div class="text-slate-300">
+                        <i data-lucide="file-text" class="w-16 h-16 stroke-[1.5]"></i>
+                    </div>
+                    <p class="text-slate-500 font-medium">Belum ada file yang ditambahkan.</p>
+                    <p class="text-xs text-slate-400 max-w-sm">Unggah file PDF menggunakan area di atas untuk memulai pengaturan penggabungan halaman.</p>
+                </div>
+
+                <!-- File List Container -->
+                <ul id="fileList" class="divide-y divide-slate-100 max-h-[480px] overflow-y-auto hidden">
+                    <!-- Dinamis menggunakan JavaScript -->
+                </ul>
+
+                <!-- Footer Summary (Hanya tampil jika ada file) -->
+                <div id="summaryFooter" class="p-4 bg-slate-50 border-t border-slate-200 hidden justify-between items-center text-xs text-slate-500">
+                    <div>Total Ukuran: <span id="totalSizeText" class="font-semibold text-slate-700">0 MB</span></div>
+                    <div>Total Estimasi Halaman: <span id="totalPagesText" class="font-semibold text-slate-700">0 Halaman</span></div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Sisi Kanan: Konfigurasi & Aksi -->
+        <div class="w-full lg:w-96 flex flex-col space-y-6">
+            
+            <!-- Konfigurasi Output -->
+            <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-6">
+                <h3 class="font-bold text-slate-800 flex items-center gap-2 border-b border-slate-100 pb-3">
+                    <i data-lucide="sliders" class="w-5 h-5 text-primary-600"></i>
+                    Konfigurasi Hasil
+                </h3>
+
+                <!-- Nama File Output -->
+                <div class="space-y-2">
+                    <label for="outputFileName" class="block text-xs font-semibold text-slate-600 uppercase tracking-wider">Nama File Baru</label>
+                    <div class="relative rounded-lg shadow-sm">
+                        <input type="text" id="outputFileName" value="dokumen_gabungan" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none pr-12 transition-all font-medium text-slate-700" placeholder="nama_file" />
+                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-slate-400 font-medium text-xs">
+                            .pdf
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Petunjuk Rentang Halaman -->
+                <div class="p-3.5 bg-primary-50/50 rounded-xl border border-primary-100 space-y-1.5 text-xs text-primary-900">
+                    <div class="font-bold flex items-center gap-1.5 text-primary-800">
+                        <i data-lucide="info" class="w-4 h-4"></i>
+                        Tips Rentang Halaman (Opsional):
+                    </div>
+                    <ul class="list-disc pl-4 space-y-1 text-slate-600">
+                        <li>Kosongkan / tulis <span class="font-semibold">all</span> untuk seluruh halaman.</li>
+                        <li>Gunakan <span class="font-semibold">1-5</span> untuk halaman berurutan.</li>
+                        <li>Gunakan koma <span class="font-semibold">1, 3, 5</span> untuk halaman acak.</li>
+                    </ul>
+                </div>
+
+                <!-- Tombol Eksekusi Gabung -->
+                <button id="mergeBtn" disabled class="w-full bg-primary-600 hover:bg-primary-700 disabled:bg-slate-200 disabled:text-slate-400 text-white font-semibold py-3.5 px-4 rounded-xl shadow-lg shadow-primary-200 disabled:shadow-none flex items-center justify-center gap-2 transition-all duration-300 transform active:scale-[0.98]">
+                    <i data-lucide="shuffle" class="w-5 h-5"></i>
+                    <span>Gabungkan PDF Sekarang</span>
+                </button>
+            </div>
+
+            <!-- Syam Digital Partner Card -->
+            <div class="bg-gradient-to-br from-slate-50 to-slate-100 border border-slate-200 rounded-2xl p-5 shadow-sm space-y-4">
+                <div class="flex items-center space-x-3">
+                    <div class="bg-primary-100 text-primary-700 p-2.5 rounded-xl">
+                        <i data-lucide="globe" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-sm text-slate-800">Syam Digital Portal</h4>
+                        <p class="text-[11px] text-slate-400">Akses berkas manifest & layanan lainnya</p>
+                    </div>
+                </div>
+                <a href="https://syam.digital/manifest" target="_blank" rel="noopener noreferrer" class="w-full bg-white hover:bg-slate-50 border border-slate-200 hover:border-primary-500 text-slate-700 hover:text-primary-600 font-semibold py-2.5 px-4 rounded-xl text-xs flex items-center justify-center gap-2 transition-all duration-300 shadow-sm">
+                    <span>Buka Manifest Syam Digital</span>
+                    <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                </a>
+            </div>
+
+            <!-- Manfaat Fitur Keamanan Lokal -->
+            <div class="bg-slate-900 text-white rounded-2xl p-6 shadow-xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-primary-500 rounded-full filter blur-3xl opacity-20 -mr-10 -mt-10"></div>
+                <div class="relative z-10 space-y-4">
+                    <div class="bg-white/10 w-10 h-10 rounded-lg flex items-center justify-center text-primary-400">
+                        <i data-lucide="shield-check" class="w-6 h-6"></i>
+                    </div>
+                    <div class="space-y-1">
+                        <h4 class="font-bold text-sm">Privasi Tanpa Kompromi</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed">Berbeda dengan converter online lain, file Anda tidak akan pernah diunggah ke cloud. Seluruh proses parsing dan kompilasi dilakukan secara sandbox lokal di peramban Anda.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Footer Hak Cipta -->
+    <footer class="bg-white border-t border-slate-200 py-6 mt-12">
+        <div class="max-w-6xl mx-auto px-4 text-center space-y-2">
+            <p class="text-xs text-slate-500">&copy; 2026 GabungPDF Pro. Semua Hak Dilindungi Undang-Undang.</p>
+            <p class="text-[10px] text-slate-400">Didukung oleh teknologi enkripsi browser lokal & PDF-Lib Engine.</p>
+        </div>
+    </footer>
+
+    <!-- Modal Pratinjau (Preview) -->
+    <div id="previewModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-white rounded-2xl w-full max-w-4xl h-[85vh] flex flex-col overflow-hidden shadow-2xl">
+            <div class="px-6 py-4 border-b border-slate-200 flex justify-between items-center bg-slate-50">
+                <div class="flex items-center space-x-3">
+                    <div class="bg-primary-100 text-primary-700 p-1.5 rounded-lg">
+                        <i data-lucide="eye" class="w-5 h-5"></i>
+                    </div>
+                    <h3 id="previewModalTitle" class="font-bold text-slate-800 text-sm md:text-base truncate max-w-md">Nama File Pratinjau</h3>
+                </div>
+                <button onclick="closePreviewModal()" class="text-slate-400 hover:text-slate-600 p-1.5 rounded-lg hover:bg-slate-100 transition-colors">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <div class="flex-grow p-4 bg-slate-800 relative">
+                <!-- Fallback jika PDF tidak bisa dimuat -->
+                <div id="previewError" class="absolute inset-0 flex flex-col items-center justify-center text-white space-y-3 hidden">
+                    <i data-lucide="alert-circle" class="w-12 h-12 text-red-400"></i>
+                    <p class="font-medium text-sm">Pratinjau tidak didukung oleh browser Anda untuk file ini.</p>
+                </div>
+                <iframe id="previewIframe" class="w-full h-full rounded-lg border-0 bg-white" src=""></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Sukses Penggabungan & Share -->
+    <div id="successModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-white rounded-2xl w-full max-w-md p-6 flex flex-col items-center text-center shadow-2xl relative overflow-hidden">
+            <!-- Background hiasan -->
+            <div class="absolute -top-10 -left-10 w-32 h-32 bg-emerald-500/10 rounded-full filter blur-xl"></div>
+            <div class="absolute -bottom-10 -right-10 w-32 h-32 bg-primary-500/10 rounded-full filter blur-xl"></div>
+
+            <!-- Icon Sukses -->
+            <div class="w-16 h-16 bg-emerald-50 text-emerald-500 rounded-full flex items-center justify-center mb-4 border border-emerald-100 shadow-inner">
+                <i data-lucide="party-popper" class="w-8 h-8"></i>
+            </div>
+
+            <h3 class="text-xl font-bold text-slate-900 mb-1">Penggabungan Selesai!</h3>
+            <p class="text-xs text-slate-500 mb-4">File Anda siap digunakan dan telah diunduh secara otomatis.</p>
+
+            <!-- Card Informasi File -->
+            <div class="w-full bg-slate-50 border border-slate-100 rounded-xl p-3 mb-6 flex items-center space-x-3 text-left">
+                <div class="bg-red-50 text-red-500 p-2.5 rounded-lg flex-shrink-0">
+                    <i data-lucide="file-text" class="w-5 h-5"></i>
+                </div>
+                <div class="min-w-0 flex-grow">
+                    <p id="successFileName" class="text-sm font-semibold text-slate-800 truncate">nama_file.pdf</p>
+                    <p id="successFileSize" class="text-xs text-slate-400 mt-0.5">0 MB</p>
+                </div>
+            </div>
+
+            <!-- Tombol Aksi -->
+            <div class="w-full space-y-3">
+                <!-- Tombol Download Ulang -->
+                <button id="successDownloadBtn" class="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-3.5 px-4 rounded-xl shadow-lg shadow-primary-200 flex items-center justify-center gap-2 transition-all duration-300">
+                    <i data-lucide="download" class="w-5 h-5"></i>
+                    <span>Unduh Ulang PDF</span>
+                </button>
+                
+                <!-- Tombol Bagikan WhatsApp -->
+                <button id="successWhatsAppBtn" class="w-full bg-[#25D366] hover:bg-[#20ba5a] text-white font-semibold py-3.5 px-4 rounded-xl shadow-lg shadow-emerald-200 flex items-center justify-center gap-2.5 transition-all duration-300">
+                    <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.457L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.37 9.864-9.799.002-2.63-1.023-5.101-2.885-6.963C16.588 2.015 14.117.99 11.503.99c-5.437 0-9.862 4.37-9.866 9.801-.002 1.741.464 3.442 1.348 4.965l-.999 3.65 3.76-.979c1.517.886 3.076 1.328 4.301 1.328zm10.967-7.47c-.302-.152-1.785-.882-2.062-.983-.277-.101-.479-.152-.68.152-.201.302-.776.983-.951 1.185-.176.201-.351.226-.653.075-.302-.152-1.272-.469-2.422-1.494-.894-.797-1.498-1.782-1.674-2.084-.176-.302-.019-.465.132-.615.136-.135.302-.351.453-.528.151-.176.201-.302.302-.503.101-.201.05-.378-.025-.528-.075-.151-.68-1.637-.932-2.242-.245-.589-.496-.51-.68-.51-.176-.008-.378-.008-.579-.008-.201 0-.528.075-.805.378-.277.302-1.057 1.033-1.057 2.52s1.083 2.922 1.233 3.123c.151.201 2.13 3.253 5.16 4.561.72.311 1.282.497 1.72.637.724.229 1.382.197 1.902.12.58-.088 1.785-.73 2.037-1.437.252-.707.252-1.313.176-1.437-.076-.126-.277-.201-.579-.352z"/>
+                    </svg>
+                    <span>Bagikan ke WhatsApp</span>
+                </button>
+            </div>
+
+            <!-- Tombol Tutup -->
+            <button onclick="closeSuccessModal()" class="mt-4 text-xs font-semibold text-slate-400 hover:text-slate-600 px-4 py-2 rounded-lg hover:bg-slate-50 transition-colors">
+                Selesai & Tutup
+            </button>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toastContainer" class="fixed bottom-5 right-5 space-y-3 z-50 pointer-events-none max-w-md w-full"></div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="fixed inset-0 bg-slate-900/70 backdrop-blur-md flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-white rounded-2xl p-8 max-w-sm w-full shadow-2xl text-center space-y-6">
+            <div class="relative w-24 h-24 mx-auto flex items-center justify-center">
+                <div class="absolute inset-0 border-4 border-primary-200 border-t-primary-600 rounded-full animate-spin"></div>
+                <i data-lucide="file-output" class="w-8 h-8 text-primary-600 animate-pulse"></i>
+            </div>
+            <div class="space-y-2">
+                <h4 class="font-bold text-lg text-slate-800">Sedang Menggabungkan...</h4>
+                <p class="text-xs text-slate-400">Menyusun halaman, mendekode biner dokumen, dan merakit file PDF baru Anda.</p>
+            </div>
+            <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                <div id="progressBar" class="bg-primary-600 h-full w-0 transition-all duration-300"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Utama -->
+    <script>
+        // Array global untuk menyimpan data file PDF yang diunggah
+        let uploadedFiles = [];
+
+        // Variabel global untuk menampung data hasil penggabungan PDF terakhir
+        let lastMergedFile = null;
+        let lastMergedUrl = null;
+        let lastMergedName = '';
+
+        // Referensi Elemen DOM
+        const fileInput = document.getElementById('fileInput');
+        const dropzone = document.getElementById('dropzone');
+        const fileList = document.getElementById('fileList');
+        const emptyState = document.getElementById('emptyState');
+        const fileCountBadge = document.getElementById('fileCountBadge');
+        const summaryFooter = document.getElementById('summaryFooter');
+        const totalSizeText = document.getElementById('totalSizeText');
+        const totalPagesText = document.getElementById('totalPagesText');
+        const mergeBtn = document.getElementById('mergeBtn');
+        const outputFileName = document.getElementById('outputFileName');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const progressBar = document.getElementById('progressBar');
+        const toastContainer = document.getElementById('toastContainer');
+        
+        // DOM Modals
+        const previewModal = document.getElementById('previewModal');
+        const previewModalTitle = document.getElementById('previewModalTitle');
+        const previewIframe = document.getElementById('previewIframe');
+        const previewError = document.getElementById('previewError');
+
+        const successModal = document.getElementById('successModal');
+        const successFileName = document.getElementById('successFileName');
+        const successFileSize = document.getElementById('successFileSize');
+        const successDownloadBtn = document.getElementById('successDownloadBtn');
+        const successWhatsAppBtn = document.getElementById('successWhatsAppBtn');
+
+        // Inisialisasi ikon Lucide pertama kali
+        lucide.createIcons();
+
+        // Mencegah behavior default browser saat drag and drop
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropzone.addEventListener(eventName, preventDefaults, false);
+            document.body.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        // Highlight dropzone saat file ditarik di atasnya
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropzone.addEventListener(eventName, () => {
+                dropzone.classList.add('border-primary-500', 'bg-primary-50/30');
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropzone.addEventListener(eventName, () => {
+                dropzone.classList.remove('border-primary-500', 'bg-primary-50/30');
+            }, false);
+        });
+
+        // Event Handling untuk input file
+        dropzone.addEventListener('drop', handleDrop, false);
+        fileInput.addEventListener('change', handleFileSelect, false);
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            processFiles(files);
+        }
+
+        function handleFileSelect(e) {
+            const files = e.target.files;
+            processFiles(files);
+        }
+
+        // Memproses file yang diunggah
+        async function processFiles(files) {
+            const pdfFiles = Array.from(files).filter(file => file.type === 'application/pdf');
+            
+            if (pdfFiles.length === 0) {
+                showToast('Hanya file berformat PDF yang diperbolehkan!', 'error');
+                return;
+            }
+
+            showToast(`Sedang memproses ${pdfFiles.length} file...`, 'info');
+
+            for (const file of pdfFiles) {
+                try {
+                    // Validasi internal PDF dan hitung jumlah halaman
+                    const arrayBuffer = await file.arrayBuffer();
+                    const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
+                    const pageCount = pdfDoc.getPageCount();
+
+                    // Daftarkan ke array
+                    const fileObj = {
+                        id: crypto.randomUUID(),
+                        file: file,
+                        arrayBuffer: arrayBuffer,
+                        name: file.name,
+                        size: file.size,
+                        pages: pageCount,
+                        pageRange: 'all' // Default menggabungkan semua halaman
+                    };
+
+                    uploadedFiles.push(fileObj);
+                } catch (error) {
+                    showToast(`Gagal membaca file: ${file.name}. Kemungkinan file korup atau terenkripsi.`, 'error');
+                }
+            }
+
+            // Bersihkan input agar bisa mendeteksi perubahan jika file yang sama diunggah ulang
+            fileInput.value = '';
+
+            // Update UI
+            updateUI();
+            showToast('Semua file berhasil diproses!', 'success');
+        }
+
+        // Format ukuran file ke representasi yang mudah dibaca (KB/MB)
+        function formatBytes(bytes, decimals = 2) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const dm = decimals < 0 ? 0 : decimals;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+        }
+
+        // Render Ulang Interface List File
+        function updateUI() {
+            if (uploadedFiles.length === 0) {
+                fileList.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+                summaryFooter.classList.add('hidden');
+                mergeBtn.disabled = true;
+                fileCountBadge.textContent = '0 File';
+                return;
+            }
+
+            fileList.classList.remove('hidden');
+            emptyState.classList.add('hidden');
+            summaryFooter.classList.remove('hidden');
+            mergeBtn.disabled = false;
+
+            fileCountBadge.textContent = `${uploadedFiles.length} File`;
+
+            // Hitung Total Ukuran & Halaman
+            let totalSize = 0;
+            let totalPages = 0;
+
+            fileList.innerHTML = '';
+            uploadedFiles.forEach((fileObj, index) => {
+                totalSize += fileObj.size;
+                totalPages += fileObj.pages;
+
+                const li = document.createElement('li');
+                li.className = 'p-4 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white hover:bg-slate-50 transition-colors';
+                li.innerHTML = `
+                    <div class="flex items-start space-x-3 flex-grow min-w-0">
+                        <div class="bg-red-50 text-red-500 p-2.5 rounded-lg flex-shrink-0 mt-0.5">
+                            <i data-lucide="file-text" class="w-5 h-5"></i>
+                        </div>
+                        <div class="min-w-0 flex-grow">
+                            <p class="text-sm font-semibold text-slate-800 truncate" title="${fileObj.name}">${fileObj.name}</p>
+                            <div class="flex items-center space-x-2 mt-1 text-xs text-slate-400">
+                                <span>${formatBytes(fileObj.size)}</span>
+                                <span>•</span>
+                                <span class="bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-medium">${fileObj.pages} Halaman</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Input Kustom Rentang Halaman -->
+                    <div class="flex items-center space-x-2 flex-shrink-0">
+                        <div class="relative w-36">
+                            <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-[10px] uppercase font-bold text-slate-400">Hal</span>
+                            <input type="text" 
+                                value="${fileObj.pageRange}" 
+                                onchange="updatePageRange('${fileObj.id}', this.value)"
+                                placeholder="all atau 1-3, 5" 
+                                class="w-full pl-9 pr-2 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold text-slate-700 focus:ring-1 focus:ring-primary-500 focus:border-primary-500 outline-none transition-all" />
+                        </div>
+                        
+                        <!-- Navigasi & Action Buttons -->
+                        <div class="flex items-center space-x-1 border-l border-slate-100 pl-2">
+                            <button onclick="moveFile(${index}, -1)" ${index === 0 ? 'disabled' : ''} class="p-1.5 text-slate-400 hover:text-slate-700 disabled:opacity-30 disabled:pointer-events-none rounded hover:bg-slate-100 transition-colors" title="Pindah ke Atas">
+                                <i data-lucide="arrow-up" class="w-4 h-4"></i>
+                            </button>
+                            <button onclick="moveFile(${index}, 1)" ${index === uploadedFiles.length - 1 ? 'disabled' : ''} class="p-1.5 text-slate-400 hover:text-slate-700 disabled:opacity-30 disabled:pointer-events-none rounded hover:bg-slate-100 transition-colors" title="Pindah ke Bawah">
+                                <i data-lucide="arrow-down" class="w-4 h-4"></i>
+                            </button>
+                            <button onclick="previewFile('${fileObj.id}')" class="p-1.5 text-slate-400 hover:text-primary-600 rounded hover:bg-primary-50 transition-colors" title="Pratinjau File">
+                                <i data-lucide="eye" class="w-4 h-4"></i>
+                            </button>
+                            <button onclick="removeFile('${fileObj.id}')" class="p-1.5 text-slate-400 hover:text-red-500 rounded hover:bg-red-50 transition-colors" title="Hapus dari antrean">
+                                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                fileList.appendChild(li);
+            });
+
+            totalSizeText.textContent = formatBytes(totalSize);
+            totalPagesText.textContent = totalPages;
+
+            // Re-render Lucide icons
+            lucide.createIcons();
+        }
+
+        // Update nilai kustom rentang halaman dari input
+        function updatePageRange(id, value) {
+            const fileObj = uploadedFiles.find(f => f.id === id);
+            if (fileObj) {
+                fileObj.pageRange = value.trim() === '' ? 'all' : value.trim();
+            }
+        }
+
+        // Hapus file dari antrean
+        function removeFile(id) {
+            uploadedFiles = uploadedFiles.filter(file => file.id !== id);
+            updateUI();
+            showToast('File berhasil dihapus dari antrean.', 'info');
+        }
+
+        // Pindahkan posisi urutan file
+        function moveFile(index, direction) {
+            const targetIndex = index + direction;
+            if (targetIndex >= 0 && targetIndex < uploadedFiles.length) {
+                const temp = uploadedFiles[index];
+                uploadedFiles[index] = uploadedFiles[targetIndex];
+                uploadedFiles[targetIndex] = temp;
+                updateUI();
+            }
+        }
+
+        // Fungsi Membuka Preview File PDF
+        function previewFile(id) {
+            const fileObj = uploadedFiles.find(f => f.id === id);
+            if (!fileObj) return;
+
+            previewModalTitle.textContent = fileObj.name;
+            previewIframe.src = '';
+            previewError.classList.add('hidden');
+            previewIframe.classList.remove('hidden');
+
+            try {
+                const blob = new Blob([fileObj.arrayBuffer], { type: 'application/pdf' });
+                const blobUrl = URL.createObjectURL(blob);
+                previewIframe.src = blobUrl;
+                previewModal.classList.remove('hidden');
+            } catch (err) {
+                previewIframe.classList.add('hidden');
+                previewError.classList.remove('hidden');
+                previewModal.classList.remove('hidden');
+            }
+        }
+
+        // Menutup modal pratinjau
+        function closePreviewModal() {
+            previewModal.classList.add('hidden');
+            // Bersihkan src iframe untuk menghemat memori
+            if (previewIframe.src.startsWith('blob:')) {
+                URL.revokeObjectURL(previewIframe.src);
+            }
+            previewIframe.src = '';
+        }
+
+        // Menutup modal sukses
+        function closeSuccessModal() {
+            successModal.classList.add('hidden');
+        }
+
+        // Membuka modal sukses dengan info file terakhir
+        function openSuccessModal(name, size) {
+            successFileName.textContent = name;
+            successFileSize.textContent = formatBytes(size);
+            successModal.classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        // Fungsi unduh ulang file hasil merge terakhir
+        successDownloadBtn.addEventListener('click', () => {
+            if (lastMergedUrl && lastMergedName) {
+                const a = document.createElement('a');
+                a.href = lastMergedUrl;
+                a.download = lastMergedName;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                showToast('Unduhan ulang dimulai...', 'success');
+            } else {
+                showToast('Terjadi kesalahan, data file tidak ditemukan.', 'error');
+            }
+        });
+
+        // Event listener untuk memicu pembagian ke WhatsApp
+        successWhatsAppBtn.addEventListener('click', shareToWhatsApp);
+
+        // Sistem Pembagian Cerdas ke WhatsApp
+        async function shareToWhatsApp() {
+            if (!lastMergedFile) {
+                showToast('File tidak terdeteksi. Silakan ulangi penggabungan.', 'error');
+                return;
+            }
+
+            // Memeriksa dukungan fitur Web Share API dengan format berkas biner (Biasa didukung di Mobile/Smartphone)
+            if (navigator.share && navigator.canShare && navigator.canShare({ files: [lastMergedFile] })) {
+                try {
+                    await navigator.share({
+                        files: [lastMergedFile],
+                        title: lastMergedName,
+                        text: `Halo! Berikut berkas PDF "${lastMergedName}" yang baru saja digabungkan secara lokal menggunakan GabungPDF Pro.`
+                    });
+                    showToast('Berhasil memicu menu berbagi sistem!', 'success');
+                } catch (err) {
+                    if (err.name !== 'AbortError') {
+                        fallbackWhatsAppShare();
+                    }
+                }
+            } else {
+                // Alternatif fallback jika menggunakan Browser Desktop atau Browser yang belum mendukung API file sharing
+                fallbackWhatsAppShare();
+            }
+        }
+
+        // Fallback pengiriman pesan WhatsApp pada Desktop / non-API browser
+        function fallbackWhatsAppShare() {
+            const defaultText = `Halo! Saya baru saja menggabungkan PDF menjadi berkas "${lastMergedName}" menggunakan aplikasi web GabungPDF Pro.`;
+            const encodedText = encodeURIComponent(defaultText);
+            const waUrl = `https://api.whatsapp.com/send?text=${encodedText}`;
+            
+            // Buka jendela baru WhatsApp Web/App
+            window.open(waUrl, '_blank');
+            
+            // Berikan petunjuk instan kepada pengguna Desktop untuk mengunggah file yang sudah terunduh
+            showToast('Membuka WhatsApp. Silakan drag-and-drop file yang baru saja terunduh ke kontak tujuan.', 'info');
+        }
+
+        // Parser Pintar Rentang Halaman (Mengekstrak rentang string "1-3, 5" ke index array berdasar 0-index)
+        function parsePageRange(rangeStr, maxPages) {
+            if (!rangeStr || rangeStr.toLowerCase() === 'all') {
+                return Array.from({ length: maxPages }, (_, i) => i);
+            }
+
+            const pages = new Set();
+            const parts = rangeStr.split(',');
+
+            for (let part of parts) {
+                part = part.trim();
+                if (part.includes('-')) {
+                    const [startStr, endStr] = part.split('-');
+                    const start = parseInt(startStr, 10);
+                    const end = parseInt(endStr, 10);
+
+                    if (!isNaN(start) && !isNaN(end)) {
+                        const min = Math.min(start, end);
+                        const max = Math.max(start, end);
+                        for (let i = min; i <= max; i++) {
+                            if (i >= 1 && i <= maxPages) {
+                                pages.add(i - 1); // Konversi ke index berbasis 0
+                            }
+                        }
+                    }
+                } else {
+                    const val = parseInt(part, 10);
+                    if (!isNaN(val) && val >= 1 && val <= maxPages) {
+                        pages.add(val - 1); // Konversi ke index berbasis 0
+                    }
+                }
+            }
+
+            // Urutkan index halaman dari yang terkecil ke terbesar
+            return Array.from(pages).sort((a, b) => a - b);
+        }
+
+        // Eksekusi Logika Penggabungan PDF
+        mergeBtn.addEventListener('click', async () => {
+            if (uploadedFiles.length === 0) return;
+
+            // Memunculkan Loading overlay
+            loadingOverlay.classList.remove('hidden');
+            progressBar.style.width = '10%';
+
+            // Bebaskan resource URL blob lama jika ada untuk optimasi memori browser
+            if (lastMergedUrl) {
+                URL.revokeObjectURL(lastMergedUrl);
+            }
+
+            try {
+                const mergedPdf = await PDFLib.PDFDocument.create();
+                const totalFiles = uploadedFiles.length;
+
+                for (let i = 0; i < totalFiles; i++) {
+                    const fileObj = uploadedFiles[i];
+                    
+                    // Muat dokumen PDF target
+                    const pdfDoc = await PDFLib.PDFDocument.load(fileObj.arrayBuffer);
+                    
+                    // Dapatkan index halaman yang ingin diekstraksi
+                    const pageIndices = parsePageRange(fileObj.pageRange, fileObj.pages);
+
+                    if (pageIndices.length > 0) {
+                        // Copy halaman yang disaring ke dokumen baru
+                        const copiedPages = await mergedPdf.copyPages(pdfDoc, pageIndices);
+                        copiedPages.forEach(page => mergedPdf.addPage(page));
+                    }
+
+                    // Update persentase kemajuan loading bar
+                    const progressVal = Math.round(((i + 1) / totalFiles) * 80) + 10;
+                    progressBar.style.width = `${progressVal}%`;
+                }
+
+                // Simpan biner dari hasil gabungan
+                const mergedPdfBytes = await mergedPdf.save();
+                progressBar.style.width = '100%';
+
+                // Berikan jeda estetis agar animasi transisi terasa mulus
+                setTimeout(() => {
+                    loadingOverlay.classList.add('hidden');
+
+                    // Buat file Blob dan simpan ke variabel global
+                    const blob = new Blob([mergedPdfBytes], { type: 'application/pdf' });
+                    lastMergedUrl = URL.createObjectURL(blob);
+                    
+                    let outName = outputFileName.value.trim();
+                    if (!outName) outName = 'dokumen_gabungan';
+                    if (!outName.toLowerCase().endsWith('.pdf')) outName += '.pdf';
+
+                    lastMergedName = outName;
+                    
+                    // Membuat objek File asli untuk keperluan Web Share API
+                    lastMergedFile = new File([blob], lastMergedName, { type: 'application/pdf' });
+
+                    // Trigger unduhan otomatis pertama kali
+                    const a = document.createElement('a');
+                    a.href = lastMergedUrl;
+                    a.download = lastMergedName;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+
+                    // Tampilkan modal sukses interaktif dengan pilihan Bagikan WhatsApp
+                    openSuccessModal(lastMergedName, blob.size);
+
+                    showToast('PDF berhasil digabungkan dan diunduh!', 'success');
+                }, 800);
+
+            } catch (err) {
+                console.error(err);
+                loadingOverlay.classList.add('hidden');
+                showToast('Terjadi kesalahan tidak terduga saat menggabungkan PDF Anda.', 'error');
+            }
+        });
+
+        // Sistem Toast Notification Kustom yang Elegan
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = 'flex items-center p-4 rounded-xl shadow-lg border text-sm transition-all duration-300 transform translate-y-2 opacity-0 pointer-events-auto';
+            
+            let icon = 'info';
+            let bgClass = 'bg-white text-slate-800 border-slate-200';
+            let iconClass = 'text-primary-500';
+
+            if (type === 'success') {
+                icon = 'check-circle';
+                bgClass = 'bg-white border-emerald-100 text-slate-800';
+                iconClass = 'text-emerald-500';
+            } else if (type === 'error') {
+                icon = 'alert-triangle';
+                bgClass = 'bg-white border-red-100 text-slate-800';
+                iconClass = 'text-red-500';
+            } else if (type === 'info') {
+                icon = 'info';
+                bgClass = 'bg-white border-blue-100 text-slate-800';
+                iconClass = 'text-blue-500';
+            }
+
+            toast.innerHTML = `
+                <div class="${iconClass} mr-3">
+                    <i data-lucide="${icon}" class="w-5 h-5"></i>
+                </div>
+                <div class="font-medium mr-2 flex-grow">${message}</div>
+                <button class="text-slate-400 hover:text-slate-600 transition-colors ml-auto">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            `;
+
+            toastContainer.appendChild(toast);
+            lucide.createIcons();
+
+            // Animasi memunculkan toast
+            setTimeout(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            }, 10);
+
+            // Handler tombol close toast
+            toast.querySelector('button').addEventListener('click', () => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            });
+
+            // Hilang otomatis dalam waktu 4 detik
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.classList.add('opacity-0', 'translate-y-2');
+                    setTimeout(() => toast.remove(), 300);
+                }
+            }, 4000);
+        }
+    </script>
+</body>
+</html>
