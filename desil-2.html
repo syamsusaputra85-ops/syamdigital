@@ -1,0 +1,1151 @@
+import React, { useState, useEffect, useMemo } from 'react';
+
+// === COMPONENT UTAMA ===
+export default function App() {
+  const defaultSpreadsheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT_ppTR-ulTolGnni4Stu6zPxEalQ-WjEDoJmSgp2THIbUBAZ7Nga2Kwyn0hHwjimRJqqpis9SVuZ6E/pub?gid=497516861&single=true&output=csv';
+
+  // State Management
+  const [csvUrl, setCsvUrl] = useState(defaultSpreadsheetUrl);
+  const [rawData, setRawData] = useState('');
+  const [dataHeaders, setDataHeaders] = useState([]);
+  const [dataRows, setDataRows] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [dataSource, setDataSource] = useState('remote'); // 'remote', 'simulation', 'manual'
+  
+  // State Pencarian dan Filter
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedDesil, setSelectedDesil] = useState('Semua');
+  const [selectedKecamatan, setSelectedKecamatan] = useState('Semua');
+  const [selectedDesa, setSelectedDesa] = useState('Semua');
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
+  
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  
+  // Detail Modal State
+  const [selectedFamily, setSelectedFamily] = useState(null);
+  const [activeTab, setActiveTab] = useState('database'); // 'database' | 'dashboard' | 'bantuan'
+
+  // Fungsi Parser CSV Kustom yang Sangat Kuat (Handal menangani koma di dalam tanda kutip)
+  const parseCSV = (text) => {
+    if (!text) return { headers: [], rows: [] };
+    const lines = [];
+    let row = [""];
+    let inQuotes = false;
+
+    for (let i = 0; i < text.length; i++) {
+      const char = text[i];
+      const nextChar = text[i + 1];
+
+      if (char === '"') {
+        if (inQuotes && nextChar === '"') {
+          row[row.length - 1] += '"';
+          i++;
+        } else {
+          inQuotes = !inQuotes;
+        }
+      } else if (char === ',' && !inQuotes) {
+        row.push('');
+      } else if ((char === '\r' || char === '\n') && !inQuotes) {
+        if (char === '\r' && nextChar === '\n') {
+          i++;
+        }
+        lines.push(row);
+        row = [''];
+      } else {
+        row[row.length - 1] += char;
+      }
+    }
+    if (row.length > 1 || row[0] !== '') {
+      lines.push(row);
+    }
+
+    if (lines.length === 0) return { headers: [], rows: [] };
+    
+    // Header pembersihan karakter non-printable / BOM
+    const headers = lines[0].map(h => h.trim().replace(/^\uFEFF/, ''));
+    
+    const rows = lines.slice(1)
+      .filter(line => line.some(cell => cell.trim() !== ''))
+      .map((line, index) => {
+        const rowObj = { _id: index };
+        headers.forEach((header, colIndex) => {
+          rowObj[header] = line[colIndex] !== undefined ? line[colIndex].trim() : '';
+        });
+        return rowObj;
+      });
+
+    return { headers, rows };
+  };
+
+  // Data Simulasi Kesejahteraan (P3KE/DTKS) yang Realistis untuk Fallback Pintar
+  const getMockData = () => {
+    return `No,Nama Kepala Keluarga,NIK,No. KK,Alamat,RT,RW,Dusun / Desa,Kecamatan,Desil,Jumlah ART,Pekerjaan,Bantuan Sosial
+1,Ahmad Subarjo,3201021405780001,3201021008120045,Jl. Kenanga No. 12,02,04,Desa Sukamakmur,Kecamatan Caringin,Desil 1 (Sangat Miskin),4,Buruh Tani,PKH & BPNT
+2,Siti Aminah,3201024508820002,3201021008120099,Kampung Baru RT 03,03,01,Desa Sukamakmur,Kecamatan Caringin,Desil 2 (Miskin),5,Pedagang Kecil,BPNT
+3,Bambang Pamungkas,3201021811720003,3201021203110052,RT 01 RW 02 Dusun Kidul,01,02,Desa Bojong Gede,Kecamatan Sukaraja,Desil 3 (Hampir Miskin),3,Ojek Online,KIP
+4,Dewi Lestari,3201035504900004,3201031908150112,Perumahan Griya Asri B4,04,08,Desa Bojong Gede,Kecamatan Sukaraja,Desil 4 (Rentan Miskin),2,Asisten Rumah Tangga,Belum Ada
+5,Joko Widodo,3201041209680005,3201041512100021,Dusun Krajan Tengah,02,02,Desa Karangrejo,Kecamatan Caringin,Desil 1 (Sangat Miskin),6,Pemulung,PBI-JK
+6,Sri Wahyuni,3201034402850006,3201031104110088,Komp. Melati Blok C,01,05,Desa Karangrejo,Kecamatan Caringin,Desil 3 (Hampir Miskin),4,Buruh Cuci,PKH
+7,Hendra Setiawan,3201050503800007,3201052210130004,Gg. H. Bakri No. 45,03,03,Desa Sukamakmur,Kecamatan Caringin,Desil 2 (Miskin),3,Supir Angkot,BPNT & PBI-JK
+8,Kartini Sastro,3201026110550008,3201020404090023,Kampung Pasir Angin,02,01,Desa Bojong Gede,Kecamatan Sukaraja,Desil 1 (Sangat Miskin),1,Tidak Bekerja (Lansia),PKH Lansia
+9,Rian Adianto,3201061902890009,3201061706140091,RT 05 RW 03 Kp. Sawah,05,03,Desa Karangrejo,Kecamatan Caringin,Desil 4 (Rentan Miskin),5,Buruh Bangunan,Belum Ada
+10,Megawati Sukma,3201034101750010,3201032812110047,Jl. Garuda No. 88,01,02,Desa Sukamakmur,Kecamatan Caringin,Desil 3 (Hampir Miskin),3,Penjahit,KIP Kuliah
+11,Budi Utomo,3201021408800011,3201021901110031,Kampung Babakan RT 02,02,05,Desa Bojong Gede,Kecamatan Sukaraja,Desil 1 (Sangat Miskin),5,Buruh Harian Lepas,PKH & BPNT
+12,Ani Yudhoyono,3201025211830012,3201022204120054,Dusun Wetan RT 01,01,03,Desa Karangrejo,Kecamatan Caringin,Desil 2 (Miskin),4,Pedagang Gorengan,BPNT`;
+  };
+
+  // Fetch Data dari Google Sheet CSV
+  const fetchData = async (urlToFetch) => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      // Menggunakan fetch dengan no-cache untuk memastikan data terupdate
+      const response = await fetch(urlToFetch, { cache: 'no-store' });
+      if (!response.ok) {
+        throw new Error(`Gagal mengambil data dari server (Status: ${response.status})`);
+      }
+      const text = await response.text();
+      
+      if (!text || text.trim().length === 0) {
+        throw new Error("Data CSV kosong atau tidak valid.");
+      }
+
+      const { headers, rows } = parseCSV(text);
+      if (headers.length === 0 || rows.length === 0) {
+        throw new Error("Gagal mengurai kolom data CSV. Pastikan format spreadsheet valid.");
+      }
+
+      setDataHeaders(headers);
+      setDataRows(rows);
+      setRawData(text);
+      setDataSource('remote');
+    } catch (err) {
+      console.error("Fetch error details:", err);
+      setError(`Koneksi Gagal: ${err.message}. Tenang, Anda dapat menggunakan opsi 'Gunakan Data Simulasi' di bawah untuk mengecek kecanggihan aplikasi ini.`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Efek Pertama Kali Load
+  useEffect(() => {
+    fetchData(csvUrl);
+  }, []);
+
+  // Fungsi beralih ke Data Simulasi
+  const handleLoadSimulationData = () => {
+    setIsLoading(true);
+    setError(null);
+    setTimeout(() => {
+      const mockCsv = getMockData();
+      const { headers, rows } = parseCSV(mockCsv);
+      setDataHeaders(headers);
+      setDataRows(rows);
+      setRawData(mockCsv);
+      setDataSource('simulation');
+      setIsLoading(false);
+    }, 500);
+  };
+
+  // Fungsi memuat CSV manual dari Input Text
+  const handleManualCsvSubmit = (text) => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const { headers, rows } = parseCSV(text);
+      if (headers.length === 0 || rows.length === 0) {
+        throw new Error("Format CSV tidak valid atau baris data tidak terdeteksi.");
+      }
+      setDataHeaders(headers);
+      setDataRows(rows);
+      setRawData(text);
+      setDataSource('manual');
+      setActiveTab('database');
+    } catch (err) {
+      setError(`Gagal mengurai CSV manual: ${err.message}`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Deteksi kolom dinamis (mencari padanan nama kolom yang mirip)
+  const getColumnMapping = useMemo(() => {
+    const mapping = {
+      nama: '',
+      nik: '',
+      kk: '',
+      alamat: '',
+      desa: '',
+      kecamatan: '',
+      desil: '',
+      art: '',
+      penerimaBansos: ''
+    };
+
+    dataHeaders.forEach(header => {
+      const hLower = header.toLowerCase();
+      if (hLower.includes('nama') || hLower.includes('kepala keluarga') || hLower === 'kk_nama') {
+        if (!mapping.nama) mapping.nama = header;
+      } else if (hLower === 'nik' || hLower.includes('n.i.k') || hLower.includes('identitas')) {
+        if (!mapping.nik) mapping.nik = header;
+      } else if (hLower.includes('kk') || hLower.includes('kartu keluarga') || hLower === 'no_kk') {
+        if (!mapping.kk) mapping.kk = header;
+      } else if (hLower.includes('alamat') || hLower.includes('jalan') || hLower === 'lokasi') {
+        if (!mapping.alamat) mapping.alamat = header;
+      } else if (hLower.includes('desa') || hLower.includes('kelurahan') || hLower.includes('dusun')) {
+        if (!mapping.desa) mapping.desa = header;
+      } else if (hLower.includes('kecamatan')) {
+        if (!mapping.kecamatan) mapping.kecamatan = header;
+      } else if (hLower.includes('desil') || hLower.includes('kesejahteraan') || hLower.includes('p3ke')) {
+        if (!mapping.desil) mapping.desil = header;
+      } else if (hLower.includes('art') || hLower.includes('anggota') || hLower.includes('jumlah_keluarga')) {
+        if (!mapping.art) mapping.art = header;
+      } else if (hLower.includes('bansos') || hLower.includes('bantuan') || hLower.includes('pkh') || hLower.includes('program')) {
+        if (!mapping.penerimaBansos) mapping.penerimaBansos = header;
+      }
+    });
+
+    // Fallback jika tidak terdeteksi otomatis, ambil kolom pertama yang relevan
+    if (!mapping.nama && dataHeaders.length > 0) mapping.nama = dataHeaders[1] || dataHeaders[0];
+    if (!mapping.desil && dataHeaders.length > 0) mapping.desil = dataHeaders.find(h => h.toLowerCase().includes('desil')) || dataHeaders[dataHeaders.length - 1];
+
+    return mapping;
+  }, [dataHeaders]);
+
+  // Ekstraksi Nilai Unik untuk Filter Dropdown
+  const filterOptions = useMemo(() => {
+    const desilSet = new Set();
+    const kecamatanSet = new Set();
+    const desaSet = new Set();
+
+    dataRows.forEach(row => {
+      const desilCol = getColumnMapping.desil;
+      const kecCol = getColumnMapping.kecamatan;
+      const desaCol = getColumnMapping.desa;
+
+      if (desilCol && row[desilCol]) desilSet.add(row[desilCol]);
+      if (kecCol && row[kecCol]) kecamatanSet.add(row[kecCol]);
+      if (desaCol && row[desaCol]) desaSet.add(row[desaCol]);
+    });
+
+    return {
+      desil: ['Semua', ...Array.from(desilSet).sort()],
+      kecamatan: ['Semua', ...Array.from(kecamatanSet).sort()],
+      desa: ['Semua', ...Array.from(desaSet).sort()]
+    };
+  }, [dataRows, getColumnMapping]);
+
+  // Fungsi Pengurutan (Sorting) Data
+  const handleSort = (key) => {
+    let direction = 'asc';
+    if (sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc';
+    }
+    setSortConfig({ key, direction });
+  };
+
+  // Filter & Pencarian Utama Data
+  const filteredRows = useMemo(() => {
+    return dataRows.filter(row => {
+      // 1. Filter Pencarian Global (mencari ke semua kolom)
+      const matchSearch = searchTerm === '' || Object.values(row).some(val => 
+        String(val).toLowerCase().includes(searchTerm.toLowerCase())
+      );
+
+      // 2. Filter Desil
+      const desilCol = getColumnMapping.desil;
+      const matchDesil = selectedDesil === 'Semua' || (desilCol && row[desilCol] === selectedDesil);
+
+      // 3. Filter Kecamatan
+      const kecCol = getColumnMapping.kecamatan;
+      const matchKecamatan = selectedKecamatan === 'Semua' || (kecCol && row[kecCol] === selectedKecamatan);
+
+      // 4. Filter Desa
+      const desaCol = getColumnMapping.desa;
+      const matchDesa = selectedDesa === 'Semua' || (desaCol && row[desaCol] === selectedDesa);
+
+      return matchSearch && matchDesil && matchKecamatan && matchDesa;
+    }).sort((a, b) => {
+      if (!sortConfig.key) return 0;
+      const aVal = String(a[sortConfig.key]);
+      const bVal = String(b[sortConfig.key]);
+      
+      // Jika angka
+      if (!isNaN(aVal) && !isNaN(bVal)) {
+        return sortConfig.direction === 'asc' ? Number(aVal) - Number(bVal) : Number(bVal) - Number(aVal);
+      }
+      
+      return sortConfig.direction === 'asc' 
+        ? aVal.localeCompare(bVal) 
+        : bVal.localeCompare(aVal);
+    });
+  }, [dataRows, searchTerm, selectedDesil, selectedKecamatan, selectedDesa, sortConfig, getColumnMapping]);
+
+  // Reset filter ke default
+  const handleResetFilters = () => {
+    setSearchTerm('');
+    setSelectedDesil('Semua');
+    setSelectedKecamatan('Semua');
+    setSelectedDesa('Semua');
+    setSortConfig({ key: null, direction: 'asc' });
+    setCurrentPage(1);
+  };
+
+  // Pagination Logic
+  const paginatedRows = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    return filteredRows.slice(startIndex, startIndex + itemsPerPage);
+  }, [filteredRows, currentPage, itemsPerPage]);
+
+  const totalPages = Math.ceil(filteredRows.length / itemsPerPage) || 1;
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, selectedDesil, selectedKecamatan, selectedDesa, itemsPerPage]);
+
+  // Statistik Dashboard Kesejahteraan
+  const stats = useMemo(() => {
+    const total = dataRows.length;
+    let desil1Count = 0;
+    let desil2Count = 0;
+    let desil3Count = 0;
+    let desil4Count = 0;
+    let totalART = 0;
+    const desilCol = getColumnMapping.desil;
+    const artCol = getColumnMapping.art;
+
+    dataRows.forEach(row => {
+      const desilVal = desilCol ? String(row[desilCol]).toLowerCase() : '';
+      if (desilVal.includes('desil 1') || desilVal === '1') desil1Count++;
+      else if (desilVal.includes('desil 2') || desilVal === '2') desil2Count++;
+      else if (desilVal.includes('desil 3') || desilVal === '3') desil3Count++;
+      else if (desilVal.includes('desil 4') || desilVal === '4') desil4Count++;
+
+      if (artCol && row[artCol]) {
+        const val = parseInt(row[artCol]);
+        if (!isNaN(val)) totalART += val;
+      }
+    });
+
+    const desilDistribution = {};
+    if (desilCol) {
+      dataRows.forEach(row => {
+        const val = row[desilCol] || 'Tidak Terdefinisi';
+        desilDistribution[val] = (desilDistribution[val] || 0) + 1;
+      });
+    }
+
+    const desaDistribution = {};
+    const desaCol = getColumnMapping.desa;
+    if (desaCol) {
+      dataRows.forEach(row => {
+        const val = row[desaCol] || 'Lainnya';
+        desaDistribution[val] = (desaDistribution[val] || 0) + 1;
+      });
+    }
+
+    return {
+      total,
+      desil1Count,
+      desil2Count,
+      desil3Count,
+      desil4Count,
+      totalART,
+      desilDistribution,
+      desaDistribution: Object.entries(desaDistribution).sort((a,b) => b[1] - a[1]).slice(0, 5) // Top 5 Desa
+    };
+  }, [dataRows, getColumnMapping]);
+
+  // Fungsi Ekspor filtered data ke CSV lokal
+  const exportToCSV = () => {
+    if (filteredRows.length === 0) return;
+    
+    // Gabungkan Header
+    const csvContent = [
+      dataHeaders.join(','),
+      ...filteredRows.map(row => 
+        dataHeaders.map(header => {
+          const cell = row[header] === undefined ? '' : String(row[header]);
+          // Escape quotes jika mengandung koma
+          return cell.includes(',') || cell.includes('"') || cell.includes('\n')
+            ? `"${cell.replace(/"/g, '""')}"`
+            : cell;
+        }).join(',')
+      )
+    ].join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `Data_Desil_Terfilter_${new Date().toISOString().slice(0, 10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  return (
+    <div className="min-h-screen bg-slate-50 text-slate-800 font-sans">
+      {/* HEADER UTAMA */}
+      <header className="bg-gradient-to-r from-emerald-700 via-teal-800 to-cyan-900 text-white shadow-md sticky top-0 z-30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+          <div className="flex items-center space-x-3">
+            <div className="p-2.5 bg-white/10 rounded-xl backdrop-blur-sm border border-white/20">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-emerald-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 005.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+            </div>
+            <div>
+              <h1 className="text-xl md:text-2xl font-bold tracking-tight">Sistem Informasi Pencarian Data Desil</h1>
+              <p className="text-xs text-emerald-200/90 font-medium">Akselerasi Pensasaran Percepatan Penghapusan Kemiskinan Ekstrem (P3KE)</p>
+            </div>
+          </div>
+          
+          <div className="flex flex-wrap gap-2">
+            <button
+              onClick={() => setActiveTab('database')}
+              className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-150 ${activeTab === 'database' ? 'bg-white text-teal-900 shadow-sm' : 'hover:bg-white/10 text-white'}`}
+            >
+              Data Pemilih / Kesejahteraan
+            </button>
+            <button
+              onClick={() => setActiveTab('dashboard')}
+              className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-150 ${activeTab === 'dashboard' ? 'bg-white text-teal-900 shadow-sm' : 'hover:bg-white/10 text-white'}`}
+            >
+              Statistik & Analisis
+            </button>
+            <button
+              onClick={() => setActiveTab('bantuan')}
+              className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-150 ${activeTab === 'bantuan' ? 'bg-white text-teal-900 shadow-sm' : 'hover:bg-white/10 text-white'}`}
+            >
+              Kustomisasi Sumber Data
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* BANNER STATUS KONEKSI DATA */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+        <div className={`p-3 rounded-xl border flex flex-col sm:flex-row justify-between items-center text-xs md:text-sm gap-2 ${
+          dataSource === 'remote' ? 'bg-emerald-50 border-emerald-200 text-emerald-800' :
+          dataSource === 'simulation' ? 'bg-amber-50 border-amber-200 text-amber-800' :
+          'bg-indigo-50 border-indigo-200 text-indigo-800'
+        }`}>
+          <div className="flex items-center space-x-2">
+            <span className={`w-2.5 h-2.5 rounded-full ${
+              dataSource === 'remote' ? 'bg-emerald-500 animate-pulse' :
+              dataSource === 'simulation' ? 'bg-amber-500 animate-pulse' :
+              'bg-indigo-500 animate-pulse'
+            }`}></span>
+            <span>
+              Sumber Data: <strong className="uppercase">{dataSource === 'remote' ? 'Google Spreadsheet Aktif' : dataSource === 'simulation' ? 'Simulasi Lokal (Offline)' : 'CSV Manual'}</strong>
+              {dataSource === 'remote' && <span className="hidden md:inline"> (Berhasil terhubung ke cloud spreadsheet)</span>}
+            </span>
+          </div>
+          <div className="flex items-center space-x-2">
+            {dataSource !== 'remote' && (
+              <button 
+                onClick={() => fetchData(csvUrl)}
+                className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-medium transition duration-150 flex items-center"
+              >
+                Coba Hubungkan Cloud Lagi
+              </button>
+            )}
+            <button 
+              onClick={() => setActiveTab('bantuan')} 
+              className="px-3 py-1.5 bg-white hover:bg-slate-100 text-slate-700 border rounded-lg font-medium shadow-xs transition duration-150"
+            >
+              Ubah Link CSV
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        {/* HANDLING LOADING */}
+        {isLoading && (
+          <div className="bg-white rounded-2xl p-16 shadow-xs border text-center flex flex-col items-center justify-center min-h-[400px]">
+            <div className="relative w-16 h-16">
+              <div className="absolute top-0 left-0 w-full h-full border-4 border-slate-200 rounded-full"></div>
+              <div className="absolute top-0 left-0 w-full h-full border-4 border-teal-600 border-t-transparent rounded-full animate-spin"></div>
+            </div>
+            <p className="mt-6 text-slate-600 font-medium">Sedang memproses dan menyusun data Desil...</p>
+            <p className="text-xs text-slate-400 mt-2">Menghubungkan ke: {csvUrl.substring(0, 60)}...</p>
+          </div>
+        )}
+
+        {/* HANDLING ERROR */}
+        {error && !isLoading && (
+          <div className="bg-white rounded-2xl p-8 shadow-xs border border-red-100 min-h-[400px] flex flex-col justify-center">
+            <div className="flex items-center space-x-3 text-red-700 mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+              <div>
+                <h3 className="text-lg font-bold">Terjadi Kendala Memuat Data</h3>
+                <p className="text-sm opacity-90">Sistem gagal menjangkau Google Spreadsheet Anda.</p>
+              </div>
+            </div>
+            
+            <div className="bg-slate-50 p-4 rounded-xl text-xs text-slate-600 font-mono mb-6 overflow-x-auto border">
+              {error}
+            </div>
+
+            <div className="p-5 bg-amber-50 border border-amber-200 rounded-xl mb-6 text-sm text-amber-900">
+              <p className="font-semibold mb-1">Kenapa hal ini bisa terjadi?</p>
+              <ul className="list-disc list-inside space-y-1 text-xs opacity-90">
+                <li>Spreadsheet belum di-Publish sebagai Web. (Klik File {`>`} Share {`>`} Publish to web {`>`} Pilih format CSV).</li>
+                <li>Masalah pembatasan koneksi CORS pada browser Anda.</li>
+                <li>Perangkat sedang dalam kondisi offline atau koneksi internet tidak stabil.</li>
+              </ul>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-3">
+              <button 
+                onClick={handleLoadSimulationData}
+                className="px-5 py-3 bg-teal-700 hover:bg-teal-800 text-white font-bold rounded-xl transition duration-150 flex items-center justify-center shadow-xs"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                </svg>
+                Gunakan Data Simulasi Indonesia (Rekomendasi Cepat)
+              </button>
+              <button 
+                onClick={() => setActiveTab('bantuan')}
+                className="px-5 py-3 bg-white border hover:bg-slate-100 text-slate-700 font-bold rounded-xl transition duration-150 flex items-center justify-center shadow-xs"
+              >
+                Konfigurasi / Tempel CSV Manual
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* UTAMA JIKA BERHASIL LOAD */}
+        {!isLoading && !error && (
+          <div>
+            {/* WIDGET SUMMARY STATS */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+              <div className="bg-white p-4 rounded-2xl border shadow-xs relative overflow-hidden">
+                <div className="absolute right-0 bottom-0 text-slate-100 translate-x-3 translate-y-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-20 w-20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                  </svg>
+                </div>
+                <p className="text-xs text-slate-400 uppercase font-bold tracking-wider">Total Kepala Keluarga</p>
+                <h3 className="text-2xl md:text-3xl font-extrabold text-slate-800 mt-1">{stats.total}</h3>
+                <p className="text-[10px] text-slate-500 mt-2">Kepala Keluarga terdaftar</p>
+              </div>
+
+              <div className="bg-red-50/50 p-4 rounded-2xl border border-red-100 shadow-xs relative overflow-hidden">
+                <div className="absolute right-0 bottom-0 text-red-100/60 translate-x-3 translate-y-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-20 w-20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                </div>
+                <p className="text-xs text-red-700/80 uppercase font-bold tracking-wider">Desil 1 (Sangat Miskin)</p>
+                <h3 className="text-2xl md:text-3xl font-extrabold text-red-700 mt-1">{stats.desil1Count}</h3>
+                <p className="text-[10px] text-red-600/70 mt-2">{(stats.desil1Count / (stats.total || 1) * 100).toFixed(1)}% dari total KK</p>
+              </div>
+
+              <div className="bg-amber-50/50 p-4 rounded-2xl border border-amber-100 shadow-xs relative overflow-hidden">
+                <div className="absolute right-0 bottom-0 text-amber-100/60 translate-x-3 translate-y-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-20 w-20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <p className="text-xs text-amber-700/80 uppercase font-bold tracking-wider">Desil 2 (Miskin)</p>
+                <h3 className="text-2xl md:text-3xl font-extrabold text-amber-700 mt-1">{stats.desil2Count}</h3>
+                <p className="text-[10px] text-amber-600/70 mt-2">{(stats.desil2Count / (stats.total || 1) * 100).toFixed(1)}% dari total KK</p>
+              </div>
+
+              <div className="bg-sky-50/50 p-4 rounded-2xl border border-sky-100 shadow-xs relative overflow-hidden">
+                <div className="absolute right-0 bottom-0 text-sky-100/60 translate-x-3 translate-y-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-20 w-20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 005.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                </div>
+                <p className="text-xs text-sky-700/80 uppercase font-bold tracking-wider">Total Anggota Keluarga (ART)</p>
+                <h3 className="text-2xl md:text-3xl font-extrabold text-sky-700 mt-1">{stats.totalART || '-'}</h3>
+                <p className="text-[10px] text-sky-600/70 mt-2">Jiwa terjangkau jaminan</p>
+              </div>
+            </div>
+
+            {/* TAB 1: DATABASE DATA PEMILIH / KESEJAHTERAAN */}
+            {activeTab === 'database' && (
+              <div className="bg-white rounded-2xl border shadow-xs overflow-hidden">
+                {/* PILOT FILTER PANEL */}
+                <div className="p-5 border-b bg-slate-50/50">
+                  <h3 className="text-sm font-bold text-slate-700 mb-3 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1.5 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                    </svg>
+                    Pencarian dan Filter Cerdas
+                  </h3>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    {/* Pencarian Teks */}
+                    <div className="md:col-span-2 relative">
+                      <label className="block text-xs font-semibold text-slate-500 mb-1">Cari Nama / NIK / KK / Alamat</label>
+                      <div className="relative">
+                        <input
+                          type="text"
+                          value={searchTerm}
+                          onChange={(e) => setSearchTerm(e.target.value)}
+                          placeholder="Masukkan kata kunci pencarian..."
+                          className="w-full pl-10 pr-4 py-2 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-600 bg-white"
+                        />
+                        <span className="absolute left-3 top-2.5 text-slate-400">
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                          </svg>
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Filter Desil */}
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-500 mb-1">Filter Desil</label>
+                      <select
+                        value={selectedDesil}
+                        onChange={(e) => setSelectedDesil(e.target.value)}
+                        className="w-full p-2 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-600 bg-white"
+                      >
+                        {filterOptions.desil.map(option => (
+                          <option key={option} value={option}>{option}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {/* Filter Kecamatan */}
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-500 mb-1">Filter Kecamatan</label>
+                      <select
+                        value={selectedKecamatan}
+                        onChange={(e) => {
+                          setSelectedKecamatan(e.target.value);
+                          setSelectedDesa('Semua'); // reset desa
+                        }}
+                        className="w-full p-2 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-600 bg-white"
+                      >
+                        {filterOptions.kecamatan.map(option => (
+                          <option key={option} value={option}>{option}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-3">
+                    {/* Filter Desa */}
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-500 mb-1">Filter Desa / Kelurahan</label>
+                      <select
+                        value={selectedDesa}
+                        onChange={(e) => setSelectedDesa(e.target.value)}
+                        className="w-full p-2 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-600 bg-white"
+                        disabled={selectedKecamatan === 'Semua' && filterOptions.desa.length <= 1}
+                      >
+                        {filterOptions.desa.map(option => (
+                          <option key={option} value={option}>{option}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {/* Tombol aksi ekspor / reset */}
+                    <div className="md:col-span-3 flex items-end justify-end space-x-2">
+                      <button
+                        onClick={handleResetFilters}
+                        className="px-4 py-2 border hover:bg-slate-100 text-slate-600 text-sm font-semibold rounded-xl transition duration-150"
+                      >
+                        Atur Ulang
+                      </button>
+                      <button
+                        onClick={exportToCSV}
+                        disabled={filteredRows.length === 0}
+                        className={`px-4 py-2 text-white text-sm font-semibold rounded-xl transition duration-150 flex items-center ${
+                          filteredRows.length === 0 ? 'bg-slate-300 cursor-not-allowed' : 'bg-emerald-600 hover:bg-emerald-700'
+                        }`}
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                        </svg>
+                        Ekspor CSV ({filteredRows.length} Data)
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* HASIL DATA COUNT BANNER */}
+                <div className="px-5 py-2.5 bg-teal-50 border-b border-teal-100 text-teal-800 text-xs font-semibold flex justify-between items-center">
+                  <span>Ditemukan {filteredRows.length} dari total {dataRows.length} baris data KK.</span>
+                  {searchTerm && <span>Kata Kunci: "{searchTerm}"</span>}
+                </div>
+
+                {/* TABLE CONTAINER */}
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="border-b bg-slate-50 text-xs font-bold text-slate-500 uppercase">
+                        <th className="py-3.5 px-4 w-12 text-center">No</th>
+                        <th className="py-3.5 px-4 cursor-pointer hover:bg-slate-100 select-none" onClick={() => handleSort(getColumnMapping.nama)}>
+                          Nama Kepala Keluarga {sortConfig.key === getColumnMapping.nama ? (sortConfig.direction === 'asc' ? '▲' : '▼') : ''}
+                        </th>
+                        {getColumnMapping.nik && (
+                          <th className="py-3.5 px-4 cursor-pointer hover:bg-slate-100 select-none" onClick={() => handleSort(getColumnMapping.nik)}>
+                            NIK {sortConfig.key === getColumnMapping.nik ? (sortConfig.direction === 'asc' ? '▲' : '▼') : ''}
+                          </th>
+                        )}
+                        {getColumnMapping.kk && (
+                          <th className="py-3.5 px-4 cursor-pointer hover:bg-slate-100 select-none" onClick={() => handleSort(getColumnMapping.kk)}>
+                            No. KK {sortConfig.key === getColumnMapping.kk ? (sortConfig.direction === 'asc' ? '▲' : '▼') : ''}
+                          </th>
+                        )}
+                        <th className="py-3.5 px-4 cursor-pointer hover:bg-slate-100 select-none" onClick={() => handleSort(getColumnMapping.desa)}>
+                          Desa / Kelurahan {sortConfig.key === getColumnMapping.desa ? (sortConfig.direction === 'asc' ? '▲' : '▼') : ''}
+                        </th>
+                        <th className="py-3.5 px-4 cursor-pointer hover:bg-slate-100 select-none" onClick={() => handleSort(getColumnMapping.desil)}>
+                          Desil {sortConfig.key === getColumnMapping.desil ? (sortConfig.direction === 'asc' ? '▲' : '▼') : ''}
+                        </th>
+                        <th className="py-3.5 px-4 text-center">Aksi</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100 text-sm">
+                      {paginatedRows.length > 0 ? (
+                        paginatedRows.map((row, idx) => {
+                          const realNo = (currentPage - 1) * itemsPerPage + idx + 1;
+                          const nameVal = row[getColumnMapping.nama] || '-';
+                          const nikVal = getColumnMapping.nik ? row[getColumnMapping.nik] : null;
+                          const kkVal = getColumnMapping.kk ? row[getColumnMapping.kk] : null;
+                          const desaVal = row[getColumnMapping.desa] || '-';
+                          const desilVal = row[getColumnMapping.desil] || '-';
+                          
+                          // Styling Badge Desil
+                          let desilBadgeClass = "bg-slate-100 text-slate-800";
+                          if (desilVal.includes('Desil 1') || desilVal === '1') desilBadgeClass = "bg-red-100 text-red-800 font-bold";
+                          else if (desilVal.includes('Desil 2') || desilVal === '2') desilBadgeClass = "bg-amber-100 text-amber-800 font-semibold";
+                          else if (desilVal.includes('Desil 3') || desilVal === '3') desilBadgeClass = "bg-sky-100 text-sky-800";
+                          else if (desilVal.includes('Desil 4') || desilVal === '4') desilBadgeClass = "bg-emerald-100 text-emerald-800";
+
+                          return (
+                            <tr key={row._id} className="hover:bg-slate-50 transition duration-150">
+                              <td className="py-3 px-4 text-center font-medium text-slate-400 text-xs">{realNo}</td>
+                              <td className="py-3 px-4 font-semibold text-slate-800">{nameVal}</td>
+                              {nikVal !== null && <td className="py-3 px-4 font-mono text-xs text-slate-600">{nikVal || '-'}</td>}
+                              {kkVal !== null && <td className="py-3 px-4 font-mono text-xs text-slate-600">{kkVal || '-'}</td>}
+                              <td className="py-3 px-4 text-slate-600">{desaVal}</td>
+                              <td className="py-3 px-4">
+                                <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${desilBadgeClass}`}>
+                                  {desilVal}
+                                </span>
+                              </td>
+                              <td className="py-3 px-4 text-center">
+                                <button
+                                  onClick={() => setSelectedFamily(row)}
+                                  className="px-3 py-1 bg-teal-50 hover:bg-teal-100 text-teal-800 text-xs font-semibold rounded-lg border border-teal-200 transition"
+                                >
+                                  Detail Profile
+                                </button>
+                              </td>
+                            </tr>
+                          );
+                        })
+                      ) : (
+                        <tr>
+                          <td colSpan={dataHeaders.length + 2} className="py-12 text-center text-slate-500">
+                            <div className="flex flex-col items-center justify-center">
+                              <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-slate-300 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                              </svg>
+                              <p className="font-semibold text-slate-700">Data Tidak Ditemukan</p>
+                              <p className="text-xs text-slate-400">Silakan ubah kata kunci pencarian atau bersihkan filter Anda.</p>
+                            </div>
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* PAGINATION SECTION */}
+                {filteredRows.length > 0 && (
+                  <div className="p-4 bg-slate-50 border-t flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-slate-600">
+                    <div className="flex items-center space-x-2">
+                      <span>Tampilkan</span>
+                      <select
+                        value={itemsPerPage}
+                        onChange={(e) => setItemsPerPage(Number(e.target.value))}
+                        className="p-1 border rounded-md bg-white focus:outline-none"
+                      >
+                        <option value={10}>10</option>
+                        <option value={25}>25</option>
+                        <option value={50}>50</option>
+                        <option value={100}>100</option>
+                      </select>
+                      <span>data per halaman</span>
+                    </div>
+
+                    <div className="flex items-center space-x-1">
+                      <button
+                        onClick={() => setCurrentPage(1)}
+                        disabled={currentPage === 1}
+                        className="px-3 py-1.5 border rounded-lg bg-white hover:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        «
+                      </button>
+                      <button
+                        onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                        disabled={currentPage === 1}
+                        className="px-3 py-1.5 border rounded-lg bg-white hover:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        ‹
+                      </button>
+                      
+                      <span className="px-4 py-1">
+                        Halaman <strong>{currentPage}</strong> dari <strong>{totalPages}</strong>
+                      </span>
+
+                      <button
+                        onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                        disabled={currentPage === totalPages}
+                        className="px-3 py-1.5 border rounded-lg bg-white hover:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        ›
+                      </button>
+                      <button
+                        onClick={() => setCurrentPage(totalPages)}
+                        disabled={currentPage === totalPages}
+                        className="px-3 py-1.5 border rounded-lg bg-white hover:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        »
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* TAB 2: DASHBOARD STATISTIK & ANALISIS */}
+            {activeTab === 'dashboard' && (
+              <div className="space-y-6">
+                {/* GRAFIK BAR DESIL */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <div className="bg-white p-6 rounded-2xl border shadow-xs">
+                    <h3 className="text-base font-bold text-slate-800 mb-4 flex items-center">
+                      <span className="p-1.5 bg-red-100 text-red-700 rounded-lg mr-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                          <path fillRule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h25a1 1 0 001-1V5a1 1 0 10-2 0v7a1 1 0 01-1 1H5a1 1 0 01-1-1V5a1 1 0 00-2 0zm4 7a1 1 0 011-1h1a1 1 0 011 1v3a1 1 0 01-1 1H8a1 1 0 01-1-1v-3zm4-3a1 1 0 011-1h1a1 1 0 011 1v6a1 1 0 01-1 1h-1a1 1 0 01-1-1V7zm4 2a1 1 0 011-1h1a1 1 0 011 1v4a1 1 0 01-1 1h-1a1 1 0 01-1-1V9z" clipRule="evenodd" />
+                        </svg>
+                      </span>
+                      Distribusi Tingkat Desil Kesejahteraan
+                    </h3>
+
+                    <div className="space-y-4">
+                      {Object.entries(stats.desilDistribution).map(([label, count]) => {
+                        const percentage = (count / stats.total * 100).toFixed(1);
+                        
+                        // Menentukan warna bar
+                        let barColor = "bg-slate-500";
+                        if (label.includes('Desil 1') || label === '1') barColor = "bg-red-500";
+                        else if (label.includes('Desil 2') || label === '2') barColor = "bg-amber-500";
+                        else if (label.includes('Desil 3') || label === '3') barColor = "bg-sky-500";
+                        else if (label.includes('Desil 4') || label === '4') barColor = "bg-emerald-500";
+
+                        return (
+                          <div key={label} className="space-y-1">
+                            <div className="flex justify-between text-xs font-semibold text-slate-700">
+                              <span>{label}</span>
+                              <span>{count} KK ({percentage}%)</span>
+                            </div>
+                            <div className="w-full bg-slate-100 rounded-full h-3 overflow-hidden">
+                              <div className={`${barColor} h-full rounded-full transition-all duration-500`} style={{ width: `${percentage}%` }}></div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* TOP SEBARAN DESA RAWAN */}
+                  <div className="bg-white p-6 rounded-2xl border shadow-xs">
+                    <h3 className="text-base font-bold text-slate-800 mb-4 flex items-center">
+                      <span className="p-1.5 bg-emerald-100 text-emerald-700 rounded-lg mr-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                          <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                        </svg>
+                      </span>
+                      Sebaran Kesejahteraan Tertinggi (Top 5 Desa)
+                    </h3>
+
+                    <div className="space-y-4">
+                      {stats.desaDistribution.length > 0 ? (
+                        stats.desaDistribution.map(([label, count]) => {
+                          const percentage = (count / stats.total * 100).toFixed(1);
+                          return (
+                            <div key={label} className="space-y-1">
+                              <div className="flex justify-between text-xs font-semibold text-slate-700">
+                                <span>{label}</span>
+                                <span>{count} KK ({percentage}%)</span>
+                              </div>
+                              <div className="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+                                <div className="bg-emerald-600 h-full rounded-full" style={{ width: `${percentage}%` }}></div>
+                              </div>
+                            </div>
+                          );
+                        })
+                      ) : (
+                        <p className="text-sm text-slate-500 italic text-center py-8">Kolom Desa/Kelurahan tidak terdeteksi untuk visualisasi.</p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* METRICS INSIGHTS */}
+                <div className="bg-gradient-to-r from-teal-800 to-cyan-900 text-white p-6 rounded-2xl shadow-xs">
+                  <h4 className="text-base font-bold mb-2">💡 Wawasan Pensasaran Program Kesejahteraan</h4>
+                  <p className="text-xs text-teal-100 leading-relaxed max-w-4xl">
+                    Data di atas diklasifikasikan berdasarkan Desil (Decile) Kemiskinan. Desil 1 menunjukkan kelompok 10% terendah (Sangat Miskin/Ekstrem) secara nasional, sedangkan Desil 4 menunjukkan batas rentan kemiskinan. 
+                    Pensasaran bantuan sosial idealnya diprioritaskan bagi Keluarga pada Desil 1 & Desil 2 guna menekan angka kemiskinan ekstrim hingga mendekati 0%.
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* TAB 3: BANTUAN & KONFIGURASI LINK DATA */}
+            {activeTab === 'bantuan' && (
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* PANEL INPUT LINK CSV BARU */}
+                <div className="bg-white p-6 rounded-2xl border shadow-xs lg:col-span-2 space-y-4">
+                  <h3 className="text-base font-bold text-slate-800 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                    </svg>
+                    Ubah Link / Integrasikan Google Spreadsheet Baru
+                  </h3>
+                  
+                  <p className="text-xs text-slate-500 leading-relaxed">
+                    Aplikasi ini dapat disinkronkan langsung dengan Google Spreadsheet tim Anda. Caranya, masukkan URL ekspor CSV publik Anda di bawah.
+                  </p>
+
+                  <div className="space-y-2">
+                    <label className="block text-xs font-bold text-slate-700">Link Google Spreadsheet (Format CSV Publik)</label>
+                    <input
+                      type="text"
+                      value={csvUrl}
+                      onChange={(e) => setCsvUrl(e.target.value)}
+                      placeholder="Masukkan URL format CSV dari Google Spreadsheet..."
+                      className="w-full p-2.5 border rounded-xl text-sm font-mono focus:outline-none focus:ring-2 focus:ring-teal-600"
+                    />
+                  </div>
+
+                  <div className="flex flex-wrap gap-2 pt-2">
+                    <button
+                      onClick={() => fetchData(csvUrl)}
+                      className="px-4 py-2 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-xl transition"
+                    >
+                      Hubungkan data Spreadsheet
+                    </button>
+                    <button
+                      onClick={() => {
+                        setCsvUrl(defaultSpreadsheetUrl);
+                        fetchData(defaultSpreadsheetUrl);
+                      }}
+                      className="px-4 py-2 border hover:bg-slate-100 text-slate-700 text-sm font-semibold rounded-xl transition"
+                    >
+                      Kembalikan Link Default
+                    </button>
+                  </div>
+
+                  <hr className="my-4" />
+
+                  {/* INPUT TEXT CSV SECARA MANUAL */}
+                  <div className="space-y-2">
+                    <h4 className="text-sm font-bold text-slate-800">Opsi Tempel (Paste) Raw CSV Manual</h4>
+                    <p className="text-xs text-slate-500">Anda juga dapat langsung menempelkan baris data CSV teks di sini tanpa membutuhkan koneksi internet.</p>
+                    <textarea
+                      placeholder="Nama,NIK,Desil,Alamat,Desa&#10;Budi,3201...,Desil 1,Jl Mawar,Sukamaju&#10;Siti,3202...,Desil 2,Jl Melati,Sukamukti"
+                      rows={6}
+                      className="w-full p-2.5 border rounded-xl text-xs font-mono focus:outline-none focus:ring-2 focus:ring-teal-600"
+                      id="manualCsvInput"
+                    ></textarea>
+                    <button
+                      onClick={() => {
+                        const val = document.getElementById('manualCsvInput').value;
+                        if (val) handleManualCsvSubmit(val);
+                      }}
+                      className="px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white text-sm font-semibold rounded-xl transition"
+                    >
+                      Proses CSV Manual
+                    </button>
+                  </div>
+                </div>
+
+                {/* LANGKAH PUBLISH GOOGLE SPREADSHEET */}
+                <div className="bg-teal-900 text-white p-6 rounded-2xl shadow-xs space-y-4">
+                  <h4 className="text-sm font-bold flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1.5 text-emerald-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                    Cara Publish Google Spreadsheet ke Format CSV:
+                  </h4>
+                  <ol className="list-decimal list-inside space-y-3 text-xs text-teal-100 opacity-90 leading-relaxed">
+                    <li>Buka dokumen <strong>Google Spreadsheet</strong> Anda.</li>
+                    <li>Klik menu <strong>File</strong> di sudut kiri atas.</li>
+                    <li>Pilih opsi <strong>Bagikan (Share)</strong> {`>`} <strong>Publikasikan ke Web (Publish to web)</strong>.</li>
+                    <li>Ubah pilihan "Seluruh Dokumen" menjadi Lembar/Sheet data Desil Anda.</li>
+                    <li>Ubah format output "Halaman Web" menjadi <strong>Nilai Terpisah Koma (.csv)</strong>.</li>
+                    <li>Klik tombol <strong>Publikasikan (Publish)</strong>.</li>
+                    <li>Salin link URL yang muncul dan tempelkan pada kotak kustomisasi aplikasi ini.</li>
+                  </ol>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+      </main>
+
+      {/* FOOTER */}
+      <footer className="bg-slate-800 text-slate-400 py-6 border-t border-slate-700 mt-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-2">
+          <p className="text-xs">
+            Sistem Informasi Kesejahteraan ini mendukung penuh standardisasi keamanan data privasi. Seluruh pencarian diolah langsung di dalam memori browser Anda.
+          </p>
+          <p className="text-[10px] text-slate-500">
+            &copy; {new Date().getFullYear()} - Aplikasi Dashboard Desil Nasional. Dirancang responsif, modern, dan mandiri.
+          </p>
+        </div>
+      </footer>
+
+      {/* DRAWER / SLIDE-OVER DETAIL KELUARGA */}
+      {selectedFamily && (
+        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex justify-end transition-opacity duration-300">
+          <div className="bg-white w-full max-w-lg h-full shadow-2xl flex flex-col animate-slide-over">
+            {/* Header Drawer */}
+            <div className="p-6 bg-gradient-to-r from-teal-800 to-cyan-900 text-white flex justify-between items-center">
+              <div>
+                <h3 className="text-base font-bold">Profil Kepala Keluarga</h3>
+                <p className="text-xs text-teal-200">Kartu Jaminan Sosial & Data Desil P3KE</p>
+              </div>
+              <button
+                onClick={() => setSelectedFamily(null)}
+                className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 transition"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Konten Drawer */}
+            <div className="p-6 overflow-y-auto flex-1 space-y-6">
+              {/* KARTU PRESTISE DESIL */}
+              <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 flex items-center justify-between">
+                <div>
+                  <span className="text-[10px] text-slate-400 font-extrabold uppercase tracking-wider block">KLASIFIKASI KESEJAHTERAAN</span>
+                  <span className="text-lg font-bold text-slate-800">
+                    {selectedFamily[getColumnMapping.desil] || 'Tidak Diketahui'}
+                  </span>
+                </div>
+                <div className={`p-2 rounded-xl text-xs font-bold ${
+                  (selectedFamily[getColumnMapping.desil] || '').includes('Desil 1') ? 'bg-red-100 text-red-800' :
+                  (selectedFamily[getColumnMapping.desil] || '').includes('Desil 2') ? 'bg-amber-100 text-amber-800' :
+                  'bg-emerald-100 text-emerald-800'
+                }`}>
+                  PRODUKTIF
+                </div>
+              </div>
+
+              {/* DAFTAR ATRIBUT DATA SECARA DETAIL */}
+              <div className="space-y-4">
+                <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Informasi Kependudukan</h4>
+                
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="p-3 bg-slate-50 rounded-xl">
+                    <span className="text-[10px] text-slate-400 block">Nama Kepala Keluarga</span>
+                    <strong className="text-sm text-slate-800">{selectedFamily[getColumnMapping.nama] || '-'}</strong>
+                  </div>
+
+                  <div className="p-3 bg-slate-50 rounded-xl">
+                    <span className="text-[10px] text-slate-400 block">Jumlah Anggota Keluarga</span>
+                    <strong className="text-sm text-slate-800">{selectedFamily[getColumnMapping.art] || '-'} Jiwa</strong>
+                  </div>
+
+                  {getColumnMapping.nik && (
+                    <div className="p-3 bg-slate-50 rounded-xl col-span-2">
+                      <span className="text-[10px] text-slate-400 block">Nomor Induk Kependudukan (NIK)</span>
+                      <strong className="text-sm text-slate-800 font-mono tracking-wider">{selectedFamily[getColumnMapping.nik] || '-'}</strong>
+                    </div>
+                  )}
+
+                  {getColumnMapping.kk && (
+                    <div className="p-3 bg-slate-50 rounded-xl col-span-2">
+                      <span className="text-[10px] text-slate-400 block">Nomor Kartu Keluarga (KK)</span>
+                      <strong className="text-sm text-slate-800 font-mono tracking-wider">{selectedFamily[getColumnMapping.kk] || '-'}</strong>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Lokasi & Alamat Tempat Tinggal</h4>
+                
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="p-3 bg-slate-50 rounded-xl col-span-2">
+                    <span className="text-[10px] text-slate-400 block">Alamat Rumah Lengkap</span>
+                    <strong className="text-sm text-slate-800">{selectedFamily[getColumnMapping.alamat] || '-'}</strong>
+                  </div>
+
+                  <div className="p-3 bg-slate-50 rounded-xl">
+                    <span className="text-[10px] text-slate-400 block">Desa / Kelurahan</span>
+                    <strong className="text-sm text-slate-800">{selectedFamily[getColumnMapping.desa] || '-'}</strong>
+                  </div>
+
+                  <div className="p-3 bg-slate-50 rounded-xl">
+                    <span className="text-[10px] text-slate-400 block">Kecamatan</span>
+                    <strong className="text-sm text-slate-800">{selectedFamily[getColumnMapping.kecamatan] || '-'}</strong>
+                  </div>
+                </div>
+              </div>
+
+              {/* KOLOM EXTRA LAINNYA DI DALAM CSV SECARA DINAMIS */}
+              <div className="space-y-3">
+                <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Atribut Tambahan Lainnya</h4>
+                <div className="divide-y divide-slate-100 border border-slate-100 rounded-xl overflow-hidden text-xs">
+                  {dataHeaders
+                    .filter(header => 
+                      header !== getColumnMapping.nama && 
+                      header !== getColumnMapping.nik && 
+                      header !== getColumnMapping.kk && 
+                      header !== getColumnMapping.desil && 
+                      header !== getColumnMapping.alamat && 
+                      header !== getColumnMapping.desa && 
+                      header !== getColumnMapping.kecamatan &&
+                      header !== getColumnMapping.art
+                    )
+                    .map(header => (
+                      <div key={header} className="p-3 flex justify-between items-center hover:bg-slate-50">
+                        <span className="font-semibold text-slate-500">{header}</span>
+                        <span className="text-slate-800 font-medium">{selectedFamily[header] || '-'}</span>
+                      </div>
+                    ))
+                  }
+                </div>
+              </div>
+            </div>
+
+            {/* Footer Drawer */}
+            <div className="p-4 bg-slate-50 border-t flex justify-end">
+              <button
+                onClick={() => window.print()}
+                className="px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold rounded-lg transition"
+              >
+                Cetak Dokumen Profil
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
