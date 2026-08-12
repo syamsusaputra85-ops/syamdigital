@@ -1,0 +1,505 @@
+<!-- FontAwesome untuk Icon Salin & Pencarian -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1763356194/Lambang_Kabupaten_Donggala_1_cvywgs.png"/>
+<style>
+  .nik-search-container {
+    max-width: 100%;
+    margin: 10px auto;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    font-family: Arial, sans-serif;
+  }
+
+  .nik-search-box {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .nik-search-box input {
+    flex: 1;
+    padding: 10px 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+    outline: none;
+  }
+
+  .nik-search-box input:focus {
+    border-color: #3498db;
+  }
+
+  .nik-search-box button {
+    padding: 10px 18px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    cursor: pointer;
+  }
+
+  .nik-search-box button:hover {
+    background-color: #2980b9;
+  }
+
+  .nik-loading {
+    text-align: center;
+    display: none;
+    font-weight: bold;
+    color: #666;
+    margin: 15px 0;
+  }
+
+  .nik-table-wrapper {
+    overflow-x: auto;
+  }
+
+  .nik-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 14px;
+  }
+
+  .nik-table th, .nik-table td {
+    padding: 10px 12px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+    white-space: nowrap;
+  }
+
+  .nik-table th {
+    background-color: #f8f9fa;
+    color: #333;
+    font-weight: 600;
+  }
+
+  .nik-table tr:hover {
+    background-color: #f9f9f9;
+  }
+
+  /* Style untuk nama yang dapat diklik */
+  .nik-name-link {
+    color: #3498db;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: underline;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .nik-name-link:hover {
+    color: #1d6fa5;
+  }
+
+  .nik-cell {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .nik-copy-btn {
+    background: #f0f0f0;
+    border: 1px solid #ddd;
+    color: #555;
+    cursor: pointer;
+    font-size: 13px;
+    padding: 3px 7px;
+    border-radius: 4px;
+    transition: all 0.2s;
+  }
+
+  .nik-copy-btn:hover {
+    color: #3498db;
+    background-color: #eef7fc;
+    border-color: #3498db;
+  }
+
+  .nik-no-result {
+    text-align: center;
+    padding: 15px;
+    color: #e74c3c;
+    display: none;
+  }
+
+  /* --- STYLE MODAL DETAIL --- */
+  .nik-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+    padding: 15px;
+    box-sizing: border-box;
+  }
+
+  .nik-modal-content {
+    background: #ffffff;
+    width: 100%;
+    max-width: 550px;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    overflow: hidden;
+    animation: nikModalFadeIn 0.3s ease;
+  }
+
+  @keyframes nikModalFadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .nik-modal-header {
+    background: #3498db;
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nik-modal-header h3 {
+    margin: 0;
+    font-size: 18px;
+  }
+
+  .nik-modal-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    line-height: 1;
+  }
+
+  .nik-modal-body {
+    padding: 20px;
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+
+  .nik-detail-item {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed #eee;
+  }
+
+  .nik-detail-label {
+    font-size: 12px;
+    color: #777;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+
+  .nik-detail-value-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .nik-detail-value {
+    font-size: 15px;
+    color: #2c3e50;
+    font-weight: 500;
+    word-break: break-word;
+  }
+
+  /* --- TOAST NOTIFIKASI --- */
+  .nik-toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #2ecc71;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    display: none;
+    font-size: 13px;
+    z-index: 100000;
+  }
+</style>
+
+<div class="nik-search-container">
+  <div class="nik-search-box">
+    <input type="text" id="nikSearchInput" placeholder="Ketik NIK, Nama, atau data lainnya..."/>
+    <button onclick="filterNikData()"><i class="fa-solid fa-magnifying-glass"></i> Cari</button>
+  </div>
+
+  <div id="nikLoading" class="nik-loading">
+    <i class="fa-solid fa-spinner fa-spin"></i> Memuat data...
+  </div>
+
+  <div class="nik-table-wrapper">
+    <table id="nikDataTable" class="nik-table" style="display: none;">
+      <thead id="nikTableHead"></thead>
+      <tbody id="nikTableBody"></tbody>
+    </table>
+  </div>
+
+  <div id="nikNoResult" class="nik-no-result">Data tidak ditemukan.</div>
+</div>
+
+<!-- Modal Pop-Up Rincian Lengkap -->
+<div id="nikModalOverlay" class="nik-modal-overlay" onclick="closeNikModal(event)">
+  <div class="nik-modal-content" onclick="event.stopPropagation()">
+    <div class="nik-modal-header">
+      <h3><i class="fa-solid fa-user-check"></i> Rincian Lengkap Data</h3>
+      <button class="nik-modal-close" onclick="closeNikModal()">&times;</button>
+    </div>
+    <div id="nikModalBody" class="nik-modal-body">
+      <!-- Rincian lengkap akan dimuat di sini -->
+    </div>
+  </div>
+</div>
+
+<div id="nikToast" class="nik-toast">Teks disalin!</div>
+
+<script>//<![CDATA[
+  (function() {
+    var csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSBmHlq0OflOAZogUQFKMl1iqD_esSpOngr7npST6okJ6pN4kCFAuPP16nkW3iKt6TyogCrDfsVqrG-/pub?gid=0&single=true&output=csv';
+    var globalData = [];
+    var headers = [];
+    var nikColumnIndex = -1;
+    var namaColumnIndex = -1;
+
+    function parseCSV(text) {
+      var lines = text.split(/\r?\n/);
+      var result = [];
+      for (var i = 0; i < lines.length; i++) {
+        var line = lines[i];
+        if (!line.trim()) continue;
+        var row = [];
+        var insideQuotes = false;
+        var entry = '';
+        for (var j = 0; j < line.length; j++) {
+          var char = line[j];
+          if (char === '"') {
+            insideQuotes = !insideQuotes;
+          } else if (char === ',' && !insideQuotes) {
+            row.push(entry.trim());
+            entry = '';
+          } else {
+            entry += char;
+          }
+        }
+        row.push(entry.trim());
+        result.push(row);
+      }
+      return result;
+    }
+
+    function fetchData() {
+      var loadingEl = document.getElementById('nikLoading');
+      loadingEl.style.display = 'block';
+
+      fetch(csvUrl)
+        .then(function(response) { return response.text(); })
+        .then(function(dataText) {
+          var parsedData = parseCSV(dataText);
+          if (parsedData.length > 0) {
+            headers = parsedData[0];
+            globalData = parsedData.slice(1);
+
+            for (var i = 0; i < headers.length; i++) {
+              var h = headers[i].toUpperCase();
+              if (h.indexOf('NIK') !== -1) {
+                nikColumnIndex = i;
+              }
+              if (h.indexOf('NAMA') !== -1) {
+                namaColumnIndex = i;
+              }
+            }
+
+            renderHeader();
+            renderTable(globalData);
+          }
+        })
+        .catch(function(error) {
+          console.error(error);
+        })
+        .finally(function() {
+          loadingEl.style.display = 'none';
+        });
+    }
+
+    function renderHeader() {
+      var thead = document.getElementById('nikTableHead');
+      thead.innerHTML = '';
+      var tr = document.createElement('tr');
+      
+      headers.forEach(function(header) {
+        var th = document.createElement('th');
+        th.textContent = header;
+        tr.appendChild(th);
+      });
+      
+      thead.appendChild(tr);
+    }
+
+    function renderTable(data) {
+      var tbody = document.getElementById('nikTableBody');
+      var table = document.getElementById('nikDataTable');
+      var noResult = document.getElementById('nikNoResult');
+      
+      tbody.innerHTML = '';
+
+      if (data.length === 0) {
+        table.style.display = 'none';
+        noResult.style.display = 'block';
+        return;
+      }
+
+      table.style.display = 'table';
+      noResult.style.display = 'none';
+
+      data.forEach(function(row) {
+        var tr = document.createElement('tr');
+
+        row.forEach(function(cell, index) {
+          var td = document.createElement('td');
+
+          // Tampilan Nama (Bisa diklik untuk buka Modal Rincian Lengkap)
+          if (index === namaColumnIndex) {
+            var nameLink = document.createElement('span');
+            nameLink.className = 'nik-name-link';
+            nameLink.innerHTML = cell + ' <i class="fa-solid fa-eye" style="font-size:11px;"></i>';
+            nameLink.title = 'Klik untuk melihat rincian lengkap';
+            nameLink.onclick = function() { openNikModal(row); };
+            td.appendChild(nameLink);
+          }
+          // Tampilan NIK (Tombol Salin Cepat)
+          else if (index === nikColumnIndex) {
+            var wrapper = document.createElement('div');
+            wrapper.className = 'nik-cell';
+
+            var spanText = document.createElement('span');
+            spanText.textContent = cell;
+
+            var copyBtn = document.createElement('button');
+            copyBtn.className = 'nik-copy-btn';
+            copyBtn.title = 'Salin NIK';
+            copyBtn.innerHTML = '<i class="fa-regular fa-copy"></i> Salin';
+            copyBtn.onclick = function() { copyToClipboard(cell, 'NIK'); };
+
+            wrapper.appendChild(spanText);
+            wrapper.appendChild(copyBtn);
+            td.appendChild(wrapper);
+          } else {
+            td.textContent = cell;
+          }
+
+          tr.appendChild(td);
+        });
+
+        tbody.appendChild(tr);
+      });
+    }
+
+    window.filterNikData = function() {
+      var keyword = document.getElementById('nikSearchInput').value.toLowerCase();
+      
+      var filtered = globalData.filter(function(row) {
+        return row.some(function(cell) {
+          return cell.toLowerCase().indexOf(keyword) !== -1;
+        });
+      });
+
+      renderTable(filtered);
+    };
+
+    document.getElementById('nikSearchInput').addEventListener('keyup', function(e) {
+      if (e.key === 'Enter') {
+        window.filterNikData();
+      }
+    });
+
+    // Buka Modal Pop-up Rincian Lengkap
+    function openNikModal(row) {
+      var modalBody = document.getElementById('nikModalBody');
+      modalBody.innerHTML = '';
+
+      headers.forEach(function(headerText, idx) {
+        var val = row[idx] || '-';
+
+        var item = document.createElement('div');
+        item.className = 'nik-detail-item';
+
+        var label = document.createElement('div');
+        label.className = 'nik-detail-label';
+        label.textContent = headerText;
+
+        var valWrapper = document.createElement('div');
+        valWrapper.className = 'nik-detail-value-wrapper';
+
+        var valueSpan = document.createElement('div');
+        valueSpan.className = 'nik-detail-value';
+        valueSpan.textContent = val;
+
+        var copyBtn = document.createElement('button');
+        copyBtn.className = 'nik-copy-btn';
+        copyBtn.innerHTML = '<i class="fa-regular fa-copy"></i> Salin';
+        copyBtn.title = 'Salin ' + headerText;
+        copyBtn.onclick = function() { copyToClipboard(val, headerText); };
+
+        valWrapper.appendChild(valueSpan);
+        valWrapper.appendChild(copyBtn);
+
+        item.appendChild(label);
+        item.appendChild(valWrapper);
+
+        modalBody.appendChild(item);
+      });
+
+      document.getElementById('nikModalOverlay').style.display = 'flex';
+    }
+
+    // Tutup Modal Pop-up
+    window.closeNikModal = function(e) {
+      if (!e || e.target.id === 'nikModalOverlay' || e.target.className === 'nik-modal-close') {
+        document.getElementById('nikModalOverlay').style.display = 'none';
+      }
+    };
+
+    function copyToClipboard(text, fieldName) {
+      var msg = fieldName ? fieldName + ' disalin!' : 'Teks disalin!';
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(function() {
+          showToast(msg);
+        });
+      } else {
+        var dummy = document.createElement('input');
+        document.body.appendChild(dummy);
+        dummy.value = text;
+        dummy.select();
+        document.execCommand('copy');
+        document.body.removeChild(dummy);
+        showToast(msg);
+      }
+    }
+
+    function showToast(message) {
+      var toast = document.getElementById('nikToast');
+      toast.textContent = message;
+      toast.style.display = 'block';
+      setTimeout(function() {
+        toast.style.display = 'none';
+      }, 2000);
+    }
+
+    fetchData();
+  })();
+//]]></script>
