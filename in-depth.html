@@ -1,0 +1,496 @@
+<style>
+  .gs-box-container {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    max-width: 100%;
+    margin: 15px auto;
+    color: #1e293b;
+  }
+  .gs-search-wrapper {
+    margin-bottom: 12px;
+  }
+  .gs-search-input {
+    width: 100%;
+    padding: 11px 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 14px;
+    box-sizing: border-box;
+    outline: none;
+    transition: all 0.2s ease;
+    background: #ffffff;
+  }
+  .gs-search-input:focus {
+    border-color: #0284c7;
+    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+  }
+  .gs-status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: #64748b;
+    margin-bottom: 12px;
+    padding: 0 2px;
+  }
+  .gs-table-container {
+    overflow-x: auto;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    max-height: 550px;
+    background: #ffffff;
+  }
+  .gs-data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    text-align: left;
+  }
+  .gs-data-table th {
+    background-color: #f8fafc;
+    color: #475569;
+    padding: 12px 14px;
+    font-weight: 600;
+    border-bottom: 2px solid #e2e8f0;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    white-space: nowrap;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+  }
+  .gs-data-table td {
+    padding: 11px 14px;
+    border-bottom: 1px solid #f1f5f9;
+    white-space: nowrap;
+  }
+  .gs-data-table tbody tr:hover {
+    background-color: #f8fafc;
+  }
+  .gs-msg-cell {
+    text-align: center;
+    padding: 30px !important;
+    color: #64748b;
+  }
+
+  /* Style Nama Klikable (Pill Button) */
+  .gs-clickable-name {
+    color: #0284c7;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 2px 8px;
+    margin: -2px -8px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+  }
+  .gs-clickable-name:hover {
+    background-color: #e0f2fe;
+    color: #0369a1;
+  }
+
+  /* ================= MODAL ELEGAN & TERSTRUKTUR ================= */
+  .gs-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(6px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 16px;
+    box-sizing: border-box;
+  }
+  .gs-modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+  .gs-modal-card {
+    background: #ffffff;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 550px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    transform: scale(0.92) translateY(10px);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+  }
+  .gs-modal-overlay.active .gs-modal-card {
+    transform: scale(1) translateY(0);
+  }
+
+  /* Header Modal Premium */
+  .gs-modal-header {
+    padding: 20px 24px;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+  }
+  .gs-header-profile {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .gs-avatar-badge {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+    text-transform: uppercase;
+  }
+  .gs-header-text h3 {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 700;
+    color: #f8fafc;
+    line-height: 1.2;
+  }
+  .gs-header-text p {
+    margin: 4px 0 0 0;
+    font-size: 12px;
+    color: #94a3b8;
+  }
+  .gs-modal-close {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    font-size: 20px;
+    color: #cbd5e1;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+  }
+  .gs-modal-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+  }
+
+  /* Body Modal Terstruktur (Grid View) */
+  .gs-modal-body {
+    padding: 20px 24px;
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    background-color: #f8fafc;
+  }
+
+  .gs-detail-card-full {
+    grid-column: span 2;
+    background: #ffffff;
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+  }
+  
+  .gs-detail-card {
+    background: #ffffff;
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+  }
+
+  .gs-card-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #64748b;
+    font-weight: 600;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .gs-card-value {
+    font-size: 13.5px;
+    color: #0f172a;
+    font-weight: 600;
+    word-break: break-word;
+  }
+
+  @media (max-width: 480px) {
+    .gs-modal-body {
+      grid-template-columns: 1fr;
+    }
+    .gs-detail-card-full {
+      grid-column: span 1;
+    }
+  }
+</style>
+
+<div class="gs-box-container">
+  <!-- Input Pencarian -->
+  <div class="gs-search-wrapper">
+    <input type="text" id="gsSearchInput" class="gs-search-input" placeholder="🔍  Ketik kata kunci pencarian..." onkeyup="gsFilterData()" />
+  </div>
+
+  <!-- Status dan Total Data -->
+  <div class="gs-status-bar">
+    <span id="gsStatusText">⏳ Memuat data...</span>
+    <span>Total: <strong id="gsTotalRows" style="color:#0284c7;">0</strong> data</span>
+  </div>
+
+  <!-- Tabel Data -->
+  <div class="gs-table-container">
+    <table class="gs-data-table">
+      <thead>
+        <tr id="gsTableHeader"></tr>
+      </thead>
+      <tbody id="gsTableBody">
+        <tr>
+          <td colspan="100%" class="gs-msg-cell">Mengambil data dari Google Spreadsheet...</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal Pop-up Elegan -->
+<div id="gsDetailModal" class="gs-modal-overlay" onclick="gsCloseModalOnOverlay(event)">
+  <div class="gs-modal-card">
+    <div class="gs-modal-header">
+      <div class="gs-header-profile">
+        <div class="gs-avatar-badge" id="gsModalAvatar">D</div>
+        <div class="gs-header-text">
+          <h3 id="gsModalMainTitle">Rincian Lengkap</h3>
+          <p id="gsModalSubTitle">Detail Informasi Google Sheets</p>
+        </div>
+      </div>
+      <button class="gs-modal-close" onclick="gsCloseModal()">&times;</button>
+    </div>
+
+    <div class="gs-modal-body" id="gsModalBody">
+      <!-- Di-generate via JS -->
+    </div>
+  </div>
+</div>
+
+<script>
+  // <![CDATA[
+  const gsDirectCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRMOQ-tPEqHuV336NN6uiioGJSMKtl6ES83A5SZBdCizaojwyvX8RmGuCvAYi5C102pJrtpcLYg7hvg/pub?gid=437148068&single=true&output=csv';
+  const gsCorsProxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(gsDirectCsvUrl)}`;
+
+  let gsAllData = [];
+  let gsCurrentFilteredData = []; // Menyimpan data aktif yang sedang ditampilkan
+  let gsColumnNames = [];
+
+  // Parser CSV Handal
+  function gsParseCSV(text) {
+    let lines = text.split(/\r\n|\n/);
+    let result = [];
+    for (let i = 0; i < lines.length; i++) {
+      let line = lines[i].trim();
+      if (!line) continue;
+      
+      let row = [];
+      let inQuotes = false;
+      let currentVal = '';
+      
+      for (let j = 0; j < line.length; j++) {
+        let char = line[j];
+        if (char === '"') {
+          inQuotes = !inQuotes;
+        } else if (char === ',' && !inQuotes) {
+          row.push(currentVal.replace(/^"|"$/g, '').trim());
+          currentVal = '';
+        } else {
+          currentVal += char;
+        }
+      }
+      row.push(currentVal.replace(/^"|"$/g, '').trim());
+      result.push(row);
+    }
+    return result;
+  }
+
+  // Memuat Data
+  async function gsFetchSpreadsheet() {
+    try {
+      let csvText = '';
+
+      try {
+        let res = await fetch(gsDirectCsvUrl);
+        if (res.ok) csvText = await res.text();
+      } catch (e) {
+        console.warn('Direct fetch diblokir, mencoba via proxy...');
+      }
+
+      if (!csvText) {
+        let resProxy = await fetch(gsCorsProxyUrl);
+        if (resProxy.ok) {
+          csvText = await resProxy.text();
+        } else {
+          throw new Error('Gagal mengambil data dari proxy');
+        }
+      }
+
+      let parsedRows = gsParseCSV(csvText);
+      if (parsedRows.length === 0) throw new Error('Data spreadsheet kosong.');
+
+      gsColumnNames = parsedRows[0];
+
+      gsAllData = parsedRows.slice(1).map((row, idx) => {
+        let obj = { _originalIndex: idx }; // Menyimpan nomor index asli
+        gsColumnNames.forEach((colName, index) => {
+          obj[colName] = row[index] || '';
+        });
+        return obj;
+      });
+
+      gsCurrentFilteredData = [...gsAllData];
+
+      gsBuildHeader();
+      gsRenderRows(gsCurrentFilteredData);
+      document.getElementById('gsStatusText').innerText = '✅ Data berhasil dimuat';
+
+    } catch (err) {
+      console.error(err);
+      document.getElementById('gsStatusText').innerText = '❌ Gagal memuat data';
+      document.getElementById('gsTableBody').innerHTML = '<tr><td colspan="100%" class="gs-msg-cell" style="color:#e11d48;">Gagal mengambil data. Pastikan lembar publikasi tab aktif.</td></tr>';
+    }
+  }
+
+  // Header Tabel
+  function gsBuildHeader() {
+    const thead = document.getElementById('gsTableHeader');
+    thead.innerHTML = '<th style="text-align:center; width:45px;">NO</th>';
+    gsColumnNames.forEach(col => {
+      const th = document.createElement('th');
+      th.innerText = col;
+      thead.appendChild(th);
+    });
+  }
+
+  // Render Baris Tabel
+  function gsRenderRows(dataList) {
+    gsCurrentFilteredData = dataList; // Update daftar data aktif saat ini
+    const tbody = document.getElementById('gsTableBody');
+    tbody.innerHTML = '';
+    document.getElementById('gsTotalRows').innerText = dataList.length;
+
+    if (dataList.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="100%" class="gs-msg-cell">Data tidak ditemukan.</td></tr>';
+      return;
+    }
+
+    dataList.forEach((row, viewIdx) => {
+      const tr = document.createElement('tr');
+      let html = `<td style="text-align:center; color:#94a3b8; font-weight:600; font-size:12px;">${viewIdx + 1}</td>`;
+      
+      gsColumnNames.forEach((col, colIdx) => {
+        let val = row[col] !== undefined ? row[col] : '';
+        
+        // Kolom Nama (Merekam posisi viewIdx yang tepat)
+        if (colIdx === 0) {
+          html += `<td>
+            <span class="gs-clickable-name" onclick="gsOpenModal(${viewIdx})">
+              ${val}
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            </span>
+          </td>`;
+        } else {
+          html += `<td>${val}</td>`;
+        }
+      });
+      
+      tr.innerHTML = html;
+      tbody.appendChild(tr);
+    });
+  }
+
+  // Membuka Modal Akurat Menggunakan Data Aktif
+  function gsOpenModal(viewIndex) {
+    const rowData = gsCurrentFilteredData[viewIndex]; // Mengambil dari data ter-filter
+    if (!rowData) return;
+
+    const mainColName = gsColumnNames[0];
+    const mainVal = rowData[mainColName] || 'Detail Data';
+
+    document.getElementById('gsModalAvatar').innerText = mainVal.charAt(0).toUpperCase();
+    document.getElementById('gsModalMainTitle').innerText = mainVal;
+    document.getElementById('gsModalSubTitle').innerText = `${mainColName} • Baris ke-${rowData._originalIndex + 1}`;
+
+    const modalBody = document.getElementById('gsModalBody');
+    let contentHtml = '';
+
+    gsColumnNames.forEach((col, i) => {
+      let val = rowData[col] ? rowData[col] : '-';
+      
+      let isFullWidth = i === 0 || val.length > 35;
+      let cardClass = isFullWidth ? 'gs-detail-card-full' : 'gs-detail-card';
+
+      contentHtml += `
+        <div class="${cardClass}">
+          <div class="gs-card-label">
+            <span>${col}</span>
+          </div>
+          <div class="gs-card-value">${val}</div>
+        </div>
+      `;
+    });
+
+    modalBody.innerHTML = contentHtml;
+    document.getElementById('gsDetailModal').classList.add('active');
+  }
+
+  function gsCloseModal() {
+    document.getElementById('gsDetailModal').classList.remove('active');
+  }
+
+  function gsCloseModalOnOverlay(event) {
+    if (event.target.id === 'gsDetailModal') {
+      gsCloseModal();
+    }
+  }
+
+  // Filter Data Real-time
+  function gsFilterData() {
+    const query = document.getElementById('gsSearchInput').value.toLowerCase().trim();
+    if (!query) {
+      gsRenderRows(gsAllData);
+      return;
+    }
+
+    const filtered = gsAllData.filter(row => {
+      return Object.keys(row).some(key => {
+        if (key === '_originalIndex') return false;
+        return String(row[key]).toLowerCase().includes(query);
+      });
+    });
+
+    gsRenderRows(filtered);
+  }
+
+  document.addEventListener('DOMContentLoaded', gsFetchSpreadsheet);
+  // ]]>
+</script>
