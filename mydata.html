@@ -125,11 +125,19 @@
         <!-- Pilihan Posyandu -->
         <div class="form-group">
             <label for="posyandu">Pilih Posyandu:</label>
-            <select id="posyandu" name="posyandu" required>
+            <select id="posyandu" name="posyandu" required onchange="updateKaderOptions()">
                 <option value="" disabled selected>-- Pilih Posyandu --</option>
                 <option value="POSYANDU MEKAR I">POSYANDU MEKAR I</option>
                 <option value="POSYANDU MEKAR II">POSYANDU MEKAR II</option>
                 <option value="POSYANDU MEKAR III">POSYANDU MEKAR III</option>
+            </select>
+        </div>
+
+        <!-- Pilihan Nama Kader (Dinamis Sesuai Posyandu) -->
+        <div class="form-group">
+            <label for="kader">Pilih Nama Kader:</label>
+            <select id="kader" name="kader" required disabled>
+                <option value="" disabled selected>-- Pilih Posyandu Terlebih Dahulu --</option>
             </select>
         </div>
 
@@ -216,11 +224,41 @@
 </div>
 
 <script>
+    // Data Daftar Kader berdasarkan Posyandu
+    const dataKader = {
+        "POSYANDU MEKAR I": ["WIRDAN", "RAMAWATI", "SEPRIANTI", "NADIA", "MUNINDA"],
+        "POSYANDU MEKAR II": ["NOVAYANTI", "NISMA", "LILI ZULFIANI", "NUR'AFNI", "ISMIATI"],
+        "POSYANDU MEKAR III": ["ISNAWATI.R", "MAS'IDA", "ISNAWATI.J", "ULFIANI", "SUKRIANI"]
+    };
+
+    // Fungsi untuk memperbarui pilihan Nama Kader secara otomatis
+    function updateKaderOptions() {
+        const posyanduSelect = document.getElementById('posyandu');
+        const kaderSelect = document.getElementById('kader');
+        const selectedPosyandu = posyanduSelect.value;
+
+        // Reset dropdown kader
+        kaderSelect.innerHTML = '<option value="" disabled selected>-- Pilih Nama Kader --</option>';
+
+        if (selectedPosyandu && dataKader[selectedPosyandu]) {
+            kaderSelect.disabled = false;
+            dataKader[selectedPosyandu].forEach(function(namaKader) {
+                const option = document.createElement('option');
+                option.value = namaKader;
+                option.textContent = namaKader;
+                kaderSelect.appendChild(option);
+            });
+        } else {
+            kaderSelect.disabled = true;
+        }
+    }
+
+    // Mengirim pesan ke WhatsApp
     document.getElementById('posyanduForm').addEventListener('submit', function(event) {
         event.preventDefault();
 
-        // Ambil nilai TERBARU yang sedang diinput oleh pengguna
         const posyandu = document.getElementById('posyandu').value;
+        const kader = document.getElementById('kader').value;
         const rumah = document.getElementById('jumlah_rumah').value;
         const kk = document.getElementById('jumlah_kk').value;
         const bumil = document.getElementById('jumlah_bumil').value;
@@ -232,10 +270,10 @@
         const dewasa = document.getElementById('jumlah_dewasa').value;
         const lansia = document.getElementById('jumlah_lansia').value;
 
-        // Memformat teks secara eksplisit sesuai angka inputan
         const teksLaporan = 
 `*LAPORAN DATA KADER POSYANDU*
 *Lokasi:* ${posyandu}
+*Nama Kader:* ${kader}
 
 Jumlah rumah : ${rumah}
 Jumlah kk : ${kk}
@@ -248,10 +286,7 @@ Jumlah usia sekolah dan remaja (6-18 tahun yg belum menikah) : ${remaja} orang
 Jumlah usia dewasa (19-59 thn yg usia 15 keatas yg sdh menikah : ${dewasa} orang
 Jumlah lansia (60 thn keatas ) : ${lansia} orang`;
 
-        // Mengubah teks menjadi format URL yang aman
         const encodedText = encodeURIComponent(teksLaporan);
-
-        // Buka tautan WhatsApp dengan teks dinamis
         window.open(`https://api.whatsapp.com/send?text=${encodedText}`, '_blank');
     });
 </script>
