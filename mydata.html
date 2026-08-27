@@ -3,7 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aplikasi Input Data Kader Posyandu</title>
+    <title>Aplikasi Input Data Kader Posyandu - Desa Wani Lumbumpetigo</title>
+    
+    <!-- FAVICON (Icon pada Tab Browser) -->
+    <link rel="icon" type="image/png" href="kader posyandu.png">
+    <link rel="shortcut icon" type="image/png" href="kader posyandu.png">
+
     <style>
         :root {
             --primary-color: #00875a;
@@ -31,12 +36,33 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.08);
         }
 
-        h2 {
+        /* STYLE HEADER LOGO */
+        .header-logo {
             text-align: center;
-            color: var(--primary-color);
             margin-bottom: 20px;
             border-bottom: 2px solid var(--secondary-color);
-            padding-bottom: 10px;
+            padding-bottom: 15px;
+        }
+
+        .header-logo img {
+            width: 130px;
+            height: 130px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+
+        .header-logo h2 {
+            color: var(--primary-color);
+            margin: 5px 0 0 0;
+            font-size: 20px;
+            text-transform: uppercase;
+        }
+
+        .header-logo p {
+            margin: 3px 0 0 0;
+            font-size: 13px;
+            color: #666;
+            font-weight: 600;
         }
 
         .form-group {
@@ -113,13 +139,25 @@
             .container {
                 padding: 15px;
             }
+            .header-logo img {
+                width: 100px;
+                height: 100px;
+            }
+            .header-logo h2 {
+                font-size: 18px;
+            }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>Input Data Kader Posyandu</h2>
+    <!-- HEADER DENGAN LOGO DAN JUDUL -->
+    <div class="header-logo">
+        <img src="kader posyandu.png" alt="Logo Kader Posyandu">
+        <h2>Input Data Kader Posyandu</h2>
+        <p>DESA WANI LUMBUMPETIGO</p>
+    </div>
     
     <form id="posyanduForm">
         <!-- Pilihan Posyandu -->
@@ -133,7 +171,7 @@
             </select>
         </div>
 
-        <!-- Pilihan Nama Kader (Dinamis Sesuai Posyandu) -->
+        <!-- Pilihan Nama Kader -->
         <div class="form-group">
             <label for="kader">Pilih Nama Kader:</label>
             <select id="kader" name="kader" required disabled>
@@ -231,13 +269,12 @@
         "POSYANDU MEKAR III": ["ISNAWATI.R", "MAS'IDA", "ISNAWATI.J", "ULFIANI", "SUKRIANI"]
     };
 
-    // Fungsi untuk memperbarui pilihan Nama Kader secara otomatis
+    // Fungsi memperbarui pilihan Nama Kader
     function updateKaderOptions() {
         const posyanduSelect = document.getElementById('posyandu');
         const kaderSelect = document.getElementById('kader');
         const selectedPosyandu = posyanduSelect.value;
 
-        // Reset dropdown kader
         kaderSelect.innerHTML = '<option value="" disabled selected>-- Pilih Nama Kader --</option>';
 
         if (selectedPosyandu && dataKader[selectedPosyandu]) {
@@ -272,6 +309,7 @@
 
         const teksLaporan = 
 `*LAPORAN DATA KADER POSYANDU*
+*DESA WANI LUMBUMPETIGO*
 *Lokasi:* ${posyandu}
 *Nama Kader:* ${kader}
 
