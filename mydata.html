@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aplikasi Input Data Kader Posyandu - Desa Wani Lumbumpetigo</title>
     
-    <!-- FAVICON (Icon pada Tab Browser menggunakan Link Gambar Langsung) -->
+    <!-- FAVICON -->
     <link rel="icon" type="image/png" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgCiXiMkhQHlcQQSEvrr-qVAZxnBckqipBOr5n1CntI16n5B1coGBUhyphenhyphen884H-GI3OKx4wvmt-QpNkoYuJHMVYJtXSPx5Fex3UPz087o_G1MOW3vj8jeUzkA3ZJlYG983ATqbzwzaORPyKwkT1ojEGXE-MvZnKwoJktmKpfFfxVGJg3l-0alad_ya2M7Yilp/s500/kader_posyandu-removebg-preview.png">
     <link rel="shortcut icon" type="image/png" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgCiXiMkhQHlcQQSEvrr-qVAZxnBckqipBOr5n1CntI16n5B1coGBUhyphenhyphen884H-GI3OKx4wvmt-QpNkoYuJHMVYJtXSPx5Fex3UPz087o_G1MOW3vj8jeUzkA3ZJlYG983ATqbzwzaORPyKwkT1ojEGXE-MvZnKwoJktmKpfFfxVGJg3l-0alad_ya2M7Yilp/s500/kader_posyandu-removebg-preview.png">
 
@@ -36,7 +36,6 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.08);
         }
 
-        /* STYLE HEADER LOGO */
         .header-logo {
             text-align: center;
             margin-bottom: 20px;
@@ -152,7 +151,6 @@
 <body>
 
 <div class="container">
-    <!-- HEADER DENGAN LOGO DAN JUDUL -->
     <div class="header-logo">
         <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgCiXiMkhQHlcQQSEvrr-qVAZxnBckqipBOr5n1CntI16n5B1coGBUhyphenhyphen884H-GI3OKx4wvmt-QpNkoYuJHMVYJtXSPx5Fex3UPz087o_G1MOW3vj8jeUzkA3ZJlYG983ATqbzwzaORPyKwkT1ojEGXE-MvZnKwoJktmKpfFfxVGJg3l-0alad_ya2M7Yilp/s500/kader_posyandu-removebg-preview.png" alt="Logo Kader Posyandu">
         <h2>Input Data Kader Posyandu</h2>
@@ -163,7 +161,7 @@
         <!-- Pilihan Posyandu -->
         <div class="form-group">
             <label for="posyandu">Pilih Posyandu:</label>
-            <select id="posyandu" name="posyandu" required onchange="updateKaderOptions()">
+            <select id="posyandu" name="posyandu" required>
                 <option value="" disabled selected>-- Pilih Posyandu --</option>
                 <option value="POSYANDU MEKAR I">POSYANDU MEKAR I</option>
                 <option value="POSYANDU MEKAR II">POSYANDU MEKAR II</option>
@@ -174,7 +172,7 @@
         <!-- Pilihan Nama Kader -->
         <div class="form-group">
             <label for="kader">Pilih Nama Kader:</label>
-            <select id="kader" name="kader" required disabled>
+            <select id="kader" name="kader" required>
                 <option value="" disabled selected>-- Pilih Posyandu Terlebih Dahulu --</option>
             </select>
         </div>
@@ -254,7 +252,6 @@
             </div>
         </div>
 
-        <!-- Tombol Share WhatsApp -->
         <button type="submit" class="btn-wa">
             <span>Kirim via WhatsApp</span>
         </button>
@@ -262,40 +259,56 @@
 </div>
 
 <script>
-    // Data Daftar Kader berdasarkan Posyandu
+    // Data Daftar Kader
     const dataKader = {
         "POSYANDU MEKAR I": ["WIRDAN", "RAHMAWATI", "SEPRIANTI", "NADIA", "MUNINDA"],
         "POSYANDU MEKAR II": ["NOVAYANTI", "NISMA", "LILI ZULFIANI", "NUR'AFNI", "ISMIATI"],
         "POSYANDU MEKAR III": ["ISNAWATI.R", "MAS'IDA", "ISNAWATI.J", "ULFIANI", "SUKRIANI"]
     };
 
-    // Fungsi memperbarui pilihan Nama Kader secara otomatis
-    function updateKaderOptions() {
-        const posyanduSelect = document.getElementById('posyandu');
-        const kaderSelect = document.getElementById('kader');
-        const selectedPosyandu = posyanduSelect.value;
+    const posyanduSelect = document.getElementById('posyandu');
+    const kaderSelect = document.getElementById('kader');
 
+    // Tampilkan seluruh kader saat halaman pertama kali dibuka
+    function muatSemuaKader() {
+        kaderSelect.innerHTML = '<option value="" disabled selected>-- Pilih Nama Kader --</option>';
+        Object.keys(dataKader).forEach(posyandu => {
+            const group = document.createElement('optgroup');
+            group.label = posyandu;
+            dataKader[posyandu].forEach(namaKader => {
+                const option = document.createElement('option');
+                option.value = namaKader;
+                option.textContent = namaKader;
+                group.appendChild(option);
+            });
+            kaderSelect.appendChild(group);
+        });
+    }
+
+    // Filter daftar kader jika Posyandu telah dipilih
+    posyanduSelect.addEventListener('change', function() {
+        const selectedPosyandu = this.value;
         kaderSelect.innerHTML = '<option value="" disabled selected>-- Pilih Nama Kader --</option>';
 
         if (selectedPosyandu && dataKader[selectedPosyandu]) {
-            kaderSelect.disabled = false;
             dataKader[selectedPosyandu].forEach(function(namaKader) {
                 const option = document.createElement('option');
                 option.value = namaKader;
                 option.textContent = namaKader;
                 kaderSelect.appendChild(option);
             });
-        } else {
-            kaderSelect.disabled = true;
         }
-    }
+    });
 
-    // Mengirim pesan ke WhatsApp
+    // Jalankan pemuatan daftar kader awal
+    muatSemuaKader();
+
+    // Kirim pesan via WhatsApp
     document.getElementById('posyanduForm').addEventListener('submit', function(event) {
         event.preventDefault();
 
-        const posyandu = document.getElementById('posyandu').value;
-        const kader = document.getElementById('kader').value;
+        const posyandu = posyanduSelect.value;
+        const kader = kaderSelect.value;
         const rumah = document.getElementById('jumlah_rumah').value;
         const kk = document.getElementById('jumlah_kk').value;
         const bumil = document.getElementById('jumlah_bumil').value;
