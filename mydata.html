@@ -6,8 +6,10 @@
     <title>Aplikasi Input Data Kader Posyandu - Desa Wani Lumbumpetigo</title>
     
     <!-- FAVICON -->
-    <link rel="icon" type="image/png" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgCiXiMkhQHlcQQSEvrr-qVAZxnBckqipBOr5n1CntI16n5B1coGBUhyphenhyphen884H-GI3OKx4wvmt-QpNkoYuJHMVYJtXSPx5Fex3UPz087o_G1MOW3vj8jeUzkA3ZJlYG983ATqbzwzaORPyKwkT1ojEGXE-MvZnKwoJktmKpfFfxVGJg3l-0alad_ya2M7Yilp/s500/kader_posyandu-removebg-preview.png">
-    <link rel="shortcut icon" type="image/png" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgCiXiMkhQHlcQQSEvrr-qVAZxnBckqipBOr5n1CntI16n5B1coGBUhyphenhyphen884H-GI3OKx4wvmt-QpNkoYuJHMVYJtXSPx5Fex3UPz087o_G1MOW3vj8jeUzkA3ZJlYG983ATqbzwzaORPyKwkT1ojEGXE-MvZnKwoJktmKpfFfxVGJg3l-0alad_ya2M7Yilp/s500/kader_posyandu-removebg-preview.png">
+    <link rel="icon" type="image/png" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgCiXiMkhQHlcQQSEvrr-qVAZxnBckqipBOr5n1CntI16n5B1coGBUhyphenhyphen884H-GI3OKx4wvmt-QpNkoYuJHMVYJtXSPx5Fex3UPz087o_G1MOW3vj8jeUzkA3ZJlYG983ATqbzwzaORPyKwkT1ojEGXE-MvZnKwoJktmKpfFfxVGJg3l-0alad_ya2M7Yilp/s500/kader_posyandu-removebg-preview.png
+">
+    <link rel="shortcut icon" type="image/png" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgCiXiMkhQHlcQQSEvrr-qVAZxnBckqipBOr5n1CntI16n5B1coGBUhyphenhyphen884H-GI3OKx4wvmt-QpNkoYuJHMVYJtXSPx5Fex3UPz087o_G1MOW3vj8jeUzkA3ZJlYG983ATqbzwzaORPyKwkT1ojEGXE-MvZnKwoJktmKpfFfxVGJg3l-0alad_ya2M7Yilp/s500/kader_posyandu-removebg-preview.png
+">
 
     <style>
         :root {
@@ -152,7 +154,8 @@
 
 <div class="container">
     <div class="header-logo">
-        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgCiXiMkhQHlcQQSEvrr-qVAZxnBckqipBOr5n1CntI16n5B1coGBUhyphenhyphen884H-GI3OKx4wvmt-QpNkoYuJHMVYJtXSPx5Fex3UPz087o_G1MOW3vj8jeUzkA3ZJlYG983ATqbzwzaORPyKwkT1ojEGXE-MvZnKwoJktmKpfFfxVGJg3l-0alad_ya2M7Yilp/s500/kader_posyandu-removebg-preview.png" alt="Logo Kader Posyandu">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgCiXiMkhQHlcQQSEvrr-qVAZxnBckqipBOr5n1CntI16n5B1coGBUhyphenhyphen884H-GI3OKx4wvmt-QpNkoYuJHMVYJtXSPx5Fex3UPz087o_G1MOW3vj8jeUzkA3ZJlYG983ATqbzwzaORPyKwkT1ojEGXE-MvZnKwoJktmKpfFfxVGJg3l-0alad_ya2M7Yilp/s500/kader_posyandu-removebg-preview.png
+">
         <h2>Input Data Kader Posyandu</h2>
         <p>DESA WANI LUMBUMPETIGO</p>
     </div>
@@ -269,7 +272,6 @@
     const posyanduSelect = document.getElementById('posyandu');
     const kaderSelect = document.getElementById('kader');
 
-    // Tampilkan seluruh kader saat halaman pertama kali dibuka
     function muatSemuaKader() {
         kaderSelect.innerHTML = '<option value="" disabled selected>-- Pilih Nama Kader --</option>';
         Object.keys(dataKader).forEach(posyandu => {
@@ -285,7 +287,6 @@
         });
     }
 
-    // Filter daftar kader jika Posyandu telah dipilih
     posyanduSelect.addEventListener('change', function() {
         const selectedPosyandu = this.value;
         kaderSelect.innerHTML = '<option value="" disabled selected>-- Pilih Nama Kader --</option>';
@@ -300,10 +301,9 @@
         }
     });
 
-    // Jalankan pemuatan daftar kader awal
     muatSemuaKader();
 
-    // Kirim pesan via WhatsApp
+    // Kirim pesan via WhatsApp dengan Link Aplikasi
     document.getElementById('posyanduForm').addEventListener('submit', function(event) {
         event.preventDefault();
 
@@ -335,7 +335,9 @@ Jumlah balita (12-60 bulan ) : ${balita} orang
 Jumlah apras (61-71 bulan : ${apras} orang 
 Jumlah usia sekolah dan remaja (6-18 tahun yg belum menikah) : ${remaja} orang
 Jumlah usia dewasa (19-59 thn yg usia 15 keatas yg sdh menikah : ${dewasa} orang
-Jumlah lansia (60 thn keatas ) : ${lansia} orang`;
+Jumlah lansia (60 thn keatas ) : ${lansia} orang
+
+*Link Aplikasi:* https://syam.digital/mydata`;
 
         const encodedText = encodeURIComponent(teksLaporan);
         window.open(`https://api.whatsapp.com/send?text=${encodedText}`, '_blank');
