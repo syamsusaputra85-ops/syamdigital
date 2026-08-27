@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasi Input Data Kader Posyandu</title>
+    <style>
+        :root {
+            --primary-color: #00875a;
+            --wa-color: #25D366;
+            --wa-hover: #1eaa53;
+            --secondary-color: #e6f4ea;
+            --border-color: #cccccc;
+            --bg-color: #f4f6f8;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+
+        select, input[type="number"] {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+
+        select:focus, input[type="number"]:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+        }
+
+        .input-group input {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        .input-group-addon {
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+            padding: 10px 14px;
+            border: 1px solid var(--border-color);
+            border-left: none;
+            border-top-right-radius: 6px;
+            border-bottom-right-radius: 6px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .btn-wa {
+            width: 100%;
+            background-color: var(--wa-color);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: background-color 0.2s;
+        }
+
+        .btn-wa:hover {
+            background-color: var(--wa-hover);
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Input Data Kader Posyandu</h2>
+    
+    <form id="posyanduForm">
+        <!-- Pilihan Posyandu -->
+        <div class="form-group">
+            <label for="posyandu">Pilih Posyandu:</label>
+            <select id="posyandu" name="posyandu" required>
+                <option value="" disabled selected>-- Pilih Posyandu --</option>
+                <option value="POSYANDU MEKAR I">POSYANDU MEKAR I</option>
+                <option value="POSYANDU MEKAR II">POSYANDU MEKAR II</option>
+                <option value="POSYANDU MEKAR III">POSYANDU MEKAR III</option>
+            </select>
+        </div>
+
+        <!-- Inputs Menu Data -->
+        <div class="form-group">
+            <label for="jumlah_rumah">Jumlah Rumah:</label>
+            <input type="number" id="jumlah_rumah" name="jumlah_rumah" value="8" min="0" required>
+        </div>
+
+        <div class="form-group">
+            <label for="jumlah_kk">Jumlah KK:</label>
+            <input type="number" id="jumlah_kk" name="jumlah_kk" value="10" min="0" required>
+        </div>
+
+        <div class="form-group">
+            <label for="jumlah_bumil">Jumlah Ibu Hamil:</label>
+            <div class="input-group">
+                <input type="number" id="jumlah_bumil" name="jumlah_bumil" value="0" min="0" required>
+                <span class="input-group-addon">Orang</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="jumlah_bayi_under_6">Jumlah Bayi Di Bawah 6 Bulan:</label>
+            <div class="input-group">
+                <input type="number" id="jumlah_bayi_under_6" name="jumlah_bayi_under_6" value="2" min="0" required>
+                <span class="input-group-addon">Anak</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="jumlah_bayi_over_6">Jumlah Bayi Di Atas 6 Bulan:</label>
+            <div class="input-group">
+                <input type="number" id="jumlah_bayi_over_6" name="jumlah_bayi_over_6" value="0" min="0" required>
+                <span class="input-group-addon">Bulan</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="jumlah_balita">Jumlah Balita (12 - 60 Bulan):</label>
+            <div class="input-group">
+                <input type="number" id="jumlah_balita" name="jumlah_balita" value="0" min="0" required>
+                <span class="input-group-addon">Orang</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="jumlah_apras">Jumlah Apras (61 - 71 Bulan):</label>
+            <div class="input-group">
+                <input type="number" id="jumlah_apras" name="jumlah_apras" value="0" min="0" required>
+                <span class="input-group-addon">Orang</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="jumlah_remaja">Jumlah Usia Sekolah & Remaja (6 - 18 Thn Belum Menikah):</label>
+            <div class="input-group">
+                <input type="number" id="jumlah_remaja" name="jumlah_remaja" value="8" min="0" required>
+                <span class="input-group-addon">Orang</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="jumlah_dewasa">Jumlah Usia Dewasa (19-59 Thn / 15+ Sudah Menikah):</label>
+            <div class="input-group">
+                <input type="number" id="jumlah_dewasa" name="jumlah_dewasa" value="22" min="0" required>
+                <span class="input-group-addon">Orang</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="jumlah_lansia">Jumlah Lansia (60 Tahun Ke Atas):</label>
+            <div class="input-group">
+                <input type="number" id="jumlah_lansia" name="jumlah_lansia" value="2" min="0" required>
+                <span class="input-group-addon">Orang</span>
+            </div>
+        </div>
+
+        <!-- Tombol Share WhatsApp -->
+        <button type="submit" class="btn-wa">
+            <span>Kirim via WhatsApp</span>
+        </button>
+    </form>
+</div>
+
+<script>
+    document.getElementById('posyanduForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        // Ambil nilai TERBARU yang sedang diinput oleh pengguna
+        const posyandu = document.getElementById('posyandu').value;
+        const rumah = document.getElementById('jumlah_rumah').value;
+        const kk = document.getElementById('jumlah_kk').value;
+        const bumil = document.getElementById('jumlah_bumil').value;
+        const bayiUnder6 = document.getElementById('jumlah_bayi_under_6').value;
+        const bayiOver6 = document.getElementById('jumlah_bayi_over_6').value;
+        const balita = document.getElementById('jumlah_balita').value;
+        const apras = document.getElementById('jumlah_apras').value;
+        const remaja = document.getElementById('jumlah_remaja').value;
+        const dewasa = document.getElementById('jumlah_dewasa').value;
+        const lansia = document.getElementById('jumlah_lansia').value;
+
+        // Memformat teks secara eksplisit sesuai angka inputan
+        const teksLaporan = 
+`*LAPORAN DATA KADER POSYANDU*
+*Lokasi:* ${posyandu}
+
+Jumlah rumah : ${rumah}
+Jumlah kk : ${kk}
+Jumlah ibu hamil : ${bumil} orang
+Jumlah bayi dibawah 6 bulan : ${bayiUnder6}
+Jumlah bayi diatas 6 bulan : ${bayiOver6} bln
+Jumlah balita (12-60 bulan ) : ${balita} orang
+Jumlah apras (61-71 bulan : ${apras} orang 
+Jumlah usia sekolah dan remaja (6-18 tahun yg belum menikah) : ${remaja} orang
+Jumlah usia dewasa (19-59 thn yg usia 15 keatas yg sdh menikah : ${dewasa} orang
+Jumlah lansia (60 thn keatas ) : ${lansia} orang`;
+
+        // Mengubah teks menjadi format URL yang aman
+        const encodedText = encodeURIComponent(teksLaporan);
+
+        // Buka tautan WhatsApp dengan teks dinamis
+        window.open(`https://api.whatsapp.com/send?text=${encodedText}`, '_blank');
+    });
+</script>
+
+</body>
+</html>
