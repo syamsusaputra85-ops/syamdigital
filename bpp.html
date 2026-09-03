@@ -1,32 +1,34 @@
-html_code = """<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulir Buku Pokok Pemakaman</title>
-    <!-- jsPDF & html2pdf.js for vector-based, crisp PDF generation -->
+    <title>Formulir Buku Pokok Pemakaman - Kab. Donggala</title>
+    
+    <!-- Favicon Browser -->
+    <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/2/22/Lambang_Kabupaten_Donggala.png">
+    
+    <!-- Library html2pdf.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
     <style>
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
         body {
-            font-family: 'Segoe UI', Arial, sans-serif;
+            font-family: Arial, sans-serif;
             margin: 0;
             padding: 20px;
             background-color: #f0f2f5;
-            color: #333;
+            color: #000;
         }
         .app-container {
-            max-width: 1100px;
+            max-width: 1200px;
             margin: 0 auto;
         }
-        /* Top Navigation & Action Bar */
+        /* Navigation & Action Bar */
         .action-bar {
             margin-bottom: 20px;
             display: flex;
             gap: 12px;
-            flex-wrap: wrap;
             justify-content: flex-end;
             background-color: #ffffff;
             padding: 16px 20px;
@@ -43,14 +45,6 @@ html_code = """<!DOCTYPE html>
             border-radius: 6px;
             font-size: 14px;
             font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.2s ease;
-        }
-        .btn:hover {
-            opacity: 0.9;
-            transform: translateY(-1px);
         }
         .btn-print { background-color: #6c757d; }
         .btn-pdf { background-color: #dc3545; }
@@ -60,52 +54,61 @@ html_code = """<!DOCTYPE html>
             background-color: #dc3545;
             color: white;
             border: none;
-            padding: 5px 10px;
+            padding: 3px 8px;
             border-radius: 4px;
             cursor: pointer;
-            font-weight: bold;
-            font-size: 12px;
+            font-size: 11px;
         }
 
-        /* Printable / Paper Document Sheet */
+        /* Lembar Dokumen Kertas */
         .paper-sheet {
             background: #ffffff;
-            padding: 40px 45px;
+            padding: 30px;
             border-radius: 4px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.08);
             border: 1px solid #dcdcdc;
-            color: #000;
+            width: 100%;
+            margin: 0 auto;
         }
 
-        .doc-header {
-            font-size: 11pt;
-            margin-bottom: 20px;
-            line-height: 1.4;
-            font-family: Arial, sans-serif;
+        /* Layout Kop & Header Logo */
+        .doc-header-container {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 15px;
         }
+        .doc-header-text {
+            font-size: 9.5pt;
+            line-height: 1.3;
+        }
+        .doc-logo {
+            width: 60px;
+            height: auto;
+            object-fit: contain;
+        }
+
         .doc-title {
             text-align: center;
             font-weight: bold;
-            font-size: 14pt;
-            margin-bottom: 25px;
+            font-size: 13pt;
+            margin-bottom: 20px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
         .doc-identity {
-            margin-bottom: 20px;
-            font-size: 11pt;
+            margin-bottom: 15px;
+            font-size: 10pt;
         }
         .doc-identity table {
             width: 100%;
             border-collapse: collapse;
         }
         .doc-identity td {
-            padding: 5px 0;
-            border: none;
+            padding: 4px 0;
             vertical-align: middle;
         }
 
-        /* Table Design - Standard Official Format */
+        /* Tabel Presisi Agar Teks Tidak Terpotong */
         table.data-table {
             width: 100%;
             border-collapse: collapse;
@@ -113,104 +116,94 @@ html_code = """<!DOCTYPE html>
             table-layout: fixed;
         }
         table.data-table th, table.data-table td {
-            border: 1.5px solid #000000;
-            padding: 8px 5px;
+            border: 1.2px solid #000000;
+            padding: 6px 4px;
             text-align: center;
-            font-size: 10pt;
+            font-size: 8.5pt;
             vertical-align: middle;
             word-wrap: break-word;
-            font-family: Arial, sans-serif;
+            overflow-wrap: break-word;
+            white-space: normal;
         }
         table.data-table th {
             background-color: #f0f0f0;
             font-weight: bold;
         }
 
-        /* Input Controls Inside Application */
+        /* Form Input Interaktif */
         .form-input {
             width: 100%;
-            padding: 6px 8px;
+            padding: 5px;
             border: 1px solid #ced4da;
             border-radius: 4px;
-            font-size: 10pt;
+            font-size: 8.5pt;
             box-sizing: border-box;
             background-color: #fff;
-            font-family: Arial, sans-serif;
-        }
-        .form-input:focus {
-            outline: none;
-            border-color: #86b7fe;
-            box-shadow: 0 0 0 0.25rem rgba(13,110,253,.25);
+            text-align: center;
         }
 
-        /* Footer & Signatures */
+        /* Container Teks Murni Hasil Sesuai Kolom */
+        .print-text {
+            display: none;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: normal;
+            width: 100%;
+            line-height: 1.2;
+        }
+
+        /* Area Tanda Tangan */
         .footer-section {
-            margin-top: 35px;
+            margin-top: 25px;
             display: flex;
             justify-content: flex-end;
             page-break-inside: avoid;
         }
         .footer-box {
             text-align: center;
-            width: 280px;
-            font-size: 11pt;
-            font-family: Arial, sans-serif;
-        }
-        .signature-space {
-            height: 70px;
-        }
-
-        /* Pure Text Render Container for High Definition PDF Generation */
-        .print-text {
-            display: none;
-            word-wrap: break-word;
+            width: 250px;
             font-size: 10pt;
-            line-height: 1.3;
         }
+        .signature-space { height: 60px; }
 
-        /* Mode Ekspor / Cetak (Text Murni Tanpa Input Element) */
-        .rendering-pdf .form-input {
-            display: none !important;
-        }
-        .rendering-pdf .print-text {
-            display: block !important;
-        }
-        .rendering-pdf .no-print {
-            display: none !important;
-        }
+        /* KONDISI SAAT EKSPOR PDF */
+        .rendering-pdf .form-input { display: none !important; }
+        .rendering-pdf .print-text { display: block !important; }
+        .rendering-pdf .no-print { display: none !important; }
         .rendering-pdf .paper-sheet {
-            padding: 20px !important;
+            padding: 0 !important;
             box-shadow: none !important;
             border: none !important;
+            width: 100% !important;
         }
 
         @media print {
             .no-print { display: none !important; }
             body { background-color: #fff; padding: 0; margin: 0; }
-            .app-container { max-width: 100%; }
             .paper-sheet { padding: 0; box-shadow: none; border: none; }
             .form-input { display: none !important; }
             .print-text { display: block !important; }
-            table.data-table th, table.data-table td { border: 1.5px solid #000 !important; }
         }
     </style>
 </head>
 <body>
 
 <div class="app-container">
-    <!-- Action Control Bar -->
     <div class="action-bar no-print">
         <button class="btn btn-print" onclick="window.print()">🖨️ Cetak Dokumen</button>
         <button class="btn btn-pdf" onclick="exportCrispPDF()">📄 Ekspor PDF Tajam (HD)</button>
         <button class="btn btn-wa" onclick="shareWhatsApp()">💬 Kirim via WhatsApp</button>
     </div>
 
-    <!-- Paper Document Canvas -->
     <div class="paper-sheet" id="documentSheet">
-        <div class="doc-header">
-            Lampiran I : Surat Direktur Jenderal Kependudukan dan Pencatatan Sipil<br>
-            Nomor : 472.12/11406/Dukcapil<br>
-            Tanggal : 17 Januari 2022
+        <!-- Header dengan Logo Kabupaten Donggala -->
+        <div class="doc-header-container">
+            <div class="doc-header-text">
+                Lampiran I : Surat Direktur Jenderal Kependudukan dan Pencatatan Sipil<br>
+                Nomor : 472.12/11406/Dukcapil<br>
+                Tanggal : 17 Januari 2022
+            </div>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/2/22/Lambang_Kabupaten_Donggala.png" alt="Logo Donggala" class="doc-logo" crossorigin="anonymous">
         </div>
 
         <div class="doc-title">FORMULIR BUKU POKOK PEMAKAMAN</div>
@@ -218,19 +211,19 @@ html_code = """<!DOCTYPE html>
         <div class="doc-identity">
             <table>
                 <tr>
-                    <td style="width: 250px; font-weight: bold;">Nama Tempat Pemakaman Umum (TPU)</td>
+                    <td style="width: 240px; font-weight: bold;">Nama Tempat Pemakaman Umum (TPU)</td>
                     <td style="width: 15px;">:</td>
                     <td>
-                        <input type="text" class="form-input" id="namaTPU" value="TPU Wani Lumbumpetigo" oninput="syncText(this)">
-                        <span class="print-text" id="text_namaTPU">TPU Wani Lumbumpetigo</span>
+                        <input type="text" class="form-input" id="namaTPU" value="TPU Wani Lumbumpetigo" style="text-align: left;" oninput="syncText(this)">
+                        <span class="print-text" style="text-align: left;">TPU Wani Lumbumpetigo</span>
                     </td>
                 </tr>
                 <tr>
                     <td style="font-weight: bold;">Alamat</td>
                     <td>:</td>
                     <td>
-                        <input type="text" class="form-input" id="alamatTPU" value="Jl. Kavuriya Dusun III" oninput="syncText(this)">
-                        <span class="print-text" id="text_alamatTPU">Jl. Kavuriya Dusun III</span>
+                        <input type="text" class="form-input" id="alamatTPU" value="Jl. Kavuriya Dusun III" style="text-align: left;" oninput="syncText(this)">
+                        <span class="print-text" style="text-align: left;">Jl. Kavuriya Dusun III</span>
                     </td>
                 </tr>
             </table>
@@ -243,11 +236,11 @@ html_code = """<!DOCTYPE html>
                     <th style="width: 15%;">NIK</th>
                     <th style="width: 13%;">Nama</th>
                     <th style="width: 16%;">Tempat & Tanggal Meninggal</th>
-                    <th style="width: 12%;">Tanggal Pemakaman</th>
+                    <th style="width: 11%;">Tanggal Pemakaman</th>
                     <th style="width: 12%;">Nama Pelapor</th>
-                    <th style="width: 14%;">NIK Pelapor</th>
-                    <th style="width: 14%;">Nama Dan HP Keluarga Yang Dapat Dihubungi</th>
-                    <th class="no-print" style="width: 40px;">Aksi</th>
+                    <th style="width: 15%;">NIK Pelapor</th>
+                    <th style="width: 14%;">Nama & HP Keluarga Dihubungi</th>
+                    <th class="no-print" style="width: 5%;">Aksi</th>
                 </tr>
                 <tr>
                     <th>(1)</th>
@@ -265,66 +258,32 @@ html_code = """<!DOCTYPE html>
                 <tr>
                     <td>1</td>
                     <td>
-                        <input type="text" class="form-input" style="text-align: center;" value="7203190501750001" oninput="syncText(this)">
+                        <input type="text" class="form-input" value="7203190501750001" oninput="syncText(this)">
                         <span class="print-text">7203190501750001</span>
                     </td>
                     <td>
-                        <input type="text" class="form-input" style="text-align: center;" value="SI PULANG" oninput="syncText(this)">
+                        <input type="text" class="form-input" value="SI PULANG" oninput="syncText(this)">
                         <span class="print-text">SI PULANG</span>
                     </td>
                     <td>
-                        <input type="text" class="form-input" style="text-align: center;" value="Wani Lumbumpetigo" oninput="syncText(this)">
+                        <input type="text" class="form-input" value="Wani Lumbumpetigo" oninput="syncText(this)">
                         <span class="print-text">Wani Lumbumpetigo</span>
                     </td>
                     <td>
-                        <input type="date" class="form-input" style="text-align: center;" value="2026-09-03" oninput="syncDateText(this)">
+                        <input type="date" class="form-input" value="2026-09-03" oninput="syncText(this)">
                         <span class="print-text">2026-09-03</span>
                     </td>
                     <td>
-                        <input type="text" class="form-input" style="text-align: center;" value="SAIRMAN" oninput="syncText(this)">
+                        <input type="text" class="form-input" value="SAIRMAN" oninput="syncText(this)">
                         <span class="print-text">SAIRMAN</span>
                     </td>
                     <td>
-                        <input type="text" class="form-input" style="text-align: center;" value="7203190501750002" oninput="syncText(this)">
+                        <input type="text" class="form-input" value="7203190501750002" oninput="syncText(this)">
                         <span class="print-text">7203190501750002</span>
                     </td>
                     <td>
-                        <input type="text" class="form-input" style="text-align: center;" value="085150531572" oninput="syncText(this)">
+                        <input type="text" class="form-input" value="085150531572" oninput="syncText(this)">
                         <span class="print-text">085150531572</span>
-                    </td>
-                    <td class="no-print">
-                        <button class="btn-remove" onclick="removeRow(this)">X</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>
-                        <input type="text" class="form-input" style="text-align: center;" value="7203190501750003" oninput="syncText(this)">
-                        <span class="print-text">7203190501750003</span>
-                    </td>
-                    <td>
-                        <input type="text" class="form-input" style="text-align: center;" value="SI BOLANG" oninput="syncText(this)">
-                        <span class="print-text">SI BOLANG</span>
-                    </td>
-                    <td>
-                        <input type="text" class="form-input" style="text-align: center;" value="Wani Lumbumpetigo" oninput="syncText(this)">
-                        <span class="print-text">Wani Lumbumpetigo</span>
-                    </td>
-                    <td>
-                        <input type="date" class="form-input" style="text-align: center;" value="2026-09-04" oninput="syncDateText(this)">
-                        <span class="print-text">2026-09-04</span>
-                    </td>
-                    <td>
-                        <input type="text" class="form-input" style="text-align: center;" value="SAIRMAN" oninput="syncText(this)">
-                        <span class="print-text">SAIRMAN</span>
-                    </td>
-                    <td>
-                        <input type="text" class="form-input" style="text-align: center;" value="7203190501750002" oninput="syncText(this)">
-                        <span class="print-text">7203190501750002</span>
-                    </td>
-                    <td>
-                        <input type="text" class="form-input" style="text-align: center;" value="082197001999" oninput="syncText(this)">
-                        <span class="print-text">082197001999</span>
                     </td>
                     <td class="no-print">
                         <button class="btn-remove" onclick="removeRow(this)">X</button>
@@ -335,12 +294,12 @@ html_code = """<!DOCTYPE html>
 
         <div class="footer-section">
             <div class="footer-box">
-                <input type="text" class="form-input" id="tempatTanggal" style="text-align: center;" value="Wani Lumbumpetigo, 03 September 2026" oninput="syncText(this)">
-                <span class="print-text" id="text_tempatTanggal">Wani Lumbumpetigo, 03 September 2026</span>
+                <input type="text" class="form-input" id="tempatTanggal" value="Wani Lumbumpetigo, 03 September 2026" oninput="syncText(this)">
+                <span class="print-text">Wani Lumbumpetigo, 03 September 2026</span>
                 <br>Petugas Pemakaman
                 <div class="signature-space"></div>
-                (<input type="text" class="form-input" id="namaPetugas" style="text-align: center;" placeholder="Nama Petugas" oninput="syncText(this)">
-                <span class="print-text" id="text_namaPetugas">...................................</span>)
+                (<input type="text" class="form-input" id="namaPetugas" placeholder="Nama Petugas" oninput="syncText(this)">
+                <span class="print-text">...................................</span>)
             </div>
         </div>
     </div>
@@ -349,15 +308,7 @@ html_code = """<!DOCTYPE html>
 </div>
 
 <script>
-    // Sinkronisasi teks input ke elemen teks murni
     function syncText(input) {
-        let span = input.nextElementSibling;
-        if (span && span.classList.contains('print-text')) {
-            span.innerText = input.value || '';
-        }
-    }
-
-    function syncDateText(input) {
         let span = input.nextElementSibling;
         if (span && span.classList.contains('print-text')) {
             span.innerText = input.value || '';
@@ -372,31 +323,31 @@ html_code = """<!DOCTYPE html>
         row.innerHTML = `
             <td>${rowCount + 1}</td>
             <td>
-                <input type="text" class="form-input" style="text-align: center;" placeholder="NIK" oninput="syncText(this)">
+                <input type="text" class="form-input" placeholder="NIK" oninput="syncText(this)">
                 <span class="print-text"></span>
             </td>
             <td>
-                <input type="text" class="form-input" style="text-align: center;" placeholder="Nama" oninput="syncText(this)">
+                <input type="text" class="form-input" placeholder="Nama" oninput="syncText(this)">
                 <span class="print-text"></span>
             </td>
             <td>
-                <input type="text" class="form-input" style="text-align: center;" placeholder="Tempat, Tgl" oninput="syncText(this)">
+                <input type="text" class="form-input" placeholder="Tempat, Tgl" oninput="syncText(this)">
                 <span class="print-text"></span>
             </td>
             <td>
-                <input type="date" class="form-input" style="text-align: center;" oninput="syncDateText(this)">
+                <input type="date" class="form-input" oninput="syncText(this)">
                 <span class="print-text"></span>
             </td>
             <td>
-                <input type="text" class="form-input" style="text-align: center;" placeholder="Pelapor" oninput="syncText(this)">
+                <input type="text" class="form-input" placeholder="Pelapor" oninput="syncText(this)">
                 <span class="print-text"></span>
             </td>
             <td>
-                <input type="text" class="form-input" style="text-align: center;" placeholder="NIK Pelapor" oninput="syncText(this)">
+                <input type="text" class="form-input" placeholder="NIK Pelapor" oninput="syncText(this)">
                 <span class="print-text"></span>
             </td>
             <td>
-                <input type="text" class="form-input" style="text-align: center;" placeholder="Nama & HP" oninput="syncText(this)">
+                <input type="text" class="form-input" placeholder="Nama & HP" oninput="syncText(this)">
                 <span class="print-text"></span>
             </td>
             <td class="no-print">
@@ -418,29 +369,20 @@ html_code = """<!DOCTYPE html>
         }
     }
 
-    // Ekspor PDF Vektor HD & Tajam Tanpa Blur Menggunakan html2pdf.js Engine
     function exportCrispPDF() {
-        // Sinkronisasi seluruh nilai sebelum dirender
-        document.querySelectorAll('.form-input').forEach(input => {
-            if (input.type === 'date') {
-                syncDateText(input);
-            } else {
-                syncText(input);
-            }
-        });
+        document.querySelectorAll('.form-input').forEach(input => syncText(input));
 
         const element = document.getElementById('documentSheet');
         const container = document.querySelector('.app-container');
 
-        // Mode khusus saat ekspor untuk menyembunyikan input box
         container.classList.add('rendering-pdf');
 
         const opt = {
-            margin:       [10, 10, 10, 10],
+            margin:       [8, 8, 8, 8],
             filename:     'Formulir_Buku_Pokok_Pemakaman.pdf',
             image:        { type: 'jpeg', quality: 1.0 },
             html2canvas:  { 
-                scale: 3,             // Skala 3x HD untuk ketajaman teks maksimal
+                scale: 3,
                 useCORS: true,
                 letterRendering: true,
                 logging: false
@@ -453,7 +395,7 @@ html_code = """<!DOCTYPE html>
         }).catch(err => {
             console.error(err);
             container.classList.remove('rendering-pdf');
-            alert('Gagal membuat PDF Tajam.');
+            alert('Gagal membuat PDF.');
         });
     }
 
@@ -479,17 +421,9 @@ html_code = """<!DOCTYPE html>
         const encodedText = encodeURIComponent(textWA);
         const waUrl = `https://api.whatsapp.com/send?text=${encodedText}`;
 
-        setTimeout(() => {
-            window.open(waUrl, '_blank');
-        }, 1500);
+        setTimeout(() => { window.open(waUrl, '_blank'); }, 1500);
     }
 </script>
 
 </body>
 </html>
-"""
-
-with open("index.html", "w", encoding="utf-8") as f:
-    f.write(html_code)
-
-print("File index.html HD berhasil disimpan.")
