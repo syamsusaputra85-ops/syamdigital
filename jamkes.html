@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pencarian Data NIK & Rincian Elegant</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        .modal-animate { transition: opacity 0.3s ease-out, transform 0.3s ease-out; }
+    </style>
+</head>
+<body class="bg-slate-50 font-sans text-slate-800 min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-indigo-700 via-indigo-600 to-blue-600 text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div>
+                    <h1 class="text-2xl sm:text-3xl font-bold tracking-tight flex items-center gap-3">
+                        <i class="fa-solid fa-id-card"></i> Portal Pencarian Data
+                    </h1>
+                    <p class="text-indigo-100 text-sm mt-1">Klik nama untuk melihat detail rincian terstruktur</p>
+                </div>
+                
+                <div class="flex items-center gap-3 self-start md:self-auto flex-wrap">
+                    <!-- Tombol Buka Spreadsheet Direct Link -->
+                    <a href="https://docs.google.com/spreadsheets/d/1mUme9mPQyVhoEwOH94zH0bk9KdPwkMJUHtBj88MWerU/edit?usp=sharing" 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       class="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 active:scale-95 text-white font-semibold text-xs px-4 py-2.5 rounded-xl shadow-md transition-all border border-emerald-400/30">
+                        <i class="fa-solid fa-file-excel text-sm"></i> Buka Google Sheets
+                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px] opacity-80"></i>
+                    </a>
+
+                    <!-- Counter Data -->
+                    <div class="bg-white/10 backdrop-blur-md px-4 py-2 rounded-xl border border-white/20">
+                        <span class="text-[10px] uppercase tracking-wider text-indigo-200 block">Total Data</span>
+                        <span id="total-records" class="text-lg font-extrabold text-white">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
+        
+        <!-- Search Bar Card -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-4 sm:p-6 mb-8">
+            <div class="flex flex-col md:flex-row gap-4 items-center justify-between">
+                <div class="relative w-full md:w-96">
+                    <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                    <input type="text" id="search-input" 
+                        placeholder="Cari berdasarkan Nama, NIK, dll..." 
+                        class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:bg-white text-sm outline-none transition-all">
+                </div>
+
+                <div class="flex items-center gap-3 text-xs text-slate-500 w-full md:w-auto justify-between md:justify-end">
+                    <!-- Tombol Tambahan Buka Sheet di Area Kontrol -->
+                    <a href="https://docs.google.com/spreadsheets/d/1mUme9mPQyVhoEwOH94zH0bk9KdPwkMJUHtBj88MWerU/edit?usp=sharing" 
+                       target="_blank" 
+                       class="inline-flex items-center gap-1.5 text-xs text-indigo-600 hover:text-indigo-800 font-semibold bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-lg transition-all border border-indigo-100">
+                        <i class="fa-solid fa-table"></i> Edit / Lihat Master Data
+                    </a>
+
+                    <span id="loading-status" class="flex items-center gap-2">
+                        <i class="fa-solid fa-spinner animate-spin text-indigo-600"></i> Memuat data...
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table Container -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr id="table-header" class="bg-slate-100/80 text-slate-600 text-xs font-semibold uppercase tracking-wider border-b border-slate-200">
+                            <!-- Header Dinamis -->
+                        </tr>
+                    </thead>
+                    <tbody id="table-body" class="divide-y divide-slate-100 text-sm text-slate-700">
+                        <!-- Data Dinamis -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Empty / Error State -->
+            <div id="state-container" class="p-12 text-center hidden">
+                <div id="empty-state" class="hidden">
+                    <i class="fa-regular fa-folder-open text-4xl text-slate-300 mb-3"></i>
+                    <p class="text-slate-500 font-medium" id="empty-title">Data tidak ditemukan</p>
+                    <p class="text-xs text-slate-400 mt-1" id="empty-subtitle">Coba kata kunci pencarian yang lain</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Rincian Terstruktur, Elegant & Modern -->
+    <div id="detail-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm opacity-0 pointer-events-none modal-animate">
+        <div class="bg-white rounded-3xl shadow-2xl max-w-xl w-full overflow-hidden transform scale-95 transition-all duration-300 border border-slate-100">
+            
+            <!-- Modal Header -->
+            <div class="bg-gradient-to-r from-indigo-900 via-slate-900 to-indigo-950 px-6 py-6 text-white relative">
+                <button id="close-modal" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2 rounded-full hover:bg-white/10 transition-all">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+                
+                <div class="flex items-center gap-4">
+                    <div id="modal-avatar" class="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-blue-600 text-white font-bold text-2xl flex items-center justify-center shadow-lg border-2 border-white/20 shrink-0">
+                        -
+                    </div>
+                    <div>
+                        <span class="text-xs font-semibold tracking-wider text-indigo-300 uppercase block mb-0.5">Rincian Lengkap Data</span>
+                        <h3 id="modal-person-name" class="font-bold text-xl leading-snug text-white">
+                            Nama Peserta
+                        </h3>
+                        <p id="modal-subtitle-nik" class="text-xs text-slate-300 font-mono mt-1 flex items-center gap-1.5">
+                            <i class="fa-solid fa-id-card text-indigo-400"></i> NIK: -
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-6 max-h-[65vh] overflow-y-auto space-y-4" id="modal-content">
+                <!-- Data Terstruktur Dihasilkan JS -->
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="bg-slate-50 px-6 py-4 border-t border-slate-100 flex items-center justify-between">
+                <span class="text-xs text-slate-400 flex items-center gap-1">
+                    <i class="fa-solid fa-shield-halved text-emerald-500"></i> Data Terverifikasi
+                </span>
+                <button id="btn-close-footer" class="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white text-xs font-bold rounded-xl transition-all shadow-md shadow-indigo-200">
+                    Selesai & Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 text-white text-xs px-4 py-3 rounded-xl shadow-xl flex items-center gap-2 transform translate-y-20 opacity-0 transition-all duration-300 z-50">
+        <i class="fa-solid fa-circle-check text-emerald-400 text-sm"></i>
+        <span id="toast-msg">Teks berhasil disalin!</span>
+    </div>
+
+    <script>
+        // Sumber Data CSV Publik
+        const RAW_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT6Wbzuc__AExqGBHLMpTTFCjb16yzGYuH33vZzgjl_pViAEohtwNY08Cs9VZAa8guzn4DZaDN_H_li/pub?gid=37915305&single=true&output=csv';
+
+        let rawData = [];
+        let headers = [];
+        let filteredData = [];
+
+        const tableHeader = document.getElementById('table-header');
+        const tableBody = document.getElementById('table-body');
+        const searchInput = document.getElementById('search-input');
+        const totalRecordsEl = document.getElementById('total-records');
+        const loadingStatus = document.getElementById('loading-status');
+        const stateContainer = document.getElementById('state-container');
+        const emptyState = document.getElementById('empty-state');
+        const emptyTitle = document.getElementById('empty-title');
+        const emptySubtitle = document.getElementById('empty-subtitle');
+        
+        const detailModal = document.getElementById('detail-modal');
+        const modalContent = document.getElementById('modal-content');
+        const modalAvatar = document.getElementById('modal-avatar');
+        const modalPersonName = document.getElementById('modal-person-name');
+        const modalSubtitleNik = document.getElementById('modal-subtitle-nik');
+        const closeModalBtn = document.getElementById('close-modal');
+        const btnCloseFooter = document.getElementById('btn-close-footer');
+
+        const toast = document.getElementById('toast');
+        const toastMsg = document.getElementById('toast-msg');
+
+        // Parser CSV
+        function parseCSVText(csvText) {
+            const lines = csvText.split(/\r\n|\n/);
+            const result = [];
+            
+            for (let i = 0; i < lines.length; i++) {
+                if (!lines[i].trim()) continue;
+                
+                let row = [];
+                let insideQuote = false;
+                let entry = '';
+                
+                for (let char of lines[i]) {
+                    if (char === '"') {
+                        insideQuote = !insideQuote;
+                    } else if (char === ',' && !insideQuote) {
+                        row.push(entry.trim().replace(/^"|"$/g, ''));
+                        entry = '';
+                    } else {
+                        entry += char;
+                    }
+                }
+                row.push(entry.trim().replace(/^"|"$/g, ''));
+                result.push(row);
+            }
+            return result;
+        }
+
+        // Fetch CSV Data
+        async function fetchCSVData() {
+            const endpoints = [
+                RAW_CSV_URL,
+                'https://api.allorigins.win/raw?url=' + encodeURIComponent(RAW_CSV_URL),
+                'https://corsproxy.io/?' + encodeURIComponent(RAW_CSV_URL)
+            ];
+
+            let csvDataText = null;
+
+            for (const url of endpoints) {
+                try {
+                    const res = await fetch(url);
+                    if (res.ok) {
+                        const text = await res.text();
+                        if (text && text.length > 20) {
+                            csvDataText = text;
+                            break;
+                        }
+                    }
+                } catch (e) {
+                    console.warn('Mencoba endpoint berikutnya...', e);
+                }
+            }
+
+            if (!csvDataText) {
+                showErrorState('Gagal Memuat Data', 'Tidak dapat menghubungkan ke Google Sheets.');
+                return;
+            }
+
+            const parsedRows = parseCSVText(csvDataText);
+
+            if (parsedRows.length <= 1) {
+                showErrorState('Data Kosong', 'Spreadsheet tidak memiliki isi data.');
+                return;
+            }
+
+            headers = parsedRows[0];
+            rawData = parsedRows.slice(1).map(row => {
+                let obj = {};
+                headers.forEach((header, index) => {
+                    obj[header] = row[index] || '';
+                });
+                return obj;
+            });
+
+            filteredData = [...rawData];
+            renderTableHeaders();
+            renderTableData(filteredData);
+
+            loadingStatus.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-500"></i> Data Terintegrasi`;
+        }
+
+        function showErrorState(title, subtitle) {
+            loadingStatus.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-rose-500"></i> Gagal Memuat Data`;
+            tableBody.innerHTML = '';
+            emptyTitle.textContent = title;
+            emptySubtitle.textContent = subtitle;
+            stateContainer.classList.remove('hidden');
+            emptyState.classList.remove('hidden');
+        }
+
+        function renderTableHeaders() {
+            tableHeader.innerHTML = '';
+            const displayHeaders = headers.slice(0, 4);
+            
+            displayHeaders.forEach((header, idx) => {
+                const th = document.createElement('th');
+                th.className = `px-6 py-4 ${idx === 0 ? 'rounded-tl-2xl' : ''}`;
+                th.textContent = header;
+                tableHeader.appendChild(th);
+            });
+
+            const actionTh = document.createElement('th');
+            actionTh.className = 'px-6 py-4 text-center rounded-tr-2xl';
+            actionTh.textContent = 'Aksi';
+            tableHeader.appendChild(actionTh);
+        }
+
+        function renderTableData(data) {
+            tableBody.innerHTML = '';
+            totalRecordsEl.textContent = data.length;
+
+            if (data.length === 0) {
+                emptyTitle.textContent = 'Data tidak ditemukan';
+                emptySubtitle.textContent = 'Coba kata kunci pencarian yang lain';
+                stateContainer.classList.remove('hidden');
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            stateContainer.classList.add('hidden');
+            emptyState.classList.add('hidden');
+
+            const displayHeaders = headers.slice(0, 4);
+
+            data.forEach((row, rowIndex) => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-indigo-50/40 transition-colors duration-150';
+
+                displayHeaders.forEach((header) => {
+                    const td = document.createElement('td');
+                    td.className = 'px-6 py-4 whitespace-nowrap text-slate-600 font-medium';
+
+                    const val = (row[header] || '-').trim();
+                    const headerLower = header.toLowerCase();
+
+                    if (headerLower.includes('nama')) {
+                        td.innerHTML = `
+                            <button onclick="openModal(${rowIndex})" class="group inline-flex items-center gap-2 text-indigo-700 hover:text-indigo-900 font-bold hover:underline underline-offset-4 text-left transition-all">
+                                <span>${val}</span>
+                                <i class="fa-solid fa-arrow-up-right-from-square text-[10px] opacity-0 group-hover:opacity-100 transition-opacity text-indigo-500"></i>
+                            </button>
+                        `;
+                    } 
+                    else if (headerLower.includes('nik') && val !== '-') {
+                        td.innerHTML = `
+                            <div class="inline-flex items-center gap-2 bg-slate-100 hover:bg-slate-200/80 px-3 py-1.5 rounded-lg border border-slate-200 transition-all group">
+                                <span class="font-mono font-semibold text-slate-800 tracking-wide">${val}</span>
+                                <button onclick="copyToClipboard('${val}')" title="Salin NIK" class="text-slate-400 group-hover:text-indigo-600 hover:scale-110 transition-all">
+                                    <i class="fa-regular fa-copy"></i>
+                                </button>
+                            </div>
+                        `;
+                    } 
+                    else {
+                        td.textContent = val;
+                    }
+
+                    tr.appendChild(td);
+                });
+
+                const actionTd = document.createElement('td');
+                actionTd.className = 'px-6 py-4 text-center whitespace-nowrap';
+                actionTd.innerHTML = `
+                    <button onclick="openModal(${rowIndex})" class="inline-flex items-center gap-1.5 text-xs font-semibold bg-indigo-50 hover:bg-indigo-100 text-indigo-600 px-3 py-1.5 rounded-xl border border-indigo-200/60 transition-all active:scale-95">
+                        <i class="fa-solid fa-eye"></i> Rincian
+                    </button>
+                `;
+                tr.appendChild(actionTd);
+
+                tableBody.appendChild(tr);
+            });
+        }
+
+        function openModal(index) {
+            const row = filteredData[index];
+            if (!row) return;
+
+            let nameVal = 'Rincian Data';
+            let nikVal = '-';
+
+            headers.forEach(h => {
+                const hl = h.toLowerCase();
+                if (hl.includes('nama') && row[h]) nameVal = row[h];
+                if (hl.includes('nik') && row[h]) nikVal = row[h];
+            });
+
+            modalPersonName.textContent = nameVal;
+            modalSubtitleNik.innerHTML = `<i class="fa-solid fa-id-card text-indigo-400"></i> NIK: ${nikVal}`;
+            modalAvatar.textContent = nameVal.charAt(0).toUpperCase() || 'D';
+
+            modalContent.innerHTML = '';
+
+            const gridContainer = document.createElement('div');
+            gridContainer.className = 'grid grid-cols-1 md:grid-cols-2 gap-3.5';
+
+            headers.forEach(header => {
+                const val = (row[header] || '-').trim();
+                const isNIK = header.toLowerCase().includes('nik');
+                const isNama = header.toLowerCase().includes('nama');
+
+                const card = document.createElement('div');
+                
+                if (isNIK || isNama) {
+                    card.className = 'md:col-span-2 bg-gradient-to-r from-indigo-50/80 to-blue-50/50 p-4 rounded-2xl border border-indigo-100 shadow-sm';
+                } else {
+                    card.className = 'bg-slate-50/80 p-3.5 rounded-2xl border border-slate-100 hover:border-slate-200 transition-all';
+                }
+
+                card.innerHTML = `
+                    <div class="flex items-center justify-between mb-1">
+                        <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                            <i class="fa-solid fa-circle-dot text-[8px] text-indigo-500"></i> ${header}
+                        </span>
+                        ${isNIK && val !== '-' ? `
+                            <button onclick="copyToClipboard('${val}')" class="text-[11px] text-indigo-600 hover:text-indigo-800 bg-white px-2 py-0.5 rounded-lg border border-indigo-200 shadow-2xs font-medium transition-all flex items-center gap-1">
+                                <i class="fa-regular fa-copy"></i> Salin
+                            </button>
+                        ` : ''}
+                    </div>
+                    <div class="text-sm font-semibold ${isNIK ? 'font-mono text-indigo-900 font-bold text-base' : 'text-slate-800'} break-words">
+                        ${val}
+                    </div>
+                `;
+
+                gridContainer.appendChild(card);
+            });
+
+            modalContent.appendChild(gridContainer);
+
+            detailModal.classList.remove('opacity-0', 'pointer-events-none');
+            detailModal.querySelector('.transform').classList.remove('scale-95');
+            detailModal.querySelector('.transform').classList.add('scale-100');
+        }
+
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            
+            filteredData = rawData.filter(row => {
+                return Object.values(row).some(val => 
+                    String(val).toLowerCase().includes(query)
+                );
+            });
+
+            renderTableData(filteredData);
+        });
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast(`Nomor / Teks: "${text}" berhasil disalin!`);
+            }).catch(() => {
+                showToast(`Gagal menyalin otomatis`);
+            });
+        }
+
+        function showToast(message) {
+            toastMsg.textContent = message;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 2800);
+        }
+
+        function hideModal() {
+            detailModal.classList.add('opacity-0', 'pointer-events-none');
+            detailModal.querySelector('.transform').classList.remove('scale-100');
+            detailModal.querySelector('.transform').classList.add('scale-95');
+        }
+
+        closeModalBtn.addEventListener('click', hideModal);
+        btnCloseFooter.addEventListener('click', hideModal);
+        detailModal.addEventListener('click', (e) => {
+            if (e.target === detailModal) hideModal();
+        });
+
+        fetchCSVData();
+    </script>
+</body>
+</html>
