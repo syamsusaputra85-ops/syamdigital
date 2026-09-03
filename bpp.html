@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulir Buku Pokok Pemakaman</title>
+    <!-- Library jsPDF & html2canvas untuk ekspor PDF langsung dari browser -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .action-bar {
+            margin-bottom: 25px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            background-color: #eef2f5;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #d0d7de;
+        }
+        .btn {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.2s;
+        }
+        .btn:hover {
+            opacity: 0.9;
+        }
+        .btn-print {
+            background-color: #6c757d;
+        }
+        .btn-pdf {
+            background-color: #dc3545;
+        }
+        .btn-wa {
+            background-color: #25D366;
+        }
+        .btn-add {
+            background-color: #28a745;
+            margin-top: 15px;
+        }
+        .btn-remove {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        /* Area Dokumen */
+        #printableArea {
+            background: #fff;
+            padding: 10px;
+        }
+        .header {
+            font-size: 13px;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+        .title {
+            text-align: center;
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+        .identity {
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        .identity table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .identity td {
+            padding: 4px 0;
+            border: none;
+        }
+        table.data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        table.data-table, table.data-table th, table.data-table td {
+            border: 1px solid black;
+        }
+        table.data-table th, table.data-table td {
+            padding: 8px 5px;
+            text-align: center;
+            font-size: 12px;
+            vertical-align: middle;
+        }
+        table.data-table th {
+            background-color: #f2f2f2;
+        }
+        input[type="text"], input[type="date"] {
+            width: 98%;
+            padding: 6px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+        .footer-section {
+            margin-top: 30px;
+            display: flex;
+            justify-content: flex-end;
+        }
+        .footer-box {
+            text-align: center;
+            width: 260px;
+            font-size: 14px;
+        }
+        .signature-space {
+            height: 65px;
+        }
+
+        /* Pengaturan Cetak Native */
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            body {
+                background-color: #fff;
+                margin: 0;
+            }
+            .container {
+                border: none;
+                box-shadow: none;
+                padding: 0;
+                width: 100%;
+                max-width: 100%;
+            }
+            input {
+                border: none !important;
+                background: transparent !important;
+                outline: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Tombol Aksi Utama -->
+    <div class="action-bar no-print">
+        <button class="btn btn-print" onclick="window.print()">
+            🖨️ Cetak Langsung
+        </button>
+        <button class="btn btn-pdf" onclick="exportPDF()">
+            📄 Ekspor PDF
+        </button>
+        <button class="btn btn-wa" onclick="shareWhatsApp()">
+            💬 Kirim via WhatsApp
+        </button>
+    </div>
+
+    <!-- Area Dokumen Formulir -->
+    <div id="printableArea">
+        <div class="header">
+            Lampiran I : Surat Direktur Jenderal Kependudukan dan Pencatatan Sipil<br>
+            Nomor : 472.12/11406/Dukcapil<br>
+            Tanggal : 17 Januari 2022
+        </div>
+
+        <div class="title">FORMULIR BUKU POKOK PEMAKAMAN</div>
+
+        <div class="identity">
+            <table>
+                <tr>
+                    <td style="width: 260px; font-weight: bold;">Nama Tempat Pemakaman Umum (TPU)</td>
+                    <td style="width: 15px;">:</td>
+                    <td><input type="text" id="namaTPU" placeholder="Masukkan nama TPU"></td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold;">Alamat</td>
+                    <td>:</td>
+                    <td><input type="text" id="alamatTPU" placeholder="Masukkan alamat TPU"></td>
+                </tr>
+            </table>
+        </div>
+
+        <table class="data-table" id="pemakamanTable">
+            <thead>
+                <tr>
+                    <th style="width: 35px;">No</th>
+                    <th>NIK</th>
+                    <th>Nama</th>
+                    <th>Tempat & Tanggal Meninggal</th>
+                    <th>Tanggal Pemakaman</th>
+                    <th>Nama Pelapor</th>
+                    <th>NIK Pelapor</th>
+                    <th>Nama Dan HP Keluarga Yang Dapat Dihubungi</th>
+                    <th class="no-print" style="width: 45px;">Aksi</th>
+                </tr>
+                <tr>
+                    <th>(1)</th>
+                    <th>(2)</th>
+                    <th>(3)</th>
+                    <th>(4)</th>
+                    <th>(5)</th>
+                    <th>(6)</th>
+                    <th>(7)</th>
+                    <th>(8)</th>
+                    <th class="no-print"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td><input type="text" placeholder="NIK Jenazah"></td>
+                    <td><input type="text" placeholder="Nama Jenazah"></td>
+                    <td><input type="text" placeholder="Kota, DD/MM/YYYY"></td>
+                    <td><input type="date"></td>
+                    <td><input type="text" placeholder="Nama Pelapor"></td>
+                    <td><input type="text" placeholder="NIK Pelapor"></td>
+                    <td><input type="text" placeholder="Nama & No. HP"></td>
+                    <td class="no-print">
+                        <button class="btn-remove" onclick="removeRow(this)">X</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="footer-section">
+            <div class="footer-box">
+                <input type="text" id="tempatTanggal" style="text-align: center;" placeholder="Kota/Kab, Tanggal"><br>
+                Petugas Pemakaman
+                <div class="signature-space"></div>
+                (<input type="text" id="namaPetugas" style="text-align: center;" placeholder="Nama Petugas">)
+            </div>
+        </div>
+    </div>
+
+    <button class="btn btn-add no-print" onclick="addRow()">+ Tambah Baris Data</button>
+</div>
+
+<script>
+    // Fungsi Tambah Baris Tabel
+    function addRow() {
+        var table = document.getElementById("pemakamanTable").getElementsByTagName('tbody')[0];
+        var rowCount = table.rows.length;
+        var row = table.insertRow(rowCount);
+
+        row.innerHTML = `
+            <td>${rowCount + 1}</td>
+            <td><input type="text" placeholder="NIK Jenazah"></td>
+            <td><input type="text" placeholder="Nama Jenazah"></td>
+            <td><input type="text" placeholder="Kota, DD/MM/YYYY"></td>
+            <td><input type="date"></td>
+            <td><input type="text" placeholder="Nama Pelapor"></td>
+            <td><input type="text" placeholder="NIK Pelapor"></td>
+            <td><input type="text" placeholder="Nama & No. HP"></td>
+            <td class="no-print">
+                <button class="btn-remove" onclick="removeRow(this)">X</button>
+            </td>
+        `;
+    }
+
+    // Fungsi Hapus Baris Tabel
+    function removeRow(button) {
+        var row = button.parentNode.parentNode;
+        row.parentNode.removeChild(row);
+        updateRowNumbers();
+    }
+
+    // Fungsi Update Nomor Urut Baris
+    function updateRowNumbers() {
+        var table = document.getElementById("pemakamanTable").getElementsByTagName('tbody')[0];
+        for (var i = 0; i < table.rows.length; i++) {
+            table.rows[i].cells[0].innerHTML = i + 1;
+        }
+    }
+
+    // 1. Fitur Ekspor PDF Langsung
+    function exportPDF() {
+        const { jsPDF } = window.jspdf;
+        const element = document.getElementById('printableArea');
+        const noPrintElements = document.querySelectorAll('.no-print');
+
+        // Sembunyikan sementara tombol yang tidak perlu ada di PDF
+        noPrintElements.forEach(el => el.style.display = 'none');
+
+        html2canvas(element, { scale: 2, useCORS: true }).then((canvas) => {
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF('l', 'mm', 'a4'); // Format Lanskap A4
+            const imgWidth = 280;
+            const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+            pdf.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
+            pdf.save('Formulir_Buku_Pokok_Pemakaman.pdf');
+
+            // Kembalikan tampilan tombol
+            noPrintElements.forEach(el => el.style.display = '');
+        }).catch(err => {
+            alert('Gagal mengekspor PDF.');
+            noPrintElements.forEach(el => el.style.display = '');
+        });
+    }
+
+    // 2. Fitur Share ke WhatsApp
+    function shareWhatsApp() {
+        const namaTPU = document.getElementById('namaTPU').value || 'TPU';
+        const alamatTPU = document.getElementById('alamatTPU').value || '-';
+        const tempatTanggal = document.getElementById('tempatTanggal').value || '-';
+        const namaPetugas = document.getElementById('namaPetugas').value || '-';
+
+        const tableBody = document.getElementById("pemakamanTable").getElementsByTagName('tbody')[0];
+        const jumlahJenazah = tableBody.rows.length;
+
+        // Otomatis jalankan unduh PDF terlebih dahulu
+        exportPDF();
+
+        // Format Pesan Teks WhatsApp
+        let textWA = `*FORMULIR BUKU POKOK PEMAKAMAN*\n`;
+        textWA += `----------------------------------------\n`;
+        textWA += `*Nama TPU:* ${namaTPU}\n`;
+        textWA += `*Alamat TPU:* ${alamatTPU}\n`;
+        textWA += `*Jumlah Data Pemakaman:* ${jumlahJenazah} record\n`;
+        textWA += `*Tanggal/Petugas:* ${tempatTanggal} (${namaPetugas})\n\n`;
+        textWA += `📌 *Catatan:* File PDF Formulir telah otomatis terunduh ke perangkat Anda. Silakan *attach/lampirkan file PDF* tersebut pada chat WhatsApp ini.`;
+
+        const encodedText = encodeURIComponent(textWA);
+        const waUrl = `https://api.whatsapp.com/send?text=${encodedText}`;
+
+        // Buka WhatsApp Web/App
+        setTimeout(() => {
+            window.open(waUrl, '_blank');
+        }, 1200);
+    }
+</script>
+
+</body>
+</html>
