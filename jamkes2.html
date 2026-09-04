@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pencarian Data NIK & Rincian Elegant</title>
+    
+    <!-- Favicon ICO -->
+    <link rel="icon" type="image/png" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjlZtVSz49jmfZUpu647xdc2F35OKdAvM5Hior9c-XMZWXf6i8N6-V3K92xLxs_5G1r0StE6U43npW7yAoXkRJL5Y37n-A8hZYwds5pwLLkLUFggm2Nj5Sf0WgHUHJfBOKjtOkl8TPKEezNIZ1HKv6fKPBESfFG8a_BjbZvIWzvjlfEFCF2aobswnp8mpse/s120/logo_donggala-by-syam.png">
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
@@ -22,11 +26,18 @@
     <header class="bg-gradient-to-r from-indigo-700 via-indigo-600 to-blue-600 text-white shadow-lg">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
             <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                <div>
-                    <h1 class="text-2xl sm:text-3xl font-bold tracking-tight flex items-center gap-3">
-                        <i class="fa-solid fa-id-card"></i> Portal Pencarian Data Jaminan Kesehatan Daerah
-                    </h1>
-                    <p class="text-indigo-100 text-sm mt-1">Data Kepesertaan Jaminan Kesehatan Daerah (Jamkesda) Kabupaten Donggala</p>
+                
+                <!-- Logo & Judul Portal -->
+                <div class="flex items-center gap-4">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjlZtVSz49jmfZUpu647xdc2F35OKdAvM5Hior9c-XMZWXf6i8N6-V3K92xLxs_5G1r0StE6U43npW7yAoXkRJL5Y37n-A8hZYwds5pwLLkLUFggm2Nj5Sf0WgHUHJfBOKjtOkl8TPKEezNIZ1HKv6fKPBESfFG8a_BjbZvIWzvjlfEFCF2aobswnp8mpse/s120/logo_donggala-by-syam.png" 
+                         alt="Logo Kabupaten Donggala" 
+                         class="w-14 h-auto drop-shadow-md object-contain shrink-0">
+                    <div>
+                        <h1 class="text-2xl sm:text-3xl font-bold tracking-tight flex items-center gap-3">
+                            Portal Pencarian Data Jaminan Kesehatan Daerah
+                        </h1>
+                        <p class="text-indigo-100 text-sm mt-1">Data Kepesertaan Jaminan Kesehatan Daerah (Jamkesda) Kabupaten Donggala</p>
+                    </div>
                 </div>
                 
                 <div class="flex items-center gap-3 self-start md:self-auto flex-wrap">
@@ -191,7 +202,6 @@
         const toast = document.getElementById('toast');
         const toastMsg = document.getElementById('toast-msg');
 
-        // Element Rekap
         const rekapContainer = document.getElementById('rekap-container');
         const rekapCards = document.getElementById('rekap-cards');
 
@@ -301,9 +311,7 @@
             tableHeader.appendChild(actionTh);
         }
 
-        // FUNGSI UNTUK MENGHITUNG & MENAMPILKAN REKAP KONDISI
         function renderRekapKondisi(data) {
-            // Cari nama header yang berhubungan dengan 'KONDISI'
             const kondisiKey = headers.find(h => h.toLowerCase().includes('kondisi'));
             
             if (!kondisiKey) {
@@ -311,7 +319,6 @@
                 return;
             }
 
-            // Hitung Frekuensi
             const counts = {};
             data.forEach(row => {
                 let val = (row[kondisiKey] || 'TIDAK DIKETAHUI').trim().toUpperCase();
@@ -321,7 +328,6 @@
 
             rekapCards.innerHTML = '';
 
-            // Style/Warna Badge opsional berdasarkan tipe kondisi
             const getBadgeStyle = (key) => {
                 if (key.includes('AKTIF') && !key.includes('NON')) return 'bg-emerald-50 text-emerald-700 border-emerald-200';
                 if (key.includes('NON') || key.includes('TIDAK')) return 'bg-rose-50 text-rose-700 border-rose-200';
@@ -348,7 +354,6 @@
             tableBody.innerHTML = '';
             totalRecordsEl.textContent = data.length;
 
-            // Render Kartu Rekap
             renderRekapKondisi(data);
 
             if (data.length === 0) {
