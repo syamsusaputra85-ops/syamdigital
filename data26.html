@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pencarian Data Google Sheets</title>
+  
+  <!-- FAVICON -->
+  <link rel="icon" type="image/png" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEggGbqNiUbZmqKIaxT_qPDDMbBes9Hsy-XX88Cr7Ql-DBbrxNMX5RDrLlK2J8gk7_4KybGYVYiK09F7eo2MTHGszfppclIU_ZvW8iaQKhwq2sM_s61fSM2l0SD03me9okqbnUaZikaPXw4LnOUsXZBNHmoCv-FKjSiTMDWPP3nHhTmeOp_6WyQQZqKUMMlO/s120/logo%20donggala-fix-2025.png">
+
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f6f9;
+      margin: 20px;
+    }
+    .bs-search-container {
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* HEADER & LOGO UTAMA */
+    .bs-header-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+    .bs-main-logo {
+      height: 48px;
+      width: auto;
+      object-fit: contain;
+    }
+    .bs-title {
+      margin: 0;
+      color: #0288d1;
+      font-size: 22px;
+    }
+
+    .bs-search-input {
+      width: 100%;
+      padding: 12px;
+      font-size: 15px;
+      border: 2px solid #ddd;
+      border-radius: 6px;
+      box-sizing: border-box;
+      margin-bottom: 15px;
+    }
+    .bs-search-input:focus {
+      border-color: #03a9f4;
+      outline: none;
+    }
+    .bs-status-msg {
+      padding: 15px;
+      font-weight: bold;
+      color: #666;
+      text-align: center;
+    }
+    .bs-table-wrapper {
+      overflow-x: auto;
+    }
+    .bs-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+    .bs-table th, .bs-table td {
+      padding: 10px 12px;
+      border: 1px solid #e0e0e0;
+      text-align: left;
+      vertical-align: middle;
+    }
+    .bs-table th {
+      background-color: #03a9f4;
+      color: #ffffff;
+      font-weight: bold;
+      text-transform: capitalize;
+    }
+    .bs-table tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    .bs-table tr:hover {
+      background-color: #f1f1f1;
+    }
+    
+    /* Style khusus untuk nama yang bisa diklik */
+    .bs-clickable-name {
+      color: #0288d1;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: underline;
+      display: inline-block;
+    }
+    .bs-clickable-name:hover {
+      color: #01579b;
+    }
+
+    /* Style Tombol Aksi Rincian */
+    .bs-btn-detail {
+      background-color: #03a9f4;
+      color: #ffffff;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: bold;
+      transition: background-color 0.2s;
+      white-space: nowrap;
+    }
+    .bs-btn-detail:hover {
+      background-color: #0288d1;
+    }
+    .bs-no-data {
+      text-align: center;
+      color: #999;
+      padding: 15px;
+      font-style: italic;
+    }
+
+    /* ==========================================
+       --- STYLE MODAL / POPUP (TERSTRUKTUR) ---
+       ========================================== */
+    .bs-modal-overlay {
+      display: none;
+      position: fixed;
+      z-index: 99999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(3px);
+      overflow-y: auto;
+      padding: 20px 10px;
+      box-sizing: border-box;
+    }
+    .bs-modal-content {
+      background-color: #ffffff;
+      margin: 30px auto;
+      border-radius: 12px;
+      max-width: 650px;
+      width: 100%;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+      position: relative;
+      animation: bsFadeIn 0.25s ease-out;
+      overflow: hidden;
+    }
+    @keyframes bsFadeIn {
+      from { opacity: 0; transform: translateY(-15px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .bs-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(135deg, #0288d1, #03a9f4);
+      color: #ffffff;
+      padding: 14px 20px;
+    }
+    .bs-modal-header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .bs-modal-logo {
+      height: 32px;
+      width: auto;
+      object-fit: contain;
+    }
+    .bs-modal-title {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+    .bs-close-btn {
+      color: #ffffff;
+      font-size: 24px;
+      font-weight: bold;
+      cursor: pointer;
+      line-height: 1;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+    .bs-close-btn:hover {
+      opacity: 1;
+    }
+    
+    /* Layout Isi Modal */
+    .bs-modal-body-container {
+      padding: 20px 24px;
+      max-height: 75vh;
+      overflow-y: auto;
+    }
+
+    /* Kartu Informasi Utama (Profil/Nama Utama) */
+    .bs-main-card {
+      background-color: #e1f5fe;
+      border-left: 4px solid #0288d1;
+      padding: 12px 16px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+    }
+    .bs-main-card .bs-detail-label {
+      color: #0288d1;
+    }
+    .bs-main-card .bs-detail-value {
+      font-size: 18px;
+      font-weight: bold;
+      color: #01579b;
+    }
+
+    /* Grid Rincian 2 Kolom */
+    .bs-detail-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px 16px;
+    }
+
+    /* Item Rincian Individu */
+    .bs-detail-item {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 10px 14px;
+      transition: border-color 0.2s;
+    }
+    .bs-detail-item:hover {
+      border-color: #cbd5e1;
+    }
+
+    /* Khusus untuk teks panjang agar mengambil 2 kolom penuh */
+    .bs-detail-item.full-width {
+      grid-column: span 2;
+    }
+
+    .bs-detail-label {
+      font-weight: 600;
+      color: #64748b;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+    .bs-detail-value {
+      color: #1e293b;
+      font-size: 14px;
+      font-weight: 500;
+      word-break: break-word;
+    }
+
+    /* Responsif untuk Layar HP */
+    @media (max-width: 500px) {
+      .bs-detail-grid {
+        grid-template-columns: 1fr;
+      }
+      .bs-detail-item.full-width {
+        grid-column: span 1;
+      }
+    }
+  </style>
+  <!-- Library PapaParse untuk konversi CSV ke JavaScript Object -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+</head>
+<body>
+
+<div class="bs-search-container">
+  <!-- HEADER & LOGO -->
+  <div class="bs-header-wrapper">
+    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEggGbqNiUbZmqKIaxT_qPDDMbBes9Hsy-XX88Cr7Ql-DBbrxNMX5RDrLlK2J8gk7_4KybGYVYiK09F7eo2MTHGszfppclIU_ZvW8iaQKhwq2sM_s61fSM2l0SD03me9okqbnUaZikaPXw4LnOUsXZBNHmoCv-FKjSiTMDWPP3nHhTmeOp_6WyQQZqKUMMlO/s120/logo%20donggala-fix-2025.png" alt="Logo Donggala" class="bs-main-logo">
+    <h2 class="bs-title">Pencarian Data & Rincian Lengkap</h2>
+  </div>
+
+  <input type="text" id="bsSearchInput" class="bs-search-input" placeholder="Ketik kata kunci untuk mencari (Nama, NIK, Tempat Lahir, dll)..." onkeyup="bsFilterData()"/>
+  
+  <div id="bsStatus" class="bs-status-msg">Memuat data dari Google Sheets...</div>
+
+  <div class="bs-table-wrapper">
+    <table id="bsDataTable" class="bs-table" style="display: none;">
+      <thead id="bsTableHeader"></thead>
+      <tbody id="bsTableBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- MODAL / POPUP RINCIAN LENGKAP -->
+<div id="bsDetailModal" class="bs-modal-overlay" onclick="bsCloseModalOnOverlay(event)">
+  <div class="bs-modal-content">
+    <div class="bs-modal-header">
+      <div class="bs-modal-header-left">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEggGbqNiUbZmqKIaxT_qPDDMbBes9Hsy-XX88Cr7Ql-DBbrxNMX5RDrLlK2J8gk7_4KybGYVYiK09F7eo2MTHGszfppclIU_ZvW8iaQKhwq2sM_s61fSM2l0SD03me9okqbnUaZikaPXw4LnOUsXZBNHmoCv-FKjSiTMDWPP3nHhTmeOp_6WyQQZqKUMMlO/s120/logo%20donggala-fix-2025.png" alt="Logo Modal" class="bs-modal-logo">
+        <h3 class="bs-modal-title">Rincian Lengkap Data</h3>
+      </div>
+      <span class="bs-close-btn" onclick="bsCloseModal()">&times;</span>
+    </div>
+    <div class="bs-modal-body-container" id="bsModalBody">
+      <!-- Data rincian akan diisi secara dinamis -->
+    </div>
+  </div>
+</div>
+
+<script>
+  // Link CSV Google Sheets Anda
+  var bsCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vToaXv1XacJz-lCe-jyfv5mkxNg0qDWduyLJdGw1FcRbE-tiq0SLrdsRHRkT3TOOtXyEAkHtvwhJnxW/pub?output=csv';
+  
+  var bsAllData = [];
+  var bsDisplayedData = []; // Menampung data yang sedang aktif (setelah pencarian)
+  var bsHeaders = [];
+
+  // Fungsi pengaman agar karakter khusus tidak memutus tag HTML
+  function bsEscapeHtml(str) {
+    if (str === null || str === undefined || str === '') return '-';
+    return String(str)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  // Mengambil data dari Google Sheets
+  function bsFetchData() {
+    Papa.parse(bsCsvUrl, {
+      download: true,
+      header: true,
+      skipEmptyLines: true,
+      complete: function(results) {
+        if (results.data && results.data.length > 0) {
+          bsAllData = results.data;
+          bsDisplayedData = results.data;
+          bsHeaders = results.meta.fields;
+          
+          bsRenderHeader(bsHeaders);
+          bsRenderData(bsDisplayedData);
+
+          document.getElementById('bsStatus').style.display = 'none';
+          document.getElementById('bsDataTable').style.display = 'table';
+        } else {
+          document.getElementById('bsStatus').innerHTML = 'Data kosong atau tidak ditemukan.';
+        }
+      },
+      error: function(err) {
+        document.getElementById('bsStatus').innerHTML = 'Gagal memuat data dari Google Sheets.';
+      }
+    });
+  }
+
+  // Menampilkan Header Tabel
+  function bsRenderHeader(headData) {
+    var thead = document.getElementById('bsTableHeader');
+    var html = '<tr>';
+    for (var i = 0; i < headData.length; i++) {
+      html += '<th>' + bsEscapeHtml(headData[i]) + '</th>';
+    }
+    // Tambahkan kolom Aksi khusus rincian
+    html += '<th style="text-align: center;">Aksi</th>';
+    html += '</tr>';
+    thead.innerHTML = html;
+  }
+
+  // Menampilkan Isi Tabel
+  function bsRenderData(data) {
+    var tbody = document.getElementById('bsTableBody');
+    tbody.innerHTML = '';
+
+    if (!data || data.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="' + ((bsHeaders.length || 1) + 1) + '" class="bs-no-data">Data tidak ditemukan.</td></tr>';
+      return;
+    }
+
+    // Mencari indeks kolom bernama "nama" secara fleksibel
+    var nameColumnIndex = 0; 
+    for (var k = 0; k < bsHeaders.length; k++) {
+      if (bsHeaders[k].toLowerCase().trim() === 'nama') {
+        nameColumnIndex = k;
+        break;
+      }
+    }
+
+    var html = '';
+    for (var i = 0; i < data.length; i++) {
+      html += '<tr>';
+      for (var j = 0; j < bsHeaders.length; j++) {
+        var key = bsHeaders[j];
+        var val = data[i][key] ? data[i][key] : '-';
+        var safeVal = bsEscapeHtml(val);
+        
+        // Kolom Nama dibuat clickable (warna biru & bergaris bawah)
+        if (j === nameColumnIndex) {
+          html += '<td><span class="bs-clickable-name" data-bs-index="' + i + '">' + safeVal + '</span></td>';
+        } else {
+          html += '<td>' + safeVal + '</td>';
+        }
+      }
+      
+      // Tombol Opsi Lihat Rincian
+      html += '<td style="text-align: center;"><button class="bs-btn-detail" data-bs-index="' + i + '">🔍 Lihat Rincian</button></td>';
+      html += '</tr>';
+    }
+    tbody.innerHTML = html;
+  }
+
+  // Event Listener terpusat untuk klik pada Nama / Tombol Rincian
+  document.getElementById('bsTableBody').addEventListener('click', function(e) {
+    var target = e.target;
+    if (target && (target.classList.contains('bs-clickable-name') || target.classList.contains('bs-btn-detail'))) {
+      var index = target.getAttribute('data-bs-index');
+      if (index !== null) {
+        bsShowDetail(parseInt(index, 10));
+      }
+    }
+  });
+
+  // Fungsi Filter Pencarian (Live Search)
+  function bsFilterData() {
+    var keyword = document.getElementById('bsSearchInput').value.toLowerCase().trim();
+    
+    bsDisplayedData = bsAllData.filter(function(row) {
+      for (var i = 0; i < bsHeaders.length; i++) {
+        var key = bsHeaders[i];
+        var val = row[key] ? row[key].toString().toLowerCase() : '';
+        if (val.indexOf(keyword) !== -1) {
+          return true;
+        }
+      }
+      return false;
+    });
+
+    bsRenderData(bsDisplayedData);
+  }
+
+  // Fungsi Menampilkan Modal Rincian
+  function bsShowDetail(index) {
+    var rowData = bsDisplayedData[index];
+    if (!rowData) return;
+
+    var modalBody = document.getElementById('bsModalBody');
+    var mainCardHtml = '';
+    var gridItemsHtml = '';
+
+    for (var i = 0; i < bsHeaders.length; i++) {
+      var key = bsHeaders[i];
+      var rawVal = rowData[key];
+      var val = bsEscapeHtml(rawVal);
+
+      // Jika header bernama "Nama" atau sejenisnya, buatkan Main Highlight Card di atas
+      if (i === 0 || key.toLowerCase().trim() === 'nama') {
+        if (!mainCardHtml) {
+          mainCardHtml = `
+            <div class="bs-main-card">
+              <div class="bs-detail-label">${bsEscapeHtml(key)}</div>
+              <div class="bs-detail-value">${val}</div>
+            </div>
+          `;
+          continue; // Lanjutkan agar tidak ditulis 2x di grid
+        }
+      }
+      
+      // Jika teks nilai terlalu panjang (misal: Alamat/Catatan), buat spanned full width
+      var isLongText = rawVal && rawVal.toString().length > 40;
+      var fullWidthClass = isLongText ? ' full-width' : '';
+
+      gridItemsHtml += `
+        <div class="bs-detail-item${fullWidthClass}">
+          <div class="bs-detail-label">${bsEscapeHtml(key)}</div>
+          <div class="bs-detail-value">${val}</div>
+        </div>
+      `;
+    }
+
+    modalBody.innerHTML = mainCardHtml + '<div class="bs-detail-grid">' + gridItemsHtml + '</div>';
+    document.getElementById('bsDetailModal').style.display = 'block';
+  }
+
+  // Fungsi Menutup Modal
+  function bsCloseModal() {
+    document.getElementById('bsDetailModal').style.display = 'none';
+  }
+
+  // Tutup Modal jika area di luar kotak popup diklik
+  function bsCloseModalOnOverlay(event) {
+    if (event.target.id === 'bsDetailModal') {
+      bsCloseModal();
+    }
+  }
+
+  // Jalankan perintah fetch saat halaman pertama kali dimuat
+  bsFetchData();
+</script>
+
+</body>
+</html>
