@@ -247,26 +247,77 @@
     height: auto;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    margin-bottom: 20px;
+  }
+
+  /* Kustomisasi PDF Preview & Tombol Unduh */
+  .pdf-wrapper {
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    padding: 16px;
+    margin-top: 15px;
+  }
+
+  .pdf-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .pdf-title-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #334155;
+  }
+
+  .download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 16px;
+    background-color: #059669;
+    color: #ffffff !important;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 5px rgba(5, 150, 105, 0.2);
+  }
+
+  .download-btn:hover {
+    background-color: #047857;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(5, 150, 105, 0.3);
   }
 
   .iframe-container {
     position: relative;
     width: 100%;
-    padding-bottom: 75%; /* Rasio 4:3 */
-    height: 0;
+    height: 500px;
     overflow: hidden;
     border-radius: 8px;
-    background: #f1f5f9;
-    margin-top: 15px;
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
   }
 
   .iframe-container iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
     border: 0;
+  }
+
+  @media (max-width: 640px) {
+    .iframe-container {
+      height: 380px;
+    }
   }
 </style>
 
@@ -371,8 +422,19 @@
       <a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiOVRRgz5_s4Yy1eCnYIQjhBkQD8rTet0PmZDpBTgvl00UImr8TOuEBUmd7_EUI48Hl_xESsb1_r7PM2o06yh23ExL5h0KEhIMM81Be94Alcob0rQvB1oYoOgLtCj2QAXc-zIYVHavCgxg1K0oCopVioRo4x_RkjR1HE7G4IpF860sRZHePFAZaA3JfeSQD/s1536/DUSUN-I.png" target="_blank">
         <img class="img-responsive" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiOVRRgz5_s4Yy1eCnYIQjhBkQD8rTet0PmZDpBTgvl00UImr8TOuEBUmd7_EUI48Hl_xESsb1_r7PM2o06yh23ExL5h0KEhIMM81Be94Alcob0rQvB1oYoOgLtCj2QAXc-zIYVHavCgxg1K0oCopVioRo4x_RkjR1HE7G4IpF860sRZHePFAZaA3JfeSQD/s600/DUSUN-I.png" alt="Peta Dusun 1"/>
       </a>
-      <div class="iframe-container">
-        <iframe src="https://drive.google.com/file/d/1sUCzCym_Zk9c-c-X4OwhQahraCzPa6qq/preview" width="640" height="480"></iframe>
+      
+      <div class="pdf-wrapper">
+        <div class="pdf-header">
+          <div class="pdf-title-info">
+            📄 <span>Dokumen PDF Dusun 1</span>
+          </div>
+          <a href="https://drive.google.com/uc?export=download&id=1sUCzCym_Zk9c-c-X4OwhQahraCzPa6qq" class="download-btn" target="_blank">
+            📥 Unduh File PDF
+          </a>
+        </div>
+        <div class="iframe-container">
+          <iframe src="https://drive.google.com/file/d/1sUCzCym_Zk9c-c-X4OwhQahraCzPa6qq/preview"></iframe>
+        </div>
       </div>
     </div>
 
@@ -381,8 +443,19 @@
       <a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiNgO8JWG5FefUvfgxy-2o_TY62UxXwNeJx1o_m6xsHjY5869n25yiBtcYTL5N3ozQtOV8XaacmVbTZ8Y2YYBAYSgr-efF318auITfa8cCHUe81L-HV1TohZfcRBLzPjjDxbRBmOIOSSTBJH1BAm9wE7ZrpfW_J-aq5phBJvpEAm7UMMiHT56ksRNp_OEId/s1536/DUSUN-II.png" target="_blank">
         <img class="img-responsive" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiNgO8JWG5FefUvfgxy-2o_TY62UxXwNeJx1o_m6xsHjY5869n25yiBtcYTL5N3ozQtOV8XaacmVbTZ8Y2YYBAYSgr-efF318auITfa8cCHUe81L-HV1TohZfcRBLzPjjDxbRBmOIOSSTBJH1BAm9wE7ZrpfW_J-aq5phBJvpEAm7UMMiHT56ksRNp_OEId/s600/DUSUN-II.png" alt="Peta Dusun 2"/>
       </a>
-      <div class="iframe-container">
-       <iframe src="https://drive.google.com/file/d/1q4ZSqauUi1SACY6SR36sz88DOdPUezlo/preview" width="640" height="480"></iframe>
+      
+      <div class="pdf-wrapper">
+        <div class="pdf-header">
+          <div class="pdf-title-info">
+            📄 <span>Dokumen PDF Dusun 2</span>
+          </div>
+          <a href="https://drive.google.com/uc?export=download&id=1q4ZSqauUi1SACY6SR36sz88DOdPUezlo" class="download-btn" target="_blank">
+            📥 Unduh File PDF
+          </a>
+        </div>
+        <div class="iframe-container">
+          <iframe src="https://drive.google.com/file/d/1q4ZSqauUi1SACY6SR36sz88DOdPUezlo/preview"></iframe>
+        </div>
       </div>
     </div>
 
@@ -391,8 +464,19 @@
       <a href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiB1pjQveaOUixDyxjAkAQZe32wNCpRNXgdqHolWRR0K7NOW4r9jSvd9sZ4lBcnFIkeykTGQHXyiezzZ7aEt1PtufBp9c8-yeZbowtwNz5QRsmL788NQjOJyYBw5b5GP1v6zc06ZjqxucEQhhhWXA_SRavcvy1xjpwuYnv_vSt78iNbB__k5_nVhdY0c2xP/s1536/DUSUN-3.png" target="_blank">
         <img class="img-responsive" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiB1pjQveaOUixDyxjAkAQZe32wNCpRNXgdqHolWRR0K7NOW4r9jSvd9sZ4lBcnFIkeykTGQHXyiezzZ7aEt1PtufBp9c8-yeZbowtwNz5QRsmL788NQjOJyYBw5b5GP1v6zc06ZjqxucEQhhhWXA_SRavcvy1xjpwuYnv_vSt78iNbB__k5_nVhdY0c2xP/s600/DUSUN-3.png" alt="Peta Dusun 3"/>
       </a>
-      <div class="iframe-container">
-        <iframe src="https://drive.google.com/file/d/1rMkIawKa1wp47AMJYHubaWsRvjNAZlMG/preview" width="640" height="480"></iframe>
+      
+      <div class="pdf-wrapper">
+        <div class="pdf-header">
+          <div class="pdf-title-info">
+            📄 <span>Dokumen PDF Dusun 3</span>
+          </div>
+          <a href="https://drive.google.com/uc?export=download&id=1rMkIawKa1wp47AMJYHubaWsRvjNAZlMG" class="download-btn" target="_blank">
+            📥 Unduh File PDF
+          </a>
+        </div>
+        <div class="iframe-container">
+          <iframe src="https://drive.google.com/file/d/1rMkIawKa1wp47AMJYHubaWsRvjNAZlMG/preview"></iframe>
+        </div>
       </div>
     </div>
 
