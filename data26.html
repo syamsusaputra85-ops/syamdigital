@@ -248,11 +248,46 @@
       letter-spacing: 0.5px;
       margin-bottom: 4px;
     }
+
+    /* Wrapper untuk Nilai & Tombol Salin */
+    .bs-value-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
     .bs-detail-value {
       color: #1e293b;
       font-size: 14px;
       font-weight: 500;
       word-break: break-word;
+    }
+
+    /* Style Tombol Copy / Salin Teks */
+    .bs-copy-btn {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 5px;
+      color: #0288d1;
+      cursor: pointer;
+      padding: 3px 7px;
+      font-size: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+    .bs-copy-btn:hover {
+      background: #e0f2fe;
+      border-color: #0288d1;
+      color: #01579b;
+    }
+    .bs-copy-btn.copied {
+      background: #dcfce7;
+      border-color: #22c55e;
+      color: #15803d;
     }
 
     /* Responsif untuk Layar HP */
@@ -448,9 +483,10 @@
       var key = bsHeaders[i];
       var rawVal = rowData[key];
       var val = bsEscapeHtml(rawVal);
+      var cleanKey = key.toLowerCase().trim();
 
       // Jika header bernama "Nama" atau sejenisnya, buatkan Main Highlight Card di atas
-      if (i === 0 || key.toLowerCase().trim() === 'nama') {
+      if (i === 0 || cleanKey === 'nama') {
         if (!mainCardHtml) {
           mainCardHtml = `
             <div class="bs-main-card">
@@ -462,6 +498,30 @@
         }
       }
       
+      // Deteksi apakah kolom ini NIK, KK, No. KK, No. KTP, dll.
+      var isCopyable = cleanKey.includes('nik') || 
+                       cleanKey.includes('kk') || 
+                       cleanKey.includes('ktp') || 
+                       cleanKey.includes('kartu keluarga');
+
+      // Nilai mentah untuk disalin (abaikan karakter khusus jika bernilai '-')
+      var textToCopy = (rawVal && rawVal !== '-') ? rawVal.toString().trim() : '';
+
+      // Tampilan nilai dengan atau tanpa tombol copy
+      var valueContentHtml = '';
+      if (isCopyable && textToCopy !== '') {
+        valueContentHtml = `
+          <div class="bs-value-wrapper">
+            <span class="bs-detail-value">${val}</span>
+            <button class="bs-copy-btn" onclick="bsCopyText(this, '${bsEscapeHtml(textToCopy)}')" title="Salin ${bsEscapeHtml(key)}">
+              📋 Salin
+            </button>
+          </div>
+        `;
+      } else {
+        valueContentHtml = `<div class="bs-detail-value">${val}</div>`;
+      }
+
       // Jika teks nilai terlalu panjang (misal: Alamat/Catatan), buat spanned full width
       var isLongText = rawVal && rawVal.toString().length > 40;
       var fullWidthClass = isLongText ? ' full-width' : '';
@@ -469,13 +529,47 @@
       gridItemsHtml += `
         <div class="bs-detail-item${fullWidthClass}">
           <div class="bs-detail-label">${bsEscapeHtml(key)}</div>
-          <div class="bs-detail-value">${val}</div>
+          ${valueContentHtml}
         </div>
       `;
     }
 
     modalBody.innerHTML = mainCardHtml + '<div class="bs-detail-grid">' + gridItemsHtml + '</div>';
     document.getElementById('bsDetailModal').style.display = 'block';
+  }
+
+  // Fungsi Salin Teks ke Clipboard dengan Indikator Visual
+  function bsCopyText(btnElement, text) {
+    if (!text || text === '-') return;
+
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(showSuccess).catch(fallbackCopy);
+    } else {
+      fallbackCopy();
+    }
+
+    function fallbackCopy() {
+      var tempInput = document.createElement('input');
+      tempInput.value = text;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      try {
+        document.execCommand('copy');
+        showSuccess();
+      } catch (err) {
+        alert('Gagal menyalin teks.');
+      }
+      document.body.removeChild(tempInput);
+    }
+
+    function showSuccess() {
+      btnElement.classList.add('copied');
+      btnElement.innerHTML = '✓ Tersalin!';
+      setTimeout(function() {
+        btnElement.classList.remove('copied');
+        btnElement.innerHTML = '📋 Salin';
+      }, 1800);
+    }
   }
 
   // Fungsi Menutup Modal
