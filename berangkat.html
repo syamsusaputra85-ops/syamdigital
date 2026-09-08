@@ -60,35 +60,44 @@
     button:hover {
       background-color: #0056b3;
     }
-    .btn-sheet {
-      display: block;
+    .btn-action {
+      display: inline-block;
       text-align: center;
-      background-color: #28a745;
-      color: white;
       font-weight: bold;
       text-decoration: none;
       border-radius: 6px;
       padding: 12px;
-      margin-top: 15px;
       box-sizing: border-box;
+      cursor: pointer;
+      border: none;
+      font-size: 14px;
+    }
+    .btn-sheet {
+      background-color: #28a745;
+      color: white;
     }
     .btn-sheet:hover {
       background-color: #218838;
     }
     .btn-pdf {
-      display: block;
-      text-align: center;
       background-color: #dc3545;
       color: white;
-      font-weight: bold;
-      text-decoration: none;
-      border-radius: 6px;
-      padding: 12px;
-      margin-top: 10px;
-      box-sizing: border-box;
     }
     .btn-pdf:hover {
       background-color: #c82333;
+    }
+    .btn-refresh {
+      background-color: #17a2b8;
+      color: white;
+    }
+    .btn-refresh:hover {
+      background-color: #138496;
+    }
+    .button-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 15px;
     }
     #status {
       margin-top: 15px;
@@ -101,6 +110,8 @@
       border: 1px solid #ddd;
       border-radius: 6px;
       overflow: hidden;
+      margin-top: 15px;
+      background-color: #fff;
     }
     iframe {
       width: 100%;
@@ -108,11 +119,10 @@
       border: none;
     }
 
-    /* CSS Khusus Cetak Print / PDF Browser */
     @media print {
       body { padding: 0; background: white; }
       .card { box-shadow: none; border: none; padding: 0; }
-      #shipForm, .btn-sheet, .btn-pdf, button { display: none !important; }
+      #shipForm, .button-group, button { display: none !important; }
       .rekap-container { height: 1000px; border: none; }
     }
   </style>
@@ -157,39 +167,54 @@
     </form>
 
     <div id="status"></div>
-
-    <!-- Tombol Direct Link Spreadsheet -->
-    <a href="https://docs.google.com/spreadsheets/d/1HcWZUa7Bsvxu0gMCJy6-vVHb-jklOGxrx7af9YCxNnI/edit?usp=sharing" target="_blank" class="btn-sheet">
-      📊 Buka Rekap Spreadsheet
-    </a>
   </div>
 
-  <!-- HASIL REKAP & TOMBOL EKSPOR PDF -->
+  <!-- HASIL REKAP EMBED & NAVIGASI -->
   <div class="card">
     <h2>📋 Hasil Rekap Kapal Terinput</h2>
-    <div class="rekap-container">
-      <iframe id="rekapFrame" src="<!-- URL BARU (Langsung Update Real-time tanpa delay) -->
-<!-- URL BARU (Langsung Update Real-time tanpa delay) -->
-<iframe id="rekapFrame" src="https://docs.google.com/spreadsheets/d/1HcWZUa7Bsvxu0gMCJy6-vVHb-jklOGxrx7af9YCxNnI/preview?rm=minimal"></iframe>
+
+    <div class="button-group">
+      <button type="button" onclick="refreshRekap()" class="btn-action btn-refresh">
+        🔄 Refresh Tabel
+      </button>
+
+      <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQGFG9yf87gX8nhRPwwZIKZovKm5grqVfe9xbGOn7ipep5_sqROdM75FSHka58LcGPs9EE2TKrTUKto/pubhtml?gid=0&single=true" 
+         target="_blank" 
+         class="btn-action btn-sheet">
+        🌐 Buka Rekap di Tab Baru
+      </a>
     </div>
 
-    <!-- Tombol Export PDF -->
-    <a href="https://docs.google.com/spreadsheets/d/1HcWZUa7Bsvxu0gMCJy6-vVHb-jklOGxrx7af9YCxNnI/export?format=pdf&size=A4&portrait=true&fitw=true" 
-       target="_blank" 
-       class="btn-pdf">
-       📄 Unduh Rekap PDF
-    </a>
+    <!-- TAMPILAN REKAP SPREADSHEET PUBLIK -->
+    <div class="rekap-container">
+      <iframe id="rekapFrame" 
+              src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQGFG9yf87gX8nhRPwwZIKZovKm5grqVfe9xbGOn7ipep5_sqROdM75FSHka58LcGPs9EE2TKrTUKto/pubhtml?gid=0&single=true&widget=true&headers=false">
+      </iframe>
+    </div>
+
+    <div class="button-group" style="margin-top: 15px;">
+      <a href="https://docs.google.com/spreadsheets/d/1HcWZUa7Bsvxu0gMCJy6-vVHb-jklOGxrx7af9YCxNnI/export?format=pdf&size=A4&portrait=true&fitw=true" 
+         target="_blank" 
+         class="btn-action btn-pdf" style="grid-column: span 2;">
+         📄 Unduh Rekap PDF
+      </a>
+    </div>
   </div>
 
 </div>
 
 <script>
-  const scriptURL = 'https://script.google.com/macros/s/AKfycbxpPJgZyazSg_920iMsCzNv0uVo6rd81GgbpdP6JJ5Ax0SyDryLAyPWoZkuj4Ul3XnKWg/exec'; 
+  // GANTI DENGAN URL GOOGLE APPS SCRIPT ANDA
+  const scriptURL = 'URL_WEB_APP_ANDA_DI_SINI'; 
 
   const form = document.getElementById('shipForm');
   const btnSubmit = document.getElementById('btnSubmit');
   const statusDiv = document.getElementById('status');
   const rekapFrame = document.getElementById('rekapFrame');
+
+  function refreshRekap() {
+    rekapFrame.src = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQGFG9yf87gX8nhRPwwZIKZovKm5grqVfe9xbGOn7ipep5_sqROdM75FSHka58LcGPs9EE2TKrTUKto/pubhtml?gid=0&single=true&widget=true&headers=false&t=" + new Date().getTime();
+  }
 
   form.addEventListener('submit', e => {
     e.preventDefault();
@@ -219,9 +244,8 @@
       btnSubmit.disabled = false;
       btnSubmit.innerText = 'Kirim Data';
 
-      setTimeout(() => {
-        rekapFrame.src = rekapFrame.src;
-      }, 1000);
+      // Refresh iframe otomatis setelah submit
+      setTimeout(refreshRekap, 1500);
     })
     .catch(error => {
       statusDiv.style.color = 'red';
