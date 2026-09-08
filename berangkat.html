@@ -23,7 +23,7 @@
     h2 { text-align: center; color: #333; margin-bottom: 20px; }
     .form-group { margin-bottom: 15px; }
     label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
-    select, input[type="date"], input[type="submit"] {
+    select, input[type="date"], button {
       width: 100%;
       padding: 12px;
       border: 1px solid #ccc;
@@ -31,7 +31,7 @@
       box-sizing: border-box;
       font-size: 15px;
     }
-    input[type="submit"] {
+    button {
       background-color: #007bff;
       color: white;
       font-weight: bold;
@@ -39,7 +39,15 @@
       cursor: pointer;
       margin-top: 10px;
     }
-    input[type="submit"]:hover { background-color: #0056b3; }
+    button:hover { background-color: #0056b3; }
+    #statusMessage {
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 4px;
+      text-align: center;
+      font-weight: bold;
+      display: none;
+    }
     .btn-link {
       display: block;
       text-align: center;
@@ -59,15 +67,10 @@
 <div class="card">
   <h2>🚢 Input Keberangkatan Kapal</h2>
 
-  <!-- FORM UTAMA -->
-  <form action="https://script.google.com/macros/s/AKfycbwqvmM_dZdH9oSJjLT3gvyQN2BUQ_KDlxsu6l9vTJnhd2SCkF7i_ggGTwh0lplz90rNMw/exec" method="POST">
-    
-    <!-- Trik Redirect balik ke halaman form -->
-    <script>document.write('<input type="hidden" name="redirectUrl" value="' + window.location.href + '">');</script>
-
+  <form id="shipForm">
     <div class="form-group">
       <label for="namaKapal">Nama Kapal:</label>
-      <select name="namaKapal" id="namaKapal" required>
+      <select id="namaKapal" required>
         <option value="">-- Pilih Kapal --</option>
         <option value="KLM.SUMBER RIZKY">KLM.SUMBER RIZKY</option>
         <option value="KLM.SUMBER RIZKY 02">KLM.SUMBER RIZKY 02</option>
@@ -90,15 +93,17 @@
 
     <div class="form-group">
       <label for="tanggalBerangkat">Hari/Tanggal Berangkat:</label>
-      <input type="date" name="tanggalBerangkat" id="tanggalBerangkat" required>
+      <input type="date" id="tanggalBerangkat" required>
     </div>
 
-    <input type="submit" value="🚀 Kirim Data Ke Spreadsheet">
+    <button type="submit" id="btnSubmit">🚀 Simpan Data</button>
   </form>
+
+  <!-- Notifikasi Pesan -->
+  <div id="statusMessage"></div>
 
   <hr style="margin: 20px 0;">
 
-  <!-- TOMBOL BUKA SPREADSHEET & DOWNLOAD PDF -->
   <a href="https://docs.google.com/spreadsheets/d/1HcWZUa7Bsvxu0gMCJy6-vVHb-jklOGxrx7af9YCxNnI/edit?usp=sharing" target="_blank" class="btn-link btn-sheet">
     📊 Buka Spreadsheet Rekap
   </a>
@@ -107,6 +112,54 @@
     📄 Unduh Rekap PDF
   </a>
 </div>
+
+<script>
+  // PASTE URL GOOGLE APPS SCRIPT ANDA DI SINI
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby_OBqDws14gPtEQrbjFXGBe-jEFc-0AE0kFgHp8MMtwmz6vX_nbEpaVjmNwS6swZp11Q/exec";
+
+  const form = document.getElementById('shipForm');
+  const btnSubmit = document.getElementById('btnSubmit');
+  const statusMsg = document.getElementById('statusMessage');
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    btnSubmit.disabled = true;
+    btnSubmit.innerText = 'Mengirim data...';
+    
+    statusMsg.style.display = 'block';
+    statusMsg.style.backgroundColor = '#e2e3e5';
+    statusMsg.style.color = '#383d41';
+    statusMsg.innerText = '⏳ Sedang menyimpan...';
+
+    const payload = {
+      namaKapal: document.getElementById('namaKapal').value,
+      tanggalBerangkat: document.getElementById('tanggalBerangkat').value
+    };
+
+    fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+    .then(() => {
+      statusMsg.style.backgroundColor = '#d4edda';
+      statusMsg.style.color = '#155724';
+      statusMsg.innerText = '✅ DATA BERHASIL DISIMPAN!';
+      form.reset();
+      btnSubmit.disabled = false;
+      btnSubmit.innerText = '🚀 Simpan Data';
+    })
+    .catch(err => {
+      statusMsg.style.backgroundColor = '#f8d7da';
+      statusMsg.style.color = '#721c24';
+      statusMsg.innerText = '❌ Gagal menyimpan data. Coba lagi.';
+      btnSubmit.disabled = false;
+      btnSubmit.innerText = '🚀 Simpan Data';
+    });
+  });
+</script>
 
 </body>
 </html>
