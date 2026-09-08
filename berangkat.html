@@ -67,7 +67,7 @@
     <h2>📋 Hasil Rekap Kapal Terinput (Live)</h2>
     <div id="tableContainer">Memuat data rekap...</div>
 
-    <a href="https://docs.google.com/spreadsheets/d/1HcWZUa7Bsvxu0gMCJy6-vVHb-jklOGxrx7af9YCxNnI/export?format=pdf&size=A4&portrait=true&fitw=true" 
+    <a href="https://script.google.com/macros/s/AKfycbw-0YsPhjB1SeJg6onSVDK9M7qpF63PBzV8Uvq6PKQ96kDJBjzcrx1XaNUE8rCksGJFhA/exec" 
        target="_blank" 
        class="btn-pdf">
        📄 Unduh Rekap PDF
@@ -76,13 +76,20 @@
 </div>
 
 <script>
+  // Fungsi untuk memuat tabel rekapitulasi data
   function loadRekap() {
-    google.script.run.withSuccessHandler(showTable).getDataRekap();
+    google.script.run
+      .withSuccessHandler(showTable)
+      .withFailureHandler(function(err) {
+        console.error("Gagal memuat rekap:", err);
+      })
+      .getDataRekap();
   }
 
+  // Fungsi untuk menampilkan tabel
   function showTable(data) {
-    if (!data || data.length === 0) {
-      document.getElementById('tableContainer').innerHTML = 'Belum ada data.';
+    if (!data || data.length <= 1) {
+      document.getElementById('tableContainer').innerHTML = '<p style="text-align:center;">Belum ada data keberangkatan terinput.</p>';
       return;
     }
 
@@ -98,8 +105,11 @@
       html += '<tr>';
       data[i].forEach(cell => {
         let val = cell;
-        if(typeof cell === 'string' && cell.includes('T')) {
-           val = cell.split('T')[0];
+        // Format tanggal jika dalam bentuk ISO string
+        if (cell instanceof Date) {
+          val = cell.toLocaleDateString('id-ID');
+        } else if (typeof cell === 'string' && cell.includes('T')) {
+          val = cell.split('T')[0];
         }
         html += `<td>${val}</td>`;
       });
@@ -110,29 +120,43 @@
     document.getElementById('tableContainer').innerHTML = html;
   }
 
-  // Submit form
+  // Proses saat Form di-Submit
   document.getElementById('shipForm').addEventListener('submit', function(e) {
     e.preventDefault();
+    
     const btn = document.getElementById('btnSubmit');
     const status = document.getElementById('status');
+    
     btn.disabled = true;
-    status.innerText = 'Mengirim data...';
+    btn.innerText = 'Mengirim...';
+    status.style.color = 'black';
+    status.innerText = 'Mengirim data ke Spreadsheet...';
 
     const payload = {
       namaKapal: document.getElementById('namaKapal').value,
       tanggalBerangkat: document.getElementById('tanggalBerangkat').value
     };
 
-    google.script.run.withSuccessHandler(function() {
-      status.style.color = 'green';
-      status.innerText = 'Data berhasil disimpan!';
-      document.getElementById('shipForm').reset();
-      btn.disabled = false;
-      loadRekap(); // Refresh tabel secara langsung
-    }).doPost({postData: {contents: JSON.stringify(payload)}});
+    // Panggil fungsi simpanData di Code.gs
+    google.script.run
+      .withSuccessHandler(function(response) {
+        status.style.color = 'green';
+        status.innerText = '✅ Data BERHASIL disimpan ke Spreadsheet!';
+        document.getElementById('shipForm').reset();
+        btn.disabled = false;
+        btn.innerText = 'Kirim Data';
+        loadRekap(); // Refresh tabel rekap otomatis
+      })
+      .withFailureHandler(function(error) {
+        status.style.color = 'red';
+        status.innerText = '❌ Gagal menyimpan data: ' + error.message;
+        btn.disabled = false;
+        btn.innerText = 'Kirim Data';
+      })
+      .simpanData(payload);
   });
 
-  // Muat rekap saat halaman pertama kali dibuka
+  // Muat data rekap saat halaman pertama kali dibuka
   loadRekap();
 </script>
 
