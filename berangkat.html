@@ -3,27 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Input Keberangkatan Kapal</title>
+  <title>Input & Rekap Keberangkatan Kapal</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: #f4f7f6;
-      display: flex;
-      justify-content: center;
+      margin: 0;
       padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
-    .form-container {
+    .container {
+      width: 100%;
+      max-width: 800px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .card {
       background: #ffffff;
       padding: 25px;
-      border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      width: 100%;
-      max-width: 400px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
     }
     h2 {
-      text-align: center;
+      margin-top: 0;
       color: #333;
-      margin-bottom: 20px;
+      text-align: center;
     }
     .form-group {
       margin-bottom: 15px;
@@ -31,16 +38,16 @@
     label {
       display: block;
       margin-bottom: 5px;
-      font-weight: bold;
-      color: #555;
+      font-weight: 600;
+      color: #444;
     }
-    select, input[type="date"], button, .btn-link {
+    select, input[type="date"], button {
       width: 100%;
-      padding: 10px;
+      padding: 12px;
       border: 1px solid #ccc;
-      border-radius: 4px;
+      border-radius: 6px;
       box-sizing: border-box;
-      font-size: 14px;
+      font-size: 15px;
     }
     button {
       background-color: #007bff;
@@ -48,12 +55,11 @@
       font-weight: bold;
       border: none;
       cursor: pointer;
-      margin-top: 10px;
+      transition: background-color 0.2s;
     }
     button:hover {
       background-color: #0056b3;
     }
-    /* Style khusus untuk Tombol Spreadsheet */
     .btn-sheet {
       display: block;
       text-align: center;
@@ -61,72 +67,127 @@
       color: white;
       font-weight: bold;
       text-decoration: none;
-      border-radius: 4px;
-      padding: 10px;
+      border-radius: 6px;
+      padding: 12px;
       margin-top: 15px;
       box-sizing: border-box;
     }
     .btn-sheet:hover {
       background-color: #218838;
     }
+    .btn-pdf {
+      display: block;
+      text-align: center;
+      background-color: #dc3545;
+      color: white;
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: 6px;
+      padding: 12px;
+      margin-top: 10px;
+      box-sizing: border-box;
+    }
+    .btn-pdf:hover {
+      background-color: #c82333;
+    }
     #status {
       margin-top: 15px;
       text-align: center;
       font-weight: bold;
     }
+    .rekap-container {
+      width: 100%;
+      height: 450px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* CSS Khusus Cetak Print / PDF Browser */
+    @media print {
+      body { padding: 0; background: white; }
+      .card { box-shadow: none; border: none; padding: 0; }
+      #shipForm, .btn-sheet, .btn-pdf, button { display: none !important; }
+      .rekap-container { height: 1000px; border: none; }
+    }
   </style>
 </head>
 <body>
 
-<div class="form-container">
-  <h2>Input Keberangkatan Kapal</h2>
-  <form id="shipForm">
-    <div class="form-group">
-      <label for="namaKapal">Nama Kapal:</label>
-      <select id="namaKapal" required>
-        <option value="">-- Pilih Kapal --</option>
-        <option value="KLM.SUMBER RIZKY">KLM.SUMBER RIZKY</option>
-        <option value="KLM.SUMBER RIZKY 02">KLM.SUMBER RIZKY 02</option>
-        <option value="KLM.SUMBER REZKY A">KLM.SUMBER REZKY A</option>
-        <option value="KLM.ADI RAHMATULLAH PUTRA">KLM.ADI RAHMATULLAH PUTRA</option>
-        <option value="KLM.SUMBER REZKY B">KLM.SUMBER REZKY B</option>
-        <option value="KLM.QUDRAT ILAHI">KLM.QUDRAT ILAHI</option>
-        <option value="KLM.FIRDAH JAYA 03">KLM.FIRDAH JAYA 03</option>
-        <option value="KLM.SYUKRAN 3">KLM.SYUKRAN 3</option>
-        <option value="KLM.SYUKRAN 03">KLM.SYUKRAN 03</option>
-        <option value="KLM.BUNGA RIZKA">KLM.BUNGA RIZKA</option>
-        <option value="KLM.SURYA UTAMA 77">KLM.SURYA UTAMA 77</option>
-        <option value="KLM.MARHABAN 02">KLM.MARHABAN 02</option>
-        <option value="KLM.BERKAT SABAR 05">KLM.BERKAT SABAR 05</option>
-        <option value="KLM.BERKAH ILAHI 99">KLM.BERKAH ILAHI 99</option>
-        <option value="KLM.SUMBER REZKY 88">KLM.SUMBER REZKY 88</option>
-        <option value="KLM.ANUGERAH REZKY PUTRA">KLM.ANUGERAH REZKY PUTRA</option>
-      </select>
+<div class="container">
+
+  <!-- FORM INPUT DATA -->
+  <div class="card">
+    <h2>🚢 Input Keberangkatan Kapal</h2>
+    <form id="shipForm">
+      <div class="form-group">
+        <label for="namaKapal">Nama Kapal:</label>
+        <select id="namaKapal" required>
+          <option value="">-- Pilih Kapal --</option>
+          <option value="KLM.SUMBER RIZKY">KLM.SUMBER RIZKY</option>
+          <option value="KLM.SUMBER RIZKY 02">KLM.SUMBER RIZKY 02</option>
+          <option value="KLM.SUMBER REZKY A">KLM.SUMBER REZKY A</option>
+          <option value="KLM.ADI RAHMATULLAH PUTRA">KLM.ADI RAHMATULLAH PUTRA</option>
+          <option value="KLM.SUMBER REZKY B">KLM.SUMBER REZKY B</option>
+          <option value="KLM.QUDRAT ILAHI">KLM.QUDRAT ILAHI</option>
+          <option value="KLM.FIRDAH JAYA 03">KLM.FIRDAH JAYA 03</option>
+          <option value="KLM.SYUKRAN 3">KLM.SYUKRAN 3</option>
+          <option value="KLM.SYUKRAN 03">KLM.SYUKRAN 03</option>
+          <option value="KLM.BUNGA RIZKA">KLM.BUNGA RIZKA</option>
+          <option value="KLM.SURYA UTAMA 77">KLM.SURYA UTAMA 77</option>
+          <option value="KLM.MARHABAN 02">KLM.MARHABAN 02</option>
+          <option value="KLM.BERKAT SABAR 05">KLM.BERKAT SABAR 05</option>
+          <option value="KLM.BERKAH ILAHI 99">KLM.BERKAH ILAHI 99</option>
+          <option value="KLM.SUMBER REZKY 88">KLM.SUMBER REZKY 88</option>
+          <option value="KLM.ANUGERAH REZKY PUTRA">KLM.ANUGERAH REZKY PUTRA</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="tanggalBerangkat">Hari/Tanggal Berangkat:</label>
+        <input type="date" id="tanggalBerangkat" required>
+      </div>
+
+      <button type="submit" id="btnSubmit">Kirim Data</button>
+    </form>
+
+    <div id="status"></div>
+
+    <!-- Tombol Direct Link Spreadsheet -->
+    <a href="https://docs.google.com/spreadsheets/d/1HcWZUa7Bsvxu0gMCJy6-vVHb-jklOGxrx7af9YCxNnI/edit?usp=sharing" target="_blank" class="btn-sheet">
+      📊 Buka Rekap Spreadsheet
+    </a>
+  </div>
+
+  <!-- HASIL REKAP & TOMBOL EKSPOR PDF -->
+  <div class="card">
+    <h2>📋 Hasil Rekap Kapal Terinput</h2>
+    <div class="rekap-container">
+      <iframe id="rekapFrame" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQGFG9yf87gX8nhRPwwZIKZovKm5grqVfe9xbGOn7ipep5_sqROdM75FSHka58LcGPs9EE2TKrTUKto/pubhtml?gid=0&single=true"></iframe>
     </div>
 
-    <div class="form-group">
-      <label for="tanggalBerangkat">Tanggal Berangkat:</label>
-      <input type="date" id="tanggalBerangkat" required>
-    </div>
+    <!-- Tombol Export PDF -->
+    <a href="https://docs.google.com/spreadsheets/d/1HcWZUa7Bsvxu0gMCJy6-vVHb-jklOGxrx7af9YCxNnI/export?format=pdf&size=A4&portrait=true&fitw=true" 
+       target="_blank" 
+       class="btn-pdf">
+       📄 Unduh Rekap PDF
+    </a>
+  </div>
 
-    <button type="submit" id="btnSubmit">Kirim Data</button>
-  </form>
-
-  <div id="status"></div>
-
-  <!-- Tombol Direct Link ke Google Spreadsheet -->
-  <a href="https://docs.google.com/spreadsheets/d/1HcWZUa7Bsvxu0gMCJy6-vVHb-jklOGxrx7af9YCxNnI/edit?usp=sharing" target="_blank" class="btn-sheet">
-    📊 Buka Rekap Spreadsheet
-  </a>
 </div>
 
 <script>
-  // GANTI DENGAN URL APPS SCRIPT ANDA
   const scriptURL = 'URL_WEB_APP_ANDA_DI_SINI'; 
 
   const form = document.getElementById('shipForm');
   const btnSubmit = document.getElementById('btnSubmit');
   const statusDiv = document.getElementById('status');
+  const rekapFrame = document.getElementById('rekapFrame');
 
   form.addEventListener('submit', e => {
     e.preventDefault();
@@ -155,6 +216,10 @@
       form.reset();
       btnSubmit.disabled = false;
       btnSubmit.innerText = 'Kirim Data';
+
+      setTimeout(() => {
+        rekapFrame.src = rekapFrame.src;
+      }, 1000);
     })
     .catch(error => {
       statusDiv.style.color = 'red';
