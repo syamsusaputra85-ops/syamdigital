@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Keberangkatan Kapal - AGAS 88</title>
+    
+    <!-- Favicon Icon -->
+    <link rel="icon" type="image/png" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhZPoueP1ZsJXUsB6FNOyjtdivdWHad573mi9BLXDzjPgm0eGj4e1DMtZ2C5-xW3RGBZAUhQscKeMDe1VyGu35uxYB_N1tuVBuyKJGfikQnci6pYZ31jzSLVnW5mBC0xH9ecNsNwKw7CgH9XmAUq72rjQX35o-suXFgRDDA9ZbKufztWeZvG6daBtdu2Rm4/s500/agas-88.png">
+
+    <!-- Select2 CSS & FontAwesome -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
+        body { background-color: #eef2f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 15px; }
+        .container { background: #ffffff; width: 100%; max-width: 480px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08); padding: 25px 20px; }
+        
+        /* Header & Logo Styling */
+        .header { text-align: center; margin-bottom: 20px; }
+        .header img.logo {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            margin-bottom: 10px;
+            border-radius: 50%;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .header h2 { color: #0d47a1; font-size: 20px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .header p { color: #666; font-size: 13px; margin-top: 4px; }
+        
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; font-size: 13px; font-weight: 600; color: #333; margin-bottom: 6px; }
+        .form-control { width: 100%; padding: 10px 12px; border: 1px solid #cccccc; border-radius: 8px; font-size: 14px; outline: none; background-color: #fafafa; }
+        
+        /* Box Input Per Kapal */
+        .kapal-item {
+            background: #f8f9fa;
+            border: 1px solid #dcdcdc;
+            padding: 14px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            position: relative;
+        }
+        .kapal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .kapal-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #0d47a1;
+        }
+        .btn-remove {
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 4px 8px;
+            font-size: 11px;
+            cursor: pointer;
+        }
+        .btn-add {
+            width: 100%;
+            background-color: #0d47a1;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .btn-whatsapp {
+            width: 100%;
+            background-color: #25D366;
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+        }
+        
+        /* Select2 Styling */
+        .select2-container .select2-selection--single { height: 42px !important; border: 1px solid #cccccc !important; border-radius: 8px !important; padding: 6px !important; }
+        .select2-container--default .select2-selection--single .select2-selection__rendered { line-height: 28px !important; font-size: 14px !important; }
+        .select2-container--default .select2-selection--single .select2-selection__arrow { height: 40px !important; }
+        .sub-label { font-size: 12px; font-weight: 600; color: #555; margin-top: 8px; margin-bottom: 4px; display: block; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <!-- Logo AGAS 88 -->
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhZPoueP1ZsJXUsB6FNOyjtdivdWHad573mi9BLXDzjPgm0eGj4e1DMtZ2C5-xW3RGBZAUhQscKeMDe1VyGu35uxYB_N1tuVBuyKJGfikQnci6pYZ31jzSLVnW5mBC0xH9ecNsNwKw7CgH9XmAUq72rjQX35o-suXFgRDDA9ZbKufztWeZvG6daBtdu2Rm4/s500/agas-88.png" alt="Logo AGAS 88" class="logo">
+        <h2>JADWAL KAPAL</h2>
+        <p>Input Keberangkatan Hari Ini</p>
+    </div>
+
+    <form id="kapalForm">
+        <!-- Input Tanggal Utama -->
+        <div class="form-group">
+            <label for="tanggal">Tanggal Laporan</label>
+            <input type="date" id="tanggal" class="form-control" required>
+        </div>
+
+        <!-- Container Daftar Kapal -->
+        <div class="form-group">
+            <label>Daftar Kapal Berangkat</label>
+            <div id="kapalWrapper">
+                <!-- Input Kapal Pertama (Default) -->
+                <div class="kapal-item">
+                    <div class="kapal-header">
+                        <span class="kapal-title">Kapal 1</span>
+                    </div>
+                    
+                    <span class="sub-label">Nama Kapal:</span>
+                    <select class="select-kapal" style="width: 100%;">
+                        <option value="" disabled selected>-- Pilih Nama Kapal --</option>
+                        <option value="KLM.SUMBER RIZKY">KLM.SUMBER RIZKY</option>
+                        <option value="KLM.SUMBER RIZKY 02">KLM.SUMBER RIZKY 02</option>
+                        <option value="KLM.SUMBER REZKY A">KLM.SUMBER REZKY A</option>
+                        <option value="KLM.ADI RAHMATULLAH PUTRA">KLM.ADI RAHMATULLAH PUTRA</option>
+                        <option value="KLM.SUMBER REZKY B">KLM.SUMBER REZKY B</option>
+                        <option value="KLM.QUDRAT ILAHI">KLM.QUDRAT ILAHI</option>
+                        <option value="KLM.FIRDAH JAYA 03">KLM.FIRDAH JAYA 03</option>
+                        <option value="KLM.SYUKRAN 3">KLM.SYUKRAN 3</option>
+                        <option value="KLM.SYUKRAN 03">KLM.SYUKRAN 03</option>
+                        <option value="KLM.BUNGA RIZKA">KLM.BUNGA RIZKA</option>
+                        <option value="KLM.SURYA UTAMA 77">KLM.SURYA UTAMA 77</option>
+                        <option value="KLM.MARHABAN 02">KLM.MARHABAN 02</option>
+                        <option value="KLM.BERKAT SABAR 05">KLM.BERKAT SABAR 05</option>
+                        <option value="KLM.BERKAH ILAHI 99">KLM.BERKAH ILAHI 99</option>
+                        <option value="KLM.SUMBER REZKY 88">KLM.SUMBER REZKY 88</option>
+                        <option value="KLM.ANUGERAH REZKY PUTRA">KLM.ANUGERAH REZKY PUTRA</option>
+                    </select>
+
+                    <span class="sub-label">Jam Berangkat:</span>
+                    <input type="time" class="form-control jam-kapal" required>
+                </div>
+            </div>
+
+            <!-- Tombol Tambah Kapal -->
+            <button type="button" class="btn-add" onclick="tambahKapal()">
+                <i class="fa-solid fa-plus"></i> Tambah Kapal
+            </button>
+        </div>
+
+        <!-- Tombol Share WA -->
+        <button type="button" class="btn-whatsapp" onclick="shareToWhatsApp()">
+            <i class="fa-brands fa-whatsapp fa-xl"></i> Share ke WhatsApp
+        </button>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+    let masterOptions = '';
+
+    $(document).ready(function() {
+        masterOptions = $('.select-kapal').first().html();
+        initSelect2($('.select-kapal'));
+
+        // Set Default Tanggal & Jam Sekarang pada Kapal 1
+        const now = new Date();
+        $('#tanggal').val(now.toISOString().split('T')[0]);
+        const defaultJam = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
+        $('.jam-kapal').first().val(defaultJam);
+    });
+
+    function initSelect2(element) {
+        element.select2({ placeholder: "-- Pilih Nama Kapal --", allowClear: true });
+    }
+
+    // Fungsi Update Nomor Urut Judul (Kapal 1, Kapal 2, dst)
+    function updateUrutanKapal() {
+        $('.kapal-item').each(function(index) {
+            $(this).find('.kapal-title').text('Kapal ' + (index + 1));
+            if (index === 0 && $('.kapal-item').length === 1) {
+                $(this).find('.btn-remove').hide();
+            } else {
+                $(this).find('.btn-remove').show();
+            }
+        });
+    }
+
+    // Fungsi Tambah Form Kapal Baru
+    function tambahKapal() {
+        const now = new Date();
+        const defaultJam = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
+
+        const html = `
+            <div class="kapal-item">
+                <div class="kapal-header">
+                    <span class="kapal-title">Kapal</span>
+                    <button type="button" class="btn-remove" onclick="$(this).closest('.kapal-item').remove(); updateUrutanKapal();">
+                        <i class="fa-solid fa-trash"></i> Hapus
+                    </button>
+                </div>
+                
+                <span class="sub-label">Nama Kapal:</span>
+                <select class="select-kapal" style="width: 100%;">
+                    ${masterOptions}
+                </select>
+
+                <span class="sub-label">Jam Berangkat:</span>
+                <input type="time" class="form-control jam-kapal" value="${defaultJam}" required>
+            </div>`;
+        
+        const $newRow = $(html);
+        $('#kapalWrapper').append($newRow);
+        initSelect2($newRow.find('.select-kapal'));
+        updateUrutanKapal();
+    }
+
+    // Format tanggal DD/MM/YYYY
+    function getTanggalFormatted(dateString) {
+        const parts = dateString.split('-');
+        const day = parts[2].padStart(2, '0');
+        const month = parts[1].padStart(2, '0');
+        const year = parts[0];
+        return `${day}/${month}/${year}`;
+    }
+
+// Fungsi Share ke WhatsApp (Sudah Diperbaiki)
+    function shareToWhatsApp() {
+        const inputTanggal = $('#tanggal').val();
+
+        if (!inputTanggal) {
+            alert('Silakan isi Tanggal!');
+            return;
+        }
+
+        let listDataKapal = [];
+        let valid = true;
+
+        $('.kapal-item').each(function() {
+            const nama = $(this).find('.select-kapal').val();
+            const jam = $(this).find('.jam-kapal').val();
+
+            if (!nama || !jam) {
+                valid = false;
+                return false;
+            }
+
+            listDataKapal.push({ nama: nama, jam: jam });
+        });
+
+        if (!valid || listDataKapal.length === 0) {
+            alert('Silakan lengkapi Nama Kapal dan Jam Berangkat untuk setiap baris!');
+            return;
+        }
+
+        const tglFormatted = getTanggalFormatted(inputTanggal);
+
+        // Menyusun teks pesan menggunakan karakter \n biasa
+        let pesan = `*LAPORAN KEBERANGKATAN KAPAL HARI INI*\n`;
+        pesan += `Update: ${tglFormatted}\n\n`;
+        pesan += `Berikut adalah daftar kapal yang dijadwalkan berangkat:\n\n`;
+
+        listDataKapal.forEach((item, index) => {
+            pesan += `🚢 *KAPAL ${index + 1}*\n`;
+            pesan += `• Nama Kapal : ${item.nama}\n`;
+            pesan += `• Jam Berangkat: ${item.jam} WITA\n\n`;
+        });
+
+        pesan += `Terima kasih.\n\n`;
+        pesan += `https://agas88.web.id/leave`;
+
+        // Gunakan encodeURIComponent agar semua karakter/emoji/baris baru terenkode dengan benar
+        const urlWA = `https://api.whatsapp.com/send?text=${encodeURIComponent(pesan)}`;
+
+        // Buka link WhatsApp
+        window.open(urlWA, '_blank');
+    }
+</script>
+
+</body>
+</html>
