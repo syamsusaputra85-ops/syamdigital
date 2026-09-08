@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Input Keberangkatan Kapal</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f7f6;
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+    }
+    .form-container {
+      background: #ffffff;
+      padding: 25px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: #555;
+    }
+    select, input[type="date"], button {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      font-size: 14px;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    #status {
+      margin-top: 15px;
+      text-align: center;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<div class="form-container">
+  <h2>Input Keberangkatan Kapal</h2>
+  <form id="shipForm">
+    <div class="form-group">
+      <label for="namaKapal">Nama Kapal:</label>
+      <select id="namaKapal" required>
+        <option value="">-- Pilih Kapal --</option>
+        <option value="KLM.SUMBER RIZKY">KLM.SUMBER RIZKY</option>
+        <option value="KLM.SUMBER RIZKY 02">KLM.SUMBER RIZKY 02</option>
+        <option value="KLM.SUMBER REZKY A">KLM.SUMBER REZKY A</option>
+        <option value="KLM.ADI RAHMATULLAH PUTRA">KLM.ADI RAHMATULLAH PUTRA</option>
+        <option value="KLM.SUMBER REZKY B">KLM.SUMBER REZKY B</option>
+        <option value="KLM.QUDRAT ILAHI">KLM.QUDRAT ILAHI</option>
+        <option value="KLM.FIRDAH JAYA 03">KLM.FIRDAH JAYA 03</option>
+        <option value="KLM.SYUKRAN 3">KLM.SYUKRAN 3</option>
+        <option value="KLM.SYUKRAN 03">KLM.SYUKRAN 03</option>
+        <option value="KLM.BUNGA RIZKA">KLM.BUNGA RIZKA</option>
+        <option value="KLM.SURYA UTAMA 77">KLM.SURYA UTAMA 77</option>
+        <option value="KLM.MARHABAN 02">KLM.MARHABAN 02</option>
+        <option value="KLM.BERKAT SABAR 05">KLM.BERKAT SABAR 05</option>
+        <option value="KLM.BERKAH ILAHI 99">KLM.BERKAH ILAHI 99</option>
+        <option value="KLM.SUMBER REZKY 88">KLM.SUMBER REZKY 88</option>
+        <option value="KLM.ANUGERAH REZKY PUTRA">KLM.ANUGERAH REZKY PUTRA</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="tanggalBerangkat">Tanggal Berangkat:</label>
+      <input type="date" id="tanggalBerangkat" required>
+    </div>
+
+    <button type="submit" id="btnSubmit">Kirim Data</button>
+  </form>
+
+  <div id="status"></div>
+</div>
+
+<script>
+  // GANTI DENGAN URL APPS SCRIPT ANDA
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbxn9g7aaz78kv4vR-Wl2KKaRZ3umk_2v-DTkSbalPKtzT5_yWcvxzqpwKusgGqByegqoA/exec'; 
+
+  const form = document.getElementById('shipForm');
+  const btnSubmit = document.getElementById('btnSubmit');
+  const statusDiv = document.getElementById('status');
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    
+    btnSubmit.disabled = true;
+    btnSubmit.innerText = 'Sending...';
+    statusDiv.style.color = 'black';
+    statusDiv.innerText = 'Mengirim data...';
+
+    const payload = {
+      namaKapal: document.getElementById('namaKapal').value,
+      tanggalBerangkat: document.getElementById('tanggalBerangkat').value
+    };
+
+    fetch(scriptURL, {
+      method: 'POST',
+      mode: 'no-cors', // Mencegah isu CORS saat mengirim ke Apps Script
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    })
+    .then(() => {
+      statusDiv.style.color = 'green';
+      statusDiv.innerText = 'Data berhasil disimpan!';
+      form.reset();
+      btnSubmit.disabled = false;
+      btnSubmit.innerText = 'Kirim Data';
+    })
+    .catch(error => {
+      statusDiv.style.color = 'red';
+      statusDiv.innerText = 'Gagal mengirim data. Coba lagi.';
+      btnSubmit.disabled = false;
+      btnSubmit.innerText = 'Kirim Data';
+      console.error('Error!', error.message);
+    });
+  });
+</script>
+
+</body>
+</html>
