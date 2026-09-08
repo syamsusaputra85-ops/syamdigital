@@ -34,7 +34,7 @@
       font-weight: bold;
       color: #555;
     }
-    select, input[type="date"], button {
+    select, input[type="date"], button, .btn-link {
       width: 100%;
       padding: 10px;
       border: 1px solid #ccc;
@@ -52,6 +52,22 @@
     }
     button:hover {
       background-color: #0056b3;
+    }
+    /* Style khusus untuk Tombol Spreadsheet */
+    .btn-sheet {
+      display: block;
+      text-align: center;
+      background-color: #28a745;
+      color: white;
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: 4px;
+      padding: 10px;
+      margin-top: 15px;
+      box-sizing: border-box;
+    }
+    .btn-sheet:hover {
+      background-color: #218838;
     }
     #status {
       margin-top: 15px;
@@ -97,11 +113,16 @@
   </form>
 
   <div id="status"></div>
+
+  <!-- Tombol Direct Link ke Google Spreadsheet -->
+  <a href="https://docs.google.com/spreadsheets/d/1HcWZUa7Bsvxu0gMCJy6-vVHb-jklOGxrx7af9YCxNnI/edit?usp=sharing" target="_blank" class="btn-sheet">
+    📊 Buka Rekap Spreadsheet
+  </a>
 </div>
 
 <script>
   // GANTI DENGAN URL APPS SCRIPT ANDA
-  const scriptURL = 'https://script.google.com/macros/s/AKfycbxn9g7aaz78kv4vR-Wl2KKaRZ3umk_2v-DTkSbalPKtzT5_yWcvxzqpwKusgGqByegqoA/exec'; 
+  const scriptURL = 'URL_WEB_APP_ANDA_DI_SINI'; 
 
   const form = document.getElementById('shipForm');
   const btnSubmit = document.getElementById('btnSubmit');
@@ -111,7 +132,7 @@
     e.preventDefault();
     
     btnSubmit.disabled = true;
-    btnSubmit.innerText = 'Sending...';
+    btnSubmit.innerText = 'Mengirim...';
     statusDiv.style.color = 'black';
     statusDiv.innerText = 'Mengirim data...';
 
@@ -122,7 +143,7 @@
 
     fetch(scriptURL, {
       method: 'POST',
-      mode: 'no-cors', // Mencegah isu CORS saat mengirim ke Apps Script
+      mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json'
       },
