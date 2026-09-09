@@ -84,7 +84,7 @@
                         <h3 class="font-bold text-base text-slate-100 flex items-center gap-2">
                             Rincian Kondisi Meninggal Dunia
                         </h3>
-                        <p class="text-xs text-slate-400">Daftar peserta yang terdata dalam kondisi meninggal dunia</p>
+                        <p class="text-xs text-slate-400">Daftar peserta yang terdata dalam kondisi meninggal dunia beserta dokumen keterangan</p>
                     </div>
                 </div>
                 <span id="meninggal-count" class="bg-slate-800 border border-slate-700 text-slate-300 font-bold text-xs px-3 py-1.5 rounded-xl">
@@ -200,6 +200,7 @@
 
     <script>
         const RAW_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT6Wbzuc__AExqGBHLMpTTFCjb16yzGYuH33vZzgjl_pViAEohtwNY08Cs9VZAa8guzn4DZaDN_H_li/pub?gid=37915305&single=true&output=csv';
+        const SURAT_MENINGGAL_URL = 'https://docs.google.com/uc?export=download&id=19tOqpVB94nb1d8C7HLcmfcBafsisTta0';
 
         let rawData = [];
         let headers = [];
@@ -396,20 +397,24 @@
                     const originalIdx = item.idx;
                     const nama = row[namaKey] || 'Tanpa Nama';
                     const nik = row[nikKey] || '-';
-                    const ket = row[kondisiKey] || 'Meninggal Dunia';
 
                     const itemCard = document.createElement('div');
-                    itemCard.className = 'bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 p-3 rounded-xl flex items-center justify-between gap-3 transition-all';
+                    itemCard.className = 'bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 p-3.5 rounded-xl flex flex-col justify-between gap-3 transition-all';
                     itemCard.innerHTML = `
-                        <div class="min-w-0 flex-1">
+                        <div class="min-w-0">
                             <h4 class="text-sm font-bold text-slate-200 truncate">${nama}</h4>
                             <p class="text-xs font-mono text-slate-400 flex items-center gap-1.5 mt-0.5">
                                 <i class="fa-solid fa-id-card text-indigo-400 text-[10px]"></i> NIK: ${nik}
                             </p>
                         </div>
-                        <button onclick="openModal(${originalIdx})" class="shrink-0 bg-slate-700 hover:bg-indigo-600 text-slate-200 hover:text-white text-xs font-semibold px-2.5 py-1.5 rounded-lg border border-slate-600 transition-all flex items-center gap-1">
-                            <i class="fa-solid fa-eye text-[10px]"></i> Detail
-                        </button>
+                        <div class="flex items-center gap-2 pt-2 border-t border-slate-700/60">
+                            <a href="${SURAT_MENINGGAL_URL}" target="_blank" class="flex-1 bg-rose-600 hover:bg-rose-700 text-white text-[11px] font-bold py-1.5 px-2.5 rounded-lg transition-all flex items-center justify-center gap-1.5 shadow-sm">
+                                <i class="fa-solid fa-file-pdf"></i> Surat Keterangan
+                            </a>
+                            <button onclick="openModal(${originalIdx})" class="bg-slate-700 hover:bg-indigo-600 text-slate-200 hover:text-white text-[11px] font-semibold py-1.5 px-3 rounded-lg border border-slate-600 transition-all flex items-center gap-1">
+                                <i class="fa-solid fa-eye text-[10px]"></i> Detail
+                            </button>
+                        </div>
                     `;
                     meninggalList.appendChild(itemCard);
                 });
@@ -494,11 +499,13 @@
 
             let nameVal = 'Rincian Data';
             let nikVal = '-';
+            let isMeninggal = false;
 
             headers.forEach(h => {
                 const hl = h.toLowerCase();
                 if (hl.includes('nama') && row[h]) nameVal = row[h];
                 if (hl.includes('nik') && row[h]) nikVal = row[h];
+                if (hl.includes('kondisi') && row[h] && row[h].toUpperCase().includes('MENINGGAL')) isMeninggal = true;
             });
 
             modalPersonName.textContent = nameVal;
@@ -544,6 +551,27 @@
 
                 gridContainer.appendChild(card);
             });
+
+            // Jika status peserta meninggal dunia, sertakan card unduh Surat Keterangan
+            if (isMeninggal) {
+                const suratCard = document.createElement('div');
+                suratCard.className = 'md:col-span-2 bg-rose-950/40 border border-rose-800/60 p-4 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3';
+                suratCard.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-rose-900/80 text-rose-300 border border-rose-700/60 flex items-center justify-center shrink-0">
+                            <i class="fa-solid fa-file-pdf text-lg"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-bold text-rose-100">Surat Keterangan Meninggal Dunia</h4>
+                            <p class="text-xs text-rose-300/80">Dokumen verifikasi resmi mengenai kematian peserta</p>
+                        </div>
+                    </div>
+                    <a href="${SURAT_MENINGGAL_URL}" target="_blank" class="w-full sm:w-auto bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold py-2 px-4 rounded-xl transition-all flex items-center justify-center gap-2 shadow-md">
+                        <i class="fa-solid fa-download"></i> Unduh Surat
+                    </a>
+                `;
+                gridContainer.appendChild(suratCard);
+            }
 
             modalContent.appendChild(gridContainer);
 
