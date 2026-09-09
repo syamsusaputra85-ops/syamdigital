@@ -73,6 +73,30 @@
             </div>
         </div>
 
+        <!-- RINCIAN KHUSUS MENINGGAL DUNIA -->
+        <div id="meninggal-container" class="mb-8 hidden bg-slate-900 text-white rounded-2xl shadow-lg p-5 border border-slate-800">
+            <div class="flex items-center justify-between mb-4 border-b border-slate-800 pb-3">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300">
+                        <i class="fa-solid fa-book-skull text-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-base text-slate-100 flex items-center gap-2">
+                            Rincian Kondisi Meninggal Dunia
+                        </h3>
+                        <p class="text-xs text-slate-400">Daftar peserta yang terdata dalam kondisi meninggal dunia</p>
+                    </div>
+                </div>
+                <span id="meninggal-count" class="bg-slate-800 border border-slate-700 text-slate-300 font-bold text-xs px-3 py-1.5 rounded-xl">
+                    0 Orang
+                </span>
+            </div>
+            
+            <div id="meninggal-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 max-h-72 overflow-y-auto pr-1">
+                <!-- Data Meninggal Dunia Dihasilkan JS -->
+            </div>
+        </div>
+
         <!-- Search Bar Card -->
         <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-4 sm:p-6 mb-8">
             <div class="flex flex-col md:flex-row gap-4 items-center justify-between">
@@ -204,6 +228,9 @@
 
         const rekapContainer = document.getElementById('rekap-container');
         const rekapCards = document.getElementById('rekap-cards');
+        const meninggalContainer = document.getElementById('meninggal-container');
+        const meninggalList = document.getElementById('meninggal-list');
+        const meninggalCount = document.getElementById('meninggal-count');
 
         function parseCSVText(csvText) {
             const lines = csvText.split(/\r\n|\n/);
@@ -292,6 +319,7 @@
             stateContainer.classList.remove('hidden');
             emptyState.classList.remove('hidden');
             rekapContainer.classList.add('hidden');
+            meninggalContainer.classList.add('hidden');
         }
 
         function renderTableHeaders() {
@@ -313,17 +341,26 @@
 
         function renderRekapKondisi(data) {
             const kondisiKey = headers.find(h => h.toLowerCase().includes('kondisi'));
+            const namaKey = headers.find(h => h.toLowerCase().includes('nama'));
+            const nikKey = headers.find(h => h.toLowerCase().includes('nik'));
             
             if (!kondisiKey) {
                 rekapContainer.classList.add('hidden');
+                meninggalContainer.classList.add('hidden');
                 return;
             }
 
             const counts = {};
-            data.forEach(row => {
+            const meninggalRecords = [];
+
+            data.forEach((row, idx) => {
                 let val = (row[kondisiKey] || 'TIDAK DIKETAHUI').trim().toUpperCase();
                 if (!val) val = 'TIDAK DIKETAHUI';
                 counts[val] = (counts[val] || 0) + 1;
+
+                if (val.includes('MENINGGAL')) {
+                    meninggalRecords.push({ row, idx });
+                }
             });
 
             rekapCards.innerHTML = '';
@@ -331,7 +368,7 @@
             const getBadgeStyle = (key) => {
                 if (key.includes('AKTIF') && !key.includes('NON')) return 'bg-emerald-50 text-emerald-700 border-emerald-200';
                 if (key.includes('NON') || key.includes('TIDAK')) return 'bg-rose-50 text-rose-700 border-rose-200';
-                if (key.includes('MENINGGAL')) return 'bg-slate-100 text-slate-700 border-slate-300';
+                if (key.includes('MENINGGAL')) return 'bg-slate-800 text-slate-100 border-slate-700';
                 if (key.includes('PROSES') || key.includes('PENDING')) return 'bg-amber-50 text-amber-700 border-amber-200';
                 return 'bg-indigo-50 text-indigo-700 border-indigo-200';
             };
@@ -348,6 +385,39 @@
             });
 
             rekapContainer.classList.remove('hidden');
+
+            // Render Rincian Khusus Meninggal Dunia
+            meninggalList.innerHTML = '';
+            if (meninggalRecords.length > 0) {
+                meninggalCount.textContent = `${meninggalRecords.length} Orang`;
+
+                meninggalRecords.forEach(item => {
+                    const row = item.row;
+                    const originalIdx = item.idx;
+                    const nama = row[namaKey] || 'Tanpa Nama';
+                    const nik = row[nikKey] || '-';
+                    const ket = row[kondisiKey] || 'Meninggal Dunia';
+
+                    const itemCard = document.createElement('div');
+                    itemCard.className = 'bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 p-3 rounded-xl flex items-center justify-between gap-3 transition-all';
+                    itemCard.innerHTML = `
+                        <div class="min-w-0 flex-1">
+                            <h4 class="text-sm font-bold text-slate-200 truncate">${nama}</h4>
+                            <p class="text-xs font-mono text-slate-400 flex items-center gap-1.5 mt-0.5">
+                                <i class="fa-solid fa-id-card text-indigo-400 text-[10px]"></i> NIK: ${nik}
+                            </p>
+                        </div>
+                        <button onclick="openModal(${originalIdx})" class="shrink-0 bg-slate-700 hover:bg-indigo-600 text-slate-200 hover:text-white text-xs font-semibold px-2.5 py-1.5 rounded-lg border border-slate-600 transition-all flex items-center gap-1">
+                            <i class="fa-solid fa-eye text-[10px]"></i> Detail
+                        </button>
+                    `;
+                    meninggalList.appendChild(itemCard);
+                });
+
+                meninggalContainer.classList.remove('hidden');
+            } else {
+                meninggalContainer.classList.add('hidden');
+            }
         }
 
         function renderTableData(data) {
@@ -444,19 +514,22 @@
                 const val = (row[header] || '-').trim();
                 const isNIK = header.toLowerCase().includes('nik');
                 const isNama = header.toLowerCase().includes('nama');
+                const isKondisi = header.toLowerCase().includes('kondisi');
 
                 const card = document.createElement('div');
                 
                 if (isNIK || isNama) {
                     card.className = 'md:col-span-2 bg-gradient-to-r from-indigo-50/80 to-blue-50/50 p-4 rounded-2xl border border-indigo-100 shadow-sm';
+                } else if (isKondisi && val.toUpperCase().includes('MENINGGAL')) {
+                    card.className = 'md:col-span-2 bg-slate-900 text-white p-4 rounded-2xl border border-slate-800 shadow-sm';
                 } else {
                     card.className = 'bg-slate-50/80 p-3.5 rounded-2xl border border-slate-100 hover:border-slate-200 transition-all';
                 }
 
                 card.innerHTML = `
                     <div class="flex items-center justify-between mb-1">
-                        <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-                            <i class="fa-solid fa-circle-dot text-[8px] text-indigo-500"></i> ${header}
+                        <span class="text-[11px] font-bold uppercase tracking-wider ${isKondisi && val.toUpperCase().includes('MENINGGAL') ? 'text-slate-400' : 'text-slate-400'} flex items-center gap-1.5">
+                            <i class="fa-solid fa-circle-dot text-[8px] ${isKondisi && val.toUpperCase().includes('MENINGGAL') ? 'text-rose-400' : 'text-indigo-500'}"></i> ${header}
                         </span>
                         ${isNIK && val !== '-' ? `
                             <button onclick="copyToClipboard('${val}')" class="text-[11px] text-indigo-600 hover:text-indigo-800 bg-white px-2 py-0.5 rounded-lg border border-indigo-200 shadow-2xs font-medium transition-all flex items-center gap-1">
@@ -464,7 +537,7 @@
                             </button>
                         ` : ''}
                     </div>
-                    <div class="text-sm font-semibold ${isNIK ? 'font-mono text-indigo-900 font-bold text-base' : 'text-slate-800'} break-words">
+                    <div class="text-sm font-semibold ${isNIK ? 'font-mono text-indigo-900 font-bold text-base' : (isKondisi && val.toUpperCase().includes('MENINGGAL') ? 'text-rose-400 font-bold' : 'text-slate-800')} break-words">
                         ${val}
                     </div>
                 `;
