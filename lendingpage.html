@@ -422,7 +422,7 @@
             color: var(--dark);
         }
 
-        /* --- FLOATING WA BUTTON --- */
+        /* --- FLOATING BUTTONS (WA & BACK TO TOP) --- */
         .floating-wa {
             position: fixed;
             bottom: 20px;
@@ -432,20 +432,54 @@
             border-radius: 50px;
             padding: 12px 20px;
             font-weight: bold;
-            box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             display: flex;
             align-items: center;
             gap: 10px;
             z-index: 1000;
-            transition: transform 0.3s;
+            transition: transform 0.3s, background-color 0.3s;
         }
 
         .floating-wa:hover {
             transform: scale(1.05);
+            background-color: #1eb956;
         }
 
         .floating-wa i {
             font-size: 1.5rem;
+        }
+
+        /* Back To Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: var(--primary);
+            color: white;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s, transform 0.3s, background-color 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-3px);
         }
 
         /* --- FOOTER --- */
@@ -484,6 +518,21 @@
 
             .slide img {
                 max-height: 250px;
+            }
+
+            .back-to-top {
+                width: 42px;
+                height: 42px;
+                font-size: 1rem;
+                bottom: 15px;
+                left: 15px;
+            }
+
+            .floating-wa {
+                bottom: 15px;
+                right: 15px;
+                padding: 10px 16px;
+                font-size: 0.9rem;
             }
         }
     </style>
@@ -632,7 +681,7 @@
             <!-- Produk 4 -->
             <div class="product-card">
                 <div class="product-img">
-                    <img src="https://via.placeholder.com/400x400/2563eb/ffffff?text=Produk+4" alt="Produk 4">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEihlXZtn8QXN5WN0fsuURvN_iM-CuhCOXYPyR5NpdkUqcuAQQDTUEwylWtxmr1DCzEHfwZH88Z8mKMfClWaQ2fch8VJT0V-pVIRzLROkVDakVDEToKmhFa1TOypdOrIjGlZyQa7gAWL-xkBYeDV4019r7K9fX4jHVmvo_tsmlMoXy_j85HQTOsZqpCDtR-h/s640/Alat5.webp" alt="Produk 4">
                 </div>
                 <div class="product-info">
                     <div>
@@ -646,7 +695,7 @@
             <!-- Produk 5 -->
             <div class="product-card">
                 <div class="product-img">
-                    <img src="https://via.placeholder.com/400x400/10b981/ffffff?text=Produk+5" alt="Produk 5">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiSHBVysMzJAbTbOU16UvVhdd-Epe6oZ0mc9nLeT_yNPd-pRs-3L0frSy61CL_eSAq7voNgJylGMRhAruWvtqxFsCsd7kBQOhA4dB-LYE47_hmeMQT0cTkTk6wsr_B0DZM4QlNQ7efpqdC-skEXjSRfcbIzMee7lP4wwBHRBhYG_wegslbbhM6IozKgnUVP/s640/1770625851854-7.webp" alt="Produk 5">
                 </div>
                 <div class="product-info">
                     <div>
@@ -660,7 +709,7 @@
             <!-- Produk 6 -->
             <div class="product-card">
                 <div class="product-img">
-                    <img src="https://via.placeholder.com/400x400/f59e0b/ffffff?text=Produk+6" alt="Produk 6">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj65WbiCPUCABAPPveybPZOQdKsV7DvtRqRX-idaOTGBj0UpGssB2fd9bkbLKWH4D2DgB4Qw6IPAPrtPw97kckMJHx8jRJIsX8dfycGOONBWjK2dNRrnX-HAKzrLU7noPy1pa44Iw_v9kWt866U2d8Bm5MDBf57otSl4uhEAD52rtOu2ClgdMbl_3o-iyOq/s1254/PRODUK%20DIGITAL01.png" alt="Produk 6">
                 </div>
                 <div class="product-info">
                     <div>
@@ -674,7 +723,7 @@
             <!-- Produk 7 -->
             <div class="product-card">
                 <div class="product-img">
-                    <img src="https://via.placeholder.com/400x400/ef4444/ffffff?text=Produk+7" alt="Produk 7">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEisS5QfDGlWogV9iHl2oGIXUsfOxPKs68e5sG9OsoIP9FtWcp9n2ScSBqORwcqddHdlXGsyIvyug9xW3psD9G7AiwHrTb444UmLpij-G5MsBkeS04H8-rwtvt8dZ-EPErWXvS8Bok8faWQk_F_EhryTRsvXAftlaf2mYv7TGBF2t6rij_1V3I8367kVLp51/s1080/5%20%281%29.png" alt="Produk 7">
                 </div>
                 <div class="product-info">
                     <div>
@@ -688,7 +737,7 @@
             <!-- Produk 8 -->
             <div class="product-card">
                 <div class="product-img">
-                    <img src="https://via.placeholder.com/400x400/8b5cf6/ffffff?text=Produk+8" alt="Produk 8">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgSaYiEcAk-GnXeNaEOu4ozPVJBhqF8KT7dSssmfj29tOBoaKbwaK-T8AqiWSr89mKRWN3eXptq6GMTS0ny86KE3f8b_STiuDEvdZ9yOruobAIyMDskRMdQXby96tMNiP_6V5pNxxtfxMhDvcjLuPktzKQcSB5TJmVOZTA8P3mreBDKTasWH5bcy8WB5yVR/s1080/11.png" alt="Produk 8">
                 </div>
                 <div class="product-info">
                     <div>
@@ -702,7 +751,7 @@
             <!-- Produk 9 -->
             <div class="product-card">
                 <div class="product-img">
-                    <img src="https://via.placeholder.com/400x400/ec4899/ffffff?text=Produk+9" alt="Produk 9">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjJpLPTgjj08IF-L-0nWuT5V4N2b5kLR_I29vxM5ReQv294sM_z7Rov8G7XlQo5natK0fK5TzsNwHAqUQ44ezTpoigj0hes8aF_GAdAvjSAUAhyd3s4Et6bMo4MTrV6gLwC6YGEf0d0St416nmWNCDreRLkJ_7vQr_v1tYokdRdRhHiWy_G-2_g_qLr3G35/s2475/kasturi-ok.png" alt="Produk 9">
                 </div>
                 <div class="product-info">
                     <div>
@@ -736,6 +785,11 @@
         </div>
     </section>
 
+    <!-- BACK TO TOP BUTTON -->
+    <button class="back-to-top" id="backToTopBtn" onclick="scrollToTop()" title="Kembali ke atas">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
     <!-- FLOATING WHATSAPP BUTTON -->
     <a href="https://wa.me/6285150531572?text=Halo%20Syam%20Store,%20saya%20butuh%20bantuan" class="floating-wa" target="_blank">
         <i class="fab fa-whatsapp"></i> Chat WhatsApp
@@ -747,8 +801,9 @@
         <p>Hubungi Kami: +62 851-5053-1572</p>
     </footer>
 
-    <!-- SLIDER JAVASCRIPT -->
+    <!-- JAVASCRIPT -->
     <script>
+        /* --- SLIDER LOGIC --- */
         let currentIndex = 0;
         const slides = document.querySelectorAll('.slide');
         const sliderWrapper = document.getElementById('sliderWrapper');
@@ -782,7 +837,7 @@
         }
 
         function startTimer() {
-            slideInterval = setInterval(nextSlide, 4000); // Berganti otomatis setiap 4 detik
+            slideInterval = setInterval(nextSlide, 4000);
         }
 
         function resetTimer() {
@@ -790,8 +845,25 @@
             startTimer();
         }
 
-        // Jalankan timer pertama kali
         startTimer();
+
+        /* --- BACK TO TOP LOGIC --- */
+        const backToTopBtn = document.getElementById("backToTopBtn");
+
+        window.onscroll = function() {
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                backToTopBtn.classList.add("show");
+            } else {
+                backToTopBtn.classList.remove("show");
+            }
+        };
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
     </script>
 
 </body>
