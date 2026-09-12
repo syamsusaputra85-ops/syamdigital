@@ -865,55 +865,6 @@
             });
         }
     </script>
-<!-- Back to top -->
-<style>
-#scroll-percent {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 60px;
-  height: 60px;
-  background: #ffffff;
-  border-radius: 50%;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  cursor: pointer;
-  font-family: sans-serif;
-  font-weight: bold;
-  font-size: 14px;
-  color: #e52e71;
-  background: radial-gradient(closest-side, white 79%, transparent 80% 100%), 
-              conic-gradient(#e52e71 0%, #ff8a00 0%, #bbb 0%);
-}
-</style>
-  <div id='scroll-percent' onclick='window.scrollTo({top: 0, behavior: "smooth"});'>
-  <span id='percent-value'>0%</span>
-</div>
-<script>
-window.addEventListener('scroll', function() {
-  var scrollLabel = document.getElementById('percent-value');
-  var scrollCircle = document.getElementById('scroll-percent');
-  
-  var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-  var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-  var scrolled = Math.round((winScroll / height) * 100);
 
-  if (isNaN(scrolled)) scrolled = 0;
-
-  // Update Teks Angka
-  scrollLabel.innerText = scrolled + '%';
-
-  // Update Animasi Lingkaran
-  scrollCircle.style.background = `radial-gradient(closest-side, white 79%, transparent 80% 100%), 
-                                  conic-gradient(#e52e71 ${scrolled}%, #bbb 0%)`;
-  
-  // Sembunyikan jika di paling atas
-  scrollCircle.style.opacity = (scrolled > 0) ? "1" : "0";
-  scrollCircle.style.transition = "opacity 0.3s";
-});
-</script>
 </body>
 </html>
