@@ -1349,6 +1349,72 @@
             cursor.style.opacity = cursor.style.opacity === '0' ? '1' : '0';
         }, 500);
     </script>
+<script>
+// Typewriter Animation
+const typewriterText = document.getElementById('typewriter-text');
+const cursor = document.getElementById('cursor');
+
+// Menambah ukuran font sebesar 10% via JavaScript
+typewriterText.style.fontSize = '1.1em'; // Atau '110%'
+
+const texts = [
+    'Syam Digital Penyedia Aplikasi',
+    'Platform Hosting Modern',
+    'Solusi Digital Terdepan',
+    'Deploy Aplikasi Instant'
+];
+
+let textIndex = 0;
+let charIndex = 0;
+let isDeleting = false;
+let typeSpeed = 100;
+let deleteSpeed = 50;
+let pauseTime = 2000;
+
+function typeWriter() {
+    const currentText = texts[textIndex];
+    
+    if (isDeleting) {
+        // Deleting characters
+        typewriterText.textContent = currentText.substring(0, charIndex - 1);
+        charIndex--;
+        
+        if (charIndex === 0) {
+            isDeleting = false;
+            textIndex = (textIndex + 1) % texts.length;
+            setTimeout(typeWriter, 500);
+            return;
+        }
+        
+        setTimeout(typeWriter, deleteSpeed);
+    } else {
+        // Typing characters
+        typewriterText.textContent = currentText.substring(0, charIndex + 1);
+        charIndex++;
+        
+        if (charIndex === currentText.length) {
+            // Pause before deleting
+            setTimeout(() => {
+                isDeleting = true;
+                typeWriter();
+            }, pauseTime);
+            return;
+        }
+        
+        setTimeout(typeWriter, typeSpeed);
+    }
+}
+
+// Start typewriter animation when page loads
+window.addEventListener('load', () => {
+    setTimeout(typeWriter, 1000);
+});
+
+// Enhanced cursor blinking
+setInterval(() => {
+    cursor.style.opacity = cursor.style.opacity === '0' ? '1' : '0';
+}, 500);
+</script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97c53e3b42dffd6d',t:'MTc1NzQwNTc4Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
 <script async src="https://cse.google.com/cse.js?cx=e4c237a80056843c6">
