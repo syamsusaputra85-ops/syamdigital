@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Syam Store - Belanja Hemat & Terpercaya</title>
+    
+    <!-- FAVICON (ICON TAB BROWSER) -->
+    <link rel="icon" type="image/png" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEizYEIRLO5XFMjpJ3SIInnCsKvOWXkBjNGrpxBxh24VIMB9Xr6_LwtqeYXzVR1fzyrca_CGZJZbjbQOvpnRkOt1v3_YsCq3GcjvTu3TqW2xOYNa3DHozGh2sAATreS3RuIDOnrM6bMRJn1Kw1rmjmsBL-We9v_XpM4fPS0WMiIdifOCnnHNvjD8z0FZ3uza/s500/syam-digital-logo%20.png">
+
     <!-- Google Fonts & FontAwesome Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -43,7 +47,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1rem 5%;
+            padding: 0.8rem 5%;
             background: #ffffff;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             position: sticky;
@@ -51,13 +55,25 @@
             z-index: 1000;
         }
 
-        .logo {
-            font-size: 1.5rem;
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-img {
+            height: 45px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .logo-text {
+            font-size: 1.4rem;
             font-weight: 700;
             color: var(--primary);
         }
 
-        .logo span {
+        .logo-text span {
             color: var(--secondary);
         }
 
@@ -197,6 +213,9 @@
             overflow: hidden;
             box-shadow: 0 5px 15px rgba(0,0,0,0.05);
             transition: transform 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .product-card:hover {
@@ -205,17 +224,29 @@
 
         .product-img {
             width: 100%;
-            height: 200px;
-            background: #e5e7eb;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #9ca3af;
+            height: 250px;
+            overflow: hidden;
+            background: #f3f4f6;
+        }
+
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover .product-img img {
+            transform: scale(1.05);
         }
 
         .product-info {
             padding: 1.5rem;
             text-align: left;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .product-title {
@@ -343,9 +374,12 @@
 </head>
 <body>
 
-    <!-- NAVBAR -->
+    <!-- NAVBAR WITH LOGO -->
     <nav class="navbar">
-        <div class="logo">Syam <span>Store</span></div>
+        <div class="logo-container">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEizYEIRLO5XFMjpJ3SIInnCsKvOWXkBjNGrpxBxh24VIMB9Xr6_LwtqeYXzVR1fzyrca_CGZJZbjbQOvpnRkOt1v3_YsCq3GcjvTu3TqW2xOYNa3DHozGh2sAATreS3RuIDOnrM6bMRJn1Kw1rmjmsBL-We9v_XpM4fPS0WMiIdifOCnnHNvjD8z0FZ3uza/s500/syam-digital-logo%20.png" alt="Syam Store Logo" class="logo-img">
+            <div class="logo-text">Syam <span>Store</span></div>
+        </div>
         <ul class="nav-links">
             <li><a href="#home">Beranda</a></li>
             <li><a href="#fitur">Keunggulan</a></li>
@@ -365,7 +399,7 @@
             </a>
         </div>
         <div class="hero-image">
-            <img src="https://via.placeholder.com/450x450/2563eb/ffffff?text=Syam+Store" alt="Syam Store Header">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgDCbOuMbmpLsBtqD1-lMZ7s7nh2uNJ4WxEDqqj-Qh2a2j2mWghgj94RyP4tnUDVLWQO_7GWKSUUCMZ3kokKcEVZGYvwDoTgmbwyp53gEbmkNa4I1HRn43sKxw8oNSQlN_XQDIkwJmnN0OQwtCDVEdhRtwxoJ8FmX4Gj58GYqFpY2CJ0pBSADPux9NTCNnR/s1000/lampu%20led.jpg" alt="Syam Store Header">
         </div>
     </section>
 
@@ -394,33 +428,45 @@
         <p class="section-subtitle">Pilih produk favorit Anda dan pesan secara mudah via WhatsApp</p>
 
         <div class="product-grid">
-            <!-- Produk 1 -->
+            <!-- Produk 1: Lampu LED -->
             <div class="product-card">
-                <div class="product-img"><i class="fas fa-box-open fa-3x"></i></div>
+                <div class="product-img">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgDCbOuMbmpLsBtqD1-lMZ7s7nh2uNJ4WxEDqqj-Qh2a2j2mWghgj94RyP4tnUDVLWQO_7GWKSUUCMZ3kokKcEVZGYvwDoTgmbwyp53gEbmkNa4I1HRn43sKxw8oNSQlN_XQDIkwJmnN0OQwtCDVEdhRtwxoJ8FmX4Gj58GYqFpY2CJ0pBSADPux9NTCNnR/s1000/lampu%20led.jpg" alt="Lampu LED Super Terang">
+                </div>
                 <div class="product-info">
-                    <div class="product-title">Produk Unggulan 1</div>
-                    <div class="product-price">Rp 150.000</div>
-                    <a href="https://wa.me/6285150531572?text=Halo%20Syam%20Store,%20saya%20mau%20beli%20Produk%20Unggulan%201" target="_blank" class="btn-order">Beli Sekarang</a>
+                    <div>
+                        <div class="product-title">Lampu LED Hemat Energi</div>
+                        <div class="product-price">Rp 45.000</div>
+                    </div>
+                    <a href="https://wa.me/6285150531572?text=Halo%20Syam%20Store,%20saya%20mau%20beli%20Lampu%20LED%20Hemat%20Energi" target="_blank" class="btn-order">Beli Sekarang</a>
                 </div>
             </div>
 
-            <!-- Produk 2 -->
+            <!-- Produk 2: Blender Mini -->
             <div class="product-card">
-                <div class="product-img"><i class="fas fa-box-open fa-3x"></i></div>
+                <div class="product-img">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgii9S_ZRqZBxYxyi0ZgbeLFeEeL4XYN9DvV8X_9z4SWj1K17mpbOqNv7vD8FpwrolVrLc4dkydglPm6M2PZs8Jxf8smIudo5qkgxk_87PeC7nz1J4s_DYoodg8DSidtAxpvumJYLu3RkC8-w_QSRGxBojkkij-L9ADmGdJVgdcYiQ3tPCoLcBeOou1A038/s1254/BLENDER%20MINI%20%281%29.png" alt="Blender Mini Portable">
+                </div>
                 <div class="product-info">
-                    <div class="product-title">Produk Unggulan 2</div>
-                    <div class="product-price">Rp 250.000</div>
-                    <a href="https://wa.me/6285150531572?text=Halo%20Syam%20Store,%20saya%20mau%20beli%20Produk%20Unggulan%202" target="_blank" class="btn-order">Beli Sekarang</a>
+                    <div>
+                        <div class="product-title">Blender Mini Portable</div>
+                        <div class="product-price">Rp 85.000</div>
+                    </div>
+                    <a href="https://wa.me/6285150531572?text=Halo%20Syam%20Store,%20saya%20mau%20beli%20Blender%20Mini%20Portable" target="_blank" class="btn-order">Beli Sekarang</a>
                 </div>
             </div>
 
-            <!-- Produk 3 -->
+            <!-- Produk 3: Parfum Hajar Aswad -->
             <div class="product-card">
-                <div class="product-img"><i class="fas fa-box-open fa-3x"></i></div>
+                <div class="product-img">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjRPpBogFjmgVa3bPT3M2Q4d3nuIyhJQCzUbZwN6v-CyK3Jp1GR1YeDxtUjFH9XH1R9UFoDbFWGmmvOKsVljzYFEJ4LVW9oEAUdLZ5H3cBqNCfzEhdclPOHJ6i7NpHqqEA20yvGMowsjXmVcVjOrOVN-MrcP4OuRYiuGabjuYNj42VwLQtuz072Bjpz54He/s1254/HAJAR-AZWAD%20%281%29.png" alt="Parfum Hajar Aswad">
+                </div>
                 <div class="product-info">
-                    <div class="product-title">Produk Unggulan 3</div>
-                    <div class="product-price">Rp 99.000</div>
-                    <a href="https://wa.me/6285150531572?text=Halo%20Syam%20Store,%20saya%20mau%20beli%20Produk%20Unggulan%203" target="_blank" class="btn-order">Beli Sekarang</a>
+                    <div>
+                        <div class="product-title">Parfum Hajar Aswad Non-Alkohol</div>
+                        <div class="product-price">Rp 65.000</div>
+                    </div>
+                    <a href="https://wa.me/6285150531572?text=Halo%20Syam%20Store,%20saya%20mau%20beli%20Parfum%20Hajar%20Aswad" target="_blank" class="btn-order">Beli Sekarang</a>
                 </div>
             </div>
         </div>
