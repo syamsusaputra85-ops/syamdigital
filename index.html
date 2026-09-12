@@ -144,6 +144,20 @@
     padding-bottom: 6px;     /* Memberi jeda bawah */
     display: inline-block;   /* Memastikan padding & line-height bekerja maksimal */
 }
+/* Container pembungkus slider */
+.slider-container {
+    width: 100%;
+    height: 600px; /* Ubah angka ini sesuai tinggi yang kamu inginkan (misal: 500px -> 600px) */
+    /* atau bisa pakai vh untuk responsif layar: height: 80vh; */
+}
+
+/* Tag gambar di dalam slider */
+.slider-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Sangat penting: agar gambar tidak gepeng/terdistorsi */
+    object-position: center; /* Memastikan fokus gambar tetap di tengah */
+}
     </style>
 </head>
  
