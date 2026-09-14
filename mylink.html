@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Directory Link Syams Online</title>
+    <style>
+        :root {
+            --primary-color: #2b3a4a;
+            --accent-color: #2563eb;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.5;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        .search-box {
+            margin: 1.5rem auto 0;
+            max-width: 500px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.75rem 1.25rem;
+            border: 1px solid var(--border-color);
+            border-radius: 25px;
+            font-size: 0.95rem;
+            outline: none;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            transition: all 0.2s ease;
+        }
+
+        .search-box input:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .category-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .category-title {
+            font-size: 1.15rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #f1f5f9;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .link-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .link-item a {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.9rem;
+            background-color: #f8fafc;
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+            word-break: break-all;
+        }
+
+        .link-item a:hover {
+            background-color: #eff6ff;
+            color: var(--accent-color);
+            border-color: #bfdbfe;
+            transform: translateX(3px);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 6px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        .badge-pdf { background-color: #fee2e2; color: #991b1b; }
+        .badge-img { background-color: #fef3c7; color: #92400e; }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Directory Syams Online</h1>
+        <p>Kumpulan tautan administrasi, keuangan, tools, dan aset digital</p>
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Cari nama link atau halaman..." onkeyup="filterLinks()">
+        </div>
+    </header>
+
+    <div class="grid" id="linkGrid">
+        
+        <!-- Category 1 -->
+        <div class="category-card">
+            <h2 class="category-title">🏛️ Administrasi & Desa</h2>
+            <ul class="link-list">
+                <li class="link-item"><a href="https://syams.online/sipd.html" target="_blank">SIPD System</a></li>
+                <li class="link-item"><a href="https://syams.online/user-sipd.html" target="_blank">User SIPD</a></li>
+                <li class="link-item"><a href="https://syams.online/siks-ng.html" target="_blank">SIKS-NG Portal</a></li>
+                <li class="link-item"><a href="https://syams.online/verval.html" target="_blank">Verval Data</a></li>
+                <li class="link-item"><a href="https://syams.online/penduduk.html" target="_blank">Data Penduduk</a></li>
+                <li class="link-item"><a href="https://syams.online/penduduk2025.html" target="_blank">Data Penduduk 2025</a></li>
+                <li class="link-item"><a href="https://syams.online/ktp.html" target="_blank">Form KTP</a></li>
+                <li class="link-item"><a href="https://syams.online/kk.html" target="_blank">Kartu Keluarga (KK)</a></li>
+                <li class="link-item"><a href="https://syams.online/nik.html" target="_blank">Pencarian NIK</a></li>
+                <li class="link-item"><a href="https://syams.online/data_desil.html" target="_blank">Data Desil</a></li>
+                <li class="link-item"><a href="https://syams.online/p3ke.html" target="_blank">Data P3KE</a></li>
+                <li class="link-item"><a href="https://syams.online/pemdes.html" target="_blank">Portal Pemdes</a></li>
+                <li class="link-item"><a href="https://syams.online/desa.html" target="_blank">Informasi Desa</a></li>
+                <li class="link-item"><a href="https://syams.online/tupoksi.html" target="_blank">Tupoksi Pegawai</a></li>
+                <li class="link-item"><a href="https://syams.online/tupoksi-bpd.html" target="_blank">Tupoksi BPD</a></li>
+                <li class="link-item"><a href="https://syams.online/posyandu.html" target="_blank">Posyandu</a></li>
+                <li class="link-item"><a href="https://syams.online/posbankum.html" target="_blank">Posbankum</a></li>
+                <li class="link-item"><a href="https://syams.online/kopdes.html" target="_blank">Koperasi Desa</a></li>
+                <li class="link-item"><a href="https://syams.online/akta-kopdes.pdf" target="_blank">Akta Kopdes <span class="badge badge-pdf">PDF</span></a></li>
+                <li class="link-item"><a href="https://syams.online/npwp-kopdes.pdf" target="_blank">NPWP Kopdes <span class="badge badge-pdf">PDF</span></a></li>
+            </ul>
+        </div>
+
+        <!-- Category 2 -->
+        <div class="category-card">
+            <h2 class="category-title">💰 Keuangan & Anggaran</h2>
+            <ul class="link-list">
+                <li class="link-item"><a href="https://syams.online/danadesa2026.html" target="_blank">Dana Desa 2026</a></li>
+                <li class="link-item"><a href="https://syams.online/pagu.html" target="_blank">Informasi Pagu</a></li>
+                <li class="link-item"><a href="https://syams.online/pagu-add.html" target="_blank">Pagu ADD</a></li>
+                <li class="link-item"><a href="https://syams.online/blt.html" target="_blank">Bantuan BLT</a></li>
+                <li class="link-item"><a href="https://syams.online/blt.pdf" target="_blank">Laporan BLT <span class="badge badge-pdf">PDF</span></a></li>
+                <li class="link-item"><a href="https://syams.online/pbb.html" target="_blank">Pajak PBB</a></li>
+                <li class="link-item"><a href="https://syams.online/G%20info-djp.html" target="_blank">Info DJP</a></li>
+                <li class="link-item"><a href="https://syams.online/pmk.pdf" target="_blank">Regulasi PMK <span class="badge badge-pdf">PDF</span></a></li>
+                <li class="link-item"><a href="https://syams.online/keuangan.html" target="_blank">Modul Keuangan</a></li>
+                <li class="link-item"><a href="https://syams.online/kas.html" target="_blank">Buku Kas</a></li>
+                <li class="link-item"><a href="https://syams.online/bukukas.html" target="_blank">Buku Kas Utama</a></li>
+                <li class="link-item"><a href="https://syams.online/laporan.html" target="_blank">Laporan Keuangan</a></li>
+                <li class="link-item"><a href="https://syams.online/realisasi.html" target="_blank">Realisasi Anggaran</a></li>
+                <li class="link-item"><a href="https://syams.online/rab.pdf" target="_blank">Dokumen RAB <span class="badge badge-pdf">PDF</span></a></li>
+                <li class="link-item"><a href="https://syams.online/rab-al-ikhlas.pdf" target="_blank">RAB Al-Ikhlas <span class="badge badge-pdf">PDF</span></a></li>
+            </ul>
+        </div>
+
+        <!-- Category 3 -->
+        <div class="category-card">
+            <h2 class="category-title">🛒 E-Commerce & Toko</h2>
+            <ul class="link-list">
+                <li class="link-item"><a href="https://syams.online/shop.html" target="_blank">Shop Main Page</a></li>
+                <li class="link-item"><a href="https://syams.online/shope.html" target="_blank">Shope Portal</a></li>
+                <li class="link-item"><a href="https://syams.online/store.html" target="_blank">Store Page</a></li>
+                <li class="link-item"><a href="https://syams.online/syamstore.html" target="_blank">Syam Store</a></li>
+                <li class="link-item"><a href="https://syams.online/produk.html" target="_blank">Katalog Produk</a></li>
+                <li class="link-item"><a href="https://syams.online/promo.html" target="_blank">Halaman Promo</a></li>
+                <li class="link-item"><a href="https://syams.online/kupon.html" target="_blank">Voucher / Kupon</a></li>
+                <li class="link-item"><a href="https://syams.online/invoice.html" target="_blank">Invoice Generator</a></li>
+                <li class="link-item"><a href="https://syams.online/nota.html" target="_blank">Cetak Nota</a></li>
+                <li class="link-item"><a href="https://syams.online/nota-belanja.html" target="_blank">Nota Belanja</a></li>
+                <li class="link-item"><a href="https://syams.online/resi.html" target="_blank">Cek Resi Pengiriman</a></li>
+                <li class="link-item"><a href="https://syams.online/shipping.html" target="_blank">Shipping Info</a></li>
+            </ul>
+        </div>
+
+        <!-- Category 4 -->
+        <div class="category-card">
+            <h2 class="category-title">🛠️ Tools, Surat & Media</h2>
+            <ul class="link-list">
+                <li class="link-item"><a href="https://syams.online/undangan.html" target="_blank">Undangan Umum</a></li>
+                <li class="link-item"><a href="https://syams.online/surat.html" target="_blank">Layanan Persuratan</a></li>
+                <li class="link-item"><a href="https://syams.online/sertifikat.html" target="_blank">Sertifikat Digital</a></li>
+                <li class="link-item"><a href="https://syams.online/sertifikatqr.html" target="_blank">Sertifikat QR</a></li>
+                <li class="link-item"><a href="https://syams.online/proposal.pdf" target="_blank">Proposal <span class="badge badge-pdf">PDF</span></a></li>
+                <li class="link-item"><a href="https://syams.online/qrcode.html" target="_blank">QR Code Tool</a></li>
+                <li class="link-item"><a href="https://syams.online/kalkulator.html" target="_blank">Kalkulator</a></li>
+                <li class="link-item"><a href="https://syams.online/pdf.html" target="_blank">PDF Editor</a></li>
+                <li class="link-item"><a href="https://syams.online/ttd.html" target="_blank">E-Signature TTD</a></li>
+                <li class="link-item"><a href="https://syams.online/chat.html" target="_blank">Chat App</a></li>
+                <li class="link-item"><a href="https://syams.online/wa.html" target="_blank">WhatsApp Direct</a></li>
+                <li class="link-item"><a href="https://syams.online/ai.html" target="_blank">AI Portal</a></li>
+                <li class="link-item"><a href="https://syams.online/Syamweb-logo-25.png" target="_blank">Logo Syamweb <span class="badge badge-img">PNG</span></a></li>
+            </ul>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>&copy; Syams Online Directory</p>
+    </footer>
+</div>
+
+<script>
+    function filterLinks() {
+        let input = document.getElementById('searchInput').value.toLowerCase();
+        let cards = document.querySelectorAll('.category-card');
+
+        cards.forEach(card => {
+            let links = card.querySelectorAll('.link-item');
+            let hasVisibleLink = false;
+
+            links.forEach(link => {
+                let text = link.textContent.toLowerCase();
+                let href = link.querySelector('a').href.toLowerCase();
+
+                if (text.includes(input) || href.includes(input)) {
+                    link.style.display = "";
+                    hasVisibleLink = true;
+                } else {
+                    link.style.display = "none";
+                }
+            });
+
+            card.style.display = hasVisibleLink ? "" : "none";
+        });
+    }
+</script>
+
+</body>
+</html>
