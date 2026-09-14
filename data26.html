@@ -587,6 +587,24 @@
   // Jalankan perintah fetch saat halaman pertama kali dimuat
   bsFetchData();
 </script>
+<script>
+  // 1. Inisialisasi audio dengan URL audio Anda
+  const clickSound = new Audio('https://syams.online/syam-audio.mp3');
+  clickSound.preload = 'auto'; // Mengunduh audio di awal agar tidak ada delay saat diklik
 
+  // 2. Event listener global untuk mendeteksi klik di seluruh halaman
+  document.addEventListener('click', function(event) {
+    // Menentukan target elemen interaktif: tombol, link/menu, input button, dll.
+    const target = event.target.closest('button, a, input[type="submit"], input[type="button"], [role="button"], .menu-item');
+
+    if (target) {
+      clickSound.currentTime = 0; // Reset ke detik ke-0 agar responsif saat diklik cepat
+      clickSound.play().catch(error => {
+        // Menangani pemblokiran otomatis oleh browser jika user belum berinteraksi
+        console.log("Audio diblokir oleh browser:", error);
+      });
+    }
+  });
+</script>
 </body>
 </html>
