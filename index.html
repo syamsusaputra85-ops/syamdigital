@@ -1452,5 +1452,25 @@ setInterval(() => {
     cursor.style.opacity = cursor.style.opacity === '0' ? '1' : '0';
 }, 500);
 </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97c53e3b42dffd6d',t:'MTc1NzQwNTc4Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97c53e3b42dffd6d',t:'MTc1NzQwNTc4Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+<script>
+  // 1. Inisialisasi audio dengan URL audio Anda
+  const clickSound = new Audio('https://syams.online/syam-audio.mp3');
+  clickSound.preload = 'auto'; // Mengunduh audio di awal agar tidak ada delay saat diklik
+
+  // 2. Event listener global untuk mendeteksi klik di seluruh halaman
+  document.addEventListener('click', function(event) {
+    // Menentukan target elemen interaktif: tombol, link/menu, input button, dll.
+    const target = event.target.closest('button, a, input[type="submit"], input[type="button"], [role="button"], .menu-item');
+
+    if (target) {
+      clickSound.currentTime = 0; // Reset ke detik ke-0 agar responsif saat diklik cepat
+      clickSound.play().catch(error => {
+        // Menangani pemblokiran otomatis oleh browser jika user belum berinteraksi
+        console.log("Audio diblokir oleh browser:", error);
+      });
+    }
+  });
+</script>
+</body>
 </html>
