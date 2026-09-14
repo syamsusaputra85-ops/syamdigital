@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Directory Link Syams Online</title>
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1767425380/syam-digital-01_i5zfka.png">
     <style>
         :root {
             --primary-color: #2b3a4a;
@@ -147,6 +148,49 @@
             color: var(--text-muted);
             font-size: 0.85rem;
         }
+.float-home-neon {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 50px;
+  color: #fff;
+  text-decoration: none;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 1px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  z-index: 9999;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.float-home-neon .home-icon {
+  width: 20px;
+  height: 20px;
+  fill: #00f2fe;
+  transition: transform 0.3s ease;
+}
+
+.float-home-neon:hover {
+  transform: translateY(-5px) scale(1.05);
+  background: rgba(15, 23, 42, 0.9);
+  border-color: #00f2fe;
+  box-shadow: 0 0 20px rgba(0, 242, 254, 0.6);
+  color: #00f2fe;
+}
+
+.float-home-neon:hover .home-icon {
+  transform: scale(1.2);
+  fill: #00f2fe;
+}
     </style>
 </head>
 <body>
@@ -225,7 +269,7 @@
                 <li class="link-item"><a href="https://syams.online/invoice.html" target="_blank">Invoice Generator</a></li>
                 <li class="link-item"><a href="https://syams.online/nota.html" target="_blank">Cetak Nota</a></li>
                 <li class="link-item"><a href="https://syams.online/nota-belanja.html" target="_blank">Nota Belanja</a></li>
-                <li class="link-item"><a href="https://syams.online/resi.html" target="_blank">Cek Resi Pengiriman</a></li>
+                <li class="link-item"><a href="https://syams.online/resi.html" target="_blank">Resi Pajak T.A 2025</a></li>
                 <li class="link-item"><a href="https://syams.online/shipping.html" target="_blank">Shipping Info</a></li>
             </ul>
         </div>
@@ -282,6 +326,11 @@
         });
     }
 </script>
-
+<a href="https://syams.online/" class="float-home-neon" title="Kembali ke Home">
+  <svg viewBox="0 0 24 24" class="home-icon">
+    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+  </svg>
+  <span class="home-text">HOME</span>
+</a>
 </body>
 </html>
