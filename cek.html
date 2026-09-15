@@ -243,10 +243,63 @@
     display: block;
     object-fit: cover;
   }
+.float-home-neon {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 50px;
+  color: #fff;
+  text-decoration: none;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 1px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  z-index: 9999;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.float-home-neon .home-icon {
+  width: 20px;
+  height: 20px;
+  fill: #00f2fe;
+  transition: transform 0.3s ease;
+}
+
+.float-home-neon:hover {
+  transform: translateY(-5px) scale(1.05);
+  background: rgba(15, 23, 42, 0.9);
+  border-color: #00f2fe;
+  box-shadow: 0 0 20px rgba(0, 242, 254, 0.6);
+  color: #00f2fe;
+}
+
+.float-home-neon:hover .home-icon {
+  transform: scale(1.2);
+  fill: #00f2fe;
+}
     </style>
 </head>
 <body>
-
+<div class="banner-bansos-container">
+  <!-- Ganti href="https://syams.online/cek" dengan URL tujuan jika banner ingin bisa diklik -->
+  <a href="#" class="banner-bansos-link" title="Informasi Bantuan Sosial">
+    <img 
+      src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjNniz1GUHWnK8OFBlCy-GIak_VZE4Zisy7m8vxIcAm6gFAMnvX4JmQatXRvZ7oq6r0Rw58-mxXiVUjDlfG7QJb2PCVdZjNt9vB-0jC4ch5KmgJYYgY6L3iJpzxeELPsNkw_XHDEM8TG7EzoykxWn1r0Yk6UOHiCjm3FL1rH291bUO3ibzj0QzcQDwOgfHv/s1536/bansos.png" 
+      alt="Banner Bantuan Sosial" 
+      class="banner-bansos-img"
+      loading="lazy"
+    >
+  </a>
+</div>
     <div class="container">
         <!-- HEADER APLIKASI -->
         <header>
@@ -296,16 +349,6 @@
                 <div class="btn-action">Buka Portal &rarr;</div>
             </a>
         </div>
-
-        <!-- LEMBAR KERJA / TABLE FORM CATATAN -->
-        <div class="workbook-section">
-            <div class="workbook-header">
-                <h2 class="workbook-title">📋 Lembar Kerja Catatan Hasil Pengecekan</h2>
-                <button class="btn-clear" onclick="resetForm()">Riset Input</button>
-            </div>
-
-           
-
         <!-- FOOTER -->
         <footer>
             <p>&copy; Lembar Kerja Cek Bansos & Data Kependudukan - Didesain untuk kemudahan navigasi dan pencatatan.</p>
@@ -323,16 +366,12 @@
             }
         }
     </script>
-<div class="banner-bansos-container">
-  <!-- Ganti href="https://syams.online/cek" dengan URL tujuan jika banner ingin bisa diklik -->
-  <a href="#" class="banner-bansos-link" title="Informasi Bantuan Sosial">
-    <img 
-      src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjNniz1GUHWnK8OFBlCy-GIak_VZE4Zisy7m8vxIcAm6gFAMnvX4JmQatXRvZ7oq6r0Rw58-mxXiVUjDlfG7QJb2PCVdZjNt9vB-0jC4ch5KmgJYYgY6L3iJpzxeELPsNkw_XHDEM8TG7EzoykxWn1r0Yk6UOHiCjm3FL1rH291bUO3ibzj0QzcQDwOgfHv/s1536/bansos.png" 
-      alt="Banner Bantuan Sosial" 
-      class="banner-bansos-img"
-      loading="lazy"
-    >
-  </a>
-</div>
+<!-- Tombol Melayang Neon/Glassmorphism -->
+<a href="https://syams.online/cek" class="float-home-neon" title="Kembali ke Home">
+  <svg viewBox="0 0 24 24" class="home-icon">
+    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+  </svg>
+  <span class="home-text">Kembali Ke Halaman Cek</span>
+</a>
 </body>
 </html>
