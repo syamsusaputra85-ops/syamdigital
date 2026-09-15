@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lembar Kerja Cek Data Bansos & KTP</title>
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1763356194/Lambang_Kabupaten_Donggala_1_cvywgs.png">
+    <style>
+        /* RESET & GENERAL STYLES */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f0f4f8;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* HEADER */
+        header {
+            background: linear-gradient(135deg, #0052d4, #4364f7, #6fb1fc);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            border-radius: 16px;
+            box-shadow: 0 10px 20px rgba(0, 82, 212, 0.2);
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* GRID TOMBOL / CARD APLIKASI */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .card-link {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            text-decoration: none;
+            color: #333;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border: 2px solid transparent;
+        }
+
+        .card-link:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+            border-color: #4364f7;
+        }
+
+        .card-badge {
+            align-self: flex-start;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .badge-kemensos { background-color: #e3f2fd; color: #0d47a1; }
+        .badge-nik { background-color: #e8f5e9; color: #1b5e20; }
+        .badge-ktp { background-color: #fff3e0; color: #e65100; }
+        .badge-ktp2 { background-color: #f3e5f5; color: #4a148c; }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #1a252c;
+        }
+
+        .card-desc {
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .btn-action {
+            display: inline-block;
+            text-align: center;
+            padding: 10px 16px;
+            background-color: #4364f7;
+            color: white;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .card-link:hover .btn-action {
+            background-color: #0052d4;
+        }
+
+        /* LEMBAR KERJA / CATATAN WORKBOOK */
+        .workbook-section {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .workbook-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .workbook-title {
+            font-size: 1.5rem;
+            color: #1a252c;
+        }
+
+        .btn-clear {
+            background: #ff4d4f;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn-clear:hover {
+            background: #d9363e;
+        }
+
+        /* TABEL LEMBAR KERJA */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 700px;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        th {
+            background-color: #f8fafc;
+            color: #475569;
+            font-weight: 600;
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus, select:focus {
+            border-color: #4364f7;
+            box-shadow: 0 0 0 3px rgba(67, 100, 247, 0.15);
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        /* RESPONSIVE DESIGN FOR MOBILE */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.75rem;
+            }
+            body {
+                padding: 12px;
+            }
+            .workbook-section {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- HEADER APLIKASI -->
+        <header>
+            <h1>Portal & Lembar Kerja Cek Bansos</h1>
+            <p>Pusat Akses Layanan Pengecekan NIK/KTP & Lembar Catatan Hasil Cek</p>
+        </header>
+
+        <!-- CARD MENU LINK CEK -->
+        <div class="grid-container">
+            <!-- Link 1: Kemensos -->
+            <a href="https://cekbansos.kemensos.go.id/" target="_blank" rel="noopener noreferrer" class="card-link">
+                <div>
+                    <span class="card-badge badge-kemensos">Resmi Kemensos</span>
+                    <h2 class="card-title">Cek Bansos</h2>
+                    <p class="card-desc">Cek penerima bantuan sosial resmi dari Kementerian Sosial RI.</p>
+                </div>
+                <div class="btn-action">Buka Portal &rarr;</div>
+            </a>
+
+            <!-- Link 2: Cek NIK -->
+            <a href="https://syams.online/nik" target="_blank" rel="noopener noreferrer" class="card-link">
+                <div>
+                    <span class="card-badge badge-nik">Layanan NIK</span>
+                    <h2 class="card-title">Cek NIK</h2>
+                    <p class="card-desc">Layanan validasi dan pengecekan Nomor Induk Kependudukan.</p>
+                </div>
+                <div class="btn-action">Buka Portal &rarr;</div>
+            </a>
+
+            <!-- Link 3: Cek KTP -->
+            <a href="https://syams.online/ktp" target="_blank" rel="noopener noreferrer" class="card-link">
+                <div>
+                    <span class="card-badge badge-ktp">Layanan KTP 1</span>
+                    <h2 class="card-title">Cek KTP</h2>
+                    <p class="card-desc">Server utama untuk verifikasi dan pengecekan data KTP.</p>
+                </div>
+                <div class="btn-action">Buka Portal &rarr;</div>
+            </a>
+
+            <!-- Link 4: Cek KTP 2 -->
+            <a href="https://syams.online/ktp2" target="_blank" rel="noopener noreferrer" class="card-link">
+                <div>
+                    <span class="card-badge badge-ktp2">Layanan KTP 2</span>
+                    <h2 class="card-title">Cek KTP 2</h2>
+                    <p class="card-desc">Server alternatif pengecekan KTP apabila server 1 padat.</p>
+                </div>
+                <div class="btn-action">Buka Portal &rarr;</div>
+            </a>
+        </div>
+
+        <!-- LEMBAR KERJA / TABLE FORM CATATAN -->
+        <div class="workbook-section">
+            <div class="workbook-header">
+                <h2 class="workbook-title">📋 Lembar Kerja Catatan Hasil Pengecekan</h2>
+                <button class="btn-clear" onclick="resetForm()">Riset Input</button>
+            </div>
+
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 5%;">No</th>
+                            <th style="width: 25%;">NIK</th>
+                            <th style="width: 25%;">Nama Lengkap</th>
+                            <th style="width: 20%;">Jenis Bantuan / Status</th>
+                            <th style="width: 25%;">Keterangan / Catatan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Baris Input 1 -->
+                        <tr>
+                            <td>1</td>
+                            <td><input type="text" placeholder="Masukkan NIK 16 digit..."></td>
+                            <td><input type="text" placeholder="Nama Warga..."></td>
+                            <td>
+                                <select>
+                                    <option value="">-- Pilih Status --</option>
+                                    <option value="terdaftar">Terdaftar / Ya</option>
+                                    <option value="tidak">Tidak Terdaftar</option>
+                                    <option value="proses">Dalam Proses</option>
+                                </select>
+                            </td>
+                            <td><input type="text" placeholder="Contoh: PKH / BPNT / Terdaftar"></td>
+                        </tr>
+                        <!-- Baris Input 2 -->
+                        <tr>
+                            <td>2</td>
+                            <td><input type="text" placeholder="Masukkan NIK 16 digit..."></td>
+                            <td><input type="text" placeholder="Nama Warga..."></td>
+                            <td>
+                                <select>
+                                    <option value="">-- Pilih Status --</option>
+                                    <option value="terdaftar">Terdaftar / Ya</option>
+                                    <option value="tidak">Tidak Terdaftar</option>
+                                    <option value="proses">Dalam Proses</option>
+                                </select>
+                            </td>
+                            <td><input type="text" placeholder="Catatan hasil pengecekan..."></td>
+                        </tr>
+                        <!-- Baris Input 3 -->
+                        <tr>
+                            <td>3</td>
+                            <td><input type="text" placeholder="Masukkan NIK 16 digit..."></td>
+                            <td><input type="text" placeholder="Nama Warga..."></td>
+                            <td>
+                                <select>
+                                    <option value="">-- Pilih Status --</option>
+                                    <option value="terdaftar">Terdaftar / Ya</option>
+                                    <option value="tidak">Tidak Terdaftar</option>
+                                    <option value="proses">Dalam Proses</option>
+                                </select>
+                            </td>
+                            <td><input type="text" placeholder="Catatan hasil pengecekan..."></td>
+                        </tr>
+                        <!-- Baris Input 4 -->
+                        <tr>
+                            <td>4</td>
+                            <td><input type="text" placeholder="Masukkan NIK 16 digit..."></td>
+                            <td><input type="text" placeholder="Nama Warga..."></td>
+                            <td>
+                                <select>
+                                    <option value="">-- Pilih Status --</option>
+                                    <option value="terdaftar">Terdaftar / Ya</option>
+                                    <option value="tidak">Tidak Terdaftar</option>
+                                    <option value="proses">Dalam Proses</option>
+                                </select>
+                            </td>
+                            <td><input type="text" placeholder="Catatan hasil pengecekan..."></td>
+                        </tr>
+                        <!-- Baris Input 5 -->
+                        <tr>
+                            <td>5</td>
+                            <td><input type="text" placeholder="Masukkan NIK 16 digit..."></td>
+                            <td><input type="text" placeholder="Nama Warga..."></td>
+                            <td>
+                                <select>
+                                    <option value="">-- Pilih Status --</option>
+                                    <option value="terdaftar">Terdaftar / Ya</option>
+                                    <option value="tidak">Tidak Terdaftar</option>
+                                    <option value="proses">Dalam Proses</option>
+                                </select>
+                            </td>
+                            <td><input type="text" placeholder="Catatan hasil pengecekan..."></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <footer>
+            <p>&copy; Lembar Kerja Cek Bansos & Data Kependudukan - Didesain untuk kemudahan navigasi dan pencatatan.</p>
+        </footer>
+    </div>
+
+    <!-- SCRIPT SEDERHANA UNTUK RESET FORM -->
+    <script>
+        function resetForm() {
+            if(confirm("Apakah Anda yakin ingin mengosongkan lembar kerja?")) {
+                const inputs = document.querySelectorAll('input[type="text"]');
+                const selects = document.querySelectorAll('select');
+                inputs.forEach(input => input.value = '');
+                selects.forEach(select => select.selectedIndex = 0);
+            }
+        }
+    </script>
+</body>
+</html>
