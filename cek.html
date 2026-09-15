@@ -29,29 +29,35 @@
         }
 
         /* BANNER BANSOS FULL UTUH (TIDAK KEPOTONG) */
-        .banner-bansos-container {
-            width: 100vw;
-            position: relative;
-            left: 50%;
-            right: 50%;
-            margin-left: -50vw;
-            margin-right: -50vw;
-            margin-bottom: 25px;
-            overflow: hidden;
-        }
+ .banner-bansos-container {
+    width: 100%;
+    max-width: 900px; /* Batas lebar maksimal banner */
+    margin: 20px auto; /* Memposisikan banner di tengah halaman */
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
 
-        .banner-bansos-link {
-            display: block;
-            text-decoration: none;
-            width: 100%;
-        }
+  .banner-bansos-link {
+    display: block;
+    text-decoration: none;
+    overflow: hidden;
+    border-radius: 12px; /* Dinding sudut melengkung */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); /* Efek bayangan halus */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
 
-        .banner-bansos-img {
-            width: 100%;
-            height: auto; /* Membiarkan tinggi otomatis proporsional agar tidak terpotong */
-            display: block;
-            object-fit: contain; /* Memastikan seluruh isi gambar terlihat utuh */
-        }
+  /* Efek hover saat kursor diarahkan ke gambar */
+  .banner-bansos-link:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  }
+
+  .banner-bansos-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+  }
 
         /* HEADER */
         header {
