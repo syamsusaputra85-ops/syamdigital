@@ -214,6 +214,35 @@
                 padding: 15px;
             }
         }
+.banner-bansos-container {
+    width: 100%;
+    max-width: 900px; /* Batas lebar maksimal banner */
+    margin: 20px auto; /* Memposisikan banner di tengah halaman */
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
+
+  .banner-bansos-link {
+    display: block;
+    text-decoration: none;
+    overflow: hidden;
+    border-radius: 12px; /* Dinding sudut melengkung */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); /* Efek bayangan halus */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  /* Efek hover saat kursor diarahkan ke gambar */
+  .banner-bansos-link:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  }
+
+  .banner-bansos-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+  }
     </style>
 </head>
 <body>
@@ -275,97 +304,7 @@
                 <button class="btn-clear" onclick="resetForm()">Riset Input</button>
             </div>
 
-            <div class="table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-                            <th style="width: 5%;">No</th>
-                            <th style="width: 25%;">NIK</th>
-                            <th style="width: 25%;">Nama Lengkap</th>
-                            <th style="width: 20%;">Jenis Bantuan / Status</th>
-                            <th style="width: 25%;">Keterangan / Catatan</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Baris Input 1 -->
-                        <tr>
-                            <td>1</td>
-                            <td><input type="text" placeholder="Masukkan NIK 16 digit..."></td>
-                            <td><input type="text" placeholder="Nama Warga..."></td>
-                            <td>
-                                <select>
-                                    <option value="">-- Pilih Status --</option>
-                                    <option value="terdaftar">Terdaftar / Ya</option>
-                                    <option value="tidak">Tidak Terdaftar</option>
-                                    <option value="proses">Dalam Proses</option>
-                                </select>
-                            </td>
-                            <td><input type="text" placeholder="Contoh: PKH / BPNT / Terdaftar"></td>
-                        </tr>
-                        <!-- Baris Input 2 -->
-                        <tr>
-                            <td>2</td>
-                            <td><input type="text" placeholder="Masukkan NIK 16 digit..."></td>
-                            <td><input type="text" placeholder="Nama Warga..."></td>
-                            <td>
-                                <select>
-                                    <option value="">-- Pilih Status --</option>
-                                    <option value="terdaftar">Terdaftar / Ya</option>
-                                    <option value="tidak">Tidak Terdaftar</option>
-                                    <option value="proses">Dalam Proses</option>
-                                </select>
-                            </td>
-                            <td><input type="text" placeholder="Catatan hasil pengecekan..."></td>
-                        </tr>
-                        <!-- Baris Input 3 -->
-                        <tr>
-                            <td>3</td>
-                            <td><input type="text" placeholder="Masukkan NIK 16 digit..."></td>
-                            <td><input type="text" placeholder="Nama Warga..."></td>
-                            <td>
-                                <select>
-                                    <option value="">-- Pilih Status --</option>
-                                    <option value="terdaftar">Terdaftar / Ya</option>
-                                    <option value="tidak">Tidak Terdaftar</option>
-                                    <option value="proses">Dalam Proses</option>
-                                </select>
-                            </td>
-                            <td><input type="text" placeholder="Catatan hasil pengecekan..."></td>
-                        </tr>
-                        <!-- Baris Input 4 -->
-                        <tr>
-                            <td>4</td>
-                            <td><input type="text" placeholder="Masukkan NIK 16 digit..."></td>
-                            <td><input type="text" placeholder="Nama Warga..."></td>
-                            <td>
-                                <select>
-                                    <option value="">-- Pilih Status --</option>
-                                    <option value="terdaftar">Terdaftar / Ya</option>
-                                    <option value="tidak">Tidak Terdaftar</option>
-                                    <option value="proses">Dalam Proses</option>
-                                </select>
-                            </td>
-                            <td><input type="text" placeholder="Catatan hasil pengecekan..."></td>
-                        </tr>
-                        <!-- Baris Input 5 -->
-                        <tr>
-                            <td>5</td>
-                            <td><input type="text" placeholder="Masukkan NIK 16 digit..."></td>
-                            <td><input type="text" placeholder="Nama Warga..."></td>
-                            <td>
-                                <select>
-                                    <option value="">-- Pilih Status --</option>
-                                    <option value="terdaftar">Terdaftar / Ya</option>
-                                    <option value="tidak">Tidak Terdaftar</option>
-                                    <option value="proses">Dalam Proses</option>
-                                </select>
-                            </td>
-                            <td><input type="text" placeholder="Catatan hasil pengecekan..."></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+           
 
         <!-- FOOTER -->
         <footer>
@@ -384,5 +323,16 @@
             }
         }
     </script>
+<div class="banner-bansos-container">
+  <!-- Ganti href="https://syams.online/cek" dengan URL tujuan jika banner ingin bisa diklik -->
+  <a href="#" class="banner-bansos-link" title="Informasi Bantuan Sosial">
+    <img 
+      src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjNniz1GUHWnK8OFBlCy-GIak_VZE4Zisy7m8vxIcAm6gFAMnvX4JmQatXRvZ7oq6r0Rw58-mxXiVUjDlfG7QJb2PCVdZjNt9vB-0jC4ch5KmgJYYgY6L3iJpzxeELPsNkw_XHDEM8TG7EzoykxWn1r0Yk6UOHiCjm3FL1rH291bUO3ibzj0QzcQDwOgfHv/s1536/bansos.png" 
+      alt="Banner Bantuan Sosial" 
+      class="banner-bansos-img"
+      loading="lazy"
+    >
+  </a>
+</div>
 </body>
 </html>
