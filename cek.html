@@ -18,12 +18,41 @@
             background-color: #f0f4f8;
             color: #333;
             line-height: 1.6;
-            padding: 20px;
+            padding: 0 0 20px 0; /* Padding atas diset 0 agar banner bisa melepet penuh */
+            overflow-x: hidden; /* Mencegah scrollbar horizontal */
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* BANNER BANSOS (FULL WIDTH & PROPORTIONAL HEIGHT) */
+        .banner-bansos-container {
+            width: 100vw;
+            position: relative;
+            left: 50%;
+            right: 50%;
+            margin-left: -50vw;
+            margin-right: -50vw;
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+
+        .banner-bansos-link {
+            display: block;
+            text-decoration: none;
+            width: 100%;
+        }
+
+        .banner-bansos-img {
+            width: 100%;
+            height: auto;
+            max-height: 320px; /* Membatasi tinggi agar tidak terlalu memakan ruang */
+            display: block;
+            object-fit: cover; /* Menjaga aspek rasio isi gambar */
+            object-position: center;
         }
 
         /* HEADER */
@@ -202,105 +231,82 @@
             font-size: 0.9rem;
         }
 
+        /* BUTTON FLOAT NEON */
+        .float-home-neon {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 50px;
+            color: #fff;
+            text-decoration: none;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+            letter-spacing: 1px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            z-index: 9999;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .float-home-neon .home-icon {
+            width: 20px;
+            height: 20px;
+            fill: #00f2fe;
+            transition: transform 0.3s ease;
+        }
+
+        .float-home-neon:hover {
+            transform: translateY(-5px) scale(1.05);
+            background: rgba(15, 23, 42, 0.9);
+            border-color: #00f2fe;
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.6);
+            color: #00f2fe;
+        }
+
+        .float-home-neon:hover .home-icon {
+            transform: scale(1.2);
+            fill: #00f2fe;
+        }
+
         /* RESPONSIVE DESIGN FOR MOBILE */
         @media (max-width: 768px) {
+            .banner-bansos-img {
+                max-height: 180px; /* Penyesuaian tinggi di layar HP agar proporsional */
+            }
             header h1 {
                 font-size: 1.75rem;
             }
-            body {
-                padding: 12px;
+            .container {
+                padding: 0 12px;
             }
             .workbook-section {
                 padding: 15px;
             }
         }
-.banner-bansos-container {
-    width: 100%;
-    max-width: 100%; /* Memastikan tidak ada batasan lebar */
-    margin: 0 auto 20px auto; /* Margin bawah 20px untuk memberi jarak ke tombol biru */
-    padding: 0; /* Menghilangkan jarak samping */
-    box-sizing: border-box;
-  }
-
-  .banner-bansos-link {
-    display: block;
-    text-decoration: none;
-    width: 100%;
-    overflow: hidden;
-    border-radius: 0; /* Menghilangkan lengkungan sudut agar full */
-  }
-
-  .banner-bansos-img {
-    width: 100%;
-    height: auto;
-    display: block;
-    object-fit: cover;
-  }
-.float-home-neon {
-  position: fixed;
-  bottom: 25px;
-  right: 25px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 20px;
-  background: rgba(15, 23, 42, 0.75);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 50px;
-  color: #fff;
-  text-decoration: none;
-  font-family: 'Poppins', sans-serif;
-  font-weight: 600;
-  font-size: 14px;
-  letter-spacing: 1px;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  z-index: 9999;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.float-home-neon .home-icon {
-  width: 20px;
-  height: 20px;
-  fill: #00f2fe;
-  transition: transform 0.3s ease;
-}
-
-.float-home-neon:hover {
-  transform: translateY(-5px) scale(1.05);
-  background: rgba(15, 23, 42, 0.9);
-  border-color: #00f2fe;
-  box-shadow: 0 0 20px rgba(0, 242, 254, 0.6);
-  color: #00f2fe;
-}
-
-.float-home-neon:hover .home-icon {
-  transform: scale(1.2);
-  fill: #00f2fe;
-}
-.banner-bansos-container {
-    width: 100vw;
-    position: relative;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
-  }
     </style>
 </head>
 <body>
-<div class="banner-bansos-container">
-  <!-- Ganti href="#" dengan link tujuan Anda jika ingin gambar bisa diklik -->
-  <a href="#" class="banner-bansos-link" title="Informasi Bantuan Sosial">
-    <img 
-      src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjNniz1GUHWnK8OFBlCy-GIak_VZE4Zisy7m8vxIcAm6gFAMnvX4JmQatXRvZ7oq6r0Rw58-mxXiVUjDlfG7QJb2PCVdZjNt9vB-0jC4ch5KmgJYYgY6L3iJpzxeELPsNkw_XHDEM8TG7EzoykxWn1r0Yk6UOHiCjm3FL1rH291bUO3ibzj0QzcQDwOgfHv/s1536/bansos.png" 
-      alt="Banner Bantuan Sosial" 
-      class="banner-bansos-img"
-      loading="lazy"
-    >
-  </a>
-</div>
+
+    <!-- BANNER BANSOS FULL WIDTH -->
+    <div class="banner-bansos-container">
+        <a href="#" class="banner-bansos-link" title="Informasi Bantuan Sosial">
+            <img 
+                src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjNniz1GUHWnK8OFBlCy-GIak_VZE4Zisy7m8vxIcAm6gFAMnvX4JmQatXRvZ7oq6r0Rw58-mxXiVUjDlfG7QJb2PCVdZjNt9vB-0jC4ch5KmgJYYgY6L3iJpzxeELPsNkw_XHDEM8TG7EzoykxWn1r0Yk6UOHiCjm3FL1rH291bUO3ibzj0QzcQDwOgfHv/s1536/bansos.png" 
+                alt="Banner Bantuan Sosial" 
+                class="banner-bansos-img"
+                loading="lazy"
+            >
+        </a>
+    </div>
+
     <div class="container">
         <!-- HEADER APLIKASI -->
         <header>
@@ -350,6 +356,7 @@
                 <div class="btn-action">Buka Portal &rarr;</div>
             </a>
         </div>
+
         <!-- FOOTER -->
         <footer>
             <p>&copy; Lembar Kerja Cek Bansos & Data Kependudukan - Didesain untuk kemudahan navigasi dan pencatatan.</p>
@@ -367,12 +374,13 @@
             }
         }
     </script>
-<!-- Tombol Melayang Neon/Glassmorphism -->
-<a href="https://syams.online/" class="float-home-neon" title="Kembali ke Home">
-  <svg viewBox="0 0 24 24" class="home-icon">
-    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-  </svg>
-  <span class="home-text">Kembali Ke Home</span>
-</a>
+
+    <!-- Tombol Melayang Neon/Glassmorphism -->
+    <a href="https://syams.online/" class="float-home-neon" title="Kembali ke Home">
+        <svg viewBox="0 0 24 24" class="home-icon">
+            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+        </svg>
+        <span class="home-text">Kembali Ke Home</span>
+    </a>
 </body>
 </html>
