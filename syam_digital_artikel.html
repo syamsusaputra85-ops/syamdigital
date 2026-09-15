@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Syam Digital - Solusi Layanan Aplikasi & Transformasi Digital</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        @page {
+            size: A4;
+            margin: 15mm 15mm;
+            background-color: #f8fafc;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            color: #1e293b;
+            background-color: #f8fafc;
+            line-height: 1.6;
+            font-size: 10.5pt;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+            color: #ffffff;
+            padding: 24px 28px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+        }
+
+        .header-tag {
+            display: inline-block;
+            background-color: rgba(59, 130, 246, 0.25);
+            color: #93c5fd;
+            font-size: 8.5pt;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(147, 197, 253, 0.3);
+        }
+
+        .header h1 {
+            font-size: 22pt;
+            font-weight: 800;
+            line-height: 1.25;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .header-sub {
+            color: #cbd5e1;
+            font-size: 11pt;
+            font-weight: 400;
+        }
+
+        .url-badge {
+            display: inline-block;
+            margin-top: 12px;
+            background: #2563eb;
+            color: #ffffff;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 9.5pt;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .intro-box {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-left: 5px solid #2563eb;
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            font-size: 10.5pt;
+            color: #334155;
+        }
+
+        .section-title {
+            font-size: 14pt;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 14px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #e2e8f0;
+            display: table;
+            width: 100%;
+        }
+
+        .section-title span {
+            color: #2563eb;
+        }
+
+        .grid-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 12px;
+            margin: -12px -12px 16px -12px;
+        }
+
+        .card-cell {
+            width: 50%;
+            vertical-align: top;
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        .card-title {
+            font-size: 11pt;
+            font-weight: 700;
+            color: #1e3a8a;
+            margin-bottom: 6px;
+        }
+
+        .card-desc {
+            font-size: 9.5pt;
+            color: #475569;
+            line-height: 1.5;
+        }
+
+        .feature-list {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 24px;
+            background: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+
+        .feature-list th {
+            background-color: #f1f5f9;
+            color: #0f172a;
+            text-align: left;
+            padding: 10px 16px;
+            font-size: 10pt;
+            font-weight: 700;
+            border-bottom: 1px solid #cbd5e1;
+        }
+
+        .feature-list td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 9.5pt;
+            color: #334155;
+            vertical-align: top;
+        }
+
+        .feature-list tr:last-child td {
+            border-bottom: none;
+        }
+
+        .feature-num {
+            font-weight: 700;
+            color: #2563eb;
+            width: 30px;
+        }
+
+        .callout-cta {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border: 1px solid #bfdbfe;
+            border-radius: 10px;
+            padding: 18px 22px;
+            text-align: center;
+            margin-top: 24px;
+        }
+
+        .callout-cta h3 {
+            color: #1e3a8a;
+            font-size: 12pt;
+            margin-bottom: 6px;
+        }
+
+        .callout-cta p {
+            color: #1e40af;
+            font-size: 9.5pt;
+            margin-bottom: 12px;
+        }
+
+        .cta-link {
+            display: inline-block;
+            background-color: #1d4ed8;
+            color: #ffffff;
+            font-weight: 700;
+            padding: 8px 18px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 9.5pt;
+        }
+
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 8.5pt;
+            color: #94a3b8;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="header-tag">Artikel Digital & Teknologi</div>
+        <h1>Syam Digital</h1>
+        <div class="header-sub">Solusi Layanan Aplikasi & Transformasi Digital Terpercaya</div>
+        <div style="margin-top: 10px;">
+            <span class="url-badge">syams.online</span>
+        </div>
+    </div>
+
+    <div class="intro-box">
+        Di era digital yang berkembang pesat, keberadaan aplikasi dan platform digital yang andal menjadi kunci utama keberhasilan operasional bisnis maupun organisasi. <strong>Syam Digital</strong> hadir sebagai penyedia layanan dan aplikasi digital yang dirancang untuk membantu efisiensi, konektivitas, serta optimalisasi teknologi bagi para penggunanya.
+    </div>
+
+    <div class="section-title">Mengapa Memilih <span>Syam Digital?</span></div>
+
+    <table class="grid-table">
+        <tr>
+            <td class="card-cell">
+                <div class="card-title">🔗 Sistem Terintegrasi</div>
+                <div class="card-desc">Menghubungkan berbagai fitur dan layanan operasional dalam satu platform yang responsif dan mudah diakses.</div>
+            </td>
+            <td class="card-cell">
+                <div class="card-title">🌐 Aksesibilitas Tinggi</div>
+                <div class="card-desc">Pengguna dapat mengakses seluruh layanan kapan saja dan di mana saja melalui portal resmi syams.online.</div>
+            </td>
+        </tr>
+        <tr>
+            <td class="card-cell">
+                <div class="card-title">🛡️ Keamanan & Keandalan</div>
+                <div class="card-desc">Dirancang dengan standar keamanan data yang optimal untuk menjaga privasi dan kenyamanan pengguna secara berkelanjutan.</div>
+            </td>
+            <td class="card-cell">
+                <div class="card-title">⚙️ Solusi Terorganisir</div>
+                <div class="card-desc">Membantu mempermudah alur kerja, pengelolaan data, serta penyampaian informasi secara transparan dan terukur.</div>
+            </td>
+        </tr>
+    </table>
+
+    <div class="section-title" style="margin-top: 10px;">Layanan & <span>Fitur Utama</span></div>
+
+    <table class="feature-list">
+        <thead>
+            <tr>
+                <th style="width: 8%;">#</th>
+                <th style="width: 32%;">Layanan</th>
+                <th style="width: 60%;">Deskripsi Solusi</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="feature-num">01</td>
+                <td><strong>Penyediaan Platform & Aplikasi Digital</strong></td>
+                <td>Menghadirkan antarmuka yang intuitif dan kaya fitur untuk mendukung kebutuhan harian bisnis maupun operasional institusi.</td>
+            </tr>
+            <tr>
+                <td class="feature-num">02</td>
+                <td><strong>Manajemen Data & Sistem Informasi</strong></td>
+                <td>Memudahkan pengelolaan informasi secara terpusat, aman, dan dapat diakses dengan tingkat efisiensi tinggi.</td>
+            </tr>
+            <tr>
+                <td class="feature-num">03</td>
+                <td><strong>Dukungan Layanan Pelanggan</strong></td>
+                <td>Dukungan tim teknis yang responsif siap membantu menjawab pertanyaan dan menyelesaikan kendala operasional platform.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="section-title">Mendorong Efisiensi <span>Operasional</span></div>
+    <p style="color: #475569; font-size: 10pt; margin-bottom: 16px;">
+        Melalui teknologi yang diusungnya, Syam Digital membantu mengurangi proses manual yang memakan waktu. Dengan mengadopsi solusi digital dari <strong>syams.online</strong>, penggunanya dapat fokus pada pengembangan inovasi dan aktivitas utama tanpa mengkhawatirkan kompleksitas teknis.
+    </p>
+
+    <div class="callout-cta">
+        <h3>Siap Memulai Transformasi Digital Anda?</h3>
+        <p>Syam Digital merupakan mitra teknologi terpercaya untuk membawa operasional layanan Anda ke tingkat berikutnya.</p>
+        <a href="https://syams.online/" class="cta-link">Kunjungi syams.online</a>
+    </div>
+
+    <div class="footer">
+        © Syam Digital — Platform Layanan Aplikasi & Transformasi Digital
+    </div>
+
+</body>
+</html>
