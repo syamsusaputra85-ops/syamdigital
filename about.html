@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Syam Digital - Solusi Layanan Aplikasi & Transformasi Digital</title>
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1767425380/syam-digital-01_i5zfka.png">
+    <style>
+        /* Modern CSS Reset */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --text-main: #1e293b;
+            --text-muted: #475569;
+            --bg-page: #f8fafc;
+            --bg-card: #ffffff;
+            --border-color: #e2e8f0;
+            --radius: 12px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            line-height: 1.8;
+            font-size: 1.125rem;
+            padding: 2rem 1rem;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Container Artikel Responsive */
+        .article-container {
+            max-width: 720px;
+            margin: 0 auto;
+            background-color: var(--bg-card);
+            padding: 2.5rem 2rem;
+            border-radius: var(--radius);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            border: 1px solid var(--border-color);
+        }
+
+        /* Tag / Category */
+        .category-tag {
+            display: inline-block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.75rem;
+        }
+
+        /* Judul Utama */
+        h1.article-title {
+            font-size: 2.25rem;
+            font-weight: 800;
+            line-height: 1.25;
+            color: #0f172a;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.025em;
+        }
+
+        .article-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            font-weight: 400;
+            line-height: 1.4;
+        }
+
+        /* Meta Info / Link */
+        .meta-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding-bottom: 1.5rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.938rem;
+            color: var(--text-muted);
+        }
+
+        .meta-info a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .meta-info a:hover {
+            text-decoration: underline;
+        }
+
+        /* Hero Image Container */
+        .article-hero-image {
+            margin: 0 -2rem 2rem -2rem;
+            overflow: hidden;
+            background-color: #f1f5f9;
+        }
+
+        .article-hero-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+
+        .image-caption {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            text-align: center;
+            padding: 0.5rem 1rem;
+            background-color: #f8fafc;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        /* Paragraf Artikel */
+        p {
+            margin-bottom: 1.5rem;
+            color: #334155;
+        }
+
+        p.lead {
+            font-size: 1.25rem;
+            font-weight: 400;
+            color: #0f172a;
+            line-height: 1.7;
+        }
+
+        /* Heading Sub-Bab */
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+
+        /* Card Responsive Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin: 1.5rem 0 2rem 0;
+        }
+
+        @media (min-width: 640px) {
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .feature-item {
+            background-color: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.25rem;
+        }
+
+        .feature-item h3 {
+            margin-top: 0;
+            font-size: 1.1rem;
+            color: #0f172a;
+            margin-bottom: 0.4rem;
+        }
+
+        .feature-item p {
+            font-size: 0.95rem;
+            margin-bottom: 0;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* List Berurutan untuk Fitur */
+        .simple-list {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .simple-list li {
+            position: relative;
+            padding-left: 1.75rem;
+            margin-bottom: 1.25rem;
+            font-size: 1.05rem;
+            color: #334155;
+        }
+
+        .simple-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .simple-list strong {
+            color: #0f172a;
+        }
+
+        /* Box Ringkasan / Kutipan */
+        blockquote {
+            background-color: #eff6ff;
+            border-left: 4px solid var(--primary);
+            padding: 1.25rem 1.5rem;
+            border-radius: 0 8px 8px 0;
+            margin: 2rem 0;
+        }
+
+        blockquote p {
+            margin-bottom: 0;
+            color: #1e40af;
+            font-weight: 500;
+            font-style: italic;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background-color: #0f172a;
+            color: #ffffff;
+            border-radius: var(--radius);
+            padding: 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .cta-section h3 {
+            color: #ffffff;
+            font-size: 1.35rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .cta-section p {
+            color: #94a3b8;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-cta {
+            display: inline-block;
+            background-color: var(--primary);
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 0.75rem 1.75rem;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn-cta:hover {
+            background-color: var(--primary-dark);
+        }
+
+        /* Footer */
+        .article-footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        /* Floating WhatsApp Button */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background-color: #25d366;
+            color: #ffffff;
+            border-radius: 50px;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .whatsapp-float:hover {
+            background-color: #128c7e;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+            color: #ffffff;
+        }
+
+        .whatsapp-icon {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+
+        /* Responsif Mobile Screen */
+        @media (max-width: 640px) {
+            body {
+                padding: 1rem 0.5rem;
+                font-size: 1rem;
+            }
+
+            .article-container {
+                padding: 1.5rem 1.25rem;
+                border-radius: 8px;
+            }
+
+            .article-hero-image {
+                margin: 0 -1.25rem 1.5rem -1.25rem;
+            }
+
+            h1.article-title {
+                font-size: 1.75rem;
+            }
+
+            .article-subtitle {
+                font-size: 1.1rem;
+            }
+
+            h2 {
+                font-size: 1.3rem;
+            }
+
+            .whatsapp-float {
+                bottom: 16px;
+                left: 16px;
+                padding: 10px 16px;
+                font-size: 0.875rem;
+            }
+
+        }
+.float-home-neon {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 50px;
+  color: #fff;
+  text-decoration: none;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 1px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  z-index: 9999;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.float-home-neon .home-icon {
+  width: 20px;
+  height: 20px;
+  fill: #00f2fe;
+  transition: transform 0.3s ease;
+}
+
+.float-home-neon:hover {
+  transform: translateY(-5px) scale(1.05);
+  background: rgba(15, 23, 42, 0.9);
+  border-color: #00f2fe;
+  box-shadow: 0 0 20px rgba(0, 242, 254, 0.6);
+  color: #00f2fe;
+}
+
+.float-home-neon:hover .home-icon {
+  transform: scale(1.2);
+  fill: #00f2fe;
+}
+    </style>
+</head>
+<body>
+
+    <article class="article-container">
+        <!-- Header Artikel -->
+        <header>
+            <span class="category-tag">Teknologi & Solusi Digital</span>
+            <h1 class="article-title">Syam Digital</h1>
+            <p class="article-subtitle">Solusi Layanan Aplikasi & Transformasi Digital Terpercaya</p>
+
+            <div class="meta-info">
+                <span>Website Resmi: <a href="https://syams.online/" target="_blank">syams.online</a></span>
+            </div>
+        </header>
+
+        <!-- Banner / Hero Gambar -->
+        <figure class="article-hero-image">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjB-of30mBhSLgojop7nJ8-lAjeFzTafkwXpnlF24Nibk6pE5pkGN-666hSJ1c3mSEqdC3OHatxNawsviGlb8H8SA0kBHmZKedfPNZh3OkWBkqJNIL9a48bKtSERiqERcM_sY9PbavCMg1xhzHfNO_jgWW9zLAsmuysRzhoU3c6IK63KCQCrWWxdX4dMXF-/s4342/Syamdigital-solusi-Cerdas.png" alt="Syam Digital Solusi Cerdas" loading="lazy">
+            <figcaption class="image-caption">Syam Digital — Platform Solusi Cerdas untuk Transformasi Digital</figcaption>
+        </figure>
+
+        <!-- Paragraf Pembuka -->
+        <p class="lead">
+            Di era digital yang berkembang pesat, keberadaan aplikasi dan platform digital yang andal menjadi kunci utama keberhasilan operasional bisnis maupun organisasi.
+        </p>
+        <p>
+            <strong>Syam Digital</strong> hadir sebagai penyedia layanan dan aplikasi digital yang dirancang untuk membantu efisiensi, konektivitas, serta optimalisasi teknologi bagi para penggunanya.
+        </p>
+
+        <!-- Mengapa Memilih -->
+        <h2>Mengapa Memilih Syam Digital?</h2>
+        <p>
+            Dalam era persaingan yang ketat, kemudahan akses dan keandalan sistem adalah hal utama. Syam Digital berkomitmen menghadirkan ekosistem digital yang modern, fleksibel, dan mudah digunakan (<em>user-friendly</em>).
+        </p>
+
+        <div class="features-grid">
+            <div class="feature-item">
+                <h3>🔗 Sistem Terintegrasi</h3>
+                <p>Menghubungkan berbagai fitur dan layanan dalam satu platform yang responsif.</p>
+            </div>
+            <div class="feature-item">
+                <h3>🌐 Aksesibilitas Tinggi</h3>
+                <p>Pengguna dapat mengakses layanan kapan saja dan di mana saja melalui portal resmi.</p>
+            </div>
+            <div class="feature-item">
+                <h3>🛡️ Keamanan & Keandalan</h3>
+                <p>Dirancang dengan standar keamanan data yang optimal untuk menjaga privasi pengguna.</p>
+            </div>
+            <div class="feature-item">
+                <h3>⚙️ Solusi Terorganisir</h3>
+                <p>Membantu mempermudah alur kerja, pengelolaan data, serta penyampaian informasi.</p>
+            </div>
+        </div>
+
+        <!-- Layanan & Fitur Utama -->
+        <h2>Layanan & Fitur Utama</h2>
+        <p>Syam Digital menyediakan berbagai fitur yang disesuaikan dengan kebutuhan pengguna, di antaranya:</p>
+
+        <ul class="simple-list">
+            <li>
+                <strong>Penyediaan Platform & Aplikasi Digital</strong><br>
+                Menghadirkan antarmuka yang intuitif dan kaya fitur untuk mendukung kebutuhan harian bisnis maupun operasional institusi.
+            </li>
+            <li>
+                <strong>Manajemen Data & Sistem Informasi</strong><br>
+                Memudahkan pengelolaan informasi secara terpusat dan efisien.
+            </li>
+            <li>
+                <strong>Dukungan Layanan Pelanggan</strong><br>
+                Tim teknis yang siap membantu menjawab pertanyaan dan menyelesaikan kendala operasional platform secara responsif.
+            </li>
+        </ul>
+
+        <!-- Mendorong Efisiensi -->
+        <h2>Mendorong Efisiensi Operasional</h2>
+        <p>
+            Melalui teknologi yang diusungnya, Syam Digital membantu mengurangi proses manual yang memakan waktu. Dengan mengadopsi solusi digital dari <strong>syams.online</strong>, penggunanya dapat fokus pada pengembangan ide dan aktivitas utama tanpa mengkhawatirkan kompleksitas teknis.
+        </p>
+
+        <blockquote>
+            <p>“Dengan fokus pada kemudahan, keamanan, dan efisiensi, Syam Digital terus berinovasi untuk menjadi penyedia aplikasi pilihan utama.”</p>
+        </blockquote>
+
+        <!-- CTA Section -->
+        <div class="cta-section">
+            <h3>Siap Memulai Transformasi Digital?</h3>
+            <p>Kunjungi platform resmi kami untuk informasi dan pembaruan layanan terbaru.</p>
+            <a href="https://syams.online/" target="_blank" class="btn-cta">Kunjungi syams.online</a>
+        </div>
+
+        <!-- Footer -->
+        <footer class="article-footer">
+            <p>© Syam Digital — Platform Layanan Aplikasi & Transformasi Digital</p>
+        </footer>
+    </article>
+
+    <!-- Tombol WhatsApp Melayang (Floating WhatsApp) -->
+    <a href="https://wa.me/6285150531572?text=Halo%20Syam%20Digital,%20saya%20ingin%20bertanya%20mengenai%20layanan%20Anda." class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Hubungi kami via WhatsApp">
+        <svg class="whatsapp-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+            <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3 18.6-68.1-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
+        </svg>
+        <span>Hubungi kami</span>
+    </a>
+<!-- Tombol Melayang Neon/Glassmorphism -->
+<a href="https://syams.online/" class="float-home-neon" title="Kembali ke Home">
+  <svg viewBox="0 0 24 24" class="home-icon">
+    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+  </svg>
+  <span class="home-text">HOME</span>
+</a>
+</body>
+</html>
