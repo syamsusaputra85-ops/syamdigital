@@ -159,6 +159,69 @@
     object-fit: cover; /* Sangat penting: agar gambar tidak gepeng/terdistorsi */
     object-position: center; /* Memastikan fokus gambar tetap di tengah */
 }
+/* Sembunyikan kursor bawaan pada seluruh halaman */
+body, button, a {
+  cursor: none !important;
+}
+
+/* Titik Utama Kursor */
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #38bdf8;
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s, height 0.2s, background-color 0.2s;
+}
+
+/* Lingkaran Pelacak (Follower) */
+.cursor-follower {
+  width: 40px;
+  height: 40px;
+  border: 2px solid rgba(56, 189, 248, 0.5);
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s ease-out, width 0.3s, height 0.3s, border-color 0.3s, background-color 0.3s;
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);
+}
+
+/* Efek Membesar Saat Hover di Tombol / Link */
+a:hover ~ .cursor-follower,
+button:hover ~ .cursor-follower,
+body:has(a:hover, button:hover) .cursor-follower {
+  width: 60px;
+  height: 60px;
+  background-color: rgba(56, 189, 248, 0.15);
+  border-color: #38bdf8;
+}
+
+a:hover ~ .cursor-dot,
+button:hover ~ .cursor-dot,
+body:has(a:hover, button:hover) .cursor-dot {
+  width: 12px;
+  height: 12px;
+  background-color: #60a5fa;
+}
+
+/* Matikan kursor kustom di perangkat seluler/touchscreen */
+@media (max-width: 768px) {
+  .cursor-dot, .cursor-follower {
+    display: none !important;
+  }
+  body, button, a {
+    cursor: auto !important;
+  }
+}
     </style>
 </head>
  
@@ -181,6 +244,10 @@
                         Syam Digital
                     </div>
                 </div>
+
+                <!-- Elemen Kursor Kustom -->
+                <div class="cursor-dot"></div>
+                <div class="cursor-follower"></div>
                 
                 <!-- Menu Items -->
                 <div class="hidden md:block">
@@ -1471,6 +1538,32 @@ setInterval(() => {
       });
     }
   });
+</script>
+<script>
+  const dot = document.querySelector('.cursor-dot');
+  const follower = document.querySelector('.cursor-follower');
+
+  let posX = 0, posY = 0;
+  let mouseX = 0, mouseY = 0;
+
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+
+    dot.style.left = `${mouseX}px`;
+    dot.style.top = `${mouseY}px`;
+  });
+
+  function animateFollower() {
+    posX += (mouseX - posX) * 0.15;
+    posY += (mouseY - posY) * 0.15;
+
+    follower.style.left = `${posX}px`;
+    follower.style.top = `${posY}px`;
+
+    requestAnimationFrame(animateFollower);
+  }
+  animateFollower();
 </script>
 </body>
 </html>
