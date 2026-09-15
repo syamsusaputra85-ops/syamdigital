@@ -29,36 +29,40 @@
         }
 
         /* BANNER BANSOS FULL UTUH (TIDAK KEPOTONG) */
- .banner-bansos-container {
-    width: 100%;
-    max-width: 900px; /* Batas lebar maksimal banner */
-    margin: 20px auto; /* Memposisikan banner di tengah halaman */
-    padding: 0 10px;
-    box-sizing: border-box;
+ /* Mencegah scrollbar mendatar pada halaman */
+  html, body {
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* KONTENER BANNER FULL-BLEED (FULL KIRI KANAN) */
+  .banner-bansos-container {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    margin-top: 0;
+    margin-bottom: 25px;
+    padding: 0;
+    line-height: 0; /* Menghilangkan celah bawah elemen gambar */
   }
 
   .banner-bansos-link {
     display: block;
+    width: 100%;
     text-decoration: none;
-    overflow: hidden;
-    border-radius: 12px; /* Dinding sudut melengkung */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); /* Efek bayangan halus */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-
-  /* Efek hover saat kursor diarahkan ke gambar */
-  .banner-bansos-link:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
   }
 
   .banner-bansos-img {
     width: 100%;
-    height: auto;
+    height: auto; /* Mengikuti tinggi asli gambar agar tidak terpotong */
     display: block;
-    object-fit: cover;
+    border: none;
+    border-radius: 0; /* Menghilangkan sudut melengkung agar rapat penuh */
   }
-
         /* HEADER */
         header {
             background: linear-gradient(135deg, #0052d4, #4364f7, #6fb1fc);
