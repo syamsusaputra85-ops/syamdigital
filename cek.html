@@ -36,33 +36,6 @@
     padding: 0;
   }
 
-  /* KONTENER BANNER FULL-BLEED (FULL KIRI KANAN) */
-  .banner-bansos-container {
-    width: 100vw;
-    position: relative;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
-    margin-top: 0;
-    margin-bottom: 25px;
-    padding: 0;
-    line-height: 0; /* Menghilangkan celah bawah elemen gambar */
-  }
-
-  .banner-bansos-link {
-    display: block;
-    width: 100%;
-    text-decoration: none;
-  }
-
-  .banner-bansos-img {
-    width: 100%;
-    height: auto; /* Mengikuti tinggi asli gambar agar tidak terpotong */
-    display: block;
-    border: none;
-    border-radius: 0; /* Menghilangkan sudut melengkung agar rapat penuh */
-  }
         /* HEADER */
         header {
             background: linear-gradient(135deg, #0052d4, #4364f7, #6fb1fc);
@@ -218,21 +191,147 @@
                 padding: 0 12px;
             }
         }
+/* Reset & Dasar Halaman */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f4f9;
+    }
+
+    /* --- SLIDESHOW CONTAINER (POSISI PALING ATAS) --- */
+    .hero-slider {
+      position: relative;
+      width: 100%;
+      max-width: 100%;
+      height: 450px; /* Sesuaikan tinggi slider di layar komputer */
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+      background-color: #000;
+    }
+
+    /* Pembungkus Slide */
+    .slides-wrapper {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.6s ease-in-out;
+    }
+
+    /* Masing-masing Slide */
+    .slide {
+      min-width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* Agar gambar pas tanpa merusak rasio */
+      object-position: center;
+      display: block;
+    }
+
+    /* Tombol Navigasi (Sebelumnya & Selanjutnya) */
+    .prev-btn, .next-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0, 0, 0, 0.4);
+      color: white;
+      border: none;
+      font-size: 24px;
+      padding: 12px 18px;
+      cursor: pointer;
+      border-radius: 50%;
+      transition: background-color 0.3s, transform 0.2s;
+      user-select: none;
+      z-index: 10;
+    }
+
+    .prev-btn:hover, .next-btn:hover {
+      background-color: rgba(0, 0, 0, 0.8);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .prev-btn { left: 20px; }
+    .next-btn { right: 20px; }
+
+    /* Indikator Titik (Dots) */
+    .dots-container {
+      position: absolute;
+      bottom: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      z-index: 10;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      background-color: rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .dot.active, .dot:hover {
+      background-color: #ffffff;
+      transform: scale(1.2);
+    }
+
+    /* Responsif untuk Layar HP */
+    @media (max-width: 768px) {
+      .hero-slider {
+        height: 250px; /* Tinggi disesuaikan untuk layar HP */
+      }
+      .prev-btn, .next-btn {
+        padding: 8px 12px;
+        font-size: 18px;
+      }
+    }
     </style>
 </head>
 <body>
 
-    <!-- BANNER BANSOS FULL WIDTH & UTUH -->
-    <div class="banner-bansos-container">
-        <a href="#" class="banner-bansos-link" title="Informasi Bantuan Sosial">
-            <img 
-                src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjNniz1GUHWnK8OFBlCy-GIak_VZE4Zisy7m8vxIcAm6gFAMnvX4JmQatXRvZ7oq6r0Rw58-mxXiVUjDlfG7QJb2PCVdZjNt9vB-0jC4ch5KmgJYYgY6L3iJpzxeELPsNkw_XHDEM8TG7EzoykxWn1r0Yk6UOHiCjm3FL1rH291bUO3ibzj0QzcQDwOgfHv/s1536/bansos.png" 
-                alt="Banner Bantuan Sosial" 
-                class="banner-bansos-img"
-                loading="lazy"
-            >
-        </a>
+   <!-- ================= BANNER SLIDESHOW (POSISI PALING ATAS) ================= -->
+  <div class="hero-slider">
+    <div class="slides-wrapper" id="slidesWrapper">
+      <!-- Slide 1 -->
+      <div class="slide">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhGA7-NFMej_tagQ1LmsCrZFVgz_DBhVicem3DvQXs8SuhxihHzYFabUSTXAiCBOPMzOErUH-1gPQCP5eFHKKq_qcE7sE-bOijPsnyC0kwRzfnLD40vSTvz5TqlfNLNUIuStybH_MVQkN9Rpm-ym2Zj_sCTVyb_BhroTquBpTnI6I0fNaBcA4UuYQR8fFSu/s2048/ChatGPT%20Image%2015%20Sep%202026,%2014.43.18.png" alt="Slide 1">
+      </div>
+      <!-- Slide 2 -->
+      <div class="slide">
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhxf8LQjWdPFr0hnGSCwgqhJqqaPrH9VPC6zy89Bat-Tv-MN_v4ewkS2ZTua9nhefDWwGxSgnVkeQJjQtBUPb_0-zH8Dj0UeSP_roPNsTksZ14vTayLiRoW3vETV-bshd1ZGF-f9wDJ5wm7A-MKgClQrYe2BiANfBLffPuegKXNl7fyDVobJCxsnsoy6OtB/s2048/bansos26.png" alt="Slide 2">
+      </div>
     </div>
+
+    <!-- Tombol Panah Navigasi -->
+    <button class="prev-btn" onclick="moveSlide(-1)">&#10094;</button>
+    <button class="next-btn" onclick="moveSlide(1)">&#10095;</button>
+
+    <!-- Titik Indikator -->
+    <div class="dots-container">
+      <span class="dot active" onclick="currentSlide(0)"></span>
+      <span class="dot" onclick="currentSlide(1)"></span>
+    </div>
+  </div>
+  <!-- ================= AKHIR SLIDESHOW ================= -->
+
+  <!-- Konten Website Anda Lainnya Bisa Ditaruh di Bawah Ini -->
+  <div style="padding: 40px; text-align: center;">
+    <h2>Selamat Datang di Website Kami</h2>
+    <p>Ini adalah konten utama halaman web yang berada di bawah slider.</p>
+  </div>
+
+  <!-- JavaScript untuk Pengoperasian Slider -->
 
     <div class="container">
         <!-- HEADER APLIKASI -->
@@ -309,5 +408,43 @@
         </svg>
         <span class="home-text">Kembali Ke Home</span>
     </a>
+  <script>
+    let currentIndex = 0;
+    const slidesWrapper = document.getElementById('slidesWrapper');
+    const dots = document.querySelectorAll('.dot');
+    const totalSlides = dots.length;
+
+    function updateSlider() {
+      // Geser wrapper slide
+      slidesWrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
+      
+      // Update titik aktif
+      dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentIndex);
+      });
+    }
+
+    function moveSlide(direction) {
+      currentIndex = (currentIndex + direction + totalSlides) % totalSlides;
+      updateSlider();
+    }
+
+    function currentSlide(index) {
+      currentIndex = index;
+      updateSlider();
+    }
+
+    // Otomatis berpindah slide setiap 5 detik
+    let autoSlide = setInterval(() => {
+      moveSlide(1);
+    }, 5000);
+
+    // Hentikan auto slide saat kursor di atas slider (Opsional)
+    const sliderContainer = document.querySelector('.hero-slider');
+    sliderContainer.addEventListener('mouseenter', () => clearInterval(autoSlide));
+    sliderContainer.addEventListener('mouseleave', () => {
+      autoSlide = setInterval(() => moveSlide(1), 5000);
+    });
+  </script>
 </body>
 </html>
