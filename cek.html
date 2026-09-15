@@ -18,8 +18,8 @@
             background-color: #f0f4f8;
             color: #333;
             line-height: 1.6;
-            padding: 0 0 20px 0; /* Padding atas diset 0 agar banner bisa melepet penuh */
-            overflow-x: hidden; /* Mencegah scrollbar horizontal */
+            padding: 0 0 20px 0;
+            overflow-x: hidden; /* Menghindari scrollbar horizontal */
         }
 
         .container {
@@ -28,7 +28,7 @@
             padding: 0 20px;
         }
 
-        /* BANNER BANSOS (FULL WIDTH & PROPORTIONAL HEIGHT) */
+        /* BANNER BANSOS FULL UTUH (TIDAK KEPOTONG) */
         .banner-bansos-container {
             width: 100vw;
             position: relative;
@@ -48,11 +48,9 @@
 
         .banner-bansos-img {
             width: 100%;
-            height: auto;
-            max-height: 320px; /* Membatasi tinggi agar tidak terlalu memakan ruang */
+            height: auto; /* Membiarkan tinggi otomatis proporsional agar tidak terpotong */
             display: block;
-            object-fit: cover; /* Menjaga aspek rasio isi gambar */
-            object-position: center;
+            object-fit: contain; /* Memastikan seluruh isi gambar terlihat utuh */
         }
 
         /* HEADER */
@@ -148,81 +146,6 @@
             background-color: #0052d4;
         }
 
-        /* LEMBAR KERJA / CATATAN WORKBOOK */
-        .workbook-section {
-            background: white;
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        }
-
-        .workbook-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .workbook-title {
-            font-size: 1.5rem;
-            color: #1a252c;
-        }
-
-        .btn-clear {
-            background: #ff4d4f;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-        }
-
-        .btn-clear:hover {
-            background: #d9363e;
-        }
-
-        /* TABEL LEMBAR KERJA */
-        .table-responsive {
-            width: 100%;
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 700px;
-        }
-
-        th, td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        th {
-            background-color: #f8fafc;
-            color: #475569;
-            font-weight: 600;
-        }
-
-        input[type="text"], select {
-            width: 100%;
-            padding: 8px 12px;
-            border: 1px solid #cbd5e1;
-            border-radius: 6px;
-            font-size: 0.95rem;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        input[type="text"]:focus, select:focus {
-            border-color: #4364f7;
-            box-shadow: 0 0 0 3px rgba(67, 100, 247, 0.15);
-        }
-
         /* FOOTER */
         footer {
             text-align: center;
@@ -278,24 +201,18 @@
 
         /* RESPONSIVE DESIGN FOR MOBILE */
         @media (max-width: 768px) {
-            .banner-bansos-img {
-                max-height: 180px; /* Penyesuaian tinggi di layar HP agar proporsional */
-            }
             header h1 {
                 font-size: 1.75rem;
             }
             .container {
                 padding: 0 12px;
             }
-            .workbook-section {
-                padding: 15px;
-            }
         }
     </style>
 </head>
 <body>
 
-    <!-- BANNER BANSOS FULL WIDTH -->
+    <!-- BANNER BANSOS FULL WIDTH & UTUH -->
     <div class="banner-bansos-container">
         <a href="#" class="banner-bansos-link" title="Informasi Bantuan Sosial">
             <img 
