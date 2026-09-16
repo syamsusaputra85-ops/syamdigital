@@ -1,7 +1,7 @@
 User-agent: *
 Allow: /
-Disallow: /demo
-Disallow: /notebook
+Disallow: /demo/
+Disallow: /notebook/
 
 # Tautan langsung ke file sitemap Anda
-Sitemap: https://syams.online
+Sitemap: https://syams.online/sitemap.xml
