@@ -1015,6 +1015,12 @@ body:has(a:hover, button:hover) .cursor-dot {
             </div>
         </div>
     </main>
+<!-- Elemen Tombol (Pojok Kiri Bawah) -->
+<div id="scroll-percent" 
+     onclick="window.scrollTo({top: 0, behavior: 'smooth'});" 
+     style="position: fixed; bottom: 20px; left: 20px; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 9999; cursor: pointer; opacity: 0; pointer-events: none; transition: opacity 0.3s ease-in-out;">
+  <span id="percent-value" style="font-size: 12px; font-weight: bold; color: #333;">0%</span>
+</div>
 
     <!-- Footer -->
     <footer class="bg-gradient-to-br from-gray-900 via-black to-gray-900 border-t border-red-800/30 mt-20">
@@ -1564,6 +1570,41 @@ setInterval(() => {
     requestAnimationFrame(animateFollower);
   }
   animateFollower();
+</script>
+<!-- Script JavaScript -->
+<script>
+  function updateScrollPercent() {
+    const scrollTop = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop;
+    const scrollHeight = (document.documentElement.scrollHeight || document.body.scrollHeight) - window.innerHeight;
+    
+    if (scrollHeight <= 0) return;
+
+    const scrollPercent = Math.min(100, Math.max(0, Math.round((scrollTop / scrollHeight) * 100)));
+    
+    const percentValue = document.getElementById('percent-value');
+    if (percentValue) {
+      percentValue.innerText = scrollPercent + '%';
+    }
+    
+    const scrollCircle = document.getElementById('scroll-percent');
+    if (scrollCircle) {
+      // Update warna garis lingkaran
+      scrollCircle.style.background = `radial-gradient(closest-side, white 79%, transparent 80%, transparent 100%), conic-gradient(rgb(229, 46, 113) ${scrollPercent}%, rgb(187, 187, 187) 0%)`;
+      
+      // Sembunyikan jika di paling atas (0%)
+      if (scrollPercent > 0) {
+        scrollCircle.style.opacity = "1";
+        scrollCircle.style.pointerEvents = "auto";
+      } else {
+        scrollCircle.style.opacity = "0";
+        scrollCircle.style.pointerEvents = "none";
+      }
+    }
+  }
+
+  window.addEventListener('scroll', updateScrollPercent, true);
+  window.addEventListener('resize', updateScrollPercent);
+  document.addEventListener('DOMContentLoaded', updateScrollPercent);
 </script>
 </body>
 </html>
