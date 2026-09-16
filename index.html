@@ -1089,6 +1089,35 @@ body:has(a:hover, button:hover) .cursor-dot {
   <span id="percent-value" style="font-size: 12px; font-weight: bold; color: #333;">0%</span>
 </div>
 
+ <!-- Peta Lokasi (Embed Google Maps untuk live) -->
+  <section id="map" class="py-16 bg-gradient-to-b from-transparent to-slate-900/60">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-end justify-between gap-6 mb-6">
+        <div>
+          <h3 class="text-2xl sm:text-3xl font-extrabold">Peta Lokasi Syam Digital</h3>
+          <p class="text-white/70 text-sm mt-2">Alamat : JL.Latsitarda Wani Lumbumpetigo,Tanantovea,Donggala,Sulawesi Tengah 94342</p>
+        </div>
+        <a href="https://maps.app.goo.gl/11k98DoYGG8D63ZV8" target="_blank" rel="noopener noreferrer" class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10">
+          Buka di Google Maps
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M14 3h7v7h-2V6.4l-8.3 8.3-1.4-1.4L17.6 5H14V3ZM5 5h6v2H7v10h10v-4h2v6H5V5Z"/></svg>
+        </a>
+      </div>
+
+      <div class="rounded-2xl border border-white/10 bg-slate-900/60 shadow-soft overflow-hidden">
+        <div class="relative aspect-[16/9]">
+          <!-- Ganti q=lat,long sesuai lokasi Anda atau gunakan tautan "Sematkan peta" resmi -->
+          <iframe src="https://www.google.com/maps/embed?pb=!4v1789567967753!6m8!1m7!1sS08TVdbbNwJIfLFXCrB96g!2m2!1d-0.6870903131986538!2d119.8417278499557!3f76.48435393416564!4f-12.05227148859872!5f1.8130140538985882" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+          <!-- Fallback pesan jika iframe diblokir oleh sandbox pratinjau -->
+                  <div class="p-4 sm:hidden">
+          <a href="https://maps.app.goo.gl/11k98DoYGG8D63ZV8" target="_blank" rel="noopener noreferrer" class="w-full inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-brand-600 hover:bg-brand-700 transition shadow-glow font-semibold">
+            Buka di Google Maps
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M14 3h7v7h-2V6.4l-8.3 8.3-1.4-1.4L17.6 5H14V3ZM5 5h6v2H7v10h10v-4h2v6H5V5Z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
     <!-- Footer -->
     <footer class="bg-gradient-to-br from-gray-900 via-black to-gray-900 border-t border-red-800/30 mt-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
