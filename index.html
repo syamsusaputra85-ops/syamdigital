@@ -222,6 +222,59 @@ body:has(a:hover, button:hover) .cursor-dot {
     cursor: auto !important;
   }
 }
+/* Container Running Text */
+    .running-text-container {
+      width: 100%;
+      background-color: #0d1117; /* Warna latar belakang gelap modern */
+      color: #ffffff;             /* Warna teks putih */
+      overflow: hidden;
+      white-space: nowrap;
+      box-sizing: border-box;
+      padding: 12px 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      border-top: 2px solid #0070f3;  /* Accent line biru di atas */
+      border-bottom: 2px solid #0070f3; /* Accent line biru di bawah */
+    }
+
+    /* Wrapper Animasi */
+    .running-text-wrapper {
+      display: inline-block;
+      white-space: nowrap;
+      animation: running-text 20s linear infinite;
+    }
+
+    /* Teks dan Link */
+    .running-text-content {
+      font-size: 16px;
+      font-weight: 500;
+      display: inline-block;
+      padding-right: 50px; /* Jarak antar pengulangan teks */
+    }
+
+    .running-text-content a {
+      color: #0070f3; /* Warna link biru */
+      text-decoration: underline;
+      font-weight: bold;
+    }
+
+    .running-text-content a:hover {
+      color: #3291ff;
+    }
+
+    /* Efek Pause Saat Mouse Diarahkan (Hover) */
+    .running-text-container:hover .running-text-wrapper {
+      animation-play-state: paused;
+    }
+
+    /* Keyframes Animasi Berjalan Seamless */
+    @keyframes running-text {
+      0% {
+        transform: translateX(0%);
+      }
+      100% {
+        transform: translateX(-50%);
+      }
+    }
     </style>
 </head>
  
@@ -707,6 +760,20 @@ body:has(a:hover, button:hover) .cursor-dot {
             </div>
         </div>
     </nav>
+
+   <!-- Bagian Running Text -->
+  <div class="running-text-container">
+    <div class="running-text-wrapper">
+      <div class="running-text-content">
+        🚀 <strong>Syam Digital</strong> — Penyedia aplikasi sesuai kebutuhanmu! Deploy website statis, serverless functions, dan aplikasi web dengan mudah &amp; cepat. Kunjungi: <a href="https://syams.online/" target="_blank">https://syams.online/</a>
+      </div>
+      <!-- Teks diulangi di bawah ini agar pergerakan halus (seamless loop) tanpa terputus -->
+      <div class="running-text-content">
+        🚀 <strong>Syam Digital</strong> — Penyedia aplikasi sesuai kebutuhanmu! Deploy website statis, serverless functions, dan aplikasi web dengan mudah &amp; cepat. Kunjungi: <a href="https://syams.online/" target="_blank">https://syams.online/</a>
+      </div>
+    </div>
+  </div>
+
       <!-- Slider Foto -->
 <section id="slider" class="relative bg-slate-900/50 border-b border-white/10 overflow-hidden group">
   <!-- Container Gambar -->
