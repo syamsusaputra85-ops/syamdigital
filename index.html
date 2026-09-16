@@ -1106,7 +1106,12 @@ body:has(a:hover, button:hover) .cursor-dot {
       <div class="rounded-2xl border border-white/10 bg-slate-900/60 shadow-soft overflow-hidden">
         <div class="relative aspect-[16/9]">
           <!-- Ganti q=lat,long sesuai lokasi Anda atau gunakan tautan "Sematkan peta" resmi -->
-          <iframe src="https://www.google.com/maps/embed?pb=!4v1789567967753!6m8!1m7!1sS08TVdbbNwJIfLFXCrB96g!2m2!1d-0.6870903131986538!2d119.8417278499557!3f76.48435393416564!4f-12.05227148859872!5f1.8130140538985882" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+          <iframe class="absolute inset-0 w-full h-full"
+                  src="https://www.google.com/maps/embed?pb=!4v1789568243471!6m8!1m7!1sS08TVdbbNwJIfLFXCrB96g!2m2!1d-0.6877197485518467!2d119.8409554722296!3f230.47138080599473!4f-3.1136393445239037!5f2.767497970973604 "
+                  style="border:0"
+                  allowfullscreen=""
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"></iframe>
           <!-- Fallback pesan jika iframe diblokir oleh sandbox pratinjau -->
                   <div class="p-4 sm:hidden">
           <a href="https://maps.app.goo.gl/11k98DoYGG8D63ZV8" target="_blank" rel="noopener noreferrer" class="w-full inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-brand-600 hover:bg-brand-700 transition shadow-glow font-semibold">
