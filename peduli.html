@@ -1,4 +1,4 @@
-html<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -40,7 +40,7 @@ html<!DOCTYPE html>
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 20px;
+            gap: 15px;
             flex-wrap: wrap;
             margin-bottom: 20px;
             background-color: var(--card-bg);
@@ -50,10 +50,14 @@ html<!DOCTYPE html>
             border: 1px solid #e2e8f0;
         }
 
-        .logo-header-container img {
-            height: 45px;
-            object-fit: contain;
-            max-width: 100%;
+        .logo-box-alt {
+            background-color: #f1f5f9;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            border: 1px solid #cbd5e1;
         }
 
         /* Banner Pengumuman */
@@ -82,22 +86,6 @@ html<!DOCTYPE html>
             font-size: 1.6rem;
             font-weight: 800;
             line-height: 1.3;
-        }
-
-        /* Banner Foto Rumah Sakit Kapal Utama */
-        .hero-image-container {
-            width: 100%;
-            border-radius: 12px;
-            overflow: hidden;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            border: 1px solid #e2e8f0;
-        }
-
-        .hero-image-container img {
-            width: 100%;
-            height: auto;
-            display: block;
         }
 
         /* Grid Informasi Utama */
@@ -327,8 +315,6 @@ html<!DOCTYPE html>
         }
 
         .contact-item {
-            display: flex;
-            align-items: center;
             margin-bottom: 8px;
             font-size: 0.9rem;
         }
@@ -354,12 +340,27 @@ html<!DOCTYPE html>
 
 <div class="container">
 
-    <!-- Logo Kemitraan Atas Resmi -->
+    <!-- Tag Header Mitra Kerja -->
     <div class="logo-header-container">
-        <img src="https://cloudinary.com" alt="Bayan Peduli">
-        <img src="https://cloudinary.com" alt="Syam Digital Peduli">
-        <img src="https://cloudinary.com" alt="Syam Peduli">
-        <img src="https://cloudinary.com" alt="Syam Peduli Warga">
+        <div class="logo-box-alt">⚓ BAYAN PEDULI</div>
+        <div class="logo-box-alt">💚 SYAM DIGITAL PEDULI</div>
+        <div class="logo-box-alt">🤝 SYAM PEDULI WARGA</div>
     </div>
 
-    <!-- Judul Pengumuman Resmi Kabupaten Donggala -->
+    <!-- Judul Pengumuman Resmi -->
+    <div class="announcement-banner">
+        <h4>Kabar Gembira / Pengumuman Warga</h4>
+        <h2>Pelayanan Medis & Pengobatan Gratis<br>Rumah Sakit Kapal (RSK) dr. Lie Dharmawan</h2>
+    </div>
+
+    <!-- Grid Informasi Utama (Waktu & Tempat) -->
+    <div class="info-grid">
+        <div class="info-card">
+            <div class="info-card-title">📍 Lokasi Pelayanan</div>
+            <div class="info-card-value">Pelabuhan Wani
+                <span>Desa Wani Dua, Kec. Tanantovea</span>
+            </div>
+        </div>
+        <div class="info-card">
+            <div class="info-card-title">📅 Hari & Tanggal</div>
+            <div class="info-card-value">Kamis - Senin
