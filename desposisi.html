@@ -50,6 +50,19 @@
             vertical-align: top;
         }
 
+        /* Kolom Titik Dua & Input */
+        .titik-dua {
+            width: 10px;
+            text-align: center;
+            padding-left: 2px;
+            padding-right: 2px;
+            border-right: none; /* Menyatu secara visual dengan isi */
+        }
+
+        .isi-field {
+            border-left: none; /* Menyatu secara visual dengan titik dua */
+        }
+
         /* Form Controls */
         input[type="text"], textarea {
             width: 100%;
@@ -110,22 +123,38 @@
         <table>
             <tr>
                 <td width="15%">Surat Dari</td>
-                <td width="35%">: <input type="text" placeholder="Inspektorat Kabupaten Donggala"></td>
+                <td class="titik-dua">:</td>
+                <td class="isi-field" width="33%">
+                    <input type="text" placeholder="Inspektorat Kabupaten Donggala">
+                </td>
                 <td width="18%">Diterima Tgl</td>
-                <td width="32%">: <input type="text" placeholder="07 September 2026"></td>
+                <td class="titik-dua">:</td>
+                <td class="isi-field" width="30%">
+                    <input type="text" placeholder="07 September 2026">
+                </td>
             </tr>
             <tr>
                 <td>Tgl. Surat</td>
-                <td>: <input type="text" placeholder="03 September 2026"></td>
+                <td class="titik-dua">:</td>
+                <td class="isi-field">
+                    <input type="text" placeholder="19 September 2026">
+                </td>
                 <td>No. Agenda</td>
-                <td>: <input type="text" placeholder="063"></td>
+                <td class="titik-dua">:</td>
+                <td class="isi-field">
+                    <input type="text" placeholder="063">
+                </td>
             </tr>
             <tr>
                 <td>No. Surat</td>
-                <td>: <input type="text" placeholder="700/517/ITKAB/IX/2026"></td>
+                <td class="titik-dua">:</td>
+                <td class="isi-field">
+                    <input type="text" placeholder="700/517/ITKAB/IX/2026">
+                </td>
                 <td>Sifat</td>
-                <td>
-                    <div style="display: flex; gap: 10px; font-size: 11px;">
+                <td class="titik-dua">:</td>
+                <td class="isi-field">
+                    <div style="display: flex; gap: 8px; font-size: 11px;">
                         <label><input type="checkbox"> S. Rahasia</label>
                         <label><input type="checkbox"> Segera</label>
                         <label><input type="checkbox"> Rahasia</label>
@@ -133,13 +162,13 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="4" style="height: 80px;">
+                <td colspan="6" style="height: 80px;">
                     <strong>Perihal :</strong>
                     <textarea rows="3" placeholder="Masukkan perihal surat di sini..."></textarea>
                 </td>
             </tr>
             <tr>
-                <td colspan="2" style="width: 50%;">
+                <td colspan="3" style="width: 50%;">
                     <strong>Diteruskan Kepada Sdra:</strong>
                     <div style="margin-top: 8px;">
                         <div class="checkbox-group"><label><input type="checkbox"> Sekdes</label></div>
@@ -151,7 +180,7 @@
                         <div class="checkbox-group"><label><input type="checkbox"> Kasi Pelayanan</label></div>
                     </div>
                 </td>
-                <td colspan="2" style="width: 50%;">
+                <td colspan="3" style="width: 50%;">
                     <strong>Dengan Hormat Harap:</strong>
                     <div style="margin-top: 8px;">
                         <div class="checkbox-group"><label><input type="checkbox"> Tanggapan dan Saran</label></div>
@@ -165,16 +194,16 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="4" style="height: 180px;">
+                <td colspan="6" style="height: 180px;">
                     <strong>Catatan:</strong>
                     <div style="display: flex; justify-content: space-between; margin-top: 10px;">
                         <div style="width: 50%;">
                             <textarea rows="6" placeholder="Tambahkan catatan jika ada..."></textarea>
                         </div>
                         <div class="signature-box" style="width: 40%;">
-                            <div><strong>KEPALA DESA WANI LUMBUMPETIGO</strong></div>
+                            <div><strong>KEPALA DESA WANI DUA</strong></div>
                             <div style="margin-top: 60px;">
-                                <strong><u>AMIR RAMANG</u></strong>
+                                <strong><u>SUNARDIN, SE</u></strong>
                             </div>
                         </div>
                     </div>
