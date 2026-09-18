@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pemberitahuan Pelayanan Medis Gratis - Kabupaten Donggala</title>
+    <style>
+        :root {
+            --primary-color: #0284c7;
+            --primary-dark: #0369a1;
+            --accent-color: #e11d48;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --bg-light: #f8fafc;
+            --card-bg: #ffffff;
+            --share-color: #059669;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding: 20px 10px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Header Instansi */
+        .kop-surat {
+            text-align: center;
+            border-bottom: 3px double var(--text-dark);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+
+        .kop-surat h1 {
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            font-weight: 800;
+            color: #0f172a;
+        }
+
+        .kop-surat h2 {
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        .kop-surat h3 {
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .kop-surat p {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            font-style: italic;
+        }
+
+        /* Banner Utama */
+        .announcement-banner {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            padding: 30px 20px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .announcement-banner h4 {
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            background-color: rgba(255, 255, 255, 0.2);
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 50px;
+            margin-bottom: 10px;
+        }
+
+        .announcement-banner h2 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            line-height: 1.3;
+        }
+
+        /* Informasi Utama (Waktu & Tempat) */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .info-card {
+            background-color: var(--card-bg);
+            border-left: 5px solid var(--primary-color);
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .info-card-title {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            color: var(--text-light);
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .info-card-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .info-card-value span {
+            display: block;
+            font-size: 0.95rem;
+            font-weight: normal;
+            color: var(--text-dark);
+            margin-top: 2px;
+        }
+
+        /* Peta Lokasi / Map Box */
+        .map-section {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+        }
+
+        .map-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+            margin-bottom: 15px;
+        }
+
+        .map-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .btn-maps {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #10b981;
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            width: 100%;
+            transition: background-color 0.2s;
+            text-align: center;
+        }
+
+        .btn-maps:hover {
+            background-color: #059669;
+        }
+
+        /* Card Section */
+        .section-card {
+            background-color: var(--card-bg);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            color: var(--primary-dark);
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        /* List Styling */
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+
+        li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        /* Grid untuk Jenis Pelayanan */
+        .layanan-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .layanan-box {
+            background-color: #f8fafc;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #edf2f7;
+        }
+
+        .layanan-box h4 {
+            color: var(--text-dark);
+            font-size: 1rem;
+            margin-bottom: 10px;
+            border-bottom: 1px dashed #cbd5e1;
+            padding-bottom: 5px;
+        }
+
+        /* Alert Box */
+        .alert-box {
+            background-color: #fff1f2;
+            border: 1px solid #fecdd3;
+            border-left: 5px solid var(--accent-color);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .alert-box p {
+            color: #9f1239;
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        /* --- BAGIAN DOCTORSHARE & DONASI --- */
+        .doctorshare-section {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border: 1px solid #bbf7d0;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+        }
+
+        .share-title {
+            font-size: 1.3rem;
+            color: var(--share-color);
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .share-tagline {
+            text-align: center;
+            font-style: italic;
+            font-weight: 700;
+            color: #166534;
+            margin-bottom: 15px;
+        }
+
+        .share-desc {
+            font-size: 0.95rem;
+            text-align: justify;
+            color: #14532d;
+            margin-bottom: 20px;
+        }
+
+        .donation-box {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid #bbf7d0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .donation-box h5 {
+            font-size: 1.05rem;
+            color: #15803d;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .bank-info {
+            background-color: #f0f9ff;
+            border: 1px solid #bae6fd;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+
+        .contact-list {
+            margin-top: 15px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .contact-item strong {
+            width: 130px;
+            display: inline-block;
+        }
+
+        /* Footer Keterangan */
+        .footer-note {
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-top: 30px;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 15px;
+        }
+
+        /* Responsive Layout */
+        @media (max-width: 600px) {
+            .announcement-banner h2 {
+                font-size: 1.3rem;
+            }
+            .kop-surat h1 { font-size: 1.1rem; }
+            .kop-surat h2 { font-size: 1rem; }
+            .kop-surat h3 { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Kop Surat Resmi -->
+    <div class="kop-surat">
+        <h1>Pemerintah Kabupaten Donggala</h1>
+        <h2>Kecamatan Tanantovea</h2>
+        <h3>UPTD Puskesmas Malambora Wani</h3>
+        <p>Alamat: Jalan KH. Moh Arsyad No. 17 Wani, Kode Pos 94352 | Email: puskesmaswani1@gmail.com</p>
+    </div>
+
+    <!-- Banner Pengumuman Utama -->
+    <div class="announcement-banner">
+        <h4>Kabar Gembira / Pengumuman</h4>
