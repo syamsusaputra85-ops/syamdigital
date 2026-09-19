@@ -275,11 +275,7 @@ body:has(a:hover, button:hover) .cursor-dot {
         transform: translateX(-50%);
       }
     }
-
-<style>
-        body { background-color: white; color: black; transition: 0.3s; }
-        body.dark-theme { background-color: #121212; color: white; }
-    </style>
+   
     </style>
 </head>
  
@@ -1714,44 +1710,6 @@ setInterval(() => {
   window.addEventListener('resize', updateScrollPercent);
   document.addEventListener('DOMContentLoaded', updateScrollPercent);
 </script>
-  <script>
-        // Memakai fungsi helper tadi (atau tulis langsung di sini)
-        function setCookie(name, value, days) {
-            let date = new Date();
-            date.setTime(date.getTime() + (days*24*60*60*1000));
-            document.cookie = name + "=" + value + "; expires=" + date.toUTCString() + "; path=/; SameSite=Lax";
-        }
 
-        function getCookie(name) {
-            let nameEQ = name + "=";
-            let ca = document.cookie.split(';');
-            for(let i=0;i < ca.length;i++) {
-                let c = ca[i];
-                while (c.charAt(0)==' ') c = c.substring(1,c.length);
-                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-            }
-            return null;
-        }
-
-        const btn = document.getElementById("theme-toggle");
-        
-        // 1. Cek saat halaman pertama kali dimuat
-        const savedTheme = getCookie("user_theme");
-        if (savedTheme === "dark") {
-            document.body.classList.add("dark-theme");
-        }
-
-        // 2. Aksi saat tombol diklik
-        btn.addEventListener("click", () => {
-            document.body.classList.toggle("dark-theme");
-            
-            // Cek apakah sekarang posisinya dark atau light
-            if (document.body.classList.contains("dark-theme")) {
-                setCookie("user_theme", "dark", 7); // Simpan selama 7 hari
-            } else {
-                setCookie("user_theme", "light", 7);
-            }
-        });
-    </script>
 </body>
 </html>
