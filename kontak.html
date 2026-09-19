@@ -389,6 +389,41 @@
         });
     });
   </script>
+<!-- JavaScript Pengirim -->
+<script>
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbzEToRm8ItxO2hAweSVZy4KJ8iyUq0rSi0-rj2oo38Yt613KPgpmKv2TWRPD5CKRvGnrg/exec';
+  const form = document.getElementById('contactForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const successModal = document.getElementById('successModal');
+
+  function openSuccessModal() {
+    successModal.classList.remove('hidden');
+  }
+
+  function closeSuccessModal() {
+    successModal.classList.add('hidden');
+  }
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = "Mengirim...";
+
+    fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+      .then(response => {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = "Kirim";
+        form.reset();
+        openSuccessModal();
+      })
+      .catch(error => {
+        alert('Terjadi kesalahan saat mengirim pesan. Silakan coba lagi.');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = "Kirim";
+        console.error('Error!', error.message);
+      });
+  });
+</script>
 
 </body>
 </html>
