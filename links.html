@@ -296,59 +296,7 @@
   fill: #00f2fe;
 }
 
-/* Container Melayang di sudut kanan bawah */
-.floating-btn-container {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  display: flex;
-  flex-direction: column; /* Menyusun elemen secara vertikal (ke atas/bawah) */
-  gap: 12px; /* Jarak antar tombol agar tidak tumpang tindih */
-  z-index: 9999;
-}
 
-/* Styling Dasar Tombol Neon / Glassmorphism */
-.float-btn-neon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 10px 18px;
-  border-radius: 50px;
-  text-decoration: none;
-  color: #fff;
-  font-family: sans-serif;
-  font-size: 14px;
-  font-weight: bold;
-  
-  /* Efek Glassmorphism */
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  
-  /* Efek Neon Glow */
-  box-shadow: 0 4px 15px rgba(0, 229, 255, 0.3),
-              inset 0 0 10px rgba(0, 229, 255, 0.2);
-  
-  transition: all 0.3s ease;
-}
-
-/* Ukuran Icon SVG */
-.btn-icon {
-  width: 20px;
-  height: 20px;
-  fill: currentColor;
-}
-
-/* Efek Hover (Saat kursor diarahkan) */
-.float-btn-neon:hover {
-  transform: translateY(-3px); /* Tombol sedikit terangkat saat dihover */
-  background: rgba(0, 229, 255, 0.2);
-  box-shadow: 0 6px 20px rgba(0, 229, 255, 0.6),
-              inset 0 0 15px rgba(0, 229, 255, 0.4);
-  color: #00e5ff;
-}
   </style>
 </head>
 <body>
@@ -410,25 +358,6 @@
       <button id="nextBtn">Next <i class="fa-solid fa-chevron-right"></i></button>
     </div>
   </div>
-  
-<!-- Tombol Melayang Neon/Glassmorphism -->
-<div class="floating-btn-container">
-  <!-- Tombol 1: HOME -->
-  <a href="https://syams.online/" class="float-btn-neon" title="Kembali ke Home">
-    <svg viewBox="0 0 24 24" class="btn-icon">
-      <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-    </svg>
-    <span class="btn-text">HOME</span>
-  </a>
-
-  <!-- Tombol 2: BOOK -->
-  <a href="https://syams.online/buku" class="float-btn-neon" title="Kembali ke Buku">
-    <svg viewBox="0 0 24 24" class="btn-icon" fill="currentColor">
-      <path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/>
-    </svg>
-    <span class="btn-text">BOOK</span>
-  </a>
-</div>
 
   <script>
     // Link CSV publik langsung dari Google Sheets Anda
@@ -649,6 +578,12 @@
     // Inisialisasi
     fetchData();
   </script>
-
+<!-- Tombol Melayang Neon/Glassmorphism -->
+<a href="https://agas88.com/" class="float-home-neon" title="Kembali ke Home">
+  <svg viewBox="0 0 24 24" class="home-icon">
+    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+  </svg>
+  <span class="home-text">HOME</span>
+</a>
 </body>
 </html>
