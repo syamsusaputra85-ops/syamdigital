@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pencarian Data Links</title>
+  <!-- Google Fonts & FontAwesome Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --bg-body: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --radius: 12px;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      padding: 2rem 1rem;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    header h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 0.5rem;
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
+
+    /* Controls Layout */
+    .controls-card {
+      background: var(--card-bg);
+      padding: 1.5rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border-color);
+      margin-bottom: 1.5rem;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      .controls-card {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .search-box {
+      position: relative;
+    }
+
+    .search-box i {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 0.75rem 1rem 0.75rem 2.75rem;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      outline: none;
+      font-size: 0.95rem;
+      transition: all 0.2s;
+    }
+
+    .search-box input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+    }
+
+    .filter-group select {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      outline: none;
+      font-size: 0.95rem;
+      background-color: white;
+      cursor: pointer;
+    }
+
+    /* Status Bar */
+    .status-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    /* Table & Cards Container */
+    .data-container {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    th, td {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    th {
+      background-color: #f1f5f9;
+      font-weight: 600;
+      color: var(--text-main);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover td {
+      background-color: #f8fafc;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.6rem;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background-color: #e0e7ff;
+      color: var(--primary);
+    }
+
+    .btn-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background-color: var(--primary);
+      color: white;
+      text-decoration: none;
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+
+    .btn-link:hover {
+      background-color: var(--primary-hover);
+    }
+
+    /* Loading & Empty States */
+    .loading, .empty-state {
+      text-align: center;
+      padding: 3rem;
+      color: var(--text-muted);
+    }
+
+    .spinner {
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid var(--primary);
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 1rem auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Pagination */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .pagination button {
+      padding: 0.5rem 0.9rem;
+      border: 1px solid var(--border-color);
+      background: white;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+
+    .pagination button:hover:not(:disabled) {
+      background: #f1f5f9;
+    }
+
+    .pagination button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .pagination .page-info {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin: 0 0.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1><i class="fa-solid fa-link"></i> Portal Pencarian Link</h1>
+      <p>Cari dan temukan tautan dengan cepat dari Google Sheets</p>
+    </header>
+
+    <!-- Kontrol Filter & Pencarian -->
+    <div class="controls-card">
+      <div class="search-box">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="searchInput" placeholder="Cari judul, deskripsi, atau kata kunci..." />
+      </div>
+
+      <div class="filter-group">
+        <select id="categoryFilter">
+          <option value="">Semua Kolom / Kategori</option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <select id="sortOption">
+          <option value="default">Urutan Default</option>
+          <option value="asc">Nama (A - Z)</option>
+          <option value="desc">Nama (Z - A)</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Status -->
+    <div class="status-bar">
+      <span id="resultCount">Memuat data...</span>
+      <span id="lastUpdated"></span>
+    </div>
+
+    <!-- Tabel Data -->
+    <div class="data-container">
+      <div id="loading" class="loading">
+        <div class="spinner"></div>
+        <p>Mengambil data dari Google Sheets...</p>
+      </div>
+
+      <table id="dataTable" style="display: none;">
+        <thead id="tableHeader">
+          <!-- Header dibuat dinamis berdasarkan data spreadsheet -->
+        </thead>
+        <tbody id="tableBody">
+          <!-- Data baris diproses di sini -->
+        </tbody>
+      </table>
+
+      <div id="emptyState" class="empty-state" style="display: none;">
+        <i class="fa-solid fa-folder-open fa-2x" style="margin-bottom: 0.5rem;"></i>
+        <p>Data tidak ditemukan sesuai kata kunci.</p>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination" id="paginationControls" style="display: none;">
+      <button id="prevBtn"><i class="fa-solid fa-chevron-left"></i> Prev</button>
+      <span class="page-info" id="pageInfo">Halaman 1 dari 1</span>
+      <button id="nextBtn">Next <i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+  </div>
+
+  <script>
+    // URL Google Sheets pubhtml Anda
+    const GOOGLE_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQNM1yPfssw0P_nvp5GGjz_R5oKQOa9uEFqylrufX_NS53EvSnty8LFTsVw97-_oS-MosIW-nxfYkey/pubhtml?gid=0&single=true';
+
+    // CORS Proxy untuk membaca HTML publik Google Spreadsheet
+    const PROXY_URL = 'https://api.allorigins.win/get?url=' + encodeURIComponent(GOOGLE_SHEET_URL);
+
+    // Dynamic Variables
+    let rawHeaders = [];
+    let rawData = [];
+    let filteredData = [];
+    let currentPage = 1;
+    const rowsPerPage = 10;
+
+    // Element Selectors
+    const searchInput = document.getElementById('searchInput');
+    const sortOption = document.getElementById('sortOption');
+    const tableHeader = document.getElementById('tableHeader');
+    const tableBody = document.getElementById('tableBody');
+    const loadingEl = document.getElementById('loading');
+    const emptyStateEl = document.getElementById('emptyState');
+    const dataTableEl = document.getElementById('dataTable');
+    const resultCountEl = document.getElementById('resultCount');
+    const paginationEl = document.getElementById('paginationControls');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const pageInfo = document.getElementById('pageInfo');
+
+    // Fetch and Parse Spreadsheet Data
+    async function fetchData() {
+      try {
+        const response = await fetch(PROXY_URL);
+        const json = await response.json();
+        
+        // Parsing HTML String dari Google Sheets
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(json.contents, 'text/html');
+        const rows = doc.querySelectorAll('table.waffle tbody tr');
+
+        if (rows.length === 0) {
+          throw new Error("Tidak dapat membaca baris data.");
+        }
+
+        let parsedRows = [];
+        rows.forEach((tr, index) => {
+          const cells = Array.from(tr.querySelectorAll('td')).map(td => td.innerText.trim());
+          
+          // Abaikan baris kosong
+          if (cells.some(cell => cell !== '')) {
+            if (index === 0 || rawHeaders.length === 0) {
+              // Baris pertama sebagai Header
+              rawHeaders = cells.filter(c => c !== '');
+            } else {
+              parsedRows.push(cells);
+            }
+          }
+        });
+
+        rawData = parsedRows;
+        filteredData = [...rawData];
+
+        renderHeader();
+        applyFilters();
+
+        loadingEl.style.display = 'none';
+        dataTableEl.style.display = 'table';
+        paginationEl.style.display = 'flex';
+
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        loadingEl.innerHTML = `<p style="color:red;"><i class="fa-solid fa-triangle-exclamation"></i> Gagal memuat data dari Google Sheets. Pastikan dokumen di-publish ke publik.</p>`;
+      }
+    }
+
+    // Render Table Header
+    function renderHeader() {
+      let trHTML = '<tr>';
+      rawHeaders.forEach(header => {
+        trHTML += `<th>${header}</th>`;
+      });
+      // Aksi opsional jika ada link
+      trHTML += `<th>Aksi / Link</th>`;
+      trHTML += '</tr>';
+      tableHeader.innerHTML = trHTML;
+    }
+
+    // Checking if text is URL
+    function isURL(str) {
+      return str.startsWith('http://') || str.startsWith('https://');
+    }
+
+    // Render Table Body
+    function renderTable() {
+      tableBody.innerHTML = '';
+
+      if (filteredData.length === 0) {
+        emptyStateEl.style.display = 'block';
+        dataTableEl.style.display = 'none';
+        paginationEl.style.display = 'none';
+        resultCountEl.innerText = '0 Data ditemukan';
+        return;
+      }
+
+      emptyStateEl.style.display = 'none';
+      dataTableEl.style.display = 'table';
+      paginationEl.style.display = 'flex';
+
+      // Pagination Calculation
+      const start = (currentPage - 1) * rowsPerPage;
+      const end = start + rowsPerPage;
+      const paginatedItems = filteredData.slice(start, end);
+
+      paginatedItems.forEach(row => {
+        let tr = document.createElement('tr');
+        let foundLink = '';
+
+        rawHeaders.forEach((_, colIndex) => {
+          let cellValue = row[colIndex] || '-';
+          let td = document.createElement('td');
+
+          if (isURL(cellValue)) {
+            foundLink = cellValue;
+            td.innerHTML = `<a href="${cellValue}" target="_blank" class="btn-link"><i class="fa-solid fa-arrow-up-right-from-square"></i> Buka Link</a>`;
+          } else {
+            td.textContent = cellValue;
+          }
+          tr.appendChild(td);
+        });
+
+        // Kolom Akses Cepat
+        let actionTd = document.createElement('td');
+        if (foundLink) {
+          actionTd.innerHTML = `<a href="${foundLink}" target="_blank" class="btn-link"><i class="fa-solid fa-external-link"></i> Kunjungi</a>`;
+        } else {
+          // Cari link dari sel mana saja jika header tidak pas
+          let anyLink = row.find(c => isURL(c || ''));
+          if (anyLink) {
+            actionTd.innerHTML = `<a href="${anyLink}" target="_blank" class="btn-link"><i class="fa-solid fa-external-link"></i> Kunjungi</a>`;
+          } else {
+            actionTd.innerHTML = `<span style="color:#94a3b8; font-size:0.8rem;">Tidak Ada Link</span>`;
+          }
+        }
+        tr.appendChild(actionTd);
+
+        tableBody.appendChild(tr);
+      });
+
+      resultCountEl.innerText = `Menampilkan ${filteredData.length} data`;
+      updatePaginationControls();
+    }
+
+    // Update Control Pagination
+    function updatePaginationControls() {
+      const totalPages = Math.ceil(filteredData.length / rowsPerPage) || 1;
+      pageInfo.innerText = `Halaman ${currentPage} dari ${totalPages}`;
+      prevBtn.disabled = currentPage === 1;
+      nextBtn.disabled = currentPage === totalPages;
+    }
+
+    // Filter & Sorting logic
+    function applyFilters() {
+      const query = searchInput.value.toLowerCase();
+      const sortValue = sortOption.value;
+
+      filteredData = rawData.filter(row => {
+        return row.some(cell => cell.toLowerCase().includes(query));
+      });
+
+      // Sorting (Berdasarkan Kolom Pertama)
+      if (sortValue === 'asc') {
+        filteredData.sort((a, b) => (a[0] || '').localeCompare(b[0] || ''));
+      } else if (sortValue === 'desc') {
+        filteredData.sort((a, b) => (b[0] || '').localeCompare(a[0] || ''));
+      }
+
+      currentPage = 1; // Reset ke halaman pertama saat mencari
+      renderTable();
+    }
+
+    // Event Listeners
+    searchInput.addEventListener('input', applyFilters);
+    sortOption.addEventListener('change', applyFilters);
+
+    prevBtn.addEventListener('click', () => {
+      if (currentPage > 1) {
+        currentPage--;
+        renderTable();
+      }
+    });
+
+    nextBtn.addEventListener('click', () => {
+      const totalPages = Math.ceil(filteredData.length / rowsPerPage);
+      if (currentPage < totalPages) {
+        currentPage++;
+        renderTable();
+      }
+    });
+
+    // Inisialisasi
+    fetchData();
+  </script>
+</body>
+</html>
