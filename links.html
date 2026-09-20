@@ -66,7 +66,7 @@
       border: 1px solid var(--border-color);
       margin-bottom: 1.5rem;
       display: grid;
-      grid-template-columns: 2fr 1fr 1fr;
+      grid-template-columns: 2fr 1fr;
       gap: 1rem;
     }
 
@@ -124,13 +124,13 @@
       color: var(--text-muted);
     }
 
-    /* Table & Cards Container */
+    /* Table & Container */
     .data-container {
       background: var(--card-bg);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       border: 1px solid var(--border-color);
-      overflow: hidden;
+      overflow-x: auto;
     }
 
     table {
@@ -142,6 +142,7 @@
     th, td {
       padding: 1rem 1.25rem;
       border-bottom: 1px solid var(--border-color);
+      white-space: nowrap;
     }
 
     th {
@@ -159,16 +160,6 @@
 
     tr:hover td {
       background-color: #f8fafc;
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 0.25rem 0.6rem;
-      border-radius: 50px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      background-color: #e0e7ff;
-      color: var(--primary);
     }
 
     .btn-link {
@@ -251,56 +242,45 @@
   <div class="container">
     <header>
       <h1><i class="fa-solid fa-link"></i> Portal Pencarian Link</h1>
-      <p>Cari dan temukan tautan dengan cepat dari Google Sheets</p>
+      <p>Cari dan temukan tautan dengan cepat langsung dari Spreadsheet</p>
     </header>
 
     <!-- Kontrol Filter & Pencarian -->
     <div class="controls-card">
       <div class="search-box">
         <i class="fa-solid fa-magnifying-glass"></i>
-        <input type="text" id="searchInput" placeholder="Cari judul, deskripsi, atau kata kunci..." />
-      </div>
-
-      <div class="filter-group">
-        <select id="categoryFilter">
-          <option value="">Semua Kolom / Kategori</option>
-        </select>
+        <input type="text" id="searchInput" placeholder="Ketik untuk mencari kata kunci..." />
       </div>
 
       <div class="filter-group">
         <select id="sortOption">
           <option value="default">Urutan Default</option>
-          <option value="asc">Nama (A - Z)</option>
-          <option value="desc">Nama (Z - A)</option>
+          <option value="asc">Nama Awal (A - Z)</option>
+          <option value="desc">Nama Awal (Z - A)</option>
         </select>
       </div>
     </div>
 
-    <!-- Status -->
+    <!-- Status Bar -->
     <div class="status-bar">
       <span id="resultCount">Memuat data...</span>
-      <span id="lastUpdated"></span>
     </div>
 
     <!-- Tabel Data -->
     <div class="data-container">
       <div id="loading" class="loading">
         <div class="spinner"></div>
-        <p>Mengambil data dari Google Sheets...</p>
+        <p>Mengambil data dari Google Sheets CSV...</p>
       </div>
 
       <table id="dataTable" style="display: none;">
-        <thead id="tableHeader">
-          <!-- Header dibuat dinamis berdasarkan data spreadsheet -->
-        </thead>
-        <tbody id="tableBody">
-          <!-- Data baris diproses di sini -->
-        </tbody>
+        <thead id="tableHeader"></thead>
+        <tbody id="tableBody"></tbody>
       </table>
 
       <div id="emptyState" class="empty-state" style="display: none;">
         <i class="fa-solid fa-folder-open fa-2x" style="margin-bottom: 0.5rem;"></i>
-        <p>Data tidak ditemukan sesuai kata kunci.</p>
+        <p>Data tidak ditemukan.</p>
       </div>
     </div>
 
@@ -313,13 +293,9 @@
   </div>
 
   <script>
-    // URL Google Sheets pubhtml Anda
-    const GOOGLE_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQNM1yPfssw0P_nvp5GGjz_R5oKQOa9uEFqylrufX_NS53EvSnty8LFTsVw97-_oS-MosIW-nxfYkey/pubhtml?gid=0&single=true';
+    // Link CSV publik langsung dari Google Sheets Anda
+    const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQNM1yPfssw0P_nvp5GGjz_R5oKQOa9uEFqylrufX_NS53EvSnty8LFTsVw97-_oS-MosIW-nxfYkey/pub?gid=0&single=true&output=csv';
 
-    // CORS Proxy untuk membaca HTML publik Google Spreadsheet
-    const PROXY_URL = 'https://api.allorigins.win/get?url=' + encodeURIComponent(GOOGLE_SHEET_URL);
-
-    // Dynamic Variables
     let rawHeaders = [];
     let rawData = [];
     let filteredData = [];
@@ -340,37 +316,63 @@
     const nextBtn = document.getElementById('nextBtn');
     const pageInfo = document.getElementById('pageInfo');
 
-    // Fetch and Parse Spreadsheet Data
+    // Mengubah String CSV menjadi Array
+    function parseCSV(text) {
+      let lines = [];
+      let row = [];
+      let inQuotes = false;
+      let currentVal = '';
+
+      for (let i = 0; i < text.length; i++) {
+        let char = text[i];
+        let nextChar = text[i + 1];
+
+        if (char === '"') {
+          if (inQuotes && nextChar === '"') {
+            currentVal += '"';
+            i++;
+          } else {
+            inQuotes = !inQuotes;
+          }
+        } else if (char === ',' && !inQuotes) {
+          row.push(currentVal.trim());
+          currentVal = '';
+        } else if ((char === '\r' || char === '\n') && !inQuotes) {
+          if (char === '\r' && nextChar === '\n') i++;
+          row.push(currentVal.trim());
+          if (row.some(c => c !== '')) lines.push(row);
+          row = [];
+          currentVal = '';
+        } else {
+          currentVal += char;
+        }
+      }
+
+      if (currentVal || row.length > 0) {
+        row.push(currentVal.trim());
+        if (row.some(c => c !== '')) lines.push(row);
+      }
+
+      return lines;
+    }
+
+    // Ambil Data CSV dari Google Sheets
     async function fetchData() {
       try {
-        const response = await fetch(PROXY_URL);
-        const json = await response.json();
-        
-        // Parsing HTML String dari Google Sheets
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(json.contents, 'text/html');
-        const rows = doc.querySelectorAll('table.waffle tbody tr');
+        const response = await fetch(CSV_URL);
+        if (!response.ok) throw new Error('Gagal mengakses data CSV');
 
-        if (rows.length === 0) {
-          throw new Error("Tidak dapat membaca baris data.");
+        const csvText = await response.text();
+        const parsed = parseCSV(csvText);
+
+        if (parsed.length === 0) {
+          throw new Error('Data Spreadsheet kosong');
         }
 
-        let parsedRows = [];
-        rows.forEach((tr, index) => {
-          const cells = Array.from(tr.querySelectorAll('td')).map(td => td.innerText.trim());
-          
-          // Abaikan baris kosong
-          if (cells.some(cell => cell !== '')) {
-            if (index === 0 || rawHeaders.length === 0) {
-              // Baris pertama sebagai Header
-              rawHeaders = cells.filter(c => c !== '');
-            } else {
-              parsedRows.push(cells);
-            }
-          }
-        });
-
-        rawData = parsedRows;
+        // Baris pertama sebagai Header
+        rawHeaders = parsed[0];
+        // Baris berikutnya sebagai Data
+        rawData = parsed.slice(1);
         filteredData = [...rawData];
 
         renderHeader();
@@ -381,29 +383,28 @@
         paginationEl.style.display = 'flex';
 
       } catch (error) {
-        console.error('Error fetching data:', error);
-        loadingEl.innerHTML = `<p style="color:red;"><i class="fa-solid fa-triangle-exclamation"></i> Gagal memuat data dari Google Sheets. Pastikan dokumen di-publish ke publik.</p>`;
+        console.error(error);
+        loadingEl.innerHTML = `<p style="color:#ef4444;"><i class="fa-solid fa-circle-exclamation"></i> Gagal memuat data. Pastikan spreadsheet telah di-publish sebagai CSV.</p>`;
       }
     }
 
-    // Render Table Header
+    // Render Header Tabel
     function renderHeader() {
       let trHTML = '<tr>';
       rawHeaders.forEach(header => {
-        trHTML += `<th>${header}</th>`;
+        trHTML += `<th>${header || 'Kolom'}</th>`;
       });
-      // Aksi opsional jika ada link
-      trHTML += `<th>Aksi / Link</th>`;
+      trHTML += `<th>Aksi</th>`;
       trHTML += '</tr>';
       tableHeader.innerHTML = trHTML;
     }
 
-    // Checking if text is URL
+    // Deteksi Format Link/URL
     function isURL(str) {
       return str.startsWith('http://') || str.startsWith('https://');
     }
 
-    // Render Table Body
+    // Render Isi Tabel
     function renderTable() {
       tableBody.innerHTML = '';
 
@@ -419,7 +420,7 @@
       dataTableEl.style.display = 'table';
       paginationEl.style.display = 'flex';
 
-      // Pagination Calculation
+      // Pagination
       const start = (currentPage - 1) * rowsPerPage;
       const end = start + rowsPerPage;
       const paginatedItems = filteredData.slice(start, end);
@@ -441,18 +442,16 @@
           tr.appendChild(td);
         });
 
-        // Kolom Akses Cepat
+        // Kolom Aksi Otomatis
         let actionTd = document.createElement('td');
+        if (!foundLink) {
+          foundLink = row.find(c => isURL(c || ''));
+        }
+
         if (foundLink) {
           actionTd.innerHTML = `<a href="${foundLink}" target="_blank" class="btn-link"><i class="fa-solid fa-external-link"></i> Kunjungi</a>`;
         } else {
-          // Cari link dari sel mana saja jika header tidak pas
-          let anyLink = row.find(c => isURL(c || ''));
-          if (anyLink) {
-            actionTd.innerHTML = `<a href="${anyLink}" target="_blank" class="btn-link"><i class="fa-solid fa-external-link"></i> Kunjungi</a>`;
-          } else {
-            actionTd.innerHTML = `<span style="color:#94a3b8; font-size:0.8rem;">Tidak Ada Link</span>`;
-          }
+          actionTd.innerHTML = `<span style="color:#94a3b8; font-size:0.8rem;">Tidak ada link</span>`;
         }
         tr.appendChild(actionTd);
 
@@ -471,23 +470,22 @@
       nextBtn.disabled = currentPage === totalPages;
     }
 
-    // Filter & Sorting logic
+    // Filter & Sorting
     function applyFilters() {
       const query = searchInput.value.toLowerCase();
       const sortValue = sortOption.value;
 
       filteredData = rawData.filter(row => {
-        return row.some(cell => cell.toLowerCase().includes(query));
+        return row.some(cell => (cell || '').toLowerCase().includes(query));
       });
 
-      // Sorting (Berdasarkan Kolom Pertama)
       if (sortValue === 'asc') {
         filteredData.sort((a, b) => (a[0] || '').localeCompare(b[0] || ''));
       } else if (sortValue === 'desc') {
         filteredData.sort((a, b) => (b[0] || '').localeCompare(a[0] || ''));
       }
 
-      currentPage = 1; // Reset ke halaman pertama saat mencari
+      currentPage = 1;
       renderTable();
     }
 
