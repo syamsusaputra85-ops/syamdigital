@@ -227,6 +227,67 @@
   transform: scale(1.2);
   fill: #00f2fe;
 }
+/* CSS Header & Logo Header */
+        .site-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #ffffff;
+            padding: 12px 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-img {
+            height: 50px;
+            width: auto;
+            object-fit: contain;
+            transition: transform 0.2s ease;
+        }
+
+        .logo-container:hover .logo-img {
+            transform: scale(1.03);
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-title {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #0369a1;
+            line-height: 1.2;
+        }
+
+        .logo-subtitle {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 0.8rem;
+            color: #64748b;
+            font-weight: 600;
+        }
+
+        /* Responsif untuk Layar Kecil / HP */
+        @media (max-width: 480px) {
+            .logo-img {
+                height: 40px;
+            }
+            .logo-title {
+                font-size: 1rem;
+            }
+            .logo-subtitle {
+                font-size: 0.72rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -243,10 +304,22 @@
         <div class="doc-header-container">
             <div class="doc-header-text">
                 Lampiran I : Surat Direktur Jenderal Kependudukan dan Pencatatan Sipil<br>
-                Nomor      :.......................... 
-                Tanggal    :      September 2026
+                Nomor      :-
+                <br>
+                Tanggal    : 19 September 2026
             </div>
-             <link rel="icon" type="image/png" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhMzopLtjThKnB5iEHcN8500t48n6B6NF5WzwjNdr92FJBm7vaKh2qD6NC9H6IUHzfbb9rtc3a2ayqSQBHqqafoD9xZTE9NvkYxdtOAqcCvSKbo1o0g7krYYH5UlrMfE29-TfiUffFC5n6xC7xh4NkejP6AVbVB3RCCX2tcJvS_W2jZ0-id6VS0D7twSnKt/s120/logo%20donggala-fix-2025.png">
+             <!-- Logo Branding Header -->
+        <a href="#" class="logo-container">
+            <img 
+                src="https://res-console.cloudinary.com/di8stbg60/thumbnails/v1/image/upload/v1749372879/ZG9uZ2dhbGEtbG9nby0wMl93bnlpMGw=/drilldown" 
+                alt="Logo Kabupaten Donggala" 
+                class="logo-img"
+            >
+            <div class="logo-text">
+                <span class="logo-title">KABUPATEN DONGGALA</span>
+                <span class="logo-subtitle">Pelayanan Medis Gratis</span>
+            </div>
+        </a>
         </div>
 
         <div class="doc-title">FORMULIR BUKU POKOK PEMAKAMAN</div>
