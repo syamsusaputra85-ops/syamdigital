@@ -1,39 +1,91 @@
-<section id="promosi" class="py-16 bg-slate-100 border-t border-slate-200">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center max-w-3xl mx-auto mb-10">
-            <span class="text-xs font-bold text-brand-600 tracking-widest uppercase mb-2 block">Fitur Salin Draf</span>
-            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">
-                Draf Promosi Siap Pakai (Marketing Kit)
-            </h2>
-            <p class="text-slate-600 text-sm mt-2">
-                Pilih opsi teks draf promosi di bawah ini untuk Anda salin langsung ke media sosial/WA Anda.
-            </p>
-        </div>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketing Kit - Draf Promosi Siap Pakai</title>
+    
+    <!-- Tailwind CSS Play CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Konfigurasi Warna Kustom untuk Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 
-        <!-- Copy Tabs -->
-        <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-            <div class="flex border-b border-slate-200 bg-slate-50 text-xs sm:text-sm font-semibold overflow-x-auto">
-                <button onclick="switchTab('tab-fb')" id="btn-tab-fb" class="tab-btn px-6 py-3.5 text-brand-600 border-b-2 border-brand-600 flex items-center gap-2 whitespace-nowrap transition-colors">
-                    <i class="fa-brands fa-facebook text-blue-600 text-base"></i> Opsi 1: Grup Facebook
-                </button>
-                <button onclick="switchTab('tab-wa')" id="btn-tab-wa" class="tab-btn px-6 py-3.5 text-slate-500 hover:text-slate-800 flex items-center gap-2 whitespace-nowrap transition-colors">
-                    <i class="fa-brands fa-whatsapp text-emerald-500 text-base"></i> Opsi 2: Status WhatsApp
-                </button>
-                <button onclick="switchTab('tab-ig')" id="btn-tab-ig" class="tab-btn px-6 py-3.5 text-slate-500 hover:text-slate-800 flex items-center gap-2 whitespace-nowrap transition-colors">
-                    <i class="fa-brands fa-instagram text-pink-500 text-base"></i> Opsi 3: Instagram / Story
-                </button>
+    <!-- FontAwesome untuk Ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts (Inter) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased">
+
+    <!-- Section Promosi / Marketing Kit -->
+    <section id="promosi" class="py-16 bg-slate-100 border-t border-slate-200 min-h-screen flex items-center justify-center">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            
+            <!-- Header Judul -->
+            <div class="text-center max-w-3xl mx-auto mb-10">
+                <span class="inline-block px-3 py-1 bg-brand-50 text-brand-600 text-xs font-bold tracking-widest uppercase rounded-full mb-3 shadow-sm">
+                    Fitur Salin Draf
+                </span>
+                <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+                    Draf Promosi Siap Pakai (Marketing Kit)
+                </h2>
+                <p class="text-slate-600 text-sm sm:text-base mt-3">
+                    Pilih opsi teks draf promosi di bawah ini untuk Anda salin langsung ke media sosial atau WhatsApp Anda dengan sekali klik.
+                </p>
             </div>
 
-            <div class="p-6">
-                <!-- Tab Content 1: Facebook -->
-                <div id="tab-fb" class="tab-content space-y-4">
-                    <div class="flex justify-between items-center">
-                        <span class="text-xs font-bold text-slate-500 uppercase">Grup Facebook Jual Beli Properti Palu</span>
-                        <button onclick="copyToClipboard('copyTextFb', 'btnCopyFb')" id="btnCopyFb" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold px-3.5 py-2 rounded-lg border border-slate-300 transition flex items-center gap-1.5 active:scale-95">
-                            <i class="fa-regular fa-copy"></i> <span>Salin Teks</span>
-                        </button>
-                    </div>
-                    <pre id="copyTextFb" class="bg-slate-50 p-4 rounded-xl text-xs sm:text-sm font-sans text-slate-800 whitespace-pre-wrap border border-slate-200 leading-relaxed">🔥 RUMAH READY STOCK SIAP HUNI DI PALU UTARA! SISA 11 UNIT SAJA! 🔥
+            <!-- Card Container & Tabs -->
+            <div class="max-w-4xl mx-auto bg-white rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-200/80 overflow-hidden">
+                
+                <!-- Tab Navigation -->
+                <div class="flex border-b border-slate-200 bg-slate-50/80 text-xs sm:text-sm font-semibold overflow-x-auto scrollbar-none">
+                    <button onclick="switchTab('tab-fb')" id="btn-tab-fb" class="tab-btn px-6 py-4 text-brand-600 border-b-2 border-brand-600 bg-white flex items-center gap-2.5 whitespace-nowrap transition-all">
+                        <i class="fa-brands fa-facebook text-blue-600 text-lg"></i> Opsi 1: Grup Facebook
+                    </button>
+                    <button onclick="switchTab('tab-wa')" id="btn-tab-wa" class="tab-btn px-6 py-4 text-slate-500 hover:text-slate-800 flex items-center gap-2.5 whitespace-nowrap transition-all">
+                        <i class="fa-brands fa-whatsapp text-emerald-500 text-lg"></i> Opsi 2: Status WhatsApp
+                    </button>
+                    <button onclick="switchTab('tab-ig')" id="btn-tab-ig" class="tab-btn px-6 py-4 text-slate-500 hover:text-slate-800 flex items-center gap-2.5 whitespace-nowrap transition-all">
+                        <i class="fa-brands fa-instagram text-pink-500 text-lg"></i> Opsi 3: Instagram Story
+                    </button>
+                </div>
+
+                <!-- Tab Body Content -->
+                <div class="p-6 sm:p-8">
+                    
+                    <!-- Tab Content 1: Facebook -->
+                    <div id="tab-fb" class="tab-content space-y-4">
+                        <div class="flex justify-between items-center bg-slate-50 px-4 py-3 rounded-xl border border-slate-200">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider flex items-center gap-1.5">
+                                <i class="fa-solid fa-bullhorn text-brand-600"></i> Grup Facebook Jual Beli Properti Palu
+                            </span>
+                            <button onclick="copyToClipboard('copyTextFb', 'btnCopyFb')" id="btnCopyFb" class="text-xs bg-white hover:bg-brand-50 text-slate-700 hover:text-brand-600 font-bold px-4 py-2 rounded-lg border border-slate-300 hover:border-brand-300 transition shadow-sm flex items-center gap-1.5 active:scale-95">
+                                <i class="fa-regular fa-copy text-sm"></i> <span>Salin Teks</span>
+                            </button>
+                        </div>
+                        <pre id="copyTextFb" class="bg-slate-50/50 p-5 rounded-2xl text-xs sm:text-sm font-sans text-slate-700 whitespace-pre-wrap border border-slate-200/70 leading-relaxed">🔥 RUMAH READY STOCK SIAP HUNI DI PALU UTARA! SISA 11 UNIT SAJA! 🔥
 
 Capek nunggu rumah inden yang tidak pasti kapan selesainya?
 Ini solusinya! Dijual unit perumahan siap huni (siap langsung ditempati) di BTN Banua Nagaya, Panau, Kec. Palu Utara.
@@ -52,17 +104,19 @@ Mengingat unit ready seperti ini sangat jarang di Palu Utara dan hanya sisa 11 u
 
 👉 Info Brosur / Jadwal Survei Lokasi:
 Hubungi via WhatsApp: 6281234567890</pre>
-                </div>
-
-                <!-- Tab Content 2: Status WA -->
-                <div id="tab-wa" class="tab-content hidden space-y-4">
-                    <div class="flex justify-between items-center">
-                        <span class="text-xs font-bold text-slate-500 uppercase">Format Pendek untuk Status WhatsApp</span>
-                        <button onclick="copyToClipboard('copyTextWa', 'btnCopyWa')" id="btnCopyWa" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold px-3.5 py-2 rounded-lg border border-slate-300 transition flex items-center gap-1.5 active:scale-95">
-                            <i class="fa-regular fa-copy"></i> <span>Salin Teks</span>
-                        </button>
                     </div>
-                    <pre id="copyTextWa" class="bg-slate-50 p-4 rounded-xl text-xs sm:text-sm font-sans text-slate-800 whitespace-pre-wrap border border-slate-200 leading-relaxed">🏠 Cari Rumah Siap Huni di Palu Utara?
+
+                    <!-- Tab Content 2: Status WA -->
+                    <div id="tab-wa" class="tab-content hidden space-y-4">
+                        <div class="flex justify-between items-center bg-slate-50 px-4 py-3 rounded-xl border border-slate-200">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider flex items-center gap-1.5">
+                                <i class="fa-solid fa-mobile-screen text-emerald-600"></i> Format Pendek untuk Status WhatsApp
+                            </span>
+                            <button onclick="copyToClipboard('copyTextWa', 'btnCopyWa')" id="btnCopyWa" class="text-xs bg-white hover:bg-emerald-50 text-slate-700 hover:text-emerald-600 font-bold px-4 py-2 rounded-lg border border-slate-300 hover:border-emerald-300 transition shadow-sm flex items-center gap-1.5 active:scale-95">
+                                <i class="fa-regular fa-copy text-sm"></i> <span>Salin Teks</span>
+                            </button>
+                        </div>
+                        <pre id="copyTextWa" class="bg-slate-50/50 p-5 rounded-2xl text-xs sm:text-sm font-sans text-slate-700 whitespace-pre-wrap border border-slate-200/70 leading-relaxed">🏠 Cari Rumah Siap Huni di Palu Utara?
 Nggak perlu inden lama-lama, langsung akad bulan ini!
 
 Sisa 11 Unit READY STOCK di BTN Banua Nagaya, Panau.
@@ -76,69 +130,77 @@ Jangan sampai keduluan yang lain, unit ready stock paling cepat habis! 😉
 
 Tanya-tanya brosur atau mau survei lokasi bareng saya weekend ini?
 Chat langsung ya atau Klik 👉 https://wa.me/6281234567890</pre>
-                </div>
-
-                <!-- Tab Content 3: IG Story -->
-                <div id="tab-ig" class="tab-content hidden space-y-4">
-                    <div class="flex justify-between items-center">
-                        <span class="text-xs font-bold text-slate-500 uppercase">Pancingan Soft Selling IG / Facebook Story</span>
-                        <button onclick="copyToClipboard('copyTextIg', 'btnCopyIg')" id="btnCopyIg" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold px-3.5 py-2 rounded-lg border border-slate-300 transition flex items-center gap-1.5 active:scale-95">
-                            <i class="fa-regular fa-copy"></i> <span>Salin Teks</span>
-                        </button>
                     </div>
-                    <pre id="copyTextIg" class="bg-slate-50 p-4 rounded-xl text-xs sm:text-sm font-sans text-slate-800 whitespace-pre-wrap border border-slate-200 leading-relaxed">"Daripada terus-terusan bayar kontrakan yang tiap tahun naik, mending dialihkan buat cicil rumah sendiri yang sudah jelas jadi bentuk fisiknya. ✨
+
+                    <!-- Tab Content 3: IG Story -->
+                    <div id="tab-ig" class="tab-content hidden space-y-4">
+                        <div class="flex justify-between items-center bg-slate-50 px-4 py-3 rounded-xl border border-slate-200">
+                            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider flex items-center gap-1.5">
+                                <i class="fa-solid fa-camera-retro text-pink-600"></i> Pancingan Soft Selling IG / Story
+                            </span>
+                            <button onclick="copyToClipboard('copyTextIg', 'btnCopyIg')" id="btnCopyIg" class="text-xs bg-white hover:bg-pink-50 text-slate-700 hover:text-pink-600 font-bold px-4 py-2 rounded-lg border border-slate-300 hover:border-pink-300 transition shadow-sm flex items-center gap-1.5 active:scale-95">
+                                <i class="fa-regular fa-copy text-sm"></i> <span>Salin Teks</span>
+                            </button>
+                        </div>
+                        <pre id="copyTextIg" class="bg-slate-50/50 p-5 rounded-2xl text-xs sm:text-sm font-sans text-slate-700 whitespace-pre-wrap border border-slate-200/70 leading-relaxed">"Daripada terus-terusan bayar kontrakan yang tiap tahun naik, mending dialihkan buat cicil rumah sendiri yang sudah jelas jadi bentuk fisiknya. ✨
 
 Ready 11 Unit di BTN Banua Nagaya, Palu Utara. Rumah siap huni, tinggal bawa koper! Lokasi aman dari banjir dan dekat ke jalan poros Trans Sulawesi.
 
 Mau tahu hitung-hitungan cicilan KPR atau syarat berkasnya? Balas (Reply) story ini ya, nanti saya bantu jelaskan sampai paham!"</pre>
+                    </div>
+
                 </div>
             </div>
+            
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- Contoh Script Pendukung (Pastikan fungsi ini ada di file JS Anda) -->
-<script>
-function switchTab(tabId) {
-    // Sembunyikan semua konten tab
-    document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-    // Tampilkan tab yang dipilih
-    document.getElementById(tabId).classList.remove('hidden');
+    <!-- JavaScript Interaktif -->
+    <script>
+        function switchTab(tabId) {
+            // Sembunyikan semua konten tab
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            // Tampilkan tab yang dipilih
+            document.getElementById(tabId).classList.remove('hidden');
 
-    // Reset style tombol tab
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.classList.remove('text-brand-600', 'border-b-2', 'border-brand-600');
-        btn.classList.add('text-slate-500');
-    });
+            // Reset style semua tombol tab
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('text-brand-600', 'border-b-2', 'border-brand-600', 'bg-white');
+                btn.classList.add('text-slate-500');
+            });
 
-    // Aktifkan style tombol yang diklik
-    const activeBtn = document.getElementById('btn-' + tabId);
-    activeBtn.classList.remove('text-slate-500');
-    activeBtn.classList.add('text-brand-600', 'border-b-2', 'border-brand-600');
-}
+            // Berikan style aktif ke tombol yang diklik
+            const activeBtn = document.getElementById('btn-' + tabId);
+            activeBtn.classList.remove('text-slate-500');
+            activeBtn.classList.add('text-brand-600', 'border-b-2', 'border-brand-600', 'bg-white');
+        }
 
-function copyToClipboard(textId, btnId) {
-    const textElement = document.getElementById(textId);
-    const textToCopy = textElement.innerText;
+        function copyToClipboard(textId, btnId) {
+            const textElement = document.getElementById(textId);
+            const textToCopy = textElement.innerText;
 
-    navigator.clipboard.writeText(textToCopy).then(() => {
-        const btn = document.getElementById(btnId);
-        const textSpan = btn.querySelector('span');
-        const originalText = textSpan.innerText;
-        const icon = btn.querySelector('i');
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const btn = document.getElementById(btnId);
+                const textSpan = btn.querySelector('span');
+                const originalText = textSpan.innerText;
+                const icon = btn.querySelector('i');
 
-        // Ubah tampilan tombol jadi sukses tersalin
-        textSpan.innerText = 'Tersalin!';
-        icon.className = 'fa-solid fa-check text-emerald-600';
-        btn.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-700');
+                // Ubah status tombol menjadi berhasil (feedback visual)
+                textSpan.innerText = 'Tersalin!';
+                icon.className = 'fa-solid fa-check text-emerald-600 text-sm';
+                btn.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-700');
 
-        setTimeout(() => {
-            textSpan.innerText = originalText;
-            icon.className = 'fa-regular fa-copy';
-            btn.classList.remove('border-emerald-500', 'bg-emerald-50', 'text-emerald-700');
-        }, 2000);
-    }).catch(err => {
-        console.error('Gagal menyalin teks: ', err);
-    });
-}
-</script>
+                // Kembalikan tombol seperti semula setelah 2 detik
+                setTimeout(() => {
+                    textSpan.innerText = originalText;
+                    icon.className = 'fa-regular fa-copy text-sm';
+                    btn.classList.remove('border-emerald-500', 'bg-emerald-50', 'text-emerald-700');
+                }, 2000);
+            }).catch(err => {
+                alert('Gagal menyalin teks. Periksa izin browser Anda.');
+                console.error(err);
+            });
+        }
+    </script>
+</body>
+</html>
