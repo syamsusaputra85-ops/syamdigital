@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BTN Banua Nagaya - Perumahan Ready Stock Palu Utara</title>
+    
+    <!-- Favicon Integration -->
+    <link rel="icon" type="image/png" href="https://syams.online/pavicon.png">
+    <link rel="shortcut icon" href="https://syams.online/pavicon.png">
+    <link rel="apple-touch-icon" href="https://syams.online/pavicon.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            800: '#065f46',
+                            900: '#064e3b',
+                        },
+                        accent: {
+                            500: '#f97316',
+                            600: '#ea580c',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        .pulse-badge {
+            animation: pulse-ring 2s infinite;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased pb-16 lg:pb-0">
+
+    <!-- Quick Config Bar for Agent/User to set WA Number live on page -->
+    <div class="bg-slate-900 text-slate-300 text-xs py-2 px-4 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+            <div class="flex items-center gap-2">
+                <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+                <span class="font-medium text-white">Konfigurasi Kontak WhatsApp Agent:</span>
+            </div>
+            <div class="flex items-center gap-2 w-full sm:w-auto">
+                <i class="fa-brands fa-whatsapp text-emerald-400 text-sm"></i>
+                <label for="agentWaInput" class="whitespace-nowrap">No. WA Active:</label>
+                <input type="text" id="agentWaInput" value="6285150531572" onchange="updateAgentNumber(this.value)" class="bg-slate-800 text-white text-xs px-2 py-1 rounded border border-slate-700 focus:outline-none focus:border-emerald-500 w-36" placeholder="628xxx">
+                <span class="text-[10px] text-slate-400 hidden md:inline">(Otomatis memperbarui seluruh link WA)</span>
+            </div>
+        </div>
+    </div>
+
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-100 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo Image with fallback -->
+                <div class="flex items-center gap-3">
+                    <img src="https://syams.online/logo-banua-nagaya.png" 
+                         alt="BTN Banua Nagaya Logo" 
+                         class="h-10 w-auto object-contain"
+                         onerror="this.onerror=null; this.src='https://syams.online/pavicon.png';">
+                    <div>
+                        <span class="font-extrabold text-base sm:text-lg tracking-tight text-slate-900 block leading-tight">BTN BANUA NAGAYA</span>
+                        <span class="text-[10px] tracking-wider font-semibold text-brand-600 block -mt-0.5 uppercase">Panau - Palu Utara</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden md:flex items-center gap-8 font-medium text-sm text-slate-600">
+                    <a href="#keunggulan" class="hover:text-brand-600 transition">Keunggulan</a>
+                    <a href="#galeri" class="hover:text-brand-600 transition">Spesifikasi & Galeri</a>
+                    <a href="#simulasi" class="hover:text-brand-600 transition">Simulasi KPR</a>
+                    <a href="#lokasi" class="hover:text-brand-600 transition">Lokasi</a>
+                    <a href="#promosi" class="hover:text-brand-600 transition">Materi Iklan</a>
+                </nav>
+
+                <!-- Header CTA -->
+                <div class="hidden sm:block">
+                    <button onclick="openWhatsApp('Halo admin, saya tertarik dengan rumah ready stock di BTN Banua Nagaya Palu Utara. Bisa minta brosur lengkapnya?')" class="bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl shadow-md hover:shadow-lg transition flex items-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-lg"></i>
+                        <span>Chat WhatsApp</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="relative bg-gradient-to-b from-emerald-950 via-slate-900 to-slate-900 text-white overflow-hidden pt-12 pb-20 lg:pt-20 lg:pb-28">
+        <!-- Decorative Background Glows -->
+        <div class="absolute top-0 left-1/4 w-96 h-96 bg-brand-500/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute bottom-0 right-10 w-96 h-96 bg-accent-500/15 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Hero Left Column: Copywriting -->
+                <div class="lg:col-span-7 text-center lg:text-left space-y-6">
+                    
+                    <!-- Alert Badge -->
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-red-500/20 border border-red-500/40 text-red-300 text-xs sm:text-sm font-semibold pulse-badge">
+                        <i class="fa-solid fa-fire text-red-400"></i>
+                        <span>HOT PROPERTY PALU UTARA • SISA 11 UNIT READY!</span>
+                    </div>
+
+                    <!-- Main Headline -->
+                    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white leading-tight">
+                        RUMAH READY STOCK <br class="hidden sm:block"/>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-amber-300">
+                            SIAP HUNI DI PALU UTARA!
+                        </span>
+                    </h1>
+
+                    <!-- Subheadline -->
+                    <p class="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                        Capek nunggu rumah inden yang tidak pasti kapan selesainya? 
+                        Langsung bawa koper di <strong class="text-white">BTN Banua Nagaya, Panau</strong>. Cuma 4 menit dari Jalan Trans Sulawesi Kayumalue!
+                    </p>
+
+                    <!-- Key highlights chips -->
+                    <div class="flex flex-wrap gap-2 justify-center lg:justify-start text-xs sm:text-sm font-medium text-slate-200 pt-2">
+                        <span class="bg-slate-800/80 border border-slate-700/80 px-3 py-1.5 rounded-lg flex items-center gap-1.5">
+                            <i class="fa-solid fa-circle-check text-emerald-400"></i> Tanpa Inden (100% Ready)
+                        </span>
+                        <span class="bg-slate-800/80 border border-slate-700/80 px-3 py-1.5 rounded-lg flex items-center gap-1.5">
+                            <i class="fa-solid fa-water text-cyan-400"></i> Air Bersih Lancar
+                        </span>
+                        <span class="bg-slate-800/80 border border-slate-700/80 px-3 py-1.5 rounded-lg flex items-center gap-1.5">
+                            <i class="fa-solid fa-shield-halved text-amber-400"></i> Bebas Banjir
+                        </span>
+                    </div>
+
+                    <!-- CTA Buttons -->
+                    <div class="pt-4 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                        <button onclick="scrollToSection('lead-form')" class="w-full sm:w-auto bg-gradient-to-r from-accent-500 to-accent-600 hover:from-accent-600 hover:to-accent-500 text-white font-bold text-base px-8 py-4 rounded-xl shadow-lg shadow-accent-500/30 hover:scale-105 transition transform flex items-center justify-center gap-3">
+                            <i class="fa-solid fa-calendar-check text-xl"></i>
+                            <span>Jadwalkan Survei Lokasi</span>
+                        </button>
+                        
+                        <button onclick="openWhatsApp('Halo, saya berminat survei lokasi BTN Banua Nagaya Panau. Mohon info pricelist dan lokasi tepatnya.')" class="w-full sm:w-auto bg-emerald-600/90 hover:bg-emerald-600 text-white font-bold text-base px-6 py-4 rounded-xl border border-emerald-500/50 hover:border-emerald-400 transition flex items-center justify-center gap-2">
+                            <i class="fa-brands fa-whatsapp text-2xl text-emerald-300"></i>
+                            <span>Tanya via WhatsApp</span>
+                        </button>
+                    </div>
+
+                    <!-- Trust indicators -->
+                    <div class="pt-4 flex items-center justify-center lg:justify-start gap-6 text-xs text-slate-400 border-t border-slate-800/80 mt-6">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-building-columns text-emerald-400 text-sm"></i>
+                            <span>KPR Dibantu Sampai Akad</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-key text-amber-400 text-sm"></i>
+                            <span>Langsung Terima Kunci</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Right Column: Visual Showcase -->
+                <div class="lg:col-span-5">
+                    <div class="relative rounded-2xl p-2 bg-gradient-to-b from-slate-700/50 to-slate-800/80 border border-slate-700 shadow-2xl">
+                        <!-- Image Container -->
+                        <div class="relative h-80 sm:h-96 rounded-xl overflow-hidden group">
+                            <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1790246271/Banua-02_wsp4xg.png" 
+                                 alt="Rumah BTN Banua Nagaya Palu Utara" 
+                                 class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                                 onerror="this.src='https://placehold.co/800x600/064e3b/ffffff?text=BTN+Banua+Nagaya+Ready+Stock'">
+                            
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
+                            
+                            <!-- Badges Overlay -->
+                            <div class="absolute top-3 left-3 bg-slate-900/80 backdrop-blur-md px-3 py-1.5 rounded-lg text-xs font-semibold text-emerald-300 border border-emerald-500/30 flex items-center gap-1.5">
+                                <img src="https://syams.online/pavicon.png" class="w-4 h-4 rounded-full" alt="icon">
+                                <span>Panau, Kec. Palu Utara</span>
+                            </div>
+
+                            <div class="absolute top-3 right-3 bg-accent-500 text-white font-extrabold text-xs px-3 py-1.5 rounded-lg shadow-md uppercase tracking-wider">
+                                Type 36/72
+                            </div>
+
+                            <!-- Bottom overlay content -->
+                            <div class="absolute bottom-4 left-4 right-4 text-white">
+                                <p class="text-xs text-slate-300 font-medium">BTN Banua Nagaya</p>
+                                <div class="flex justify-between items-end mt-1">
+                                    <div>
+                                        <span class="text-xs text-slate-400 block">Harga Estimasi Mulai:</span>
+                                        <span class="text-xl sm:text-2xl font-black text-amber-300">Rp 180.000.000</span>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="text-xs text-slate-400 block">Estimasi Cicilan:</span>
+                                        <span class="text-sm font-bold bg-emerald-500/30 text-emerald-300 border border-emerald-400/40 px-2 py-0.5 rounded">Rp 1 Jutaan/bln</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mini stats banner -->
+                        <div class="grid grid-cols-3 gap-2 mt-2 p-3 bg-slate-900/90 rounded-xl text-center text-xs">
+                            <div class="border-r border-slate-800">
+                                <span class="text-slate-400 block text-[10px]">SISA UNIT</span>
+                                <span class="font-extrabold text-red-400 text-sm">11 Unit</span>
+                            </div>
+                            <div class="border-r border-slate-800">
+                                <span class="text-slate-400 block text-[10px]">STATUS</span>
+                                <span class="font-bold text-emerald-400 text-sm">Ready 100%</span>
+                            </div>
+                            <div>
+                                <span class="text-slate-400 block text-[10px]">AKSES UTAMA</span>
+                                <span class="font-bold text-sky-400 text-sm">4 Menit</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="keunggulan" class="py-16 lg:py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <h2 class="text-xs font-bold text-brand-600 tracking-widest uppercase mb-2">Mengapa Memilih Kami</h2>
+                <p class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 tracking-tight">
+                    4 Alasan Utama Memilih Perumahan BTN Banua Nagaya
+                </p>
+                <p class="text-slate-600 mt-3 text-sm sm:text-base">
+                    Hunian tepat untuk keluarga modern di kawasan berkembang Palu Utara dengan kemudahan proses kepemilikan.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Feature 1 -->
+                <div class="p-6 rounded-2xl bg-slate-50 border border-slate-100 hover:border-brand-500/40 hover:shadow-xl transition group">
+                    <div class="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-2xl mb-5 group-hover:bg-brand-600 group-hover:text-white transition">
+                        <i class="fa-solid fa-house-circle-check"></i>
+                    </div>
+                    <h3 class="font-bold text-lg text-slate-900 mb-2">Rumah Ready 100%</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Tidak perlu cemas nunggu dibangun atau risiko gagal serah terima. Cek fisik bangunan langsung di lokasi kapan saja!
+                    </p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="p-6 rounded-2xl bg-slate-50 border border-slate-100 hover:border-brand-500/40 hover:shadow-xl transition group">
+                    <div class="w-14 h-14 rounded-2xl bg-sky-100 text-sky-600 flex items-center justify-center text-2xl mb-5 group-hover:bg-sky-600 group-hover:text-white transition">
+                        <i class="fa-solid fa-road"></i>
+                    </div>
+                    <h3 class="font-bold text-lg text-slate-900 mb-2">Akses Sangat Strategis</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Hanya 4 menit (1,3 km) dari jalur utama Jl. Trans Sulawesi (Kayumalue). Dekat ke kawasan kerja dan pusat pelayanan publik.
+                    </p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="p-6 rounded-2xl bg-slate-50 border border-slate-100 hover:border-brand-500/40 hover:shadow-xl transition group">
+                    <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-2xl mb-5 group-hover:bg-amber-600 group-hover:text-white transition">
+                        <i class="fa-solid fa-droplet-slash"></i>
+                    </div>
+                    <h3 class="font-bold text-lg text-slate-900 mb-2">Lingkungan Nyaman & Aman</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Jalan komplek perumahan lebar, lokasi dijamin bebas banjir, serta fasilitas air bersih aman dan lancar 24 jam.
+                    </p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="p-6 rounded-2xl bg-slate-50 border border-slate-100 hover:border-brand-500/40 hover:shadow-xl transition group">
+                    <div class="w-14 h-14 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center text-2xl mb-5 group-hover:bg-purple-600 group-hover:text-white transition">
+                        <i class="fa-solid fa-file-contract"></i>
+                    </div>
+                    <h3 class="font-bold text-lg text-slate-900 mb-2">Proses KPR Dibantu Full</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Pengurusan berkas, pemberkasan BI checking, hingga pendampingan akad kredit bank kami bantu penuh sampai terima kunci.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="simulasi" class="py-16 lg:py-24 bg-slate-900 text-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Calculator Info -->
+                <div class="lg:col-span-5 space-y-6">
+                    <span class="text-xs font-bold text-emerald-400 tracking-widest uppercase">Simulasi Angsuran</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+                        Hitung Estimasi Cicilan KPR Rumah Anda
+                    </h2>
+                    <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                        Rencanakan keuangan keluarga Anda dengan lebih pasti. Gunakan kalkulator interaktif ini untuk menghitung perkiraan cicilan bulanan sesuai budget Anda.
+                    </p>
+
+                    <div class="bg-slate-800/80 p-5 rounded-2xl border border-slate-700/80 space-y-4">
+                        <div class="flex items-start gap-3">
+                            <i class="fa-solid fa-lightbulb text-amber-400 text-xl mt-1"></i>
+                            <div>
+                                <h4 class="font-bold text-sm text-white">Tips Pembelian Properti</h4>
+                                <p class="text-xs text-slate-400 mt-0.5">
+                                    Idealnya cicilan KPR tidak melebihi 30% - 40% dari total penghasilan bulanan Anda/pasangan.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-2">
+                        <button onclick="openWhatsAppWithCalc()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 px-6 rounded-xl transition flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/30">
+                            <i class="fa-brands fa-whatsapp text-xl"></i>
+                            <span>Konsultasi KPR Gratis via WA</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Calculator Interactive Box -->
+                <div class="lg:col-span-7">
+                    <div class="bg-slate-800 border border-slate-700 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6">
+                        
+                        <!-- Input: Harga Rumah -->
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="text-sm font-semibold text-slate-300">Harga Properti (Rp)</label>
+                                <span class="text-base font-bold text-emerald-400" id="lblHarga">Rp 180.000.000</span>
+                            </div>
+                            <input type="range" id="inputHarga" min="150000000" max="400000000" step="5000000" value="180000000" 
+                                   class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-emerald-500" oninput="calculateKPR()">
+                            <div class="flex justify-between text-[10px] text-slate-400 mt-1">
+                                <span>150 Jt</span>
+                                <span>250 Jt</span>
+                                <span>400 Jt</span>
+                            </div>
+                        </div>
+
+                        <!-- Input: DP Persen -->
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="text-sm font-semibold text-slate-300">Uang Muka / DP (%)</label>
+                                <span class="text-base font-bold text-emerald-400"><span id="lblDpPercent">10</span>% (<span id="lblDpNominal">Rp 18.000.000</span>)</span>
+                            </div>
+                            <input type="range" id="inputDp" min="0" max="30" step="5" value="10" 
+                                   class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-emerald-500" oninput="calculateKPR()">
+                        </div>
+
+                        <!-- Input: Tenor / Jangka Waktu -->
+                        <div>
+                            <label class="text-sm font-semibold text-slate-300 block mb-2">Jangka Waktu (Tenor)</label>
+                            <div class="grid grid-cols-3 gap-3">
+                                <button type="button" onclick="setTenor(10)" id="btnTenor10" class="tenor-btn py-2.5 rounded-xl border border-slate-600 font-semibold text-xs transition">10 Tahun</button>
+                                <button type="button" onclick="setTenor(15)" id="btnTenor15" class="tenor-btn py-2.5 rounded-xl border border-brand-500 bg-brand-500/20 font-semibold text-xs text-emerald-300 transition">15 Tahun</button>
+                                <button type="button" onclick="setTenor(20)" id="btnTenor20" class="tenor-btn py-2.5 rounded-xl border border-slate-600 font-semibold text-xs transition">20 Tahun</button>
+                            </div>
+                        </div>
+
+                        <!-- Input: Bunga Estimasi -->
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="text-sm font-semibold text-slate-300">Estimasi Suku Bunga KPR / Tahun</label>
+                                <span class="text-sm font-bold text-slate-200" id="lblBunga">5.0%</span>
+                            </div>
+                            <input type="range" id="inputBunga" min="3" max="11" step="0.5" value="5.0" 
+                                   class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-emerald-500" oninput="calculateKPR()">
+                        </div>
+
+                        <!-- Result Display Box -->
+                        <div class="p-5 rounded-2xl bg-gradient-to-r from-emerald-950 to-slate-900 border border-emerald-500/30 mt-6">
+                            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+                                <div>
+                                    <span class="text-xs text-slate-400 block uppercase tracking-wider font-semibold">Estimasi Cicilan per Bulan</span>
+                                    <span class="text-3xl sm:text-4xl font-extrabold text-amber-300" id="lblMonthly">Rp 1.280.000</span>
+                                </div>
+                                <div class="text-left sm:text-right text-xs text-slate-400">
+                                    <span>Plafon KPR: <strong class="text-white" id="lblPlafon">Rp 162.000.000</strong></span><br>
+                                    <span class="text-[10px] text-slate-500">*S&K Berlaku tergantung kebijakan bank</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="galeri" class="py-16 lg:py-24 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="text-xs font-bold text-brand-600 tracking-widest uppercase mb-2 block">Spesifikasi & Galeri</span>
+                <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900">
+                    Detail Bangunan & Galeri Lokasi Real
+                </h2>
+                <p class="text-slate-600 mt-2 text-sm">
+                    Sisa 11 Unit Siap Ditempati dengan Kualitas Bangunan Kokoh & Desain Minimalis Modern.
+                </p>
+            </div>
+
+            <!-- Specs Grid -->
+            <div class="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200/80 shadow-sm mb-12">
+                <h3 class="font-bold text-slate-900 text-lg mb-6 border-b pb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-list-check text-brand-600"></i> Spesifikasi Teknis Type 36/72
+                </h3>
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
+                    <div class="p-4 rounded-xl bg-slate-50 text-center">
+                        <i class="fa-solid fa-vector-square text-brand-600 text-xl mb-2"></i>
+                        <span class="text-xs text-slate-500 block">Luas Tanah/Bangunan</span>
+                        <span class="font-bold text-slate-900 text-sm">36 m² / 72 m²</span>
+                    </div>
+                    <div class="p-4 rounded-xl bg-slate-50 text-center">
+                        <i class="fa-solid fa-bed text-brand-600 text-xl mb-2"></i>
+                        <span class="text-xs text-slate-500 block">Kamar Tidur</span>
+                        <span class="font-bold text-slate-900 text-sm">2 Kamar</span>
+                    </div>
+                    <div class="p-4 rounded-xl bg-slate-50 text-center">
+                        <i class="fa-solid fa-bath text-brand-600 text-xl mb-2"></i>
+                        <span class="text-xs text-slate-500 block">Kamar Mandi</span>
+                        <span class="font-bold text-slate-900 text-sm">1 Kamar Mandi</span>
+                    </div>
+                    <div class="p-4 rounded-xl bg-slate-50 text-center">
+                        <i class="fa-solid fa-car text-brand-600 text-xl mb-2"></i>
+                        <span class="text-xs text-slate-500 block">Carport</span>
+                        <span class="font-bold text-slate-900 text-sm">1 Mobil</span>
+                    </div>
+                    <div class="p-4 rounded-xl bg-slate-50 text-center">
+                        <i class="fa-solid fa-bolt text-brand-600 text-xl mb-2"></i>
+                        <span class="text-xs text-slate-500 block">Daya Listrik</span>
+                        <span class="font-bold text-slate-900 text-sm">1.300 Watt</span>
+                    </div>
+                    <div class="p-4 rounded-xl bg-slate-50 text-center">
+                        <i class="fa-solid fa-faucet-drip text-brand-600 text-xl mb-2"></i>
+                        <span class="text-xs text-slate-500 block">Sumber Air</span>
+                        <span class="font-bold text-slate-900 text-sm">Air Bersih Lancar</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gallery Grid with Lightbox Modals -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Gallery Item 1 -->
+                <div onclick="openGalleryModal('https://res.cloudinary.com/di8stbg60/image/upload/v1790246271/Banua-02_wsp4xg.png', 'Tampak Depan Fasad Rumah')" class="cursor-pointer group relative rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition">
+                    <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1790246271/Banua-02_wsp4xg.png" alt="Fasad Depan" class="w-full h-64 object-cover group-hover:scale-105 transition duration-300">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent opacity-80 group-hover:opacity-90 transition"></div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <span class="text-xs font-semibold bg-brand-600 px-2.5 py-1 rounded">Exterior</span>
+                        <h4 class="font-bold text-base mt-1">Fasad Depan Minimalis</h4>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 2 -->
+                <div onclick="openGalleryModal('https://res.cloudinary.com/di8stbg60/image/upload/v1790246269/Banua-01_awaynr.png', 'Ruang Tamu & Keluarga')" class="cursor-pointer group relative rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition">
+                    <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1790246269/Banua-01_awaynr.png" alt="Ruang Tamu" class="w-full h-64 object-cover group-hover:scale-105 transition duration-300">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent opacity-80 group-hover:opacity-90 transition"></div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <span class="text-xs font-semibold bg-brand-600 px-2.5 py-1 rounded">Interior</span>
+                        <h4 class="font-bold text-base mt-1">Lingkungan Lapang & Nyaman</h4>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 3 -->
+                <div onclick="openGalleryModal('https://res.cloudinary.com/di8stbg60/image/upload/v1790246269/WhatsApp_Image_2026-09-24_at_16.55.00_1_dxy5ln.jpg', 'Kamar Tidur Utama')" class="cursor-pointer group relative rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition">
+                    <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1790246269/WhatsApp_Image_2026-09-24_at_16.55.00_1_dxy5ln.jpg" alt="Kamar Tidur" class="w-full h-64 object-cover group-hover:scale-105 transition duration-300">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent opacity-80 group-hover:opacity-90 transition"></div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <span class="text-xs font-semibold bg-brand-600 px-2.5 py-1 rounded">Kamar</span>
+                        <h4 class="font-bold text-base mt-1">Kamar Tidur Utama Pencahayaan Bagus</h4>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 4 -->
+                <div onclick="openGalleryModal('https://res.cloudinary.com/di8stbg60/image/upload/v1790246269/WhatsApp_Image_2026-09-24_at_16.54.59_2_wdmnrg.jpg', 'Dapur Siap Pakai')" class="cursor-pointer group relative rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition">
+                    <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1790246269/WhatsApp_Image_2026-09-24_at_16.54.59_2_wdmnrg.jpg" alt="Dapur" class="w-full h-64 object-cover group-hover:scale-105 transition duration-300">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent opacity-80 group-hover:opacity-90 transition"></div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <span class="text-xs font-semibold bg-brand-600 px-2.5 py-1 rounded">Dapur</span>
+                        <h4 class="font-bold text-base mt-1">Area Dapur Siap Pakai</h4>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 5 -->
+                <div onclick="openGalleryModal('https://res.cloudinary.com/di8stbg60/image/upload/v1790246269/WhatsApp_Image_2026-09-24_at_16.54.58_1_u9b2je.jpg', 'Akses Jalan Perumahan')" class="cursor-pointer group relative rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition">
+                    <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1790246269/WhatsApp_Image_2026-09-24_at_16.54.58_1_u9b2je.jpg" alt="Jalan Komplek" class="w-full h-64 object-cover group-hover:scale-105 transition duration-300">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent opacity-80 group-hover:opacity-90 transition"></div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <span class="text-xs font-semibold bg-brand-600 px-2.5 py-1 rounded">Akses Lingkungan</span>
+                        <h4 class="font-bold text-base mt-1">Jalan Perumahan Lebar & Rapi</h4>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 6 -->
+                <div onclick="openGalleryModal('https://res.cloudinary.com/di8stbg60/image/upload/v1790246269/banua-nagaya_hz1xra.png', 'Lingkungan Bebas Banjir')" class="cursor-pointer group relative rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition">
+                    <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1790246269/banua-nagaya_hz1xra.png" alt="Lingkungan Perumahan" class="w-full h-64 object-cover group-hover:scale-105 transition duration-300">
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent opacity-80 group-hover:opacity-90 transition"></div>
+                    <div class="absolute bottom-4 left-4 text-white">
+                        <span class="text-xs font-semibold bg-brand-600 px-2.5 py-1 rounded">Lingkungan</span>
+                        <h4 class="font-bold text-base mt-1">Suasana Asri & Bebas Banjir</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="lokasi" class="py-16 lg:py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <div class="lg:col-span-6 space-y-6">
+                    <span class="text-xs font-bold text-brand-600 tracking-widest uppercase">Aksesibilitas Prima</span>
+                    <h2 class="text-3xl font-extrabold text-slate-900">
+                        Lokasi Strategis di Panau, Kec. Palu Utara
+                    </h2>
+                    <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
+                        Terletak dekat dengan pusat aktivitas ekonomi kawasan Palu Utara & Pantoloan, menjadikan investasi hunian Anda semakin bernilai tinggi dari waktu ke waktu.
+                    </p>
+
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100">
+                            <div class="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold shrink-0">
+                                <i class="fa-solid fa-route"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-900 text-sm">4 Menit (1,3 km) dari Jl. Trans Sulawesi</h4>
+                                <p class="text-xs text-slate-500 mt-0.5">Akses langsung jalan poros Kayumalue, memudahkan mobilitas harian Anda.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100">
+                            <div class="w-10 h-10 rounded-lg bg-sky-100 text-sky-700 flex items-center justify-center font-bold shrink-0">
+                                <i class="fa-solid fa-briefcase"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-900 text-sm">Dekat Kawasan Industri & Pelabuhan Pantoloan</h4>
+                                <p class="text-xs text-slate-500 mt-0.5">Sangat dekat bagi Anda yang bekerja di kawasan Pelabuhan Pantoloan & sekitarnya.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100">
+                            <div class="w-10 h-10 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center font-bold shrink-0">
+                                <i class="fa-solid fa-school"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-900 text-sm">Dekat Fasilitas Pendidikan & Kesehatan</h4>
+                                <p class="text-xs text-slate-500 mt-0.5">Akses mudah ke sekolah (SD, SMP, SMA) dan Puskesmas Palu Utara.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Google Maps Section -->
+                <div class="lg:col-span-6">
+                    <div class="bg-slate-900 p-4 rounded-3xl shadow-xl border border-slate-800 text-white space-y-4">
+                        <div class="flex justify-between items-center px-2">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-map-location-dot text-emerald-400"></i>
+                                <span class="font-bold text-sm">Peta Lokasi Google Maps</span>
+                            </div>
+                            <span class="text-xs bg-emerald-500/20 text-emerald-300 px-2.5 py-0.5 rounded-full border border-emerald-500/30">BTN Banua Nagaya</span>
+                        </div>
+
+                        <!-- Live Embedded Google Maps iframe -->
+                        <div class="relative h-72 sm:h-80 rounded-2xl overflow-hidden bg-slate-800 border border-slate-700">
+                           <iframe 
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1576.5716365249746!2d119.86208438873291!3d-0.7467460811378456!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2d8bc184b2e35af5%3A0x57775b7275046a10!2sBTN.Banua%20Nagaya!5e1!3m2!1sid!2sid!4v1790224086259!5m2!1sid!2sid" 
+                                class="w-full h-full border-0" 
+                                allowfullscreen="" 
+                                loading="lazy" 
+                                referrerpolicy="strict-origin-when-cross-origin">
+                            </iframe>
+                        </div>
+
+                        <div class="pt-1">
+                            <button onclick="openWhatsApp('Halo, saya mau minta petunjuk rute jalan langsung ke lokasi BTN Banua Nagaya Panau!')" class="bg-brand-600 hover:bg-brand-500 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition w-full flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-diamond-turn-right text-emerald-300"></i>
+                                <span>Petunjuk Rute & Tanya Lokasi via WA</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+   
+
+    <section id="lead-form" class="py-16 lg:py-24 bg-gradient-to-b from-slate-900 to-emerald-950 text-white relative">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-slate-800/90 border border-slate-700 rounded-3xl p-6 sm:p-10 shadow-2xl backdrop-blur-md">
+                
+                <div class="text-center max-w-2xl mx-auto mb-8">
+                    <span class="text-xs font-bold text-emerald-400 tracking-widest uppercase block mb-1">Formulir Pendaftaran Survei</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-white">
+                        Jadwalkan Survei Lokasi & Dapatkan Brosur
+                    </h2>
+                    <p class="text-slate-300 text-xs sm:text-sm mt-2">
+                        Isi form di bawah ini untuk terhubung langsung dengan tim marketing official BTN Banua Nagaya melalui WhatsApp.
+                    </p>
+                </div>
+
+                <form onsubmit="handleFormSubmit(event)" class="space-y-5">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <!-- Nama Lengkap -->
+                        <div>
+                            <label for="leadNama" class="block text-xs font-semibold text-slate-300 mb-1">Nama Lengkap *</label>
+                            <input type="text" id="leadNama" required placeholder="Contoh: Bpk. Ahmad" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-emerald-500 transition">
+                        </div>
+
+                        <!-- No WhatsApp -->
+                        <div>
+                            <label for="leadHp" class="block text-xs font-semibold text-slate-300 mb-1">Nomor WhatsApp Anda *</label>
+                            <input type="tel" id="leadHp" required placeholder="Contoh: 08123456789" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-emerald-500 transition">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <!-- Rencana Pembayaran -->
+                        <div>
+                            <label for="leadSkema" class="block text-xs font-semibold text-slate-300 mb-1">Rencana Pembayaran *</label>
+                            <select id="leadSkema" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-emerald-500 transition">
+                                <option value="KPR Bank">KPR Bank (Cicilan Bulanan)</option>
+                                <option value="Cash / Tunai Bertahap">Cash / Tunai Keras</option>
+                                <option value="Konsultasi Dulu">Konsultasi Dulu</option>
+                            </select>
+                        </div>
+
+                        <!-- Tanggal Rencana Survei -->
+                        <div>
+                            <label for="leadTanggal" class="block text-xs font-semibold text-slate-300 mb-1">Rencana Tanggal Survei *</label>
+                            <input type="date" id="leadTanggal" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-emerald-500 transition">
+                        </div>
+                    </div>
+
+                    <!-- Catatan Tambahan -->
+                    <div>
+                        <label for="leadPesan" class="block text-xs font-semibold text-slate-300 mb-1">Pertanyaan / Catatan Tambahan (Opsional)</label>
+                        <textarea id="leadPesan" rows="2" placeholder="Misal: Mau tanya simulasi cicilan DP 0% atau promo bulan ini..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-emerald-500 transition"></textarea>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="w-full bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-500 text-white font-bold text-base py-4 rounded-xl shadow-lg shadow-emerald-500/30 transition transform hover:-translate-y-0.5 flex items-center justify-center gap-3">
+                        <i class="fa-brands fa-whatsapp text-2xl"></i>
+                        <span>Kirim & Chat WhatsApp Sekarang</span>
+                    </button>
+                    
+                    <p class="text-center text-[11px] text-slate-400">
+                        *Data Anda aman dan langsung terhubung dengan tim agent resmi BTN Banua Nagaya.
+                    </p>
+                </form>
+
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-slate-950 text-slate-400 py-12 border-t border-slate-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center gap-3 mb-3">
+                        <img src="https://syams.online/logo-banua-nagaya.png" 
+                             alt="Logo" 
+                             class="h-8 w-auto object-contain"
+                             onerror="this.onerror=null; this.src='https://syams.online/pavicon.png';">
+                        <span class="font-extrabold text-white text-base">BTN BANUA NAGAYA</span>
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Hunian ready stock pilihan terbaik di kawasan berkembang Panau, Kec. Palu Utara. Solusi praktis rumah tanpa inden.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-white text-sm mb-3">Area Pemasaran</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Panau, Kayumalue, Pantoloan, Palu Utara & sekitarnya, Kota Palu, Sulawesi Tengah.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-white text-sm mb-3">Kontak Agen Resmi</h4>
+                    <p class="text-xs text-slate-400 mb-2">WhatsApp: <span class="active-wa-number font-semibold text-emerald-400">6281234567890</span></p>
+                    <p class="text-xs text-slate-400">Layanan Fast Response Setiap Hari (08.00 - 20.00 WITA)</p>
+                </div>
+            </div>
+
+            <div class="border-t border-slate-900 pt-6 text-center text-xs text-slate-500">
+                <p>&copy; 2026 BTN Banua Nagaya Palu Utara. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Mobile WhatsApp CTA Button -->
+    <div class="fixed bottom-4 right-4 z-50 lg:hidden">
+        <button onclick="openWhatsApp('Halo Admin BTN Banua Nagaya, saya berminat tanya unit ready stock Palu Utara!')" class="bg-emerald-500 hover:bg-emerald-600 text-white rounded-full p-3.5 shadow-2xl flex items-center gap-2 border-2 border-white">
+            <i class="fa-brands fa-whatsapp text-3xl"></i>
+            <span class="font-bold text-xs pr-2">Chat WA</span>
+        </button>
+    </div>
+
+    <!-- Gallery Lightbox Modal Container -->
+    <div id="galleryModal" class="fixed inset-0 z-50 bg-black/90 hidden items-center justify-center p-4">
+        <div class="relative max-w-4xl w-full">
+            <button onclick="closeGalleryModal()" class="absolute -top-10 right-0 text-white text-2xl hover:text-red-400 font-bold">&times; Tutup</button>
+            <img id="modalImg" src="" alt="Gallery Preview" class="w-full max-h-[80vh] object-contain rounded-xl">
+            <p id="modalCaption" class="text-center text-white font-semibold text-sm mt-3"></p>
+        </div>
+    </div>
+
+    <!-- Success Confirmation Modal (Matches User Design) -->
+    <div id="confirmModal" class="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm hidden items-center justify-center p-4 overflow-y-auto">
+        <div class="relative max-w-lg w-full bg-white rounded-3xl p-6 sm:p-8 shadow-2xl text-slate-800 my-8 transform transition-all border border-slate-100">
+            <!-- Close Button -->
+            <button onclick="closeConfirmModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 font-bold text-2xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 transition">
+                &times;
+            </button>
+
+            <!-- Top Green Circle Icon -->
+            <div class="flex justify-center mb-5">
+                <div class="w-20 h-20 bg-emerald-600 rounded-full flex items-center justify-center shadow-lg shadow-emerald-500/30">
+                    <i class="fa-solid fa-check text-white text-4xl"></i>
+                </div>
+            </div>
+
+            <!-- Title & Subtitle -->
+            <div class="text-center space-y-2 mb-6">
+                <h3 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Terima Kasih!</h3>
+                <p class="text-slate-600 font-semibold text-sm sm:text-base">
+                    Data Pengajuan Anda Telah Berhasil Dikirim.
+                </p>
+                <p class="text-xs sm:text-sm text-slate-500 leading-relaxed pt-1">
+                    Slot kuota promo dan jadwal survei lokasi untuk unit ready stock <strong class="text-slate-900 font-bold">BTN Banua Nagaya</strong> telah kami prioritaskan atas nama Anda.
+                </p>
+            </div>
+
+            <!-- Steps Card with Blue Left Border -->
+            <div class="bg-slate-50 border-l-4 border-blue-600 rounded-r-2xl p-4 sm:p-5 mb-6 text-left space-y-3">
+                <h4 class="font-bold text-slate-900 text-sm">Langkah Selanjutnya:</h4>
+                <ol class="space-y-2.5 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    <li class="flex items-start gap-2">
+                        <span class="font-semibold text-slate-800">1.</span>
+                        <span>Tim konsultan KPR kami akan menghubungi Anda via WhatsApp/Telepon dalam waktu 1x24 jam.</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="font-semibold text-slate-800">2.</span>
+                        <span>Pastikan nomor HP yang Anda daftarkan dalam kondisi aktif.</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="font-semibold text-slate-800">3.</span>
+                        <span>Kami akan membantu menyiapkan berkas simulasi sebelum jadwal survei lokasi dimulai.</span>
+                    </li>
+                </ol>
+            </div>
+
+            <!-- Big Green WhatsApp Button -->
+            <button onclick="sendPreparedWaMessage()" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold text-sm sm:text-base py-4 px-4 rounded-xl shadow-lg shadow-emerald-500/30 transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
+                <i class="fa-solid fa-comment-dots text-lg"></i>
+                <span>Hubungi Marketing Langsung Via WhatsApp</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Default Agent WA Number
+        let currentAgentWa = "6285150531572";
+        let pendingWaMessage = "";
+
+        // Update Agent Number across entire landing page dynamically
+        function updateAgentNumber(val) {
+            let cleanNum = val.replace(/[^0-9]/g, '');
+            if(cleanNum) {
+                currentAgentWa = cleanNum;
+                document.querySelectorAll('.active-wa-number').forEach(el => {
+                    el.textContent = currentAgentWa;
+                });
+            }
+        }
+
+        // KPR Calculator Logic
+        let selectedTenor = 15;
+
+        function setTenor(years) {
+            selectedTenor = years;
+            document.querySelectorAll('.tenor-btn').forEach(btn => {
+                btn.classList.remove('border-brand-500', 'bg-brand-500/20', 'text-emerald-300');
+                btn.classList.add('border-slate-600');
+            });
+            const activeBtn = document.getElementById('btnTenor' + years);
+            if(activeBtn) {
+                activeBtn.classList.remove('border-slate-600');
+                activeBtn.classList.add('border-brand-500', 'bg-brand-500/20', 'text-emerald-300');
+            }
+            calculateKPR();
+        }
+
+        function calculateKPR() {
+            const harga = parseFloat(document.getElementById('inputHarga').value);
+            const dpPercent = parseFloat(document.getElementById('inputDp').value);
+            const bungaAnnuity = parseFloat(document.getElementById('inputBunga').value);
+
+            const dpNominal = harga * (dpPercent / 100);
+            const plafon = harga - dpNominal;
+
+            const monthlyRate = (bungaAnnuity / 100) / 12;
+            const totalMonths = selectedTenor * 12;
+
+            // KPR Annuity formula
+            let cicilanPerBulan = 0;
+            if(monthlyRate > 0) {
+                cicilanPerBulan = plafon * (monthlyRate * Math.pow(1 + monthlyRate, totalMonths)) / (Math.pow(1 + monthlyRate, totalMonths) - 1);
+            } else {
+                cicilanPerBulan = plafon / totalMonths;
+            }
+
+            // Update DOM
+            document.getElementById('lblHarga').innerText = 'Rp ' + harga.toLocaleString('id-ID');
+            document.getElementById('lblDpPercent').innerText = dpPercent;
+            document.getElementById('lblDpNominal').innerText = 'Rp ' + dpNominal.toLocaleString('id-ID');
+            document.getElementById('lblBunga').innerText = bungaAnnuity.toFixed(1) + '%';
+            document.getElementById('lblPlafon').innerText = 'Rp ' + plafon.toLocaleString('id-ID');
+            document.getElementById('lblMonthly').innerText = 'Rp ' + Math.round(cicilanPerBulan).toLocaleString('id-ID');
+        }
+
+        // WhatsApp trigger helper
+        function openWhatsApp(customText) {
+            const url = `https://wa.me/${currentAgentWa}?text=${encodeURIComponent(customText)}`;
+            window.open(url, '_blank');
+        }
+
+        function openWhatsAppWithCalc() {
+            const harga = document.getElementById('lblHarga').innerText;
+            const dp = document.getElementById('lblDpNominal').innerText;
+            const monthly = document.getElementById('lblMonthly').innerText;
+            const tenor = selectedTenor;
+
+            const msg = `Halo Admin BTN Banua Nagaya, saya ingin konsultasi KPR:\n` +
+                        `- Harga Properti: ${harga}\n` +
+                        `- DP: ${dp}\n` +
+                        `- Tenor: ${tenor} Tahun\n` +
+                        `- Perkiraan Cicilan: ${monthly}/bulan\n` +
+                        `Mohon bantuan info berkas KPR dan jadwal surveinya.`;
+            openWhatsApp(msg);
+        }
+
+        // Lead Form Handler with Popup Confirmation Modal
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const nama = document.getElementById('leadNama').value;
+            const hp = document.getElementById('leadHp').value;
+            const skema = document.getElementById('leadSkema').value;
+            const tgl = document.getElementById('leadTanggal').value;
+            const pesan = document.getElementById('leadPesan').value;
+
+            pendingWaMessage = `Halo Admin BTN Banua Nagaya, saya ingin mendaftar survei lokasi:\n\n` +
+                                 `👤 Nama: ${nama}\n` +
+                                 `📱 WA: ${hp}\n` +
+                                 `💳 Rencana Pembayaran: ${skema}\n` +
+                                 `📅 Tanggal Survei: ${tgl}\n` +
+                                 (pesan ? `💬 Catatan: ${pesan}\n\n` : `\n`) +
+                                 `Mohon konfirmasi ketersediaan unit dan alamat presisinya. Terima kasih!`;
+            
+            // Show Confirmation Modal
+            openConfirmModal();
+        }
+
+        function openConfirmModal() {
+            const modal = document.getElementById('confirmModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeConfirmModal() {
+            const modal = document.getElementById('confirmModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function sendPreparedWaMessage() {
+            if (pendingWaMessage) {
+                openWhatsApp(pendingWaMessage);
+            } else {
+                openWhatsApp("Halo Admin BTN Banua Nagaya, saya sudah mendaftar survei dan ingin berkonsultasi langsung!");
+            }
+            closeConfirmModal();
+        }
+
+        // Gallery Lightbox Modal
+        function openGalleryModal(imgSrc, caption) {
+            document.getElementById('modalImg').src = imgSrc;
+            document.getElementById('modalCaption').innerText = caption;
+            const modal = document.getElementById('galleryModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeGalleryModal() {
+            const modal = document.getElementById('galleryModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // Copywriting Tab Switching
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('text-brand-600', 'border-b-2', 'border-brand-600');
+                btn.classList.add('text-slate-500');
+            });
+
+            document.getElementById(tabId).classList.remove('hidden');
+            const activeBtn = document.getElementById('btn-' + tabId);
+            if(activeBtn) {
+                activeBtn.classList.remove('text-slate-500');
+                activeBtn.classList.add('text-brand-600', 'border-b-2', 'border-brand-600');
+            }
+        }
+
+        // Clipboard Copy Helper
+        function copyToClipboard(elementId, btnId) {
+            const textToCopy = document.getElementById(elementId).innerText;
+            const tempInput = document.createElement("textarea");
+            tempInput.value = textToCopy;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+
+            const btn = document.getElementById(btnId);
+            const originalText = btn.innerHTML;
+            btn.innerHTML = `<i class="fa-solid fa-check text-emerald-600"></i> Tersalin!`;
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+            }, 2000);
+        }
+
+        // Smooth scroll helper
+        function scrollToSection(id) {
+            const section = document.getElementById(id);
+            if(section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // On Load Initializations
+        window.onload = function() {
+            calculateKPR();
+            // Default current date to tomorrow for survey
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            document.getElementById('leadTanggal').value = tomorrow.toISOString().split('T')[0];
+        }
+    </script>
+</body>
+</html>
