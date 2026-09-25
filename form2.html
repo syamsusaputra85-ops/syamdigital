@@ -1,0 +1,72 @@
+ <section id="lead-form" class="py-16 lg:py-24 bg-gradient-to-b from-slate-900 to-emerald-950 text-white relative">
+       <div class="form-header">
+  <h3>🔥 Amankan Blok Pilihan Anda Sekarang</h3>
+  <p><strong>PROMO TERBATAS:</strong> Cukup bayar uang booking blok, semua biaya lainnya 100% FREE! Isi data di bawah untuk cek sisa unit siap huni.</p>
+</div>
+
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-slate-800/90 border border-slate-700 rounded-3xl p-6 sm:p-10 shadow-2xl backdrop-blur-md">
+                
+                <div class="text-center max-w-2xl mx-auto mb-8">
+                    <span class="text-xs font-bold text-emerald-400 tracking-widest uppercase block mb-1">Formulir Pendaftaran Survei</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-white">
+                        Jadwalkan Survei Lokasi & Dapatkan Brosur
+                    </h2>
+                    <p class="text-slate-300 text-xs sm:text-sm mt-2">
+                        Isi form di bawah ini untuk terhubung langsung dengan tim marketing official BTN Banua Nagaya melalui WhatsApp.
+                    </p>
+                </div>
+
+                <form onsubmit="handleFormSubmit(event)" class="space-y-5">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <!-- Nama Lengkap -->
+                        <div>
+                            <label for="leadNama" class="block text-xs font-semibold text-slate-300 mb-1">Nama Lengkap *</label>
+                            <input type="text" id="leadNama" required placeholder="Contoh: Bpk. Ahmad" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-emerald-500 transition">
+                        </div>
+
+                        <!-- No WhatsApp -->
+                        <div>
+                            <label for="leadHp" class="block text-xs font-semibold text-slate-300 mb-1">Nomor WhatsApp Anda *</label>
+                            <input type="tel" id="leadHp" required placeholder="Contoh: 08123456789" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-emerald-500 transition">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <!-- Rencana Pembayaran -->
+                        <div>
+                            <label for="leadSkema" class="block text-xs font-semibold text-slate-300 mb-1">Rencana Pembayaran *</label>
+                            <select id="leadSkema" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-emerald-500 transition">
+                                <option value="KPR Bank">KPR Bank (Cicilan Bulanan)</option>
+                                <option value="Cash / Tunai Bertahap">Cash / Tunai Keras</option>
+                                <option value="Konsultasi Dulu">Konsultasi Dulu</option>
+                            </select>
+                        </div>
+
+                        <!-- Tanggal Rencana Survei -->
+                        <div>
+                            <label for="leadTanggal" class="block text-xs font-semibold text-slate-300 mb-1">Rencana Tanggal Survei *</label>
+                            <input type="date" id="leadTanggal" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-emerald-500 transition">
+                        </div>
+                    </div>
+
+                    <!-- Catatan Tambahan -->
+                    <div>
+                        <label for="leadPesan" class="block text-xs font-semibold text-slate-300 mb-1">Pertanyaan / Catatan Tambahan (Opsional)</label>
+                        <textarea id="leadPesan" rows="2" placeholder="Misal: Mau tanya simulasi cicilan DP 0% atau promo bulan ini..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-emerald-500 transition"></textarea>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="w-full bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-500 text-white font-bold text-base py-4 rounded-xl shadow-lg shadow-emerald-500/30 transition transform hover:-translate-y-0.5 flex items-center justify-center gap-3">
+                        <i class="fa-brands fa-whatsapp text-2xl"></i>
+                        <span>Kirim & Chat WhatsApp Sekarang</span>
+                    </button>
+                    
+                    <p class="text-center text-[11px] text-slate-400">
+                        *Data Anda aman dan langsung terhubung dengan tim agent resmi BTN Banua Nagaya.
+                    </p>
+                </form>
+
+            </div>
+        </div>
+    </section>
