@@ -89,6 +89,54 @@
       </div>
     </div>
   </section>
+<script>
+  function handleFormSubmit(event) {
+    // Mencegah halaman reload saat form di-submit
+    event.preventDefault();
+
+    // 1. Ambil nilai dari setiap input form
+    const nama = document.getElementById('leadNama').value.trim();
+    const hp = document.getElementById('leadHp').value.trim();
+    const skema = document.getElementById('leadSkema').value;
+    const tanggal = document.getElementById('leadTanggal').value;
+    const pesan = document.getElementById('leadPesan').value.trim();
+
+    // Nomor WhatsApp Tujuan
+    const targetWaNumber = "6285150531572";
+
+    // 2. Format tanggal agar lebih mudah dibaca (opsional)
+    let formattedDate = tanggal;
+    if (tanggal) {
+      const dateParts = tanggal.split('-');
+      if (dateParts.length === 3) {
+        formattedDate = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
+      }
+    }
+
+    // 3. Susun teks pesan WhatsApp
+    let waMessage = `Halo Admin BTN Banua Nagaya, saya ingin mendaftar survei lokasi.\n\n`;
+    waMessage += `*Data Pendaftaran:* \n`;
+    waMessage += `• *Nama Lengkap:* ${nama}\n`;
+    waMessage += `• *No. WhatsApp:* ${hp}\n`;
+    waMessage += `• *Rencana Pembayaran:* ${skema}\n`;
+    waMessage += `• *Rencana Tanggal Survei:* ${formattedDate}\n`;
+
+    if (pesan) {
+      waMessage += `• *Catatan / Pertanyaan:* ${pesan}\n`;
+    }
+
+    waMessage += `\nMohon info ketersediaan unit dan jadwal survei lokasi. Terima kasih!`;
+
+    // 4. Encode pesan teks ke URL format
+    const encodedMessage = encodeURIComponent(waMessage);
+
+    // 5. Buat URL WhatsApp
+    const waUrl = `https://wa.me/${targetWaNumber}?text=${encodedMessage}`;
+
+    // 6. Buka WhatsApp di tab/aplikasi baru
+    window.open(waUrl, '_blank');
+  }
+</script>
 
 </body>
 </html>
