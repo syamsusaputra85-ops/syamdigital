@@ -57,7 +57,8 @@
             100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
         }
     </style>
- <style>
+<!-- ==================== POPUP MODAL BANUA NAGAYA (FIXED PHOTO) ==================== -->
+<style>
   /* Overlay Backdrop Modal */
   .bn-modal-overlay {
     position: fixed;
@@ -77,7 +78,6 @@
     transition: opacity 0.4s ease, visibility 0.4s ease;
   }
 
-  /* Status Modal Aktif */
   .bn-modal-overlay.active {
     opacity: 1;
     visibility: visible;
@@ -87,7 +87,7 @@
   .bn-modal-card {
     background: #ffffff;
     width: 90%;
-    max-width: 520px;
+    max-width: 500px;
     border-radius: 24px;
     padding: 35px 25px 25px 25px;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
@@ -97,7 +97,6 @@
     transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     box-sizing: border-box;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    overflow: hidden;
   }
 
   .bn-modal-overlay.active .bn-modal-card {
@@ -132,7 +131,6 @@
     transform: rotate(90deg);
   }
 
-  /* Wrapper Gambar Logo & Foto Operator */
   .bn-modal-visuals {
     display: flex;
     flex-direction: column;
@@ -142,28 +140,28 @@
     margin-bottom: 20px;
   }
 
-  /* Kontainer Foto Profil (Syam Operator) */
+  /* --- PERBAIKAN BINGKAI FOTO --- */
   .bn-avatar-container {
     position: relative;
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 120px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #0d47a1 0%, #e65100 100%);
-    padding: 3px;
-    box-shadow: 0 8px 20px rgba(13, 71, 161, 0.25);
-    transition: transform 0.3s ease;
-  }
-
-  .bn-avatar-container:hover {
-    transform: scale(1.05);
+    background: radial-gradient(circle, #f8fafc 0%, #e2e8f0 100%);
+    padding: 4px;
+    border: 2px solid #0d47a1;
+    box-shadow: 0 10px 25px rgba(13, 71, 161, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
   }
 
   .bn-avatar-img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-    background: #ffffff;
+    /* Menggunakan contain agar seluruh foto tampil penuh tanpa terpotong */
+    object-fit: contain;
+    object-position: bottom center;
     display: block;
   }
 
@@ -173,12 +171,7 @@
     width: 80%;
     height: auto;
     object-fit: contain;
-    filter: drop-shadow(0px 8px 16px rgba(0, 51, 102, 0.2));
-    transition: transform 0.3s ease;
-  }
-
-  .bn-logo-img:hover {
-    transform: translateY(-3px);
+    filter: drop-shadow(0px 8px 16px rgba(0, 51, 102, 0.15));
   }
 
   /* Teks & Deskripsi */
@@ -205,7 +198,7 @@
     margin: 0 0 25px 0;
   }
 
-  /* Tombol Aksi Utam / CTA */
+  /* Tombol Utama */
   .bn-modal-btn {
     display: inline-block;
     width: 100%;
@@ -227,10 +220,6 @@
     background: linear-gradient(135deg, #1565c0 0%, #1e88e5 100%);
     transform: translateY(-2px);
     box-shadow: 0 6px 18px rgba(13, 71, 161, 0.4);
-  }
-
-  .bn-modal-btn:active {
-    transform: translateY(0);
   }
 </style>
 </head>
@@ -1149,13 +1138,13 @@
             document.getElementById('leadTanggal').value = tomorrow.toISOString().split('T')[0];
         }
     </script>
-<!-- Struktur HTML Modal Popup -->
+<!-- Structure HTML -->
 <div class="bn-modal-overlay" id="bnModalPopup">
   <div class="bn-modal-card">
     <button class="bn-modal-close" id="bnModalCloseBtn" aria-label="Tutup">&times;</button>
     
     <div class="bn-modal-visuals">
-      <!-- Foto Syam Operator -->
+      <!-- Foto Syam Operator (Penuh tanpa terpotong) -->
       <div class="bn-avatar-container">
         <img class="bn-avatar-img" src="https://res.cloudinary.com/di8stbg60/image/upload/v1790517923/syam-operator-removebg-preview_qoircv.png" alt="Syam Operator">
       </div>
@@ -1175,40 +1164,26 @@
 </div>
 
 <script>
-  // Fungsi untuk membuka modal
   function openBnModal() {
     const modal = document.getElementById('bnModalPopup');
-    if (modal) {
-      modal.classList.add('active');
-    }
+    if (modal) modal.classList.add('active');
   }
 
-  // Fungsi untuk menutup modal
   function closeBnModal() {
     const modal = document.getElementById('bnModalPopup');
-    if (modal) {
-      modal.classList.remove('active');
-    }
+    if (modal) modal.classList.remove('active');
   }
 
-  // Buka Modal Secara Otomatis setelah halaman selesai dimuat
   window.addEventListener('DOMContentLoaded', function() {
-    // Memberikan jeda 500ms agar halaman tampil lancar terlebih dahulu
     setTimeout(openBnModal, 500);
 
-    // Event listener tombol close (X)
     const closeBtn = document.getElementById('bnModalCloseBtn');
-    if (closeBtn) {
-      closeBtn.addEventListener('click', closeBnModal);
-    }
+    if (closeBtn) closeBtn.addEventListener('click', closeBnModal);
 
-    // Tutup modal jika user mengeklik di luar area kartu popup (backdrop)
     const modalOverlay = document.getElementById('bnModalPopup');
     if (modalOverlay) {
       modalOverlay.addEventListener('click', function(e) {
-        if (e.target === modalOverlay) {
-          closeBnModal();
-        }
+        if (e.target === modalOverlay) closeBnModal();
       });
     }
   });
