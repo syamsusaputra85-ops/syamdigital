@@ -57,17 +57,17 @@
             100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
         }
     </style>
-  <style>
-  /* Container Utama Modal */
+ <style>
+  /* Overlay Backdrop Modal */
   .bn-modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(15, 23, 42, 0.65);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+    background: rgba(15, 23, 42, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -83,20 +83,21 @@
     visibility: visible;
   }
 
-  /* Kotak Konten Modal */
+  /* Kartu Modal Utama */
   .bn-modal-card {
     background: #ffffff;
     width: 90%;
     max-width: 520px;
-    border-radius: 20px;
-    padding: 30px 25px 25px 25px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3);
+    border-radius: 24px;
+    padding: 35px 25px 25px 25px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
     position: relative;
     text-align: center;
     transform: scale(0.85) translateY(20px);
     transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     box-sizing: border-box;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow: hidden;
   }
 
   .bn-modal-overlay.active .bn-modal-card {
@@ -122,6 +123,7 @@
     justify-content: center;
     transition: background 0.2s, color 0.2s, transform 0.2s;
     line-height: 1;
+    z-index: 10;
   }
 
   .bn-modal-close:hover {
@@ -130,23 +132,53 @@
     transform: rotate(90deg);
   }
 
-  /* Wrapper Gambar Logo dengan Efek Timbul (3D) */
-  .bn-modal-img-wrapper {
-    margin: 10px 0 20px 0;
-    perspective: 1000px;
+  /* Wrapper Gambar Logo & Foto Operator */
+  .bn-modal-visuals {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
   }
 
-  .bn-modal-img-wrapper img {
-    max-width: 100%;
-    height: auto;
-    max-height: 200px;
-    object-fit: contain;
-    filter: drop-shadow(0px 12px 20px rgba(0, 51, 102, 0.25));
+  /* Kontainer Foto Profil (Syam Operator) */
+  .bn-avatar-container {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #0d47a1 0%, #e65100 100%);
+    padding: 3px;
+    box-shadow: 0 8px 20px rgba(13, 71, 161, 0.25);
     transition: transform 0.3s ease;
   }
 
-  .bn-modal-img-wrapper img:hover {
-    transform: translateY(-5px) scale(1.03);
+  .bn-avatar-container:hover {
+    transform: scale(1.05);
+  }
+
+  .bn-avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    background: #ffffff;
+    display: block;
+  }
+
+  /* Logo Banua Nagaya */
+  .bn-logo-img {
+    max-width: 280px;
+    width: 80%;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0px 8px 16px rgba(0, 51, 102, 0.2));
+    transition: transform 0.3s ease;
+  }
+
+  .bn-logo-img:hover {
+    transform: translateY(-3px);
   }
 
   /* Teks & Deskripsi */
@@ -154,7 +186,16 @@
     font-size: 22px;
     font-weight: 700;
     color: #0d47a1;
-    margin: 0 0 10px 0;
+    margin: 0 0 8px 0;
+  }
+
+  .bn-modal-subtitle {
+    font-size: 13px;
+    font-weight: 600;
+    color: #e65100;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
   }
 
   .bn-modal-desc {
@@ -174,10 +215,10 @@
     text-decoration: none;
     font-weight: 600;
     font-size: 15px;
-    border-radius: 10px;
+    border-radius: 12px;
     border: none;
     cursor: pointer;
-    box-shadow: 0 4px 12px rgba(13, 71, 161, 0.3);
+    box-shadow: 0 4px 14px rgba(13, 71, 161, 0.3);
     transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
     box-sizing: border-box;
   }
@@ -185,7 +226,7 @@
   .bn-modal-btn:hover {
     background: linear-gradient(135deg, #1565c0 0%, #1e88e5 100%);
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(13, 71, 161, 0.4);
+    box-shadow: 0 6px 18px rgba(13, 71, 161, 0.4);
   }
 
   .bn-modal-btn:active {
@@ -1113,14 +1154,20 @@
   <div class="bn-modal-card">
     <button class="bn-modal-close" id="bnModalCloseBtn" aria-label="Tutup">&times;</button>
     
-    <div class="bn-modal-img-wrapper">
-      <!-- Ganti src di bawah sesuai path/URL gambar logo Anda -->
-      <img src="logo-banua-nagaya.png" alt="BTN Banua Nagaya">
+    <div class="bn-modal-visuals">
+      <!-- Foto Syam Operator -->
+      <div class="bn-avatar-container">
+        <img class="bn-avatar-img" src="https://res.cloudinary.com/di8stbg60/image/upload/v1790517923/syam-operator-removebg-preview_qoircv.png" alt="Syam Operator">
+      </div>
+      
+      <!-- Logo Banua Nagaya -->
+      <img class="bn-logo-img" src="logo-banua-nagaya.png" alt="BTN Banua Nagaya">
     </div>
 
+    <div class="bn-modal-subtitle">Operator Support Online</div>
     <h3 class="bn-modal-title">Selamat Datang di Banua Nagaya</h3>
     <p class="bn-modal-desc">
-      Temukan hunian impian Anda di Panau - Palu Utara dengan fasilitas terbaik dan lokasi strategis.
+      Halo! Saya Syam. Ada yang bisa dibantu mengenai pilihan hunian impian Anda di Panau - Palu Utara?
     </p>
 
     <button class="bn-modal-btn" onclick="closeBnModal()">Jelajahi Sekarang</button>
