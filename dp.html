@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BANUA NAGAYA RESIDENT - Tipe 36 DP 0% Gratis</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        btnblue: {
+                            50: '#eef6ff',
+                            100: '#e0edff',
+                            500: '#1d72f3',
+                            600: '#00529c',
+                            700: '#004280',
+                            800: '#003366',
+                        },
+                        darkblue: '#0a1d37'
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f4f7fa;
+            color: #1e293b;
+        }
+        .modal-blur {
+            backdrop-filter: blur(6px);
+        }
+        .shadow-up {
+            box-shadow: 0 -8px 25px -5px rgba(0, 0, 0, 0.08), 0 -4px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+    </style>
+</head>
+<body class="min-h-screen pb-28 text-slate-800">
+
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-30">
+        <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-btnblue-600 text-white flex items-center justify-center font-bold text-sm shadow">
+                    BN
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-slate-900 text-sm tracking-tight flex items-center gap-2">
+                        KARYA BANUA NAGAYA
+                        <span class="bg-red-500 text-white text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider animate-pulse">DP 0% Gratis</span>
+                    </h1>
+                    <p class="text-[11px] text-slate-500">Perumahan Subsidi Tipe 36 - Palu Utara</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <button onclick="shareLink()" class="px-3 py-1.5 rounded-lg border border-slate-300 text-xs font-semibold text-slate-700 hover:bg-slate-50 flex items-center gap-1.5">
+                    <i class="fa-regular fa-share-from-square"></i> Bagikan
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 pt-6 space-y-6">
+
+        <!-- Header Info Properti & Banner Promo -->
+        <section class="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200/80 shadow-sm space-y-4">
+            <!-- Promo Highlight Banner -->
+            <div class="bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 text-white rounded-xl p-3.5 flex items-center justify-between shadow-md">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-xl shrink-0">
+                        <i class="fa-solid fa-gift"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-black text-sm sm:text-base tracking-wide uppercase">PROMO SPESIAL: DP 0% GRATIS!</h4>
+                        <p class="text-xs text-amber-100">Bisa langsung akad tanpa beban Uang Muka untuk Tipe 36.</p>
+                    </div>
+                </div>
+                <span class="hidden sm:inline-block bg-white text-orange-600 font-extrabold text-xs px-3 py-1 rounded-lg shadow-sm">
+                    Khusus Unit Tipe 36
+                </span>
+            </div>
+
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <!-- Left Title & Dev Badge -->
+                <div class="space-y-2">
+                    <div class="flex items-center gap-2">
+                        <span class="bg-btnblue-600 text-white text-xs font-black px-2.5 py-1 rounded-md">TIPE 36</span>
+                        <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+                            BANUA NAGAYA RECIDEN...
+                        </h1>
+                    </div>
+                    
+                    <!-- Pricing Summary -->
+                    <div class="space-y-1">
+                        <div class="text-2xl sm:text-3xl font-bold text-btnblue-600">
+                            Rp173.000.000
+                        </div>
+                        <p class="text-sm text-slate-600">
+                            Cicilan dari <span class="font-extrabold text-slate-900">Rp928rb/bln</span>
+                        </p>
+                        <p class="text-sm text-slate-600">
+                            Suku Bunga dari <span class="font-extrabold text-slate-900">5%</span>
+                        </p>
+                    </div>
+
+                    <!-- Developer Badge -->
+                    <div class="pt-2 flex items-center gap-2">
+                        <div class="w-6 h-6 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-[10px] text-btnblue-600 font-bold">
+                            K
+                        </div>
+                        <span class="text-xs font-semibold text-btnblue-600 tracking-wider uppercase">KARYA BANUA NAGAYA</span>
+                    </div>
+                </div>
+
+                <!-- Right Quick Spec Badges -->
+                <div class="flex flex-wrap md:flex-col gap-2 justify-start md:items-end">
+                    <span class="px-3 py-1.5 rounded-full bg-red-100 text-red-700 border border-red-200 text-xs font-extrabold flex items-center gap-1.5">
+                        <i class="fa-solid fa-tag"></i> DP 0% Gratis
+                    </span>
+                    <span class="px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-bold flex items-center gap-1">
+                        <i class="fa-solid fa-house-circle-check"></i> Rumah Subsidi Tipe 36
+                    </span>
+                    <span class="px-3 py-1.5 rounded-full bg-blue-50 text-btnblue-600 border border-blue-200 text-xs font-semibold">
+                        Sertifikat SHGB
+                    </span>
+                    <span class="px-3 py-1.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200 text-xs font-medium">
+                        Panau - Palu Utara
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <div class="md:col-span-2 rounded-2xl overflow-hidden h-64 sm:h-80 relative group bg-slate-200 border border-slate-200">
+                <img id="mainGalleryImage" src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=1200&q=80" alt="Banua Nagaya Tipe 36" class="w-full h-full object-cover">
+                <div class="absolute bottom-3 left-3 bg-black/60 text-white text-xs px-3 py-1.5 rounded-lg backdrop-blur-md flex items-center gap-2">
+                    <span class="font-bold text-amber-400">Tipe 36</span> / 104 m²
+                </div>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-1 gap-3">
+                <div class="rounded-2xl overflow-hidden h-30 sm:h-38 cursor-pointer border border-slate-200" onclick="switchImage('https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=1200&q=80')">
+                    <img src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover hover:scale-105 transition-transform">
+                </div>
+                <div class="rounded-2xl overflow-hidden h-30 sm:h-38 cursor-pointer border border-slate-200" onclick="switchImage('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80')">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=500&q=80" class="w-full h-full object-cover hover:scale-105 transition-transform">
+                </div>
+            </div>
+        </section>
+
+        <!-- Spec Grid -->
+        <section class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+            <div class="bg-white p-4 rounded-xl border border-slate-200 flex items-center gap-3">
+                <div class="w-10 h-10 rounded-lg bg-blue-50 text-btnblue-600 flex items-center justify-center text-lg shrink-0">
+                    <i class="fa-solid fa-bed"></i>
+                </div>
+                <div>
+                    <span class="text-xs text-slate-400 block">Kamar Tidur</span>
+                    <span class="text-base font-bold text-slate-800">2</span>
+                </div>
+            </div>
+            <div class="bg-white p-4 rounded-xl border border-slate-200 flex items-center gap-3">
+                <div class="w-10 h-10 rounded-lg bg-blue-50 text-btnblue-600 flex items-center justify-center text-lg shrink-0">
+                    <i class="fa-solid fa-bath"></i>
+                </div>
+                <div>
+                    <span class="text-xs text-slate-400 block">Kamar Mandi</span>
+                    <span class="text-base font-bold text-slate-800">1</span>
+                </div>
+            </div>
+            <div class="bg-white p-4 rounded-xl border border-slate-200 flex items-center gap-3">
+                <div class="w-10 h-10 rounded-lg bg-blue-50 text-btnblue-600 flex items-center justify-center text-lg shrink-0">
+                    <i class="fa-solid fa-ruler-combined"></i>
+                </div>
+                <div>
+                    <span class="text-xs text-slate-400 block">Luas Bangunan</span>
+                    <span class="text-base font-bold text-slate-800">36 m² (Tipe 36)</span>
+                </div>
+            </div>
+            <div class="bg-white p-4 rounded-xl border border-slate-200 flex items-center gap-3">
+                <div class="w-10 h-10 rounded-lg bg-blue-50 text-btnblue-600 flex items-center justify-center text-lg shrink-0">
+                    <i class="fa-solid fa-maximize"></i>
+                </div>
+                <div>
+                    <span class="text-xs text-slate-400 block">Luas Tanah</span>
+                    <span class="text-base font-bold text-slate-800">104 m²</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Informasi Properti Section -->
+        <section class="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <h2 class="text-lg font-bold text-slate-900">
+                    Informasi Properti
+                </h2>
+                <span class="text-xs bg-emerald-100 text-emerald-800 font-bold px-2.5 py-1 rounded">Promo DP 0% Terpenuhi</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-8 text-sm">
+                <div class="flex justify-between py-1 border-b border-slate-50">
+                    <span class="text-slate-500">Tipe Bangunan</span>
+                    <span class="font-bold text-slate-900">Tipe 36</span>
+                </div>
+                <div class="flex justify-between py-1 border-b border-slate-50">
+                    <span class="text-slate-500">Uang Muka (DP)</span>
+                    <span class="font-extrabold text-red-600 bg-red-50 px-2 py-0.5 rounded">0% (Gratis)</span>
+                </div>
+                <div class="flex justify-between py-1 border-b border-slate-50">
+                    <span class="text-slate-500">Cluster/Tower</span>
+                    <span class="font-semibold text-slate-900">BANUA NAGAYA RECIDENT</span>
+                </div>
+                <div class="flex justify-between py-1 border-b border-slate-50">
+                    <span class="text-slate-500">Blok/Lantai</span>
+                    <span class="font-semibold text-slate-900">C</span>
+                </div>
+                <div class="flex justify-between py-1 border-b border-slate-50">
+                    <span class="text-slate-500">Alamat</span>
+                    <span class="font-semibold text-slate-900 text-right">BANUA NAGAYA RECIDENT</span>
+                </div>
+                <div class="flex justify-between py-1 border-b border-slate-50">
+                    <span class="text-slate-500">Jenis Properti</span>
+                    <span class="font-semibold text-slate-900">Rumah</span>
+                </div>
+                <div class="flex justify-between py-1 border-b border-slate-50">
+                    <span class="text-slate-500">Daya Listrik</span>
+                    <span class="font-semibold text-slate-900">900 Watt</span>
+                </div>
+                <div class="flex justify-between py-1 border-b border-slate-50">
+                    <span class="text-slate-500">Jalur PDAM</span>
+                    <span class="font-semibold text-slate-900">Tidak Ada</span>
+                </div>
+                <div class="flex justify-between py-1 border-b border-slate-50">
+                    <span class="text-slate-500">Jalur Telepon</span>
+                    <span class="font-semibold text-slate-900">Tidak Ada</span>
+                </div>
+                <div class="flex justify-between py-1 border-b border-slate-50">
+                    <span class="text-slate-500">Sertifikat Unit</span>
+                    <span class="font-semibold text-slate-900">SHGB</span>
+                </div>
+                <div class="flex justify-between py-1 border-b border-slate-50 sm:col-span-2">
+                    <span class="text-slate-500">Status Properti</span>
+                    <span class="font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">Subsidi</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Bottom Fixed Sticky Bar -->
+    <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 shadow-up z-40 py-3 px-4">
+        <div class="max-w-6xl mx-auto flex items-center justify-between gap-3">
+            <!-- Left Info -->
+            <div class="hidden sm:block space-y-0.5">
+                <div class="flex items-center gap-2">
+                    <span class="text-xl font-extrabold text-btnblue-600">Rp. 173.000.000</span>
+                    <span class="bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">DP 0%</span>
+                </div>
+                <div class="text-xs text-slate-600 flex items-center gap-3">
+                    <span>Tipe <strong class="text-slate-900">36</strong></span>
+                    <span>Cicilan dari <strong class="text-slate-900">928rb/bln</strong></span>
+                    <span>Suku Bunga <strong class="text-slate-900">5 %</strong></span>
+                </div>
+            </div>
+
+            <!-- Mobile Left Info -->
+            <div class="sm:hidden space-y-0.5">
+                <div class="flex items-center gap-1.5">
+                    <span class="text-base font-extrabold text-btnblue-600">Rp. 173.000.000</span>
+                    <span class="bg-red-500 text-white text-[9px] font-bold px-1 py-0.2 rounded">DP 0%</span>
+                </div>
+                <div class="text-[11px] text-slate-600">
+                    Tipe 36 • Cicilan <strong class="text-slate-900">928rb/bln</strong>
+                </div>
+            </div>
+
+            <!-- Right Buttons -->
+            <div class="flex items-center gap-2">
+                <button onclick="openKprModal()" class="px-6 py-2.5 bg-btnblue-500 hover:bg-btnblue-600 text-white rounded-full font-bold text-sm shadow-md transition-all active:scale-95 flex items-center gap-1.5">
+                    <i class="fa-solid fa-file-signature text-xs"></i> Ajukan KPR
+                </button>
+                <button onclick="showToast('Properti ditambahkan ke daftar perbandingan')" class="px-5 py-2.5 bg-white border border-btnblue-500 text-btnblue-500 hover:bg-blue-50 rounded-full font-bold text-sm transition-all hidden xs:inline-block">
+                    Bandingkan
+                </button>
+                <a href="https://wa.me/6281234567890?text=Halo,%20saya%20ingin%20bertanya%20mengenai%20BANUA%20NAGAYA%20Tipe%2036%20Promo%20DP%200%25" target="_blank" class="w-10 h-10 rounded-full bg-btnblue-500 hover:bg-btnblue-600 text-white flex items-center justify-center text-lg shadow-md transition-transform hover:scale-105 shrink-0">
+                    <i class="fa-regular fa-comment-dots"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal KPR -->
+    <div id="kprModal" class="fixed inset-0 z-50 bg-black/60 modal-blur flex items-center justify-center p-3 sm:p-4 hidden overflow-y-auto">
+        <div class="bg-white rounded-3xl w-full max-w-md p-5 sm:p-6 shadow-2xl relative my-auto max-h-[90vh] overflow-y-auto text-slate-800">
+            
+            <!-- Close Button (X) -->
+            <button onclick="closeKprModal()" class="absolute top-4 right-4 text-btnblue-500 hover:text-slate-700 text-xl font-bold w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100">
+                ✕
+            </button>
+
+            <!-- Modal Header -->
+            <div class="text-center mb-4">
+                <span class="bg-red-100 text-red-600 text-xs font-extrabold px-3 py-1 rounded-full uppercase inline-block mb-1">Promo Khusus Tipe 36</span>
+                <h2 class="text-xl font-extrabold text-slate-900">
+                    Pengajuan KPR
+                </h2>
+            </div>
+
+            <form id="kprForm" onsubmit="handleFormSubmit(event)" class="space-y-4 text-xs sm:text-sm">
+                
+                <!-- 1. Harga Properti -->
+                <div class="space-y-1">
+                    <div class="flex justify-between items-center">
+                        <label class="font-bold text-slate-700">Harga Properti</label>
+                        <span class="text-[11px] text-btnblue-600 font-semibold">Tipe 36 / 104m²</span>
+                    </div>
+                    <div class="bg-slate-100 p-2.5 rounded-lg border border-slate-200 font-semibold text-slate-700">
+                        Rp <span id="displayHarga">173.000.000</span>
+                    </div>
+                </div>
+
+                <!-- 2. Uang Muka (DP) -->
+                <div class="space-y-1.5">
+                    <div class="flex justify-between items-center">
+                        <label class="font-bold text-slate-700">Uang Muka (DP)</label>
+                        <!-- Quick DP Preset Buttons -->
+                        <div class="flex gap-1">
+                            <button type="button" onclick="setDp(0)" class="px-2 py-0.5 bg-red-500 text-white font-extrabold text-[10px] rounded hover:bg-red-600">DP 0% (Gratis)</button>
+                            <button type="button" onclick="setDp(10)" class="px-2 py-0.5 bg-slate-200 text-slate-700 text-[10px] rounded hover:bg-slate-300">10%</button>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2">
+                        <div class="col-span-2 bg-white border border-slate-300 rounded-lg p-2.5 flex items-center font-semibold text-slate-800">
+                            Rp&nbsp;<span id="displayDpNominal">0</span>
+                        </div>
+                        <div class="col-span-1 bg-white border border-slate-300 rounded-lg p-2 flex items-center justify-between">
+                            <input type="number" id="dpPercentInput" value="0" min="0" max="90" oninput="calculateKPR()" class="w-full text-right font-semibold outline-none text-slate-800">
+                            <span class="ml-1 text-slate-500">%</span>
+                        </div>
+                    </div>
+                    <!-- DP 0% Notification Banner -->
+                    <div id="dpZeroNotice" class="bg-emerald-50 border border-emerald-200 p-2 rounded-lg text-emerald-800 text-[11px] font-semibold flex items-center gap-2">
+                        <i class="fa-solid fa-circle-check text-emerald-600"></i>
+                        <span>Promo Aktif: Bebas Uang Muka / DP 0% Gratis!</span>
+                    </div>
+                </div>
+
+                <!-- 3. Jumlah Pinjaman -->
+                <div class="space-y-1">
+                    <label class="font-bold text-slate-700">Jumlah Pinjaman</label>
+                    <div class="bg-slate-100 p-2.5 rounded-lg border border-slate-200 font-semibold text-slate-700">
+                        Rp <span id="displayPinjaman">173.000.000</span>
+                    </div>
+                </div>
+
+                <!-- 4. Jangka Waktu -->
+                <div class="space-y-1">
+                    <label class="font-bold text-slate-700">Jangka Waktu</label>
+                    <select id="tenorSelect" onchange="calculateKPR()" class="w-full bg-white border border-slate-300 rounded-lg p-2.5 font-semibold text-slate-800 outline-none focus:border-btnblue-500">
+                        <option value="10">10 Tahun</option>
+                        <option value="15" selected>15 Tahun</option>
+                        <option value="20">20 Tahun</option>
+                        <option value="25">25 Tahun</option>
+                    </select>
+                </div>
+
+                <!-- 5. Pilih Kavling -->
+                <div class="space-y-1">
+                    <label class="font-bold text-slate-700">Pilih Kavling (Tipe 36)</label>
+                    <select id="kavlingSelect" class="w-full bg-white border border-slate-300 rounded-lg p-2.5 font-semibold text-slate-800 outline-none focus:border-btnblue-500">
+                        <option value="No. 01 (Tipe 36)">No. 01 (Tipe 36)</option>
+                        <option value="No. 02 (Tipe 36)">No. 02 (Tipe 36)</option>
+                        <option value="No. 03 (Tipe 36)">No. 03 (Tipe 36)</option>
+                        <option value="No. 05 (Blok C Tipe 36)">No. 05 (Blok C Tipe 36)</option>
+                    </select>
+                </div>
+
+                <!-- 6. Pilih Jenis KPR -->
+                <div class="space-y-2 pt-1">
+                    <label class="font-bold text-slate-700">Pilih Jenis KPR</label>
+                    
+                    <!-- KPR BTN Konvensional -->
+                    <label class="flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition-all border-btnblue-500 bg-blue-50/30" id="cardKonven">
+                        <input type="radio" name="jenisKpr" value="konvensional" checked onchange="updateKprCardSelection()" class="mt-1 accent-btnblue-600">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-hand-holding-dollar text-btnblue-600 text-lg"></i>
+                                <span class="font-bold text-slate-900">KPR BTN Konvensional</span>
+                            </div>
+                            <p class="text-xs font-semibold text-slate-800 mt-0.5">
+                                <span id="konvenCicilan">Rp. 1.008.000</span> / Bulan
+                            </p>
+                            <span class="text-[11px] text-slate-500 block">5% Suku Bunga Subsidi</span>
+                            <a href="javascript:void(0)" onclick="alert('Program KPR BTN Konvensional dengan suku bunga subsidi 5% fixed sampai lunas + Promo DP 0%.')" class="text-[11px] font-bold text-btnblue-500 hover:underline mt-1 inline-block">Lihat Detail Rincian &gt;</a>
+                        </div>
+                    </label>
+
+                    <!-- KPR BTN Syariah -->
+                    <label class="flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition-all border-slate-200 hover:border-slate-300" id="cardSyariah">
+                        <input type="radio" name="jenisKpr" value="syariah" onchange="updateKprCardSelection()" class="mt-1 accent-btnblue-600">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-mosque text-emerald-600 text-lg"></i>
+                                <span class="font-bold text-slate-900">KPR BTN Syariah</span>
+                            </div>
+                            <p class="text-xs font-semibold text-slate-800 mt-0.5">
+                                <span id="syariahCicilan">Rp. 1.008.000</span> / Bulan
+                            </p>
+                            <span class="text-[11px] text-slate-500 block">5% Margin Murabahah</span>
+                            <a href="javascript:void(0)" onclick="alert('Program KPR BTN Syariah dengan akad Murabahah + Opsi Bebas Uang Muka DP 0%.')" class="text-[11px] font-bold text-btnblue-500 hover:underline mt-1 inline-block">Lihat Detail Rincian &gt;</a>
+                        </div>
+                    </label>
+                </div>
+
+                <!-- Disclaimer Text -->
+                <p class="text-[10px] text-slate-400 leading-relaxed pt-2">
+                    *Catatan: Perhitungan di atas berdasarkan skema DP 0% Gratis dan promo subsidi Tipe 36. Perhitungan akurat akan diverifikasi kembali oleh pihak bank.
+                </p>
+
+                <!-- Submit Button -->
+                <button type="submit" class="w-full py-3 bg-btnblue-500 hover:bg-btnblue-600 text-white font-bold rounded-full text-sm shadow-md transition-all active:scale-95 mt-2">
+                    Ajukan KPR (DP 0%)
+                </button>
+            </form>
+
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed top-5 right-5 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 transform -translate-y-20 opacity-0 transition-all duration-300 z-50">
+        <i class="fa-solid fa-circle-check text-emerald-400"></i>
+        <span id="toastMsg" class="text-xs font-semibold">Pesan berhasil dikirim</span>
+    </div>
+
+    <script>
+        const HARGA_PROPERTI = 173000000;
+        const BUNGA_SUBSIDI = 0.05; // 5%
+
+        // Format number to Rupiah string
+        function formatRupiah(number) {
+            return new Intl.NumberFormat('id-ID').format(Math.round(number));
+        }
+
+        // Quick Set DP Percentage
+        function setDp(percent) {
+            document.getElementById('dpPercentInput').value = percent;
+            calculateKPR();
+        }
+
+        // Calculate KPR Installment (Annuity formula)
+        function calculateKPR() {
+            const dpPercentInput = document.getElementById('dpPercentInput');
+            let dpPercent = parseFloat(dpPercentInput.value);
+            
+            if (isNaN(dpPercent) || dpPercent < 0) dpPercent = 0;
+            if (dpPercent > 90) dpPercent = 90;
+
+            const dpNominal = (HARGA_PROPERTI * dpPercent) / 100;
+            const jumlahPinjaman = HARGA_PROPERTI - dpNominal;
+
+            const tenorTahun = parseInt(document.getElementById('tenorSelect').value) || 15;
+            const jumlahBulan = tenorTahun * 12;
+
+            // Monthly interest rate
+            const bungaBulan = BUNGA_SUBSIDI / 12;
+
+            // Annuity Formula
+            let cicilanPerBulan = 0;
+            if (bungaBulan > 0) {
+                cicilanPerBulan = jumlahPinjaman * (bungaBulan * Math.pow(1 + bungaBulan, jumlahBulan)) / (Math.pow(1 + bungaBulan, jumlahBulan) - 1);
+            } else {
+                cicilanPerBulan = jumlahPinjaman / jumlahBulan;
+            }
+
+            // Update UI
+            document.getElementById('displayHarga').innerText = formatRupiah(HARGA_PROPERTI);
+            document.getElementById('displayDpNominal').innerText = formatRupiah(dpNominal);
+            document.getElementById('displayPinjaman').innerText = formatRupiah(jumlahPinjaman);
+            
+            const cicilanFormatted = "Rp. " + formatRupiah(cicilanPerBulan);
+            document.getElementById('konvenCicilan').innerText = cicilanFormatted;
+            document.getElementById('syariahCicilan').innerText = cicilanFormatted;
+
+            // Toggle DP 0 Notice Banner
+            const dpNotice = document.getElementById('dpZeroNotice');
+            if (dpPercent === 0) {
+                dpNotice.classList.remove('hidden');
+            } else {
+                dpNotice.classList.add('hidden');
+            }
+        }
+
+        // Toggle border highlight on KPR selection
+        function updateKprCardSelection() {
+            const isKonven = document.querySelector('input[name="jenisKpr"]:checked').value === 'konvensional';
+            const cardKonven = document.getElementById('cardKonven');
+            const cardSyariah = document.getElementById('cardSyariah');
+
+            if(isKonven) {
+                cardKonven.className = "flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition-all border-btnblue-500 bg-blue-50/30";
+                cardSyariah.className = "flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition-all border-slate-200 hover:border-slate-300";
+            } else {
+                cardSyariah.className = "flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition-all border-btnblue-500 bg-blue-50/30";
+                cardKonven.className = "flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition-all border-slate-200 hover:border-slate-300";
+            }
+        }
+
+        // Modal Controls
+        function openKprModal() {
+            calculateKPR();
+            document.getElementById('kprModal').classList.remove('hidden');
+        }
+
+        function closeKprModal() {
+            document.getElementById('kprModal').classList.add('hidden');
+        }
+
+        // Handle Form Submission
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const jenisKpr = document.querySelector('input[name="jenisKpr"]:checked').value;
+            const tenor = document.getElementById('tenorSelect').value;
+            const kavling = document.getElementById('kavlingSelect').value;
+            const dpPercent = document.getElementById('dpPercentInput').value;
+
+            closeKprModal();
+            
+            const text = `Halo, saya ingin mengajukan KPR BANUA NAGAYA Tipe 36.\n- Promo: DP ${dpPercent}% (Gratis)\n- Jenis: KPR BTN ${jenisKpr.toUpperCase()}\n- Kavling: ${kavling}\n- Tenor: ${tenor} Tahun`;
+            const waUrl = `https://wa.me/6281234567890?text=${encodeURIComponent(text)}`;
+            
+            window.open(waUrl, '_blank');
+        }
+
+        // Helper UI Switcher
+        function switchImage(src) {
+            document.getElementById('mainGalleryImage').src = src;
+        }
+
+        function shareLink() {
+            const temp = document.createElement('input');
+            document.body.appendChild(temp);
+            temp.value = window.location.href;
+            temp.select();
+            document.execCommand('copy');
+            document.body.removeChild(temp);
+            showToast('Tautan properti telah disalin!');
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMsg').innerText = msg;
+            toast.classList.remove('-translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('-translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        // Initial Calculation on load
+        window.onload = function() {
+            calculateKPR();
+        };
+    </script>
+</body>
+</html>
