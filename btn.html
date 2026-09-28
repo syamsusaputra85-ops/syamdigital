@@ -57,6 +57,262 @@
             100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
         }
     </style>
+<!-- ==================== POPUP MODAL BANUA NAGAYA (FIXED PHOTO) ==================== -->
+<style>
+  /* Overlay Backdrop Modal */
+  .bn-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(15, 23, 42, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+  }
+
+  .bn-modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Kartu Modal Utama */
+  .bn-modal-card {
+    background: #ffffff;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 24px;
+    padding: 35px 25px 25px 25px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+    position: relative;
+    text-align: center;
+    transform: scale(0.85) translateY(20px);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .bn-modal-overlay.active .bn-modal-card {
+    transform: scale(1) translateY(0);
+  }
+
+  /* Tombol Close (X) */
+  .bn-modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #f1f5f9;
+    border: none;
+    color: #64748b;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, color 0.2s, transform 0.2s;
+    line-height: 1;
+    z-index: 10;
+  }
+
+  .bn-modal-close:hover {
+    background: #e2e8f0;
+    color: #0f172a;
+    transform: rotate(90deg);
+  }
+
+  .bn-modal-visuals {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+
+  /* --- PERBAIKAN BINGKAI FOTO --- */
+  .bn-avatar-container {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #f8fafc 0%, #e2e8f0 100%);
+    padding: 4px;
+    border: 2px solid #0d47a1;
+    box-shadow: 0 10px 25px rgba(13, 71, 161, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .bn-avatar-img {
+    width: 100%;
+    height: 100%;
+    /* Menggunakan contain agar seluruh foto tampil penuh tanpa terpotong */
+    object-fit: contain;
+    object-position: bottom center;
+    display: block;
+  }
+
+  /* Logo Banua Nagaya */
+  .bn-logo-img {
+    max-width: 280px;
+    width: 80%;
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0px 8px 16px rgba(0, 51, 102, 0.15));
+  }
+
+  /* Teks & Deskripsi */
+  .bn-modal-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #0d47a1;
+    margin: 0 0 8px 0;
+  }
+
+  .bn-modal-subtitle {
+    font-size: 13px;
+    font-weight: 600;
+    color: #e65100;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+  }
+
+  .bn-modal-desc {
+    font-size: 14px;
+    color: #475569;
+    line-height: 1.5;
+    margin: 0 0 25px 0;
+  }
+
+  /* Tombol Utama */
+  .bn-modal-btn {
+    display: inline-block;
+    width: 100%;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #0d47a1 0%, #1565c0 100%);
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(13, 71, 161, 0.3);
+    transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+  }
+
+  .bn-modal-btn:hover {
+    background: linear-gradient(135deg, #1565c0 0%, #1e88e5 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(13, 71, 161, 0.4);
+  }
+</style>
+
+  <!-- Kode CSS Slider -->
+  <style>
+    .slider-container {
+      max-width: 100%; /* Ubah ke 100% agar lebar penuh mengikuti lebar navigasi */
+      position: relative;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+
+    .slider-wrapper {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .slide {
+      min-width: 100%;
+      position: relative;
+    }
+
+    .slide img {
+      width: 100%;
+      height: 450px; /* Sesuaikan tinggi gambar yang diinginkan */
+      object-fit: cover;
+      display: block;
+    }
+
+    .prev, .next {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 45px;
+      height: 45px;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+      border: none;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.3s ease;
+      user-select: none;
+      z-index: 10;
+    }
+
+    .prev { left: 15px; }
+    .next { right: 15px; }
+
+    .prev:hover, .next:hover {
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    .dots-container {
+      position: absolute;
+      bottom: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+      z-index: 10;
+    }
+
+    .dot {
+      cursor: pointer;
+      height: 12px;
+      width: 12px;
+      background-color: rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      display: inline-block;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .dot.active, .dot:hover {
+      background-color: #ffffff;
+      transform: scale(1.2);
+    }
+
+    @media (max-width: 768px) {
+      .slide img {
+        height: 250px;
+      }
+      .prev, .next {
+        width: 35px;
+        height: 35px;
+        font-size: 16px;
+      }
+    }
+  </style>
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased pb-16 lg:pb-0">
 
@@ -110,6 +366,92 @@
             </div>
         </div>
     </header>
+
+<!-- 2. LETAKKAN SLIDER TEPAT DI SINI (DI BAWAH NAVIGASI) -->
+  <section class="hero-slider">
+    <div class="slider-container">
+      <div class="slider-wrapper" id="sliderWrapper">
+        <div class="slide">
+          <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1790582599/slider2_ed4e6c.png" alt="Banua Nagaya Slider 2">
+        </div>
+        <div class="slide">
+          <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1790582615/slider1_b1uwa9.png" alt="Banua Nagaya Slider 1">
+        </div>
+        <div class="slide">
+          <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1790582598/slider3_vauwbj.png" alt="Banua Nagaya Slider 3">
+        </div>
+        <div class="slide">
+          <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1790582617/site-plan-banua-nagaya_wwr0ci.png" alt="Site Plan Banua Nagaya">
+        </div>
+        <div class="slide">
+          <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1790582599/slider4_v7qd07.png" alt="Banua Nagaya Slider 4">
+        </div>
+      </div>
+
+      <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
+      <button class="next" onclick="moveSlide(1)">&#10095;</button>
+      <div class="dots-container" id="dotsContainer"></div>
+    </div>
+  </section>
+
+  <!-- 3. KONTEN LAINNYA DI BAWAH SLIDER (misal: deskripsi, produk, dll) -->
+  <main>
+    <!-- Konten website Anda... -->
+  </main>
+
+  <!-- 4. KODE JAVASCRIPT SLIDER (Letakkan sebelum </body>) -->
+  <script>
+    const wrapper = document.getElementById('sliderWrapper');
+    const slides = document.querySelectorAll('.slide');
+    const dotsContainer = document.getElementById('dotsContainer');
+    
+    let currentIndex = 0;
+    const totalSlides = slides.length;
+    let autoSlideInterval;
+
+    for (let i = 0; i < totalSlides; i++) {
+      const dot = document.createElement('span');
+      dot.classList.add('dot');
+      if (i === 0) dot.classList.add('active');
+      dot.addEventListener('click', () => goToSlide(i));
+      dotsContainer.appendChild(dot);
+    }
+
+    const dots = document.querySelectorAll('.dot');
+
+    function updateSlider() {
+      wrapper.style.transform = `translateX(-${currentIndex * 100}%)`;
+      dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentIndex);
+      });
+    }
+
+    function moveSlide(direction) {
+      currentIndex = (currentIndex + direction + totalSlides) % totalSlides;
+      updateSlider();
+      resetAutoSlide();
+    }
+
+    function goToSlide(index) {
+      currentIndex = index;
+      updateSlider();
+      resetAutoSlide();
+    }
+
+    function startAutoSlide() {
+      autoSlideInterval = setInterval(() => {
+        currentIndex = (currentIndex + 1) % totalSlides;
+        updateSlider();
+      }, 4000);
+    }
+
+    function resetAutoSlide() {
+      clearInterval(autoSlideInterval);
+      startAutoSlide();
+    }
+
+    startAutoSlide();
+  </script>
 
     <section class="relative bg-gradient-to-b from-emerald-950 via-slate-900 to-slate-900 text-white overflow-hidden pt-12 pb-20 lg:pt-20 lg:pb-28">
         <!-- Decorative Background Glows -->
@@ -209,7 +551,7 @@
                                 <div class="flex justify-between items-end mt-1">
                                     <div>
                                         <span class="text-xs text-slate-400 block">Harga Estimasi Mulai:</span>
-                                        <span class="text-xl sm:text-2xl font-black text-amber-300">Rp 180.000.000</span>
+                                        <span class="text-xl sm:text-2xl font-black text-amber-300">Rp 173.000.000</span>
                                     </div>
                                     <div class="text-right">
                                         <span class="text-xs text-slate-400 block">Estimasi Cicilan:</span>
@@ -343,9 +685,9 @@
                         <div>
                             <div class="flex justify-between items-center mb-2">
                                 <label class="text-sm font-semibold text-slate-300">Harga Properti (Rp)</label>
-                                <span class="text-base font-bold text-emerald-400" id="lblHarga">Rp 180.000.000</span>
+                                <span class="text-base font-bold text-emerald-400" id="lblHarga">Rp 173.000.000</span>
                             </div>
-                            <input type="range" id="inputHarga" min="150000000" max="400000000" step="5000000" value="180000000" 
+                            <input type="range" id="inputHarga" min="150000000" max="400000000" step="5000000" value="173000000" 
                                    class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-emerald-500" oninput="calculateKPR()">
                             <div class="flex justify-between text-[10px] text-slate-400 mt-1">
                                 <span>150 Jt</span>
@@ -420,7 +762,7 @@
             <!-- Specs Grid -->
             <div class="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200/80 shadow-sm mb-12">
                 <h3 class="font-bold text-slate-900 text-lg mb-6 border-b pb-3 flex items-center gap-2">
-                    <i class="fa-solid fa-list-check text-brand-600"></i> Spesifikasi Teknis Type 36/72
+                    <i class="fa-solid fa-list-check text-brand-600"></i> Spesifikasi Teknis Type 36 M²/104 M²
                 </h3>
                 <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
                     <div class="p-4 rounded-xl bg-slate-50 text-center">
@@ -438,10 +780,10 @@
                         <span class="text-xs text-slate-500 block">Kamar Mandi</span>
                         <span class="font-bold text-slate-900 text-sm">1 Kamar Mandi</span>
                     </div>
-                     <div class="p-4 rounded-xl bg-slate-50 text-center">
-                      <i class="fa-solid fa-file text-brand-600 text-xl mb-2"></i>
-                      <span class="text-xs text-slate-500 block">DP</span>
-                      <span class="font-bold text-slate-900 text-sm">0%</span>
+                    <div class="p-4 rounded-xl bg-slate-50 text-center">
+                        <i class="fa-solid fa-car text-brand-600 text-xl mb-2"></i>
+                        <span class="text-xs text-slate-500 block">Carport</span>
+                        <span class="font-bold text-slate-900 text-sm">1 Mobil</span>
                     </div>
                     <div class="p-4 rounded-xl bg-slate-50 text-center">
                         <i class="fa-solid fa-bolt text-brand-600 text-xl mb-2"></i>
@@ -580,7 +922,7 @@
 
                         <!-- Live Embedded Google Maps iframe -->
                         <div class="relative h-72 sm:h-80 rounded-2xl overflow-hidden bg-slate-800 border border-slate-700">
-                            <iframe 
+                           <iframe 
                                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1576.5716365249746!2d119.86208438873291!3d-0.7467460811378456!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2d8bc184b2e35af5%3A0x57775b7275046a10!2sBTN.Banua%20Nagaya!5e1!3m2!1sid!2sid!4v1790224086259!5m2!1sid!2sid" 
                                 class="w-full h-full border-0" 
                                 allowfullscreen="" 
@@ -602,8 +944,14 @@
         </div>
     </section>
 
+   
 
     <section id="lead-form" class="py-16 lg:py-24 bg-gradient-to-b from-slate-900 to-emerald-950 text-white relative">
+       <div class="form-header">
+  <h3>🔥 Amankan Blok Pilihan Anda Sekarang</h3>
+  <p><strong>PROMO TERBATAS:</strong> Cukup bayar uang booking blok, semua biaya lainnya 100% FREE! Isi data di bawah untuk cek sisa unit siap huni.</p>
+</div>
+
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="bg-slate-800/90 border border-slate-700 rounded-3xl p-6 sm:p-10 shadow-2xl backdrop-blur-md">
                 
@@ -696,7 +1044,7 @@
 
                 <div>
                     <h4 class="font-bold text-white text-sm mb-3">Kontak Agen Resmi</h4>
-                    <p class="text-xs text-slate-400 mb-2">WhatsApp: <span class="active-wa-number font-semibold text-emerald-400">6285150531572</span></p>
+                    <p class="text-xs text-slate-400 mb-2">WhatsApp: <span class="active-wa-number font-semibold text-emerald-400">6281234567890</span></p>
                     <p class="text-xs text-slate-400">Layanan Fast Response Setiap Hari (08.00 - 20.00 WITA)</p>
                 </div>
             </div>
@@ -724,9 +1072,63 @@
         </div>
     </div>
 
+    <!-- Success Confirmation Modal (Matches User Design) -->
+    <div id="confirmModal" class="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm hidden items-center justify-center p-4 overflow-y-auto">
+        <div class="relative max-w-lg w-full bg-white rounded-3xl p-6 sm:p-8 shadow-2xl text-slate-800 my-8 transform transition-all border border-slate-100">
+            <!-- Close Button -->
+            <button onclick="closeConfirmModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 font-bold text-2xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 transition">
+                &times;
+            </button>
+
+            <!-- Top Green Circle Icon -->
+            <div class="flex justify-center mb-5">
+                <div class="w-20 h-20 bg-emerald-600 rounded-full flex items-center justify-center shadow-lg shadow-emerald-500/30">
+                    <i class="fa-solid fa-check text-white text-4xl"></i>
+                </div>
+            </div>
+
+            <!-- Title & Subtitle -->
+            <div class="text-center space-y-2 mb-6">
+                <h3 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Terima Kasih!</h3>
+                <p class="text-slate-600 font-semibold text-sm sm:text-base">
+                    Data Pengajuan Anda Telah Berhasil Dikirim.
+                </p>
+                <p class="text-xs sm:text-sm text-slate-500 leading-relaxed pt-1">
+                    Slot kuota promo dan jadwal survei lokasi untuk unit ready stock <strong class="text-slate-900 font-bold">BTN Banua Nagaya</strong> telah kami prioritaskan atas nama Anda.
+                </p>
+            </div>
+
+            <!-- Steps Card with Blue Left Border -->
+            <div class="bg-slate-50 border-l-4 border-blue-600 rounded-r-2xl p-4 sm:p-5 mb-6 text-left space-y-3">
+                <h4 class="font-bold text-slate-900 text-sm">Langkah Selanjutnya:</h4>
+                <ol class="space-y-2.5 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    <li class="flex items-start gap-2">
+                        <span class="font-semibold text-slate-800">1.</span>
+                        <span>Tim konsultan KPR kami akan menghubungi Anda via WhatsApp/Telepon dalam waktu 1x24 jam.</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="font-semibold text-slate-800">2.</span>
+                        <span>Pastikan nomor HP yang Anda daftarkan dalam kondisi aktif.</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="font-semibold text-slate-800">3.</span>
+                        <span>Kami akan membantu menyiapkan berkas simulasi sebelum jadwal survei lokasi dimulai.</span>
+                    </li>
+                </ol>
+            </div>
+
+            <!-- Big Green WhatsApp Button -->
+            <button onclick="sendPreparedWaMessage()" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold text-sm sm:text-base py-4 px-4 rounded-xl shadow-lg shadow-emerald-500/30 transition transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
+                <i class="fa-solid fa-comment-dots text-lg"></i>
+                <span>Hubungi Marketing Langsung Via WhatsApp</span>
+            </button>
+        </div>
+    </div>
+
     <script>
         // Default Agent WA Number
         let currentAgentWa = "6285150531572";
+        let pendingWaMessage = "";
 
         // Update Agent Number across entire landing page dynamically
         function updateAgentNumber(val) {
@@ -805,7 +1207,7 @@
             openWhatsApp(msg);
         }
 
-        // Lead Form Handler
+        // Lead Form Handler with Popup Confirmation Modal
         function handleFormSubmit(e) {
             e.preventDefault();
             const nama = document.getElementById('leadNama').value;
@@ -814,7 +1216,7 @@
             const tgl = document.getElementById('leadTanggal').value;
             const pesan = document.getElementById('leadPesan').value;
 
-            const formattedMsg = `Halo Admin BTN Banua Nagaya, saya ingin mendaftar survei lokasi:\n\n` +
+            pendingWaMessage = `Halo Admin BTN Banua Nagaya, saya ingin mendaftar survei lokasi:\n\n` +
                                  `👤 Nama: ${nama}\n` +
                                  `📱 WA: ${hp}\n` +
                                  `💳 Rencana Pembayaran: ${skema}\n` +
@@ -822,7 +1224,29 @@
                                  (pesan ? `💬 Catatan: ${pesan}\n\n` : `\n`) +
                                  `Mohon konfirmasi ketersediaan unit dan alamat presisinya. Terima kasih!`;
             
-            openWhatsApp(formattedMsg);
+            // Show Confirmation Modal
+            openConfirmModal();
+        }
+
+        function openConfirmModal() {
+            const modal = document.getElementById('confirmModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeConfirmModal() {
+            const modal = document.getElementById('confirmModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function sendPreparedWaMessage() {
+            if (pendingWaMessage) {
+                openWhatsApp(pendingWaMessage);
+            } else {
+                openWhatsApp("Halo Admin BTN Banua Nagaya, saya sudah mendaftar survei dan ingin berkonsultasi langsung!");
+            }
+            closeConfirmModal();
         }
 
         // Gallery Lightbox Modal
@@ -891,5 +1315,56 @@
             document.getElementById('leadTanggal').value = tomorrow.toISOString().split('T')[0];
         }
     </script>
+<!-- Structure HTML -->
+<div class="bn-modal-overlay" id="bnModalPopup">
+  <div class="bn-modal-card">
+    <button class="bn-modal-close" id="bnModalCloseBtn" aria-label="Tutup">&times;</button>
+    
+    <div class="bn-modal-visuals">
+      <!-- Foto Syam Operator (Penuh tanpa terpotong) -->
+      <div class="bn-avatar-container">
+        <img class="bn-avatar-img" src="https://res.cloudinary.com/di8stbg60/image/upload/v1790517923/syam-operator-removebg-preview_qoircv.png" alt="Syam Operator">
+      </div>
+      
+      <!-- Logo Banua Nagaya -->
+      <img class="bn-logo-img" src="logo-banua-nagaya.png" alt="BTN Banua Nagaya">
+    </div>
+
+    <div class="bn-modal-subtitle">Operator Support Online</div>
+    <h3 class="bn-modal-title">Selamat Datang di Banua Nagaya</h3>
+    <p class="bn-modal-desc">
+      Halo! Saya Syam. Ada yang bisa dibantu mengenai pilihan hunian impian Anda di Panau - Palu Utara?
+    </p>
+
+    <button class="bn-modal-btn" onclick="closeBnModal()">Jelajahi Sekarang</button>
+  </div>
+</div>
+
+<script>
+  function openBnModal() {
+    const modal = document.getElementById('bnModalPopup');
+    if (modal) modal.classList.add('active');
+  }
+
+  function closeBnModal() {
+    const modal = document.getElementById('bnModalPopup');
+    if (modal) modal.classList.remove('active');
+  }
+
+  window.addEventListener('DOMContentLoaded', function() {
+    setTimeout(openBnModal, 500);
+
+    const closeBtn = document.getElementById('bnModalCloseBtn');
+    if (closeBtn) closeBtn.addEventListener('click', closeBnModal);
+
+    const modalOverlay = document.getElementById('bnModalPopup');
+    if (modalOverlay) {
+      modalOverlay.addEventListener('click', function(e) {
+        if (e.target === modalOverlay) closeBnModal();
+      });
+    }
+  });
+</script>
+<!-- ==================== END POPUP MODAL ==================== -->
 </body>
 </html>
