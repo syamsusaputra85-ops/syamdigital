@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dokumen Kapal Siap Hari Ini - PT.AGAS88</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Favicon & App Icon untuk Google Search & Browser -->
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png">
+    <link rel="shortcut icon" type="image/x-icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png">
+    <link rel="apple-touch-icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png">
+     <link rel="icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png" type="image/png" sizes="48x48">
+     <link rel="icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png" type="image/png" sizes="192x192">
+     <link rel="shortcut icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png" type="image/x-icon">
+     <link rel="apple-touch-icon" href="https://res.cloudinary.com/di8stbg60/image/upload/v1779535052/logo_fft6zk.png">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen pb-12">
+
+  <!-- Header -->
+  <header class="bg-slate-800 border-b border-slate-700 sticky top-0 z-30 shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div class="flex items-center space-x-3">
+        <div class="p-2.5 bg-blue-600 rounded-xl text-white shadow-md shadow-blue-500/20">
+          <i class="fa-solid fa-ship text-2xl"></i>
+        </div>
+        <div>
+          <h1 class="text-xl font-bold text-white tracking-wide">PT.AGAS88</h1>
+          <p class="text-xs text-blue-400 font-medium flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            Monitoring Dokumen & Muatan Kapal Siap
+          </p>
+        </div>
+      </div>
+      
+      <!-- Input Nomor WhatsApp Tujuan -->
+      <div class="flex items-center gap-2 bg-slate-900/80 p-2 rounded-xl border border-slate-700/80">
+        <i class="fa-brands fa-whatsapp text-emerald-400 text-lg pl-2"></i>
+        <input 
+          type="tel" 
+          id="targetPhone" 
+          placeholder="No. WA Tujuan (Contoh: 081234567890)" 
+          class="bg-transparent text-xs text-slate-200 placeholder-slate-500 focus:outline-none w-full md:w-64 px-1"
+        >
+      </div>
+    </div>
+  </header>
+<style>
+.float-home-neon {
+  position: fixed;
+  bottom: 25px;
+  left: 25px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 50px;
+  color: #fff;
+  text-decoration: none;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 1px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  z-index: 9999;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.float-home-neon .home-icon {
+  width: 20px;
+  height: 20px;
+  fill: #00f2fe;
+  transition: transform 0.3s ease;
+}
+
+.float-home-neon:hover {
+  transform: translateY(-5px) scale(1.05);
+  background: rgba(15, 23, 42, 0.9);
+  border-color: #00f2fe;
+  box-shadow: 0 0 20px rgba(0, 242, 254, 0.6);
+  color: #00f2fe;
+}
+
+.float-home-neon:hover .home-icon {
+  transform: scale(1.2);
+  fill: #00f2fe;
+}
+  </style>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+    
+    <!-- Statistik Quick View -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+      <div class="bg-slate-800/80 border border-slate-700/60 p-4 rounded-xl flex items-center justify-between">
+        <div>
+          <p class="text-xs text-slate-400 font-medium">Total Kapal Ready</p>
+          <p class="text-2xl font-bold text-white mt-1" id="statTotal">0</p>
+        </div>
+        <div class="p-3 bg-blue-500/10 text-blue-400 rounded-lg">
+          <i class="fa-solid fa-anchor text-xl"></i>
+        </div>
+      </div>
+      
+      <div class="bg-slate-800/80 border border-slate-700/60 p-4 rounded-xl flex items-center justify-between">
+        <div>
+          <p class="text-xs text-slate-400 font-medium">Ada Muatan (Ikan/Sayuran/Tumbuhan)</p>
+          <p class="text-2xl font-bold text-emerald-400 mt-1" id="statHasCargo">0</p>
+        </div>
+        <div class="p-3 bg-emerald-500/10 text-emerald-400 rounded-lg">
+          <i class="fa-solid fa-boxes-packing text-xl"></i>
+        </div>
+      </div>
+
+      <div class="bg-slate-800/80 border border-slate-700/60 p-4 rounded-xl flex items-center justify-between">
+        <div>
+          <p class="text-xs text-slate-400 font-medium">Kapal Dipilih</p>
+          <p class="text-2xl font-bold text-emerald-400 mt-1" id="statSelectedCount">0</p>
+        </div>
+        <div class="p-3 bg-emerald-500/10 text-emerald-400 rounded-lg">
+          <i class="fa-solid fa-square-check text-xl"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter Bar & Action Button -->
+    <div class="bg-slate-800 border border-slate-700 rounded-xl p-4 mb-6 shadow-md">
+      <div class="flex flex-col md:flex-row gap-4 items-center justify-between">
+        
+        <!-- Search Input -->
+        <div class="relative w-full md:w-80">
+          <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+          <input 
+            type="text" 
+            id="searchInput" 
+            placeholder="Cari Nama Kapal..." 
+            class="w-full bg-slate-900 border border-slate-700 rounded-lg pl-10 pr-4 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-blue-500 transition-colors"
+          >
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex items-center gap-2 w-full md:w-auto justify-end flex-wrap">
+          <!-- Tombol Update Data (Google Sheets) -->
+          <a 
+            href="https://docs.google.com/spreadsheets/d/1ePG9CKHr0hC0c3-CDs6f_NkS_6bn8thkykuanBkgAJM/edit?usp=sharing" 
+            target="_blank" 
+            class="bg-blue-600 hover:bg-blue-500 text-white text-sm px-3.5 py-2.5 rounded-lg transition-colors flex items-center gap-1.5 font-medium shadow-md shadow-blue-600/20"
+            title="Buka Google Sheets untuk Mengubah Data"
+          >
+            <i class="fa-solid fa-pen-to-square"></i>
+            <span>Update Data</span>
+          </a>
+
+          <!-- Tombol Sync Data -->
+          <button 
+            onclick="fetchDataFromGoogleSheets()" 
+            class="bg-slate-700 hover:bg-slate-600 text-slate-200 text-sm px-3.5 py-2.5 rounded-lg transition-colors flex items-center gap-1.5"
+            title="Refresh Data dari Google Sheets"
+          >
+            <i class="fa-solid fa-arrows-rotate" id="refreshIcon"></i>
+            <span>Sync Data</span>
+          </button>
+          
+          <!-- Tombol Kirim WA -->
+          <button 
+            onclick="shareSelectedWhatsApp()" 
+            id="btnShareSelected"
+            class="flex-1 md:flex-initial bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-sm px-4 py-2.5 rounded-lg transition-colors flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/20"
+          >
+            <i class="fa-brands fa-whatsapp text-base"></i>
+            <span id="btnShareText">Kirim Kapal Terpilih (0)</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Container Data (Tabel Desktop & Kartu Mobile) -->
+    <div class="bg-slate-800 border border-slate-700 rounded-xl shadow-xl overflow-hidden">
+      
+      <!-- Table View (Desktop) -->
+      <div class="hidden md:block overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-slate-900/60 border-b border-slate-700 text-slate-400 text-xs font-semibold uppercase tracking-wider">
+              <th class="py-3.5 px-4 text-center w-10">
+                <input type="checkbox" id="selectAll" onchange="toggleSelectAll(this)" class="w-4 h-4 rounded accent-emerald-500 bg-slate-900 border-slate-700 cursor-pointer">
+              </th>
+              <th class="py-3.5 px-3 text-center w-12">No</th>
+              <th class="py-3.5 px-6">Nama Kapal</th>
+              <th class="py-3.5 px-6">Ikan</th>
+              <th class="py-3.5 px-6">Sayuran</th>
+              <th class="py-3.5 px-6">Tumbuhan</th>
+              <th class="py-3.5 px-6 text-center">Status</th>
+              <th class="py-3.5 px-6 text-center">Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="shipTableBody" class="divide-y divide-slate-700/60 text-sm text-slate-200">
+            <!-- Render via JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Card View (Mobile) -->
+      <div class="md:hidden p-3 bg-slate-900/40 border-b border-slate-700/80 flex items-center justify-between">
+        <label class="inline-flex items-center gap-2 text-xs font-medium text-slate-300 cursor-pointer">
+          <input type="checkbox" id="selectAllMobile" onchange="toggleSelectAll(this)" class="w-4 h-4 rounded accent-emerald-500 bg-slate-900 border-slate-700">
+          Pilih Semua Kapal
+        </label>
+      </div>
+      <div id="shipCardContainer" class="md:hidden p-4 space-y-3">
+        <!-- Render via JS -->
+      </div>
+
+      <!-- Empty / Loading State -->
+      <div id="emptyState" class="hidden py-12 text-center text-slate-400">
+        <i class="fa-solid fa-ship text-4xl text-slate-600 mb-3"></i>
+        <p class="text-base font-medium" id="emptyStateMsg">Memuat data dari Google Sheets...</p>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- MODAL RINCIAN KAPAL -->
+  <div id="detailModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-md w-full p-6 shadow-2xl transform scale-95 transition-transform duration-300" id="detailModalCard">
+      
+      <!-- Modal Header -->
+      <div class="flex items-start justify-between pb-4 border-b border-slate-700/80">
+        <div class="flex items-center gap-3">
+          <div class="p-2.5 bg-blue-600/20 text-blue-400 border border-blue-500/30 rounded-xl">
+            <i class="fa-solid fa-ship text-xl"></i>
+          </div>
+          <div>
+            <span class="text-[10px] uppercase font-bold tracking-wider text-slate-400">Rincian Dokumen Kapal</span>
+            <h3 class="text-lg font-bold text-white leading-tight mt-0.5" id="modalShipName">KLM. SUMBER RIZKY</h3>
+          </div>
+        </div>
+        <button onclick="closeModal()" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-700/50 transition-colors">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <!-- Opsi Checkbox Pilihan -->
+      <div class="my-4 bg-slate-900/60 border border-slate-700/60 p-3 rounded-xl flex items-center justify-between">
+        <span class="text-xs text-slate-300 font-medium">Pilih / Centang Kapal Ini:</span>
+        <label class="inline-flex items-center gap-2 cursor-pointer bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700 hover:border-emerald-500/50 transition-colors">
+          <input type="checkbox" id="modalCheckbox" onchange="onModalCheckboxChange()" class="w-4 h-4 rounded accent-emerald-500 bg-slate-900 border-slate-700 cursor-pointer">
+          <span class="text-xs font-semibold text-emerald-400" id="modalCheckboxLabel">Terpilih</span>
+        </label>
+      </div>
+
+      <!-- Detail Grid Muatan -->
+      <div class="space-y-2.5 my-4">
+        <div class="flex items-center justify-between bg-slate-900/40 p-3 rounded-xl border border-slate-700/40">
+          <div class="flex items-center gap-2">
+            <span class="text-lg">🐟</span>
+            <span class="text-xs font-medium text-slate-300">Muatan Ikan</span>
+          </div>
+          <span class="font-mono font-bold text-blue-400 text-sm" id="modalIkan">4.000</span>
+        </div>
+
+        <div class="flex items-center justify-between bg-slate-900/40 p-3 rounded-xl border border-slate-700/40">
+          <div class="flex items-center gap-2">
+            <span class="text-lg">🥬</span>
+            <span class="text-xs font-medium text-slate-300">Muatan Sayuran</span>
+          </div>
+          <span class="font-mono font-bold text-amber-400 text-sm" id="modalSayuran">2.000</span>
+        </div>
+
+        <div class="flex items-center justify-between bg-slate-900/40 p-3 rounded-xl border border-slate-700/40">
+          <div class="flex items-center gap-2">
+            <span class="text-lg">🌱</span>
+            <span class="text-xs font-medium text-slate-300">Muatan Tumbuhan</span>
+          </div>
+          <span class="font-mono font-bold text-emerald-400 text-sm" id="modalTumbuhan">7.000</span>
+        </div>
+
+        <div class="flex items-center justify-between bg-slate-900/40 p-3 rounded-xl border border-slate-700/40">
+          <div class="flex items-center gap-2">
+            <i class="fa-solid fa-circle-check text-emerald-400 text-base"></i>
+            <span class="text-xs font-medium text-slate-300">Status Dokumen</span>
+          </div>
+          <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">READY HARI INI</span>
+        </div>
+      </div>
+
+      <!-- Modal Footer Action -->
+      <div class="pt-4 border-t border-slate-700/80 flex gap-2">
+        <button onclick="shareFromModal()" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs py-2.5 rounded-xl transition-colors flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/20">
+          <i class="fa-brands fa-whatsapp text-sm"></i>
+          Kirim WA Kapal Ini
+        </button>
+        <button onclick="closeModal()" class="bg-slate-700 hover:bg-slate-600 text-slate-300 font-medium text-xs px-4 py-2.5 rounded-xl transition-colors">
+          Tutup
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Notification Toast -->
+  <div id="toast" class="fixed bottom-5 right-5 bg-emerald-600 text-white text-xs font-medium px-4 py-3 rounded-lg shadow-2xl opacity-0 transition-opacity duration-300 pointer-events-none z-50 flex items-center gap-2">
+    <i class="fa-solid fa-circle-check"></i>
+    <span id="toastMsg">Pesan terkirim ke WhatsApp</span>
+  </div>
+
+  <script>
+    // URL Ekspor CSV Live dari Google Sheets
+    const GOOGLE_SHEETS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS3n_SRyBO4_6i-kQzXy_8WvMR0jz8pP8Ruk023tUPhW_2gzYALZp2WsS53hY6GKtAArb1n3B2P2PE-/pub?gid=0&single=true&output=csv";
+                                   
+
+    let shipData = [];
+    let filteredData = [];
+    let selectedShipIds = new Set();
+    let currentModalShip = null;
+
+    // Fungsi Mengambil Data Otomatis dari Google Sheets
+    async function fetchDataFromGoogleSheets() {
+      const refreshIcon = document.getElementById('refreshIcon');
+      if (refreshIcon) refreshIcon.classList.add('fa-spin');
+      
+      const emptyState = document.getElementById('emptyState');
+      const emptyStateMsg = document.getElementById('emptyStateMsg');
+      emptyState.classList.remove('hidden');
+      emptyStateMsg.innerText = "Mengambil data terbaru dari Google Sheets...";
+
+      try {
+        const response = await fetch(GOOGLE_SHEETS_CSV_URL + "&t=" + new Date().getTime());
+        const csvText = await response.text();
+        
+        // Parse CSV
+        const lines = csvText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+        shipData = [];
+        
+        for (let i = 1; i < lines.length; i++) {
+          const cols = lines[i].split(',').map(c => c.replace(/^"|"$/g, '').trim());
+          if (cols[0]) {
+            shipData.push({
+              id: i,
+              nama: cols[0] || '-',
+              ikan: cols[1] && cols[1] !== '' ? cols[1] : '-',
+              sayuran: cols[2] && cols[2] !== '' && cols.length > 3 ? cols[2] : '-',
+              tumbuhan: cols[cols.length - 1] && cols[cols.length - 1] !== '' ? cols[cols.length - 1] : (cols[2] || '-')
+            });
+          }
+        }
+
+        filteredData = [...shipData];
+        
+        // Hitung Statistik
+        document.getElementById('statTotal').innerText = shipData.length;
+        const hasCargoCount = shipData.filter(s => s.ikan !== '-' || s.sayuran !== '-' || s.tumbuhan !== '-').length;
+        document.getElementById('statHasCargo').innerText = hasCargoCount;
+
+        renderTable();
+        showToast("Data Google Sheets berhasil diperbarui!");
+      } catch (error) {
+        console.error("Gagal mengambil data:", error);
+        emptyStateMsg.innerText = "Gagal memuat data dari Google Sheets. Memuat data cadangan...";
+        
+        // Data Cadangan Sesuai Spreadsheet
+        shipData = [
+          { id: 1, nama: "KLM.SUMBER RIZKY", ikan: "4.000", sayuran: "2.000", tumbuhan: "7.000" },
+          { id: 2, nama: "KLM.SUMBER RIZKY 02", ikan: "5.000", sayuran: "2.000", tumbuhan: "8.000" },
+          { id: 3, nama: "KLM.SUMBER REZKY A", ikan: "4.000", sayuran: "3.000", tumbuhan: "9.000" },
+          { id: 4, nama: "KLM.ADI RAHMATULLAH PUTRA", ikan: "4.000", sayuran: "2.000", tumbuhan: "11.000" },
+          { id: 5, nama: "KLM.SUMBER REZKY B", ikan: "4.000", sayuran: "4.000", tumbuhan: "9.000" },
+          { id: 6, nama: "KLM.QUDRAT ILAHI", ikan: "5.000", sayuran: "2.000", tumbuhan: "7.000" },
+          { id: 7, nama: "KLM.FIRDAH JAYA 03", ikan: "6.000", sayuran: "2.000", tumbuhan: "7.000" },
+          { id: 8, nama: "KLM.SYUKRAN 3", ikan: "4.000", sayuran: "3.000", tumbuhan: "7.000" },
+          { id: 9, nama: "KLM.SYUKRAN 03", ikan: "4.000", sayuran: "3.000", tumbuhan: "9.000" },
+          { id: 10, nama: "KLM.BUNGA RIZKA", ikan: "5.000", sayuran: "2.000", tumbuhan: "10.000" },
+          { id: 11, nama: "KLM.SURYA UTAMA 77", ikan: "6.000", sayuran: "3.000", tumbuhan: "11.000" },
+          { id: 12, nama: "KLM.MARHABAN 02", ikan: "4.000", sayuran: "3.000", tumbuhan: "7.000" },
+          { id: 13, nama: "KLM.BERKAT SABAR 05", ikan: "4.000", sayuran: "2.000", tumbuhan: "9.000" },
+          { id: 14, nama: "KLM.BERKAH ILAHI 99", ikan: "6.000", sayuran: "3.000", tumbuhan: "10.000" },
+          { id: 15, nama: "KLM.SUMBER REZKY 88", ikan: "16.000", sayuran: "4.000", tumbuhan: "13.000" },
+          { id: 16, nama: "KLM.ANUGERAH REZKY PUTRA", ikan: "6.000", sayuran: "4.000", tumbuhan: "9.000" }
+        ];
+        filteredData = [...shipData];
+        document.getElementById('statTotal').innerText = shipData.length;
+        document.getElementById('statHasCargo').innerText = shipData.length;
+        renderTable();
+      } finally {
+        if (refreshIcon) refreshIcon.classList.remove('fa-spin');
+      }
+    }
+
+    // Helper Format Phone Number
+    function getFormattedPhone() {
+      const input = document.getElementById('targetPhone').value.trim();
+      if (!input) return '';
+      let clean = input.replace(/[^0-9]/g, '');
+      if (clean.startsWith('0')) {
+        clean = '62' + clean.slice(1);
+      }
+      return clean;
+    }
+
+    // Helper Tanggal dan Waktu Real-Time
+    function getDateTimeString() {
+      const now = new Date();
+      const optionsDate = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+      const tanggal = now.toLocaleDateString('id-ID', optionsDate);
+      
+      const jam = String(now.getHours()).padStart(2, '0');
+      const menit = String(now.getMinutes()).padStart(2, '0');
+      
+      return `${tanggal} - Pukul ${jam}:${menit}`;
+    }
+
+    // Modal Functions
+    function openModal(shipId) {
+      const ship = shipData.find(s => s.id === shipId);
+      if (!ship) return;
+
+      currentModalShip = ship;
+      document.getElementById('modalShipName').innerText = ship.nama;
+      document.getElementById('modalIkan').innerText = ship.ikan;
+      document.getElementById('modalSayuran').innerText = ship.sayuran;
+      document.getElementById('modalTumbuhan').innerText = ship.tumbuhan;
+
+      const modalCheckbox = document.getElementById('modalCheckbox');
+      modalCheckbox.checked = selectedShipIds.has(ship.id);
+      document.getElementById('modalCheckboxLabel').innerText = modalCheckbox.checked ? "Terpilih" : "Tidak Terpilih";
+
+      const modal = document.getElementById('detailModal');
+      const card = document.getElementById('detailModalCard');
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      card.classList.remove('scale-95');
+      card.classList.add('scale-100');
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('detailModal');
+      const card = document.getElementById('detailModalCard');
+      modal.classList.add('opacity-0', 'pointer-events-none');
+      card.classList.remove('scale-100');
+      card.classList.add('scale-95');
+      currentModalShip = null;
+    }
+
+    function onModalCheckboxChange() {
+      if (!currentModalShip) return;
+      toggleSelectShip(currentModalShip.id);
+      const isChecked = selectedShipIds.has(currentModalShip.id);
+      document.getElementById('modalCheckbox').checked = isChecked;
+      document.getElementById('modalCheckboxLabel').innerText = isChecked ? "Terpilih" : "Tidak Terpilih";
+      renderTable();
+    }
+
+    function shareFromModal() {
+      if (!currentModalShip) return;
+      shareSingleWhatsApp(currentModalShip.nama, currentModalShip.ikan, currentModalShip.sayuran, currentModalShip.tumbuhan);
+    }
+
+    // Toggle Single Checkbox
+    function toggleSelectShip(id) {
+      if (selectedShipIds.has(id)) {
+        selectedShipIds.delete(id);
+      } else {
+        selectedShipIds.add(id);
+      }
+      updateUISelectionState();
+    }
+
+    // Toggle Select All
+    function toggleSelectAll(masterCheckbox) {
+      const isChecked = masterCheckbox.checked;
+      document.getElementById('selectAll').checked = isChecked;
+      document.getElementById('selectAllMobile').checked = isChecked;
+
+      filteredData.forEach(ship => {
+        if (isChecked) {
+          selectedShipIds.add(ship.id);
+        } else {
+          selectedShipIds.delete(ship.id);
+        }
+      });
+      renderTable();
+    }
+
+    // Update UI Stats & Counter
+    function updateUISelectionState() {
+      const count = selectedShipIds.size;
+      document.getElementById('statSelectedCount').innerText = count;
+      document.getElementById('btnShareText').innerText = `Kirim Kapal Terpilih (${count})`;
+      
+      const selectAllDesktop = document.getElementById('selectAll');
+      const selectAllMobile = document.getElementById('selectAllMobile');
+      const allFilteredSelected = filteredData.length > 0 && filteredData.every(s => selectedShipIds.has(s.id));
+      
+      if (selectAllDesktop) selectAllDesktop.checked = allFilteredSelected;
+      if (selectAllMobile) selectAllMobile.checked = allFilteredSelected;
+    }
+
+    // Render Table & Cards
+    function renderTable() {
+      const tbody = document.getElementById('shipTableBody');
+      const cards = document.getElementById('shipCardContainer');
+      const emptyState = document.getElementById('emptyState');
+
+      tbody.innerHTML = '';
+      cards.innerHTML = '';
+
+      if (filteredData.length === 0) {
+        emptyState.classList.remove('hidden');
+        document.getElementById('emptyStateMsg').innerText = "Kapal tidak ditemukan";
+        updateUISelectionState();
+        return;
+      }
+      emptyState.classList.add('hidden');
+
+      filteredData.forEach((ship, index) => {
+        const isChecked = selectedShipIds.has(ship.id);
+
+        // Render Table Row (Desktop)
+        const tr = document.createElement('tr');
+        tr.className = `hover:bg-slate-700/40 transition-colors ${isChecked ? 'bg-slate-700/30' : ''}`;
+        tr.innerHTML = `
+          <td class="py-3.5 px-4 text-center">
+            <input type="checkbox" ${isChecked ? 'checked' : ''} onchange="toggleSelectShip(${ship.id}); renderTable();" class="w-4 h-4 rounded accent-emerald-500 bg-slate-900 border-slate-700 cursor-pointer">
+          </td>
+          <td class="py-3.5 px-3 text-center font-medium text-slate-400">${index + 1}</td>
+          <td class="py-3.5 px-6">
+            <button onclick="openModal(${ship.id})" class="font-semibold text-blue-400 hover:text-blue-300 hover:underline text-left flex items-center gap-1.5 group">
+              <span>${ship.nama}</span>
+              <i class="fa-solid fa-circle-info text-xs opacity-0 group-hover:opacity-100 transition-opacity"></i>
+            </button>
+          </td>
+          <td class="py-3.5 px-6 font-mono text-xs">${ship.ikan !== '-' ? `<span class="bg-blue-900/40 text-blue-300 border border-blue-700/50 px-2 py-0.5 rounded font-semibold">${ship.ikan}</span>` : '<span class="text-slate-500">-</span>'}</td>
+          <td class="py-3.5 px-6 font-mono text-xs">${ship.sayuran !== '-' ? `<span class="bg-amber-900/40 text-amber-300 border border-amber-700/50 px-2 py-0.5 rounded font-semibold">${ship.sayuran}</span>` : '<span class="text-slate-500">-</span>'}</td>
+          <td class="py-3.5 px-6 font-mono text-xs">${ship.tumbuhan !== '-' ? `<span class="bg-emerald-900/40 text-emerald-300 border border-emerald-700/50 px-2 py-0.5 rounded font-semibold">${ship.tumbuhan}</span>` : '<span class="text-slate-500">-</span>'}</td>
+          <td class="py-3.5 px-6 text-center">
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1.5"></span>
+              Ready
+            </span>
+          </td>
+          <td class="py-3.5 px-6 text-center">
+            <button onclick="shareSingleWhatsApp('${ship.nama}', '${ship.ikan}', '${ship.sayuran}', '${ship.tumbuhan}')" class="inline-flex items-center gap-1.5 bg-emerald-600/20 hover:bg-emerald-600 text-emerald-400 hover:text-white border border-emerald-500/30 text-xs font-medium px-3 py-1.5 rounded-lg transition-all">
+              <i class="fa-brands fa-whatsapp"></i>
+              Kirim
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+
+        // Render Card (Mobile)
+        const card = document.createElement('div');
+        card.className = `bg-slate-900/60 border ${isChecked ? 'border-emerald-500/60 bg-slate-800/80' : 'border-slate-700/70'} p-4 rounded-xl space-y-3 transition-colors`;
+        card.innerHTML = `
+          <div class="flex items-start justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <input type="checkbox" ${isChecked ? 'checked' : ''} onchange="toggleSelectShip(${ship.id}); renderTable();" class="w-4 h-4 rounded accent-emerald-500 bg-slate-900 border-slate-700 cursor-pointer">
+              <button onclick="openModal(${ship.id})" class="font-bold text-blue-400 hover:underline text-left text-base">
+                ${ship.nama}
+              </button>
+            </div>
+            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shrink-0">
+              Ready
+            </span>
+          </div>
+          <div class="grid grid-cols-3 gap-2 text-xs text-slate-300 bg-slate-800/50 p-2.5 rounded-lg">
+            <div>
+              <span class="text-slate-500 block text-[10px]">IKAN</span>
+              <span class="font-mono font-semibold text-blue-400">${ship.ikan}</span>
+            </div>
+            <div>
+              <span class="text-slate-500 block text-[10px]">SAYURAN</span>
+              <span class="font-mono font-semibold text-amber-400">${ship.sayuran}</span>
+            </div>
+            <div>
+              <span class="text-slate-500 block text-[10px]">TUMBUHAN</span>
+              <span class="font-mono font-semibold text-emerald-400">${ship.tumbuhan}</span>
+            </div>
+          </div>
+          <div class="flex gap-2">
+            <button onclick="openModal(${ship.id})" class="bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs px-3 py-2 rounded-lg font-medium">
+              Rincian
+            </button>
+            <button onclick="shareSingleWhatsApp('${ship.nama}', '${ship.ikan}', '${ship.sayuran}', '${ship.tumbuhan}')" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs py-2 rounded-lg transition-colors flex items-center justify-center gap-1.5">
+              <i class="fa-brands fa-whatsapp text-sm"></i>
+              Kirim WA
+            </button>
+          </div>
+        `;
+        cards.appendChild(card);
+      });
+
+      updateUISelectionState();
+    }
+
+    // Filter Logic
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+      const keyword = e.target.value.toLowerCase();
+      filteredData = shipData.filter(ship => 
+        ship.nama.toLowerCase().includes(keyword) ||
+        ship.ikan.toLowerCase().includes(keyword) ||
+        ship.sayuran.toLowerCase().includes(keyword) ||
+        ship.tumbuhan.toLowerCase().includes(keyword)
+      );
+      renderTable();
+    });
+
+    // Share Single Ship WhatsApp
+    function shareSingleWhatsApp(nama, ikan, sayuran, tumbuhan) {
+      const phone = getFormattedPhone();
+      const wkt = getDateTimeString();
+      
+      const message = `📢 *INFORMASI DOKUMEN KAPAL*
+📅 _${wkt}_
+
+Berikut kami sampaikan bahwa dokumen kapal telah siap untuk keberangkatan hari ini.
+
+-----------------------------------
+🚢 *Nama Kapal:* ${nama}
+🐟 *Ikan:* ${ikan}
+🥬 *Sayuran:* ${sayuran}
+🌱 *Tumbuhan:* ${tumbuhan}
+-----------------------------------
+Status: *DOKUMEN READY HARI INI*
+
+Saat ini tinggal menunggu penyesuaian data muatan kapal agar seluruh dokumen dan informasi muatan dapat disesuaikan dengan kondisi terbaru.
+
+Mohon kepada pihak terkait untuk melakukan pengecekan dan konfirmasi apabila terdapat perubahan atau penyesuaian muatan.
+
+Terima kasih atas perhatian dan kerja samanya. 
+
+*PT.AGAS88*
+_Layanan Keagenan Pelayaran Laut Nasional_`;
+
+      const encodedText = encodeURIComponent(message);
+      const waUrl = phone ? `https://wa.me/${phone}?text=${encodedText}` : `https://wa.me/?text=${encodedText}`;
+      
+      window.open(waUrl, '_blank');
+      showToast(phone ? `Mengirim ke ${phone}...` : 'Membuka WhatsApp...');
+    }
+
+    // Share Selected Ships WhatsApp
+    function shareSelectedWhatsApp() {
+      let targetShips = shipData.filter(ship => selectedShipIds.has(ship.id));
+      
+      if (targetShips.length === 0) {
+        targetShips = [...filteredData];
+        if (targetShips.length === 0) return;
+      }
+
+      const phone = getFormattedPhone();
+      const wkt = getDateTimeString();
+
+      let message = `*INFORMASI DOKUMEN KAPAL*\n`;
+      message += `_${wkt}_\n\n`;
+      message += `Berikut dokumen kapal yang sudah siap hari ini:\n`;
+      message += `--------------------------------\n\n`;
+
+      targetShips.forEach((ship, i) => {
+        message += `${i + 1}. *${ship.nama}*\n`;
+        message += `    *Ikan:* ${ship.ikan}\n`;
+        message += `    *Sayuran:* ${ship.sayuran}\n`;
+        message += `    *Tumbuhan:* ${ship.tumbuhan}\n\n`;
+      });
+
+      message += `--------------------------------\n`;
+      message += `Total: *${targetShips.length} Dokumen Ready*\n\n`;
+      message += `_Saat ini tinggal menunggu penyesuaian muatan,_\n`;
+      message += `_Mohon dicek dan dikonfirmasi._\n`;
+      message += `_Apabila terdapat perubahan muatan._\n\n`;
+      message += `Terima kasih atas perhatian dan kerja samanya.\n\n`;
+      message += `*PT.AGAS88*\n`;
+      message += `_Link Revisi: www.agas88.com/revisi_`;
+
+      const encodedText = encodeURIComponent(message);
+      const waUrl = phone ? `https://wa.me/${phone}?text=${encodedText}` : `https://wa.me/?text=${encodedText}`;
+
+      window.open(waUrl, '_blank');
+      showToast(phone ? `Mengirim ${targetShips.length} kapal ke ${phone}...` : 'Membuka WhatsApp...');
+    }
+
+    // Toast Notification
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMsg');
+      toastMsg.innerText = msg;
+      toast.classList.remove('opacity-0');
+      toast.classList.add('opacity-100');
+      setTimeout(() => {
+        toast.classList.remove('opacity-100');
+        toast.classList.add('opacity-0');
+      }, 3000);
+    }
+
+    // Initial Load
+    fetchDataFromGoogleSheets();
+  </script>
+<!-- Tombol Melayang Neon/Glassmorphism -->
+<a href="https://agas88.com/" class="float-home-neon" title="Kembali ke Home">
+  <svg viewBox="0 0 24 24" class="home-icon">
+    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+  </svg>
+  <span class="home-text">HOME</span>
+</a>
+</body>
+</html>
