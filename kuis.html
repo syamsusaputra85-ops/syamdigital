@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kuis Interaktif - Aku Anak yang Disiplin</title>
+    <!-- Favicon menggunakan logo sekolah -->
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/di8stbg60/image/upload/v1793344918/Lencana_Al-Amin_Wani_dengan_Timbangan_Keadilan_kzbijt.png">
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Inter & Font Awesome Icons -->
@@ -57,6 +59,14 @@
 
         <!-- ================= HALAMAN AWAL (LANDING SCREEN) ================= -->
         <div id="screen-start" class="bg-white rounded-3xl shadow-xl border-4 border-emerald-400 p-5 sm:p-8 text-center transition-all">
+            
+            <!-- Logo Sekolah -->
+            <div class="flex justify-center mb-3">
+                <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1793344918/Lencana_Al-Amin_Wani_dengan_Timbangan_Keadilan_kzbijt.png" 
+                     alt="Logo MIS Al-Amin Wani Dua" 
+                     class="w-20 h-20 sm:w-24 sm:h-24 object-contain drop-shadow-md">
+            </div>
+
             <!-- Header Identity -->
             <div class="inline-block bg-emerald-100 text-emerald-800 text-xs sm:text-sm font-extrabold px-4 py-1.5 rounded-full mb-3 uppercase tracking-wider">
                 <i class="fa-solid fa-school mr-1.5"></i> MIS AL-AMIN WANI DUA
@@ -143,12 +153,11 @@
         <div id="screen-quiz" class="hidden bg-white rounded-3xl shadow-xl border-4 border-emerald-400 p-4 sm:p-6 transition-all">
             <!-- Header Status -->
             <div class="flex flex-wrap items-center justify-between gap-2 pb-3 mb-3 border-b border-slate-100">
-                <!-- Info Siswa -->
+                <!-- Info Siswa & Logo Mini -->
                 <div class="flex items-center space-x-2">
-                    <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm">
-                        <i class="fa-solid fa-user-graduate"></i>
-                    </div>
-                    <span id="display-student-name" class="font-bold text-xs sm:text-sm text-slate-700 truncate max-w-[100px] sm:max-w-[180px]">Siswa</span>
+                    <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1793344918/Lencana_Al-Amin_Wani_dengan_Timbangan_Keadilan_kzbijt.png" 
+                         alt="Logo" class="w-7 h-7 object-contain">
+                    <span id="display-student-name" class="font-bold text-xs sm:text-sm text-slate-700 truncate max-w-[90px] sm:max-w-[150px]">Siswa</span>
                 </div>
 
                 <!-- Control Buttons: Sound & TTS -->
@@ -201,17 +210,13 @@
 
             <!-- Opsi Jawaban -->
             <div id="options-container" class="grid grid-cols-1 gap-2.5 mb-4">
-                <!-- Opsi A, B, C, D akan di-render melalui JavaScript -->
+                <!-- Opsi A, B, C, D di-render secara dinamis -->
             </div>
 
             <!-- Box Feedback & Pembahasan -->
             <div id="feedback-box" class="hidden rounded-2xl p-4 mb-4 border transition-all">
-                <div class="flex items-center space-x-2 font-bold mb-1" id="feedback-title">
-                    <!-- Dynamic Feedback Title -->
-                </div>
-                <p id="feedback-text" class="text-xs sm:text-sm text-slate-700 font-medium leading-relaxed">
-                    <!-- Dynamic Explanation -->
-                </p>
+                <div class="flex items-center space-x-2 font-bold mb-1" id="feedback-title"></div>
+                <p id="feedback-text" class="text-xs sm:text-sm text-slate-700 font-medium leading-relaxed"></p>
             </div>
 
             <!-- Footer Action Button -->
@@ -225,8 +230,9 @@
 
         <!-- ================= HALAMAN HASIL (RESULT SCREEN) ================= -->
         <div id="screen-result" class="hidden bg-white rounded-3xl shadow-xl border-4 border-emerald-400 p-6 sm:p-8 text-center transition-all">
-            <div class="inline-block p-4 bg-emerald-100 text-emerald-600 rounded-full mb-3">
-                <i class="fa-solid fa-trophy text-4xl sm:text-5xl"></i>
+            <div class="flex justify-center mb-3">
+                <img src="https://res.cloudinary.com/di8stbg60/image/upload/v1793344918/Lencana_Al-Amin_Wani_dengan_Timbangan_Keadilan_kzbijt.png" 
+                     alt="Logo" class="w-16 h-16 object-contain">
             </div>
             
             <h1 class="text-2xl sm:text-3xl font-extrabold font-heading text-slate-800 mb-1">Hasil Kuis Anda</h1>
@@ -273,7 +279,7 @@
 
     <!-- Footer Copyright -->
     <footer class="text-center text-xs text-slate-500 mt-6 font-medium">
-        &copy; 2026 MIS AL-AMIN WANI DUA &bull; Media Pembelajaran Interaktif Pendidikan Pancasila Kelas 4
+        &copy; 2026 MIS AL-AMIN WANI TIGA &bull; Media Pembelajaran Interaktif Pendidikan Pancasila Kelas 4
     </footer>
 
     <!-- ================= JAVASCRIPT LOGIC ================= -->
@@ -522,19 +528,19 @@
             }
         ];
 
-        // Global State Variables
+        // State Variables
         let currentQuestionIndex = 0;
         let score = 0;
         let correctAnswers = 0;
         let wrongAnswers = 0;
         let studentName = "";
         let isTimerActive = true;
-        let timerSeconds = 15 * 60; // 15 menit
+        let timerSeconds = 15 * 60;
         let timerInterval = null;
         let isAnswered = false;
         let soundEnabled = true;
 
-        // WEB AUDIO API SYNTHESIZER SYSTEM
+        // WEB AUDIO API SYNTHESIZER
         let audioCtx = null;
 
         function getAudioContext() {
@@ -548,7 +554,6 @@
             return audioCtx;
         }
 
-        // Sound Generator Functions
         function playSoundClick() {
             if (!soundEnabled) return;
             try {
@@ -570,7 +575,7 @@
             if (!soundEnabled) return;
             try {
                 const ctx = getAudioContext();
-                const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6 (Ascending Chime)
+                const notes = [523.25, 659.25, 783.99, 1046.50];
                 notes.forEach((freq, idx) => {
                     const osc = ctx.createOscillator();
                     const gain = ctx.createGain();
@@ -591,7 +596,7 @@
             if (!soundEnabled) return;
             try {
                 const ctx = getAudioContext();
-                const notes = [300, 220, 150]; // Low Descending Buzzer
+                const notes = [300, 220, 150];
                 notes.forEach((freq, idx) => {
                     const osc = ctx.createOscillator();
                     const gain = ctx.createGain();
@@ -612,7 +617,6 @@
             if (!soundEnabled) return;
             try {
                 const ctx = getAudioContext();
-                // Fanfare Melody: G4, C5, E5, G5
                 const fanfare = [
                     { f: 392.00, d: 0.15 },
                     { f: 523.25, d: 0.15 },
@@ -660,7 +664,7 @@
 
         function speakQuestion() {
             if (!('speechSynthesis' in window)) {
-                alert("Fitur Pembaca Suara (Text-to-Speech) tidak didukung pada peramban ini.");
+                alert("Fitur Pembaca Suara tidak didukung pada peramban ini.");
                 return;
             }
 
@@ -676,7 +680,7 @@
 
             const utterance = new SpeechSynthesisUtterance(fullText);
             utterance.lang = 'id-ID';
-            utterance.rate = 0.9; // Kecepatan membaca agak lambat ramah anak
+            utterance.rate = 0.9;
             utterance.pitch = 1.0;
 
             window.speechSynthesis.speak(utterance);
@@ -708,7 +712,6 @@
         const feedbackText = document.getElementById('feedback-text');
         const btnNext = document.getElementById('btn-next');
 
-        // Functions
         function startQuiz() {
             playSoundClick();
             const nameValue = studentNameInput.value.trim();
@@ -721,14 +724,12 @@
             studentName = nameValue;
             isTimerActive = timerToggle.checked;
 
-            // Reset States
             currentQuestionIndex = 0;
             score = 0;
             correctAnswers = 0;
             wrongAnswers = 0;
             timerSeconds = 15 * 60;
 
-            // UI Init
             displayStudentName.textContent = studentName;
             currentScoreEl.textContent = score;
             totalQuestionsNum.textContent = questionsData.length;
@@ -736,7 +737,6 @@
             screenStart.classList.add('hidden');
             screenQuiz.classList.remove('hidden');
 
-            // Handle Timer UI
             if (isTimerActive) {
                 timerBox.classList.remove('hidden');
                 startTimer();
@@ -774,13 +774,11 @@
             isAnswered = false;
             const currentQ = questionsData[currentQuestionIndex];
 
-            // Update Progress
             const progress = ((currentQuestionIndex + 1) / questionsData.length) * 100;
             progressBar.style.width = `${progress}%`;
             progressPercent.textContent = `${Math.round(progress)}%`;
             currentQuestionNum.textContent = currentQuestionIndex + 1;
 
-            // Badge Difficulty Styling
             difficultyBadge.textContent = currentQ.difficulty;
             if (currentQ.difficulty === 'Mudah') {
                 difficultyBadge.className = "text-[10px] sm:text-xs font-extrabold px-2.5 py-0.5 rounded-full uppercase bg-emerald-100 text-emerald-800";
@@ -790,10 +788,8 @@
                 difficultyBadge.className = "text-[10px] sm:text-xs font-extrabold px-2.5 py-0.5 rounded-full uppercase bg-rose-100 text-rose-800";
             }
 
-            // Text Soal
             questionText.textContent = currentQ.question;
 
-            // Render Options
             optionsContainer.innerHTML = '';
             const labels = ['A', 'B', 'C', 'D'];
 
@@ -811,7 +807,6 @@
                 optionsContainer.appendChild(btn);
             });
 
-            // Hide Feedback & Disable Next Button
             feedbackBox.classList.add('hidden');
             btnNext.disabled = true;
             btnNext.className = "w-full sm:w-auto bg-slate-300 text-slate-500 font-heading font-bold text-base py-3 px-8 rounded-xl shadow cursor-not-allowed transition flex items-center justify-center space-x-2";
@@ -825,27 +820,23 @@
             const currentQ = questionsData[currentQuestionIndex];
             const isCorrect = selectedIdx === currentQ.answer;
 
-            // Highlight Options
             const buttons = optionsContainer.querySelectorAll('button');
             buttons.forEach((btn, idx) => {
                 btn.disabled = true;
                 btn.classList.remove('hover:bg-slate-50');
 
                 if (idx === currentQ.answer) {
-                    // Correct Option Always Green
                     btn.className = "option-btn w-full text-left p-3.5 sm:p-4 rounded-xl border-2 border-emerald-500 bg-emerald-50 font-bold text-xs sm:text-sm text-emerald-900 flex items-start space-x-3";
                 } else if (idx === selectedIdx && !isCorrect) {
-                    // Wrong Option Red
                     btn.className = "option-btn w-full text-left p-3.5 sm:p-4 rounded-xl border-2 border-rose-500 bg-rose-50 font-bold text-xs sm:text-sm text-rose-900 flex items-start space-x-3";
                 } else {
                     btn.classList.add('opacity-50');
                 }
             });
 
-            // Logic Scoring & SFX
             if (isCorrect) {
                 playSoundCorrect();
-                score += 5; // Total 20 soal * 5 = 100 max
+                score += 5;
                 correctAnswers++;
                 currentScoreEl.textContent = score;
 
@@ -862,7 +853,6 @@
 
             feedbackText.textContent = currentQ.explanation;
 
-            // Enable Next Button
             btnNext.disabled = false;
             btnNext.className = "w-full sm:w-auto bg-emerald-500 hover:bg-emerald-600 text-white font-heading font-bold text-base py-3 px-8 rounded-xl shadow cursor-pointer transition transform hover:-translate-y-0.5 flex items-center justify-center space-x-2";
             
@@ -886,13 +876,11 @@
             stopSpeech();
             playSoundVictory();
 
-            // Display Results
             document.getElementById('result-student-name').textContent = studentName;
             document.getElementById('final-score').textContent = score;
             document.getElementById('correct-count').textContent = correctAnswers;
             document.getElementById('wrong-count').textContent = wrongAnswers;
 
-            // Appreciation Message
             const msgEl = document.getElementById('appreciation-message');
             if (score >= 85) {
                 msgEl.textContent = "Luar Biasa! Kamu Anak yang Sangat Disiplin dan Taat Aturan! 🌟";
