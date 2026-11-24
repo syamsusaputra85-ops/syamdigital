@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <!-- FAVICON -->
+  <link rel="icon" type="image/png" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEggGbqNiUbZmqKIaxT_qPDDMbBes9Hsy-XX88Cr7Ql-DBbrxNMX5RDrLlK2J8gk7_4KybGYVYiK09F7eo2MTHGszfppclIU_ZvW8iaQKhwq2sM_s61fSM2l0SD03me9okqbnUaZikaPXw4LnOUsXZBNHmoCv-FKjSiTMDWPP3nHhTmeOp_6WyQQZqKUMMlO/s120/logo%20donggala-fix-2025.png">
+  <title>Ringkasan Alur Pengelolaan Akun</title>
+  <style>
+    :root {
+      --primary: #1e1b7a;
+      --primary-dark: #121052;
+      --accent: #0d9488;
+      --accent-soft: #f0fdfa;
+      --bg: #eef2f7;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #cbd5e1;
+      --shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Segoe UI", Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    .container {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 20px 14px 64px;
+    }
+
+    /* Top Bar */
+    .topbar {
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+      color: #fff;
+      border-radius: var(--radius);
+      padding: 20px 22px;
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
+    }
+
+    .topbar h1 {
+      font-size: clamp(1.25rem, 2.6vw, 1.75rem);
+      margin-bottom: 4px;
+    }
+
+    .topbar p {
+      color: #e0e7ff;
+      font-size: 0.92rem;
+    }
+
+    /* Toolbar Navigasi Halaman */
+    .toolbar {
+      position: sticky;
+      top: 8px;
+      z-index: 50;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 14px;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .nav-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: 1px solid var(--primary);
+      background: var(--primary);
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 9px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn:hover:not(:disabled) {
+      background: var(--primary-dark);
+    }
+
+    .btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .btn-outline {
+      background: #fff;
+      color: var(--primary);
+    }
+
+    .btn-outline:hover:not(:disabled) {
+      background: #eef2ff;
+    }
+
+    .btn-outline.active-mode {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .btn-access {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+      padding: 9px 16px;
+      margin-top: 12px;
+    }
+
+    .btn-access:hover {
+      background: #0f766e;
+      border-color: #0f766e;
+    }
+
+    select.page-jump,
+    input.search-page {
+      padding: 8px 12px;
+      border: 1px solid #94a3b8;
+      border-radius: 9px;
+      font-size: 0.88rem;
+      background: #fff;
+      color: var(--text);
+    }
+
+    input.search-page {
+      min-width: 210px;
+    }
+
+    .page-indicator {
+      font-weight: 700;
+      color: var(--primary-dark);
+      font-size: 0.92rem;
+      padding: 0 4px;
+    }
+
+    /* Kartu Per Halaman */
+    .page-sheet {
+      display: none;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 24px;
+    }
+
+    .page-sheet.visible {
+      display: block;
+      animation: fadeIn 0.2s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding-bottom: 14px;
+      margin-bottom: 18px;
+      border-bottom: 2px solid #e2e8f0;
+    }
+
+    .page-badge {
+      background: var(--primary);
+      color: #fff;
+      padding: 5px 13px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .page-title {
+      font-size: clamp(1.15rem, 2.2vw, 1.45rem);
+      color: var(--primary-dark);
+      font-weight: 700;
+    }
+
+    .page-desc {
+      background: #f8fafc;
+      border-left: 4px solid var(--accent);
+      padding: 16px 18px;
+      border-radius: 0 12px 12px 0;
+      margin-bottom: 20px;
+      font-size: 0.98rem;
+      color: #1e293b;
+    }
+
+    .page-desc p + p,
+    .page-desc ul {
+      margin-top: 8px;
+    }
+
+    .page-desc ul {
+      padding-left: 20px;
+    }
+
+    .page-desc li {
+      margin-bottom: 5px;
+    }
+
+    /* Gambar Ukuran Full */
+    .full-image-box {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: #f8fafc;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .full-image-box img {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: none;
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+    }
+
+    .full-image-caption {
+      margin-top: 10px;
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .page-footer-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-top: 22px;
+      padding-top: 16px;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    /* Tabel Struktur Modul di Halaman 37 */
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 600px;
+      font-size: 0.92rem;
+    }
+
+    th {
+      background: var(--primary);
+      color: #fff;
+      text-align: left;
+      padding: 11px 14px;
+    }
+
+    td {
+      padding: 10px 14px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    tr:nth-child(even) td {
+      background: #f8fafc;
+    }
+
+    tr.total-row td {
+      background: #eef2ff;
+      font-weight: 700;
+      color: var(--primary-dark);
+    }
+
+    .empty-state {
+      display: none;
+      text-align: center;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 36px 20px;
+      color: var(--muted);
+    }
+
+    .empty-state.show {
+      display: block;
+    }
+
+    @media (max-width: 640px) {
+      .page-sheet {
+        padding: 16px;
+      }
+      input.search-page {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="topbar">
+      <h1>RINGKASAN ALUR PENGELOLAAN AKUN (eHDW Learning)</h1>
+      <p>Tampilan per halaman (Halaman 1–37) dengan penjelasan lengkap dan gambar ukuran penuh.</p>
+    </header>
+
+    <div class="toolbar">
+      <div class="nav-controls">
+        <button type="button" class="btn" id="prevBtn">&larr; Sebelumnya</button>
+        <span class="page-indicator" id="pageIndicator">Hal. 1 / 37</span>
+        <button type="button" class="btn" id="nextBtn">Berikutnya &rarr;</button>
+        <select id="pageJump" class="page-jump" aria-label="Pilih Halaman"></select>
+        <button type="button" class="btn btn-outline" id="toggleAllBtn">Tampilkan Semua Halaman</button>
+      </div>
+      <input
+        type="text"
+        id="searchInput"
+        class="search-page"
+        placeholder="Cari penjelasan / langkah..."
+        aria-label="Cari penjelasan atau langkah"
+      />
+    </div>
+
+    <main id="pagesContainer">
+      <!-- HALAMAN 1 -->
+      <article class="page-sheet visible" data-page="1">
+        <div class="page-header">
+          <span class="page-badge">Halaman 1 dari 37</span>
+          <h2 class="page-title">Sampul — Alur Fasilitasi Pembelajaran Mandiri</h2>
+        </div>
+        <div class="page-desc">
+          <p>Halaman sampul panduan <strong>Alur Fasilitasi Pembelajaran Mandiri (HDW Learning)</strong> di bawah Kementerian Desa dan Pembangunan Daerah Tertinggal.</p>
+        </div>
+        <div class="full-image-box">
+          <img src="https://res.cloudinary.com/df6ny81dl/image/upload/v1795508849/RINGKASAN_ALUR_PENGELOLAAN_AKUN_page-0001_sbcuur.jpg" alt="Halaman 1" />
+          <p class="full-image-caption">Gambar Halaman 1 (Ukuran Penuh)</p>
+        </div>
+        <div class="page-footer-nav">
+          <button type="button" class="btn btn-outline foot-prev">&larr; Halaman Sebelumnya</button>
+          <button type="button" class="btn foot-next">Halaman Berikutnya &rarr;</button>
+        </div>
+      </article>
+
+      <!-- HALAMAN 2 -->
+      <article class="page-sheet" data-page="2">
+        <div class="page-header">
+          <span class="page-badge">Halaman 2 dari 37</span>
+          <h2 class="page-title">Alur Fasilitasi Pembelajaran Mandiri (5 Tahap)</h2>
+        </div>
+        <div class="page-desc">
+          <p>Gambaran besar 5 tahap fasilitasi pembelajaran mandiri:</p>
+          <ul>
+            <li><strong>1.</strong> Koordinasi dan Penetapan Peserta oleh DPMD, TAPM, PD, dan PLD ke Desa.</li>
+            <li><strong>2.</strong> Pendaftaran dan Pengelolaan Akun peserta yaitu: KPM, TPK, Kader Posyandu, dan Admin Desa.</li>
+            <li><strong>3.</strong> Mekanisme Verifikasi Akun Peserta oleh Admin Kabupaten yaitu DPMD atau TAPM kabupaten.</li>
+            <li><strong>4.</strong> Proses Pembelajaran Mandiri oleh peserta melalui HDW Learning.</li>
+            <li><strong>5.</strong> Pendampingan dan Monitoring oleh DPMD, TAPM, PD, dan PLD ke Desa.</li>
+          </ul>
+        </div>
+        <div class="full-image-box">
+          <img src="https://res.cloudinary.com/df6ny81dl/image/upload/v1795508848/RINGKASAN_ALUR_PENGELOLAAN_AKUN_page-0002_rpkkf9.jpg" alt="Halaman 2" />
+          <p class="full-image-caption">Gambar Halaman 2 (Ukuran Penuh)</p>
+        </div>
+        <div class="page-footer-nav">
+          <button type="button" class="btn btn-outline foot-prev">&larr; Halaman Sebelumnya</button>
+          <button type="button" class="btn foot-next">Halaman Berikutnya &rarr;</button>
+        </div>
+      </article>
+
+      <!-- HALAMAN 3 -->
+      <article class="page-sheet" data-page="3">
+        <div class="page-header">
+          <span class="page-badge">Halaman 3 dari 37</span>
+          <h2 class="page-title">Alur Koordinasi dan Penetapan Peserta</h2>
+        </div>
+        <div class="page-desc">
+          <p>Tahap awal dilakukan koordinasi kepada pemerintah desa dan pelaku desa mengenai pelaksanaan pembelajaran mandiri melalui <strong>HDW LEARNING</strong> (jadwal peningkatan kapasitas, tata cara pendaftaran akun, serta tahapan pembelajaran).</p>
+          <ul>
+            <li><strong>1. Pemberitahuan ke Kepala Desa:</strong> DPMD kabupaten mengirimkan pemberitahuan kepada seluruh kepala desa untuk mengikuti peningkatan kapasitas konvergensi P3S di desa.</li>
+            <li><strong>2. Sosialisasi oleh DPMD Kabupaten:</strong> Dilakukan secara daring maupun luring bersama TAPM kabupaten yang melibatkan Pendamping Desa (PD) dan Pendamping Lokal Desa (PLD).</li>
+            <li><strong>3. Sosialisasi di Desa oleh PD dan PLD:</strong> Pemerintah desa bersama PD dan PLD melakukan sosialisasi kepada pelaku desa terkait tujuan dan mekanisme pembelajaran.</li>
+            <li><strong>4. Penugasan Peserta oleh Kepala Desa:</strong> Kepala desa menugaskan peserta (menggunakan surat perintah tugas) minimal terdiri dari Kader Posyandu, KPM, TPK, dan Perangkat Desa (Admin Desa).</li>
+            <li><strong>5. Penerbitan Surat Tugas:</strong> Penerbitan Surat Perintah Tugas (SPT) oleh kepala desa kepada peserta.</li>
+          </ul>
+        </div>
+        <div class="full-image-box">
+          <img src="https://res.cloudinary.com/df6ny81dl/image/upload/v1795508848/RINGKASAN_ALUR_PENGELOLAAN_AKUN_page-0003_hn0ktm.jpg" alt="Halaman 3" />
+          <p class="full-image-caption">Gambar Halaman 3 (Ukuran Penuh)</p>
+        </div>
+        <div class="page-footer-nav">
+          <button type="button" class="btn btn-outline foot-prev">&larr; Halaman Sebelumnya</button>
+          <button type="button" class="btn foot-next">Halaman Berikutnya &rarr;</button>
+        </div>
+      </article>
+
+      <!-- HALAMAN 4 -->
+      <article class="page-sheet" data-page="4">
+        <div class="page-header">
+          <span class="page-badge">Halaman 4 dari 37</span>
+          <h2 class="page-title">Pendaftaran dan Pengelolaan Akun pada Pembelajaran Mandiri Konvergensi P3S di Desa</h2>
+        </div>
+        <div class="page-desc">
+          <p>Melibatkan <strong>3 aplikasi</strong>:</p>
+          <ul>
+            <li><strong>HDW Learning:</strong> Media pembelajaran yang digunakan oleh peserta.</li>
+            <li><strong>HDW Pendataan:</strong> Media untuk mengunggah SPT oleh admin desa dan peserta.</li>
+            <li><strong>HDW Monitoring:</strong> Media monitoring dan evaluasi pembelajaran oleh Akun Pengguna Pusat, Provinsi, dan Kabupaten.</li>
+          </ul>
+          <p><strong>Tingkatan Akun &amp; Manfaat:</strong></p>
+          <ul>
+            <li><strong>Akun Peserta (KPM, TPK, Kader Posyandu, Admin Desa):</strong> Mendaftar akun HDW Learning sesuai Surat Tugas, mengikuti seluruh materi pembelajaran mandiri, mengerjakan tugas mandiri, dan mendapatkan sertifikat.</li>
+            <li><strong>Akun Admin Desa:</strong> Akun eksisting untuk pendataan; mengunggah SPT peserta, berkoordinasi dengan PD/PLD untuk validasi ke DPMD/TAPM Kabupaten.</li>
+            <li><strong>Akun Admin Kabupaten (DPMD &amp; TAPM Kabupaten):</strong> Memeriksa SPT, melakukan validasi akun peserta (menyetujui/menolak) sesuai SPT, serta memonitoring dan mengevaluasi hasil pembelajaran level kabupaten.</li>
+            <li><strong>Akun Admin Provinsi (DPMD &amp; TAPM Provinsi):</strong> Monitoring dan evaluasi hasil pembelajaran level provinsi.</li>
+            <li><strong>Akun Admin Pusat (Tim Kemendesa &amp; PDT):</strong> Monitoring dan mengevaluasi semua hasil pembelajaran mandiri.</li>
+          </ul>
+        </div>
+        <div class="full-image-box">
+          <img src="https://res.cloudinary.com/df6ny81dl/image/upload/v1795508850/RINGKASAN_ALUR_PENGELOLAAN_AKUN_page-0004_ipp1yi.jpg" alt="Halaman 4" />
+          <p class="full-image-caption">Gambar Halaman 4 (Ukuran Penuh)</p>
+        </div>
+        <div class="page-footer-nav">
+          <button type="button" class="btn btn-outline foot-prev">&larr; Halaman Sebelumnya</button>
+          <button type="button" class="btn foot-next">Halaman Berikutnya &rarr;</button>
+        </div>
+      </article>
+
+      <!-- HALAMAN 5 -->
+      <article class="page-sheet" data-page="5">
+        <div class="page-header">
+          <span class="page-badge">Halaman 5 dari 37</span>
+          <h2 class="page-title">Proses Pembelajaran Mandiri — Alur Operasional</h2>
+        </div>
+        <div class="page-desc">
+          <p>Urutan alur operasional pembelajaran mandiri:</p>
+          <ul>
+            <li><strong>1.</strong> Pendaftaran peserta</li>
+            <li><strong>2.</strong> Admin desa unggah SPT</li>
+            <li><strong>3.</strong> Admin Kabupaten melakukan verifikasi</li>
+            <li><strong>4.</strong> Peserta login dan memulai pembelajaran</li>
+            <li><strong>5.</strong> Mengerjakan Pre-test</li>
+            <li><strong>6.</strong> Belajar 7 pokok bahasan</li>
+            <li><strong>7.</strong> Mengerjakan Post-test pada masing-masing pokok bahasan</li>
+            <li><strong>8.</strong> Sertifikat Terbit</li>
+          </ul>
+        </div>
+        <div class="full-image-box">
+          <img src="https://res.cloudinary.com/df6ny81dl/image/upload/v1795508846/RINGKASAN_ALUR_PENGELOLAAN_AKUN_page-0005_gh5au8.jpg" alt="Halaman 5" />
+          <p class="full-image-caption">Gambar Halaman 5 (Ukuran Penuh)</p>
+        </div>
+        <div class="page-footer-nav">
+          <button type="button" class="btn btn-outline foot-prev">&larr; Halaman Sebelumnya</button>
+          <button type="button" class="btn foot-next">Halaman Berikutnya &rarr;</button>
+        </div>
+      </article>
+
+      <!-- HALAMAN 6 -->
+      <article class="page-sheet" data-page="6">
+        <div class="page-header">
+          <span class="page-badge">Halaman 6 dari 37</span>
+          <h2 class="page-title">Cara Melakukan Registrasi dan Pendaftaran Akun Peserta</h2>
+        </div>
+        <div class="page-desc">
+          <p>Bagian pembuka panduan langkah-langkah registrasi akun, pendaftaran akun peserta di HDW Learning, dan persiapan pembelajaran mandiri.</p>
+        </div>
+        <div class="full-image-box">
+          <img src="https://res.cloudinary.com/df6ny81dl/image/upload/v1795508847/RINGKASAN_ALUR_PENGELOLAAN_AKUN_page-0006_rp5xay.jpg" alt="Halaman 6" />
+          <p class="full-image-caption">Gambar Halaman 6 (Ukuran Penuh)</p>
+        </div>
+        <div class="page-footer-nav">
+          <button type="button" class="btn btn-outline foot-prev">&larr; Halaman Sebelumnya</button>
+          <button type="button" class="btn foot-next">Halaman Berikutnya &rarr;</button>
+        </div>
+      </article>
+
+      <!-- HALAMAN 7 -->
+      <article class="page-sheet" data-page="7">
+        <div class="page-header">
+          <span class="page-badge">Halaman 7 dari 37</span>
+          <h2 class="page-title">Akses Portal &amp; Membuka Menu Register (Langkah 1 – 4)</h2>
+        </div>
+        <div class="page-desc">
+          <ul>
+            <li><strong>1.</strong> Akses HDW Learning pada: <code>https://ehdw.kemendesa.go.id/</code></li>
+            <li><strong>2.</strong> Tekan <strong>HDW Learning</strong></li>
+            <li><strong>3.</strong> Tekan tombol <strong>LOGIN / REGISTER</strong></li>
+            <li><strong>4.</strong> Setelah muncul menu Login eHDW Learning, tekan <strong>REGISTER</strong> untuk memulai pendaftaran akun peserta (Kader Posyandu, KPM, TPK, atau Perangkat Desa/Admin Desa).</li>
+          </ul>
+          <a
+            href="https://ehdw.kemendesa.go.id/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-access"
+          >
+            Buka Portal eHDW (https://ehdw.kemendesa.go.id/) &nearr;
+          </a>
+        </div>
+        <div class="full-image-box">
+          <img src="https://res.cloudinary.com/df6ny81dl/image/upload/v1795508847/RINGKASAN_ALUR_PENGELOLAAN_AKUN_page-0007_lctevc.jpg" alt="Halaman 7" />
+          <p class="full-image-caption">Gambar Halaman 7 (Ukuran Penuh)</p>
+        </div>
+        <div class="page-footer-nav">
+          <button type="button" class="btn btn-outline foot-prev">&larr; Halaman Sebelumnya</button>
+          <button type="button" class="btn foot-next">Halaman Berikutnya &rarr;</button>
+        </div>
+      </article>
+
+      <!-- HALAMAN 8 -->
+      <article class="page-sheet" data-page="8">
+        <div class="page-header">
+          <span class="page-badge">Halaman 8 dari 37</span>
+          <h2 class="page-title">Pengisian Data Diri Register eHDW Learning (Langkah 5 – 6)</h2>
+        </div>
+        <div class="page-desc">
+          <ul>
+            <li><strong>5.</strong> Isi seluruh Data Diri: <strong>NIK</strong> (hanya angka, tanpa spasi/karakter lain), <strong>Nama lengkap</strong> (sesuai KTP tanpa gelar, akan dicetak pada sertifikat), <strong>Username</strong>, <strong>Email</strong>, <strong>Password</strong>, <strong>Tempat Lahir</strong>, <strong>Tanggal Lahir</strong>, <strong>Jenis Kelamin</strong>, <strong>Nomor HP</strong> (format awalan <code>62</code>), dan <strong>Tingkat Pendidikan</strong>.</li>
+            <li><strong>Catatan Penting:</strong> Akun HDW Learning dan HDW Pendataan adalah 2 aplikasi berbeda (wajib mendaftar akun baru di HDW Learning). Gunakan NIK sesuai KTP, NIK tidak dapat didaftarkan lebih dari 1 kali, dan selesaikan pendaftaran dalam sekali pengisian.</li>
+            <li><strong>6.</strong> Setelah terisi semua, tekan <strong>LANJUTKAN</strong>.</li>
+          </ul>
+        </div>
+        <div class="full-image-box">
+          <img src="https://res.cloudinary.com/df6ny81dl/image/upload/v1795508847/RINGKASAN_ALUR_PENGELOLAAN_AKUN_page-0008_gtqjkf.jpg" alt="Halaman 8" />
+          <p class="full-image-caption">Gambar Halaman 8 (Ukuran Penuh)</p>
+        </div>
+        <div class="page-footer-nav">
+          <button type="button" class="btn btn-outline foot-prev">&larr; Halaman Sebelumnya</button>
+          <button type="button" class="btn foot-next">Halaman Berikutnya &rarr;</button>
+        </div>
+      </article>
+
+      <!-- HALAMAN 9 -->
+      <article class="page-sheet" data-page="9">
+        <div class="page-header">
+          <span class="page-badge">Halaman 9 dari 37</span>
+          <h2 class="page-title">Pemilihan Daerah / Wilayah (Langkah 7 – 9)</h2>
+        </div>
+        <div class="page-desc">
+          <ul>
+            <li><strong>7.</strong> Lengkapi data wilayah sesuai form yang tersedia pada tab <strong>Wilayah</strong>.</li>
+            <li><strong>8.</strong> Isikan <strong>Provinsi</strong>, <strong>Kab/Kota</strong>, <strong>Kecamatan</strong>, dan <strong>Desa</strong> sesuai dengan wilayah asal.</li>
+            <li><strong>9.</strong> Jika sudah sesuai, tekan <strong>LANJUTKAN</strong>.</li>
+          </ul>
+        </div>
+        <div class="full-image-box">
+          <img src="https://res.cloudinary.com/df6ny81dl/image/upload/v1795508847/RINGKASAN_ALUR_PENGELOLAAN_AKUN_page-0009_gqoguk.jpg" alt="Halaman 9" />
+          <p class="full-image-caption">Gambar Halaman 9 (Ukuran Penuh)</p>
+        </div>
+        <div class="page-footer-nav">
+          <button type="button" class="btn btn-outline foot-prev">&larr; Halaman Sebelumnya</button>
+          <button type="button" class="btn foot-next">Halaman Berikutnya &rarr;</button>
+        </div>
+      </article>
+
+      <!-- HALAMAN 10 -->
+      <article class="page-sheet" data-page="10">
+        <div class="page-header">
+          <span class="page-badge">Halaman 10 dari 37</span>
+          <h2 class="page-title">Pengisian Jabatan &amp; Kirim Pendaftaran (Langkah 10 – 13)</h2>
+        </div>
+        <div class="page-desc">
+          <ul>
+            <li><strong>10.</strong> Tekan tombol <strong>+ TAMBAH JABATAN</strong>.</li>
+            <li><strong>11.</strong> Isilah <strong>Jabatan</strong> sesuai SK.</li>
+            <li><strong>12.</strong> Isilah tanggal <strong>Mulai</strong> dan <strong>Hingga</strong> sesuai SK (dapat disesuaikan dengan SK).</li>
+            <li><strong>Catatan:</strong> 1 orang kader bisa mendaftar lebih dari 1 jabatan (misalnya KPM dan Kader Posyandu) dengan menekan <em>Tambah Jabatan</em> lagi dan mengisi datanya.</li>
+            <li><strong>13.</strong> Jika sudah sesuai, tekan <strong>KIRIM</strong>.</li>
+          </ul>
+        </div>
+        <div class="full-image-box">
+          <img src="https://res.cloudinary.com/df6ny81dl/image/upload/v1795508848/RINGKASAN_ALUR_PENGELOLAAN_AKUN_page-0010_a4k0o2.jpg" alt="Halaman 10" />
+          <p class="full-image-caption">Gambar Halaman 10 (Ukuran Penuh)</p>
+        </div>
+        <div class="page-footer-nav">
+          <button type="button" class="btn btn-outline foot-prev">&larr; Halaman Sebelumnya</button>
+          <button type="button" class="btn foot-next">Halaman Berikutnya &rarr;</button>
+        </div>
+      </article>
+
+      <!-- HALAMAN 11 -->
+      <article class="page-sheet" data-page="11">
+        <div class="page-header">
+          <span class="page-badge">Halaman 11 dari 37</span>
+          <h2 class="page-title">Setelah Berhasil Register — Unggah SPT &amp; Koordinasi</h2>
+        </div>
+        <div class="page-desc">
+          <p>Jika peserta sudah berhasil register, <strong>ADMIN DESA WAJIB</strong> mengunggah SPT di <strong>HDW Pendataan</strong>. Setelah terunggah, Admin Desa harus berkoordinasi dengan <strong>PD/PLD</strong> untuk meminta verifikasi akun peserta kepada PIC <strong>DPMD</strong> atau <strong>TAPM Kabupaten</strong>.</p>
+        </div>
+        <div class="full-image-box">
+          <img src="https://res.cloudinary.com/df6ny81dl/image/upload/v1795508845/RINGKASAN_ALUR_PENGELOLAAN_AKUN_page-0011_at7ur4.jpg" alt="Halaman 11" />
+          <p class="full-image-caption">Gambar Halaman 11 (Ukuran Penuh)</p>
+        </div>
+        <div class="page-footer-nav">
+          <button type="button" class="btn btn-outline foot-prev">&larr; Halaman Sebelumnya</button>
+          <button type="button" class="btn foot-next">Halaman Berikutnya &rarr;</button>
+        </div>
+      </article>
+
+      <!-- HALAMAN 12 -->
+      <article class="page-sheet" data-page="12">
+        <div class="page-header">
+          <span class="page-badge">Halaman 12 dari 37</span>
+          <h2 class="page-title">Cara Admin Desa Mengunggah SPT</h2>
+        </div>
+        <div class="page-desc">
+          <p>Judul bagian panduan tata cara Admin Desa mengunggah Surat Perintah Tugas (SPT) pada aplikasi HDW Pendataan.</p>
+        </div>
+        <div class="full-image-box">
+          <img src="https://res.cloudinary.com/df6ny81dl/image/upload/v1795508845/RINGKASAN_ALUR_PENGELOLAAN_AKUN_page-0012_wzroki.jpg" alt="Halaman 12" />
+          <p class="full-image-caption">Gambar Halaman 12 (Ukuran Penuh)</p>
+        </div>
+        <div class="page-footer-nav">
+          <button type="button" class="btn btn-outline foot-prev">&larr; Halaman Sebelumnya</button>
+          <button type="button" class="btn foot-next">Halaman Berikutnya &rarr;</button>
+        </div>
+      </article>
+
+      <!-- HALAMAN 13 -->
+      <article class="page-sheet" data-page="13">
+        <div class="page-header">
+          <span class="page-badge">Halaman 13 dari 37</span>
+          <h2 class="page-title">Login Admin Desa di HDW Pendataan (Langkah 1 – 3)</h2>
+        </div>
+        <div class="page-desc">
+          <ul>
+            <li><strong>1.</strong> Masukkan laman <code>https://ehdw.kemendesa.go.id</code></li>
+            <li><strong>2.</strong> Tekan <strong>HDW Pendataan</strong></li>
+            <li><strong>3.</strong> Masukkan Username dan Password Akun Admin Desa, lalu tekan <strong>LOGIN</strong>.</li>
+            <li><strong>Catatan:</strong> Pastikan desa sudah memiliki akun eHDW. Jika belum memiliki akun atau lupa password, hubungi PD/PLD atau Admin Kabupaten untuk dibuatkan atau direset.</li>
+          </ul>
+        </div>
+        <div class="full-image-box">
+          <img src="https://res.cloudinary.com/df6ny81dl/image/upload/v1795508846/RINGKASAN_ALUR_PENGELOLAAN_AKUN_page-0013_phkvg4.jpg" alt="Halaman 13" />
+          <p class="full-image-caption">Gambar Halaman 13 (Ukuran Penuh)</p>
+        </div>
+        <div class="page-footer-nav">
+          <button type="button" class="btn btn-outline foot-prev">&larr; Halaman Sebelumnya</button>
+          <button type="button" class="btn foot-next">Halaman Berikutnya &rarr;</button>
+        </div>
+      </article>
+
+      <!-- HALAMAN 14 -->
+      <article class="page-sheet" data-page="14">
+        <div class="page-header">
+          <span class="page-badge">Halaman 14 dari 37</span>
+          <h2 class="page-title">Tambah, Kirim &amp; Cek File SPT (Langkah 4 – 9)</h2>
+        </div>
+        <div class="page-desc">
+          <ul>
+            <li><strong>4.</strong> Tekan menu <strong>PELAKSANAAN KEGIATAN</strong></li>
+            <li><strong>5.</strong> Tekan <strong>Bimtek</strong></li>
+            <li><strong>6.</strong> Tekan <strong>Tambah SPT</strong></li>
+            <li><strong>7.</strong> Tekan <strong>File Surat Tugas</strong> dan cari SPT yang sudah ditandatangani dan dipindai (scan).</li>
+            <li><strong>8.</strong> Jika nama filenya sudah muncul, tekan <strong>Kirim</strong>.</li>
+            <li><strong>9.</strong> Cek kembali pada <strong>LIHAT SPT</strong> untuk memastikan SPT yang diunggah benar.</li>
+            <li><strong>Catatan:</strong> Format file surat tugas yang diunggah dapat berupa <strong>PDF</strong>, <strong>PNG</strong>, atau <strong>JPEG</strong>.</li>
+          </ul>
+        </div>
+        <div class="full-image-box">
+          <img src="https://res.cloudinary.com/df6ny81dl/image/upload/v1795508845/RINGKASAN_ALUR_PENGELOLAAN_AKUN_page-0014_kdo4if.jpg" alt="Halaman 14" />
+          <p class="full-image-caption">Gambar Halaman 14 (Ukuran Penuh)</p>
+        </div>
+        <div class="page-footer-nav">
+          <button type="button" class="btn btn-outline foot-prev">&larr; Halaman Sebelumnya</button>
+          <button type="button" class="btn foot-next">Halaman Berikutnya &rarr;</button>
+        </div>
+      </article>
+
+      <!-- HALAMAN 15 -->
+      <article class="page-sheet" data-page="15">
+        <div class="page-header">
+          <span class="page-badge">Halaman 15 dari 37</span>
+          <h2 class="page-title">Koordinasi Verifikasi SPT &amp; Akun ke Admin Kabupaten</h2>
+        </div>
+        <div class="page-desc">
+          <p>Setelah berhasil melakukan pendaftaran dan unggah SPT, segera hubungi <strong>PD/PLD</strong> untuk berkoordinasi dengan <strong>Admin Kabupaten (DPMD atau TAPM Kabupaten)</strong> agar melakukan verifikasi SPT dan akun.</p>
+        </div>
+        <div class="full-image-box">
+          <img src="https://res.cloudinary.com/df6ny81dl/image/upload/v1795508846/RINGKASAN_ALUR_PENGELOLAAN_AKUN_page-0015_wx0lf8.jpg" alt="Halaman 15" />
+          <p class="full-image-caption">Gambar Halaman 15 (Ukuran Penuh)</p>
+        </div>
+        <div class="page-footer-nav">
+          <button type="button" class="btn btn-outline foot-prev">&larr; Halaman Sebelumnya</button>
+          <button type="button" class="btn foot-next">Halaman Berikutnya &rarr;</button>
+        </div>
+      </article>
+
+      <!-- HALAMAN 16 -->
+      <article class="page-sheet" data-page="16">
+        <div class="page-header">
+          <span class="page-badge">Halaman 16 dari 37</span>
+          <h2 class="page-title">Akun Terverifikasi — Peserta Lanjut Pembelajaran Mandiri</h2>
+        </div>
+        <div class="page-desc">
+          <p>Setelah akun peserta terverifikasi oleh Admin Kabupaten, peserta dapat melanjutkan pembelajaran mandiri pada <strong>HDW Learning</strong>.</p>
+        </div>
+        <div class="full-image-box">
+          <img src="https://res.cloudinary.com/df6ny81dl/image/upload/v1795508846/RINGKASAN_ALUR_PENGELOLAAN_AKUN_page-0016_n3ckvy.jpg" alt="Halaman 16" />
+          <p class="full-image-caption">Gambar Halaman 16 (Ukuran Penuh)</p>
+        </div>
+        <div class="page-footer-nav">
+          <button type="button" class="btn btn-outline foot-prev">&larr; Halaman Sebelumnya</button>
+          <button type="button" class="btn foot-next">Halaman Berikutnya &rarr;</button>
+        </div>
+      </article>
+
+      <!-- HALAMAN 17 -->
+      <article class="page-sheet" data-page="17">
+        <div class="page-header">
+          <span class="page-badge">Halaman 17 dari 37</span>
+          <h2 class="page-title">Login Peserta ke HDW Learning (Langkah 1 – 5)</h2>
+        </div>
+        <div class="page-desc">
+          <ul>
+            <li><strong>1.</strong> Akses HDW Learning pada: <code>https://ehdw.kemendesa.go.id/</code></li>
+            <li><strong>2.</strong> Tekan <strong>HDW Learning</strong></li>
+            <li><strong>3.</strong> Tekan tombol <strong>LOGIN / REGISTER</strong></li>
+            <li><strong>4.</strong> Masukkan <strong>Username</strong> dan <strong>Password</strong></li>
+            <li><strong>5.</strong> Lalu tekan <strong>LOGIN</strong>. Pastikan akun sudah terverifikasi oleh Admin Kabupaten (jika lupa username/password, hubungi Admin Kabupaten untuk reset).</li>
+          </ul>
+        </div>
+        <div class="full-image-box">
+          <img src="https://res.cloudinary.com/df6ny81dl/image/upload/v1795508844/RINGKASAN_ALUR_PENGELOLAAN_AKUN_page-0017_gel9r1.jpg" alt="Halaman 17" />
+          <p class="full-image-caption">Gambar Halaman 17 (Ukuran Penuh)</p>
+        </div>
+        <div class="page-footer-nav">
+          <button type="button" class="btn btn-outline foot-prev">&larr; Halaman Sebelumnya</button>
+          <button type="button" class="btn foot-next">Halaman Berikutnya &rarr;</button>
+        </div>
+      </article>
+
+      <!-- HALAMAN 18 -->
+      <article class="page-sheet" data-page="18">
+        <div class="page-header">
+          <span class="page-badge">Halaman 18 dari 37</span>
+          <h2 class="page-title">Memulai Pre-Test Sebelum Materi (Langkah 5 – 6)</h2>
+        </div>
+        <div class="page-desc">
+          <ul>
+            <li><strong>5.</strong> Setelah login, kerjakan <strong>Pre-test</strong> terlebih dahulu sebelum melanjutkan ke materi pembelajaran dengan menekan kotak <strong>Pre-Test</strong>.</li>
+            <li><strong>6.</strong> Lalu tekan <strong>MULAI PRETEST</strong>.</li>
+          </ul>
+        </div>
+        <div class="full-image-box">
+          <img src="https://res.cloudinary.com/df6ny81dl/image/upload/v1795508844/RINGKASAN_ALUR_PENGELOLAAN_AKUN_page-0018_gqyl8c.jpg" alt="Halaman 18" />
+          <p class="full-image-caption">Gambar Halaman 18 (Ukuran Penuh)</p>
+        </div>
+        <div class="page-footer-nav">
+          <button type="button" class="btn btn-outline foot-prev">&larr; Halaman Sebelumnya</button>
+          <button type="button" class="btn foot-next">Halaman Berikutnya &rarr;</button>
+        </div>
+      </article>
+
+      <!-- HALAMAN 19 -->
+      <article class="page-sheet" data-page="19">
+        <div class="page-header">
+          <span class="page-badge">Halaman 19 dari 37</span>
+          <h2 class="page-title">Memilih Jawaban Pre-Test &amp; Kirim (Langkah 7 – 8)</h2>
+        </div>
+        <div class="page-desc">
+          <ul>
+            <li><strong>7.</strong> Pilih salah satu jawaban yang benar.</li>
+            <li><strong>8.</strong> Lalu tekan <strong>KIRIM JAWABAN</strong>.</li>
+          </ul>
+        </div>
+        <div class="full-image-box">
+          <img src="https://res.cloudinary.com/df6ny81dl/image/upload/v1795508844/RINGKASAN_ALUR_PENGELOLAAN_AKUN_page-0019_qxcuwf.jpg" alt="Halaman 19" />
+          <p class="full-image-caption">Gambar Halaman 19 (Ukuran Penuh)</p>
+        </div>
+        <div class="page-footer-nav">
+          <button type="button" class="btn btn-outline foot-prev">&larr; Halaman Sebelumnya</button>
+          <button type="button" class="btn foot-next">Halaman Berikutnya &rarr;</button>
+        </div>
+      </article>
+
+      <!-- HALAMAN 20 -->
+      <article class="page-sheet" data-page="20">
+        <div class="page-header">
+          <span class="page-badge">Halaman 20 dari 37</span>
+          <h2 class="page-title">Tampilan Pengerjaan Soal Pre-Test</h2>
+        </div>
+        <div class="page-desc">
+          <p>Pilih opsi jawaban yang paling tepat pada soal Pre-test sebelum mengirimkan jawaban ke sistem.</p>
+        </div>
+        <div class="full-image-box">
+          <img src="https://res.cloudinary.com/df6ny81dl/image/upload/v1795508844/RINGKASAN_ALUR_PENGELOLAAN_AKUN_page-0020_nhhk56.jpg" alt="Halaman 20" />
+          <p class="full-image-caption">Gambar Halaman 20 (Ukuran Penuh)</p>
+        </div>
+        <div class="page-footer-nav">
+          <button type="button" class="btn btn-outline foot-prev">&larr; Halaman Sebelumnya</button>
+          <button type="button" class="btn foot-next">Halaman Berikutnya &rarr;</button>
+        </div>
+      </article>
+
+      <!-- HALAMAN 21 -->
+      <article class="page-sheet" data-page="21">
+        <div class="page-header">
+          <span class="page-badge">Halaman 21 dari 37</span>
+          <h2 class="page-title">Hasil Pelaksanaan Pretest &amp; Lanjut Pembelajaran (Langkah 9)</h2>
+        </div>
+        <div class="page-desc">
+          <ul>
+            <li><strong>9.</strong> Setelah selesai mengerjakan pretest, periksa waktu pengerjaan, skor pretest, dan persentase keberhasilan, lalu tekan <strong>SILAHKAN LANJUT UNTUK MELAKUKAN PEMBELAJARAN</strong>.</li>
+          </ul>
+        </div>
+        <div class="full-image-box">
+          <img src="https://res.cloudinary.com/df6ny81dl/image/upload/v1795508844/RINGKASAN_ALUR_PENGELOLAAN_AKUN_page-0021_l9xk4g.jpg" alt="Halaman 21" />
+          <p class="full-image-caption">Gambar Halaman 21 (Ukuran Penuh)</p>
+        </div>
+        <div class="page-footer-nav">
+          <button type="button" class="btn btn-outline foot-prev">&larr; Halaman Sebelumnya</button>
+          <button type="button" class="btn foot-next">Halaman Berikutnya &rarr;</button>
+        </div>
+      </article>
+
+      <!-- HALAMAN 22 -->
+      <article class="page-sheet" data-page="22">
+        <div class="page-header">
+          <span class="page-badge">Halaman 22 dari 37</span>
+          <h2 class="page-title">Memilih Kotak Pokok Bahasan &amp; Lihat Materi (Langkah 10 – 11)</h2>
+        </div>
+        <div class="page-desc">
+          <ul>
+            <li><strong>10.</strong> Tekan kotak modul Pokok Bahasan (misalnya Pokok Bahasan 1 Permasalahan Stunting) untuk melanjutkan pembelajaran dan masuk ke detail pokok bahasan.</li>
+            <li><strong>11.</strong> Selanjutnya tekan <strong>LIHAT MATERI</strong>.</li>
+          </ul>
+        </div>
+        <div class="full-image-box">
+          <img src="https://res.cloudinary.com/df6ny81dl/image/upload/v1795508845/RINGKASAN_ALUR_PENGELOLAAN_AKUN_page-0022_kh7326.jpg" alt="Halaman 22" />
+          <p class="full-image-caption">Gambar Halaman 22 (Ukuran Penuh)</p>
+        </div>
+        <div class="page-footer-nav">
+          <button type="button" class="btn btn-outline foot-prev">&larr; Halaman Sebelumnya</button>
+          <button type="button" class="btn foot-next">Halaman Berikutnya &rarr;</button>
+        </div>
+      </article>
+
+      <!-- HALAMAN 23 -->
+      <article class="page-sheet" data-page="23">
+        <div class="page-header">
+          <span class="page-badge">Halaman 23 dari 37</span>
+          <h2 class="page-title">Baca Pengantar Pokok Bahasan &amp; Lanjutkan (Langkah 12)</h2>
+        </div>
+        <div class="page-desc">
+          <ul>
+            <li><strong>12.</strong> Baca bagian <strong>Pengantar</strong> (mencakup tujuan pembelajaran, lingkup materi, alokasi waktu, serta metode dan media), lalu tekan <strong>LANJUTKAN</strong>.</li>
+          </ul>
+        </div>
+        <div class="full-image-box">
+          <img src="https://res.cloudinary.com/df6ny81dl/image/upload/v1795508843/RINGKASAN_ALUR_PENGELOLAAN_AKUN_page-0023_hjmwp0.jpg" alt="Halaman 23" />
+          <p class="full-image-caption">Gambar Halaman 23 (Ukuran Penuh)</p>
+        </div>
+        <div class="page-footer-nav">
+          <button type="button" class="btn btn-outline foot-prev">&larr; Halaman Sebelumnya</button>
+          <button type="button" class="btn foot-next">Halaman Berikutnya &rarr;</button>
+        </div>
+      </article>
+
+      <!-- HALAMAN 24 -->
+      <article class="page-sheet" data-page="24">
+        <div class="page-header">
+          <span class="page-badge">Halaman 24 dari 37</span>
+          <h2 class="page-title">Menyelesaikan Durasi Video Materi (Langkah 13 – 14)</h2>
+        </div>
+        <div class="page-desc">
+          <ul>
+            <li><strong>13.</strong> Seluruh materi berupa video disesuaikan dengan durasi video sehingga peserta harus menyelesaikan video (memenuhi minimum waktu tonton) untuk dapat melanjutkan pembelajaran.</li>
+            <li><strong>14.</strong> Jika durasi video sudah terpenuhi, tekan <strong>LANJUTKAN</strong>.</li>
+          </ul>
+        </div>
+        <div class="full-image-box">
+          <img src="https://res.cloudinary.com/df6ny81dl/image/upload/v1795508843/RINGKASAN_ALUR_PENGELOLAAN_AKUN_page-0024_jv0zpk.jpg" alt="Halaman 24" />
+          <p class="full-image-caption">Gambar Halaman 24 (Ukuran Penuh)</p>
+        </div>
+        <div class="page-footer-nav">
+          <button type="button" class="btn btn-outline foot-prev">&larr; Halaman Sebelumnya</button>
+          <button type="button" class="btn foot-next">Halaman Berikutnya &rarr;</button>
+        </div>
+      </article>
+
+      <!-- HALAMAN 25 -->
+      <article class="page-sheet" data-page="25">
+        <div class="page-header">
+          <span class="page-badge">Halaman 25 dari 37</span>
+          <h2 class="page-title">Catatan Wajib Melengkapi Sub-Pokok Bahasan Berurutan</h2>
+        </div>
+        <div class="page-desc">
+          <p>Setiap peserta harus mengikuti sub-pokok bahasan pada setiap pokok bahasan. Peserta tidak dapat melakukan pengerjaan materi pembelajaran selanjutnya jika belum melengkapi sub-pokok bahasan pada setiap Pokok Bahasan (PB) sebelumnya.</p>
+        </div>
+        <div class="full-image-box">
+          <img src="https://res.cloudinary.com/df6ny81dl/image/upload/v1795508843/RINGKASAN_ALUR_PENGELOLAAN_AKUN_page-0025_gleckh.jpg" alt="Halaman 25" />
+          <p class="full-image-caption">Gambar Halaman 25 (Ukuran Penuh)</p>
+        </div>
+        <div class="page-footer-nav">
+          <button type="button" class="btn btn-outline foot-prev">&larr; Halaman Sebelumnya</button>
+          <button type="button" class="btn foot-next">Halaman Berikutnya &rarr;</button>
+        </div>
+      </article>
+
+      <!-- HALAMAN 26 -->
+      <article class="page-sheet" data-page="26">
+        <div class="page-header">
+          <span class="page-badge">Halaman 26 dari 37</span>
+          <h2 class="page-title">Unduh File Materi &amp; Refleksi Pembelajaran (Langkah 15 – 16)</h2>
+        </div>
+        <div class="page-desc">
+          <ul>
+            <li><strong>15.</strong> Peserta dapat mengunduh file materi yang telah diikuti dengan menekan tombol unduh.</li>
+            <li><strong>16.</strong> Setelah file terunduh, tekan <strong>LANJUTKAN</strong>. Setelah menyelesaikan semua Sub-Pokok Bahasan, peserta dapat mengerjakan <strong>REFLEKSI PEMBELAJARAN</strong>.</li>
+          </ul>
+        </div>
+        <div class="full-image-box">
+          <img src="https://res.cloudinary.com/df6ny81dl/image/upload/v1795508843/RINGKASAN_ALUR_PENGELOLAAN_AKUN_page-0026_sbnsjj.jpg" alt="Halaman 26" />
+          <p class="full-image-caption">Gambar Halaman 26 (Ukuran Penuh)</p>
+        </div>
+        <div class="page-footer-nav">
+          <button type="button" class="btn btn-outline foot-prev">&larr; Halaman Sebelumnya</button>
+          <button type="button" class="btn foot-next">Halaman Berikutnya &rarr;</button>
+        </div>
+      </article>
+
+      <!-- HALAMAN 27 -->
+      <article class="page-sheet" data-page="27">
+        <div class="page-header">
+          <span class="page-badge">Halaman 27 dari 37</span>
+          <h2 class="page-title">Mengerjakan Refleksi Pembelajaran (Langkah 18 – 21)</h2>
+        </div>
+        <div class="page-desc">
+          <ul>
+            <li><strong>18.</strong> Tekan <strong>MULAI QUIZ</strong></li>
+            <li><strong>19.</strong> Tekan <strong>LANJUTKAN</strong></li>
+            <li><strong>20.</strong> Pilih jawaban yang benar</li>
+            <li><strong>21.</strong> Tekan <strong>CEK JAWABAN</strong> untuk melihat hasil (jika ada jawaban salah akan muncul pemberitahuan).</li>
+          </ul>
+        </div>
+        <div class="full-image-box">
+          <img src="https://res.cloudinary.com/df6ny81dl/image/upload/v1795508843/RINGKASAN_ALUR_PENGELOLAAN_AKUN_page-0027_i31pgo.jpg" alt="Halaman 27" />
+          <p class="full-image-caption">Gambar Halaman 27 (Ukuran Penuh)</p>
+        </div>
+        <div class="page-footer-nav">
+          <button type="button" class="btn btn-outline foot-prev">&larr; Halaman Sebelumnya</button>
+          <button type="button" class="btn foot-next">Halaman Berikutnya &rarr;</button>
+        </div>
+      </article>
+
+      <!-- HALAMAN 28 -->
+      <article class="page-sheet" data-page="28">
+        <div class="page-header">
+          <span class="page-badge">Halaman 28 dari 37</span>
+          <h2 class="page-title">Memulai Post-Test di Tiap Pokok Bahasan (Langkah 22 – 23)</h2>
+        </div>
+        <div class="page-desc">
+          <ul>
+            <li><strong>22.</strong> Setelah REFLEKSI PEMBELAJARAN, peserta dapat mengerjakan <strong>POST TEST</strong> di masing-masing pokok bahasan.</li>
+            <li><strong>23.</strong> Tekan <strong>MULAI FINAL EXAM</strong>.</li>
+          </ul>
+        </div>
+        <div class="full-image-box">
+          <img src="https://res.cloudinary.com/df6ny81dl/image/upload/v1795508844/RINGKASAN_ALUR_PENGELOLAAN_AKUN_page-0028_aqhh0v.jpg" alt="Halaman 28" />
+          <p class="full-image-caption">Gambar Halaman 28 (Ukuran Penuh)</p>
+        </div>
+        <div class="page-footer-nav">
+          <button type="button" class="btn btn-outline foot-prev">&larr; Halaman Sebelumnya</button>
+          <button type="button" class="btn foot-next">Halaman Berikutnya &rarr;</button>
+        </div>
+      </article>
+
+      <!-- HALAMAN 29 -->
+      <article class="page-sheet" data-page="29">
+        <div class="page-header">
+          <span class="page-badge">Halaman 29 dari 37</span>
+          <h2 class="page-title">Menjawab Soal Post-Test &amp; Kirim Jawaban (Langkah 24 – 25)</h2>
+        </div>
+        <div class="page-desc">
+          <ul>
+            <li><strong>24.</strong> Pilih jawaban yang benar.</li>
+            <li><strong>25.</strong> Lalu tekan <strong>KIRIM JAWABAN</strong>.</li>
+          </ul>
+        </div>
+        <div class="full-image-box">
+          <img src="https://res.cloudinary.com/df6ny81dl/image/upload/v1795508842/RINGKASAN_ALUR_PENGELOLAAN_AKUN_page-0029_xlvjsm.jpg" alt="Halaman 29" />
+          <p class="full-image-caption">Gambar Halaman 29 (Ukuran Penuh)</p>
+        </div>
+        <div class="page-footer-nav">
+          <button type="button" class="btn btn-outline foot-prev">&larr; Halaman Sebelumnya</button>
+          <button type="button" class="btn foot-next">Halaman Berikutnya &rarr;</button>
+        </div>
+      </article>
+
+      <!-- HALAMAN 30 -->
+      <article class="page-sheet" data-page="30">
+        <div class="page-header">
+          <span class="page-badge">Halaman 30 dari 37</span>
+          <h2 class="page-title">Hasil Post-Test &amp; Lanjut Hingga Pokok Bahasan 7 (Langkah 26)</h2>
+        </div>
+        <div class="page-desc">
+          <p>Jika skor telah mencapai batas minimum, muncul keterangan <strong>"SELAMAT ANDA SUDAH LULUS"</strong>.</p>
+          <ul>
+            <li><strong>26.</strong> Tekan tombol pokok bahasan selanjutnya. Peserta dapat melanjutkan pembelajaran hingga <strong>Pokok Bahasan 7</strong>.</li>
+          </ul>
+        </div>
+        <div class="full-image-box">
+          <img src="https://res.cloudinary.com/df6ny81dl/image/upload/v1795508842/RINGKASAN_ALUR_PENGELOLAAN_AKUN_page-0030_ugxwnw.jpg" alt="Halaman 30" />
+          <p class="full-image-caption">Gambar Halaman 30 (Ukuran Penuh)</p>
+        </div>
+        <div class="page-footer-nav">
+          <button type="button" class="btn btn-outline foot-prev">&larr; Halaman Sebelumnya</button>
+          <button type="button" class="btn foot-next">Halaman Berikutnya &rarr;</button>
+        </div>
+      </article>
+
+      <!-- HALAMAN 31 -->
+      <article class="page-sheet" data-page="31">
+        <div class="page-header">
+          <span class="page-badge">Halaman 31 dari 37</span>
+          <h2 class="page-title">Cara Mengunduh Sertifikat Peserta</h2>
+        </div>
+        <div class="page-desc">
+          <p>Judul bagian panduan tata cara mengunduh sertifikat peserta di HDW Learning setelah menyelesaikan pembelajaran mandiri.</p>
+        </div>
+        <div class="full-image-box">
+          <img src="https://res.cloudinary.com/df6ny81dl/image/upload/v1795508842/RINGKASAN_ALUR_PENGELOLAAN_AKUN_page-0031_qhpns4.jpg" alt="Halaman 31" />
+          <p class="full-image-caption">Gambar Halaman 31 (Ukuran Penuh)</p>
+        </div>
+        <div class="page-footer-nav">
+          <button type="button" class="btn btn-outline foot-prev">&larr; Halaman Sebelumnya</button>
+          <button type="button" class="btn foot-next">Halaman Berikutnya &rarr;</button>
+        </div>
+      </article>
+
+      <!-- HALAMAN 32 -->
+      <article class="page-sheet" data-page="32">
+        <div class="page-header">
+          <span class="page-badge">Halaman 32 dari 37</span>
+          <h2 class="page-title">Unduh Sertifikat Cara 1 — Buka Menu Admin (Langkah 1 – 2)</h2>
+        </div>
+        <div class="page-desc">
+          <ul>
+            <li><strong>1.</strong> Tekan tanda panah yang ada di sebelah nama username.</li>
+            <li><strong>2.</strong> Lalu tekan <strong>ADMIN</strong>.</li>
+          </ul>
+        </div>
+        <div class="full-image-box">
+          <img src="https://res.cloudinary.com/df6ny81dl/image/upload/v1795508842/RINGKASAN_ALUR_PENGELOLAAN_AKUN_page-0032_uwxvcg.jpg" alt="Halaman 32" />
+          <p class="full-image-caption">Gambar Halaman 32 (Ukuran Penuh)</p>
+        </div>
+        <div class="page-footer-nav">
+          <button type="button" class="btn btn-outline foot-prev">&larr; Halaman Sebelumnya</button>
+          <button type="button" class="btn foot-next">Halaman Berikutnya &rarr;</button>
+        </div>
+      </article>
+
+      <!-- HALAMAN 33 -->
+      <article class="page-sheet" data-page="33">
+        <div class="page-header">
+          <span class="page-badge">Halaman 33 dari 37</span>
+          <h2 class="page-title">Cek Status Materi Diikuti &amp; Menu Sertifikat (Langkah 3 – 4)</h2>
+        </div>
+        <div class="page-desc">
+          <ul>
+            <li><strong>3.</strong> Cek status lulus/tidak lulus pada <strong>Materi Yang Diikuti</strong> (sesuai hasil post-test masing-masing pokok bahasan).</li>
+            <li><strong>4.</strong> Jika sudah lulus semua, peserta dapat menekan menu <strong>SERTIFIKAT</strong>.</li>
+          </ul>
+        </div>
+        <div class="full-image-box">
+          <img src="https://res.cloudinary.com/df6ny81dl/image/upload/v1795508842/RINGKASAN_ALUR_PENGELOLAAN_AKUN_page-0033_eal8gz.jpg" alt="Halaman 33" />
+          <p class="full-image-caption">Gambar Halaman 33 (Ukuran Penuh)</p>
+        </div>
+        <div class="page-footer-nav">
+          <button type="button" class="btn btn-outline foot-prev">&larr; Halaman Sebelumnya</button>
+          <button type="button" class="btn foot-next">Halaman Berikutnya &rarr;</button>
+        </div>
+      </article>
+
+      <!-- HALAMAN 34 -->
+      <article class="page-sheet" data-page="34">
+        <div class="page-header">
+          <span class="page-badge">Halaman 34 dari 37</span>
+          <h2 class="page-title">Melihat &amp; Mengunduh File Sertifikat (Langkah 5 – 7)</h2>
+        </div>
+        <div class="page-desc">
+          <ul>
+            <li><strong>5.</strong> Geser ke kanan hingga keluar tombol mata.</li>
+            <li><strong>6.</strong> Tekan tombol mata untuk melihat.</li>
+            <li><strong>7.</strong> Lalu tekan tombol unduh / download.</li>
+          </ul>
+        </div>
+        <div class="full-image-box">
+          <img src="https://res.cloudinary.com/df6ny81dl/image/upload/v1795508843/RINGKASAN_ALUR_PENGELOLAAN_AKUN_page-0034_zymisz.jpg" alt="Halaman 34" />
+          <p class="full-image-caption">Gambar Halaman 34 (Ukuran Penuh)</p>
+        </div>
+        <div class="page-footer-nav">
+          <button type="button" class="btn btn-outline foot-prev">&larr; Halaman Sebelumnya</button>
+          <button type="button" class="btn foot-next">Halaman Berikutnya &rarr;</button>
+        </div>
+      </article>
+
+      <!-- HALAMAN 35 -->
+      <article class="page-sheet" data-page="35">
+        <div class="page-header">
+          <span class="page-badge">Halaman 35 dari 37</span>
+          <h2 class="page-title">Unduh Sertifikat Cara 2 — Pencarian NIK (Langkah 1 – 3)</h2>
+        </div>
+        <div class="page-desc">
+          <ul>
+            <li><strong>1.</strong> Masuk ke laman <code>https://ehdw.kemendesa.go.id/app-learning/#/</code></li>
+            <li><strong>2.</strong> Masukkan <strong>NIK</strong> yang sudah didaftarkan.</li>
+            <li><strong>3.</strong> Tekan <strong>CARI</strong>.</li>
+          </ul>
+        </div>
+        <div class="full-image-box">
+          <img src="https://res.cloudinary.com/df6ny81dl/image/upload/v1795508843/RINGKASAN_ALUR_PENGELOLAAN_AKUN_page-0035_rowoej.jpg" alt="Halaman 35" />
+          <p class="full-image-caption">Gambar Halaman 35 (Ukuran Penuh)</p>
+        </div>
+        <div class="page-footer-nav">
+          <button type="button" class="btn btn-outline foot-prev">&larr; Halaman Sebelumnya</button>
+          <button type="button" class="btn foot-next">Halaman Berikutnya &rarr;</button>
+        </div>
+      </article>
+
+      <!-- HALAMAN 36 -->
+      <article class="page-sheet" data-page="36">
+        <div class="page-header">
+          <span class="page-badge">Halaman 36 dari 37</span>
+          <h2 class="page-title">Contoh Sertifikat Peserta Terbit</h2>
+        </div>
+        <div class="page-desc">
+          <p>Keluar sertifikat (terdiri dari lembar sertifikat dan daftar materi) yang telah ditandatangani oleh Direktur PSBLDP (Direktur Pengembangan Sosial Budaya dan Lingkungan Desa dan Perdesaan).</p>
+        </div>
+        <div class="full-image-box">
+          <img src="https://res.cloudinary.com/df6ny81dl/image/upload/v1795508843/RINGKASAN_ALUR_PENGELOLAAN_AKUN_page-0036_ymh0qm.jpg" alt="Halaman 36" />
+          <p class="full-image-caption">Gambar Halaman 36 (Ukuran Penuh)</p>
+        </div>
+        <div class="page-footer-nav">
+          <button type="button" class="btn btn-outline foot-prev">&larr; Halaman Sebelumnya</button>
+          <button type="button" class="btn foot-next">Halaman Berikutnya &rarr;</button>
+        </div>
+      </article>
+
+      <!-- HALAMAN 37 -->
+      <article class="page-sheet" data-page="37">
+        <div class="page-header">
+          <span class="page-badge">Halaman 37 dari 37</span>
+          <h2 class="page-title">Struktur Modul pada HDW Learning &amp; Ketentuan Waktu</h2>
+        </div>
+        <div class="page-desc">
+          <p>Rekapitulasi struktur modul, jumlah sub-pokok bahasan, dan estimasi waktu pengerjaan:</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 70px;">No.</th>
+                <th>Judul Pokok Bahasan</th>
+                <th style="width: 150px;">Jumlah Sub Pokok</th>
+                <th style="width: 190px;">Estimasi Waktu</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>A.</td><td>Pre-Test</td><td>-</td><td>10 menit</td></tr>
+              <tr><td>1</td><td>Pokok Bahasan 1 Permasalahan Stunting (beserta pertanyaan refleksi dan evaluasi)</td><td>6</td><td>45 menit (1 JP)</td></tr>
+              <tr><td>2</td><td>Pokok Bahasan 2 Mekanisme Pelaksanaan Kondvergensi P3S di Desa (beserta pertanyaan refleksi dan evaluasi)</td><td>3</td><td>45 menit (1 JP)</td></tr>
+              <tr><td>3</td><td>Pokok Bahasan 3 Struktur Organisasi P3S (beserta pertanyaan refleksi dan evaluasi)</td><td>5</td><td>45 menit (1 JP)</td></tr>
+              <tr><td>4</td><td>Pokok Bahasan 4 Perubahan Iklim dan Ketahanan pangan (beserta pertanyaan refleksi dan evaluasi)</td><td>3</td><td>45 menit (1 JP)</td></tr>
+              <tr><td>5</td><td>Pokok Bahasan 5 Keselamatan dan Kesehatan Kerja (K3) (beserta pertanyaan refleksi dan evaluasi)</td><td>3</td><td>45 menit (1 JP)</td></tr>
+              <tr><td>6</td><td>Pokok Bahasan 6 Pendataan (beserta pertanyaan refleksi dan evaluasi)</td><td>12</td><td>90 menit (2 JP)</td></tr>
+              <tr><td>7</td><td>Pokok Bahasan 7 Pemanfaatan Data (beserta pertanyaan refleksi dan evaluasi)</td><td>3</td><td>45 menit (1 JP)</td></tr>
+              <tr class="total-row"><td>-</td><td>Total</td><td>-</td><td>10 + 360 menit (8 JP)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="page-desc">
+          <ul>
+            <li><strong>1.</strong> Pembelajaran mandiri dapat dilakukan minimal 6 jam dan maksimal 7 hari sejak akun peserta telah diverifikasi oleh Admin Kabupaten.</li>
+            <li><strong>2.</strong> Pembelajaran mandiri dinyatakan selesai jika peserta sudah berhasil mendapatkan sertifikat hasil pembelajaran.</li>
+          </ul>
+        </div>
+        <div class="full-image-box">
+          <img src="https://res.cloudinary.com/df6ny81dl/image/upload/v1795508842/RINGKASAN_ALUR_PENGELOLAAN_AKUN_page-0037_uawymg.jpg" alt="Halaman 37" />
+          <p class="full-image-caption">Gambar Halaman 37 (Ukuran Penuh)</p>
+        </div>
+        <div class="page-footer-nav">
+          <button type="button" class="btn btn-outline foot-prev">&larr; Halaman Sebelumnya</button>
+          <button type="button" class="btn foot-next" disabled>Halaman Berikutnya &rarr;</button>
+        </div>
+      </article>
+    </main>
+
+    <div id="emptyState" class="empty-state">
+      Tidak ada halaman yang cocok dengan kata kunci pencarian.
+    </div>
+  </div>
+
+  <script>
+    const sheets = Array.from(document.querySelectorAll(".page-sheet"));
+    const totalPages = sheets.length;
+    let currentPage = 1;
+    let showAllMode = false;
+
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const pageIndicator = document.getElementById("pageIndicator");
+    const pageJump = document.getElementById("pageJump");
+    const toggleAllBtn = document.getElementById("toggleAllBtn");
+    const searchInput = document.getElementById("searchInput");
+    const emptyState = document.getElementById("emptyState");
+
+    sheets.forEach((sheet, idx) => {
+      const opt = document.createElement("option");
+      opt.value = idx + 1;
+      const heading = sheet.querySelector(".page-title").textContent;
+      opt.textContent = `Hal. ${idx + 1} — ${heading.slice(0, 38)}${heading.length > 38 ? "..." : ""}`;
+      pageJump.appendChild(opt);
+    });
+
+    function renderPages() {
+      const keyword = searchInput.value.toLowerCase().trim();
+      let visibleCount = 0;
+
+      sheets.forEach((sheet, idx) => {
+        const pageNum = idx + 1;
+        const textMatch = !keyword || sheet.textContent.toLowerCase().includes(keyword);
+        const pageMatch = showAllMode || Boolean(keyword) || pageNum === currentPage;
+
+        if (textMatch && pageMatch) {
+          sheet.classList.add("visible");
+          visibleCount++;
+        } else {
+          sheet.classList.remove("visible");
+        }
+      });
+
+      emptyState.classList.toggle("show", visibleCount === 0);
+      pageJump.value = String(currentPage);
+
+      if (showAllMode || keyword) {
+        pageIndicator.textContent = keyword
+          ? `Hasil: ${visibleCount} hal.`
+          : `Semua (${totalPages} hal.)`;
+        prevBtn.disabled = true;
+        nextBtn.disabled = true;
+      } else {
+        pageIndicator.textContent = `Hal. ${currentPage} / ${totalPages}`;
+        prevBtn.disabled = currentPage <= 1;
+        nextBtn.disabled = currentPage >= totalPages;
+      }
+
+      sheets.forEach((sheet, idx) => {
+        const fPrev = sheet.querySelector(".foot-prev");
+        const fNext = sheet.querySelector(".foot-next");
+        if (fPrev) fPrev.disabled = idx === 0;
+        if (fNext) fNext.disabled = idx === totalPages - 1;
+      });
+    }
+
+    function goToPage(pageNum) {
+      showAllMode = false;
+      searchInput.value = "";
+      toggleAllBtn.classList.remove("active-mode");
+      toggleAllBtn.textContent = "Tampilkan Semua Halaman";
+      currentPage = Math.max(1, Math.min(totalPages, pageNum));
+      renderPages();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    prevBtn.addEventListener("click", () => goToPage(currentPage - 1));
+    nextBtn.addEventListener("click", () => goToPage(currentPage + 1));
+    pageJump.addEventListener("change", (e) => goToPage(Number(e.target.value)));
+
+    toggleAllBtn.addEventListener("click", () => {
+      showAllMode = !showAllMode;
+      searchInput.value = "";
+      toggleAllBtn.classList.toggle("active-mode", showAllMode);
+      toggleAllBtn.textContent = showAllMode
+        ? "Mode Satu Halaman"
+        : "Tampilkan Semua Halaman";
+      renderPages();
+    });
+
+    searchInput.addEventListener("input", () => {
+      renderPages();
+    });
+
+    document.querySelectorAll(".foot-prev").forEach((btn, idx) => {
+      btn.addEventListener("click", () => goToPage(idx));
+    });
+
+    document.querySelectorAll(".foot-next").forEach((btn, idx) => {
+      btn.addEventListener("click", () => goToPage(idx + 2));
+    });
+
+    renderPages();
+  </script>
+</body>
+</html>
