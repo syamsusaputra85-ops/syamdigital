@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- FAVICON -->
+  <link rel="icon" type="image/png" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEggGbqNiUbZmqKIaxT_qPDDMbBes9Hsy-XX88Cr7Ql-DBbrxNMX5RDrLlK2J8gk7_4KybGYVYiK09F7eo2MTHGszfppclIU_ZvW8iaQKhwq2sM_s61fSM2l0SD03me9okqbnUaZikaPXw4LnOUsXZBNHmoCv-FKjSiTMDWPP3nHhTmeOp_6WyQQZqKUMMlO/s120/logo%20donggala-fix-2025.png">
+  <title>Portal Pantau Perlinsos Kabupaten Donggala</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green-dark: #043318;
+      --green-forest: #042f16;
+      --green-primary: #169a45;
+      --green-hover: #128039;
+      --green-mint: #4ade80;
+      --navy-title: #0f2942;
+      --text-body: #475569;
+      --bg-page: #f4f7f5;
+      --border-light: #e2e8f0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-body);
+      line-height: 1.65;
+      padding-bottom: 3rem;
+    }
+
+    /* Hero Header ala Portal Agen Perlinsos */
+    .hero-banner {
+      background: linear-gradient(135deg, #043b1b 0%, #15803d 65%, #22c55e 100%);
+      background-image: 
+        radial-gradient(rgba(255, 255, 255, 0.12) 1.5px, transparent 1.5px),
+        linear-gradient(135deg, #043b1b 0%, #15803d 65%, #22c55e 100%);
+      background-size: 20px 20px, 100% 100%;
+      color: #ffffff;
+      padding: 2.75rem 1.5rem 5.5rem;
+    }
+
+    .hero-inner {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .hero-title {
+      font-size: 1.75rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      line-height: 1.25;
+      margin-bottom: 0.35rem;
+    }
+
+    .hero-subtitle {
+      font-size: 1.15rem;
+      font-weight: 400;
+      opacity: 0.95;
+      margin-bottom: 0.4rem;
+    }
+
+    .hero-tagline {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0.85;
+      margin-bottom: 1.25rem;
+    }
+
+    .pill-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(4, 47, 22, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(6px);
+      padding: 0.45rem 1rem;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #ffffff;
+    }
+
+    .pill-dot {
+      width: 7px;
+      height: 7px;
+      background-color: var(--green-mint);
+      border-radius: 50%;
+    }
+
+    /* Container Utama */
+    .main-wrapper {
+      max-width: 720px;
+      margin: -3.75rem auto 0;
+      padding: 0 1rem;
+    }
+
+    /* Kartu Putih Utama (Overlapping Card) */
+    .content-card {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 2.25rem;
+      box-shadow: 0 12px 32px rgba(4, 47, 22, 0.08);
+      border: 1px solid rgba(226, 232, 240, 0.8);
+      margin-bottom: 1.5rem;
+    }
+
+    .section-heading {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--navy-title);
+      margin-bottom: 0.75rem;
+    }
+
+    p {
+      margin-bottom: 1.15rem;
+      font-size: 0.96rem;
+    }
+
+    /* Item Halaman Pantau */
+    .portal-item {
+      border: 1px solid var(--border-light);
+      border-radius: 14px;
+      padding: 1.4rem;
+      margin-bottom: 1.25rem;
+      background-color: #fafcfb;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .portal-item:hover {
+      border-color: #86efac;
+      box-shadow: 0 6px 16px rgba(22, 154, 69, 0.07);
+      background-color: #ffffff;
+    }
+
+    .portal-item-title {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: var(--navy-title);
+      margin-bottom: 0.6rem;
+    }
+
+    .item-badge-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+      background-color: #dcfce7;
+      color: var(--green-primary);
+      font-weight: 800;
+      font-size: 0.85rem;
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+
+    .portal-item p {
+      font-size: 0.92rem;
+      margin-bottom: 1.1rem;
+      color: var(--text-body);
+    }
+
+    /* Tombol Hijau Solid (Gaya tombol "Masuk dengan IKD") */
+    .btn-green-solid {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      width: 100%;
+      background-color: var(--green-primary);
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 0.85rem 1.25rem;
+      border-radius: 10px;
+      transition: background-color 0.2s ease, transform 0.1s ease;
+    }
+
+    .btn-green-solid:hover {
+      background-color: var(--green-hover);
+    }
+
+    .btn-green-solid:active {
+      transform: scale(0.99);
+    }
+
+    /* Tombol Outline Hijau (Gaya tombol "Masuk dengan NIK") */
+    .btn-green-outline {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      width: 100%;
+      background-color: #ffffff;
+      color: var(--green-primary);
+      border: 1.5px solid var(--green-primary);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 0.85rem 1.25rem;
+      border-radius: 10px;
+      transition: background-color 0.2s ease, transform 0.1s ease;
+    }
+
+    .btn-green-outline:hover {
+      background-color: #f0fdf4;
+    }
+
+    .btn-green-outline:active {
+      transform: scale(0.99);
+    }
+
+    /* Pembatas "atau" */
+    .divider-text {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      color: #94a3b8;
+      font-size: 0.85rem;
+      margin: 1rem 0;
+    }
+
+    .divider-text::before,
+    .divider-text::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .divider-text span {
+      padding: 0 0.85rem;
+    }
+
+    /* Kotak Gelap Bawah (Gaya kartu "PENDAFTARAN AGEN") */
+    .dark-cta-card {
+      background-color: var(--green-forest);
+      color: #ffffff;
+      border-radius: 20px;
+      padding: 2rem 2.25rem;
+      box-shadow: 0 12px 28px rgba(4, 47, 22, 0.15);
+      margin-bottom: 1.5rem;
+    }
+
+    .dark-card-eyebrow {
+      color: var(--green-mint);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .dark-card-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.85rem;
+      line-height: 1.35;
+    }
+
+    .dark-card-check {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      font-size: 0.92rem;
+      color: #e2e8f0;
+      margin-bottom: 1.5rem;
+    }
+
+    .dark-card-check svg {
+      color: var(--green-mint);
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    /* Tombol Besar Putih di dalam Kotak Gelap */
+    .btn-white-large {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.65rem;
+      width: 100%;
+      background-color: #ffffff;
+      color: var(--green-primary);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.05rem;
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transition: transform 0.15s ease, background-color 0.2s ease;
+    }
+
+    .btn-white-large:hover {
+      background-color: #f0fdf4;
+      transform: translateY(-2px);
+    }
+
+    .btn-white-large:active {
+      transform: scale(0.99);
+    }
+
+    /* Footer Penutup */
+    .closing-section {
+      margin-top: 1.5rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border-light);
+    }
+
+    .agency-name {
+      font-weight: 700;
+      color: var(--navy-title);
+      margin-top: 0.25rem;
+    }
+
+    /* Responsif Mobile */
+    @media (max-width: 600px) {
+      .hero-banner {
+        padding: 2.25rem 1.25rem 4.75rem;
+      }
+      .hero-title {
+        font-size: 1.4rem;
+      }
+      .hero-subtitle {
+        font-size: 1rem;
+      }
+      .content-card, .dark-cta-card {
+        padding: 1.5rem;
+        border-radius: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header Banner Hijau -->
+  <header class="hero-banner">
+    <div class="hero-inner">
+      <h1 class="hero-title">Portal Pantau Perlinsos</h1>
+      <p class="hero-subtitle">Kabupaten Donggala</p>
+      <p class="hero-tagline">Peduli Tetangga, Peduli Sesama • Bansos Tepat Sasaran</p>
+      <div class="pill-badge">
+        <span class="pill-dot"></span>
+        <span>Portal Agen Perlinsos</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Konten Utama -->
+  <main class="main-wrapper">
+    
+    <!-- Kartu Putih Informasi & Menu Pantau -->
+    <article class="content-card">
+      <h2 class="section-heading">Assalamu’alaikum Warahmatullahi Wabarakatuh.</h2>
+      
+      <p>
+        Bapak/Ibu Agen Perlinsos Kabupaten Donggala, kami memperkenalkan <strong>Portal Pantau Perlinsos Kabupaten Donggala</strong> sebagai media bantu untuk memantau progres pendaftaran KK di masing-masing wilayah.
+      </p>
+
+      <p>Tersedia dua halaman yang dapat digunakan:</p>
+
+      <!-- Halaman 1 -->
+      <div class="portal-item">
+        <div class="portal-item-title">
+          <span class="item-badge-num">1</span>
+          <span>Pantau Perlinsos – Perhitungan Capaian Desa</span>
+        </div>
+        <p>
+          Digunakan untuk memilih Kecamatan dan Desa, memasukkan target jumlah KK, serta melihat jumlah KK yang telah terdaftar, persentase capaian, dan sisa target pendaftaran desa.
+        </p>
+        <a href="https://kabdonggala.id/perlinsos/" target="_blank" rel="noopener noreferrer" class="btn-green-solid">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+          <span>Buka Perhitungan Capaian Desa</span>
+        </a>
+      </div>
+
+      <div class="divider-text"><span>atau</span></div>
+
+      <!-- Halaman 2 -->
+      <div class="portal-item">
+        <div class="portal-item-title">
+          <span class="item-badge-num">2</span>
+          <span>Dashboard Perlinsos Kabupaten Donggala</span>
+        </div>
+        <p>
+          Digunakan untuk melihat rekapitulasi dan perkembangan pendaftaran KK berdasarkan Kecamatan dan Desa di Kabupaten Donggala.
+        </p>
+        <a href="https://kabdonggala.id/perlinsos/dashboard.php" target="_blank" rel="noopener noreferrer" class="btn-green-outline">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+          </svg>
+          <span>Buka Dashboard Perlinsos</span>
+        </a>
+      </div>
+
+      <p style="margin-top: 1.5rem;">
+        Mohon Bapak/Ibu Agen dapat memanfaatkan kedua halaman tersebut sebagai alat bantu dalam memantau, mengevaluasi, dan meningkatkan capaian pendaftaran Perlinsos di wilayah masing-masing.
+      </p>
+
+      <div class="closing-section">
+        <p style="margin-bottom: 0.25rem;">Terima kasih atas kerja sama dan dukungannya.</p>
+        <p class="agency-name">Dinas Sosial, Pemberdayaan Masyarakat dan Desa Kabupaten Donggala</p>
+      </div>
+    </article>
+
+    <!-- Kotak Gelap dengan Tombol Besar Login Kemensos -->
+    <section class="dark-cta-card">
+      <div class="dark-card-eyebrow">AKSES APLIKASI UTAMA</div>
+      <h3 class="dark-card-title">Siap melakukan pendataan warga di sekitar Anda?</h3>
+      <div class="dark-card-check">
+        <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+        </svg>
+        <span>Masuk langsung ke Portal Resmi Agen Perlinsos Kemensos</span>
+      </div>
+      <a href="https://agent-perlinsos.kemensos.go.id/login" target="_blank" rel="noopener noreferrer" class="btn-white-large">
+        <span>Masuk ke Portal Agen Perlinsos</span>
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+        </svg>
+      </a>
+    </section>
+
+  </main>
+
+</body>
+</html>
